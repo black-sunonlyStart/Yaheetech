@@ -1,16 +1,13 @@
 <template>
-  <div :class="classObj" class="app-wrapper">
-    <!-- <div v-if="device==='mobile'&&sidebar.opened" class="drawer-bg" @click="handleClickOutside" /> -->
+  <div class="app-wrapper">
     <sidebar class="sidebar-container" />
-    <div :class="{hasTagsView:needTagsView}" class="main-container">
-      <div :class="{'fixed-header':fixedHeader}">
+    <div class="main-container">
+      <div>
         <navbar />
-        <tags-view v-if="needTagsView" />
+        <tags-view />
       </div>
       <app-main />
-      <right-panel v-if="showSettings">
-        <settings />
-      </right-panel>
+      <settings />
     </div>
   </div>
 </template>
@@ -30,9 +27,6 @@ export default {
   computed: {
   },
   methods: {
-    handleClickOutside() {
-      this.$store.dispatch('app/closeSideBar', { withoutAnimation: false })
-    }
   }
 }
 </script>
