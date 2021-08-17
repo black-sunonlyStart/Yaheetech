@@ -2,6 +2,7 @@
     <div>77777777777777777777</div>
 </template>
 <script>
+import { fetchList } from '../../api/user'
 export default {
     name:'dashboard',
     data(){
@@ -10,6 +11,9 @@ export default {
         }
     },
     created(){
+        fetchList().then(res => {
+            console.log(res.data)
+        })
         console.log(process.env)
     },
     mounted(){
