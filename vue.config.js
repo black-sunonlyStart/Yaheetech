@@ -30,6 +30,9 @@ module.exports = {
   lintOnSave: process.env.NODE_ENV === 'development',
   productionSourceMap: false,
   devServer: {
+    host: 'api-tools-local.yahee.com.cn',
+		sockHost:'api-tools-local.yahee.com.cn',
+		disableHostCheck: true,
     port: port,
     open: true,
     overlay: {
@@ -37,7 +40,13 @@ module.exports = {
       errors: true
     },
     proxy:{
-      
+      '/api': {
+        target:`http://api-tools-test.yahee.com.cn`,
+        changeOrigin:true,
+        pathRewrite: {
+          '^/api' : ''
+        }
+      }
     }
     // before: require('./mock/mock-server.js')
   },

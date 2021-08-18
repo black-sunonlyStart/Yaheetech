@@ -2,10 +2,13 @@ import axios from 'axios'
 import { Message } from 'element-ui'
 
 // create an axios instance
+
+axios.defaults.withCredentials = true;
 const service = axios.create({
-  baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  timeout: 5000 // request timeout
+  baseURL:process.env.VUE_APP_DEVSERVER, // url = base url + request url
+  timeout: 5000// request timeout
 })
+
 
 // request interceptor
 service.interceptors.request.use(
