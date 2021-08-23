@@ -56,31 +56,46 @@
                     <div class='tabContainer'>
                         <el-card>
                             <div slot="header" class="clearfix">
-                                <span>开发类型/场景</span>
+                                <div>开发类型/场景
+                                    <div class="edit-position" @click="isEdit = !isEdit" v-if="isEdit"><i class="icon-edit"></i>编辑</div>
+                                </div>   
                             </div>
-                            <div>
-
+                            <div v-if="isEdit">
+                               <devDetail></devDetail>
                             </div>
-                        </el-card>
-                        <el-card style="margin-top:10px">
-                            <div slot="header" class="clearfix">
-                                <span>产品尺寸图</span>
-                            </div>
-                            <div>
-
+                            <div v-else>
+                               <devScene @closeEdit='editPage'></devScene>
                             </div>
                         </el-card>
                         <el-card style="margin-top:10px">
                             <div slot="header" class="clearfix">
-                                <span>销售目标</span>
+                                <span>产品尺寸图
+                                    <div class="edit-position" @click="isEdit1 = !isEdit1" v-if="isEdit1"><i class="icon-edit"></i>编辑</div>
+                                </span>
                             </div>
-                            <div>
-
+                            <div v-if="isEdit1" class="imgContainer">
+                                <div v-for="item in imgBox" :key="item.key" class="imgCon">
+                                    <div>{{item.name}}</div>
+                                </div>
+                            </div>
+                            <div v-else>
+                                <imgUpload @inputImg='putImgList' :value='imageList' @closeEdit='updeEditPage'></imgUpload> 
                             </div>
                         </el-card>
-                    </div>
-                    
-                    
+                        <el-card style="margin-top:10px">
+                            <div slot="header" class="clearfix">
+                                <span>销售目标
+                                    <div class="edit-position" @click="isEdit2 = !isEdit2" v-if="isEdit"><i class="icon-edit"></i>编辑</div>
+                                </span>
+                            </div>
+                            <div v-if="isEdit2">
+                                <salesTargetDetail></salesTargetDetail>
+                            </div>
+                            <div v-else>
+                                <salesTargetEdit></salesTargetEdit>
+                            </div>
+                        </el-card>
+                    </div>                   
                 </el-tab-pane>
                 <el-tab-pane label="产品尺寸图" name="second">
                     配置管理
@@ -98,12 +113,41 @@
   </div>
 </template>
 <script>
-
+ import devDetail from '@/components/devDetail.vue'
+ import devScene from '@/components/devScene.vue'
+ import imgUpload from '@/components/uploadImg.vue'
+ import salesTargetDetail from '@/components/salesTargetDetail.vue'
+ import salesTargetEdit from '@/components/salesTargetEdit.vue'
 export default {
   name: 'productDetails',
+  components:{
+      devDetail,
+      devScene,
+      imgUpload,
+      salesTargetDetail,
+      salesTargetEdit
+  },
   data () {
     return {
-        activeName: 'first'
+        imageList:[],
+        imgBox:[
+            {
+                name:'假装我是一个小图片',
+                key:'1'
+            },
+            {
+                name:'假装我是一个小图片',
+                key:'2'
+            },
+            {
+                name:'假装我是一个小图片',
+                key:'3'
+            },
+        ],
+        activeName: 'first',
+        isEdit:true,
+        isEdit1:true,
+        isEdit2:true,
     }
   },
   created () {
@@ -114,6 +158,15 @@ export default {
   methods: {
        handleClick(tab, event) {
         console.log(tab, event);
+      },
+      editPage(val){
+          this.isEdit = val
+      },
+      updeEditPage(val){  
+          this.isEdit1 = val
+      },
+      putImgList(val){
+          this.imageList = val
       }
   }
 }
@@ -153,6 +206,45 @@ export default {
       height: 100%;
       width: 100%;
       background-color: rgba(230, 230, 230, 1);
+      ::v-deep .el-card__header{
+          padding: 10px !important;
+          font-size: 16px;
+          font-weight: bold;
+      }
+      .edit-position{
+          float: right;
+          margin-right:10px;
+          color: #409eff;
+          height: 20px;
+          width: 55px;
+          font-size: 14px;
+          &:hover{
+              background-color: #409eff;
+              color: #ffffff;
+              cursor: pointer;   
+              text-align: center;
+              
+              .icon-edit{
+                  fill: #ffffff;
+                  background-image: url(../../assets/svg/editWrite.svg);
+              }
+          }
+          .icon-edit{
+              height: 16px;
+              width: 16px;
+              float: left;
+              background-image: url(../../assets/svg/edit.svg);
+          }
+      }
+      .imgContainer{
+          display: flex;
+          min-height: 100px;
+          .imgCon{
+              margin: 0 10px;
+          }
+      }
+      
+      
   }
   .details-card{
       .el-card__body{
