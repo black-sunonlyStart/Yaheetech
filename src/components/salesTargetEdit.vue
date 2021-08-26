@@ -9,7 +9,24 @@
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="目标采购价:" prop="targetPrice">
-                        <el-input v-model="ruleForm.targetPrice"></el-input>
+                        <div class="targetPriceWbox">
+                            <div class="targetPriceBox">
+                                <el-input v-model="ruleForm.targetPrice"></el-input>
+                            </div>
+                            <div>
+                                <el-select 
+                                    v-model="ruleForm.region"
+                                    >
+                                    <el-option 
+                                        v-for="item in devSign"                        
+                                        :key="item.key"
+                                        :label="item.label"
+                                        :value="item.value"
+                                        >
+                                    </el-option>
+                                </el-select>
+                            </div>
+                        </div> 
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -52,12 +69,20 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="产品测样时间点:" prop="samplingTime">
-                        <el-input v-model="ruleForm.samplingTime"></el-input>
+                        <el-date-picker
+                            v-model="ruleForm.samplingTime"
+                            type="date"
+                            placeholder="选择日期">
+                        </el-date-picker>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
                     <el-form-item label="产品下单时间点:" prop="orderTime">
-                        <el-input v-model="ruleForm.orderTime"></el-input>
+                        <el-date-picker
+                            v-model="ruleForm.orderTime"
+                            type="date"
+                            placeholder="选择日期">
+                        </el-date-picker>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -75,6 +100,7 @@ export default {
     data(){
         return {
             ruleForm: {
+            region:'出厂价',
             staRating: '',
             targetPrice: '',
             westaRating: '',
@@ -89,22 +115,21 @@ export default {
             rules: {
             staRating: [
                 { required: true, message: '请输入活动名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
             ],
             targetPrice: [
-                { required: true, message: '请选择活动区域', trigger: 'change' }
+                { required: true, message: '请填写价格', trigger: 'blur' }
             ],
             westaRating: [
-                { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+                { type: 'date', required: true, message: '请选择日期', trigger: 'blur' }
             ],
             dailySales: [
-                { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+                { type: 'date', required: true, message: '请选择时间', trigger: 'blur' }
             ],
             rateRequirements: [
-                { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+                { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'blur' }
             ],
             orderQuantity: [
-                { required: true, message: '请选择活动资源', trigger: 'change' }
+                { required: true, message: '请选择活动资源', trigger: 'blur' }
             ],
             productMarket: [
                 { required: true, message: '请填写活动形式', trigger: 'blur' }
@@ -118,7 +143,24 @@ export default {
             orderTime: [
                 { required: true, message: '请填写活动形式', trigger: 'blur' }
             ],
-            }
+            },
+            devSign:[    
+                {
+                    label: '出厂价',
+                    key: 1,
+                    value: '出厂价'
+                },
+                {
+                    label: 'FOB价',
+                    key: 2,
+                    value: 'FOB价'
+                },    
+                {
+                    label: '零售价',
+                    key: 3,
+                    value: '零售价'
+                },    
+                ],
         }
     },
     methods:{
@@ -134,6 +176,7 @@ export default {
         },
         resetForm(formName) {
                 this.$refs[formName].resetFields();
+                this.$emit('closeEdit','false')
             }
         }
     }
@@ -141,8 +184,16 @@ export default {
 <style lang="scss" scoped>
     .bottomButton{
           width: 100%;
-          height: 30px;
+          height: 30px;   
           display: flex;
           justify-content: flex-end;
       }
+      .targetPriceWbox{
+          display: flex;
+          .targetPriceBox{
+            width: 300px;
+            margin-right: 10px;
+      }
+      }
+      
 </style>

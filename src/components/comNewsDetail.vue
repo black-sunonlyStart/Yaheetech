@@ -1,0 +1,130 @@
+<template>
+    <div>
+        <div>竞品信息</div>
+        <el-row>
+            <el-col v-for="item in productsList" :key="item.key" class="productsMain" :span="12">
+                <div class="productsBox">
+                    我是竞品{{item.key}}
+                </div>
+                <div class="productsImage">
+                    <div class="imageBox">
+                        {{item.image}}
+                    </div>
+                    <div>
+                        <div>
+                            平台：{{item.text}}
+                        </div>
+                        <div>
+                            售价：{{item.dirction}}
+                        </div> 
+                    </div>
+                </div>
+            </el-col>
+        </el-row>
+        
+        <el-row>
+            <el-col  :span="12">
+                <div>基础信息</div>
+                <div>
+                    <span>产品的尺寸：</span>
+                    <span>产品的尺寸</span>
+                </div>
+                <div>
+                    <span>产品的净重：</span>
+                    <span>产品的净重</span>
+                </div>
+                <div>
+                    <span>产品的规格参数：</span>
+                    <span>产品的规格参数</span>
+                </div>
+                <div>
+                    <span>产品的材质：</span>
+                    <span>产品的尺寸</span>
+                </div>
+                <div>
+                    <span>产品的工艺：</span>
+                    <span>产品的尺寸</span>
+                </div>
+                <div>
+                    <span>产品的颜色：</span>
+                    <span>产品的尺寸</span>
+                </div>
+                
+            </el-col>
+            <el-col  :span="12">
+                <div>竞品结论</div>
+                <div>
+                    <span>产品的尺寸：</span>
+                    <span>产品的尺寸</span>
+                </div>
+                <div>
+                    <span>产品的净重：</span>
+                    <span>产品的净重</span>
+                </div>
+                <div>
+                    <span>产品的规格参数：</span>
+                    <span>产品的规格参数</span>
+                </div>
+                <div>
+                    <span>产品的材质：</span>
+                    <span>产品的尺寸</span>
+                </div>
+                <div>
+                    <span>产品的工艺：</span>
+                    <span>产品的尺寸</span>
+                </div>
+                <div>
+                    <span>产品的颜色：</span>
+                    <span>产品的尺寸</span>
+                </div>
+                
+            </el-col>
+        </el-row>
+    </div>
+</template>
+<script>
+export default {
+    name:'comNewsDetail',
+    data(){
+        return {
+           productsList:[
+               {
+                   image:'我承认我是一个图片',
+                   text:'我是文字我不骗人',
+                   dirction:'那我是谁',
+                   key:'1'
+               },
+               {
+                   image:'我承认我是一个图片',
+                   text:'我是文字我不骗人',
+                   dirction:'那我是谁',
+                   key:'2'
+               },
+               {
+                   image:'我承认我是一个图片',
+                   text:'我是文字我不骗人',
+                   dirction:'那我是谁',
+                   key:'3'
+               },
+           ] 
+        }
+    }
+}
+</script>
+<style lang="scss" scoped>
+.productsMain{
+    display: inline-block;
+    .productsBox{
+        display: flex;
+    }
+    .productsImage{
+        .imageBox{
+            width: 200px;
+            height: 200px;
+            border:1px solid red;
+        }
+        display: flex;
+    }
+}
+    
+</style>

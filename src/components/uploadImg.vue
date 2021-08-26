@@ -49,7 +49,7 @@
     </vuedraggable>
     
   </div>
-  <el-row>
+  <el-row v-if="showButton">
       <el-col :span="24">
           <div class="bottomButton">
             <el-button type="primary"  size="mini">保存</el-button>
@@ -108,6 +108,14 @@ export default {
     height: {
       type: Number,
       default: 100
+    },
+    showButton:{
+        type:Boolean,
+        default:true
+    },
+    imageKey:{
+        type:Number,
+        default:1
     }
   },
 
@@ -131,7 +139,7 @@ export default {
           this.syncElUpload(val)
         }
         // 同步v-model
-        this.$emit('inputImg', val)
+        this.$emit('inputImg', val,this.imageKey)
       }
     },
     // 控制达到最大限制时隐藏上传按钮
