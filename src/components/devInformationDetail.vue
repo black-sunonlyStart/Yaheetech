@@ -2,7 +2,7 @@
     <div>
         <el-row class="textSpeaing">
             <el-col :span="10">
-                产品中文概述:
+                产品中文概述:<span>111111</span>
             </el-col>
             <el-col :span="10">
                 业务开发:
@@ -53,7 +53,7 @@
                 是否需要专利确认:
             </el-col>
         </el-row>
-        <el-row class="textSpeaing" >
+        <el-row >
             <el-col :span="24">
                 <div class="tableTitle">Amazon-GB-英国仓: 销售中   可用库存(421)</div>
                 <el-table
@@ -136,7 +136,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .textSpeaing{
-    margin-top: 15px;
+    margin: 10px 0;
+    font-weight: bold;
 }
 .tableTitle{
     border: 1px solid #EBEEF5;

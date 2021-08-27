@@ -1,0 +1,60 @@
+<template>
+    <div>
+        <el-table
+            border
+            :data="dataTable"
+            style="width: 100%">
+            <el-table-column
+                label="状态"
+                prop="stuats"
+                width="180"
+                >
+            </el-table-column>
+            <el-table-column
+                label="结果"
+                prop="results"
+                width="180"
+                >
+            </el-table-column>
+            <el-table-column
+                label="操作人"
+                prop="operator"
+                width="180"
+                >
+            </el-table-column>
+            <el-table-column
+                label="备注信息"
+                prop="remarksInfo"
+                width="180"
+                >
+            </el-table-column>
+            <el-table-column
+                label="编辑日期"
+                prop="editorDate"
+                width="180"
+                >
+            </el-table-column>
+        </el-table>
+    </div>
+</template>
+<script>
+export default {
+    name:'remarksTable',
+    data(){
+        return {
+            dataTable:[
+                {
+                    stuats:'认证中',
+                    results:'拜拜',
+                    operator:'sqy',
+                    remarksInfo:'呵呵呵',
+                    editorDate:'2021-09-20',
+                  }
+            ]
+        }
+    }
+}
+</script>
+<style lang="scss" scoped>
+
+</style>

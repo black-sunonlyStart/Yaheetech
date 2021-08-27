@@ -4,6 +4,8 @@
             title="我是标题"
             :visible.sync="drawer"
             :direction="direction"
+            :modal='false'
+            size="20%"
             :before-close="handleClose">
             <span>我来啦!</span>
         </el-drawer>
@@ -25,11 +27,11 @@ export default {
     },
     methods:{
          handleClose(done) {
-            this.$confirm('确认关闭？')
-            .then(_ => {
+            // this.$confirm('确认关闭？')
+            // .then(_ => {
                 done();
-            })
-            .catch(_ => {});
+            // })
+            // .catch(_ => {});
         },
         openHandle(){
              this.drawer = true

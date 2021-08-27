@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <span>
+            <span class="mainTitle">
                 竞品信息
             </span>
             <div class="mainImage">
@@ -42,7 +42,7 @@
             
         </div>
         <div>
-            <span>
+            <span class="mainTitle">
                 基础信息
             </span>
             <div>
@@ -89,7 +89,7 @@
 
         </div>
         <div>
-            <span>
+            <span class="mainTitle">
                 竞品结论
             </span>
             <div>
@@ -205,6 +205,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.mainTitle{
+    color: #409EFF;
+    margin: 10px 0;
+    display: inline-block;
+}
 .mainImage{
     border: 1px solid #EBEEF5;
     border-top: none;

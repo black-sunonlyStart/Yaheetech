@@ -181,22 +181,133 @@
             </el-row>    
         </el-form>
         <el-row>
-            <el-col v-for="(item,index) in wareHouseDetail" :key="item.key" :span="12">
-                <span>{{wareHouseDetail[index].name}}</span> <el-button type="primary" size="mini" class="delButton">删除</el-button>
-                <el-form :model="wareHouseDetail[index]" :rules="wareHouseRules" ref="ruleForm" label-width="200px" class="demo-ruleForm" size="mini">
+            <el-col v-for="(item) in wareHouseDetail" :key="item.key" :span="12">
+                <span class="mainTitle">{{item.name}}</span> <el-button type="primary" size="mini" class="delButton">删除</el-button>
+                <el-form :model="item" :rules="wareHouseRules" ref="ruleForm" label-width="200px" class="demo-ruleForm" size="mini">
                     <el-form-item label="产品开发价:" prop="productPrice">
                         <div style="width:200px">
-                            <el-input v-model="wareHouseDetail[index].productPrice"></el-input>
-                        </div>
-                        
+                            <el-input v-model="item.productPrice"></el-input>
+                        </div> 
                     </el-form-item>
-                    <el-form-item label="GBP 计算利润率:" prop="SFProductPrice">
-                        <el-input v-model="wareHouseDetail[index].SFProductPrice"></el-input>
+                
+                    <el-form-item label="SFP开发价:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="SFP运费:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="发货包装费:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="本地化费用:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="PI:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="空/海运费:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="港前费用:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="目的地港费用:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="进口DUTY费:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="VAT费:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="销售VAT费:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="操作费:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="本土运费:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="成交费:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="PayPal Fee:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="刊登Fee:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="退回进口VAT费:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="退回快递费VAT:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="本土运输方式:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="汇率:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="VAT费率:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="DUTY税率:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="快递费计算方式:" prop="SFProductPrice">
+                        <div class="inputBox">
+                            <el-input v-model="item.SFProductPrice"></el-input>
+                        </div>
                     </el-form-item>
                 </el-form>
             </el-col>
         </el-row>
-        
         <div class="bottomButton">
             <el-button type="primary" @click="submitForm('ruleForm')" size="mini">保存</el-button>
             <el-button @click="resetForm('ruleForm')" size="mini">取消</el-button>
@@ -274,7 +385,7 @@ export default {
             wareHouseDetail:
             [
                 {
-                    name:'Amazon-GB-英国仓',
+                    name:'Amazon-GB-英国仓1',
                     productPrice:'$11',
                     SFProductPrice:'$89',
                     SFPfreight:'$69',
@@ -287,20 +398,13 @@ export default {
                     SFPfreight:'$69',
                     key:'2'
                 },
-                {
-                    name:'ebay-GB-英国仓',
-                    productPrice:'$141',
-                    SFProductPrice:'$89',
-                    SFPfreight:'$69',
-                    key:'3'
-                },
             ],
             wareHouseRules:{
                 productPrice: [
-                    { type: 'array', required: true, message: '请添加价格', trigger: 'blur' }
+                    {  required: true, message: '请添加价格', trigger: 'blur' }
                 ],
                 SFProductPrice: [
-                    { type: 'array', required: true, message: '请添加价格', trigger: 'blur' }
+                    {  required: true, message: '请添加价格', trigger: 'blur' }
                 ],
             }
         }
@@ -343,6 +447,13 @@ export default {
     .delButton{
         float: right;
         margin-right:20px;
+    } 
+    .inputBox{
+        width: 200px;
     }
+    .mainTitle{
+        font-weight: bold;
+    }
+    
       
 </style>

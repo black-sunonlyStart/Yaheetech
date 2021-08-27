@@ -136,8 +136,6 @@
               <el-checkbox label="确认样品"></el-checkbox>
               <el-checkbox label="利润复审"></el-checkbox>
               <el-checkbox label="终审"></el-checkbox>
-              <el-checkbox label="开发完未上架"></el-checkbox>
-              <el-checkbox label="开发完已上架"></el-checkbox>
             </el-checkbox-group>
           </el-form-item>
         </el-col>
@@ -146,6 +144,8 @@
         <el-col :span="10">
           <el-form-item>
             <el-checkbox-group v-model="form.status">
+              <el-checkbox label="开发完未上架"></el-checkbox>
+              <el-checkbox label="开发完已上架"></el-checkbox>
               <el-checkbox label="已取消"></el-checkbox>
               <el-checkbox label="已冻结"></el-checkbox>
             </el-checkbox-group>

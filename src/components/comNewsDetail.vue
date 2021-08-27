@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div>竞品信息</div>
+        <div class="productsTitle">竞品信息</div>
         <el-row>
             <el-col v-for="item in productsList" :key="item.key" class="productsMain" :span="12">
                 <div class="productsBox">
@@ -24,56 +24,56 @@
         
         <el-row>
             <el-col  :span="12">
-                <div>基础信息</div>
-                <div>
+                <div class="mainInofTitle">基础信息</div>
+                <div class="mianInfo">
                     <span>产品的尺寸：</span>
                     <span>产品的尺寸</span>
                 </div>
-                <div>
+                <div class="mianInfo">
                     <span>产品的净重：</span>
                     <span>产品的净重</span>
                 </div>
-                <div>
+                <div class="mianInfo">
                     <span>产品的规格参数：</span>
                     <span>产品的规格参数</span>
                 </div>
-                <div>
+                <div class="mianInfo">
                     <span>产品的材质：</span>
                     <span>产品的尺寸</span>
                 </div>
-                <div>
+                <div class="mianInfo">
                     <span>产品的工艺：</span>
                     <span>产品的尺寸</span>
                 </div>
-                <div>
+                <div class="mianInfo">
                     <span>产品的颜色：</span>
                     <span>产品的尺寸</span>
-                </div>
+                </div >
                 
             </el-col>
             <el-col  :span="12">
-                <div>竞品结论</div>
-                <div>
+                <div class="mainInofTitle">竞品结论</div>
+                <div class="mianInfo">
                     <span>产品的尺寸：</span>
                     <span>产品的尺寸</span>
                 </div>
-                <div>
+                <div class="mianInfo">
                     <span>产品的净重：</span>
                     <span>产品的净重</span>
                 </div>
-                <div>
+                <div class="mianInfo">
                     <span>产品的规格参数：</span>
                     <span>产品的规格参数</span>
                 </div>
-                <div>
+                <div class="mianInfo">
                     <span>产品的材质：</span>
                     <span>产品的尺寸</span>
                 </div>
-                <div>
+                <div class="mianInfo">
                     <span>产品的工艺：</span>
                     <span>产品的尺寸</span>
                 </div>
-                <div>
+                <div class="mianInfo">
                     <span>产品的颜色：</span>
                     <span>产品的尺寸</span>
                 </div>
@@ -112,10 +112,25 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.productsTitle{
+    color: #409EFF;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+.mainInofTitle{
+    color: #409EFF;
+    font-weight: bold;
+    margin: 10px 0;
+}
+.mianInfo{
+    margin-bottom: 10px;
+}
 .productsMain{
     display: inline-block;
     .productsBox{
         display: flex;
+        font-weight: bold;
+        margin: 10px 0;
     }
     .productsImage{
         .imageBox{
