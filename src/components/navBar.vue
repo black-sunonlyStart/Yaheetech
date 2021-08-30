@@ -4,7 +4,7 @@
              :model="form"
              label-width="110px">
       <el-row :gutter="20">
-        <el-col :span="10">
+        <el-col :xs="8" :sm="10" :md="12" :lg="13" :xl="10">
           <el-form-item class="firstCreateStyle"
                         label-width="10px">
             <el-select v-model="form.dateType"
@@ -29,7 +29,7 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="8">
+        <el-col  :xs="8" :sm="8" :md="8" :lg="7" :xl="8">
           <el-form-item label="产品负责人:">
             <el-checkbox-group v-model="form.productOwner">
               <el-checkbox label="全部"></el-checkbox>
@@ -38,7 +38,7 @@
             </el-checkbox-group>
           </el-form-item>
         </el-col>
-        <el-col :span="6">
+        <el-col :xs="6" :sm="6" :md="6" :lg="4" :xl="6">
           <el-form-item>
             <el-input placeholder="请输入内容"
                       v-model="search"

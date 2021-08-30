@@ -13,7 +13,7 @@
                                 <el-col :span="12" class="imgDetail">
                                     <imgUpload @inputImg='putImgList' :value='item.imageList' :showButton='false' :imageKey="item.key"></imgUpload> 
                                 </el-col>
-                                <el-col :span="10">
+                                <el-col :span="10" class="formInput">
                                     <el-form size="mini" label-width="120px">
                                         <el-form-item label="平台:">
                                             <el-input></el-input>
@@ -213,6 +213,12 @@ export default {
 .mainImage{
     border: 1px solid #EBEEF5;
     border-top: none;
+    ::v-deep .el-form-item{
+        margin-bottom:5px !important;
+    }
+    .formInput{
+        margin-top: 35px;
+    }
     .productTitle{
         height: 40px;
         line-height: 40px;

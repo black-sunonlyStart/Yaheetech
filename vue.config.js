@@ -31,8 +31,8 @@ module.exports = {
   productionSourceMap: false,
   devServer: {
     host: 'api-tools-local.yahee.com.cn',
-		sockHost:'api-tools-local.yahee.com.cn',
-		disableHostCheck: true,
+    sockHost:'api-tools-local.yahee.com.cn',
+    disableHostCheck: true,
     port: port,
     open: true,
     overlay: {

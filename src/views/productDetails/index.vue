@@ -30,7 +30,6 @@
                 <div class="stepBox">
                         <span class="leftButton" @click="leftMove">左箭头</span>
                         <span class="step-container">
-                        
                             <el-steps :active="2" space='200' align-center>
                                 <el-step title="步骤1" description="这是一段很长很长很长的描述性文字"></el-step>
                                 <el-step title="步骤2" description="这是一段很长很长很长的描述性文字"></el-step>
@@ -57,8 +56,8 @@
         </el-row>
     </div>
     <div class="cardBox">
-        <el-card class="card">
-            <div>
+        <!-- <el-card class="card"> -->
+            <div class="cardBoxMain">
                 <el-tabs v-model="activeName" @tab-click="handleClick">
                     <el-tab-pane label="开发类型/场景" name="first" >
                         <div class="backgoundCon"></div>
@@ -200,6 +199,7 @@
                         </div>                  
                     </el-tab-pane>
                     <el-tab-pane label="竞品信息" name="fourth">
+                        <div class="backgoundCon"></div>
                         <div class='tabContainer'>
                             <el-card>
                                 <div slot="header" class="clearfix">
@@ -217,6 +217,7 @@
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="开发信息" name="fifth">
+                        <div class="backgoundCon"></div>
                         <div class='tabContainer'>
                             <el-card>
                                 <div slot="header" class="clearfix">
@@ -234,6 +235,7 @@
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="产品认证信息" name="sixth">
+                        <div class="backgoundCon"></div>
                         <div class='tabContainer'>
                             <el-card>
                                 <div slot="header" class="clearfix">
@@ -267,6 +269,7 @@
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="产品标题和供应商信息" name="seventh">
+                        <div class="backgoundCon"></div>
                         <div class='tabContainer'>
                             <el-card>
                                 <div slot="header" class="clearfix">
@@ -301,6 +304,7 @@
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="产品尺寸和属性信息" name="eigth">
+                        <div class="backgoundCon"></div>
                         <div class='tabContainer'>
                             <el-card>
                                 <div slot="header" class="clearfix">
@@ -318,6 +322,7 @@
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="采购信息" name="nineth">
+                        <div class="backgoundCon"></div>
                         <div class='tabContainer'>
                             <el-card>
                                 <div slot="header" class="clearfix">
@@ -335,6 +340,7 @@
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="备注" name="tenth">
+                        <div class="backgoundCon"></div>
                         <div class='remarkContainer'>
                             <el-card>
                                 <div slot="header" class="clearfix">
@@ -350,7 +356,7 @@
                     </el-tab-pane>
                 </el-tabs>   
             </div>
-        </el-card>
+        <!-- </el-card> -->
     </div>
   </div>
 </template>
@@ -466,7 +472,7 @@ export default {
       leftMove(){
           let  image = document.querySelector('.step-container')
           if(image.offsetLeft > 30)return
-           image.style.left = image.offsetLeft +50 + 'px'
+           image.style.left = image.offsetLeft +100 + 'px'
       },
       rightMove(){
           let image = document.querySelector('.step-container')
@@ -474,7 +480,7 @@ export default {
           if(image.offsetLeft < -parentBox.clientWidth ){
               return
           }else{
-              image.style.left = image.offsetLeft - 50 + 'px'
+              image.style.left = image.offsetLeft - 100 + 'px'
           }
           
       }
@@ -489,7 +495,21 @@ export default {
   .cardBox{
     position: relative;
     width: 100%;
-    top: 145px;
+    top: 177px;
+    .cardBoxMain{
+        margin: 10px;
+    }
+    ::v-deep .el-tabs__header{
+        margin:0 !important;
+        background-color: #ffffff;
+        padding-right: 5px;
+        position: fixed;
+        top: 151px;
+        z-index: 999;
+        width: 100%;
+        left: 8px;
+        padding-left: 13px
+    }
   }
   .navTitle{
     position: fixed;
@@ -502,6 +522,7 @@ export default {
       margin: 10px 10px 10px 10px;
       .el-card__body{
           padding-top: 10px !important;
+        //   margin-left: 200px;
     }
   }
   .out-container {
@@ -565,6 +586,9 @@ export default {
           padding: 10px !important;
           font-size: 16px;
           font-weight: bold;
+      }
+      ::v-deep .el-card__body{
+          margin-left: 200px;
       }
       .edit-position{
           float: right;

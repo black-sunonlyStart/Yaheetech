@@ -1,8 +1,8 @@
 import request from '@/utils/request'
-export function fetchList(query) {
+export function fetchPageTableList(data) {
     return request({
-      url: '/transfer/queryTransferBehaviorPage?pageNum=1&pageSize=20&status=-1',
-      method: 'get',
-      params: query
+      url: 'productManage/queryProductManage',
+      method: "post",
+      data 
     })
   }

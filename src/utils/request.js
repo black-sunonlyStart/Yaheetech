@@ -6,7 +6,7 @@ import { Message } from 'element-ui'
 axios.defaults.withCredentials = true;
 const service = axios.create({
   baseURL:process.env.VUE_APP_DEVSERVER, // url = base url + request url
-  timeout: 5000// request timeout
+  timeout: 10000// request timeout
 })
 
 
