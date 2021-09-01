@@ -2,7 +2,7 @@
     <div>
         <el-row class="textSpeaing">
             <el-col :span="10">
-                分配采购开发员:
+                分配采购开发员:<span>11111111111</span>
             </el-col>
             <el-col :span="10">
                 产品类型:
@@ -189,6 +189,10 @@ export default {
 <style lang="scss" scoped>
 .textSpeaing{
     margin-top: 15px;
+    font-weight: bold;
+    span {
+        font-weight: normal;
+    }
 }
 .tableTitle{
     border: 1px solid #EBEEF5;

@@ -178,9 +178,10 @@ export default {
             width: 100px;
             height: 100px;
             display: flex;
-            align-items: center;
+            // align-items: center;
             flex-direction: column;
-            justify-content: space-between
+            justify-content: space-between;
+            margin-left: 10px;
         }
         display: flex;
     }

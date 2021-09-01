@@ -74,36 +74,62 @@
                         >
                     </el-table-column>
                     <el-table-column
-                        prop="developmentprice"
                         label="利润">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.profit/scope.row.profitmargin*100}}</div>
+                            <div>{{scope.row.endprofit/scope.row.endprofitmargin*100}}</div>
+                        </template>
                     </el-table-column>
                     <el-table-column
-                        prop="developmentprice"
                         label="运费">
+                        <template slot-scope="scope">
+                            <div v-if="scope.row.freightway == 1">{{scope.row.inlandportcosts+scope.row.oceanfreight+scope.row.outlandportcosts}}</div>
+                            <div v-if="scope.row.freightway == 2">{{scope.row.oceanfreight}}</div>
+                        </template>
                     </el-table-column>
                     <el-table-column
-                        prop="developmentprice"
+                        prop="piprice"
                         label="PI">
                     </el-table-column>
                     <el-table-column
-                        prop="developmentprice"
                         label="海运费成本">
+                        <template slot-scope="scope">
+                            <div>港前:{{scope.row.inlandportcosts}}</div>
+                            <div>海运:{{scope.row.oceanfreight}}</div>
+                            <div>目的港:{{scope.row.outlandportcosts}}</div>
+                        </template>
                     </el-table-column>
                     <el-table-column
-                        prop="developmentprice"
                         label="税费">
+                        <template slot-scope="scope">
+                            <div>进口DUTY:{{scope.row.duty}}</div>
+                            <div>进口VAT:{{scope.row.vatfee}}</div>
+                            <div>销售VAT:{{scope.row.salesvat}}</div>
+                        </template>
                     </el-table-column>
                     <el-table-column
-                        prop="developmentprice"
                         label="平台费">
+                        <template slot-scope="scope">
+                            <div>成交费:{{scope.row.platformfee}}</div>
+                            <div>PayPal:{{scope.row.paypalprice}}</div>
+                            <div>刊登费:{{scope.row.listingfee}}</div>  
+                        </template>
                     </el-table-column>
                     <el-table-column
-                        prop="developmentprice"
                         label="海外仓成本">
+                        <template slot-scope="scope">                          
+                            <div>操作费:{{scope.row.handlingfee}}</div>
+                            <div>发货包装:{{scope.row.packagingfee}}</div>
+                            <div>本地化费:{{scope.row.localizationfee}}</div>   
+                        </template>
                     </el-table-column>
                     <el-table-column
                         prop="developmentprice"
                         label="可抵扣税费">
+                        <template slot-scope="scope">
+                            <div>进口VAT:{{scope.row.vatfee}}</div>
+                            <div>快递VAT:{{scope.row.localshippingfeevat}}</div>
+                        </template>
                     </el-table-column>
                 </el-table>
                 <div class="tableBottomTitle">运输方式(自有/SFP)：GB_RoyalMail_Tracked48 / GB_DPD_Prime    汇率:8.58</div>

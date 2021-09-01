@@ -19,8 +19,15 @@
                         开发市场:<div class="countryTitle">{{ productCountryList.countryName }}</div> 
                         <div v-for="item in productCountryList.otherCountryNames" :key="item.otherCountryNames" class="otherCountryTitle"> {{item}}</div>
                     </div>
-                    <div>
-                        开发价/最低利润:
+                    <div class="haveMoneyLitte">
+                        <div>
+                            开发价/最低利润:
+                        </div>
+                        <div>
+                            <div v-for="item in productMarketStrs" :key="item.currency">
+                                {{item.platformName}}-{{item.marketProfits[0].warehouseName}}-{{item.currency}} {{item.developmentPrice}}/{{item.marketProfits[0].profitMargin}}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -323,10 +330,10 @@
                                     </div>   
                                 </div>
                                 <div v-if="isEdit7">
-                                <pordSizeAttrInfo></pordSizeAttrInfo>
+                                    <pordSizeAttrInfo></pordSizeAttrInfo>
                                 </div>
                                 <div v-else>
-                                <pordSizeAttrEdit  @closeEdit='closeProdevAttr'></pordSizeAttrEdit>
+                                    <pordSizeAttrEdit  @closeEdit='closeProdevAttr'></pordSizeAttrEdit>
                                 </div>
                             </el-card>
                         </div>
@@ -414,6 +421,7 @@ export default {
   },
   data () {
     return {
+        productMarketStrs:{},//头部信息产品利润信息
         copeDevProgress:{},
         allDetailPageDate:{},
         development:{},
@@ -591,6 +599,7 @@ export default {
                 this.productCountryList = res.data.productVos[0].productCountryList[0].countryMap
                 this.otherProductCountryList = res.data.productVos[0].productCountryList[0]
                 this.productVos = res.data.productVos[0]
+                this.productMarketStrs = res.data.productMarketStrs
                 this.getDevProgresses(res.data.developmentProgresses)
                 //开发类型、详情数据
                 this.productVoDetail = {
@@ -624,19 +633,19 @@ export default {
                 this.comNewsDetailList = {
                     competingproducts:res.data.competingproducts,//图片信息
                     jpsize:res.data.development.jpsize,//竞品尺寸
-                    jpweight:res.data.development.jpweight,//竞品尺寸
-                    basicinformation:res.data.development.basicinformation,//竞品尺寸
-                    jpmaterial:res.data.development.jpmaterial,//竞品尺寸
-                    jpprocess:res.data.development.jpjpprocesssize,//竞品尺寸
-                    jpcolor:res.data.development.jpcolor,//竞品尺寸
-                    advantagefunction:res.data.development.advantagefunction,//竞品尺寸
-                    defectfeature:res.data.development.defectfeature,//竞品尺寸
-                    usagescenarios:res.data.development.usagescenarios,//竞品尺寸
-                    usecrowd:res.data.development.usecrowd,//竞品尺寸
-                    jppositioning:res.data.development.jppositioning,//竞品尺寸
-                    jpranking:res.data.development.jpranking,//竞品尺寸
-                    jpadjustmentpoint:res.data.development.jpadjustmentpoint,//竞品尺寸
-                    note:res.data.development.note,//竞品尺寸
+                    jpweight:res.data.development.jpweight,//竞品的净重
+                    basicinformation:res.data.development.basicinformation,//产品的规格参数
+                    jpmaterial:res.data.development.jpmaterial,//竞品的材质
+                    jpprocess:res.data.development.jpjpprocesssize,//
+                    jpcolor:res.data.development.jpcolor,//竞品的颜色
+                    advantagefunction:res.data.development.advantagefunction,//竞品优势功能
+                    defectfeature:res.data.development.defectfeature,//竞品缺陷功能
+                    usagescenarios:res.data.development.usagescenarios,//产品使用场景
+                    usecrowd:res.data.development.usecrowd,//产品目标人群
+                    jppositioning:res.data.development.jppositioning,//产品定位
+                    jpranking:res.data.development.jpranking,//产品排名
+                    jpadjustmentpoint:res.data.development.jpadjustmentpoint,//产品确定开发调整点
+                    note:res.data.development.note,//备注
 
                 }
                 this.comNewsDetailList.competingproducts.forEach(item => {
@@ -786,6 +795,9 @@ export default {
       }
       .otherCountryTitle{
           display: inline-block;
+      }
+      .haveMoneyLitte{
+          display: flex;
       }
     }
   }
