@@ -2,20 +2,33 @@
     <div>
         <div class="productsTitle">竞品信息</div>
         <el-row>
-            <el-col v-for="item in productsList" :key="item.key" class="productsMain" :span="12">
+            <el-col v-for="(item, index) in comNewsDetailList.competingproducts" :key="item.id" class="productsMain" :span="12">
                 <div class="productsBox">
-                    我是竞品{{item.key}}
+                    我是竞品{{index + 1}}
                 </div>
                 <div class="productsImage">
                     <div class="imageBox">
-                        {{item.image}}
+                        <el-image
+                            style="width: 100px; height: 100px; dispaly:black"
+                            :src="item.showImgUrl"
+                            fit="fill">
+                        </el-image>
                     </div>
-                    <div>
-                        <div>
-                            平台：{{item.text}}
+                    <div class="imageTitle">
+                        <div class="imageMainbox">
+                            平台：<span class="imageMainboxText">{{item.platformid}}{{item.platformsiteid}}</span>
                         </div>
-                        <div>
-                            售价：{{item.dirction}}
+                        <div class="imageMainbox">
+                            ASIN:<span class="imageMainboxText">{{item.xsin}}</span>
+                        </div>
+                        <div class="imageMainbox">
+                            售价：<span class="imageMainboxText">{{item.price}}</span>
+                        </div> 
+                        <div class="imageMainbox">
+                            日销量：<span class="imageMainboxText">{{item.recentsalesvolume}}</span>
+                        </div> 
+                        <div class="imageMainbox">
+                            备注：<span class="imageMainboxText">{{item.note}}</span>
                         </div> 
                     </div>
                 </div>
@@ -27,57 +40,64 @@
                 <div class="mainInofTitle">基础信息</div>
                 <div class="mianInfo">
                     <span>产品的尺寸：</span>
-                    <span>产品的尺寸</span>
+                    <span class="mianInfoTitle">{{comNewsDetailList.jpsize}}</span>
                 </div>
                 <div class="mianInfo">
                     <span>产品的净重：</span>
-                    <span>产品的净重</span>
+                    <span class="mianInfoTitle">{{comNewsDetailList.jpweight}}</span>
                 </div>
                 <div class="mianInfo">
                     <span>产品的规格参数：</span>
-                    <span>产品的规格参数</span>
+                    <span class="mianInfoTitle">{{comNewsDetailList.basicinformation}}</span>
                 </div>
                 <div class="mianInfo">
                     <span>产品的材质：</span>
-                    <span>产品的尺寸</span>
+                    <span class="mianInfoTitle">{{comNewsDetailList.jpmaterial}}</span>
                 </div>
                 <div class="mianInfo">
                     <span>产品的工艺：</span>
-                    <span>产品的尺寸</span>
+                    <span class="mianInfoTitle">{{comNewsDetailList.jpprocess}}</span>
                 </div>
                 <div class="mianInfo">
                     <span>产品的颜色：</span>
-                    <span>产品的尺寸</span>
+                    <span class="mianInfoTitle">{{comNewsDetailList.jpcolor}}</span>
                 </div >
                 
             </el-col>
             <el-col  :span="12">
                 <div class="mainInofTitle">竞品结论</div>
                 <div class="mianInfo">
-                    <span>产品的尺寸：</span>
-                    <span>产品的尺寸</span>
+                    <span>竞品优势功能：</span>
+                    <span class="mianInfoTitle">{{comNewsDetailList.advantagefunction}}</span>
                 </div>
                 <div class="mianInfo">
-                    <span>产品的净重：</span>
-                    <span>产品的净重</span>
+                    <span>竞品缺陷功能：</span>
+                    <span class="mianInfoTitle">{{comNewsDetailList.defectfeature}}</span>
                 </div>
                 <div class="mianInfo">
-                    <span>产品的规格参数：</span>
-                    <span>产品的规格参数</span>
+                    <span>产品使用场景：</span>
+                    <span class="mianInfoTitle">{{comNewsDetailList.usagescenarios}}</span>
                 </div>
                 <div class="mianInfo">
-                    <span>产品的材质：</span>
-                    <span>产品的尺寸</span>
+                    <span>产品目标人群：</span>
+                    <span class="mianInfoTitle">{{comNewsDetailList.usecrowd}}</span>
                 </div>
                 <div class="mianInfo">
-                    <span>产品的工艺：</span>
-                    <span>产品的尺寸</span>
-                </div>
+                    <span>产品定位：</span>
+                    <span class="mianInfoTitle">{{comNewsDetailList.jppositioning}}</span>
+                </div>           
                 <div class="mianInfo">
-                    <span>产品的颜色：</span>
-                    <span>产品的尺寸</span>
-                </div>
-                
+                    <span>产品排名：</span>
+                    <span class="mianInfoTitle">{{comNewsDetailList.jpranking}}</span>
+                </div>           
+                <div class="mianInfo">
+                    <span>产品确定开发调整点：</span>
+                    <span class="mianInfoTitle">{{comNewsDetailList.jpadjustmentpoint}}</span>
+                </div>           
+                <div class="mianInfo">
+                    <span>备注：</span>
+                    <span class="mianInfoTitle">{{comNewsDetailList.note}}</span>
+                </div>           
             </el-col>
         </el-row>
     </div>
@@ -108,6 +128,12 @@ export default {
                },
            ] 
         }
+    },
+    props: {
+        comNewsDetailList:{
+            type:Object,
+            default:() => {}
+        }
     }
 }
 </script>
@@ -120,10 +146,20 @@ export default {
 .mainInofTitle{
     color: #409EFF;
     font-weight: bold;
-    margin: 10px 0;
+    margin: 30px 0;
+}
+.imageMainbox {
+    font-weight: bold;
+    .imageMainboxText{
+        font-weight: normal;
+    }
 }
 .mianInfo{
     margin-bottom: 10px;
+    font-weight: bold;
+    .mianInfoTitle{
+        font-weight: normal;
+    }
 }
 .productsMain{
     display: inline-block;
@@ -134,9 +170,17 @@ export default {
     }
     .productsImage{
         .imageBox{
-            width: 200px;
-            height: 200px;
-            border:1px solid red;
+            width: 100px;
+            height: 100px;
+            border:1px solid #cccccc;
+        }
+        .imageTitle{
+            width: 100px;
+            height: 100px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: space-between
         }
         display: flex;
     }

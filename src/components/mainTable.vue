@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="tableMain">
     <el-table 
         ref="multipleTable"
         :data="tableData"
@@ -19,7 +19,8 @@
         width="120">
         <template slot-scope="scope">
             <el-image
-                style="width: 100px; height: 100px"
+                lazy
+                style="width: 100px; height: 100px; dispaly:black"
                 :src="scope.row.showImgUrl"
                 fit="fill">
             </el-image>
@@ -41,7 +42,7 @@
             show-overflow-tooltip
             >
         <template slot-scope="scope">
-            <div class="remarksTitle">{{scope.row.enTitle}}</div>
+            <div class="remarksTitle" @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">{{scope.row.enTitle}}</div>
             <div>{{scope.row.title}}</div>
             <div>普通产品:{{scope.row.developmentId}}</div>
             <div>sku别名:{{scope.row.title}}</div>
@@ -56,11 +57,9 @@
             <div v-for="item in scope.row.productMarketStrs" :key="item.platformName">
                 <div>{{item.platformName}}:</div>
                 <div>{{item.currency}} {{item.developmentPrice}}/
-                    
-                        <el-tooltip :content="rows.warehouseName" placement="top" effect="light" v-for="rows in item.marketProfits " :key="rows.warehouseId">
-                            <span>{{rows.profitMargin}}</span>
-                        </el-tooltip>
-                    
+                    <el-tooltip :content="rows.warehouseName" placement="top" effect="light" v-for="rows in item.marketProfits " :key="rows.warehouseId">
+                        <span>{{rows.profitMargin}}</span>
+                    </el-tooltip>
                 </div>
             </div>
         </template>
@@ -105,14 +104,20 @@
                        show-overflow-tooltip>
       </el-table-column>
     </el-table>
-    <el-pagination @size-change="handleSizeChange"
-                   @current-change="handleCurrentChange"
-                   :current-page="currentPage4"
-                   :page-sizes="[100, 200, 300, 400]"
-                   :page-size="100"
-                   layout="total, sizes, prev, pager, next, jumper"
-                   :total="400">
-    </el-pagination>
+    <div>
+        <el-pagination 
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page="currentPage4"
+            :page-sizes="[100, 200, 300, 400]"
+            :page-size="pageSize"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+            class="pagePosition"
+            >
+        </el-pagination>
+    </div>
+    
   </div>
 
 </template>
@@ -123,30 +128,68 @@ export default {
   name: 'mainTable',
   data () {
     return {
-      currentPage4: 4,
+      currentPage4: 1,
       tableData: [],
       multipleSelection: [],
-      
+      pageSize:100,
+      pageNum:1,
+      total:100
     }
   },
+  props:{
+      navFilterList:{
+      type: Object,
+      required: true
+    },
+  },
+  watch:{
+      navFilterList:{
+          handler:function(val){
+              if(val){
+                this.getTableList(val)
+              }
+          },
+          deep:true
+      }
+  },
   mounted(){
-      this.getTableList()
+      this.getTableList(this.navFilterList)
   },
   methods: {
-    getTableList(){
+      routerMove(devId,proId,procountryId){
+          this.$router.push({
+            name:'productDetails',
+            params:{
+                developmentId:devId,
+                productId:proId,
+                productCountryId:procountryId,
+            }
+          })
+      },
+    getTableList(val){
         let params = {
-            pageNum :1,
-            pageSize:10,
+            pageNum :this.pageNum,
+            pageSize:this.pageSize,
+            timeType:val.dateType,
+            dateFrom:val.dateFrom,
+            dateTo:val.dateTo,
+            countryCodes:val.countryCodes,
+            seekEnd:val.seekEnd,
+            auth:val.auth,
+            state:val.state,
+            productOwner:val.productOwner,
+            scenariosParentIds:val.scenariosParentIds,
+            sampleDelivery:val.sampleDelivery,
+            patentProduct:val.patentProduct
         }
         fetchPageTableList(params).then(res => {
             res.data.rows.forEach(item => {
-                // item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.productId}/${item.imagesUri}`
-                item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/DEV210827000021/0cda76ef1fe94e1f87167e643a016aee.jpg`
-                // DEV210827000021/0cda76ef1fe94e1f87167e643a016aee.jpg
+                item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentId}/${item.imagesUri}`
             });
+            this.currentPage4 = res.data.pageNum
             this.tableData = res.data.rows
+            this.total = res.data.records
             console.log(this.tableData)
-
         })
         
     },
@@ -154,10 +197,12 @@ export default {
       this.multipleSelection = val;
     },
     handleSizeChange (val) {
-      console.log(`每页 ${val} 条`);
+        this.pageSize = val
+        this.getTableList(this.navFilterList)
     },
     handleCurrentChange (val) {
-      console.log(`当前页: ${val}`);
+        this.pageNum = val
+        this.getTableList(this.navFilterList)
     },
     getFormatDate(data){
         let newTime = formatDate(data)
@@ -168,7 +213,24 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+
 .remarksTitle{
     color: #409EFF;
+    cursor: pointer;
+}
+.pagePosition{
+    float: right;
+}
+::v-deep.tableMain{
+    overflow: auto;
+    .el-table{
+        .el-table__body-wrapper .is-scrolling-none .scroll-container{
+            .el-table__body{
+                overflow: auto;
+            }
+            
+        }
+    }
+    
 }
 </style>

@@ -9,18 +9,19 @@
                 假装我是一个图片
                 </div>
                 <div class="detailsText">
-                <div>
-                    开发id:
-                </div>
-                <div>
-                    生成型号:
-                </div>
-                <div>
-                    开发市场:
-                </div>
-                <div>
-                    开发价/最低利润:
-                </div>
+                    <div>
+                        开发id:{{development.id}}
+                    </div>
+                    <div>
+                        生成型号:{{$route.params.productId}}
+                    </div>
+                    <div>
+                        开发市场:<div class="countryTitle">{{ productCountryList.countryName }}</div> 
+                        <div v-for="item in productCountryList.otherCountryNames" :key="item.otherCountryNames" class="otherCountryTitle"> {{item}}</div>
+                    </div>
+                    <div>
+                        开发价/最低利润:
+                    </div>
                 </div>
             </div>
             </el-card>
@@ -30,22 +31,16 @@
                 <div class="stepBox">
                         <span class="leftButton" @click="leftMove">左箭头</span>
                         <span class="step-container">
-                            <el-steps :active="2" space='200' align-center>
-                                <el-step title="步骤1" description="这是一段很长很长很长的描述性文字"></el-step>
-                                <el-step title="步骤2" description="这是一段很长很长很长的描述性文字"></el-step>
-                                <el-step title="步骤3" description="这是一段很长很长很长的描述性文字"></el-step>
-                                <el-step title="步骤4" description="这是一段很长很长很长的描述性文字"></el-step>
-                                <el-step title="步骤5" description="这是一段很长很长很长的描述性文字"></el-step>
-                                <el-step title="步骤6" description="这是一段很长很长很长的描述性文字"></el-step>
-                                <el-step title="步骤7" description="这是一段很长很长很长的描述性文字"></el-step>
-                                <el-step title="步骤8" description="这是一段很长很长很长的描述性文字"></el-step>
-                                <el-step title="步骤9" description="这是一段很长很长很长的描述性文字"></el-step>
-                                <el-step title="步骤10" description="这是一段很长很长很长的描述性文字"></el-step>
-                                <el-step title="步骤11" description="这是一段很长很长很长的描述性文字"></el-step>
-                                <el-step title="步骤12" description="这是一段很长很长很长的描述性文字"></el-step>
-                                <el-step title="步骤13" description="这是一段很长很长很长的描述性文字"></el-step>
-                                <el-step title="步骤14" description="这是一段很长很长很长的描述性文字"></el-step>
-                                <el-step title="步骤15" description="这是一段很长很长很长的描述性文字"></el-step>
+                            <el-steps :active="copeDevProgress.length - 1" space='200' align-center style="margin-right:15px" finish-status="success">
+                                <el-step v-for="item in developmentProgresses" :title="item.statusValue" :key="item.status" :description="item.createOn">
+                                        <template slot="title">
+                                            <el-tooltip class="item" effect="dark" :content="item.createBy" placement="top">
+                                                <div class="stepTitle">
+                                                    {{item.statusValue}}
+                                                </div>
+                                            </el-tooltip>
+                                        </template>
+                                </el-step>
                             </el-steps>
                         </span>
                         <span class='rightButton' @click="rightMove">右箭头</span>
@@ -69,10 +64,10 @@
                                     </div>   
                                 </div>
                                 <div v-if="isEdit">
-                                <devDetail></devDetail>
+                                    <devDetail :productVoDetail='productVoDetail'></devDetail>
                                 </div>
                                 <div v-else>
-                                <devScene @closeEdit='editPage'></devScene>
+                                    <devScene @closeEdit='editPage'></devScene>
                                 </div>
                             </el-card>
                             <el-card style="margin-top:10px">
@@ -82,8 +77,13 @@
                                     </span>
                                 </div>
                                 <div v-if="isEdit1" class="imgContainer">
-                                    <div v-for="item in imgBox" :key="item.key" class="imgCon">
-                                        <div>{{item.name}}</div>
+                                    <div v-for="item in productImgDetail" :key="item.key" class="imgCon">
+                                        <el-image
+                                            lazy
+                                            style="width: 100px; height: 100px; dispaly:black"
+                                            :src="item.showImgUrl"
+                                            fit="fill">
+                                        </el-image>
                                     </div>
                                 </div>
                                 <div v-else>
@@ -97,7 +97,7 @@
                                     </span>
                                 </div>
                                 <div v-if="isEdit2">
-                                    <salesTargetDetail></salesTargetDetail>
+                                    <sales-target-detail :salesTargetDetaiList='salesTargetDetaiList'></sales-target-detail>
                                 </div>
                                 <div v-else>
                                     <salesTargetEdit @closeEdit='salesEditPage'></salesTargetEdit>
@@ -115,7 +115,7 @@
                                     </div>   
                                 </div>
                                 <div v-if="isEdit">
-                                <devDetail></devDetail>
+                                    <devDetail :productVoDetail='productVoDetail'></devDetail>
                                 </div>
                                 <div v-else>
                                 <devScene @closeEdit='editPage'></devScene>
@@ -128,8 +128,13 @@
                                     </span>
                                 </div>
                                 <div v-if="isEdit1" class="imgContainer">
-                                    <div v-for="item in imgBox" :key="item.key" class="imgCon">
-                                        <div>{{item.name}}</div>
+                                    <div v-for="item in productImgDetail" :key="item.key" class="imgCon">
+                                        <el-image
+                                            lazy
+                                            style="width: 100px; height: 100px; dispaly:black"
+                                            :src="item.showImgUrl"
+                                            fit="fill">
+                                        </el-image>
                                     </div>
                                 </div>
                                 <div v-else>
@@ -143,7 +148,7 @@
                                     </span>
                                 </div>
                                 <div v-if="isEdit2">
-                                    <salesTargetDetail></salesTargetDetail>
+                                    <sales-target-detail :salesTargetDetaiList='salesTargetDetaiList'></sales-target-detail>
                                 </div>
                                 <div v-else>
                                     <salesTargetEdit @closeEdit='salesEditPage'></salesTargetEdit>
@@ -162,10 +167,10 @@
                                     </div>   
                                 </div>
                                 <div v-if="isEdit">
-                                <devDetail></devDetail>
+                                    <devDetail :productVoDetail='productVoDetail'></devDetail>
                                 </div>
                                 <div v-else>
-                                <devScene @closeEdit='editPage'></devScene>
+                                    <devScene @closeEdit='editPage'></devScene>
                                 </div>
                             </el-card>
                             <el-card style="margin-top:10px">
@@ -175,8 +180,13 @@
                                     </span>
                                 </div>
                                 <div v-if="isEdit1" class="imgContainer">
-                                    <div v-for="item in imgBox" :key="item.key" class="imgCon">
-                                        <div>{{item.name}}</div>
+                                    <div v-for="item in productImgDetail" :key="item.key" class="imgCon">
+                                        <el-image
+                                            lazy
+                                            style="width: 100px; height: 100px; dispaly:black"
+                                            :src="item.showImgUrl"
+                                            fit="fill">
+                                        </el-image>
                                     </div>
                                 </div>
                                 <div v-else>
@@ -190,7 +200,7 @@
                                     </span>
                                 </div>
                                 <div v-if="isEdit2">
-                                    <salesTargetDetail></salesTargetDetail>
+                                    <sales-target-detail :salesTargetDetaiList='salesTargetDetaiList'></sales-target-detail>
                                 </div>
                                 <div v-else>
                                     <salesTargetEdit @closeEdit='salesEditPage'></salesTargetEdit>
@@ -208,10 +218,10 @@
                                     </div>   
                                 </div>
                                 <div v-if="isEdit3">
-                                <comNewsDetail></comNewsDetail>
+                                    <comNewsDetail :comNewsDetailList='comNewsDetailList'></comNewsDetail>
                                 </div>
                                 <div v-else>
-                                <comNewsEdit @closeEdit='comNewsEdit'></comNewsEdit>
+                                    <comNewsEdit @closeEdit='comNewsEdit'></comNewsEdit>
                                 </div>
                             </el-card>
                         </div>
@@ -226,10 +236,10 @@
                                     </div>   
                                 </div>
                                 <div v-if="isEdit4">
-                                <devInformationDetail></devInformationDetail>
+                                    <devInformationDetail :devInformationDetaiList='devInformationDetaiList'></devInformationDetail>
                                 </div>
                                 <div v-else>
-                                <devInformationEdit @closeEdit='devInfoEdit'></devInformationEdit>
+                                    <devInformationEdit @closeEdit='devInfoEdit'></devInformationEdit>
                                 </div>
                             </el-card>
                         </div>
@@ -361,11 +371,12 @@
   </div>
 </template>
 <script>
+ import { getProductDevDetail } from '@/api/user.js'
  import devDetail from '@/components/devDetail.vue'
  import devScene from '@/components/devScene.vue'
  import imgUpload from '@/components/uploadImg.vue'
  import remarksTable from '@/components/remarksTable.vue'
- import salesTargetDetail from '@/components/salesTargetDetail.vue'
+//  import salesTargetDetail from '@/components/salesTargetDetail.vue'
  import salesTargetEdit from '@/components/salesTargetEdit.vue'
  import comNewsDetail from '@/components/comNewsDetail.vue'
  import comNewsEdit from '@/components/comNewsEdit.vue'
@@ -385,7 +396,7 @@ export default {
       devDetail,
       devScene,
       imgUpload,
-      salesTargetDetail,
+      salesTargetDetail:() => import('@/components/salesTargetDetail'),
       salesTargetEdit,
       comNewsDetail,
       comNewsEdit,
@@ -403,21 +414,151 @@ export default {
   },
   data () {
     return {
+        copeDevProgress:{},
+        allDetailPageDate:{},
+        development:{},
+        productCountryList:{},
+        otherProductCountryList:{},
+        productVos:{},
+        productVoDetail:{},//开发类型详情数据
+        productImgDetail:{},//开发产品尺寸图
+        comNewsDetailList:{},//竞品信息数据
+        devInformationDetaiList:{},//开发信息
+        salesTargetDetaiList:{
+            xsstarrating : null,//产品星级评分
+            xstargetstarrating:null, //我司目标星级评分
+            xsrepairraterequirement:null, //目标售后返修率要求
+            xsmarket:null, //产品开发市场
+            xstestsampletime:null, //产品测样时间点
+            xspurchaseprice:null, //目标采购价
+            xsdailysales:null, //产品预估产量
+            xsfirstorderquantity:null, //预估首单订单数量
+            xsspecialrequirements:null, //产品包装尺寸有无特殊要求
+            xsorderoftime:null,
+        },//销售目标数据
+        developmentProgresses:[
+            {
+                statusValue:'未提交审批',
+                status:'0',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:''
+            },
+            {
+                statusValue:'待审批',
+                status:'1',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:''
+            },
+            {
+                statusValue:'待认证确认',
+                status:'2',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:''
+            },
+            {
+                statusValue:'寻找供应商',
+                status:'3',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:''
+            },
+            {
+                statusValue:'采购主管审核',
+                status:'4',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:''
+            },
+            {
+                statusValue:'认证审核',
+                status:'5',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:''
+            },
+            {
+                statusValue:'待利润初审',
+                status:'6',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:''
+            },
+            {
+                statusValue:'样品采购审核',
+                status:'7',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:''
+            },
+            {
+                statusValue:'确认样品',
+                status:'8',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:''
+            },
+            {
+                statusValue:'待利润复核',
+                status:'9',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:''
+            },
+            {
+                statusValue:'待终审',
+                status:'10',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:''
+            },
+            {
+                statusValue:'开发完未上架',
+                status:'11',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:''
+            },
+            {
+                statusValue:'开发完已上架',
+                status:'12',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:''
+            },
+            {
+                statusValue:'已取消',
+                status:'13',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:''
+            },
+            {
+                statusValue:'已冻结',
+                status:'14',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:''
+            },
+        ],//进度条数据
         imageList:[],
-        imgBox:[
-            {
-                name:'假装我是一个小图片',
-                key:'1'
-            },
-            {
-                name:'假装我是一个小图片',
-                key:'2'
-            },
-            {
-                name:'假装我是一个小图片',
-                key:'3'
-            },
-        ],
         activeName: 'first',
         isEdit:true,
         isEdit1:true,
@@ -431,11 +572,113 @@ export default {
     }
   },
   created () {
-
+      this.getAllpageList()
   },
   mounted () {
+    //   this.getAllpageList()
   },
   methods: {
+      getAllpageList(){
+          let params = {
+                developmentId:this.$route.params.developmentId,
+                productId:this.$route.params.productId,
+                productCountryId:this.$route.params.productCountryId,
+          }
+          getProductDevDetail(params).then(res => {
+                this.allDetailPageDate = res.data
+                this.development = res.data.development //产品数据
+                this.copeDevProgress = res.data.developmentProgresses
+                this.productCountryList = res.data.productVos[0].productCountryList[0].countryMap
+                this.otherProductCountryList = res.data.productVos[0].productCountryList[0]
+                this.productVos = res.data.productVos[0]
+                this.getDevProgresses(res.data.developmentProgresses)
+                //开发类型、详情数据
+                this.productVoDetail = {
+                    developmenttype:res.data.productVos[0].developmenttype,//开发类型
+                    developmentscenarios:res.data.productVos[0].developmentscenarios,//开发场景
+                    categoryname:res.data.development.categoryname,//所属分类
+                    spu:res.data.development.spu,//关联spu
+                    id:res.data.productVos[0].id,//关联spu id
+                }
+                //图片信息数据
+                this.productImgDetail =  res.data.developmentAttachmentList.filter(item => {
+                    return item.filetype == 4
+                })
+                this.productImgDetail.forEach(item => {
+                    item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentid}/${item.fileuri}`
+                })
+                //销售目标数据 
+                this.salesTargetDetaiList = {
+                    xsstarrating : res.data.productVos[0].xsstarrating, //产品星级评分
+                    xstargetstarrating:res.data.productVos[0].xstargetstarrating, //我司目标星级评分
+                    xsrepairraterequirement:res.data.productVos[0].xsrepairraterequirement, //目标售后返修率要求
+                    xsmarket:res.data.productVos[0].xsmarket, //产品开发市场
+                    xstestsampletime:res.data.productVos[0].xstestsampletime, //产品测样时间点
+                    xspurchaseprice:res.data.productVos[0].xspurchaseprice, //目标采购价
+                    xsdailysales:res.data.productVos[0].xsdailysales, //产品预估产量
+                    xsfirstorderquantity:res.data.productVos[0].xsfirstorderquantity, //预估首单订单数量
+                    xsspecialrequirements:res.data.productVos[0].xsspecialrequirements, //产品包装尺寸有无特殊要求
+                    xsorderoftime:res.data.productVos[0].xsorderoftime, //产品下单时间点
+                }  
+                //竞品信息数据
+                this.comNewsDetailList = {
+                    competingproducts:res.data.competingproducts,//图片信息
+                    jpsize:res.data.development.jpsize,//竞品尺寸
+                    jpweight:res.data.development.jpweight,//竞品尺寸
+                    basicinformation:res.data.development.basicinformation,//竞品尺寸
+                    jpmaterial:res.data.development.jpmaterial,//竞品尺寸
+                    jpprocess:res.data.development.jpjpprocesssize,//竞品尺寸
+                    jpcolor:res.data.development.jpcolor,//竞品尺寸
+                    advantagefunction:res.data.development.advantagefunction,//竞品尺寸
+                    defectfeature:res.data.development.defectfeature,//竞品尺寸
+                    usagescenarios:res.data.development.usagescenarios,//竞品尺寸
+                    usecrowd:res.data.development.usecrowd,//竞品尺寸
+                    jppositioning:res.data.development.jppositioning,//竞品尺寸
+                    jpranking:res.data.development.jpranking,//竞品尺寸
+                    jpadjustmentpoint:res.data.development.jpadjustmentpoint,//竞品尺寸
+                    note:res.data.development.note,//竞品尺寸
+
+                }
+                this.comNewsDetailList.competingproducts.forEach(item => {
+                    item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentid}/${item.pictureuri}`
+                })
+                //开发信息
+                this.devInformationDetaiList = {
+                    description:res.data.development.description,//产品中文概述
+                    title:res.data.development.title,//英文标题
+                    titleDe:res.data.development.titleDe,//德文标题
+                    titleJp:res.data.development.titleJp,//日文标题
+                    keys:res.data.development.keys,//英文关键词
+                    priority :res.data.development.priority,//开发优先级
+                    isanji:res.data.development.isanji,//是否安吉产品
+                    ispatentproduct:res.data.development.ispatentproduct,//是否需要专利确认
+                    dutyrate1:JSON.parse(res.data.development.dutyrate).LocalStrings[0].Value,//是否需要专利确认
+                    dutyrate2:JSON.parse(res.data.development.dutyrate).LocalStrings[2].Value,//是否需要专利确认
+                    dutyrate3:JSON.parse(res.data.development.dutyrate).LocalStrings[3].Value,//是否需要专利确认
+                    orderProduct:res.data.productVos[0].productCountryList[0].businessName,//采购开发
+                    businessProduct:res.data.productVos[0].productCountryList[0].buyerName,//业务开发
+                    productCountryList:res.data.productVos[0].productCountryList[0],//业务开发
+                    productMarketList:res.data.productVos[0].productCountryList[0].productMarketList ,//表格数据
+                }
+                console.log(this.devInformationDetaiList)
+        })
+      },
+      //步骤条显示数据处理
+      getDevProgresses(val){
+        this.developmentProgresses.forEach(item => {
+            val.forEach(val => {
+                if( item.statusValue == val.statusValue){
+                    item.createBy = val.createBy
+                    item.createOn = val.createOn
+                    // item.statusValue = val.statusValue
+                    item.status == val.status 
+                    item.toStatus = val.toStatus
+                    item.toStatusValue = val.toStatusValue
+                }
+            })
+        })
+        console.log(this.developmentProgresses,'11111111111')
+      },
       handleClick(tab, event) {
         console.log(tab, event);
       },
@@ -476,12 +719,12 @@ export default {
       },
       rightMove(){
           let image = document.querySelector('.step-container')
-          let parentBox = document.querySelector('.stepBox')
-          if(image.offsetLeft < -parentBox.clientWidth ){
-              return
-          }else{
+        //   let parentBox = document.querySelector('.stepBox')
+        //   if(image.offsetLeft < -parentBox.clientWidth ){
+        //       return
+        //   }else{
               image.style.left = image.offsetLeft - 100 + 'px'
-          }
+        //   }
           
       }
   }
@@ -537,6 +780,13 @@ export default {
       flex-direction: column;
       justify-content: center;
       margin-left: 10px;
+      .countryTitle{
+          color: #409eff;
+          display: inline-block;
+      }
+      .otherCountryTitle{
+          display: inline-block;
+      }
     }
   }
   .stepBox{
@@ -556,9 +806,14 @@ export default {
       .step-container{
         display: inline-block;
         width: 200%;
-        overflow: hidden;
+        // overflow: hidden;
         position: absolute;
-        left: 23px
+        left: 23px;
+        .stepTitle{ 
+            font-size: 10px;
+            margin-right: 15px;
+            width: 130px;
+        }
     }
     .rightButton{
         position: absolute;

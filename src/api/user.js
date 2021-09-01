@@ -6,3 +6,10 @@ export function fetchPageTableList(data) {
       data 
     })
   }
+export function getProductDevDetail(data) {
+    return request({
+      url: '/productManage/getProductDevDetail',
+      method: "get",
+      params:data 
+    })
+  }

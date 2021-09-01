@@ -3,28 +3,36 @@
          <el-row>
             <el-col :span="8">
                 <span>开发类型:</span>
-                <span></span>
+                <span>{{productVoDetail.developmenttype}}</span>
             </el-col>
             <el-col :span="8">
                 <span>开发场景:</span>
-                <span></span>
+                <span>{{productVoDetail.developmentscenarios}}</span>
             </el-col>
             <el-col :span="8">
                 <span>关联产品:</span>
-                <span></span>
+                <span>({{productVoDetail.id}}){{productVoDetail.spu}}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="8">
                 <span>所属分类:</span>
-                <span></span>
+                <span>{{productVoDetail.categoryname}}</span>
             </el-col>
         </el-row>
     </div>
 </template>
 <script>
 export default {
-    name:'devDetail'
+    name:'devDetail',
+    props:{
+        productVoDetail:{
+            type:Object,
+            default(){
+                return {}
+            }
+        }
+    }
 }
 </script>
 <style lang="scss" scoped>

@@ -1,13 +1,13 @@
 <template>
   <div class="nav-container">
     <el-card class="nav-card">
-      <navBar></navBar>
+      <navBar  @putTableList='putTableList'></navBar>
     </el-card>
     <el-card class="button-card">
       <abilityBtn></abilityBtn>
     </el-card>
     <el-card class="mainTable-card">
-      <mainTable></mainTable>
+      <mainTable :navFilterList='filterList'></mainTable>
     </el-card>
     <remarks ref="remarks"></remarks>
     <i class="remarks"
@@ -31,7 +31,8 @@ export default {
   data () {
     return {
       currentRole: 'adminDashboard',
-      faCoRemarks: false
+      faCoRemarks: false,
+      filterList:{}
     }
   },
   computed: {
@@ -42,6 +43,10 @@ export default {
   methods: {
     openRemarks () {
       this.$refs.remarks.openHandle()
+    },
+    putTableList (val){
+        console.log(this.filterList)
+        this.filterList = val
     }
   }
 }
@@ -51,7 +56,7 @@ export default {
 .nav-container {
   padding-top: 10px;
   width: 100%;
-  min-height: 980px;
+  height: 100%;
   background-color: rgba(230, 230, 230, 1);
   .remarks {
     position: fixed;

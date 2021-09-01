@@ -36,7 +36,7 @@
     }
   }
 
-  function formatDate(date, fmt) {debugger
+  function formatDate(date, fmt) {
 	date = new Date(date);
 	if (typeof(fmt) === "undefined") {
 		fmt = "yyyy-MM-dd HH:mm:ss";

@@ -14,6 +14,7 @@
     "element-ui": "^2.15.5",
     "lrz": "^4.9.41",
     "vue": "^2.6.11",
+    "vue-lazyload": "^1.3.3",
     "vue-router": "3.0.2",
     "vuedraggable": "^2.24.3"
   },
