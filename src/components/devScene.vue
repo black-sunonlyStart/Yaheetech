@@ -166,6 +166,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+    ::v-deep.demo-ruleForm{
+        .el-form-item {
+            margin-bottom: 10px;
+        }
+    }
     .textSpeaing{
           margin-top: 15px;
       }

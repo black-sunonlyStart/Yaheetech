@@ -15,7 +15,8 @@ Vue.use(VueLazyload, {
     //图片加载中显示的图片
     loading: '',
     //尝试加载次数
-    attempt: 1
+    attempt: 1,
+    listenEvents: [ 'scroll' ]
   })
 
 

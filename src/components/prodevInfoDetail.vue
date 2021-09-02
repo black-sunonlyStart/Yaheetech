@@ -2,12 +2,12 @@
     <div>
         <el-row>
             <el-col :span="24" class="produInfo"> 
-                中文标题:<span>qqqq</span>
+                中文标题:<span>{{prodevInfoDetaiList.title}}</span>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                中文描述:<span>qqqq</span>
+                中文描述:<span>{{prodevInfoDetaiList.description}}</span>
             </el-col>
         </el-row>
         <el-row>
@@ -17,22 +17,29 @@
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                必要认证附件:<span>qqqq</span>
+                必要认证附件:<span v-for="item in prodevInfoDetaiList.mustCredentialList" :key="item.id">[{{item.fileuri}}]、</span>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                推荐认证附件：<span>qqqq</span>
+                推荐认证附件：<span v-for="item in prodevInfoDetaiList.recommendCredentialList" :key="item.id">[{{item.fileuri}}]、</span>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                认证备注:<span>qqqq</span>
+                认证备注:<span>{{prodevInfoDetaiList.certificationnote}}</span>
             </el-col>
         </el-row>
         <el-row>
-            <el-col :span="24" class="produInfo">
-                工厂提供照片：<span>qqqq</span>
+            <el-col :span="24" class="produInfoImage">
+                <div>工厂提供照片：</div>
+                    <div v-for="item in prodevInfoDetaiList.factoryGaveImage" :key="item.id">
+                        <el-image
+                            style="width: 100px; height: 100px; dispaly:black"
+                            :src="item.showImgUrl"
+                            fit="fill">
+                        </el-image>
+                    </div>
             </el-col>
         </el-row>
     </div>
@@ -44,6 +51,12 @@ export default {
         return {
 
         }
+    },
+    props:{
+        prodevInfoDetaiList:{
+            type:Object,
+            default:() => ({})
+        }
     }
 }
 </script>
@@ -54,6 +67,11 @@ export default {
     span {
         font-weight: normal;
     }
+}
+.produInfoImage{
+    margin: 15px 0px 0px 50px;
+    font-weight: bold;
+    display: flex;
 }
 
 

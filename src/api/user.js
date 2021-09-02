@@ -13,3 +13,9 @@ export function getProductDevDetail(data) {
       params:data 
     })
   }
+export function getProdCerInfoDetailList() {
+    return request({
+      url: '/productManage/getCredentialsRates',
+      method: "get", 
+    })
+  }

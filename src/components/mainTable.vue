@@ -18,12 +18,11 @@
         label="产品图片"
         width="120">
         <template slot-scope="scope">
-            <el-image
-                lazy
+            <image
                 style="width: 100px; height: 100px; dispaly:black"
-                :src="scope.row.showImgUrl"
+                v-lazy="scope.row.showImgUrl"
                 fit="fill">
-            </el-image>
+            </image>
         </template>
       </el-table-column>
       <el-table-column 
@@ -153,6 +152,10 @@ export default {
       }
   },
   mounted(){
+    //   this.$nextTick(() => {
+    //       this.VueLazyload();
+    //       window.addEventListener('scroll',this.VueLazyload)
+    //   })
       this.getTableList(this.navFilterList)
   },
   methods: {

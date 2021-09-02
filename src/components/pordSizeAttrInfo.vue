@@ -2,71 +2,131 @@
     <div>
         <el-row class="textSpeaing">
             <el-col :span="10">
-                分配采购开发员:<span>11111111111</span>
+                <span class="textWight">分配采购开发员:</span><span style="font-weight:normal">{{pordSizeAttrInfoList.buyerName}}</span>
             </el-col>
             <el-col :span="10">
-                产品类型:
-            </el-col>
-        </el-row>
-        <el-row class="textSpeaing">
-            <el-col :span="10">
-                产品尺寸:
-            </el-col>
-            <el-col :span="10">
-                产品体积:
+                <span class="textWight">产品类型:</span><span>{{pordSizeAttrInfoList.producttype}}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
-            <el-col :span="10">
-                包装尺寸(发货用):
+            <el-col :span="10" class="moreText">
+                <div class="textWight">
+                    产品尺寸:
+                </div>
+                <div class="textBox">
+                    <div>{{pordSizeAttrInfoList.producttype}}(cm)</div>
+                    <div>{{pordSizeAttrInfoList.productSizeYcun}}(inch)</div>
+                </div>
             </el-col>
-            <el-col :span="10">
-                包装体积(发货用):
-            </el-col>
-        </el-row>
-        <el-row class="textSpeaing">
-            <el-col :span="10">
-                外箱尺寸(装柜用):
-            </el-col>
-            <el-col :span="10">
-                外箱体积(装柜用):
-            </el-col>
-        </el-row>
-        <el-row class="textSpeaing">
-            <el-col :span="10">
-                外箱重量(装柜用):
-            </el-col>
-            <el-col :span="10">
-                每个产品所占体积:
+            <el-col :span="10" class="moreText">
+                <div class="textWight">
+                    产品体积:
+                </div>
+                <div class="textBox">
+                    <div>{{pordSizeAttrInfoList.productVolume}}(m³)</div>
+                    <div>{{pordSizeAttrInfoList.productVolumeYchi}}(cu ft)</div>
+                </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
-            <el-col :span="10">
-                净重:
+            <el-col :span="10" class="moreText">
+                <div class="textWight">
+                    包装尺寸(发货用):
+                </div>
+                <div class="textBox">
+                    <div>{{pordSizeAttrInfoList.packageSize}}(cm)</div>
+                    <div>{{pordSizeAttrInfoList.packageSizeYcun}}(inch)</div>
+                </div>
             </el-col>
-            <el-col :span="10">
-                毛重(发货用):
+            <el-col :span="10" class="moreText"> 
+                <div class="textWight">
+                    包装体积(发货用):
+                </div>
+                <div class="textBox">
+                    <div>{{pordSizeAttrInfoList.packedvolume}}(m³)</div>
+                    <div>{{pordSizeAttrInfoList.packedvolumeYchi}}(cu ft)</div>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row class="textSpeaing">
+            <el-col :span="10" class="moreText">
+                <div class="textWight">
+                    外箱尺寸(装柜用):
+                </div>
+                <div class="textBox">
+                    <div>{{pordSizeAttrInfoList.outerBoxSize}}(cm)</div>
+                    <div>{{pordSizeAttrInfoList.outerBoxSizeYcun}}(inch)</div>
+                </div>
+            </el-col>
+            <el-col :span="10" class="moreText"> 
+                <div class="textWight">
+                    外箱体积(装柜用):
+                </div>
+                <div class="textBox">
+                    <div>{{pordSizeAttrInfoList.outerBoxVolume}}(m³)</div>
+                    <div>{{pordSizeAttrInfoList.outerBoxVolumeYcun}}(cu ft)</div>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row class="textSpeaing">
+            <el-col :span="10" class="moreText"> 
+                <div class="textWight">
+                    外箱重量(装柜用):
+                </div>
+                <div class="textBox">
+                    <div>{{pordSizeAttrInfoList.cartonWeight}}(kg)</div>
+                    <div>{{pordSizeAttrInfoList.cartonWeightLB}}(LB)</div>
+                </div>
+            </el-col>
+            <el-col :span="10" class="moreText">
+                <div class="textWight">
+                    每个产品所占体积:
+                </div>
+                <div class="textBox">
+                    <div>{{pordSizeAttrInfoList.containerVolume}}(m³)</div>
+                    <div>{{pordSizeAttrInfoList.containerVolumeCu}}(cu ft)</div>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row class="textSpeaing">
+            <el-col :span="10" class="moreText"> 
+                <div class="textWight">
+                    净重:
+                </div>
+                <div class="textBox">
+                    <div>{{pordSizeAttrInfoList.beforepackweight}}(kg)</div>
+                    <div>{{pordSizeAttrInfoList.abroadbeforepackweight}}(LB)</div>
+                </div>
+            </el-col>
+            <el-col :span="10" class="moreText"> 
+                <div class="textWight">
+                    毛重(发货用):
+                </div>
+                <div class="textBox">
+                    <div>{{pordSizeAttrInfoList.afterpackweight}}(kg)</div>
+                    <div>{{pordSizeAttrInfoList.abroadafterpackweight}}(LB)</div>
+                </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >
             <el-col :span="10">
-                物流周长加长(美国):
+                <span class="textWight">物流周长加长(美国):</span><span>{{pordSizeAttrInfoList.logisticsPerimeter}}(cm)</span>
             </el-col>
             <el-col :span="10">
-                物流周长加长(非美国):
-            </el-col>
-        </el-row>
-        <el-row class="textSpeaing" >
-            <el-col :span="10">
-                选择发货货柜:
-            </el-col>
-            <el-col :span="10">
-                可装货柜数量:
+                <span class="textWight">物流周长加长(非美国):</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >
             <el-col :span="10">
-                包装方式:
+                <span class="textWight">选择发货货柜:</span><span>{{pordSizeAttrInfoList.logisticsPerimeter}}</span>
+            </el-col>
+            <el-col :span="10">
+                <span class="textWight">可装货柜数量:</span><span>{{pordSizeAttrInfoList.transportqty}}</span>
+            </el-col>
+        </el-row>
+        <el-row class="textSpeaing" >
+            <el-col :span="10">
+                <span class="textWight">包装方式:</span><span>{{pordSizeAttrInfoList.packingway}}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >
@@ -74,24 +134,42 @@
                 体积重：
             </el-col>
             <el-col :span="21">
-                
                 <el-table
-                     border
-                    :data="tableData"
+                    border
+                    :data='[pordSizeAttrInfoList]'
                     style="width: 100%">
                     <el-table-column
-                        prop="date"
-                        label="非澳洲=长*宽*高/6000"
+                        label="美国(FEDEX & UPS)= 长*宽*高/9935"
                         >
+                        <template slot-scope="scope">
+                            <div>{{scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /9935}}Kg</div>
+                            <div>{{scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /9935 * 2.20}}LB</div>
+                        </template>
                     </el-table-column>
                     <el-table-column
                         prop="name"
-                        label="美国FedEx体积重=长*宽*高/9935"
+                        label="美国 JD UPS = 长*宽*高/8128"
                         >
+                        <template slot-scope="scope">
+                            <div>{{scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /8182}}Kg</div>
+                            <div>{{scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /8182 * 2.20}}LB</div>
+                        </template>
                     </el-table-column>
                     <el-table-column
                         prop="address"
-                        label="美国UPS体积重=长*宽*高/9950">
+                        label="英国 XDP = 长*宽*高/5000">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /5000}}Kg</div>
+                            <div>{{scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /5000 * 2.20}}LB</div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                        prop="address"
+                        label="英国 Tuffnell = 长*宽*高/4000">
+                        <template slot-scope="scope">
+                            <div>{{scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /4000}}Kg</div>
+                            <div>{{scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /4000 * 2.20}}LB</div>
+                        </template>
                     </el-table-column>
                 </el-table>
             </el-col>
@@ -104,21 +182,31 @@
                 
                 <el-table
                      border
-                    :data="tableData"
+                    :data="pordSizeAttrInfoList.productlistings"
                     style="width: 100%">
                     <el-table-column
-                        prop="date"
                         label="箱数"
                         >
+                        <template slot-scope="scope">
+                            第{{scope.$index + 1}}箱
+                        </template>
                     </el-table-column>
                     <el-table-column
-                        prop="name"
                         label="包装尺寸"
                         >
+                        <template slot-scope="scope">
+                            <div>
+                                {{scope.row.packedlength}} × {{scope.row.packedwidth}} × {{scope.row.packedheight}}
+                            </div>
+                        </template>
                     </el-table-column>
                     <el-table-column
-                        prop="address"
                         label="毛重">
+                        <template slot-scope="scope">
+                            <div>
+                                {{scope.row.packedweight}}Kg/{{scope.row.packedweight * 2.20}}LB
+                            </div>
+                        </template>
                     </el-table-column>
                 </el-table>
             </el-col>
@@ -131,29 +219,69 @@
                 
                 <el-table
                      border
-                    :data="tableData"
+                    :data="pordSizeAttrInfoList.multiAttribute"
                     style="width: 100%">
                     <el-table-column
-                        prop="date"
                         label="开发状态"
                         >
+                        <template slot-scope="scope">
+                            <div v-if="scope.row.id == pordSizeAttrInfoList.id">
+                                当前开发
+                            </div>
+                            <div v-else>
+                                其他开发
+                            </div>
+                        </template>
                     </el-table-column>
                     <el-table-column
-                        prop="name"
                         label="SKU ID"
                         >
+                        <template slot-scope="scope">
+                            <div>
+                                {{scope.row.id}}
+                            </div>
+                            <div>
+                                {{scope.row.encodingrules}}
+                            </div>
+                        </template>
                     </el-table-column>
                     <el-table-column
-                        prop="address"
                         label="开发属性">
+                    <template slot-scope="scope">
+                            <div v-for="item in scope.row.productColorList" :key="item.id">
+                                {{item.color}}
+                            </div>
+                        </template>
                     </el-table-column>
                     <el-table-column
-                        prop="address"
-                        label="关联SKU">
+                        label="关联SKU"
+                    >
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.productdraftid && scope.row.skualias && scope.row.sku && scope.row.spu">
+                            <div>
+                                上架ID:{{scope.row.productdraftid}}
+                            </div>
+                            <div>
+                                SKU别名{{scope.row.skualias }}
+                            </div>
+                            <div>
+                                SKU:{{scope.row.sku}}
+                            </div>
+                            <div>
+                                SPU{{pordSizeAttrInfoList.spu}}
+                            </div>
+                        </div>
+                        <div v-else>
+                            暂无数据
+                        </div>
+                    </template>
                     </el-table-column>
                     <el-table-column
-                        prop="address"
                         label="是否上架">
+                        <template slot-scope="scope">
+                            <div v-if="scope.row.productneed">需要</div>
+                            <div v-else>不需要</div>
+                        </template>
                     </el-table-column>
                 </el-table>
             </el-col>
@@ -183,16 +311,32 @@ export default {
                 address: '上海市普陀区金沙江路 1516 弄'
             }]
         }
+    },
+    props:{
+        pordSizeAttrInfoList:{
+            type:Object,
+            default:() => ({})
+                    
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
 .textSpeaing{
+    display: flex;
     margin-top: 15px;
     font-weight: bold;
-    span {
-        font-weight: normal;
+    .moreText{
+        display: flex;
+        .textBox {
+            font-weight: normal;
+            line-height: 25px;
+            // margin-left: 5px;
+        }
     }
+    // span {
+    //     font-weight: normal;
+    // }
 }
 .tableTitle{
     border: 1px solid #EBEEF5;
@@ -206,5 +350,10 @@ export default {
     height: 30px;
     line-height: 30px;
     padding-right: 10px;
+}
+.textWight {
+    display: inline-block;
+    width: 200px;
+    font-weight:bold;
 }
 </style>
