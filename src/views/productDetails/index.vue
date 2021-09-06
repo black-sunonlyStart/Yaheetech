@@ -21,14 +21,14 @@
                     </div>
                     <div>
                         开发市场:<div class="countryTitle">{{ productCountryList.countryName }}</div> 
-                        <div v-for="item in productCountryList.otherCountryNames" :key="item.otherCountryNames" class="otherCountryTitle"> {{item}}</div>
+                        <div v-for="item in productCountryList.otherCountryNames" :key="item" class="otherCountryTitle"> {{item}}</div>
                     </div>
                     <div class="haveMoneyLitte">
                         <div>
                             开发价/最低利润:
                         </div>
                         <div>
-                            <div v-for="item in productMarketStrs" :key="item.currency" class="profit">
+                            <div v-for="item in productMarketStrs" :key="item.platformName" class="profit">
                                 {{item.platformName}}-{{item.marketProfits[0].warehouseName}}-{{item.currency}} {{item.developmentPrice}}/{{item.marketProfits[0].profitMargin}}
                             </div>
                         </div>
@@ -62,6 +62,9 @@
         </el-row>
     </div>
     <div class="cardBox">
+        <remarks ref="remarks" :remarksList='remarksList'></remarks>
+        <i class="remarks"
+        @click="openRemarks"></i>
         <!-- <el-card class="card"> -->
             <div class="cardBoxMain">
                 <el-tabs v-model="activeName" @tab-click="handleClick">
@@ -78,7 +81,7 @@
                                     <devDetail :productVoDetail='productVoDetail'></devDetail>
                                 </div>
                                 <div v-else>
-                                    <devScene @closeEdit='editPage'></devScene>
+                                    <devScene @closeEdit='editPage' :productVoDetail='productVoDetail'></devScene>
                                 </div>
                             </el-card>
                             <el-card style="margin-top:10px">
@@ -111,7 +114,7 @@
                                     <sales-target-detail :salesTargetDetaiList='salesTargetDetaiList'></sales-target-detail>
                                 </div>
                                 <div v-else>
-                                    <salesTargetEdit @closeEdit='salesEditPage'></salesTargetEdit>
+                                    <salesTargetEdit @closeEdit='salesEditPage' :salesTargetDetaiList='salesTargetDetaiList'></salesTargetEdit>
                                 </div>
                             </el-card>
                         </div>                   
@@ -129,7 +132,7 @@
                                     <devDetail :productVoDetail='productVoDetail'></devDetail>
                                 </div>
                                 <div v-else>
-                                <devScene @closeEdit='editPage'></devScene>
+                                    <devScene @closeEdit='editPage' :productVoDetail='productVoDetail'></devScene>
                                 </div>
                             </el-card>
                             <el-card style="margin-top:10px">
@@ -162,7 +165,7 @@
                                     <sales-target-detail :salesTargetDetaiList='salesTargetDetaiList'></sales-target-detail>
                                 </div>
                                 <div v-else>
-                                    <salesTargetEdit @closeEdit='salesEditPage'></salesTargetEdit>
+                                    <salesTargetEdit @closeEdit='salesEditPage' :salesTargetDetaiList='salesTargetDetaiList'></salesTargetEdit>
                                 </div>
                             </el-card>
                         </div>                  
@@ -181,7 +184,7 @@
                                     <devDetail :productVoDetail='productVoDetail'></devDetail>
                                 </div>
                                 <div v-else>
-                                    <devScene @closeEdit='editPage'></devScene>
+                                    <devScene @closeEdit='editPage' :productVoDetail='productVoDetail'></devScene>
                                 </div>
                             </el-card>
                             <el-card style="margin-top:10px">
@@ -214,7 +217,7 @@
                                     <sales-target-detail :salesTargetDetaiList='salesTargetDetaiList'></sales-target-detail>
                                 </div>
                                 <div v-else>
-                                    <salesTargetEdit @closeEdit='salesEditPage'></salesTargetEdit>
+                                    <salesTargetEdit @closeEdit='salesEditPage' :salesTargetDetaiList='salesTargetDetaiList'></salesTargetEdit>
                                 </div>
                             </el-card>
                         </div>                  
@@ -232,7 +235,7 @@
                                     <comNewsDetail :comNewsDetailList='comNewsDetailList'></comNewsDetail>
                                 </div>
                                 <div v-else>
-                                    <comNewsEdit @closeEdit='comNewsEdit'></comNewsEdit>
+                                    <comNewsEdit @closeEdit='comNewsEdit' :comNewsDetailList='comNewsDetailList'></comNewsEdit>
                                 </div>
                             </el-card>
                         </div>
@@ -250,7 +253,7 @@
                                     <devInformationDetail :devInformationDetaiList='devInformationDetaiList'></devInformationDetail>
                                 </div>
                                 <div v-else>
-                                    <devInformationEdit @closeEdit='devInfoEdit'></devInformationEdit>
+                                    <devInformationEdit @closeEdit='devInfoEdit' :devInformationDetaiList='devInformationDetaiList'></devInformationEdit>
                                 </div>
                             </el-card>
                         </div>
@@ -268,7 +271,7 @@
                                     <prodCerInfoDetail :prodCerInfoDetailList='prodCerInfoDetailList'></prodCerInfoDetail>
                                 </div>
                                 <div v-else>
-                                    <prodCerInfoEdit @closeEdit='proInfoEdit'></prodCerInfoEdit>
+                                    <prodCerInfoEdit @closeEdit='proInfoEdit' :prodCerInfoDetailList='prodCerInfoDetailList'></prodCerInfoEdit>
                                 </div>
                             </el-card>
                         </div>
@@ -370,7 +373,7 @@
                                     </div>   
                                 </div>
                                 <div>
-                                <remarksTable></remarksTable>
+                                    <remarksTable :remarksList='remarksList'></remarksTable>
                                 </div>
                             </el-card>
                         </div>
@@ -401,6 +404,7 @@
  import pordSizeAttrEdit from '@/components/pordSizeAttrEdit.vue'
  import purchaseInfoDetail from '@/components/purchaseInfoDetail.vue'
  import purchaseInfoEdit from '@/components/purchaseInfoEdit.vue'
+ import remarks from '@/components/remarks.vue'
 export default {
   name: 'productDetails',
   components:{
@@ -421,7 +425,8 @@ export default {
       pordSizeAttrEdit,
       purchaseInfoDetail,
       purchaseInfoEdit,
-      remarksTable
+      remarksTable,
+      remarks
   },
   data () {
     return {
@@ -441,6 +446,7 @@ export default {
         prodevInfoDetaiList:{},//产品供应商信息
         pordSizeAttrInfoList:{},//产品尺寸和属性
         purchaseInfoDetaiList:{},//采购信息
+        remarksList:[],
         salesTargetDetaiList:{
             xsstarrating : null,//产品星级评分
             xstargetstarrating:null, //我司目标星级评分
@@ -595,6 +601,9 @@ export default {
     //   this.getAllpageList()
   },
   methods: {
+        openRemarks () {
+            this.$refs.remarks.openHandle()
+        },
        getAllpageList(){
           let params = {
                 developmentId:this.$route.params.developmentId,
@@ -609,15 +618,16 @@ export default {
                 this.otherProductCountryList = res.data.productVos[0].productCountryList[0]
                 this.productVos = res.data.productVos[0]
                 this.productMarketStrs = res.data.productMarketStrs
+                console.log(this.productMarketStrs,'this.productMarketStrs')
                 // this.competingproducts = res.data.competingproducts[0]
                 this.getDevProgresses(res.data.developmentProgresses)
                 //开发类型、详情数据
                 this.productVoDetail = {
-                    developmenttype:res.data.productVos[0].developmenttype,//开发类型
-                    developmentscenarios:res.data.productVos[0].developmentscenarios,//开发场景
+                    developmenttype:this.productVos.developmenttype,//开发类型
+                    developmentscenarios:this.productVos.developmentscenarios,//开发场景
                     categoryname:res.data.development.categoryname,//所属分类
                     spu:res.data.development.spu,//关联spu
-                    id:res.data.productVos[0].id,//关联spu id
+                    id:this.productVos.id,//关联spu id
                 }
                 //图片信息数据
                 this.productImgDetail =  res.data.developmentAttachmentList.filter(item => {
@@ -626,19 +636,21 @@ export default {
                 this.productImgDetail.forEach(item => {
                     item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentid}/${item.fileuri}`
                 })
-               
+               this.imageList = this.productImgDetail.map(item => {
+                   return item.showImgUrl
+               })
                 //销售目标数据 
                 this.salesTargetDetaiList = {
-                    xsstarrating : res.data.productVos[0].xsstarrating, //产品星级评分
-                    xstargetstarrating:res.data.productVos[0].xstargetstarrating, //我司目标星级评分
-                    xsrepairraterequirement:res.data.productVos[0].xsrepairraterequirement, //目标售后返修率要求
-                    xsmarket:res.data.productVos[0].xsmarket, //产品开发市场
-                    xstestsampletime:res.data.productVos[0].xstestsampletime, //产品测样时间点
-                    xspurchaseprice:res.data.productVos[0].xspurchaseprice, //目标采购价
-                    xsdailysales:res.data.productVos[0].xsdailysales, //产品预估产量
-                    xsfirstorderquantity:res.data.productVos[0].xsfirstorderquantity, //预估首单订单数量
-                    xsspecialrequirements:res.data.productVos[0].xsspecialrequirements, //产品包装尺寸有无特殊要求
-                    xsorderoftime:res.data.productVos[0].xsorderoftime, //产品下单时间点
+                    xsstarrating : this.productVos.xsstarrating, //产品星级评分
+                    xstargetstarrating:this.productVos.xstargetstarrating, //我司目标星级评分
+                    xsrepairraterequirement:this.productVos.xsrepairraterequirement, //目标售后返修率要求
+                    xsmarket:this.productVos.xsmarket, //产品开发市场
+                    xstestsampletime:this.productVos.xstestsampletime, //产品测样时间点
+                    xspurchaseprice:this.productVos.xspurchaseprice, //目标采购价
+                    xsdailysales:this.productVos.xsdailysales, //产品预估产量
+                    xsfirstorderquantity:this.productVos.xsfirstorderquantity, //预估首单订单数量
+                    xsspecialrequirements:this.productVos.xsspecialrequirements, //产品包装尺寸有无特殊要求
+                    xsorderoftime:this.productVos.xsorderoftime, //产品下单时间点
                 }  
                 //竞品信息数据
                 this.comNewsDetailList = {
@@ -675,20 +687,21 @@ export default {
                     ispatentproduct:res.data.development.ispatentproduct,//是否需要专利确认
                     dutyrate1:JSON.parse(res.data.development.dutyrate).LocalStrings[0].Value,//是否需要专利确认
                     dutyrate2:JSON.parse(res.data.development.dutyrate).LocalStrings[2].Value,//是否需要专利确认
-                    dutyrate3:JSON.parse(res.data.development.dutyrate).LocalStrings[3].Value,//是否需要专利确认
-                    orderProduct:res.data.productVos[0].productCountryList[0].businessName,//采购开发
-                    businessProduct:res.data.productVos[0].productCountryList[0].buyerName,//业务开发
-                    productCountryList:res.data.productVos[0].productCountryList[0],//业务开发
-                    productMarketList:res.data.productVos[0].productCountryList[0].productMarketList ,//表格数据
+                    dutyrate3:JSON.parse(res.data.development.dutyrate).LocalStrings[3] ? JSON.parse(res.data.development.dutyrate).LocalStrings[3].Value : '',//是否需要专利确认
+                    orderProduct:this.productVos.productCountryList[0].businessName,//采购开发
+                    businessProduct:this.productVos.productCountryList[0].buyerName,//业务开发
+                    productCountryList:this.productVos.productCountryList[0],//业务开发
+                    computemode:this.productVos.productCountryList[0].productMarketList[0].computemode,//业务开发
+                    productMarketList:this.productVos.productCountryList[0].productMarketList ,//表格数据
                 }
                 //产品认证信息
-                let credentialList1 = res.data.productVos[0].credentialList.filter(item => { //必要认证
+                let credentialList1 = this.productVos.credentialList.filter(item => { //必要认证
                     return item.authtype == 0
                 })
-                let credentialList2 = res.data.productVos[0].credentialList.filter(item => { //必要认证其他
+                let credentialList2 = this.productVos.credentialList.filter(item => { //必要认证其他
                     return item.authtype == 1
                 })
-                let credentialList3 = res.data.productVos[0].credentialList.filter(item => { //必要认证
+                let credentialList3 = this.productVos.credentialList.filter(item => { //必要认证
                     return item.authtype == 2
                 })
                 
@@ -732,8 +745,8 @@ export default {
                         item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentid}/${item.fileuri}`
                     })
                     this.prodevInfoDetaiList = {
-                        title:res.data.productVos[0].title,//中文标题
-                        description:res.data.productVos[0].description,//中文标题
+                        title:this.productVos.title,//中文标题
+                        description:this.productVos.description,//中文标题
                         mustCredentialList,//必要认证附件
                         recommendCredentialList,//推荐认证附件
                         certificationnote:res.data.certificationnote, //备注
@@ -743,44 +756,44 @@ export default {
                 const ycun = 0.3937008;
                 const ychi = 35.3147248;
                 this.pordSizeAttrInfoList = {
-                    buyerName:res.data.productVos[0].productCountryList[0].buyerName,//分配采购开发员
+                    buyerName:this.productVos.productCountryList[0].buyerName,//分配采购开发员
                     producttype:res.data.development.producttype, //产品类型
-                    productSize:res.data.productVos[0].length * res.data.productVos[0].width * res.data.productVos[0].height,//产品尺寸
-                    productSizeYcun:(res.data.productVos[0].length * ycun) * (res.data.productVos[0].width * ycun) * (res.data.productVos[0].height * ycun),//产品尺寸ycun
-                    productVolume:(res.data.productVos[0].length / 100) * (res.data.productVos[0].width / 100) * (res.data.productVos[0].height / 100), //产品体积
-                    productVolumeYchi:((res.data.productVos[0].length / 100) * (res.data.productVos[0].width / 100) * (res.data.productVos[0].height / 100)) * ychi, //产品体积
-                    packageSize:res.data.productVos[0].packedlength * res.data.productVos[0].packedwidth * res.data.productVos[0].packedheight,//包装尺寸发货用
-                    packageSizeYcun:(res.data.productVos[0].packedlength * res.data.productVos[0].packedwidth * res.data.productVos[0].packedheight) * ycun,//包装尺寸发货用
-                    packedvolume:res.data.productVos[0].packedvolume,//包装体积(发货用)
-                    packedvolumeYchi:res.data.productVos[0].packedvolume * ychi,//包装体积(发货用)
-                    outerBoxSize:res.data.productVos[0].cartonLength * res.data.productVos[0].cartonWidth  * res.data.productVos[0].cartonHeight,//外箱尺寸(装柜用
-                    outerBoxSizeYcun:(res.data.productVos[0].cartonLength * res.data.productVos[0].cartonWidth  * res.data.productVos[0].cartonHeight) * ycun,//外箱尺寸(装柜用
-                    outerBoxVolume:(res.data.productVos[0].cartonLength  / 100) * (res.data.productVos[0].cartonWidth  / 100) * (res.data.productVos[0].cartonHeight  / 100), //外箱体积(装柜用
-                    outerBoxVolumeYcun:((res.data.productVos[0].cartonLength  / 100) * (res.data.productVos[0].cartonWidth  / 100) * (res.data.productVos[0].cartonHeight  / 100)) * ychi, //外箱体积(装柜用
-                    cartonWeight:res.data.productVos[0].cartonWeight,//外箱重量(装柜用)
-                    cartonWeightLB:res.data.productVos[0].cartonWeight * 2.20,//外箱重量(装柜用)
-                    beforepackweight:res.data.productVos[0].beforepackweight,//净重
-                    abroadbeforepackweight :res.data.productVos[0].abroadbeforepackweight, //净重
-                    afterpackweight:res.data.productVos[0].abroadbeforepackweight, //毛重(发货用)
-                    abroadafterpackweight:res.data.productVos[0].abroadbeforepackweight, //毛重(发货用)
-                    logisticsPerimeter:(res.data.productVos[0].packedlength + (res.data.productVos[0].packedwidth + res.data.productVos[0].packedheight) * 2), //物流周长加长(美国)
-                    transportqty:res.data.productVos[0].transportqty,//可装货柜数量
-                    packingway:res.data.productVos[0].packingway,//包装方式
-                    productlistings:res.data.productVos[0].productlistings,//多箱清单
+                    productSize:this.productVos.length * this.productVos.width * this.productVos.height,//产品尺寸
+                    productSizeYcun:(this.productVos.length * ycun) * (this.productVos.width * ycun) * (this.productVos.height * ycun),//产品尺寸ycun
+                    productVolume:(this.productVos.length / 100) * (this.productVos.width / 100) * (this.productVos.height / 100), //产品体积
+                    productVolumeYchi:((this.productVos.length / 100) * (this.productVos.width / 100) * (this.productVos.height / 100)) * ychi, //产品体积
+                    packageSize:this.productVos.packedlength * this.productVos.packedwidth * this.productVos.packedheight,//包装尺寸发货用
+                    packageSizeYcun:(this.productVos.packedlength * this.productVos.packedwidth * this.productVos.packedheight) * ycun,//包装尺寸发货用
+                    packedvolume:this.productVos.packedvolume,//包装体积(发货用)
+                    packedvolumeYchi:this.productVos.packedvolume * ychi,//包装体积(发货用)
+                    outerBoxSize:this.productVos.cartonLength * this.productVos.cartonWidth  * this.productVos.cartonHeight,//外箱尺寸(装柜用
+                    outerBoxSizeYcun:(this.productVos.cartonLength * this.productVos.cartonWidth  * this.productVos.cartonHeight) * ycun,//外箱尺寸(装柜用
+                    outerBoxVolume:(this.productVos.cartonLength  / 100) * (this.productVos.cartonWidth  / 100) * (this.productVos.cartonHeight  / 100), //外箱体积(装柜用
+                    outerBoxVolumeYcun:((this.productVos.cartonLength  / 100) * (this.productVos.cartonWidth  / 100) * (this.productVos.cartonHeight  / 100)) * ychi, //外箱体积(装柜用
+                    cartonWeight:this.productVos.cartonWeight,//外箱重量(装柜用)
+                    cartonWeightLB:this.productVos.cartonWeight * 2.20,//外箱重量(装柜用)
+                    beforepackweight:this.productVos.beforepackweight,//净重
+                    abroadbeforepackweight :this.productVos.abroadbeforepackweight, //净重
+                    afterpackweight:this.productVos.abroadbeforepackweight, //毛重(发货用)
+                    abroadafterpackweight:this.productVos.abroadbeforepackweight, //毛重(发货用)
+                    logisticsPerimeter:(this.productVos.packedlength + (this.productVos.packedwidth + this.productVos.packedheight) * 2), //物流周长加长(美国)
+                    transportqty:this.productVos.transportqty,//可装货柜数量
+                    packingway:this.productVos.packingway,//包装方式
+                    productlistings:this.productVos.productlistings,//多箱清单
                     multiAttribute:res.data.allProducts ,//销售（多）属性
-                    containerVolume:res.data.productVos[0].containerVolume / res.data.productVos[0].transportqty, //每个产品所占体积
-                    containerVolumeCu:(parseFloat((res.data.productVos[0].containerVolume/res.data.productVos[0].transportqty).toFixed(2)) * 35.3147248).toFixed(2), //每个产品所占体积
-                    packedlength:res.data.productVos[0].packedlength,
-                    packedwidth:res.data.productVos[0].packedwidth,
-                    packedheight:res.data.productVos[0].packedheight,
-                    id:res.data.productVos[0].id,
+                    containerVolume:this.productVos.containerVolume / this.productVos.transportqty, //每个产品所占体积
+                    containerVolumeCu:(parseFloat((this.productVos.containerVolume/this.productVos.transportqty).toFixed(2)) * 35.3147248).toFixed(2), //每个产品所占体积
+                    packedlength:this.productVos.packedlength,
+                    packedwidth:this.productVos.packedwidth,
+                    packedheight:this.productVos.packedheight,
+                    id:this.productVos.id,
                     spu:res.data.development.spu,
                 }
                 //采购信息
-                let productPurchaseVoList = res.data.productVos[0].productPurchaseVoList.filter(item => {
+                let productPurchaseVoList = this.productVos.productPurchaseVoList.filter(item => {
                     return item.type == 0
                 })
-                let lastProductPurchaseVoList = res.data.productVos[0].productPurchaseVoList.filter(item => {
+                let lastProductPurchaseVoList = this.productVos.productPurchaseVoList.filter(item => {
                     return item.type == 1
                 })
                 this.purchaseInfoDetaiList = {
@@ -790,7 +803,7 @@ export default {
                     freight:res.data.development.freight, //运费
                     backpurchaseprice:res.data.development.backpurchaseprice, //下大单返样品费
                     backpurchasepricenote:res.data.development.backpurchasepricenote, //返样品费详情备注
-                    sampledeliverydays:res.data.productVos[0].sampledeliverydays, //样品交期
+                    sampledeliverydays:this.productVos.sampledeliverydays, //样品交期
                     taxleviedpoint:res.data.development.taxleviedpoint, //含税价税点
                     tax:res.data.development.tax, //海关退税率
                     bandprice:res.data.development.bandprice, //品牌费
@@ -799,6 +812,8 @@ export default {
 
                 }
                 console.log(this.purchaseInfoDetaiList,'this.purchaseInfoDetaiList')
+                //备注信息
+                this.remarksList = res.data.developmentmemoVos
         })
       },
       //步骤条显示数据处理
@@ -824,6 +839,7 @@ export default {
       },
       updeEditPage(val){  
           this.isEdit1 = val
+
       },
       salesEditPage(val){  
           this.isEdit2 = val
@@ -848,6 +864,7 @@ export default {
       },
       putImgList(val){
           this.imageList = val
+          console.log(this.imageList,'img')
       },
       leftMove(){
           let  image = document.querySelector('.step-container')
@@ -876,6 +893,15 @@ export default {
     position: relative;
     width: 100%;
     top: 177px;
+    .remarks {
+        position: fixed;
+        left: 16px;
+        top: 417px;
+        height: 32px;
+        width: 32px;
+        z-index: 1000;
+        background-image: url(../../assets/shousuo.png);
+    }
     .cardBoxMain{
         margin: 10px;
     }

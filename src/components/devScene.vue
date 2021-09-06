@@ -15,7 +15,7 @@
             </el-select>
             </el-form-item>
             <el-form-item label="开发场景" prop="scene">
-                <el-select v-model="ruleForm.scene " placeholder="请选择" >
+                <el-select v-model="ruleForm.scene " placeholder="请选择" @change="selectScene">
                     <el-option-group
                         v-for="group in sceneOptions"
                         :key="group.label"
@@ -29,26 +29,26 @@
                     </el-option-group>
                 </el-select>
             </el-form-item>
-            <el-form-item label="关联产品" prop="relation">
-                <div>
-                    <el-radio v-model="ruleForm.relation" label="1">产品开发ID</el-radio>
-                    <el-radio v-model="ruleForm.relation" label="2">SPU号</el-radio>
+            <el-form-item label="关联产品" prop="relation" v-if="showRelation">
+                <div >
+                    <el-radio v-model="ruleForm.relation" label='1' :disabled='relationId'>产品开发ID</el-radio>
+                    <el-radio v-model="ruleForm.relation" label='2'>SPU号</el-radio>
                 </div>
             </el-form-item>
-            <el-form-item  prop="inputRelation">
+            <el-form-item  prop="inputRelation" v-if="showRelation">
                 <div class="relationBox">
                     <div class="inputLength">
-                        <el-input  v-model="ruleForm.inputRelation"></el-input>
+                        <el-input  v-model="ruleForm.inputRelation" @change="changeInputRelation"></el-input>
                     </div>
                     <div class="litterBox">-</div>
                     <el-select 
                         v-model="ruleForm.selectRelation"
                         >
                         <el-option 
-                            v-for="item in devSign"                        
-                            :key="item.key"
-                            :label="item.label"
-                            :value="item.value"
+                            v-for="item in spuSign"                        
+                            :key="item.id"
+                            :label="item.id"
+                            :value="item.id"
                             >
                         </el-option>
                     </el-select>
@@ -73,34 +73,45 @@
     </div>
 </template>
 <script>
+import { findProductByDevId } from '@/api/user.js'
 export default {
     name:'devScene',
     data() {
       return {
+          relationId:false,
+          showRelation:true,
           sceneOptions: [{
           label: '全新开发',
             options: [
             {
-                value: '开发新产品',
+                value: 1,
                 label: '开发新产品'
             }, 
             {
-                value: '开发新市场(国家)',
+                value: 2,
                 label: '开发新市场(国家)'
             },
             {
-                value: '开发新尺码(已有产品添加新尺码)',
+                value: 3,
                 label: '开发新尺码(已有产品添加新尺码)'
             },
             ]
             }, 
             {
-            label: '全新开发1',
+            label: '二次开发',
             options: 
             [
                 {
-                    value: '重新开发',
-                    label: '重新开发(存在PDC的老产品，重新打样/改善包装/找新供应商)'
+                    value: 10,
+                    label: '二次开发(存在PDC的老产品，重新打样/改善包装/找新供应商)'
+                }, 
+                {
+                    value: 11,
+                    label: '二次开发- 市场(已有二次二次开发产品，开发其他市场)'
+                }, 
+                {
+                    value: 12,
+                    label: '二次开发-尺寸(已有二尺开发产品，开发其他尺码)'
                 }, 
             ]
         }],
@@ -108,19 +119,19 @@ export default {
         {
           label: '零售',
           key: 1,
-          value: '零售'
+          value: 1
         },
         {
           label: '批发',
           key: 2,
-          value: '批发'
+          value: 2
         },
-            
         ],
+        spuSign:[],  
         ruleForm: {
           scene: '',
           region: '',
-          relation:'1',
+          relation:'',
           inputRelation:'',
           selectRelation:'',
           classiFication:''
@@ -147,7 +158,27 @@ export default {
         }
       };
     },
+    props:{
+        productVoDetail:{
+            type:Object,
+            default:() => ({})
+        }
+    },
+    mounted(){
+        this.getDetailPage()
+    },
     methods: {
+      getDetailPage(){
+          this.ruleForm = {
+              region : this.productVoDetail.developmenttype,
+              scene:this.productVoDetail.developmentscenarios,
+              classiFication:this.productVoDetail.categoryname,
+              relation:this.productVoDetail.id ? '1':'2'
+          }
+          if(this.productVoDetail.developmentscenarios == 1){
+              this.showRelation = false
+          }
+      },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
@@ -161,6 +192,30 @@ export default {
       resetForm(formName) {
         this.$refs[formName].resetFields();
         this.$emit('closeEdit','false')
+      },
+      selectScene(val){
+          this.showRelation = true
+          this.relationId = false
+          if(val == 1){
+              this.showRelation = false
+          } else if (val == 2){
+            //   this.ruleForm.relation = 2
+          } else if (val == 3){
+                // this.ruleForm.relation = 2
+          } else if (val == 10){
+              this.ruleForm.relation = '2'
+              this.relationId = true
+          }else if (val == 11){
+            //   this.ruleForm.relation = 2
+          } else if (val == 12){
+            //   this.ruleForm.relation = 2
+          }
+      },
+      changeInputRelation(val){
+          if(!val)return
+          findProductByDevId(val).then(res => {
+              this.spuSign = res.data
+          })
       }
     }
 }

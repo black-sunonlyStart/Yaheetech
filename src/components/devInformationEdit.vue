@@ -54,9 +54,9 @@
                 <el-col :span="12">
                     <el-form-item label="开发优先级:" prop="orderQuantity">
                         <el-radio-group v-model="ruleForm.orderQuantity">
-                            <el-radio :label="3">备选项</el-radio>
-                            <el-radio :label="6">备选项</el-radio>
-                            <el-radio :label="9">备选项</el-radio>
+                            <el-radio :label="0">高</el-radio>
+                            <el-radio :label="1">中</el-radio>
+                            <el-radio :label="2">低</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -64,14 +64,14 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="德文标题:" >
-                        <el-input v-model="ruleForm.productMarket"></el-input>
+                        <el-input v-model="ruleForm.titleDe"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="是否安吉产品:" prop="specialPackaging">
-                        <el-radio-group v-model="ruleForm.specialPackaging">
-                            <el-radio :label="3">备选项</el-radio>
-                            <el-radio :label="6">备选项</el-radio>
+                    <el-form-item label="是否安吉产品:" prop="isanji">
+                        <el-radio-group v-model="ruleForm.isanji">
+                            <el-radio :label="1">是</el-radio>
+                            <el-radio :label="0">否</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -79,14 +79,14 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="日文标题:" >
-                        <el-input v-model="ruleForm.productMarket"></el-input>
+                        <el-input v-model="ruleForm.titleJp"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="是否需要专利确认:" prop="specialPackaging">
-                        <el-radio-group v-model="ruleForm.samplingTime">
-                            <el-radio :label="3">备选项</el-radio>
-                            <el-radio :label="6">备选项</el-radio>
+                    <el-form-item label="是否需要专利确认:" prop="ispatentproduct">
+                        <el-radio-group v-model="ruleForm.ispatentproduct">
+                            <el-radio :label="1">是</el-radio>
+                            <el-radio :label="0">否</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -94,15 +94,52 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="是否品牌:" prop="specialPackaging">
-                        <el-radio-group v-model="ruleForm.isbrand">
-                            <el-radio :label="3">是</el-radio>
-                            <el-radio :label="6">否</el-radio>
-                        </el-radio-group>
+                        美：
                         <el-select 
-                            v-model="ruleForm.dailySales"
+                            style="width:80px"
+                            v-model="ruleForm.brandUs"
                             >
                             <el-option 
-                                v-for="item in devSign"                        
+                                v-for="item in isBrandSign"                        
+                                :key="item.key"
+                                :label="item.label"
+                                :value="item.value"
+                                >
+                            </el-option>
+                        </el-select>
+                        英：
+                        <el-select 
+                        style="width:80px"
+                            v-model="ruleForm.brandEu"
+                            >
+                            <el-option 
+                                v-for="item in isBrandSign"                        
+                                :key="item.key"
+                                :label="item.label"
+                                :value="item.value"
+                                >
+                            </el-option>
+                        </el-select>
+                        德：
+                        <el-select
+                        style="width:80px" 
+                            v-model="ruleForm.brandDe"
+                            >
+                            <el-option 
+                                v-for="item in isBrandSign"                        
+                                :key="item.key"
+                                :label="item.label"
+                                :value="item.value"
+                                >
+                            </el-option>
+                        </el-select>
+                        澳：
+                        <el-select 
+                        style="width:80px"
+                            v-model="ruleForm.brandAo"
+                            >
+                            <el-option 
+                                v-for="item in isBrandSign"                        
                                 :key="item.key"
                                 :label="item.label"
                                 :value="item.value"
@@ -112,11 +149,11 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="Duty税率:" prop="specialPackaging">
+                    <el-form-item label="Duty税率:" prop="productMarket">
                         <div class="taxRate">
-                            US:<el-input v-model="ruleForm.productMarket"></el-input>
-                            GB:<el-input v-model="ruleForm.productMarket"></el-input>
-                            DE:<el-input v-model="ruleForm.productMarket"></el-input>
+                            US:<el-input v-model="ruleForm.productMarketUS"></el-input>
+                            GB:<el-input v-model="ruleForm.productMarketGB"></el-input>
+                            DE:<el-input v-model="ruleForm.productMarketDE"></el-input>
                         </div>
                     </el-form-item>
                 </el-col>
@@ -164,12 +201,12 @@
             </el-row> 
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="计算海运费方式:" prop="dailySales">
+                    <el-form-item label="计算海运费方式:" prop="seaFreight">
                         <el-select 
-                            v-model="ruleForm.dailySales"
+                            v-model="ruleForm.seaFreight"
                             >
                             <el-option 
-                                v-for="item in devSign"                        
+                                v-for="item in seaFreightSign"                        
                                 :key="item.key"
                                 :label="item.label"
                                 :value="item.value"
@@ -181,129 +218,158 @@
             </el-row>    
         </el-form>
         <el-row>
-            <el-col v-for="(item) in wareHouseDetail" :key="item.key" :span="12">
-                <span class="mainTitle">{{item.name}}</span> <el-button type="primary" size="mini" class="delButton">删除</el-button>
+            <el-col v-for="item in devInformationDetaiList.productMarketList" :key="item.id" :span="12">
+                <span class="mainTitle">{{item.platformname}}-{{item.countrycode}}   {{item.warehouseName}}</span> <el-button type="primary" size="mini" class="delButton">删除</el-button>
                 <el-form :model="item" :rules="wareHouseRules" ref="ruleForm" label-width="200px" class="demo-ruleForm" size="mini">
-                    <el-form-item label="产品开发价:" prop="productPrice">
-                        <div style="width:200px">
-                            <el-input v-model="item.productPrice"></el-input>
-                        </div> 
-                    </el-form-item>
-                
-                    <el-form-item label="SFP开发价:" prop="SFProductPrice">
-                        <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                    <el-form-item label="产品开发价:" prop="developmentprice" >
+                        <div class="inputBox"> 
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.developmentprice"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="SFP运费:" prop="SFProductPrice">
-                        <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                    <el-form-item label="SFP开发价:" prop="sfpDevelopmentPrice">
+                        <div class="inputBox"> 
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.sfpDevelopmentPrice"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="发货包装费:" prop="SFProductPrice">
-                        <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                    <el-form-item label="SFP运费:" prop="sfpOceanFreight">
+                        <div class="inputBox"> 
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.sfpOceanFreight"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="本地化费用:" prop="SFProductPrice">
+                    <el-form-item label="发货包装费:" prop="packagingfee">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.packagingfee"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="PI:" prop="SFProductPrice">
+                    <el-form-item label="本地化费用:" prop="localizationfee">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.localizationfee"></el-input-number>
+                        </div>
+                    </el-form-item>
+                    <el-form-item label="PI:" prop="piprice">
+                        <div class="inputBox"> 
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.piprice"></el-input-number>
                         </div>
                     </el-form-item>
                     <el-form-item label="空/海运费:" prop="SFProductPrice">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.SFProductPrice"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="港前费用:" prop="SFProductPrice">
+                    <el-form-item label="港前费用:" prop="inlandportcosts">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.inlandportcosts"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="目的地港费用:" prop="SFProductPrice">
+                    <el-form-item label="目的地港费用:" prop="outlandportcosts">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.outlandportcosts"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="进口DUTY费:" prop="SFProductPrice">
+                    <el-form-item label="进口DUTY费:" prop="duty">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.duty"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="VAT费:" prop="SFProductPrice">
+                    <el-form-item label="VAT费:" prop="vatfee">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.vatfee"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="销售VAT费:" prop="SFProductPrice">
+                    <el-form-item label="销售VAT费:" prop="salesvat">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.salesvat"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="操作费:" prop="SFProductPrice">
+                    <el-form-item label="操作费:" prop="handlingfee">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.handlingfee"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="本土运费:" prop="SFProductPrice">
+                    <el-form-item label="本土运费:" prop="freight">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.freight"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="成交费:" prop="SFProductPrice">
+                    <el-form-item label="成交费:" prop="platformfee">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.platformfee"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="PayPal Fee:" prop="SFProductPrice">
+                    <el-form-item label="PayPal Fee:" prop="paypalprice">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.paypalprice"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="刊登Fee:" prop="SFProductPrice">
+                    <el-form-item label="刊登Fee:" prop="listingfee">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                           <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.listingfee"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="退回进口VAT费:" prop="SFProductPrice">
+                    <el-form-item label="退回进口VAT费:" prop="vatfee">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.vatfee"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="退回快递费VAT:" prop="SFProductPrice">
+                    <el-form-item label="退回快递费VAT:" prop="localshippingfeevat">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.localshippingfeevat"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="本土运输方式:" prop="SFProductPrice">
+                    <el-form-item label="本土运输方式:" prop="shippingname ">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                            <el-input v-model="item.shippingname "></el-input>
                         </div>
                     </el-form-item>
-                    <el-form-item label="汇率:" prop="SFProductPrice">
+                    <el-form-item label="汇率:" prop="exchangerate">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.exchangerate"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="VAT费率:" prop="SFProductPrice">
+                    <el-form-item label="VAT费率:" prop="vatrate">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.vatrate"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="DUTY税率:" prop="SFProductPrice">
+                    <el-form-item label="DUTY税率:" prop="dutyrate">
                         <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
+                            <span class="inputUnit">GPB</span>
+                            <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.dutyrate"></el-input-number>
                         </div>
                     </el-form-item>
-                    <el-form-item label="快递费计算方式:" prop="SFProductPrice">
-                        <div class="inputBox">
-                            <el-input v-model="item.SFProductPrice"></el-input>
-                        </div>
+                    <el-form-item label="快递费计算方式:" prop="freightcalculated">
+                        <el-select 
+                            v-model="item.freightcalculated"
+                            >
+                            <el-option 
+                                v-for="item in freightSign"                        
+                                :key="item.key"
+                                :label="item.label"
+                                :value="item.value"
+                                >
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                 </el-form>
             </el-col>
@@ -320,50 +386,60 @@ export default {
     data(){
         return {
             ruleForm: {
-            region:'出厂价',
-            staRating: '',
-            targetPrice: '',
-            westaRating: '',
-            dailySales: '',
-            rateRequirements: '',
-            orderQuantity: '',
-            productMarket: '',
-            specialPackaging: '',
-            samplingTime:'',
-            orderTime:'',
-            isbrand:''
+                region:'出厂价',
+                staRating: '',
+                targetPrice: '',
+                westaRating: '',
+                dailySales: '',
+                rateRequirements: '',
+                orderQuantity: '',
+                productMarket: '',
+                specialPackaging: '',
+                isanji:'',
+                isbrand:'',
+                titleDe:'',
+                titleJp:'',
+                ispatentproduct:'',
+                seaFreight:'',
+                productMarketUS: '',
+                productMarketGB: '',
+                productMarketDE:'',
+                brandEu:0,
+                brandUs:0,
+                brandDe:0,
+                brandAo:0,
             },
             rules: {
-            staRating: [
-                { required: true, message: '请输入活动名称', trigger: 'blur' },
-            ],
-            targetPrice: [
-                { required: true, message: '请填写价格', trigger: 'blur' }
-            ],
-            westaRating: [
-                { type: 'date', required: true, message: '请选择日期', trigger: 'blur' }
-            ],
-            dailySales: [
-                { type: 'date', required: true, message: '请选择时间', trigger: 'blur' }
-            ],
-            rateRequirements: [
-                { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'blur' }
-            ],
-            orderQuantity: [
-                { required: true, message: '请选择活动资源', trigger: 'blur' }
-            ],
-            productMarket: [
-                { required: true, message: '请填写活动形式', trigger: 'blur' }
-            ],
-            specialPackaging: [
-                { required: true, message: '请填写活动形式', trigger: 'blur' }
-            ],
-            samplingTime: [
-                { required: true, message: '请填写活动形式', trigger: 'blur' }
-            ],
-            orderTime: [
-                { required: true, message: '请填写活动形式', trigger: 'blur' }
-            ],
+                staRating: [
+                    { required: true, message: '请输入标题', trigger: 'blur' },
+                ],
+                targetPrice: [
+                    { required: true, message: '请填写价格', trigger: 'blur' }
+                ],
+                westaRating: [
+                    { type: 'date', required: true, message: '请填写关键字', trigger: 'blur' }
+                ],
+                dailySales: [
+                    { type: 'date', required: true, message: '请选择开发类型', trigger: 'blur' }
+                ],
+                rateRequirements: [
+                    { type: 'array', required: true, message: '请填写中文概述', trigger: 'blur' }
+                ],
+                orderQuantity: [
+                    { required: true, message: '请选择开发优先级', trigger: 'blur' }
+                ],
+                productMarket: [
+                    { required: true, message: '请填写税率', trigger: 'blur' }
+                ],
+                ispatentproduct: [
+                    { required: true, message: '请选择专利是否需要确认', trigger: 'blur' }
+                ],
+                isanji: [
+                    { required: true, message: '请选择是否安吉产品', trigger: 'blur' }
+                ],
+                seaFreight: [
+                    { required: true, message: '请选择方式', trigger: 'blur' }
+                ],
             },
             devSign:[    
                 {
@@ -382,6 +458,42 @@ export default {
                     value: '零售价'
                 },    
             ],
+            isBrandSign:[    
+                {
+                    label: '是',
+                    key: 1,
+                    value: 1
+                },
+                {
+                    label: '否',
+                    key: 0,
+                    value: 0
+                },       
+            ],
+            seaFreightSign:[    
+                {
+                    label: '按照产品尺寸计算的产品体积',
+                    key: 1,
+                    value: 0
+                },
+                {
+                    label: '按照货柜尺寸计算的产品所占的体积',
+                    key: 2,
+                    value: 1
+                },       
+            ],
+            freightSign:[    
+                {
+                    label: '按照产品尺寸计算的产品体积',
+                    key: 1,
+                    value: 0
+                },
+                {
+                    label: '人工录入运费',
+                    key: 2,
+                    value: 1
+                },       
+            ],
             wareHouseDetail:
             [
                 {
@@ -394,7 +506,7 @@ export default {
                 {
                     name:'ebay-GB-英国仓',
                     productPrice:'$113',
-                    SFProductPrice:'$89',
+                    SFProductPrice:1,
                     SFPfreight:'$69',
                     key:'2'
                 },
@@ -409,7 +521,37 @@ export default {
             }
         }
     },
+    props:{
+        devInformationDetaiList:{
+            type:Object,
+            default:() => ({})
+        }
+    },
+    mounted(){
+        this.getDetailPage()
+    },
     methods:{
+        getDetailPage(){
+            this.ruleForm = {
+                staRating: this.devInformationDetaiList.title,
+                targetPrice: this.devInformationDetaiList.businessName,
+                westaRating: this.devInformationDetaiList.keys,
+                dailySales: this.devInformationDetaiList.businessName,
+                rateRequirements:this.devInformationDetaiList.description,
+                orderQuantity: this.devInformationDetaiList.priority,
+                productMarketUS: this.devInformationDetaiList.dutyrate1,
+                productMarketGB: this.devInformationDetaiList.dutyrate3,
+                productMarketDE: this.devInformationDetaiList.dutyrate2,
+                isanji:this.devInformationDetaiList.isanji,
+                isbrand:this.devInformationDetaiList.ispatentproduct,
+                titleDe:this.devInformationDetaiList.titleDe,
+                titleJp:this.devInformationDetaiList.titleJp,
+                ispatentproduct:this.devInformationDetaiList.ispatentproduct,
+                seaFreight:this.devInformationDetaiList.computemode,
+                
+            }
+            console.log(this.ruleForm,'ruleForm')
+        },
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
             if (valid) {
@@ -448,12 +590,33 @@ export default {
         float: right;
         margin-right:20px;
     } 
-    .inputBox{
+    .inputUnit{
+        text-align: center;
+        line-height: 28px;
+        background-color: #F5F7FA;
+        display: inline-block;
+        height: 28px;
+        width: 68px;
+        border: 1px solid #E4E7ED;
+        color: black;
+        font-size: 12px;
+        position: relative;
+        top: 1px;
+        border-top-left-radius: 4px ;
+        border-bottom-left-radius: 4px ;
+    }
+    ::v-deep.inputBox{
         width: 200px;
+        .el-input-number {
+            .el-input__inner{
+                color: black !important;
+                border-top-left-radius: 0px !important;
+                border-bottom-left-radius: 0px !important;
+            }
+        }
     }
     .mainTitle{
         font-weight: bold;
     }
-    
       
 </style>

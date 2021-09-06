@@ -100,7 +100,7 @@ export default {
     data(){
         return {
             ruleForm: {
-            region:'出厂价',
+            region:2,
             staRating: '',
             targetPrice: '',
             westaRating: '',
@@ -148,22 +148,47 @@ export default {
                 {
                     label: '出厂价',
                     key: 1,
-                    value: '出厂价'
+                    value: 1
                 },
                 {
                     label: 'FOB价',
                     key: 2,
-                    value: 'FOB价'
+                    value: 2
                 },    
                 {
                     label: '零售价',
                     key: 3,
-                    value: '零售价'
+                    value: 3
                 },    
                 ],
         }
     },
+    props:{
+      salesTargetDetaiList:{
+          type:Object,
+          default:() => ({})
+      }
+    },
+    mounted(){
+        this.getDetailPage()
+    },
     methods:{
+        getDetailPage(){
+            this.ruleForm = {
+                staRating:this.salesTargetDetaiList.xsstarrating,//产品星级评分
+                targetPrice:this.salesTargetDetaiList.xspurchaseprice,//目标采购价
+                staRawestaRatingting:this.salesTargetDetaiList.xstargetstarrating,//我司目标星级评分
+                dailySales:this.salesTargetDetaiList.xsdailysales,//产品预估日销量
+                rateRequirements:this.salesTargetDetaiList.xsrepairraterequirement,//目标售后返修率要求
+                orderQuantity:this.salesTargetDetaiList.xsfirstorderquantity,//预估首单订单数量
+                productMarket:this.salesTargetDetaiList.xsmarket,//产品开发市场
+                specialPackaging:this.salesTargetDetaiList.xsspecialrequirements,//产品包装尺寸特殊要求
+                samplingTime:this.salesTargetDetaiList.xstestsampletime,//产品测样时间点
+                orderTime:this.salesTargetDetaiList.xsorderoftime,//产品下单时间点
+                region:this.salesTargetDetaiList.xspurchasePriceCurrency?this.salesTargetDetaiList.xspurchasePriceCurrency:2,//目标采购价
+                
+            }
+        },
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
             if (valid) {

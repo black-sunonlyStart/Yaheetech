@@ -9,9 +9,6 @@
     <el-card class="mainTable-card">
       <mainTable :navFilterList='filterList'></mainTable>
     </el-card>
-    <remarks ref="remarks"></remarks>
-    <i class="remarks"
-       @click="openRemarks"></i>
   </div>
 </template>
 
@@ -19,14 +16,12 @@
 import navBar from '@/components/navBar.vue'
 import abilityBtn from '@/components/abilityBtn.vue'
 import mainTable from '@/components/mainTable.vue'
-import remarks from '@/components/remarks.vue'
 export default {
   name: 'packTableList',
   components: {
     navBar,
     abilityBtn,
     mainTable,
-    remarks
   },
   data () {
     return {
@@ -41,9 +36,6 @@ export default {
 
   },
   methods: {
-    openRemarks () {
-      this.$refs.remarks.openHandle()
-    },
     putTableList (val){
         console.log(this.filterList)
         this.filterList = val
@@ -58,15 +50,6 @@ export default {
   width: 100%;
   height: 100%;
   background-color: rgba(230, 230, 230, 1);
-  .remarks {
-    position: fixed;
-    left: 16px;
-    top: 417px;
-    height: 32px;
-    width: 32px;
-    z-index: 1000;
-    background-image: url(../../assets/shousuo.png);
-  }
   .nav-card {
     margin: 0px 26px 10px 10px;
     position: fixed;

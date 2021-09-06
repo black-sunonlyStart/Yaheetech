@@ -2,35 +2,35 @@
     <div>
         <el-table
             border
-            :data="dataTable"
+            :data="remarksList"
             style="width: 100%">
             <el-table-column
                 label="状态"
-                prop="stuats"
+                prop="statusValue"
                 width="180"
                 >
             </el-table-column>
             <el-table-column
                 label="结果"
-                prop="results"
+                prop="operation"
                 width="180"
                 >
             </el-table-column>
             <el-table-column
                 label="操作人"
-                prop="operator"
+                prop="trueName"
                 width="180"
                 >
             </el-table-column>
             <el-table-column
                 label="备注信息"
-                prop="remarksInfo"
+                prop="note"
                 width="180"
                 >
             </el-table-column>
             <el-table-column
                 label="编辑日期"
-                prop="editorDate"
+                prop="createdon"
                 width="180"
                 >
             </el-table-column>
@@ -42,15 +42,15 @@ export default {
     name:'remarksTable',
     data(){
         return {
-            dataTable:[
-                {
-                    stuats:'认证中',
-                    results:'拜拜',
-                    operator:'sqy',
-                    remarksInfo:'呵呵呵',
-                    editorDate:'2021-09-20',
-                  }
-            ]
+        }
+    },
+    props:{
+        remarksList : {
+            type:Array,
+            default:function(){
+                return []
+            }
+            
         }
     }
 }

@@ -19,3 +19,10 @@ export function getProdCerInfoDetailList() {
       method: "get", 
     })
   }
+export function findProductByDevId(data) {
+    return request({
+      url: '/productManage/findProductByDevId',
+      method: "get", 
+      params:data
+    })
+  }
