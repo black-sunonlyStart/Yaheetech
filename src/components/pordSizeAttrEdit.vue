@@ -5,17 +5,17 @@
                  <el-col :span="10">
                      <el-form-item label="产品类型:" prop="productType">
                         <el-radio-group v-model="ruleForm.productType">
-                            <el-radio :label="3">普通/多属性产品</el-radio>
-                            <el-radio :label="6">物理捆绑产品</el-radio>
+                            <el-radio :label="1">普通/多属性产品</el-radio>
+                            <el-radio :label="2">物理捆绑产品</el-radio>
                         </el-radio-group>
                     </el-form-item>
                  </el-col>
              </el-row>
              <el-row>
-                 <el-col :span="5">
+                 <el-col :span="6">
                     <el-form-item label="产品尺寸:" prop="productSizeL">
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.productSizeL">
+                            <el-input placeholder="请输入内容" v-model="ruleForm.productSizeL"  oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">长(cm)</template>
                             </el-input>
                         </div>
@@ -41,7 +41,7 @@
                 </el-col>
              </el-row>
              <el-row>
-                 <el-col :span="5">
+                 <el-col :span="6">
                     <el-form-item label="包装尺寸(发货用):" prop="packageSizeL">
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="ruleForm.packageSizeL">
@@ -84,9 +84,13 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
+                <el-col :span="2">
+                    <span class="vacanBox">体积：</span><span v-if="ruleForm.sizeRules == '1'">{{(ruleForm.productSizeH * ruleForm.packageSizeW * ruleForm.packageSizeH) / 1000}}m³</span>
+                                      <span v-else-if="ruleForm.sizeRule == '2'">{{(ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000}}m³</span>
+                </el-col>
              </el-row>
              <el-row>
-                 <el-col :span="5">
+                 <el-col :span="6">
                     <el-form-item label="外箱尺寸(装柜用):" prop="outerBoxSizeL">
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="ruleForm.outerBoxSizeL">
@@ -129,19 +133,25 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
+                <el-col :span="2">
+                    <span class="vacanBox">体积：</span><span v-if="ruleForm.outerBoxSizeRules == '1'">{{(ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeW) / 1000}}m³</span>
+                                      <span v-else-if="ruleForm.outerBoxSizeRules == '2'">{{(ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000}}m³</span>
+                </el-col>
              </el-row>
+             
              <el-row>
-                 <el-col :span="5">
+                 <el-col :span="6">
                     <el-form-item  prop="containersNumber" label="可装货柜数量：">      
                         <el-select 
                             v-model="ruleForm.containersNumber"
                             placeholder="请选择"
+                            @change="selectConNumb"
                             >
                             <el-option 
-                                v-for="item in containersType"                        
-                                :key="item.key"
-                                :label="item.label"
-                                :value="item.value"
+                                v-for="item in boxType"                        
+                                :key="item._id"
+                                :label="item._model"
+                                :value="item._id"
                                 >
                             </el-option>
                         </el-select>
@@ -155,6 +165,9 @@
                             </el-input>
                         </div>
                     </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                     <span class="vacanBox" v-if="this.selectid && ruleForm.outerBoxNum">每个产品所占体积:<span>{{this.selectid / ruleForm.outerBoxNum}}m³</span></span>       
                 </el-col>
              </el-row>
              <el-row>
@@ -170,15 +183,15 @@
                 <el-col :span="3">
                     <el-form-item  prop="outerBoxNum" label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.proNetWeight" disabled>
-                                <template slot="append">Kg</template>
+                            <el-input placeholder="请输入内容" v-model="proNetWeightLb" disabled>
+                                <template slot="append">LB</template>
                             </el-input>
                         </div>
                     </el-form-item>
                 </el-col>
              </el-row>
              <el-row>
-                 <el-col :span="5">
+                 <el-col :span="6">
                     <el-form-item  prop="proGrossWeight" label="毛重:">      
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="ruleForm.proGrossWeight">
@@ -190,15 +203,19 @@
                 <el-col :span="3">
                     <el-form-item label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.proGrossWeight" disabled>
-                                <template slot="append">Kg</template>
+                            <el-input placeholder="请输入内容" v-model="proGrossWeightLb" disabled>
+                                <template slot="append">LB</template>
                             </el-input>
                         </div>
                     </el-form-item>
                 </el-col>
+                <el-col :span="3">
+                     <span class="vacanBox" v-if="ruleForm.proGrossWeight && ruleForm.proNetWeight && ruleForm.packingMethod == '0'">体积重:<span>{{ruleForm.proNetWeight + ruleForm.proGrossWeight}}kg/{{((ruleForm.proNetWeight + ruleForm.proGrossWeight) * 2.20).toFixed(2)}}LB</span></span>       
+                     <span class="vacanBox" v-if="ruleForm.packingMethod == '1'">体积重:<span>{{ruleForm.proNetWeight + ruleForm.proGrossWeight}}kg/{{((ruleForm.proNetWeight + ruleForm.proGrossWeight) * 2.20).toFixed(2)}}LB</span></span>       
+                </el-col>
              </el-row>
              <el-row>
-                 <el-col :span="5">
+                 <el-col :span="6">
                     <el-form-item  prop="proOuterBoxWeight" label="外箱重量:">      
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="ruleForm.proOuterBoxWeight">
@@ -210,8 +227,8 @@
                 <el-col :span="3">
                     <el-form-item  label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.proOuterBoxWeight" disabled>
-                                <template slot="append">Kg</template>
+                            <el-input placeholder="请输入内容" v-model="proOuterBoxWeightLb" disabled>
+                                <template slot="append">LB</template>
                             </el-input>
                         </div>
                     </el-form-item>
@@ -235,8 +252,8 @@
                     </el-form-item>
                 </el-col>
              </el-row>
-             <el-row>
-                 <el-col :span="5">
+             <el-row v-if="ruleForm.packingMethod == '1'">
+                 <el-col :span="6">
                     <el-form-item  prop="casesNumber" label="装箱数:">      
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="ruleForm.casesNumber" >
@@ -246,11 +263,11 @@
                     </el-form-item>
                 </el-col>
              </el-row>
-             <el-row>
+             <el-row v-if="ruleForm.packingMethod == '1'">
                  <el-col :span="24">
-                    <el-form-item  prop="tableData" label="多箱清单:">      
+                    <el-form-item  label="多箱清单:">      
                          <el-table
-                            :data="ruleForm.tableData"
+                            :data="ruleForm.productlistings"
                             border
                             style="width: 100%">
                             <el-table-column
@@ -262,43 +279,47 @@
                             </template>
                             </el-table-column>
                             <el-table-column
-                                prop="name"
+                                prop="packedlength"
                                 label="包装后 - 长(cm)"
                             >
                             <template slot-scope="scope">
-                                <el-input v-model="scope.row.name"></el-input>      
+                                <el-input v-model="scope.row.packedlength"></el-input>      
                             </template>
                             </el-table-column>
                             <el-table-column
-                                prop="address"
+                                prop="packedwidth"
                                 label="包装后 - 宽(cm)">
                             <template slot-scope="scope">
-                                <el-input v-model="scope.row.date"></el-input>      
+                                <el-input v-model="scope.row.packedwidth"></el-input>      
                             </template>
                             </el-table-column>
                             <el-table-column
-                                prop="address"
+                                prop="packedheight"
                                 label="包装后 - 高(cm)">
                             <template slot-scope="scope">
-                                <el-input v-model="scope.row.address"></el-input>      
+                                <el-input v-model="scope.row.packedheight"></el-input>      
                             </template>
                             </el-table-column>
                             <el-table-column
-                                prop="address"
                                 label="包装后 - 重量(Kg)">
                             <template slot-scope="scope">
-                                <el-input v-model="scope.row.address"></el-input>      
+                                <div>
+                                   <el-input v-model="scope.row.packedWi"></el-input>
+                                </div>
                             </template>
                             </el-table-column>
                             <el-table-column
-                                prop="address"
                                 label="操作">
                                 <template slot-scope="scope">
+                                    <div v-if="scope.$index == 0">
+                                        第一条数据无法移除
+                                    </div>
                                     <el-button
-                                    @click.native.prevent="deleteRow(scope.$index, ruleForm.tableData)"
-                                    type="text"
-                                    size="small">
-                                    移除
+                                        v-else
+                                        @click.native.prevent="deleteRow(scope.$index, ruleForm.productlistings)"
+                                        type="text"
+                                        size="small">
+                                        移除
                                     </el-button>
                                 </template>
                             </el-table-column>
@@ -326,8 +347,8 @@
              <el-row>
                  <el-col :span="15">
                      <el-form-item  label="颜色:" prop="productColor">      
-                        <el-checkbox-group v-model="ruleForm.productColor">
-                            <el-checkbox :label="item" v-for="item in checkList" :key="item"></el-checkbox>
+                        <el-checkbox-group v-model="ruleForm.productColor" > 
+                            <el-checkbox :label="item" v-for="item in checkList" :key="item + Math.random()"></el-checkbox>
                         </el-checkbox-group>
                     </el-form-item>
                  </el-col>
@@ -336,33 +357,73 @@
                  <el-col :span="24">
                      <el-form-item  label="销售(多)属性:" prop="productColor">      
                         <el-table
-                            :data="ruleForm.tableData"
                             border
+                            :data="ruleForm.multiAttribute"
                             style="width: 100%">
                             <el-table-column
-                                prop="date"
                                 label="开发状态"
-                            >
+                                >
+                                <template slot-scope="scope">
+                                    <div v-if="scope.row.id == pordSizeAttrInfoList.id">
+                                        当前开发
+                                    </div>
+                                    <div v-else>
+                                        其他开发
+                                    </div>
+                                </template>
                             </el-table-column>
                             <el-table-column
-                                prop="date"
-                                label="SKU"
-                            >
+                                label="SKU ID"
+                                >
+                                <template slot-scope="scope">
+                                    <div>
+                                        {{scope.row.id}}
+                                    </div>
+                                    <div>
+                                        {{scope.row.encodingrules}}
+                                    </div>
+                                </template>
                             </el-table-column>
                             <el-table-column
-                                prop="date"
-                                label="开发属性"
-                            >
+                                label="开发属性">
+                            <template slot-scope="scope">
+                                    <div v-for="item in scope.row.productColorList" :key="item.id">
+                                        {{item.color}}
+                                    </div>
+                                    <div>
+                                        {{scope.row.size}}
+                                    </div>
+                                </template>
                             </el-table-column>
                             <el-table-column
-                                prop="date"
                                 label="关联SKU"
                             >
+                            <template slot-scope="scope">
+                                <div v-if="scope.row.productdraftid && scope.row.skualias && scope.row.sku && scope.row.spu">
+                                    <div>
+                                        上架ID:{{scope.row.productdraftid}}
+                                    </div>
+                                    <div>
+                                        SKU别名{{scope.row.skualias }}
+                                    </div>
+                                    <div>
+                                        SKU:{{scope.row.sku}}
+                                    </div>
+                                    <div>
+                                        SPU{{pordSizeAttrInfoList.spu}}
+                                    </div>
+                                </div>
+                                <div v-else>
+                                    暂无数据
+                                </div>
+                            </template>
                             </el-table-column>
                             <el-table-column
-                                prop="date"
-                                label="是否上架"
-                            >
+                                label="是否上架">
+                                <template slot-scope="scope">
+                                    <div v-if="scope.row.productneed">需要</div>
+                                    <div v-else>不需要</div>
+                                </template>
                             </el-table-column>
                         </el-table>
                     </el-form-item>
@@ -376,12 +437,17 @@
     </div>
 </template>
 <script>
+import {  findBoxTypesById } from '@/api/user.js'
 export default {
     name:'pordSizeAttrEdit',
     data(){
         return {
+            putColor:false,
+            copeMulAttrBute:{},
+            selectid:'',
+            boxType:[],
             ruleForm:{
-                productType:3,
+                productType:'',
                 productSizeL:'',
                 productSizeW:'',
                 productSizeH:'',
@@ -391,7 +457,7 @@ export default {
                 outerBoxSizeH:'',
                 outerBoxSizeW:'',
                 outerBoxSizeL:'',
-                sizeRules:'',
+                sizeRules:[],
                 outerBoxSizeRules:'',
                 containersNumber:'',
                 outerBoxNum:'',
@@ -402,13 +468,8 @@ export default {
                 casesNumber:'',
                 productSize:'',
                 productColor:[],
-                tableData: [
-                        {
-                        date: '2016-05-02',
-                        name: '王小虎',
-                        address: '上海市普陀区金沙江路 1518 弄'
-                        }
-                    ]
+                productlistings:[],
+                multiAttribute:[]  //多属性
             },
             rules:{
                 productType: [{ required: true, message: '请选择产品类型', trigger: 'blur' }],
@@ -438,81 +499,186 @@ export default {
                 {
                     label: '规则立方体',
                     key: 1,
-                    value: '规则立方体'
+                    value: '1'
                 },
                 {
                     label: '不规则立方体',
                     key: 2,
-                    value: '不规则立方体'
-                },    
-            ],
-            containersType:[
-                {
-                    label: '散装',
-                    key: 1,
-                    value: '散装'
-                },
-                {
-                    label: '集装箱(40HQ)',
-                    key: 2,
-                    value: '集装箱(40HQ)'
-                },    
-                {
-                    label: '集装箱(45HQ)',
-                    key: 3,
-                    value: '集装箱(45HQ)'
-                },    
-                {
-                    label: '集装箱(20GP)',
-                    key: 4,
-                    value: '集装箱(20GP)'
-                },    
-                {
-                    label: '集装箱(40GP)',
-                    key: 5,
-                    value: '集装箱(40GP)'
+                    value: '2'
                 },    
             ],
             packingMethodType:[
                 {
                     label: '单箱包装',
                     key: 1,
-                    value: '单箱包装'
+                    value: 0
                 },
                 {
                     label: '多箱包装',
                     key: 2,
-                    value: '多箱包装'
+                    value: 1
                 }
             ],
-            checkList:['黑色','黄色']
+            checkList:['米色','黑色','蓝色','天蓝','绿蓝/宝石蓝','浅蓝','深蓝','藏蓝','棕色','深棕色/茶色','浅棕色','中棕色','透明色','黄金','灰色','绿色','白色','奶白色','象牙色','多色','橙色','深橙色','粉红色','紫色','红色','浅红色','银色','黄色','镀铬色','不锈钢','木色','金属钛','古铜色','玫红色','咖啡色','橄榄色','卡其色','铁灰色','暗灰色','驼色','彩虹色','肉色','浅紫色','深紫色','酒红色']
         }
     },
-    methods: {
-      deleteRow(index, rows) {
-        rows.splice(index, 1);
-      },
-      addTableList(){
-          this.ruleForm.tableData.push({
-              data:'',
-              name:'',
-              address:''
-          })
-      },
-      submitForm(formName) {
-            this.$refs[formName].validate((valid) => {
-            if (valid) {
-                alert('submit!');
-            } else {
-                console.log('error submit!!');
-                return false;
-            }
-            });
-        },
-        resetForm() {
-            // this.$refs[formName].resetFields();
-            this.$emit('closeEdit','false')
+    props:{
+        pordSizeAttrInfoList:{
+            type:Object,
+            default:() => ({})
         }
+    },
+    computed:{
+        proGrossWeightLb(){
+            return (this.ruleForm.proGrossWeight * 2.20).toFixed(2)
+        },
+        proNetWeightLb(){
+            return (this.ruleForm.proNetWeight * 2.20).toFixed(2)
+        },
+        proOuterBoxWeightLb(){
+            return (this.ruleForm.proOuterBoxWeight * 2.20).toFixed(2)
+        },
+        productColor(){
+            return this.ruleForm.productColor
+        },
+        productSize(){
+            return this.ruleForm.productSize
+        }
+    },
+    mounted(){
+        this.getDetaiList()
+        this.init()
+    },
+    watch:{
+        productSize : {
+            handler(val){
+                if(val){
+                    this.ruleForm.multiAttribute.forEach(item => [
+                        item.size = val
+                    ])
+                }
+            }
+        },
+        productColor:{
+            handler(val,oldVal){
+                if(val == oldVal || oldVal.length == 0 )return  
+                if(val.length > oldVal.length){
+                    let newVal = val.filter(item => {
+                        return !oldVal.includes(item)
+                    })
+                    this.ruleForm.multiAttribute.push({
+                        size:this.ruleForm.productSize,
+                        productColorList:[
+                            {
+                                color:newVal.toString(),
+                                id:Math.random(),
+                            }
+                        ],
+                        id:this.pordSizeAttrInfoList.id,
+                        encodingrules:this.copeMulAttrBute.encodingrules,
+                        productneed:this.copeMulAttrBute.productneed,
+                        productdraftid:this.copeMulAttrBute.productdraftid,
+                        skualias:this.copeMulAttrBute.skualias,
+                        sku:this.copeMulAttrBute.sku,
+                        spu:this.pordSizeAttrInfoList.spu,
+                    })
+                }else{
+                    let newVal = oldVal.filter(item => {
+                        return !val.includes(item)
+                    })
+                    let colorNewVal = newVal.toString()
+                    let colorIndex = ''
+                     this.ruleForm.multiAttribute.forEach((item,index) => {
+                        if(item.productColorList.length > 0 && item.productColorList[0].color == colorNewVal){
+                            colorIndex = index
+                        }
+                    })
+                    this.ruleForm.multiAttribute.splice(colorIndex,1)
+                }
+                
+            }
+           
+        },
+        deep:true
+    },
+    methods: {
+        selectConNumb(val){
+            let selectid = []
+            selectid = this.boxType.filter(item => {
+                return item._id == val
+            })
+            this.selectid = selectid[0]._id
+        },
+        init(){
+            let params = {
+                typeId:0,
+            }
+            findBoxTypesById(params).then(res => {
+                this.boxType = res.data.boxType
+            })
+        },
+        getDetaiList(){
+            console.log(this.pordSizeAttrInfoList,'pordSizeAttrInfoList')
+            let prodInfoList =  this.pordSizeAttrInfoList.multiAttribute.map(item => {
+                    return item.productColorList
+            })
+            let newProdInfoList = prodInfoList.flat()
+            let productColor =  newProdInfoList.map(item => {
+                return item.color
+            })
+            let proSize = this.pordSizeAttrInfoList.multiAttribute[0].size
+            this.copeMulAttrBute =JSON.parse(JSON.stringify(this.pordSizeAttrInfoList.multiAttribute[0])) 
+            this.ruleForm = {
+                productType:this.pordSizeAttrInfoList.productType == 2 ? 2 : 1,
+                productSizeL:this.pordSizeAttrInfoList.productSizeL,
+                productSizeW:this.pordSizeAttrInfoList.productSizeW,
+                productSizeH:this.pordSizeAttrInfoList.productSizeH,
+                packageSizeL:this.pordSizeAttrInfoList.packageSizeL,
+                packageSizeW:this.pordSizeAttrInfoList.packageSizeW,
+                packageSizeH:this.pordSizeAttrInfoList.packageSizeH,
+                outerBoxSizeH:this.pordSizeAttrInfoList.outerBoxSizeH,
+                outerBoxSizeW:this.pordSizeAttrInfoList.outerBoxSizeW,
+                outerBoxSizeL:this.pordSizeAttrInfoList.outerBoxSizeL,
+                sizeRules:this.pordSizeAttrInfoList.packageshape,
+                outerBoxSizeRules:this.pordSizeAttrInfoList.cartonShape,
+                containersNumber:this.pordSizeAttrInfoList.containerModel,
+                outerBoxNum:this.pordSizeAttrInfoList.transportqty,
+                proNetWeight:this.pordSizeAttrInfoList.beforepackweight,
+                proGrossWeight:this.pordSizeAttrInfoList.afterpackweight,
+                proOuterBoxWeight:this.pordSizeAttrInfoList.cartonWeight,
+                packingMethod:this.pordSizeAttrInfoList.packingway,
+                casesNumber:this.pordSizeAttrInfoList.transportqty,
+                productColor:productColor? productColor :[],
+                productSize:proSize,
+                multiAttribute:this.pordSizeAttrInfoList.multiAttribute,
+                productlistings:this.pordSizeAttrInfoList.productlistings ? this.pordSizeAttrInfoList.productlistings:[],
+            }
+        },
+        deleteRow(index, rows) {
+            rows.splice(index, 1);
+        },
+        addTableList(){
+            this.ruleForm.productlistings.push({
+                packedlength:'',
+                packedwidth:'',
+                packedheight:'',
+                packedWi:'',
+            })
+        },
+        submitForm(formName) {
+                this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    alert('submit!');
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+                });
+            },
+            resetForm() {
+                // this.$refs[formName].resetFields();
+                this.$emit('closeEdit','false')
+            }
     },
 }
 </script>
@@ -537,5 +703,11 @@ export default {
 .tableText{
     color:#409eff ;
     cursor: pointer;
+    display: inline-block;
+}
+.vacanBox{
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
 }
 </style>

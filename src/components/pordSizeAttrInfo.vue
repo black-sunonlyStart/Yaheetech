@@ -14,8 +14,8 @@
                     产品尺寸:
                 </div>
                 <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.producttype}}(cm)</div>
-                    <div>{{pordSizeAttrInfoList.productSizeYcun}}(inch)</div>
+                    <div>{{pordSizeAttrInfoList.productSizeL}} *{{pordSizeAttrInfoList.productSizeW}} * {{pordSizeAttrInfoList.productSizeH}} (cm)</div>
+                    <div>{{pordSizeAttrInfoList.productSizeYcunL}} *{{pordSizeAttrInfoList.productSizeYcunW}} * {{pordSizeAttrInfoList.productSizeYcunH}} (inch)</div>
                 </div>
             </el-col>
             <el-col :span="10" class="moreText">
@@ -34,8 +34,8 @@
                     包装尺寸(发货用):
                 </div>
                 <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.packageSize}}(cm)</div>
-                    <div>{{pordSizeAttrInfoList.packageSizeYcun}}(inch)</div>
+                    <div>{{pordSizeAttrInfoList.packageSizeL}} *{{pordSizeAttrInfoList.packageSizeW}} * {{pordSizeAttrInfoList.packageSizeH}} (cm)</div>
+                    <div>{{pordSizeAttrInfoList.packageSizeYcunL}} *{{pordSizeAttrInfoList.packageSizeYcunW}} * {{pordSizeAttrInfoList.packageSizeYcunH}} (inch)</div>
                 </div>
             </el-col>
             <el-col :span="10" class="moreText"> 
@@ -54,8 +54,8 @@
                     外箱尺寸(装柜用):
                 </div>
                 <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.outerBoxSize}}(cm)</div>
-                    <div>{{pordSizeAttrInfoList.outerBoxSizeYcun}}(inch)</div>
+                    <div>{{pordSizeAttrInfoList.outerBoxSizeL}} *{{pordSizeAttrInfoList.outerBoxSizeW}} * {{pordSizeAttrInfoList.outerBoxSizeH}} (cm)</div>
+                    <div>{{pordSizeAttrInfoList.outerBoxSizeYcunL}} *{{pordSizeAttrInfoList.outerBoxSizeYcunW}} * {{pordSizeAttrInfoList.outerBoxSizeYcunH}} (inch)</div>
                 </div>
             </el-col>
             <el-col :span="10" class="moreText"> 
@@ -250,6 +250,9 @@
                     <template slot-scope="scope">
                             <div v-for="item in scope.row.productColorList" :key="item.id">
                                 {{item.color}}
+                            </div>
+                            <div>
+                                {{scope.row.size}}
                             </div>
                         </template>
                     </el-table-column>

@@ -37,10 +37,10 @@
             </el-form-item>
             <el-form-item  prop="inputRelation" v-if="showRelation">
                 <div class="relationBox">
-                    <div class="inputLength">
-                        <el-input  v-model="ruleForm.inputRelation" @change="changeInputRelation"></el-input>
+                    <div class="inputLength" v-if="!relationId">
+                        <el-input  v-model="ruleForm.inputRelation" @change="changeInputRelation" ></el-input>
                     </div>
-                    <div class="litterBox">-</div>
+                    <div class="litterBox" v-if="!relationId">-</div>
                     <el-select 
                         v-model="ruleForm.selectRelation"
                         >
@@ -54,28 +54,32 @@
                     </el-select>
                 </div>
             </el-form-item>
-            <el-form-item label="所属分类" prop="classiFication">
+            <el-form-item label="所属分类" prop="classiFication" v-if="ruleForm.scene == 10 || ruleForm.scene == 1 ">
                 <div class="signClass">
                     <div class="signInput">
-                        <el-input v-model="ruleForm.classiFication" :disabled='true'></el-input>
+                        <div> {{ruleForm.classiFication}}</div>
                     </div>
-                    <div class="signText">
+                    <div class="signText" @click="openTypeDialog">
                         重选分类
                     </div>
                 </div>
-            </el-form-item>
-            
+            </el-form-item>   
         </el-form>
         <div class="bottomButton">
             <el-button type="primary" @click="submitForm('ruleForm')" size="mini">保存</el-button>
             <el-button @click="resetForm('ruleForm')" size="mini">取消</el-button>
         </div>
+        <productTypeDialog ref='productTypeDialog'></productTypeDialog>
     </div>
 </template>
 <script>
 import { findProductByDevId } from '@/api/user.js'
+import productTypeDialog from '@/components/productTypeDialog'
 export default {
     name:'devScene',
+    components:{
+        productTypeDialog
+    },
     data() {
       return {
           relationId:false,
@@ -168,6 +172,9 @@ export default {
         this.getDetailPage()
     },
     methods: {
+        openTypeDialog(){
+            this.$refs.productTypeDialog.openDialog()
+        },
       getDetailPage(){
           this.ruleForm = {
               region : this.productVoDetail.developmenttype,
@@ -241,11 +248,12 @@ export default {
       .signClass{
           display: flex;
           .signInput{
-              width: 200px;
+            //   width: 300px;
           }
           .signText{
               color: #409eff ;
               margin-left: 10px;
+            //   width: 300px;
             &:hover{
                 cursor: pointer;
             }

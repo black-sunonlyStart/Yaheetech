@@ -27,7 +27,7 @@
                         label="首单下单数量">
                     </el-table-column>
                     <el-table-column
-                        label="出厂价">
+                        label="出厂价(¥)">
                         <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.purchaseprice}}</span>
@@ -36,7 +36,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="FOB价">
+                        label="FOB价(¥)">
                          <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.fobprice }}</span>
@@ -45,7 +45,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="含税价">
+                        label="含税价(¥)">
                         <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.taxprice}}</span>
@@ -55,15 +55,17 @@
                     </el-table-column>
                     <el-table-column
                         prop="MiscPrice"
-                        label="杂费">
+                        label="杂费(¥)">
                     </el-table-column>
                     <el-table-column
                         prop="WarpperFee"
-                        label="产品包装费">
+                        label="产品包装费(¥)">
                     </el-table-column>
-                    <el-table-column
-                        label="采购成本
-                        净采购价+杂费+包装费">
+                    <el-table-column>
+                        <template slot="header">
+                            <div>采购成本</div>
+                            <div>净采购价+杂费+包装费(¥)</div>
+                        </template>
                         <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.costPrice  + scope.row.miscprice  + scope.row.warpperfee }}</span>
@@ -72,11 +74,11 @@
                     </el-table-column>
                     <el-table-column
                         prop="deliverydays"
-                        label="交期">
+                        label="交期(天)">
                     </el-table-column>
                     <el-table-column
                         prop="packingquantity"
-                        label="装箱数量">
+                        label="装箱数量(/箱)">
                     </el-table-column>
                 </el-table>
             </el-col>
@@ -101,7 +103,7 @@
                        >
                     </el-table-column>
                     <el-table-column
-                        label="出厂价">
+                        label="出厂价(¥)">
                         <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.purchaseprice}}</span>
@@ -110,7 +112,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="FOB价">
+                        label="FOB价(¥)">
                          <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.fobprice }}</span>
@@ -119,7 +121,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="含税价">
+                        label="含税价(¥)">
                         <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.taxprice}}</span>
@@ -129,16 +131,17 @@
                     </el-table-column>
                     <el-table-column
                         prop="MiscPrice"
-                        label="杂费">
+                        label="杂费(¥)">
                     </el-table-column>
                     <el-table-column
                         prop="WarpperFee"
-                        label="产品包装费">
+                        label="产品包装费(¥)">
                     </el-table-column>
-                    <el-table-column
-                        prop="address"
-                        label="采购成本
-                        净采购价+杂费+包装费">
+                    <el-table-column>
+                        <template slot="header">
+                            <div>采购成本</div>
+                            <div>净采购价+杂费+包装费(¥)</div>
+                        </template>
                         <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.costPrice  + scope.row.miscprice  + scope.row.warpperfee }}</span>
@@ -147,11 +150,11 @@
                     </el-table-column>
                     <el-table-column
                         prop="deliverydays"
-                        label="交期">
+                        label="交期(天)">
                     </el-table-column>
                     <el-table-column
                         prop="packingquantity"
-                        label="装箱数量">
+                        label="装箱数量(/箱)">
                     </el-table-column>
                 </el-table>
             </el-col>

@@ -13,10 +13,10 @@
                             v-model="ruleForm.region"
                             >
                             <el-option 
-                                v-for="item in devSign"                        
-                                :key="item.key"
-                                :label="item.label"
-                                :value="item.value"
+                                v-for="item in targetPrice"                        
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id"
                                 >
                             </el-option>
                         </el-select>        
@@ -35,10 +35,10 @@
                             v-model="ruleForm.dailySales"
                             >
                             <el-option 
-                                v-for="item in devSign"                        
-                                :key="item.key"
-                                :label="item.label"
-                                :value="item.value"
+                                v-for="item in dailySales"                        
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.id"
                                 >
                             </el-option>
                         </el-select>
@@ -381,10 +381,13 @@
     </div>
 </template>
 <script>
+import {selectRoleEmployeeForRoleId} from '@/api/user.js'
 export default {
     name:'devInformationEdit',
     data(){
         return {
+            targetPrice:[],
+            dailySales:[],
             ruleForm: {
                 region:'出厂价',
                 staRating: '',
@@ -529,8 +532,23 @@ export default {
     },
     mounted(){
         this.getDetailPage()
+        this.getTypeList()
     },
     methods:{
+        getTypeList(){
+            let params = {
+                rid:170//采购开发
+            }
+            selectRoleEmployeeForRoleId(params).then(res => {
+                this.dailySales = res.data
+            })
+            let itemList = {
+                rid:171//业务开发
+            }
+            selectRoleEmployeeForRoleId(itemList).then(res => {
+                this.targetPrice = res.data
+            })
+        },
         getDetailPage(){
             this.ruleForm = {
                 staRating: this.devInformationDetaiList.title,

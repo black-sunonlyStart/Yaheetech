@@ -27,12 +27,12 @@
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                产品年龄段：<span>{{prodCerInfoDetailList.isauth}}</span>
+                产品年龄段：<span>{{prodCerInfoDetailList.applicableAge }}</span>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                专利风险等级：<span>{{prodCerInfoDetailList.applicableAge}}</span>
+                专利风险等级：<span>{{prodCerInfoDetailList.riskllevel}}</span>
             </el-col>
         </el-row>
         <el-row>

@@ -94,7 +94,7 @@
                                     <div v-for="item in productImgDetail" :key="item.key" class="imgCon">
                                         <el-image
                                             lazy
-                                            style="width: 100px; height: 100px; dispaly:black"
+                                            style="width: 150px; height: 150px; dispaly:black"
                                             :src="item.showImgUrl"
                                             fit="fill">
                                         </el-image>
@@ -287,7 +287,7 @@
                                     <prodevInfoDetail :prodevInfoDetaiList='prodevInfoDetaiList'></prodevInfoDetail>
                                 </div>
                                 <div v-else>
-                                    <prodevInfoEdit @closeEdit='prodevInfoEdit'></prodevInfoEdit>
+                                    <prodevInfoEdit @closeEdit='prodevInfoEdit' :prodevInfoDetaiList='prodevInfoDetaiList'></prodevInfoEdit>
                                 </div>
                             </el-card>
                         </div>
@@ -306,7 +306,7 @@
                                 
                                 </div>
                                 <div v-else>
-                                <prodCerInfoEdit @closeEdit='proInfoEdit'></prodCerInfoEdit>
+                                    <prodCerInfoEdit @closeEdit='proInfoEdit' :prodCerInfoDetailList='prodCerInfoDetailList'></prodCerInfoEdit>
                                 </div>
                             </el-card>
                         </div>
@@ -322,7 +322,7 @@
                                     <prodevInfoDetail :prodevInfoDetaiList='prodevInfoDetaiList'></prodevInfoDetail>
                                 </div>
                                 <div v-else>
-                                    <prodevInfoEdit @closeEdit='prodevInfoEdit'></prodevInfoEdit>
+                                    <prodevInfoEdit @closeEdit='prodevInfoEdit' :prodevInfoDetaiList='prodevInfoDetaiList'></prodevInfoEdit>
                                 </div>
                             </el-card>
                         </div>
@@ -340,7 +340,7 @@
                                     <pordSizeAttrInfo :pordSizeAttrInfoList='pordSizeAttrInfoList'></pordSizeAttrInfo>
                                 </div>
                                 <div v-else>
-                                    <pordSizeAttrEdit  @closeEdit='closeProdevAttr'></pordSizeAttrEdit>
+                                    <pordSizeAttrEdit  @closeEdit='closeProdevAttr' :pordSizeAttrInfoList='pordSizeAttrInfoList'></pordSizeAttrEdit>
                                 </div>
                             </el-card>
                         </div>
@@ -358,7 +358,7 @@
                                     <purchaseInfoDetail :purchaseInfoDetaiList='purchaseInfoDetaiList'></purchaseInfoDetail>
                                 </div>
                                 <div v-else>
-                                    <purchaseInfoEdit  @closeEdit='closePurchaseInfo'></purchaseInfoEdit>
+                                    <purchaseInfoEdit  @closeEdit='closePurchaseInfo' :purchaseInfoDetaiList='purchaseInfoDetaiList'></purchaseInfoEdit>
                                 </div>
                             </el-card>
                         </div>
@@ -705,32 +705,32 @@ export default {
                     return item.authtype == 2
                 })
                 
-                let newCredentialList1 = []
-                getProdCerInfoDetailList().then(res => {
-                    let newData = credentialList1 ?credentialList1[0].data.split(','): []
-                    let newRate = res.data.credentialsRates.map(item => {
-                        return item.authRates
+                // let newCredentialList1 = []
+                // getProdCerInfoDetailList().then(res => {
+                //     let newData = credentialList1 ?credentialList1[0].data.split(','): []
+                //     let newRate = res.data.credentialsRates.map(item => {
+                //         return item.authRates
                         
-                    })
-                    let newRate1 = newRate.flat()
-                    newData = newData.map(Number)
-                    if(newData.length > 0){
-                        newCredentialList1 = newRate1.filter(item => {
-                            return newData.includes(item.authId)
-                        })
-                    }
+                //     })
+                //     let newRate1 = newRate.flat()
+                //     newData = newData.map(Number)
+                //     if(newData.length > 0){
+                //         newCredentialList1 = newRate1.filter(item => {
+                //             return newData.includes(item.authId)
+                //         })
+                //     }
                     this.prodCerInfoDetailList = {
                         isauth:this.productVos.isauth,//是否需要认证
-                        credentialList1:newCredentialList1,//必要认证
-                        credentialList2,//必要认证其他
-                        credentialList3,//推荐认证
+                        credentialList1:credentialList1 ? credentialList1:[],//必要认证
+                        credentialList2:credentialList2?credentialList2:[],//必要认证其他
+                        credentialList3:credentialList3 ? credentialList3 : [],//推荐认证
                         authnote:this.productVos.authnote,//认证备注
                         applicableAge:this.productVos.applicableAge ,//产品年龄段
                         applicableAgeNote:this.productVos.applicableAgeNote ,//备注
                         riskllevel:this.productVos.riskllevel,//专利风险等级
                         patentInfo:JSON.parse(this.development.patentinfo).LocalStrings,//专利确认
                     }
-                }) 
+                // }) 
                     //产品标题和供应商信息
                     let mustCredentialList = res.data.developmentAttachmentList.filter(item => { //必要认证附件
                         return item.filetype  == 3
@@ -758,18 +758,30 @@ export default {
                 this.pordSizeAttrInfoList = {
                     buyerName:this.productVos.productCountryList[0].buyerName,//分配采购开发员
                     producttype:res.data.development.producttype, //产品类型
-                    productSize:this.productVos.length * this.productVos.width * this.productVos.height,//产品尺寸
-                    productSizeYcun:(this.productVos.length * ycun) * (this.productVos.width * ycun) * (this.productVos.height * ycun),//产品尺寸ycun
+                    productSizeL:this.productVos.length,//产品尺寸
+                    productSizeW:this.productVos.width,//产品尺寸
+                    productSizeH:this.productVos.height,//产品尺寸
+                    productSizeYcunL:(this.productVos.length * ycun).toFixed(2),//产品尺寸ycun
+                    productSizeYcunW:(this.productVos.width * ycun).toFixed(2) ,//产品尺寸ycun
+                    productSizeYcunH:(this.productVos.height * ycun).toFixed(2),//产品尺寸ycun
                     productVolume:(this.productVos.length / 100) * (this.productVos.width / 100) * (this.productVos.height / 100), //产品体积
-                    productVolumeYchi:((this.productVos.length / 100) * (this.productVos.width / 100) * (this.productVos.height / 100)) * ychi, //产品体积
-                    packageSize:this.productVos.packedlength * this.productVos.packedwidth * this.productVos.packedheight,//包装尺寸发货用
-                    packageSizeYcun:(this.productVos.packedlength * this.productVos.packedwidth * this.productVos.packedheight) * ycun,//包装尺寸发货用
+                    productVolumeYchi:(((this.productVos.length / 100) * (this.productVos.width / 100) * (this.productVos.height / 100)) * ychi).toFixed(2) , //产品体积
+                    packageSizeL:this.productVos.packedlength,//包装尺寸发货用
+                    packageSizeW:this.productVos.packedwidth,//包装尺寸发货用
+                    packageSizeH:this.productVos.packedheight,//包装尺寸发货用
+                    packageSizeYcunL:((this.productVos.packedlength) * ycun).toFixed(2),//包装尺寸发货用
+                    packageSizeYcunW:((this.productVos.packedwidth) * ycun).toFixed(2),//包装尺寸发货用
+                    packageSizeYcunH:((this.productVos.packedheight) * ycun).toFixed(2),//包装尺寸发货用
                     packedvolume:this.productVos.packedvolume,//包装体积(发货用)
-                    packedvolumeYchi:this.productVos.packedvolume * ychi,//包装体积(发货用)
-                    outerBoxSize:this.productVos.cartonLength * this.productVos.cartonWidth  * this.productVos.cartonHeight,//外箱尺寸(装柜用
-                    outerBoxSizeYcun:(this.productVos.cartonLength * this.productVos.cartonWidth  * this.productVos.cartonHeight) * ycun,//外箱尺寸(装柜用
+                    packedvolumeYchi:(this.productVos.packedvolume * ychi).toFixed(2),//包装体积(发货用)
+                    outerBoxSizeL:this.productVos.cartonLength,//外箱尺寸(装柜用
+                    outerBoxSizeW:this.productVos.cartonWidth,//外箱尺寸(装柜用
+                    outerBoxSizeH:this.productVos.cartonHeight,//外箱尺寸(装柜用
+                    outerBoxSizeYcunL:((this.productVos.cartonLength) * ycun).toFixed(2),//外箱尺寸(装柜用
+                    outerBoxSizeYcunW: (this.productVos.cartonWidth  * ycun).toFixed(2),//外箱尺寸(装柜用
+                    outerBoxSizeYcunH:((this.productVos.cartonHeight) * ycun).toFixed(2),//外箱尺寸(装柜用
                     outerBoxVolume:(this.productVos.cartonLength  / 100) * (this.productVos.cartonWidth  / 100) * (this.productVos.cartonHeight  / 100), //外箱体积(装柜用
-                    outerBoxVolumeYcun:((this.productVos.cartonLength  / 100) * (this.productVos.cartonWidth  / 100) * (this.productVos.cartonHeight  / 100)) * ychi, //外箱体积(装柜用
+                    outerBoxVolumeYcun:(((this.productVos.cartonLength  / 100) * (this.productVos.cartonWidth  / 100) * (this.productVos.cartonHeight  / 100)) * ychi).toFixed(2), //外箱体积(装柜用
                     cartonWeight:this.productVos.cartonWeight,//外箱重量(装柜用)
                     cartonWeightLB:this.productVos.cartonWeight * 2.20,//外箱重量(装柜用)
                     beforepackweight:this.productVos.beforepackweight,//净重
@@ -788,6 +800,9 @@ export default {
                     packedheight:this.productVos.packedheight,
                     id:this.productVos.id,
                     spu:res.data.development.spu,
+                    packageshape:this.productVos.packageshape,
+                    containerModel:this.productVos.containerModel,
+                    cartonShape:this.productVos.cartonShape,
                 }
                 //采购信息
                 let productPurchaseVoList = this.productVos.productPurchaseVoList.filter(item => {
@@ -1016,7 +1031,7 @@ export default {
           font-weight: bold;
       }
       ::v-deep .el-card__body{
-          margin-left: 200px;
+          margin-left: 100px;
       }
       .edit-position{
           float: right;

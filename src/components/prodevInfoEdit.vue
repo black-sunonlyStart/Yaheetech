@@ -153,6 +153,7 @@
     </div>
 </template>
 <script>
+import { getAdministrativeRegion } from '@/api/user.js'
 export default {
     name:'prodevInfoEdit',
     data(){
@@ -184,25 +185,63 @@ export default {
             },
             devSign:[
                 {
-                    label: '成人',
+                    label: 'eBay',
                     key: 1,
-                    value: '成人'
+                    value: 1
                 },
                 {
-                    label: '儿童',
+                    label: 'Amazon',
                     key: 2,
-                    value: '儿童'
+                    value: 2
                 },    
                 {
-                    label: '婴儿',
+                    label: 'TradeMe',
                     key: 3,
-                    value: '婴儿'
+                    value: 3
+                }, 
+                {
+                    label: 'Walmart',
+                    key: 4,
+                    value: 4
                 }, 
             ],
         }
     },
+    props:{
+        prodevInfoDetaiList:{
+            type:Object,
+            default:() => ({})
+        }
+    },
+    mounted(){
+        this.getDetaiList()
+        this.getContryList()
+    },
     methods:{
-         handleRemove(file, fileList) {
+        getContryList(){
+            let params = {
+                id : 0
+            }
+            getAdministrativeRegion(params).then(res => {
+                console.log(res.data,'res.data')
+            })
+        },
+        getDetaiList(){
+            console.log(this.prodevInfoDetaiList,'recommendFileList')
+            // this.ruleForm = {
+            //         chineseTitle:this.prodevInfoDetaiList.title,
+            //         chineseDescription:this.prodevInfoDetaiList.description,
+            //         supplierLocation:'',
+            //         supplierLocation1:'',
+            //         supplierLocation2:'',
+            //         productMarket:'',
+            //         certificationRemarks:this.prodevInfoDetaiList.certificationnote,
+            //         fileList:[],
+            //         recommendFileList:[]
+
+            // }
+        },
+        handleRemove(file, fileList) {
             console.log(file, fileList);
         },
         handlePreview(file) {
@@ -210,6 +249,7 @@ export default {
             console.log(file);
         },
         handleExceed(files, fileList) {
+            console.log(files,'222222')
             this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
         },
         beforeRemove(file) {

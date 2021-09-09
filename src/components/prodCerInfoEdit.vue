@@ -5,8 +5,8 @@
                 <el-col :span="10">
                     <el-form-item label="是否需要认证:" prop="isCertificationReq">
                         <el-radio-group v-model="ruleForm.isCertificationReq">
-                            <el-radio :label="3">是</el-radio>
-                            <el-radio :label="6">否</el-radio>
+                            <el-radio :label="true">是</el-radio>
+                            <el-radio :label="false">否</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -16,17 +16,17 @@
                     <el-form-item label="必要认证:" prop="nessCertification" >
                         <el-checkbox-group v-model="ruleForm.usaNessCertification">
                             <div class="contrayText">
-                                美国 : <el-checkbox :label="item" v-for="item in isUsa" :key="item">{{item}}</el-checkbox>
+                                美国 : <el-checkbox :label="item.authId" v-for="item in isUsa" :key="item.authId">{{item.authName}}</el-checkbox>
                             </div>
                         </el-checkbox-group>
                         <el-checkbox-group v-model="ruleForm.ukNessCertification">
                             <div class="contrayText">
-                                英国 : <el-checkbox :label="item" v-for="item in isUk" :key="item">{{item}}</el-checkbox>
+                                欧盟 : <el-checkbox :label="item.authId" v-for="item in isUk" :key="item.authId">{{item.authName}}</el-checkbox>
                             </div>
                         </el-checkbox-group>
                         <el-checkbox-group v-model="ruleForm.euNessCertification">
                             <div class="contrayText">
-                                欧盟 : <el-checkbox :label="item" v-for="item in isEu" :key="item">{{item}}</el-checkbox>
+                                澳大利亚 : <el-checkbox :label="item.authId" v-for="item in isEu" :key="item.authId">{{item.authName}}</el-checkbox>
                             </div>
                         </el-checkbox-group>
                     </el-form-item>
@@ -36,11 +36,11 @@
                 <el-col :span="10">
                     <el-form-item label="认证要求:" prop="requirements">
                         <el-input
-                            type="textarea"
-                            :autosize="{ minRows: 2, maxRows: 4}"
-                            placeholder="请输入内容"
-                            v-model="ruleForm.requirements">
+                           v-for="item in ruleForm.requirements" 
+                           :key="item.id"
+                            v-model="item.data">
                         </el-input>
+                         <div class="requireMentsBox" @click="addMustRequire">添加</div>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -48,11 +48,11 @@
                 <el-col :span="10">
                     <el-form-item label="确认测试要求:" prop="testRequirements">
                         <el-input
-                            type="textarea"
-                            :autosize="{ minRows: 2, maxRows: 4}"
-                            placeholder="请输入内容"
-                            v-model="ruleForm.testRequirements">
+                           v-for="item in ruleForm.testRequirements" 
+                           :key="item.id"
+                            v-model="item.data">
                         </el-input>
+                        <div class="requireMentsBox" @click="addRequireMent">添加</div>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -112,27 +112,27 @@
             <el-row :gutter="10">
                 <el-col :span="10">
                     <el-form-item label="专利确认">
-                         <el-checkbox v-model="ruleForm.checkedUSA">美国</el-checkbox>
-                         <el-checkbox v-model="ruleForm.checkedUK">英国</el-checkbox>
-                         <el-checkbox v-model="ruleForm.checkedEU">德国</el-checkbox>
+                         <el-checkbox v-model="ruleForm.checkedUSA" label='en-US'  @change="addthis">美国</el-checkbox>
+                         <el-checkbox v-model="ruleForm.checkedUK" label="EN_GB">英国</el-checkbox>
+                         <el-checkbox v-model="ruleForm.checkedEU" label="DE">德国</el-checkbox>
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row v-if="ruleForm.checkedUSA">
+            <el-row v-if="ruleForm.checkedUSA.length > 0">
                 <el-col :span="10">
                     <el-form-item label="美国">
                          <el-input v-model="ruleForm.inputUSA"></el-input>  
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row v-if="ruleForm.checkedUK">
+            <el-row v-if="ruleForm.checkedUK.length > 0">
                 <el-col :span="10">
                     <el-form-item label="英国">
                          <el-input v-model="ruleForm.inputUK"></el-input>  
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row v-if="ruleForm.checkedEU">
+            <el-row v-if="ruleForm.checkedEU.length > 0">
                 <el-col :span="10">
                     <el-form-item label="德国">
                          <el-input v-model="ruleForm.inputEU"></el-input>  
@@ -153,7 +153,7 @@ export default {
         return {
             ruleForm:{
                 isCertificationReq:3,
-                usaNessCertification:[],
+                usaNessCertification:[1],
                 ukNessCertification:[],
                 euNessCertification:[],
                 requirements:'',
@@ -162,9 +162,9 @@ export default {
                 productAgeGroup:'',
                 ageGroupRemarks:'',
                 patentRiskLevel:'',
-                checkedUSA:'',
-                checkedUK:'',
-                checkedEU:'',
+                checkedUSA:[],
+                checkedUK:[],
+                checkedEU:[],
                 inputUSA:'',
                 inputUK:'',
                 inputEU:'',
@@ -178,46 +178,157 @@ export default {
                 productAgeGroup: [{ required: true, message: '请选择适用年龄段', trigger: 'blur' }],
                 patentRiskLevel: [{ required: true, message: '请选择风险等级', trigger: 'blur' }],
             },
-            isUsa:['UL', 'CSA' ,'FCC', 'ASTM F963' ,'CPSIA' ,'EPA formaldehyde' ,'FDA' ,'16 CFR 1303', 'CA TB-117'],
-            isUk:['UKCA', 'GPSD', 'FOOD GRADE', 'REACH SVHC' ,'REACH ANNEX XVII','EMC', 'RoHs' ,'LVD', 'E1', 'BS5852'],
-            isEu:['CE', 'GPSD', 'FOOD GRADE', 'REACH SVHC' ,'REACH ANNEX XVII' ,'EMC' ,'RoHs', 'LVD' ,'E1'],
+            isUsa:[
+                {
+                    authId:1,
+                    authName: 'FCC'
+                },
+                {
+                    authId:2,
+                    authName: 'CPSIA'
+                },
+                {
+                    authId:3,
+                    authName: 'CFR 1303'
+                },
+                {
+                    authId:4,
+                    authName: 'FDA'
+                },
+            ],
+            isUk:[
+                {
+                    authId:20,
+                    authName: 'CE'
+                },
+                {
+                    authId:21,
+                    authName: 'GPSD'
+                },
+                {
+                    authId:22,
+                    authName: 'food grade'
+                },
+                {
+                    authId:23,
+                    authName: 'REACH ANNEX XVII'
+                },
+            ],
+            isEu:[
+                {
+                    authId:40,
+                    authName: 'RCM'
+                },
+                {
+                    authId:41,
+                    authName: 'EU Food grade'
+                },
+                {
+                    authId:42,
+                    authName: 'FDA'
+                },
+            ],
             devSign:[
                 {
                     label: '成人',
                     key: 1,
-                    value: '成人'
+                    value: 2
                 },
                 {
                     label: '儿童',
                     key: 2,
-                    value: '儿童'
+                    value: 1
                 },    
                 {
                     label: '婴儿',
                     key: 3,
-                    value: '婴儿'
+                    value: 0
                 }, 
             ],
             riskLevel:[
                 {
                     label: '高风险',
                     key: 1,
-                    value: '高风险'
+                    value: 0
                 },
                 {
                     label: '中风险',
                     key: 2,
-                    value: '中风险'
+                    value: 1
                 },    
                 {
                     label: '低风险',
                     key: 3,
-                    value: '低风险'
+                    value: 2
                 }, 
             ]
         }
     },
+    props:{
+        prodCerInfoDetailList:{
+            type:Object,
+            default:() => ({})
+        }
+    },
+    mounted(){
+        this.getDetailPage()
+    },
     methods:{
+        addthis(val){
+            console.log(val)
+        },
+        addRequireMent(){
+            console.log(this.prodCerInfoDetailList)
+            this.prodCerInfoDetailList.credentialList2.push({})
+        },
+        addMustRequire(){
+            this.prodCerInfoDetailList.credentialList1.push({})
+        },
+        getDetailPage(){
+            if(!this.prodCerInfoDetailList.credentialList1)return
+            let credentialList1 = this.prodCerInfoDetailList.credentialList1.map(item => {
+                return item.authId
+            })
+            if(this.prodCerInfoDetailList.patentInfo.length > 0){
+                this.prodCerInfoDetailList.patentInfo.forEach(item => {
+                    if(item.LanguageCode == 'en-US'){
+                        this.ruleForm.checkedUSA = 'en-US'
+                        this.ruleForm.inputUSA = item.Value
+                    }else if(item.LanguageCode == 'EN_GB'){
+                        this.ruleForm.checkedUSA = 'EN_GB'
+                        this.ruleForm.inputUK = item.Value
+                    }else if (item.LanguageCode == 'DE'){
+                        this.ruleForm.checkedUSA = 'DE'
+                        this.ruleForm.inputEU = item.Value
+                    }
+                    
+                })
+            }
+            this.ruleForm = {
+                isCertificationReq:this.prodCerInfoDetailList.isauth,
+                usaNessCertification:this.getAuthId(this.isUsa,credentialList1),
+                ukNessCertification:this.getAuthId(this.isUk,credentialList1),
+                euNessCertification:this.getAuthId(this.isEu,credentialList1),
+                requirements:this.prodCerInfoDetailList.credentialList2,
+                testRequirements:this.prodCerInfoDetailList.credentialList3,
+                requirementsRemark:this.prodCerInfoDetailList.authnote,
+                productAgeGroup:this.prodCerInfoDetailList.applicableAge,
+                ageGroupRemarks:this.prodCerInfoDetailList.applicableAgeRemarks ? this.prodCerInfoDetailList.applicableAgeRemarks : '',
+                patentRiskLevel:this.prodCerInfoDetailList.riskllevel,
+                checkedUSA:[],
+                checkedUK:[],
+                checkedEU:[],
+            }
+        },
+        getAuthId(isUsa,credentialList1){
+            let usaid = isUsa.filter(res => {
+                return credentialList1.includes(res.authId)
+            })
+            let rUsaid = usaid.map(item => {
+                return item.authId
+            })
+            return rUsaid
+        },
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
             if (valid) {
@@ -249,5 +360,10 @@ export default {
         width: 200px;
         display: inline-block;
         margin-left: 20px;
+    }
+    .requireMentsBox{
+        cursor: pointer;
+        color: #409Eff;
+        display: inline-block;
     }
 </style>
