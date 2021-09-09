@@ -21,7 +21,7 @@
                 德文标题:<span>{{devInformationDetaiList.titleDe}}</span>
             </el-col>
             <el-col :span="10">
-                US Duty税率:<span>{{devInformationDetaiList.dutyrate1}}</span>
+                US Duty税率:<span>{{devInformationDetaiList.dutyrate1}}%</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
@@ -29,7 +29,7 @@
                 日文标题:<span>{{devInformationDetaiList.titleJp}}</span>
             </el-col>
             <el-col :span="10">
-                DE Duty税率:<span>{{devInformationDetaiList.dutyrate2}}</span>
+                DE Duty税率:<span>{{devInformationDetaiList.dutyrate2}}%</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
@@ -37,7 +37,7 @@
                 英文关键词:<span>{{devInformationDetaiList.keys}}</span>
             </el-col>
             <el-col :span="10">
-                GB Duty税率:<span>{{devInformationDetaiList.dutyrate3}}</span>
+                GB Duty税率:<span>{{devInformationDetaiList.dutyrate3}}%</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
@@ -55,7 +55,7 @@
         </el-row>
         <el-row v-for="item in devInformationDetaiList.productMarketList" :key="item.id">
             <el-col :span="24">
-                <div class="tableTitle">{{item.platformname}}: {{item.countrycode}}   {{item.warehouseName}}</div>
+                <div class="tableTitle">{{item.platformname}}- {{item.countrycode}}   {{item.warehouseName}}</div>
                 <el-table
                      border
                     :data="[item]"
@@ -76,15 +76,15 @@
                     <el-table-column
                         label="利润">
                         <template slot-scope="scope">
-                            <div>{{scope.row.profit/scope.row.profitmargin*100}}</div>
-                            <div>{{scope.row.endprofit/scope.row.endprofitmargin*100}}</div>
+                            <div>{{scope.row.profit/scope.row.profitmargin*100}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div>{{scope.row.endprofit/scope.row.endprofitmargin*100}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
                         </template>
                     </el-table-column>
                     <el-table-column
                         label="运费">
                         <template slot-scope="scope">
-                            <div v-if="scope.row.freightway == 1">{{scope.row.inlandportcosts+scope.row.oceanfreight+scope.row.outlandportcosts}}</div>
-                            <div v-if="scope.row.freightway == 2">{{scope.row.oceanfreight}}</div>
+                            <div v-if="scope.row.freightway == 1">{{scope.row.inlandportcosts+scope.row.oceanfreight+scope.row.outlandportcosts}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div v-if="scope.row.freightway == 2">{{scope.row.oceanfreight}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -94,41 +94,41 @@
                     <el-table-column
                         label="海运费成本">
                         <template slot-scope="scope">
-                            <div>港前:{{scope.row.inlandportcosts}}</div>
-                            <div>海运:{{scope.row.oceanfreight}}</div>
-                            <div>目的港:{{scope.row.outlandportcosts}}</div>
+                            <div>港前:{{scope.row.inlandportcosts}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div>海运:{{scope.row.oceanfreight}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div>目的港:{{scope.row.outlandportcosts}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
                         </template>
                     </el-table-column>
                     <el-table-column
                         label="税费">
                         <template slot-scope="scope">
-                            <div>进口DUTY:{{scope.row.duty}}</div>
-                            <div>进口VAT:{{scope.row.vatfee}}</div>
-                            <div>销售VAT:{{scope.row.salesvat}}</div>
+                            <div>进口DUTY:{{scope.row.duty}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div>进口VAT:{{scope.row.vatfee}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div>销售VAT:{{scope.row.salesvat}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
                         </template>
                     </el-table-column>
                     <el-table-column
                         label="平台费">
                         <template slot-scope="scope">
-                            <div>成交费:{{scope.row.platformfee}}</div>
-                            <div>PayPal:{{scope.row.paypalprice}}</div>
-                            <div>刊登费:{{scope.row.listingfee}}</div>  
+                            <div>成交费:{{scope.row.platformfee}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div>PayPal:{{scope.row.paypalprice}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div>刊登费:{{scope.row.listingfee}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>  
                         </template>
                     </el-table-column>
                     <el-table-column
                         label="海外仓成本">
                         <template slot-scope="scope">                          
-                            <div>操作费:{{scope.row.handlingfee}}</div>
-                            <div>发货包装:{{scope.row.packagingfee}}</div>
-                            <div>本地化费:{{scope.row.localizationfee}}</div>   
+                            <div>操作费:{{scope.row.handlingfee}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div>发货包装:{{scope.row.packagingfee}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div>本地化费:{{scope.row.localizationfee}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>   
                         </template>
                     </el-table-column>
                     <el-table-column
                         prop="developmentprice"
                         label="可抵扣税费">
                         <template slot-scope="scope">
-                            <div>进口VAT:{{scope.row.vatfee}}</div>
-                            <div>快递VAT:{{scope.row.localshippingfeevat}}</div>
+                            <div>进口VAT:{{scope.row.vatfee}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div>快递VAT:{{scope.row.localshippingfeevat}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -142,23 +142,7 @@
 export default {
     data(){
         return {
-             tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-            }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-            }]
+             unit:''
         }
     },
     props:{
@@ -168,7 +152,20 @@ export default {
         }
     },
     mounted(){
-        console.log(this.devInformationDetaiList,'3333333')
+        // console.log(this.devInformationDetaiList.productMarketList,'111111')
+        // this.unitChange()
+        // console.log(this.devInformationDetaiList,'3333333')
+    },
+    methods:{
+        // unitChange(){debugger
+        //     if(this.devInformationDetaiList.productMarketList.length > 0 ){
+        //         this.devInformationDetaiList.productMarketList.forEach(item => {
+        //             if(item.countrycode == 'GB'){
+        //                 item.unit == 'GBP'
+        //             }
+        //         })
+        //     }
+        // }
     }
 }
 </script>

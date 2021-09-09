@@ -1,17 +1,20 @@
 <template>
     <div>
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm" size="mini">
-            <el-row>
-                <el-col :span="12">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="170px" class="demo-ruleForm" size="mini">
+            <el-row :gutter="150">
+                <el-col :span="10">
                     <el-form-item label="产品星级评分:" prop="staRating">
-                        <el-input v-model="ruleForm.staRating"></el-input>
+                        <el-input-number  :controls='false' :precision="1" :step="0.1" :max="5" :min="0" v-model="ruleForm.staRating" class="numberInput"></el-input-number>
                     </el-form-item>
                 </el-col>
-                <el-col :span="12">
+                <el-col :span="10">
                     <el-form-item label="目标采购价:" prop="targetPrice">
                         <div class="targetPriceWbox">
                             <div class="targetPriceBox">
-                                <el-input v-model="ruleForm.targetPrice"></el-input>
+                                <el-input v-model="ruleForm.targetPrice">
+                                    <template slot="append" v-if="ruleForm.region == 2">$</template>
+                                    <template slot="append" v-else>¥</template>
+                                </el-input>
                             </div>
                             <div>
                                 <el-select 
@@ -30,44 +33,37 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row>
-                <el-col :span="12">
+            <el-row :gutter="150">
+                <el-col :span="10">
                     <el-form-item label="我司目标星级评分:" prop="westaRating">
-                        <el-input v-model="ruleForm.westaRating"></el-input>
+                        <el-input-number  :controls='false' :precision="1" :step="0.1" :max="5" :min="0" v-model="ruleForm.westaRating" class="numberInput"></el-input-number>
                     </el-form-item>
                 </el-col>
-                <el-col :span="12">
+                <el-col :span="10">
                     <el-form-item label="产品预估日销量:" prop="dailySales">
                         <el-input v-model="ruleForm.dailySales"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row>
-                <el-col :span="12">
+            <el-row :gutter="150">
+                <el-col :span="10">
                     <el-form-item label="目标售后返修率要求:" prop="rateRequirements">
-                        <el-input v-model="ruleForm.rateRequirements"></el-input>
+                        <el-input v-model="ruleForm.rateRequirements">
+                            <template slot="append" >%</template>
+                        </el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="12">
+                <el-col :span="10">
                     <el-form-item label="预估首单订单数量:" prop="orderQuantity">
                         <el-input v-model="ruleForm.orderQuantity"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row>
-                <el-col :span="12">
+            <el-row :gutter="150">
+                <el-col :span="10">
                     <el-form-item label="产品开发市场:" prop="productMarket">
                         <el-input v-model="ruleForm.productMarket"></el-input>
                     </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item label="产品包装尺寸特殊要求:" prop="specialPackaging">
-                        <el-input v-model="ruleForm.specialPackaging"></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="12">
                     <el-form-item label="产品测样时间点:" prop="samplingTime">
                         <el-date-picker
                             v-model="ruleForm.samplingTime"
@@ -75,8 +71,6 @@
                             placeholder="选择日期">
                         </el-date-picker>
                     </el-form-item>
-                </el-col>
-                <el-col :span="12">
                     <el-form-item label="产品下单时间点:" prop="orderTime">
                         <el-date-picker
                             v-model="ruleForm.orderTime"
@@ -85,8 +79,12 @@
                         </el-date-picker>
                     </el-form-item>
                 </el-col>
+                <el-col :span="10">
+                    <el-form-item label="产品包装尺寸特殊要求:" prop="specialPackaging">
+                        <el-input type="textarea" v-model="ruleForm.specialPackaging"></el-input>
+                    </el-form-item>
+                </el-col>
             </el-row>
-            
         </el-form>
         <div class="bottomButton">
             <el-button type="primary" @click="submitForm('ruleForm')" size="mini">保存</el-button>
@@ -114,34 +112,34 @@ export default {
             },
             rules: {
             staRating: [
-                { required: true, message: '请输入活动名称', trigger: 'blur' },
+                { required: true, message: '请添加评分', trigger: 'blur' },
             ],
             targetPrice: [
                 { required: true, message: '请填写价格', trigger: 'blur' }
             ],
             westaRating: [
-                { type: 'date', required: true, message: '请选择日期', trigger: 'blur' }
+                { type: 'date', required: true, message: '请添加评分', trigger: 'blur' }
             ],
             dailySales: [
-                { type: 'date', required: true, message: '请选择时间', trigger: 'blur' }
+                { type: 'date', required: true, message: '请添加产品预估日销量', trigger: 'blur' }
             ],
             rateRequirements: [
-                { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'blur' }
+                { type: 'array', required: true, message: '请添加返修率', trigger: 'blur' }
             ],
             orderQuantity: [
-                { required: true, message: '请选择活动资源', trigger: 'blur' }
+                { required: true, message: '请填写预估首单订单数量', trigger: 'blur' }
             ],
             productMarket: [
-                { required: true, message: '请填写活动形式', trigger: 'blur' }
+                { required: true, message: '请填写产品开发市场:', trigger: 'blur' }
             ],
             specialPackaging: [
-                { required: true, message: '请填写活动形式', trigger: 'blur' }
+                { required: true, message: '请填写包装尺寸特殊要求', trigger: 'blur' }
             ],
             samplingTime: [
-                { required: true, message: '请填写活动形式', trigger: 'blur' }
+                { required: true, message: '请添加产品测样时间点', trigger: 'blur' }
             ],
             orderTime: [
-                { required: true, message: '请填写活动形式', trigger: 'blur' }
+                { required: true, message: '请添加产品下单时间点', trigger: 'blur' }
             ],
             },
             devSign:[    
@@ -211,14 +209,20 @@ export default {
           width: 100%;
           height: 30px;   
           display: flex;
-          justify-content: flex-end;
-      }
+         justify-content: flex-end;
+    }
       .targetPriceWbox{
           display: flex;
           .targetPriceBox{
             width: 300px;
             margin-right: 10px;
-      }
-      }
-      
+        }
+    } 
+    ::v-deep.numberInput{
+        
+        width: 460px;
+        .el-input__inner{
+            text-align: left;
+        }
+    }   
 </style>

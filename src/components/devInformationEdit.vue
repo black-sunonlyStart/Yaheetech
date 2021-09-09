@@ -48,7 +48,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="中文概述:" prop="rateRequirements">
-                        <el-input v-model="ruleForm.rateRequirements"></el-input>
+                        <el-input type="textarea" autosize v-model="ruleForm.rateRequirements"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -151,9 +151,15 @@
                 <el-col :span="12">
                     <el-form-item label="Duty税率:" prop="productMarket">
                         <div class="taxRate">
-                            US:<el-input v-model="ruleForm.productMarketUS"></el-input>
-                            GB:<el-input v-model="ruleForm.productMarketGB"></el-input>
-                            DE:<el-input v-model="ruleForm.productMarketDE"></el-input>
+                            US:<el-input v-model="ruleForm.productMarketUS">
+                                <template slot="append">%</template>
+                            </el-input>
+                            GB:<el-input v-model="ruleForm.productMarketGB">
+                                <template slot="append">%</template>
+                            </el-input>
+                            DE:<el-input v-model="ruleForm.productMarketDE">
+                                <template slot="append">%</template>
+                            </el-input>
                         </div>
                     </el-form-item>
                 </el-col>
@@ -162,10 +168,11 @@
                 <el-col :span="24">
                     <el-form-item label="选择开发市场:" prop="dailySales">
                         <el-select 
-                            v-model="ruleForm.dailySales"
+                            v-model="ruleForm.marksContry1"
+                            @change="seleContry"
                             >
                             <el-option 
-                                v-for="item in devSign"                        
+                                v-for="item in dailySales1"                        
                                 :key="item.key"
                                 :label="item.label"
                                 :value="item.value"
@@ -173,28 +180,30 @@
                             </el-option>
                         </el-select>
                         <el-select 
-                            v-model="ruleForm.dailySales"
+                            v-model="ruleForm.marksContry2"
+                            @change="selectSale"
                             >
                             <el-option 
-                                v-for="item in devSign"                        
-                                :key="item.key"
-                                :label="item.label"
-                                :value="item.value"
+                                v-for="item in dailySales2"                        
+                                :key="item.id"
+                                :label="item.platformname"
+                                :value="item.platformname"
                                 >
                             </el-option>
                         </el-select>
                         <el-select 
-                            v-model="ruleForm.dailySales"
+                            v-model="ruleForm.marksContry3"
+                            @change="selectBox"
                             >
                             <el-option 
-                                v-for="item in devSign"                        
-                                :key="item.key"
-                                :label="item.label"
-                                :value="item.value"
+                                v-for="item in dailySales3"                        
+                                :key="item.id"
+                                :label="item.name"
+                                :value="item.name"
                                 >
                             </el-option>
                         </el-select>
-                        <el-button>添加市场</el-button>
+                        <el-button @click="addRemarks">添加市场</el-button>
                         添加不同国家站点，请在列表页的操作下拉菜单选择”开发其它市场”
                     </el-form-item>
                 </el-col>
@@ -218,14 +227,16 @@
             </el-row>    
         </el-form>
         <el-row>
-            <el-col v-for="item in devInformationDetaiList.productMarketList" :key="item.id" :span="12">
-                <span class="mainTitle">{{item.platformname}}-{{item.countrycode}}   {{item.warehouseName}}</span> <el-button type="primary" size="mini" class="delButton">删除</el-button>
+            <el-col v-for="(item,index) in devInformationDetaiList.productMarketList" :key="item.id" :span="12">
+                <span class="mainTitle">{{item.platformname}}-{{item.countrycode}}   {{item.warehouseName}}</span> <el-button type="primary" @click="delProductMarketList(index)" size="mini" class="delButton">删除</el-button>
                 <el-form :model="item" :rules="wareHouseRules" ref="ruleForm" label-width="200px" class="demo-ruleForm" size="mini">
                     <el-form-item label="产品开发价:" prop="developmentprice" >
                         <div class="inputBox"> 
                             <span class="inputUnit">GPB</span>
                             <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.developmentprice"></el-input-number>
+                            
                         </div>
+                        <el-button>计算利润</el-button>
                     </el-form-item>
                     <el-form-item label="SFP开发价:" prop="sfpDevelopmentPrice">
                         <div class="inputBox"> 
@@ -262,6 +273,17 @@
                             <span class="inputUnit">GPB</span>
                             <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.SFProductPrice"></el-input-number>
                         </div>
+                        <el-select 
+                            v-model="item.seaSkySelectKey"
+                            >
+                            <el-option 
+                                v-for="item in seaSkySelect"                        
+                                :key="item.key"
+                                :label="item.label"
+                                :value="item.value"
+                                >
+                            </el-option>
+                        </el-select> 
                     </el-form-item>
                     <el-form-item label="港前费用:" prop="inlandportcosts">
                         <div class="inputBox">
@@ -371,6 +393,19 @@
                             </el-option>
                         </el-select>
                     </el-form-item>
+                    <el-form-item label="海运费计算方式:" v-if="item.seaSkySelectKey == 1" prop="freightcalculated">
+                        <el-select 
+                            v-model="item.seaMoney"
+                            >
+                            <el-option 
+                                v-for="item in seaFreightSign"                        
+                                :key="item.key"
+                                :label="item.label"
+                                :value="item.value"
+                                >
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
                 </el-form>
             </el-col>
         </el-row>
@@ -381,13 +416,17 @@
     </div>
 </template>
 <script>
-import {selectRoleEmployeeForRoleId} from '@/api/user.js'
+import { selectRoleEmployeeForRoleId , getPlatformSiteByCountry, getWarehouseByCountry} from '@/api/user.js'
 export default {
     name:'devInformationEdit',
     data(){
         return {
+            // seaSkySelectKey:1,
             targetPrice:[],
             dailySales:[],
+            dailySales2:[],
+            dailySales3:[],
+            countryParams:'',
             ruleForm: {
                 region:'出厂价',
                 staRating: '',
@@ -411,7 +450,28 @@ export default {
                 brandUs:0,
                 brandDe:0,
                 brandAo:0,
+                marksContry1:'',
+                marksContry2:'',
+                marksContry3:'',
             },
+            dailySales1:[
+                {
+                    value:'US',
+                    label:'美国',
+                },
+                {
+                    value:'GB',
+                    label:'英国',
+                },
+                {
+                    value:'AU',
+                    label:'澳洲',
+                },
+                {
+                    value:'DE',
+                    label:'德国',
+                },
+            ],
             rules: {
                 staRating: [
                     { required: true, message: '请输入标题', trigger: 'blur' },
@@ -460,6 +520,18 @@ export default {
                     key: 3,
                     value: '零售价'
                 },    
+            ],
+            seaSkySelect:[
+                {
+                    label:'海运',
+                    key: 1,
+                    value:1,
+                },
+                {
+                    label:'空运',
+                    key: 2,
+                    value:2,
+                },
             ],
             isBrandSign:[    
                 {
@@ -535,6 +607,23 @@ export default {
         this.getTypeList()
     },
     methods:{
+        delProductMarketList(i){
+            this.devInformationDetaiList.productMarketList.splice(i,1)
+        },
+        addRemarks(){
+            if(!this.ruleForm.marksContry1 && !this.ruleForm.marksContry2 && !this.ruleForm.marksContry3){
+                this.$message({
+                    type: 'warning',
+                    message: '请添加市场'
+                })
+            }
+            
+            this.devInformationDetaiList.productMarketList.push({
+                platformname:this.ruleForm.marksContry2,
+                countrycode:this.ruleForm.marksContry1,
+                warehouseName:this.ruleForm.marksContry3,
+            })
+        },
         getTypeList(){
             let params = {
                 rid:170//采购开发
@@ -558,17 +647,45 @@ export default {
                 rateRequirements:this.devInformationDetaiList.description,
                 orderQuantity: this.devInformationDetaiList.priority,
                 productMarketUS: this.devInformationDetaiList.dutyrate1,
-                productMarketGB: this.devInformationDetaiList.dutyrate3,
-                productMarketDE: this.devInformationDetaiList.dutyrate2,
+                productMarketGB: this.devInformationDetaiList.dutyrate3 ? this.devInformationDetaiList.dutyrate3 : '3.26',
+                productMarketDE: this.devInformationDetaiList.dutyrate2 ? this.devInformationDetaiList.dutyrate2 : '3.91',
                 isanji:this.devInformationDetaiList.isanji,
                 isbrand:this.devInformationDetaiList.ispatentproduct,
                 titleDe:this.devInformationDetaiList.titleDe,
                 titleJp:this.devInformationDetaiList.titleJp,
                 ispatentproduct:this.devInformationDetaiList.ispatentproduct,
-                seaFreight:this.devInformationDetaiList.computemode,
-                
+                seaFreight:this.devInformationDetaiList.computemode?0:1,
+                brandEu:0,
+                brandUs:0,
+                brandDe:0,
+                brandAo:0,  
             }
             console.log(this.ruleForm,'ruleForm')
+        },
+        seleContry(val){
+            this.ruleForm.marksContry2 = ''
+            if(this.ruleForm.marksContry3){
+                this.ruleForm.marksContry3 = ''
+            }
+            this.countryParams = {
+                countryCode:val
+            }
+            getPlatformSiteByCountry(this.countryParams ).then(res => {
+                
+                 this.dailySales2 =  res.data
+            })
+        },
+        selectSale(){
+            if(this.ruleForm.marksContry3){
+                this.ruleForm.marksContry3 = ''
+            }
+            getWarehouseByCountry(this.countryParams).then(res => {
+                 this.dailySales3 =  res.data
+                 console.log(res.data)
+            })
+        },
+        selectBox(val){
+            this.ruleForm.marksContry3 = val
         },
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
@@ -625,6 +742,8 @@ export default {
     }
     ::v-deep.inputBox{
         width: 200px;
+        display: inline-block;
+        // display: flex;
         .el-input-number {
             .el-input__inner{
                 color: black !important;

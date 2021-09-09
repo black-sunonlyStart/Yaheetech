@@ -5,16 +5,25 @@
                 竞品信息
             </span>
             <div class="mainImage">
-                <div v-for="(item, index) in comNewsDetailList.competingproducts" :key="item.key" >
-                    <div>
-                        <div class="productTitle">竞品{{index + 1}}</div>
-                        <div>
-                            <el-row>
-                                <el-col :span="12" class="imgDetail">
-                                    <imgUpload @inputImg='putImgList' :value="item.showImgUrl ? [item.showImgUrl] : []" :showButton='false' :imageKey="item.key"></imgUpload> 
-                                </el-col>
-                                <el-col :span="10" class="formInput">
-                                    <el-form size="mini" label-width="120px">
+                <el-row>
+                    <div v-for="(item, index) in comNewsDetailList.competingproducts" :key="item.key" >
+                        <el-col :span="9" class="imgDetail">
+                            <div class="productTitle">竞品{{index + 1}}</div>
+                            <div class="imgbox">
+                                <div class="uploadBox">
+                                    <el-upload
+                                        action="https://jsonplaceholder.typicode.com/posts/"
+                                        list-type="picture-card"
+                                        :file-list="item.url ?[item]:[]"
+                                        :on-success="onSuccessUpload"
+                                        :limit="2"
+                                        :auto-upload='true'
+                                        >
+                                        <div class="imgText" @click="openImage(item,index)">选择图片</div>
+                                    </el-upload>
+                                </div>
+                                <div class="formInput">
+                                    <el-form size="mini" label-width="60px">
                                         <el-form-item label="平台:">
                                             <el-input v-model="item.platformid">{{item.platformid}}{{item.platformsiteid}}</el-input>
                                         </el-form-item>
@@ -33,105 +42,105 @@
                                             <el-input v-model="item.note">{{item.note}}</el-input>
                                         </el-form-item>
                                     </el-form>
-                                </el-col>
-                            </el-row>
-                        </div>
+                                </div>
+                            </div>
+                            <div class="iconDelbox">111111</div>
+                        </el-col>
                     </div>
-                </div>
+                </el-row>
             </div>
             <div class="addBottomButton">
                     <el-button type="primary" @click="addPageList" size="mini">添加竞品</el-button>
             </div>
-            
         </div>
             <span class="mainTitle">
                 基础信息
             </span>
                 <el-form size="mini" label-width="140px" :model="ruleForm" :rules="rules" ref="ruleForm">
-                    <el-row>
+                    <el-row :gutter="150">
                         <el-col :span="10">
                             <el-form-item label="产品的尺寸:" prop="jpsize">
-                                <el-input v-model="ruleForm.jpsize"></el-input>
+                                <el-input type="textarea" autosize v-model="ruleForm.jpsize"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
                             <el-form-item label="产品的净重:" prop="jpweight">
-                                <el-input v-model="ruleForm.jpweight"></el-input>
+                                <el-input type="textarea" autosize v-model="ruleForm.jpweight"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
-                    <el-row>
+                    <el-row :gutter="150">
                         <el-col :span="10">
                             <el-form-item label="产品的材质:" prop="jpmaterial">
-                                <el-input v-model="ruleForm.jpmaterial"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.jpmaterial"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
                             <el-form-item label="产品的颜色:" prop="jpcolor">
-                                <el-input v-model="ruleForm.jpcolor"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.jpcolor"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
-                    <el-row>
+                    <el-row :gutter="150">
                         <el-col :span="10">
                             <el-form-item label="产品的工艺:" prop="jpprocess">
-                                <el-input v-model="ruleForm.jpprocess"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.jpprocess"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
                             <el-form-item label="产品的规格参数:" prop="basicinformation">
-                                <el-input v-model="ruleForm.basicinformation"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.basicinformation"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <span class="mainTitle">
                         竞品结论
                     </span>
-                    <el-row>
+                    <el-row :gutter="150">
                         <el-col :span="10">
                             <el-form-item label="竞品优势功能:" prop="advantagefunction">
-                                <el-input v-model="ruleForm.advantagefunction"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.advantagefunction"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
                             <el-form-item label="竞品缺陷功能:" prop="defectfeature">
-                                <el-input v-model="ruleForm.defectfeature"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.defectfeature"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
-                    <el-row>
+                    <el-row :gutter="150">
                         <el-col :span="10">
                             <el-form-item label="产品使用场景:" prop="usagescenarios">
-                                <el-input v-model="ruleForm.usagescenarios"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.usagescenarios"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
                             <el-form-item label="产品目标人群:" prop="usecrowd">
-                                <el-input v-model="ruleForm.usecrowd"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.usecrowd"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
-                    <el-row>
+                    <el-row :gutter="150">
                         <el-col :span="10">
                             <el-form-item label="产品定位:" prop="jppositioning">
-                                <el-input v-model="ruleForm.jppositioning"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.jppositioning"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
                             <el-form-item label="产品排名:" prop="jpranking">
-                                <el-input v-model="ruleForm.jpranking"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.jpranking"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
-                    <el-row>
+                    <el-row :gutter="150">
                         <el-col :span="10">
                             <el-form-item label="产品开发调整点:" prop="jpadjustmentpoint">
-                                <el-input v-model="ruleForm.jpadjustmentpoint"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.jpadjustmentpoint"></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
                             <el-form-item label="备注:" prop="note">
-                                <el-input v-model="ruleForm.note"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.note"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
@@ -143,14 +152,14 @@
         </div>
 </template>
 <script>
- import imgUpload from '@/components/uploadImg.vue'
 export default {
     name:'comNewsEdit',
     components:{
-        imgUpload
+        
     },
     data(){
         return {
+            pageImageIndex:'',
             ruleForm:{
                 advantagefunction:'',
                 jpsize:'',
@@ -247,8 +256,8 @@ export default {
     },
     methods:{
         addPageList(){
+            console.log(this.comNewsDetailList.competingproducts,'competingproducts')
             this.comNewsDetailList.competingproducts.push({
-
             })
         },
         getDetailPage(){
@@ -286,6 +295,26 @@ export default {
           }
         });
       },
+      onSuccessUpload (res, file, fileList) {
+            if(fileList.length > 1){
+                fileList[0].url = fileList[1].url
+                fileList[0].name = fileList[1].name
+                fileList.splice(1)
+            }else if(fileList.length == 1) {
+                this.comNewsDetailList.competingproducts[this.pageImageIndex] = {
+                    name:fileList[0].name,
+                    url:fileList[0].url,
+                }
+            }
+        },
+        beforeUpload(pageList,i){
+            console.log(111111)
+            this.pageList = pageList
+            this.pageListIndex = i
+        },
+        openImage(item,index){
+            this.pageImageIndex = index
+        }
     }
 }
 </script>
@@ -296,23 +325,53 @@ export default {
     display: inline-block;
 }
 .mainImage{
-    border: 1px solid #EBEEF5;
+    margin-left: 55px;
+    margin-top: 10px;
+    // border: 1px solid #EBEEF5;
     border-top: none;
     ::v-deep .el-form-item{
         margin-bottom:5px !important;
     }
+    .iconDelbox{
+        display: inline-block;
+    }
     .formInput{
-        margin-top: 35px;
+        margin-top: 23px;
+        width: 370px;
+        margin-left: 38px
     }
     .productTitle{
         height: 40px;
         line-height: 40px;
         text-align: center;
-        border: 1px solid #EBEEF5;
+        border-bottom: 1px solid #EBEEF5;
     }
-    .imgDetail{
-        border-right: 1px solid #EBEEF5 !important;
-        min-height: 236px;
+    ::v-deep.imgDetail{
+        border: 1px solid #EBEEF5 !important;
+        height: 250px;
+        margin-top: 15px;
+        // position:absolute;
+        .imgbox{
+            display: flex;
+            .uploadBox{
+                margin: 15px 0px 0px 15px
+            }
+        }
+        .uploadImage{
+            // margin-top: 15px;
+        }
+        .el-upload--picture-card {
+            display: block !important;
+            border: 1px solid #c0ccda;
+            width: 148px !important;
+            height: 20px !important;
+            // position: relative;
+            // top: 1px;
+        }
+        .imgText{
+            position: relative;
+            top: -64px;
+        }
     }
 
 }

@@ -58,3 +58,19 @@ export function selectRoleEmployeeForRoleId(data) {
       params:data
     })
   }
+  //根据国家选择平台
+export function getPlatformSiteByCountry(data) {
+    return request({
+      url: '/productManage/getPlatformSiteByCountry',
+      method: "get", 
+      params:data
+    })
+  }
+  //根据国家选择平台
+export function getWarehouseByCountry(data) {
+    return request({
+      url: '/productManage/getWarehouseByCountry',
+      method: "get", 
+      params:data
+    })
+  }

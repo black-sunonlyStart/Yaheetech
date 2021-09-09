@@ -611,10 +611,11 @@ export default {
                 productCountryId:this.$route.params.productCountryId,
           }
            getProductDevDetail(params).then(res => {
+               if(res.data){
                 this.allDetailPageDate = res.data
                 this.development = res.data.development //产品数据
                 this.copeDevProgress = res.data.developmentProgresses
-                this.productCountryList = res.data.productVos[0].productCountryList[0].countryMap
+                this.productCountryList = res.data.productVos[0] && res.data.productVos[0].productCountryList[0] ? res.data.productVos[0].productCountryList[0].countryMap :[]
                 this.otherProductCountryList = res.data.productVos[0].productCountryList[0]
                 this.productVos = res.data.productVos[0]
                 this.productMarketStrs = res.data.productMarketStrs
@@ -672,7 +673,10 @@ export default {
 
                 }
                 this.comNewsDetailList.competingproducts.forEach(item => {
+                    item.url = `${process.env.VUE_APP_IMAGE_API}/${item.developmentid}/${item.pictureuri}`
                     item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentid}/${item.pictureuri}`
+                    item.name = item.developmentid
+
                 })
                  this.titleImgSrc = this.comNewsDetailList.competingproducts[0].showImgUrl
                 //开发信息
@@ -829,6 +833,7 @@ export default {
                 console.log(this.purchaseInfoDetaiList,'this.purchaseInfoDetaiList')
                 //备注信息
                 this.remarksList = res.data.developmentmemoVos
+               }
         })
       },
       //步骤条显示数据处理
