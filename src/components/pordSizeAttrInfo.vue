@@ -130,20 +130,22 @@
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >
-            <el-col :span="3">
+            <el-col :span="2">
                 体积重：
             </el-col>
-            <el-col :span="21">
+            <el-col :span="15">
                 <el-table
                     border
                     :data='[pordSizeAttrInfoList]'
-                    style="width: 100%">
+                    style="width: 100%"
+                    :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
+                    >
                     <el-table-column
                         label="美国(FEDEX & UPS)= 长*宽*高/9935"
                         >
                         <template slot-scope="scope">
-                            <div>{{scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /9935}}Kg</div>
-                            <div>{{scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /9935 * 2.20}}LB</div>
+                            <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /9935).toFixed(2)}}Kg/</span>
+                            <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /9935 * 2.20).toFixed(2)}}LB</span>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -151,39 +153,41 @@
                         label="美国 JD UPS = 长*宽*高/8128"
                         >
                         <template slot-scope="scope">
-                            <div>{{scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /8182}}Kg</div>
-                            <div>{{scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /8182 * 2.20}}LB</div>
+                            <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /8182).toFixed(2)}}Kg/</span>
+                            <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /8182 * 2.20).toFixed(2)}}LB</span>
                         </template>
                     </el-table-column>
                     <el-table-column
                         prop="address"
                         label="英国 XDP = 长*宽*高/5000">
                         <template slot-scope="scope">
-                            <div>{{scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /5000}}Kg</div>
-                            <div>{{scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /5000 * 2.20}}LB</div>
+                            <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /5000).toFixed(2)}}Kg/</span>
+                            <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /5000 * 2.20).toFixed(2)}}LB</span>
                         </template>
                     </el-table-column>
                     <el-table-column
                         prop="address"
                         label="英国 Tuffnell = 长*宽*高/4000">
                         <template slot-scope="scope">
-                            <div>{{scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /4000}}Kg</div>
-                            <div>{{scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /4000 * 2.20}}LB</div>
+                            <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /4000).toFixed(2)}}Kg/</span>
+                            <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /4000 * 2.20).toFixed(2)}}LB</span>
                         </template>
                     </el-table-column>
                 </el-table>
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >
-            <el-col :span="3">
+            <el-col :span="2">
                 多箱清单：
             </el-col>
-            <el-col :span="21">
+            <el-col :span="15">
                 
                 <el-table
                      border
                     :data="pordSizeAttrInfoList.productlistings"
-                    style="width: 100%">
+                    style="width: 100%"
+                    :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
+                    >
                     <el-table-column
                         label="箱数"
                         >
@@ -204,7 +208,7 @@
                         label="毛重">
                         <template slot-scope="scope">
                             <div>
-                                {{scope.row.packedweight}}Kg/{{scope.row.packedweight * 2.20}}LB
+                                {{scope.row.packedweight}}Kg//{{scope.row.packedweight * 2.20}}LB
                             </div>
                         </template>
                     </el-table-column>
@@ -212,15 +216,17 @@
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >
-            <el-col :span="3">
+            <el-col :span="2">
                 销售（多）属性：
             </el-col>
-            <el-col :span="21">
+            <el-col :span="15">
                 
                 <el-table
                      border
                     :data="pordSizeAttrInfoList.multiAttribute"
-                    style="width: 100%">
+                    style="width: 100%"
+                    :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
+                    >
                     <el-table-column
                         label="开发状态"
                         >
@@ -356,7 +362,10 @@ export default {
 }
 .textWight {
     display: inline-block;
-    width: 200px;
+    width: 150px;
     font-weight:bold;
+}
+.has-gutter{
+    color: black !important;
 }
 </style>

@@ -2,13 +2,14 @@
     <div>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm" size="mini">
             <el-row>
-                 <el-col :span="24">
+                 <el-col :span="22">
                      <el-form-item label="样品采购前报价:" prop="samplePurchase">
                             <el-table
                                 border
                                 :data="ruleForm.productPurchaseVoList"
                                 style="width: 100%"
                                 ref="singleTable"
+                                :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                                 >
                                 <el-table-column
                                     type="selection"
@@ -79,7 +80,7 @@
                                     </template>
                                 </el-table-column>
                                 <el-table-column
-                                    label="采购成本
+                                    label="采购成本=
                                     净采购价+杂费+包装费(¥)">
                                     <template slot-scope="scope">
                                          <span>{{scope.row.costPrice  + scope.row.miscprice  + scope.row.warpperfee }}</span>      
@@ -105,11 +106,12 @@
                  </el-col>
              </el-row>
             <el-row>
-                 <el-col :span="24">
+                 <el-col :span="22">
                      <el-form-item label="最终报价:" prop="samplePurchase">
                             <el-table
                                 border
                                 :data="ruleForm.lastProductPurchaseVoList"
+                                :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                                 style="width: 100%">
                                 <el-table-column
                                     prop="name"

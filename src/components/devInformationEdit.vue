@@ -11,6 +11,7 @@
                     <el-form-item label="业务开发:" prop="targetPrice"> 
                         <el-select 
                             v-model="ruleForm.region"
+                            filterable 
                             >
                             <el-option 
                                 v-for="item in targetPrice"                        
@@ -33,6 +34,7 @@
                     <el-form-item label="采购开发:" prop="dailySales">
                         <el-select 
                             v-model="ruleForm.dailySales"
+                            filterable 
                             >
                             <el-option 
                                 v-for="item in dailySales"                        
@@ -203,7 +205,7 @@
                                 >
                             </el-option>
                         </el-select>
-                        <el-button @click="addRemarks">添加市场</el-button>
+                        <el-button @click="addRemarks" type="primary">添加市场</el-button>
                         添加不同国家站点，请在列表页的操作下拉菜单选择”开发其它市场”
                     </el-form-item>
                 </el-col>
@@ -358,8 +360,10 @@
                         </div>
                     </el-form-item>
                     <el-form-item label="本土运输方式:" prop="shippingname ">
-                        <div class="inputBox">
-                            <el-input v-model="item.shippingname "></el-input>
+                        <div class="shippingPutBox">
+                            <el-input v-model="item.shippingname1" disabled style="width:150px;margin-right:10px"></el-input>
+                            <el-input v-model="item.shippingname2" disabled style="width:150px;margin-right:10px"></el-input>
+                            <el-input v-model="item.shippingname3" disabled style="width:150px;margin-right:10px"></el-input>
                         </div>
                     </el-form-item>
                     <el-form-item label="汇率:" prop="exchangerate">
@@ -611,13 +615,21 @@ export default {
             this.devInformationDetaiList.productMarketList.splice(i,1)
         },
         addRemarks(){
-            if(!this.ruleForm.marksContry1 && !this.ruleForm.marksContry2 && !this.ruleForm.marksContry3){
+            if(!this.ruleForm.marksContry1 || !this.ruleForm.marksContry2 || !this.ruleForm.marksContry3){
                 this.$message({
                     type: 'warning',
-                    message: '请添加市场'
+                    message: '请选择开发市场'
                 })
+                return
             }
             
+            if(this.ruleForm.marksContry1 != this.devInformationDetaiList.productMarketList[0].countrycode){
+                this.$message({
+                    type:'warning',
+                    message:'不能添加其他国家的市场'
+                })
+                return
+            }
             this.devInformationDetaiList.productMarketList.push({
                 platformname:this.ruleForm.marksContry2,
                 countrycode:this.ruleForm.marksContry1,
@@ -639,6 +651,14 @@ export default {
             })
         },
         getDetailPage(){
+            this.devInformationDetaiList.productMarketList.forEach(item => {
+                if(item.shippingname){
+                    let shippingname=  item.shippingname.split('|')
+                    item.shippingname1 = shippingname[0]
+                    item.shippingname2 = shippingname[1]
+                    item.shippingname3 = shippingname[2]
+                 }
+            })
             this.ruleForm = {
                 staRating: this.devInformationDetaiList.title,
                 targetPrice: this.devInformationDetaiList.businessName,
@@ -754,6 +774,9 @@ export default {
     }
     .mainTitle{
         font-weight: bold;
+    }
+    .shippingPutBox{
+        width: 500;
     }
       
 </style>

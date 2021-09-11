@@ -23,18 +23,44 @@
                                     </el-upload>
                                 </div>
                                 <div class="formInput">
-                                    <el-form size="mini" label-width="60px">
-                                        <el-form-item label="平台:">
-                                            <el-input v-model="item.platformid">{{item.platformid}}{{item.platformsiteid}}</el-input>
+                                    <el-form size="mini" label-width="80px" 
+                                        :model="item" :rules="comProductRules"
+                                    >
+                                        <el-form-item label="平台:" prop="platformid">
+                                            <el-select 
+                                                v-model="item.platformid"
+                                                style="width:140px;margin-right:10px"
+                                                @change="selectPlatformid(item.platformid,index)"
+                                                >
+                                                <el-option 
+                                                    v-for="item in devSign"                        
+                                                    :key="item.key"
+                                                    :label="item.label"
+                                                    :value="item.value"
+                                                    >
+                                                </el-option>
+                                            </el-select>  
+                                            <el-select 
+                                                v-model="item.platformsiteid" 
+                                                style="width:140px"
+                                                >
+                                                <el-option 
+                                                    v-for="item in platforms"                        
+                                                    :key="item.id"
+                                                    :label="item.label"
+                                                    :value="item.id"
+                                                    >
+                                                </el-option>
+                                            </el-select>  
                                         </el-form-item>
-                                        <el-form-item label="ASIN:">
+                                        <el-form-item label="ASIN:" prop="xsin">
                                             <el-input v-model="item.xsin"> {{item.xsin}}</el-input>
                                         </el-form-item>
-                                        <el-form-item label="售价:">
+                                        <el-form-item label="售价:" prop="price">
                                             <el-input v-model="item.price"> {{item.price}}</el-input>
                                         </el-form-item>
                                     
-                                        <el-form-item label="日销量:">
+                                        <el-form-item label="日销量:" prop="recentsalesvolume">
                                             <el-input v-model="item.recentsalesvolume">{{item.recentsalesvolume}}</el-input>
                                         </el-form-item>
                                     
@@ -44,8 +70,9 @@
                                     </el-form>
                                 </div>
                             </div>
-                            <div class="iconDelbox">111111</div>
+                            
                         </el-col>
+                        <el-col :span ='1' class="iconDelbox"><i class="el-icon-remove-outline" @click="delProductList(index)"></i></el-col>
                     </div>
                 </el-row>
             </div>
@@ -152,6 +179,7 @@
         </div>
 </template>
 <script>
+import { getPlatformSiteByPlatformName } from '@/api/user.js'
 export default {
     name:'comNewsEdit',
     components:{
@@ -159,6 +187,33 @@ export default {
     },
     data(){
         return {
+            platforms:[
+                {
+                    label: '美国(USD)',
+                    key: 55,
+                    id:55
+                },
+                {
+                    label: '德国(EUR)',    //55：美国(USD)  56：德国(EUR)  54：英国(GBP)  30：澳大利亚(AUD)  65：新西兰(NZD)//
+                    key: 56,
+                    id: 56
+                },    
+                {
+                    label: '英国(GBP)',
+                    key: 54,
+                    id:54
+                }, 
+                {
+                    label: '澳大利亚(AUD)',
+                    key: 30,
+                    id: 30
+                }, 
+                {
+                    label: '新西兰(NZD)',
+                    key: 65,
+                    id: 65
+                }, 
+            ],
             pageImageIndex:'',
             ruleForm:{
                 advantagefunction:'',
@@ -220,29 +275,42 @@ export default {
                     { required: true, message: '请输入产品备注', trigger: 'blur' },
                 ],
             },
-            productsList:[
-               {
-                   image:'我承认我是一个图片',
-                   text:'我是文字我不骗人',
-                   dirction:'那我是谁',
-                   key:1,
-                   imageList:[],
-               },
-               {
-                   image:'我承认我是一个图片',
-                   text:'我是文字我不骗人',
-                   dirction:'那我是谁',
-                   key:2,
-                   imageList:[],
-               },
-               {
-                   image:'我承认我是一个图片',
-                   text:'我是文字我不骗人',
-                   dirction:'那我是谁',
-                   key:3,
-                   imageList:[],
-               },
-           ] 
+            comProductRules:{
+                platformid: [
+                    { required: true, message: '请输入站点', trigger: 'blur' },
+                ],
+                xsin: [
+                    { required: true, message: '请输入ASIN', trigger: 'blur' },
+                ],
+                price: [
+                    { required: true, message: '请输入售价', trigger: 'blur' },
+                ],
+                recentsalesvolume: [
+                    { required: true, message: '请输入日销量', trigger: 'blur' },
+                ],
+            },
+           devSign:[
+                {
+                    label: 'eBay',
+                    key: 1,
+                    value: 1
+                },
+                {
+                    label: 'Amazon',
+                    key: 2,
+                    value: 2
+                },    
+                {
+                    label: 'TradeMe',
+                    key: 3,
+                    value: 3
+                }, 
+                {
+                    label: 'Walmart',
+                    key: 4,
+                    value: 4
+                }, 
+            ], 
         }
     },
     props: {
@@ -255,6 +323,21 @@ export default {
         this.getDetailPage()
     },
     methods:{
+        selectPlatformid(val,index){
+            this.comNewsDetailList.competingproducts[index].platformsiteid = ''
+            let countryList = this.devSign.filter(item => {
+                return item.value == val
+            })
+            let params = {
+                platformName:countryList.label
+            }
+            getPlatformSiteByPlatformName(params).then(res => {
+                this.platforms = res.data
+            })
+        },
+        delProductList(index){
+            this.comNewsDetailList.competingproducts.splice(index,1)
+        },
         addPageList(){
             console.log(this.comNewsDetailList.competingproducts,'competingproducts')
             this.comNewsDetailList.competingproducts.push({
@@ -334,6 +417,10 @@ export default {
     }
     .iconDelbox{
         display: inline-block;
+        margin-top: 15px;
+        .el-icon-remove-outline{
+            color: #409EFF;
+        }
     }
     .formInput{
         margin-top: 23px;
@@ -350,6 +437,7 @@ export default {
         border: 1px solid #EBEEF5 !important;
         height: 250px;
         margin-top: 15px;
+        margin-right: 15px;
         // position:absolute;
         .imgbox{
             display: flex;

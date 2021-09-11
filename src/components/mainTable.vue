@@ -18,11 +18,14 @@
         label="产品图片"
         width="120">
         <template slot-scope="scope">
-            <image
+            <el-image
                 style="width: 100px; height: 100px; dispaly:black"
-                v-lazy="scope.row.showImgUrl"
+                :key="scope.row.showImgUrl" 
+                :src="scope.row.showImgUrl" 
+                lazy
+                :scroll-container="scrollContainer"
                 fit="fill">
-            </image>
+            </el-image>
         </template>
       </el-table-column>
       <el-table-column 
@@ -90,17 +93,25 @@
                 <div>{{scope.row.buyerName}}</div>
             </template>
       </el-table-column>
-      <el-table-column prop="address"
-                       label="创建/更新时间"
-                       show-overflow-tooltip>
+      <el-table-column 
+        prop="address"
+        label="创建/更新时间"
+        show-overflow-tooltip>
             <template slot-scope="scope">
-                <div>{{scope.row.createdOn}}</div>
-                <div>{{scope.row.modifyOn}}</div>
+                <div>{{$moment(scope.row.createdOn).format("YYYY-MM-DD HH:mm:ss")}}</div>
+                <div>{{$moment(scope.row.modifyOn).format("YYYY-MM-DD HH:mm:ss")}}</div>
             </template>
       </el-table-column>
-      <el-table-column prop="address"
-                       label="操作"
-                       show-overflow-tooltip>
+      <el-table-column 
+        prop="address"
+        label="操作"
+        show-overflow-tooltip
+        >
+        <template slot-scope="scope">
+            <div>
+                wo shi
+            </div>
+        </template>             
       </el-table-column>
     </el-table>
     <div>
@@ -151,11 +162,13 @@ export default {
           deep:true
       }
   },
+  computed:{
+      scrollContainer(){
+          return document.querySelector('.el-table__body-wrapper')
+
+      }
+  },
   mounted(){
-    //   this.$nextTick(() => {
-    //       this.VueLazyload();
-    //       window.addEventListener('scroll',this.VueLazyload)
-    //   })
       this.getTableList(this.navFilterList)
   },
   methods: {

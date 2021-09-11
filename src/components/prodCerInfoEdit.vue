@@ -12,7 +12,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="24">
+                <el-col :span="21">
                     <el-form-item label="必要认证:" prop="nessCertification" >
                         <el-checkbox-group v-model="ruleForm.usaNessCertification">
                             <div class="contrayText">
@@ -26,32 +26,44 @@
                         </el-checkbox-group>
                         <el-checkbox-group v-model="ruleForm.euNessCertification">
                             <div class="contrayText">
-                                澳大利亚 : <el-checkbox :label="item.authId" v-for="item in isEu" :key="item.authId">{{item.authName}}</el-checkbox>
+                                英国 : <el-checkbox :label="item.authId" v-for="item in isEu" :key="item.authId">{{item.authName}}</el-checkbox>
                             </div>
                         </el-checkbox-group>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="10">
+                <el-col :span="11">
                     <el-form-item label="认证要求:" prop="requirements">
-                        <el-input
-                           v-for="item in ruleForm.requirements" 
-                           :key="item.id"
-                            v-model="item.data">
-                        </el-input>
-                         <div class="requireMentsBox" @click="addMustRequire">添加</div>
+                        <div v-for="(item, index) in ruleForm.requirements" 
+                            :key="item.id" class="remarkBox">
+                            <el-input
+                                type="textarea"
+                                autosize
+                                v-model="item.data">
+                            </el-input>
+                            <div class="iconBox">
+                                <i v-if="index !== 0" @click="delRements(index)" class="delText el-icon-circle-close"></i>
+                            </div>      
+                        </div>
+                        <div class="requireMentsBox" @click="addMustRequire">添加</div>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="10">
+                <el-col :span="11">
                     <el-form-item label="确认测试要求:" prop="testRequirements">
-                        <el-input
-                           v-for="item in ruleForm.testRequirements" 
-                           :key="item.id"
-                            v-model="item.data">
-                        </el-input>
+                        <div v-for="(item, index) in ruleForm.testRequirements" 
+                            :key="item.id" class="remarkBox">
+                            <el-input
+                                type="textarea"
+                                autosize
+                                v-model="item.data">
+                            </el-input>
+                            <div class="iconBox">
+                                <i v-if="index !== 0" @click="delTestRement" class="delText el-icon-circle-close"></i>
+                            </div>      
+                        </div>
                         <div class="requireMentsBox" @click="addRequireMent">添加</div>
                     </el-form-item>
                 </el-col>
@@ -153,7 +165,7 @@ export default {
         return {
             ruleForm:{
                 isCertificationReq:3,
-                usaNessCertification:[1],
+                usaNessCertification:[],
                 ukNessCertification:[],
                 euNessCertification:[],
                 requirements:'',
@@ -195,6 +207,34 @@ export default {
                     authId:4,
                     authName: 'FDA'
                 },
+                {
+                    authId:5,
+                    authName: 'UL'
+                },
+                {
+                    authId:6,
+                    authName: 'CSA'
+                },
+                {
+                    authId:7,
+                    authName: 'ASTM F963'
+                },
+                {
+                    authId:8,
+                    authName: 'CPSIA'
+                },
+                {
+                    authId:9,
+                    authName: 'EPA formaldehyde'
+                },
+                {
+                    authId:10,
+                    authName: '16 CFR 1303'
+                },
+                {
+                    authId:11,
+                    authName: 'CA TB-117'
+                },
             ],
             isUk:[
                 {
@@ -213,6 +253,26 @@ export default {
                     authId:23,
                     authName: 'REACH ANNEX XVII'
                 },
+                {
+                    authId:24,
+                    authName: 'REACH SVHC'
+                },
+                {
+                    authId:25,
+                    authName: 'EMC'
+                },
+                {
+                    authId:26,
+                    authName: 'RoHs'
+                },
+                {
+                    authId:27,
+                    authName: 'LVD'
+                },
+                {
+                    authId:28,
+                    authName: 'E1'
+                },
             ],
             isEu:[
                 {
@@ -226,6 +286,46 @@ export default {
                 {
                     authId:42,
                     authName: 'FDA'
+                },
+                {
+                    authId:43,
+                    authName: 'UKCA'
+                },
+                {
+                    authId:44,
+                    authName: 'GPSD'
+                },
+                {
+                    authId:45,
+                    authName: 'FOOD GRADE'
+                },
+                {
+                    authId:46,
+                    authName: 'REACH SVHC'
+                },
+                {
+                    authId:47,
+                    authName: 'REACH ANNEX XVII'
+                },
+                {
+                    authId:48,
+                    authName: 'EMC'
+                },
+                {
+                    authId:49,
+                    authName: 'RoHs'
+                },
+                {
+                    authId:50,
+                    authName: 'LVD'
+                },
+                {
+                    authId:51,
+                    authName: 'E1'
+                },
+                {
+                    authId:52,
+                    authName: 'BS5852'
                 },
             ],
             devSign:[
@@ -279,10 +379,16 @@ export default {
         },
         addRequireMent(){
             console.log(this.prodCerInfoDetailList)
-            this.prodCerInfoDetailList.credentialList2.push({})
+            this.ruleForm.testRequirements.push({})
+        },
+        delTestRement(index){
+            this.ruleForm.testRequirements.splice(index,1)
         },
         addMustRequire(){
-            this.prodCerInfoDetailList.credentialList1.push({})
+            this.ruleForm.requirements.push({})
+        },
+        delRements(i){
+           this.ruleForm.requirements.splice(i,1)
         },
         getDetailPage(){
             if(!this.prodCerInfoDetailList.credentialList1)return
@@ -319,6 +425,7 @@ export default {
                 checkedUK:[],
                 checkedEU:[],
             }
+            console.log(this.ruleForm,'ruleForm')
         },
         getAuthId(isUsa,credentialList1){
             let usaid = isUsa.filter(res => {
@@ -365,5 +472,25 @@ export default {
         cursor: pointer;
         color: #409Eff;
         display: inline-block;
+    }
+    ::v-deep.el-checkbox {
+        margin-right: 15px !important;
+    } 
+    .remarkBox{
+        margin-top: 10px;
+        display: flex;
+        .iconBox{
+            width: 30px;
+            height: 30px;
+            .delText{
+                display: inline-block;
+                width: 30px;
+                margin-left: 10px;
+                line-height: 30px;
+                &:hover{
+                    color: #409Eff;
+                }
+            }
+        }
     }
 </style>

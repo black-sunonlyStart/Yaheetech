@@ -24,12 +24,27 @@
         </div>
       </li>
       <!-- 上传按钮 -->
+      <!-- <el-upload
+        slot="footer"
+        ref="uploadRef"
+        class="uploadBox"
+        :style="{ width: width + 'px', height: height + 'px' }"
+        :auto-upload="false"
+        :action="action"
+        accept=".jpg,.jpeg,.png,.gif"
+        :show-file-list="false"
+        :before-upload="beforeUpload"
+        :data="fileType"
+        :on-change="handleChange"
+        :http-request='httprequest' 
+        :with-credentials="true"
+      > -->
       <el-upload
         slot="footer"
         ref="uploadRef"
         class="uploadBox"
         :style="{ width: width + 'px', height: height + 'px' }"
-        action="https://httpbin.org/post"
+        :action="action"
         accept=".jpg,.jpeg,.png,.gif"
         :show-file-list="false"
         :multiple="!isSingle"
@@ -37,6 +52,7 @@
         :before-upload="beforeUpload"
         :on-success="onSuccessUpload"
         :on-exceed="onExceed"
+        :data="fileType"
       >
         <i class="el-icon-plus uploadIcon">
           <span class="uploading" v-show="isUploading">正在上传...</span>
@@ -67,7 +83,7 @@ import vuedraggable from 'vuedraggable'
 import { validImgUpload } from '@/utils/validate'
 import lrz from 'lrz' // 前端图片压缩插件
 import tools from '@/utils/tools'
-
+import {uploadFile} from '@/api/user.js'
 export default {
   name: 'ImgUpload',
 
@@ -121,13 +137,21 @@ export default {
 
   data () {
     return {
+        param:[],
     //   headers: { token: getToken() },
       isUploading: false, // 正在上传状态
-      isFirstMount: true // 控制防止重复回显
+      isFirstMount: true ,// 控制防止重复回显
+      fileType:{
+          fileType:102
+      }
+
     }
   },
 
   computed: {
+      action(){
+          return `${process.env.VUE_APP_DEVSERVER}/productManage/uploadFile`
+      },
     // 图片数组数据
     imgList: {
       get () {
@@ -166,6 +190,14 @@ export default {
   },
 
   methods: {
+    // submitUpload() {
+    //     this.$refs.uploadRef.submit();
+    // },
+    handleChange(file, fileList) {
+      this.fileList = fileList;
+      console.log(fileList,'fileList')
+      this.$refs.uploadRef.submit();
+    },
     // 同步el-upload数据
     syncElUpload (val) {
       const imgList = val || this.imgList
@@ -183,29 +215,67 @@ export default {
     // 上传图片之前
     beforeUpload (file) {
       this.isFirstMount = false
-      if (this.useCompress) {
-        // 图片压缩
-        return new Promise((resolve, reject) => {
-          lrz(file, { width: 1920 }).then((rst) => {
-            file = rst.file
-          }).always(() => {
-            if (validImgUpload(file, this.size)) {
-              this.isUploading = true
-              resolve()
-            } else {
-              reject(new Error())
-            }
-          })
-        })
-      } else {
-        if (validImgUpload(file, this.size)) {
-          this.isUploading = true
-          return true
-        } else {
-          return false
-        }
-      }
+    //   if (this.useCompress) {
+    //     // 图片压缩
+    //     return new Promise((resolve, reject) => {
+    //       lrz(file, { width: 1920 }).then((rst) => {
+    //         file = rst.file
+    //       }).always(() => {
+    //         if (validImgUpload(file, this.size)) {
+    //           this.isUploading = true
+    //           resolve()
+    //         } else {
+    //           reject(new Error())
+    //         }
+    //       })
+    //     })
+    //   } else {
+    //     if (validImgUpload(file, this.size)) {
+    //       this.isUploading = true
+    //       return true
+    //     } else {
+    //       return false
+    //     }
+    //   }
+
+    // this.imgname =  file.name;
+    // const isLt2M = file.size / 1024 / 1024 < 2;
+    //     if (!isLt2M) {
+    // this.$message.error('上传图片大小不能超过 2MB!');
+    // }
+    // else{
+        console.log(file);
+        //创建临时的路径来展示图片
+        // var windowURL = window.URL || window.webkitURL; 
+        // this.imageUrl=windowURL.createObjectURL(file);
+        this.param = new FormData();
+        this.param.append('files', file);
+        //下面append的东西就会到form表单数据的fields中；
+        this.param.append('fileType', 102);
+    // }
+    // return false;
+
     },
+    httprequest() {
+        var that=this;
+        let config = {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }; 
+        uploadFile(this.param, config).then(function(res) { 
+            if(res.code == 200){ //本项目中判断接口返回code
+                    that.$message.success("上传成功");
+                    let showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${this.$route.params.developmentid}/${res.data[0]}`
+                    that.imgList.push(showImgUrl) 
+                }else{
+                    this.$message.error(res.data.invokeResultMessage);
+                }
+            }).catch((res) => { 
+                this.$message.error('请稍候重试或联系管理员');
+        })
+    },
+
     // 上传完单张图片
     onSuccessUpload (res, file, fileList) {
       // 这里需要根据你自己的接口返回数据格式和层级来自行修改

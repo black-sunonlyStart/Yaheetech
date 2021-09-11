@@ -43,11 +43,11 @@
         <el-row class="textSpeaing">
             <el-col :span="8">
                 <span class="imageMainbox">产品测样时间点:</span>
-                <span class="imageMainboxText">{{salesTargetDetaiList.xstestsampletime}}</span>
+                <span class="imageMainboxText">{{$moment(salesTargetDetaiList.xsTestSampleTime).format("YYYY-MM-DD HH:mm:ss")}}</span>
             </el-col>
             <el-col :span="8">
                 <span class="imageMainbox">产品下单时间点:</span>
-                <span class="imageMainboxText">{{salesTargetDetaiList.xsorderoftime}}</span>
+                <span class="imageMainboxText">{{$moment(salesTargetDetaiList.xsorderoftime).format("YYYY-MM-DD HH:mm:ss")}}</span>
             </el-col>
         </el-row>
     </div>

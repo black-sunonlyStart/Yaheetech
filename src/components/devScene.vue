@@ -35,12 +35,12 @@
                     <el-radio v-model="ruleForm.relation" label='2'>SPU号</el-radio>
                 </div>
             </el-form-item>
-            <el-form-item  prop="inputRelation" v-if="showRelation">
+            <el-form-item  prop="inputRelation" v-if="showRelation && ruleForm.relation =='1'">
                 <div class="relationBox">
-                    <div class="inputLength" v-if="!relationId">
+                    <div class="inputLength" >
                         <el-input  v-model="ruleForm.inputRelation" @change="changeInputRelation" ></el-input>
                     </div>
-                    <div class="litterBox" v-if="!relationId">-</div>
+                    <div class="litterBox" >-</div>
                     <el-select 
                         v-model="ruleForm.selectRelation"
                         >
@@ -52,6 +52,13 @@
                             >
                         </el-option>
                     </el-select>
+                </div>
+            </el-form-item>
+            <el-form-item  prop="skuid" v-else-if="showRelation && ruleForm.relation =='2'">
+                <div class="relationBox">
+                    <div class="inputLength" >
+                        <el-input  v-model="ruleForm.skuid"></el-input>
+                    </div>
                 </div>
             </el-form-item>
             <el-form-item label="所属分类" prop="classiFication" v-if="ruleForm.scene == 10 || ruleForm.scene == 1 ">
@@ -69,11 +76,11 @@
             <el-button type="primary" @click="submitForm('ruleForm')" size="mini">保存</el-button>
             <el-button @click="resetForm('ruleForm')" size="mini">取消</el-button>
         </div>
-        <productTypeDialog ref='productTypeDialog'></productTypeDialog>
+        <productTypeDialog ref='productTypeDialog' @putTreeDialogList='putTreeDialogList'></productTypeDialog>
     </div>
 </template>
 <script>
-import { findProductByDevId } from '@/api/user.js'
+import { findProductByDevId,exploitType } from '@/api/user.js'
 import productTypeDialog from '@/components/productTypeDialog'
 export default {
     name:'devScene',
@@ -144,6 +151,9 @@ export default {
           region: [
             { required: true, message: '请选择开发类型', trigger: 'change' },
           ],
+          skuid: [
+            { required: true, message: '请添加skuId', trigger: 'change' },
+          ],
           scene: [
             { required: true, message: '请选择开发场景', trigger: 'change' },
           ],
@@ -172,6 +182,10 @@ export default {
         this.getDetailPage()
     },
     methods: {
+        putTreeDialogList(treeVal,treeId){
+            this.ruleForm.classiFication = treeVal
+            this.ruleForm.treeId = treeId
+        },
         openTypeDialog(){
             this.$refs.productTypeDialog.openDialog()
         },
@@ -189,7 +203,23 @@ export default {
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            let params = {
+                developmentId:this.$route.params.developmentId,
+                productId:this.$route.params.productId,
+                productCountryId:this.$route.params.productCountryId,
+                categoryId:this.ruleForm.treeId,
+                developmentType:this.ruleForm.relation,
+                developmentScenarios:this.ruleForm.scene,
+                addDevelopmentId:this.ruleForm.inputRelation,
+                associatedProductId:this.ruleForm.selectRelation,
+                addSPUId:this.ruleForm.skuid,
+            }
+            exploitType(params).then(res => {
+                if(res.code == 200){
+                    this.$message.success('保存成功')
+                    this.$emit('closeEdit','false')
+                }
+            })
           } else {
             console.log('error submit!!');
             return false;

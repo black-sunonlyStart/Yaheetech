@@ -54,22 +54,21 @@
             </el-col>
         </el-row>
         <el-row v-for="item in devInformationDetaiList.productMarketList" :key="item.id">
-            <el-col :span="24">
+            <el-col :span="22">
                 <div class="tableTitle">{{item.platformname}}- {{item.countrycode}}   {{item.warehouseName}}</div>
                 <el-table
                      border
                     :data="[item]"
+                    :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                     style="width: 100%">
                     <el-table-column
-                        label="类型"
-                        width="180">
+                        label="类型">
                         <template>
                             <div>普通</div>
                         </template>
                     </el-table-column>
                     <el-table-column
                         label="基准价"
-                        width="180"
                         prop="developmentprice"
                         >
                     </el-table-column>

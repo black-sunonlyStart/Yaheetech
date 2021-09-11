@@ -2,16 +2,16 @@
     <div>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm" size="mini">
             <el-row>
-                <el-col :span="10">
+                <el-col :span="11">
                     <el-form-item label="中文标题:">
-                        <el-input v-model="ruleForm.chineseTitle"></el-input>
+                        <el-input type="textarea" autosize v-model="ruleForm.chineseTitle"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="10">
-                    <el-form-item label="中文描述:" prop="chineseDescription">
-                        <el-input v-model="ruleForm.chineseDescription"></el-input>
+                <el-col :span="11">
+                    <el-form-item label="中文描述:" type="textarea" autosize prop="chineseDescription">
+                        <el-input type="textarea" autosize v-model="ruleForm.chineseDescription"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -21,24 +21,26 @@
                         <el-select 
                             v-model="ruleForm.supplierLocation"
                             placeholder="请选择省份"
+                            @change="selectProvince"
                             >
                             <el-option 
-                                v-for="item in devSign"                        
-                                :key="item.key"
-                                :label="item.label"
-                                :value="item.value"
+                                v-for="item in provinceList"                        
+                                :key="item[0]"
+                                :label="item[1]"
+                                :value="item[0]"
                                 >
                             </el-option>
                         </el-select>
                         <el-select 
                             v-model="ruleForm.supplierLocation1"
                             placeholder="请选择城市"
+                            @change="selectCity"
                             >
                             <el-option 
-                                v-for="item in devSign"                        
-                                :key="item.key"
-                                :label="item.label"
-                                :value="item.value"
+                                v-for="item in cityList"                        
+                                :key="item[0]"
+                                :label="item[1]"
+                                :value="item[0]"
                                 >
                             </el-option>
                         </el-select>
@@ -47,10 +49,10 @@
                             placeholder="请选择区域"
                             >
                             <el-option 
-                                v-for="item in devSign"                        
-                                :key="item.key"
-                                :label="item.label"
-                                :value="item.value"
+                                v-for="item in districtList"                        
+                                :key="item[0]"
+                                :label="item[1]"
+                                :value="item[0]"
                                 >
                             </el-option>
                         </el-select>
@@ -118,9 +120,9 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="10">
+                <el-col :span="11">
                     <el-form-item label="认证备注:" prop="certificationRemarks">
-                        <el-input v-model="ruleForm.certificationRemarks"></el-input>
+                        <el-input type="textarea" autosize v-model="ruleForm.certificationRemarks"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -158,6 +160,9 @@ export default {
     name:'prodevInfoEdit',
     data(){
         return {
+            provinceList:[],
+            cityList:[],
+            districtList:[],
             ruleForm:{
                 chineseTitle:'',
                 chineseDescription:'',
@@ -220,10 +225,31 @@ export default {
     methods:{
         getContryList(){
             let params = {
-                id : 0
+                parentId : 0
             }
             getAdministrativeRegion(params).then(res => {
-                console.log(res.data,'res.data')
+                this.provinceList = res.data
+            })
+        },
+        selectProvince(val){
+            this.ruleForm.supplierLocation1 = ''
+            if(this.ruleForm.supplierLocation2){
+            this.ruleForm.supplierLocation2 = ''
+            }
+            let params = {
+                parentId : val
+            }
+            getAdministrativeRegion(params).then(res => {
+                this.cityList = res.data
+            })
+        },
+        selectCity(val){
+            this.ruleForm.supplierLocation2 = ''
+            let params = {
+                parentId : val
+            }
+            getAdministrativeRegion(params).then(res => {
+                this.districtList = res.data
             })
         },
         getDetaiList(){

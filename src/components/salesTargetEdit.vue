@@ -93,6 +93,7 @@
     </div>
 </template>
 <script>
+import { salesTarget } from '@/api/user.js'
 export default {
     name:'salesTargetEdit',
     data(){
@@ -124,7 +125,7 @@ export default {
                 { type: 'date', required: true, message: '请添加产品预估日销量', trigger: 'blur' }
             ],
             rateRequirements: [
-                { type: 'array', required: true, message: '请添加返修率', trigger: 'blur' }
+                { required: true, message: '请添加返修率', trigger: 'blur' }
             ],
             orderQuantity: [
                 { required: true, message: '请填写预估首单订单数量', trigger: 'blur' }
@@ -190,7 +191,27 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
             if (valid) {
-                alert('submit!');
+                let params = {
+                    developmentId:this.$route.params.developmentId,
+                    productId:this.$route.params.productId,
+                    productCountryId:this.$route.params.productCountryId,
+                    xsstarRating:this.ruleForm.staRating,
+                    xsTargetStarRating:this.ruleForm.staRawestaRatingting,
+                    xsRepairRateRequirement:this.ruleForm.rateRequirements,
+                    xsPurchasePrice:this.ruleForm.targetPrice,
+                    xsDailySales:this.ruleForm.dailySales,
+                    xsFirstOrderQuantity:this.ruleForm.orderQuantity,
+                    xsMarket:this.ruleForm.productMarket,
+                    xsSpecialRequirements:this.ruleForm.specialPackaging,
+                    xsTestSampleTime:this.ruleForm.xsTestSampleTime,
+                    xsOrderOfTime:this.ruleForm.orderTime,
+                }
+                salesTarget(params).then(res => {
+                    if(res.code == 200){
+                        this.$message.success('保存成功')
+                        this.$emit('closeEdit','false')
+                    }
+                })
             } else {
                 console.log('error submit!!');
                 return false;

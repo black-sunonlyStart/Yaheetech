@@ -171,7 +171,7 @@
                 </el-col>
              </el-row>
              <el-row>
-                 <el-col :span="5">
+                 <el-col :span="6">
                     <el-form-item  prop="proNetWeight" label="净重:">      
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="ruleForm.proNetWeight">
@@ -209,10 +209,10 @@
                         </div>
                     </el-form-item>
                 </el-col>
-                <el-col :span="3">
+                <!-- <el-col :span="3">
                      <span class="vacanBox" v-if="ruleForm.proGrossWeight && ruleForm.proNetWeight && ruleForm.packingMethod == '0'">体积重:<span>{{ruleForm.proNetWeight + ruleForm.proGrossWeight}}kg/{{((ruleForm.proNetWeight + ruleForm.proGrossWeight) * 2.20).toFixed(2)}}LB</span></span>       
                      <span class="vacanBox" v-if="ruleForm.packingMethod == '1'">体积重:<span>{{ruleForm.proNetWeight + ruleForm.proGrossWeight}}kg/{{((ruleForm.proNetWeight + ruleForm.proGrossWeight) * 2.20).toFixed(2)}}LB</span></span>       
-                </el-col>
+                </el-col> -->
              </el-row>
              <el-row>
                  <el-col :span="6">
@@ -354,7 +354,7 @@
                  </el-col>
              </el-row>
              <el-row>
-                 <el-col :span="24">
+                 <el-col :span="22">
                      <el-form-item  label="销售(多)属性:" prop="productColor">      
                         <el-table
                             border

@@ -27,6 +27,7 @@ export default {
     name:'productTypeDialog',
     data(){
         return {
+            selectTreeid:'',
             selectTreeData:'',
             dialogVisible: false,
             treeData:[],
@@ -42,7 +43,7 @@ export default {
     },
     methods:{
         putTreeNode(){
-            this.$emit('putTreeDialogList','this.selectTreeData')
+            this.$emit('putTreeDialogList',this.selectTreeData,this.selectTreeid)
             this.dialogVisible = false
         },
         getTreeList(){
@@ -56,6 +57,7 @@ export default {
         handleNodeClick(data,nodeObj) {
            if(nodeObj.level == 3){
                this.selectTreeData = nodeObj.parent.parent.data.headLine + '>>' + nodeObj.parent.data.headLine  + '>>' + nodeObj.data.headLine
+               this.selectTreeid = nodeObj.data.id
            }else if (nodeObj.level == 2){
                this.selectTreeData = nodeObj.parent.data.headLine  + '>>' +  nodeObj.data.headLine
            }else if(nodeObj.level == 1){

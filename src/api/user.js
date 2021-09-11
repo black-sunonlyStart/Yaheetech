@@ -74,3 +74,35 @@ export function getWarehouseByCountry(data) {
       params:data
     })
   }
+  //上传接口
+export function uploadFile(data) {
+    return request({
+      url: '/productManage/uploadFile',
+      method: "post", 
+      data
+    })
+  }
+  //根据平台选择国家
+export function getPlatformSiteByPlatformName(data) {
+    return request({
+      url: '/productManage/getPlatformSiteByPlatformName',
+      method: "get", 
+      params:data
+    })
+  }
+  //编辑开发信息
+export function exploitType(data) {
+    return request({
+      url: '/productManage/exploitType',
+      method: "post", 
+      data
+    })
+  }
+  //编辑销售目标
+export function salesTarget(data) {
+    return request({
+      url: '/productManage/salesTarget',
+      method: "post", 
+      data
+    })
+  }

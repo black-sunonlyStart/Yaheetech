@@ -5,6 +5,9 @@ import router from './router'
 import 'element-ui/lib/theme-chalk/index.css';
 import './styles/index.scss'
 import VueLazyload from 'vue-lazyload'
+import moment from "moment";
+
+Vue.prototype.$moment = moment;
 Vue.use(Element)
 
 Vue.use(VueLazyload, {

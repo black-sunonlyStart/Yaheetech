@@ -1,13 +1,14 @@
 <template>
     <div>
         <el-row class="textSpeaing" >
-            <el-col :span="3">
+            <el-col :span="2">
                 <span style="font-weight:bold">样品采购前报价：</span>
             </el-col>
             <el-col :span="20">
                 <el-table
                      border
                     :data="purchaseInfoDetaiList.productPurchaseVoList"
+                    :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                     style="width: 100%">
                     <el-table-column
                         label="选择"
@@ -63,8 +64,8 @@
                     </el-table-column>
                     <el-table-column>
                         <template slot="header">
-                            <div>采购成本</div>
-                            <div>净采购价+杂费+包装费(¥)</div>
+                            <div class="textPostion">采购成本</div>
+                            <div class="textPostion">净采购价+杂费+包装费(¥)</div>
                         </template>
                         <template slot-scope="scope">
                             <div>
@@ -84,13 +85,14 @@
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >
-            <el-col :span="3">
+            <el-col :span="2">
                 <span style="font-weight:bold">最终报价：</span>
             </el-col>
             <el-col :span="20">
                 <el-table
                      border
                     :data="purchaseInfoDetaiList.lastProductPurchaseVoList"
+                    :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                     style="width: 100%">
                     <el-table-column
                         prop="date"
@@ -139,8 +141,8 @@
                     </el-table-column>
                     <el-table-column>
                         <template slot="header">
-                            <div>采购成本</div>
-                            <div>净采购价+杂费+包装费(¥)</div>
+                            <div class="textPostion">采购成本</div>
+                            <div class="textPostion">净采购价+杂费+包装费(¥)</div>
                         </template>
                         <template slot-scope="scope">
                             <div>
@@ -161,7 +163,7 @@
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
-                样品购买价:<span>{{purchaseInfoDetaiList.productprice}} + {{purchaseInfoDetaiList.freight}} = {{purchaseInfoDetaiList.productprice + purchaseInfoDetaiList.freight}}$</span>
+                样品购买价:<span>{{purchaseInfoDetaiList.productprice}} (产品价格) + {{purchaseInfoDetaiList.freight}} (运费) = {{purchaseInfoDetaiList.productprice + purchaseInfoDetaiList.freight}}$</span>
             </el-col>
             <el-col :span="10">
                 含税价税点:<span>{{purchaseInfoDetaiList.taxleviedpoint}}</span>
@@ -233,5 +235,8 @@ export default {
     height: 30px;
     line-height: 30px;
     padding-right: 10px;
+}
+.textPostion{
+    text-align: center;
 }
 </style>

@@ -40,7 +40,7 @@
         <el-col :span="12">
             <el-card class="card">
                 <div class="stepBox">
-                        <span class="leftButton" @click="leftMove">左箭头</span>
+                        <span class="leftButton" @click="leftMove"><i class="el-icon-d-arrow-left"></i></span>
                         <span class="step-container">
                             <el-steps :active="copeDevProgress.length - 1" space='200' align-center style="margin-right:15px" finish-status="success">
                                 <el-step v-for="item in developmentProgresses" :title="item.statusValue" :key="item.status" :description="item.createOn">
@@ -54,9 +54,8 @@
                                 </el-step>
                             </el-steps>
                         </span>
-                        <span class='rightButton' @click="rightMove">右箭头</span>
-                </div>
-                
+                        <span class='rightButton' @click="rightMove"><i class="el-icon-d-arrow-right"></i></span>
+                </div>  
             </el-card>
         </el-col>
         </el-row>
@@ -385,48 +384,48 @@
   </div>
 </template>
 <script>
- import { getProductDevDetail,getProdCerInfoDetailList } from '@/api/user.js'
- import devDetail from '@/components/devDetail.vue'
- import devScene from '@/components/devScene.vue'
- import imgUpload from '@/components/uploadImg.vue'
- import remarksTable from '@/components/remarksTable.vue'
+ import { getProductDevDetail } from '@/api/user.js'
+//  import devDetail from '@/components/devDetail.vue'
+//  import devScene from '@/components/devScene.vue'
+//  import imgUpload from '@/components/uploadImg.vue'
+//  import remarksTable from '@/components/remarksTable.vue'
 //  import salesTargetDetail from '@/components/salesTargetDetail.vue'
- import salesTargetEdit from '@/components/salesTargetEdit.vue'
- import comNewsDetail from '@/components/comNewsDetail.vue'
- import comNewsEdit from '@/components/comNewsEdit.vue'
- import devInformationDetail from '@/components/devInformationDetail.vue'
- import devInformationEdit from '@/components/devInformationEdit.vue'
- import prodCerInfoDetail from '@/components/prodCerInfoDetail.vue'
- import prodevInfoDetail from '@/components/prodevInfoDetail.vue'
- import prodCerInfoEdit from '@/components/prodCerInfoEdit.vue'
- import prodevInfoEdit from '@/components/prodevInfoEdit.vue'
- import pordSizeAttrInfo from '@/components/pordSizeAttrInfo.vue'
- import pordSizeAttrEdit from '@/components/pordSizeAttrEdit.vue'
- import purchaseInfoDetail from '@/components/purchaseInfoDetail.vue'
- import purchaseInfoEdit from '@/components/purchaseInfoEdit.vue'
- import remarks from '@/components/remarks.vue'
+//  import salesTargetEdit from '@/components/salesTargetEdit.vue'
+//  import comNewsDetail from '@/components/comNewsDetail.vue'
+//  import comNewsEdit from '@/components/comNewsEdit.vue'
+//  import devInformationDetail from '@/components/devInformationDetail.vue'
+//  import devInformationEdit from '@/components/devInformationEdit.vue'
+//  import prodCerInfoDetail from '@/components/prodCerInfoDetail.vue'
+//  import prodevInfoDetail from '@/components/prodevInfoDetail.vue'
+//  import prodCerInfoEdit from '@/components/prodCerInfoEdit.vue'
+//  import prodevInfoEdit from '@/components/prodevInfoEdit.vue'
+//  import pordSizeAttrInfo from '@/components/pordSizeAttrInfo.vue'
+//  import pordSizeAttrEdit from '@/components/pordSizeAttrEdit.vue'
+//  import purchaseInfoDetail from '@/components/purchaseInfoDetail.vue'
+//  import purchaseInfoEdit from '@/components/purchaseInfoEdit.vue'
+//  import remarks from '@/components/remarks.vue'
 export default {
   name: 'productDetails',
   components:{
-      devDetail,
-      devScene,
-      imgUpload,
+      devDetail:() => import('@/components/devDetail'),
+      devScene:() => import('@/components/devScene'),
+      imgUpload:() => import('@/components/uploadImg'),
       salesTargetDetail:() => import('@/components/salesTargetDetail'),
-      salesTargetEdit,
-      comNewsDetail,
-      comNewsEdit,
-      devInformationDetail,
-      devInformationEdit,
-      prodCerInfoDetail,
-      prodevInfoDetail,
-      prodCerInfoEdit,
-      prodevInfoEdit,
-      pordSizeAttrInfo,
-      pordSizeAttrEdit,
-      purchaseInfoDetail,
-      purchaseInfoEdit,
-      remarksTable,
-      remarks
+      salesTargetEdit:() => import('@/components/salesTargetEdit'),
+      comNewsDetail:() => import('@/components/comNewsDetail'),
+      comNewsEdit:() => import('@/components/comNewsEdit'),
+      devInformationDetail:() => import('@/components/devInformationDetail'),
+      devInformationEdit:() => import('@/components/devInformationEdit'),
+      prodCerInfoDetail:() => import('@/components/prodCerInfoDetail'),
+      prodevInfoDetail:() => import('@/components/prodevInfoDetail'),
+      prodCerInfoEdit:() => import('@/components/prodCerInfoEdit'),
+      prodevInfoEdit:() => import('@/components/prodevInfoEdit'),
+      pordSizeAttrInfo:() => import('@/components/pordSizeAttrInfo'),
+      pordSizeAttrEdit:() => import('@/components/pordSizeAttrEdit'),
+      purchaseInfoDetail:() => import('@/components/purchaseInfoDetail'),
+      purchaseInfoEdit:() => import('@/components/purchaseInfoEdit'),
+      remarksTable:() => import('@/components/remarksTable'),
+      remarks:() => import('@/components/remarks'),
   },
   data () {
     return {
@@ -842,7 +841,7 @@ export default {
             val.forEach(val => {
                 if( item.statusValue == val.statusValue){
                     item.createBy = val.createBy
-                    item.createOn = val.createOn
+                    item.createOn = this.$moment(val.createOn).format("YYYY-MM-DD HH:mm:ss")
                     // item.statusValue = val.statusValue
                     item.status == val.status 
                     item.toStatus = val.toStatus
@@ -856,31 +855,38 @@ export default {
       },
       editPage(val){
           this.isEdit = val
+          this.getAllpageList()
       },
       updeEditPage(val){  
           this.isEdit1 = val
-
+        this.getAllpageList()
       },
       salesEditPage(val){  
           this.isEdit2 = val
+          this.getAllpageList()
       },
       comNewsEdit(val){
           this.isEdit3 = val
+          this.getAllpageList()
       },
       devInfoEdit(val){
           this.isEdit4 = val
+          this.getAllpageList()
       },
       proInfoEdit(val){
           this.isEdit5 = val
       },
       prodevInfoEdit(val){
           this.isEdit6 = val
+          this.getAllpageList()
       },
       closeProdevAttr(val){
           this.isEdit7 = val
+          this.getAllpageList()
       },
       closePurchaseInfo(val){
           this.isEdit8 = val
+          this.getAllpageList()
       },
       putImgList(val){
           this.imageList = val
@@ -894,11 +900,11 @@ export default {
       rightMove(){
           let image = document.querySelector('.step-container')
         //   let parentBox = document.querySelector('.stepBox')
-        //   if(image.offsetLeft < -parentBox.clientWidth ){
-        //       return
-        //   }else{
+          if(image.offsetLeft < -1377){
+              return
+          }else{
               image.style.left = image.offsetLeft - 100 + 'px'
-        //   }
+          }
           
       }
   }
@@ -995,6 +1001,9 @@ export default {
             z-index: 9999;
             line-height: 130px;
             cursor: pointer;
+            .el-icon-d-arrow-left{
+                font-size: 30px;
+            }
       }
       .step-container{
         display: inline-block;
@@ -1018,6 +1027,9 @@ export default {
         background: #ffffff;
         line-height: 130px;
         cursor: pointer;
+        .el-icon-d-arrow-right{
+                font-size: 30px;
+        }
     }
   }
   
