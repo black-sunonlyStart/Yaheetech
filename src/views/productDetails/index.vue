@@ -42,7 +42,7 @@
                 <div class="stepBox">
                         <span class="leftButton" @click="leftMove"><i class="el-icon-d-arrow-left"></i></span>
                         <span class="step-container">
-                            <el-steps :active="copeDevProgress.length - 1" space='200' align-center style="margin-right:15px" finish-status="success">
+                            <el-steps :active="copeDevProgress ? copeDevProgress.length - 1:0" space='200' align-center style="margin-right:15px" finish-status="success">
                                 <el-step v-for="item in developmentProgresses" :title="item.statusValue" :key="item.status" :description="item.createOn">
                                         <template slot="title">
                                             <el-tooltip class="item" effect="dark" :content="item.createBy" placement="top">
@@ -618,7 +618,6 @@ export default {
                 this.otherProductCountryList = res.data.productVos[0].productCountryList[0]
                 this.productVos = res.data.productVos[0]
                 this.productMarketStrs = res.data.productMarketStrs
-                console.log(this.productMarketStrs,'this.productMarketStrs')
                 // this.competingproducts = res.data.competingproducts[0]
                 this.getDevProgresses(res.data.developmentProgresses)
                 //开发类型、详情数据
@@ -633,9 +632,12 @@ export default {
                 this.productImgDetail =  res.data.developmentAttachmentList.filter(item => {
                     return item.filetype == 4
                 })
-                this.productImgDetail.forEach(item => {
-                    item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentid}/${item.fileuri}`
-                })
+                if(this.productImgDetail.length > 0){
+                    this.productImgDetail.forEach(item => {
+                        item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentid}/${item.fileuri}`
+                    })
+                }
+                
                this.imageList = this.productImgDetail.map(item => {
                    return item.showImgUrl
                })
@@ -671,12 +673,15 @@ export default {
                     note:res.data.development.note,//备注
 
                 }
-                this.comNewsDetailList.competingproducts.forEach(item => {
-                    item.url = `${process.env.VUE_APP_IMAGE_API}/${item.developmentid}/${item.pictureuri}`
-                    item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentid}/${item.pictureuri}`
-                    item.name = item.developmentid
+                if(this.comNewsDetailList && this.comNewsDetailList.competingproducts){
+                    this.comNewsDetailList.competingproducts.forEach(item => {
+                        item.url = `${process.env.VUE_APP_IMAGE_API}/${item.developmentid}/${item.pictureuri}`
+                        item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentid}/${item.pictureuri}`
+                        item.name = item.developmentid
 
-                })
+                    })
+                }
+                
                  this.titleImgSrc = this.comNewsDetailList.competingproducts[0].showImgUrl
                 //开发信息
                 this.devInformationDetaiList = {
@@ -744,9 +749,11 @@ export default {
                     let factoryGaveImage = res.data.developmentAttachmentList.filter(item => {
                         return item.filetype == 1
                     })
-                    factoryGaveImage.forEach(item => {
-                        item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentid}/${item.fileuri}`
-                    })
+                    if(factoryGaveImage){
+                        factoryGaveImage.forEach(item => {
+                            item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentid}/${item.fileuri}`
+                        })
+                     }
                     this.prodevInfoDetaiList = {
                         title:this.productVos.title,//中文标题
                         description:this.productVos.description,//中文标题
@@ -837,6 +844,7 @@ export default {
       },
       //步骤条显示数据处理
       getDevProgresses(val){
+        if(!this.developmentProgresses)return
         this.developmentProgresses.forEach(item => {
             val.forEach(val => {
                 if( item.statusValue == val.statusValue){

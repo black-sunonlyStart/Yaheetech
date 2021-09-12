@@ -12,12 +12,14 @@
                             <div class="imgbox">
                                 <div class="uploadBox">
                                     <el-upload
-                                        action="https://jsonplaceholder.typicode.com/posts/"
+                                        :action='action'
                                         list-type="picture-card"
                                         :file-list="item.url ?[item]:[]"
                                         :on-success="onSuccessUpload"
                                         :limit="2"
                                         :auto-upload='true'
+                                        :data="fileType"
+                                        :with-credentials='true'
                                         >
                                         <div class="imgText" @click="openImage(item,index)">选择图片</div>
                                     </el-upload>
@@ -45,10 +47,10 @@
                                                 style="width:140px"
                                                 >
                                                 <el-option 
-                                                    v-for="item in platforms"                        
-                                                    :key="item.id"
-                                                    :label="item.label"
-                                                    :value="item.id"
+                                                    v-for="isItem in item.platforms"                        
+                                                    :key="isItem.id"
+                                                    :label="isItem.name"
+                                                    :value="isItem.id"
                                                     >
                                                 </el-option>
                                             </el-select>  
@@ -57,11 +59,11 @@
                                             <el-input v-model="item.xsin"> {{item.xsin}}</el-input>
                                         </el-form-item>
                                         <el-form-item label="售价:" prop="price">
-                                            <el-input v-model="item.price"> {{item.price}}</el-input>
+                                            <el-input-number  :controls='false' v-model="item.price" type='number' style="width:290px"> {{item.price}}</el-input-number>
                                         </el-form-item>
                                     
                                         <el-form-item label="日销量:" prop="recentsalesvolume">
-                                            <el-input v-model="item.recentsalesvolume">{{item.recentsalesvolume}}</el-input>
+                                            <el-input-number :controls='false'  v-model="item.recentsalesvolume" style="width:290px">{{item.recentsalesvolume}}</el-input-number >
                                         </el-form-item>
                                     
                                         <el-form-item label="备注:">
@@ -72,7 +74,7 @@
                             </div>
                             
                         </el-col>
-                        <el-col :span ='1' class="iconDelbox"><i class="el-icon-remove-outline" @click="delProductList(index)"></i></el-col>
+                        <el-col :span ='1' class="iconDelbox"><i class="el-icon-remove-outline" @click="delProductList(index)" v-if="index != 0"></i></el-col>
                     </div>
                 </el-row>
             </div>
@@ -179,7 +181,8 @@
         </div>
 </template>
 <script>
-import { getPlatformSiteByPlatformName } from '@/api/user.js'
+import { getPlatformSiteByPlatformName,competingProduct } from '@/api/user.js'
+import { upload_file } from '@/utils/files'
 export default {
     name:'comNewsEdit',
     components:{
@@ -189,31 +192,35 @@ export default {
         return {
             platforms:[
                 {
-                    label: '美国(USD)',
-                    key: 55,
+                    name: 'US',
+                    key: 27,
                     id:55
                 },
                 {
-                    label: '德国(EUR)',    //55：美国(USD)  56：德国(EUR)  54：英国(GBP)  30：澳大利亚(AUD)  65：新西兰(NZD)//
+                    name: 'DE',    //55：美国(USD)  56：德国(EUR)  54：英国(GBP)  30：澳大利亚(AUD)  65：新西兰(NZD)//
                     key: 56,
                     id: 56
                 },    
                 {
-                    label: '英国(GBP)',
+                    name: 'GB',
                     key: 54,
-                    id:54
+                    id:29
                 }, 
                 {
-                    label: '澳大利亚(AUD)',
+                    name: 'AU',
                     key: 30,
                     id: 30
                 }, 
                 {
-                    label: '新西兰(NZD)',
+                    name: 'NZD',
                     key: 65,
                     id: 65
                 }, 
             ],
+            action:upload_file,
+            fileType:{
+                fileType:102
+            },
             pageImageIndex:'',
             ruleForm:{
                 advantagefunction:'',
@@ -319,20 +326,40 @@ export default {
             default:() => {}
         }
     },
+    // computed:{
+    //     platformsList(index){
+    //         return this.comNewsDetailList.competingproducts[index].platforms
+    //     }
+    // },
+    // watch:{
+    //     platformsList:{
+    //         handler:function(val){
+    //           if(val){
+    //             this.getTableList(val)
+    //           }
+    //       },
+    //       deep:true
+    //     }
+        
+    // },
     mounted(){
         this.getDetailPage()
     },
     methods:{
         selectPlatformid(val,index){
-            this.comNewsDetailList.competingproducts[index].platformsiteid = ''
+            if(this.comNewsDetailList.competingproducts[index].platformsiteid){
+                this.comNewsDetailList.competingproducts[index].platformsiteid = ''
+            }
             let countryList = this.devSign.filter(item => {
                 return item.value == val
             })
             let params = {
-                platformName:countryList.label
+                platformName:countryList[0].label
             }
             getPlatformSiteByPlatformName(params).then(res => {
-                this.platforms = res.data
+                this.$nextTick(() => {
+                    this.comNewsDetailList.competingproducts[index].platforms = res.data
+                })     
             })
         },
         delProductList(index){
@@ -344,6 +371,9 @@ export default {
             })
         },
         getDetailPage(){
+            this.comNewsDetailList.competingproducts.forEach(item => {
+                item.platforms = this.platforms
+            })
             this.ruleForm = {
                 advantagefunction:this.comNewsDetailList.advantagefunction,
                 jpsize:this.comNewsDetailList.jpsize,
@@ -361,17 +391,53 @@ export default {
                 note:this.comNewsDetailList.note,
             }
         },
-    putImgList(val,key){
-          this.productsList[key-1].imageList = val
-      },
-      resetForm(formName) {
-            this.$refs[formName].resetFields();
+      resetForm() {
+            // this.$refs[formName].resetFields();
             this.$emit('closeEdit','false')
         },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            let params = {
+                developmentId:this.$route.params.developmentId,
+                productId:this.$route.params.productId,
+                productCountryId:this.$route.params.productCountryId,
+                development:{
+                    id:this.$route.params.developmentId,//开发id
+                    jpsize:this.ruleForm.jpsize,//产品的尺寸
+                    jpweight:this.ruleForm.jpweight,//产品的净重
+                    basicinformation:this.ruleForm.basicinformation,//产品的规格参数
+                    jpmaterial:this.ruleForm.jpmaterial,//产品的材质
+                    jpprocess:this.ruleForm.jpprocess,//产品的工艺
+                    jpcolor:this.ruleForm.jpcolor,//产品的颜色
+                    advantagefunction:this.ruleForm.jpsadvantagefunctionize,//竞品结论--竞品优势功能
+                    defectfeature:this.ruleForm.defectfeature,//竞品结论--竞品缺陷功能
+                    usagescenarios:this.ruleForm.usagescenarios,//竞品结论--产品使用场景
+                    usecrowd:this.ruleForm.usecrowd,//竞品结论--产品目标人群
+                    jppositioning:this.ruleForm.jppositioning,//竞品结论--产品定位
+                    jpadjustmentpoint:this.ruleForm.jpadjustmentpoint,//竞品结论--产品确定开发调整点
+                    note:this.ruleForm.note,//竞品结论--备注
+                    jpranking:this.ruleForm.jpranking//竞品结论--产品排名
+                },
+            }
+             params.competingproducts = this.comNewsDetailList.competingproducts.map(res => {
+                 return {
+                     id:res.id,
+                     platformid:res.platformid,
+                     platformsiteid:res.platformsiteid,
+                     xsin:res.xsin,
+                     price:res.price,
+                     recentsalesvolume:res.recentsalesvolume,
+                     note:res.note,
+                     pictureuri:res.pictureuri,
+                 }
+             })
+            competingProduct(params).then(res => {
+                if(res.code == 200){
+                    this.$message.success('保存成功')
+                    this.$emit('closeEdit','false')
+                }
+            })
           } else {
             console.log('error submit!!');
             return false;
@@ -382,11 +448,13 @@ export default {
             if(fileList.length > 1){
                 fileList[0].url = fileList[1].url
                 fileList[0].name = fileList[1].name
+                fileList[0].pictureuri = res.data
                 fileList.splice(1)
             }else if(fileList.length == 1) {
                 this.comNewsDetailList.competingproducts[this.pageImageIndex] = {
                     name:fileList[0].name,
                     url:fileList[0].url,
+                    pictureuri:res.data[0],
                 }
             }
         },

@@ -53,6 +53,7 @@
         :on-success="onSuccessUpload"
         :on-exceed="onExceed"
         :data="fileType"
+        :with-credentials='true'
       >
         <i class="el-icon-plus uploadIcon">
           <span class="uploading" v-show="isUploading">正在上传...</span>

@@ -106,3 +106,19 @@ export function salesTarget(data) {
       data
     })
   }
+  //编辑竞品信息
+export function competingProduct(data) {
+    return request({
+      url: '/productManage/competingProduct',
+      method: "post", 
+      data
+    })
+  }
+  //开发信息保存
+export function developmentMsg(data) {
+    return request({
+      url: '/productManage/developmentMsg',
+      method: "post", 
+      data
+    })
+  }

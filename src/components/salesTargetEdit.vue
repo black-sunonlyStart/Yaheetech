@@ -12,7 +12,7 @@
                         <div class="targetPriceWbox">
                             <div class="targetPriceBox">
                                 <el-input v-model="ruleForm.targetPrice">
-                                    <template slot="append" v-if="ruleForm.region == 2">$</template>
+                                    <template slot="append" v-if="ruleForm.region == 1">$</template>
                                     <template slot="append" v-else>¥</template>
                                 </el-input>
                             </div>
@@ -147,17 +147,17 @@ export default {
                 {
                     label: '出厂价',
                     key: 1,
-                    value: 1
+                    value:0
                 },
                 {
                     label: 'FOB价',
                     key: 2,
-                    value: 2
+                    value: 1
                 },    
                 {
-                    label: '零售价',
+                    label: '含税价',
                     key: 3,
-                    value: 3
+                    value: 2
                 },    
                 ],
         }
@@ -205,6 +205,7 @@ export default {
                     xsSpecialRequirements:this.ruleForm.specialPackaging,
                     xsTestSampleTime:this.ruleForm.xsTestSampleTime,
                     xsOrderOfTime:this.ruleForm.orderTime,
+                    xspurchasePriceCurrency:this.ruleForm.region,
                 }
                 salesTarget(params).then(res => {
                     if(res.code == 200){
@@ -219,11 +220,11 @@ export default {
             });
         },
         resetForm(formName) {
-                this.$refs[formName].resetFields();
-                this.$emit('closeEdit','false')
-            }
+            this.$refs[formName].resetFields();
+            this.$emit('closeEdit','false')
         }
     }
+}
 </script>
 <style lang="scss" scoped>
     .bottomButton{
