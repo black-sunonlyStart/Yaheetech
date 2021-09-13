@@ -1,23 +1,35 @@
 <template>
     <div>
         <el-drawer
-            title="备注"
             :visible.sync="drawer"
             :direction="direction"
             :modal='false'
-            size="30%"
-            :before-close="handleClose">
-            
+            size="20%"
+            style="height:80%;margin-top:197px"
+            :before-close="handleClose"
+            :withHeader='false'
+            >
+            <div scope="title" class="titleRemarks">
+                备注
+            </div>
             <div class="remarksBox">
                 <div v-for='item in remarksList' :key="item.key"  class="bubbleText">
-                    <div class="bubbleLOutBox">
-                        <div>{{item.trueName}}</div>
-                        
+                    <div :class="item.createdby  ==employee.id?'bubbleROutBoxCont':'bubbleLOutBox'">
+                        <div><i v-if="item.createdby  !==employee.id" class="el-icon-user"></i>{{item.trueName}}<i v-if="item.statusValue =='寻找供应商'" class="el-icon-user"></i></div>
+                        <div>{{$moment(item.createdon).format("YYYY-MM-DD HH:mm:ss")}}</div>
                         <!-- <div>{{item.createdon}}</div> -->
                     </div>
                     <div class="bubbleROutBox">
-                        <div class="bubbleTail"></div>
-                        <div class="bubbleBox"></div>
+                        <div :class="item.createdby  ==employee.id?'bubbleTailRight':'bubbleTail'"></div>
+                        <div :class="item.createdby  ==employee.id?'bubbleBoxRight':'bubbleBox'">
+                            <div class="topStatusTitle">
+                                <span >{{item.statusValue}}</span>
+                                <span class="bubbleBoxText">{{item.operation}}</span>
+                            </div>
+                            <div class="bubbleBoxMainText">
+                                {{item.note}}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -37,6 +49,10 @@ export default {
             type: Array,
             default:() => ([])
         },
+        employee: {
+            type: Object,
+            default:() => ({})
+        },
     },
     methods:{
          handleClose(done) {
@@ -54,16 +70,34 @@ export default {
 </script>
 <style lang="scss" scoped>
     .remarksBox{
-        margin-left: 20px;
+        // margin-left: 20px;
         height: 100%;
         width: 100%;
+        .el-icon-user{
+            border-radius: 50%;
+            background-color: #cccccc;
+            color: #ffffff;
+            font-size: 17px;
+        }
         .bubbleText{
             display: flex;
-            height: 70px;
+            min-height: 100px;
+            margin-left: 15px;
+            margin-top: 15px;
+            position:relative;
+            // overflow-y: auto;
+            // overflow: hidden;
             .bubbleLOutBox{
                 height: 50px;
-                width: 45px;
+                width: 75px;
                 padding-top: 8px;
+            }
+            .bubbleROutBoxCont{
+                height: 50px;
+                width: 75px;
+                padding-top: 8px;
+                position: absolute;
+                right: 23px
             }
             .bubbleROutBox{
                 display: flex;
@@ -81,17 +115,68 @@ export default {
                     border-right-color:currentColor;
                     color:#dddddd;
                 }
-                .bubbleBox{
+                .bubbleTailRight{
                     position:absolute;
-                    right: -130px;
+                    left: 230px;
+                    top:10px;
+                    width:0;
+                    height:0;
+                    border-width:10px;
+                    border-style:solid;
+                    border-color:transparent;
+                    border-left-width:16px;
+                    border-left-color:currentColor;
+                    color:#dddddd;
+                    }
+                .bubbleBox{
+                    padding: 5px;
+                    border-radius: 5px;
+                    position:absolute;
+                    right: -160px;
                     top: 0px;
-                    width: 113px;
-                    height: 40px;
-                    background-color:#dddddd; ;
+                    min-width: 140px;
+                    // height: 40px;
+                    background-color:#dddddd; 
+                    .topStatusTitle{
+                        font-weight: bold;
+                        .bubbleBoxText{
+                            float: right;
+                        }
+                    }
+                }
+                .bubbleBoxRight{
+                    padding: 5px;
+                    border-radius: 5px;
+                    position:absolute;
+                    right: -230px;
+                    top: 0px;
+                    width: 140px;
+                    // height: 40px;
+                    background-color:#dddddd; 
+                    .topStatusTitle{
+                        font-weight: bold;
+                        color: red;
+                        .bubbleBoxText{
+                            float: right;
+                        }
+                    }
                 }
             }
         }
         
+    }
+    .titleRemarks{
+        font-weight: bold;
+        margin: 15px 0 15px 15px;
+    }
+    ::v-deep.el-drawer{
+        .el-drawer__header{
+            padding-bottom: 0px !important;
+        }
+    }
+    .bubbleBoxMainText{
+        height: 50px;
+        overflow-y: auto;
     }
     
 </style>

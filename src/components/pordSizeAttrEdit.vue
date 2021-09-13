@@ -354,17 +354,19 @@
                  </el-col>
              </el-row>
              <el-row>
-                 <el-col :span="22">
+                 <el-col :span="20">
                      <el-form-item  label="销售(多)属性:" prop="productColor">      
                         <el-table
                             border
                             :data="ruleForm.multiAttribute"
-                            style="width: 100%">
+                            style="width: 100%"
+                            :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
+                            >
                             <el-table-column
                                 label="开发状态"
                                 >
                                 <template slot-scope="scope">
-                                    <div v-if="scope.row.id == pordSizeAttrInfoList.id">
+                                    <div v-if="scope.row.productid == pordSizeAttrInfoList.id">
                                         当前开发
                                     </div>
                                     <div v-else>
@@ -377,7 +379,7 @@
                                 >
                                 <template slot-scope="scope">
                                     <div>
-                                        {{scope.row.id}}
+                                        {{scope.row.productid}}
                                     </div>
                                     <div>
                                         {{scope.row.encodingrules}}
@@ -387,8 +389,8 @@
                             <el-table-column
                                 label="开发属性">
                             <template slot-scope="scope">
-                                    <div v-for="item in scope.row.productColorList" :key="item.id">
-                                        {{item.color}}
+                                    <div>
+                                        {{scope.row.color}}
                                     </div>
                                     <div>
                                         {{scope.row.size}}
@@ -421,8 +423,7 @@
                             <el-table-column
                                 label="是否上架">
                                 <template slot-scope="scope">
-                                    <div v-if="scope.row.productneed">需要</div>
-                                    <div v-else>不需要</div>
+                                    <div><el-checkbox v-model="scope.row.productneed">需要</el-checkbox></div>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -437,7 +438,7 @@
     </div>
 </template>
 <script>
-import {  findBoxTypesById } from '@/api/user.js'
+import {  findBoxTypesById,purchaseSku } from '@/api/user.js'
 export default {
     name:'pordSizeAttrEdit',
     data(){
@@ -568,12 +569,7 @@ export default {
                     })
                     this.ruleForm.multiAttribute.push({
                         size:this.ruleForm.productSize,
-                        productColorList:[
-                            {
-                                color:newVal.toString(),
-                                id:Math.random(),
-                            }
-                        ],
+                        color:newVal.toString(),
                         id:this.pordSizeAttrInfoList.id,
                         encodingrules:this.copeMulAttrBute.encodingrules,
                         productneed:this.copeMulAttrBute.productneed,
@@ -587,13 +583,12 @@ export default {
                         return !val.includes(item)
                     })
                     let colorNewVal = newVal.toString()
-                    let colorIndex = ''
                      this.ruleForm.multiAttribute.forEach((item,index) => {
-                        if(item.productColorList.length > 0 && item.productColorList[0].color == colorNewVal){
-                            colorIndex = index
+                        if(item && item.color == colorNewVal){
+                            this.ruleForm.multiAttribute.splice(index,1)
                         }
                     })
-                    this.ruleForm.multiAttribute.splice(colorIndex,1)
+                    
                 }
                 
             }
@@ -619,15 +614,28 @@ export default {
         },
         getDetaiList(){
             console.log(this.pordSizeAttrInfoList,'pordSizeAttrInfoList')
+            this.copeMulAttrBute =JSON.parse(JSON.stringify(this.pordSizeAttrInfoList.multiAttribute[0])) 
             let prodInfoList =  this.pordSizeAttrInfoList.multiAttribute.map(item => {
-                    return item.productColorList
+                return item.productColorList
             })
             let newProdInfoList = prodInfoList.flat()
+            // console.log(newProdInfoList,'prodInfoList')
+            newProdInfoList.forEach(item => {
+                if(item.productid == this.pordSizeAttrInfoList.id){
+                    item.encodingrules=this.copeMulAttrBute.encodingrules,
+                    // item.productneed=this.copeMulAttrBute.productneed,
+                    item.productdraftid=this.copeMulAttrBute.productdraftid,
+                    item.kualias=this.copeMulAttrBute.skualias,
+                    item.sku=this.copeMulAttrBute.sku,
+                    item.spu=this.pordSizeAttrInfoList.spu
+                }
+            })
+            console.log(newProdInfoList,'prodInfoList')
             let productColor =  newProdInfoList.map(item => {
                 return item.color
             })
             let proSize = this.pordSizeAttrInfoList.multiAttribute[0].size
-            this.copeMulAttrBute =JSON.parse(JSON.stringify(this.pordSizeAttrInfoList.multiAttribute[0])) 
+           
             this.ruleForm = {
                 productType:this.pordSizeAttrInfoList.productType == 2 ? 2 : 1,
                 productSizeL:this.pordSizeAttrInfoList.productSizeL,
@@ -650,7 +658,7 @@ export default {
                 casesNumber:this.pordSizeAttrInfoList.transportqty,
                 productColor:productColor? productColor :[],
                 productSize:proSize,
-                multiAttribute:this.pordSizeAttrInfoList.multiAttribute,
+                multiAttribute:newProdInfoList,
                 productlistings:this.pordSizeAttrInfoList.productlistings ? this.pordSizeAttrInfoList.productlistings:[],
             }
         },
@@ -668,7 +676,48 @@ export default {
         submitForm(formName) {
                 this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    alert('submit!');
+                    let params = {
+                        developmentId: this.$route.params.developmentId,
+                        productId: this.$route.params.productId,
+                        productCountryId: this.$route.params.productCountryId,
+                        productType:this.ruleForm.productType,//0普通产品  1多属性产品 2物理捆绑产品
+                        product:{//产品信息
+                            id:this.$route.params.productId,
+                            length:this.ruleForm.productSizeL,//产品尺寸
+                            width:this.ruleForm.productSizeW,
+                            height:this.ruleForm.productSizeH,
+                            packedlength:this.ruleForm.packageSizeL,//包装尺寸
+                            packedwidth:this.ruleForm.packageSizeW,
+                            packedheight:this.ruleForm.packageSizeH,
+                            cartonLength:this.ruleForm.outerBoxSizeL,//外箱尺寸
+                            cartonWidth:this.ruleForm.outerBoxSizeW,
+                            cartonHeight:this.ruleForm.outerBoxSizeH,
+                            containerid:this.ruleForm.containersNumber,//可装货柜数量--货柜id
+                            transportqty:this.ruleForm.outerBoxNum,//可装货柜数量--数量
+                            beforepackweight:this.ruleForm.proNetWeight,//净重--kg
+                            abroadbeforepackweight:this.proNetWeightLb,//净重--lb
+                            afterpackweight:this.ruleForm.proGrossWeight,//毛重--kg
+                            abroadafterpackweight:this.proGrossWeightLb,//毛重--lb
+                            cartonWeight:this.ruleForm.proOuterBoxWeight,//外箱重量
+                            packingway:this.ruleForm.packingMethod,//包装方式
+                            caseQty:this.ruleForm.casesNumber,//装箱数
+                            size:this.ruleForm.productSize//尺码
+
+                        },
+                        productlistings: this.ruleForm.productlistings
+                    }
+                    params.productcolors = this.ruleForm.multiAttribute.map(res => {
+                        return {
+                            productneed:res.productneed,
+                            color:res.productColorList[0]? res.productColorList[0].color :''
+                        }
+                    })
+                    purchaseSku(params).then(res => {
+                        if(res.code == 200){
+                            this.$message.success('保存成功')
+                            this.$emit('closeEdit','false')
+                        }
+                    })
                 } else {
                     console.log('error submit!!');
                     return false;

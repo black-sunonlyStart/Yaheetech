@@ -10,6 +10,7 @@
                                 style="width: 100%"
                                 ref="singleTable"
                                 :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
+                                @selection-change="selectionLineChangeHandle"
                                 >
                                 <el-table-column
                                     type="selection"
@@ -112,7 +113,8 @@
                                 border
                                 :data="ruleForm.lastProductPurchaseVoList"
                                 :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
-                                style="width: 100%">
+                                style="width: 100%"
+                                >
                                 <el-table-column
                                     prop="name"
                                     label="采购开发"
@@ -202,7 +204,7 @@
              </el-row>
              <el-row>
                  <el-col :span="8">
-                    <el-form-item label="样品购买价:" prop="purchasePrice">
+                    <el-form-item label="样品购买价:" prop="productprice">
                         <el-input v-model="ruleForm.productprice">
                             <template slot="append">产品价格（RMB）</template>
                         </el-input>
@@ -270,7 +272,7 @@
             </el-row>
             <el-row>
                 <el-col :span="11">
-                    <el-form-item label="样品交期:" prop="deliveryDate">
+                    <el-form-item label="样品交期:" prop="sampledeliverydays">
                         <div class="feeForOrderText">
                             <el-date-picker
                                 v-model="ruleForm.sampledeliverydays"
@@ -331,10 +333,12 @@
     </div>
 </template>
 <script>
+import {productPurchase} from '@/api/user.js'
 export default {
     name:'purchaseInfoEdit',
     data(){
         return {
+            selectRow:{},
             ruleForm:{
                 createdName:'',
                 taxleviedpoint:'',
@@ -350,9 +354,9 @@ export default {
                 lastProductPurchaseVoList:[],
             },
             rules:{
-                productType: [{ required: true, message: '请选择产品类型', trigger: 'blur' }],
-                purchasePrice: [{ required: true, message: '请选择产品类型', trigger: 'blur' }],
-                freight: [{ required: true, message: '请选择产品类型', trigger: 'blur' }],
+                productprice: [{ required: true, message: '请填写样品购买价', trigger: 'blur' }],
+                sampledeliverydays: [{ required: true, message: '请选择样品交期', trigger: 'blur' }],
+                freight: [{ required: true, message: '请填写运费', trigger: 'blur' }],
             },
             devSign:[
                 {
@@ -388,6 +392,13 @@ export default {
         this.getDetailList()
     },
     methods:{
+        selectionLineChangeHandle(val){
+            this.selectRow = val
+            if(val.length > 1){
+                this.$message.error('只能选择一条数据')
+                return
+            }
+        },
         getDetailList(){
             this.ruleForm = {
                 createdName :this.purchaseInfoDetaiList.createdName,
@@ -412,7 +423,45 @@ export default {
       submitForm(formName) {
             this.$refs[formName].validate((valid) => {
             if (valid) {
-                alert('submit!');
+                let params = {
+                    developmentId: this.$route.params.developmentId,
+                    productId: this.$route.params.productId,
+                    productCountryId: this.$route.params.productCountryId,
+                    development:{//开发信息
+                        id:this.$route.params.developmentId,//开发id
+                        productprice:this.ruleForm.productprice,//样品购买价
+                        freight:this.ruleForm.freight,//运费
+                        backpurchaseprice:this.ruleForm.backpurchaseprice,//下单返样品费
+                        backpurchasepricenote:this.ruleForm.backpurchasepricenote,//返样品费详情备注
+                        taxleviedpoint:this.ruleForm.taxleviedpoint,//含税价税点
+                        tax:this.ruleForm.tax,//海关退税率
+                        bandprice:this.ruleForm.bandprice//品牌费
+                    },
+                    sampleDeliveryOn:this.ruleForm.sampledeliverydays,//样品交期
+                    sampledeliverydays:4,//样品交期--时间差
+                    packedvolume:this.ruleForm.packedvolume,//FOB头程费
+                    gooddate:this.ruleForm.goodTimeDate,//货好时间
+                    goodnote:this.ruleForm.feeForOrdering,//货好时间详情备注
+                    purchases:[//采购信息
+                    ]
+                } 
+                
+                let tableList = []
+                if(this.selectRow.length != 0){
+                        this.selectRow.type = 0
+                        tableList.push(this.selectRow)
+                }
+                if(this.ruleForm.lastProductPurchaseVoList.length != 0){
+                        this.ruleForm.lastProductPurchaseVoLis.type = 1
+                        tableList.push(this.ruleForm.lastProductPurchaseVoList)
+                }
+                params.purchases = tableList.flat()
+                productPurchase(params).then(res => {
+                    if(res.code == 200){
+                        this.$message.success('保存成功')
+                        this.$emit('closeEdit','false')
+                    }
+                })
             } else {
                 console.log('error submit!!');
                 return false;

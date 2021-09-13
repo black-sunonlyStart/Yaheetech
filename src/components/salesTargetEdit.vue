@@ -173,16 +173,17 @@ export default {
     },
     methods:{
         getDetailPage(){
+            console.log(this.salesTargetDetaiList,'this.salesTargetDetaiList')
             this.ruleForm = {
                 staRating:this.salesTargetDetaiList.xsstarrating,//产品星级评分
                 targetPrice:this.salesTargetDetaiList.xspurchaseprice,//目标采购价
-                staRawestaRatingting:this.salesTargetDetaiList.xstargetstarrating,//我司目标星级评分
+                westaRating:this.salesTargetDetaiList.xstargetstarrating,//我司目标星级评分
                 dailySales:this.salesTargetDetaiList.xsdailysales,//产品预估日销量
                 rateRequirements:this.salesTargetDetaiList.xsrepairraterequirement,//目标售后返修率要求
                 orderQuantity:this.salesTargetDetaiList.xsfirstorderquantity,//预估首单订单数量
                 productMarket:this.salesTargetDetaiList.xsmarket,//产品开发市场
                 specialPackaging:this.salesTargetDetaiList.xsspecialrequirements,//产品包装尺寸特殊要求
-                samplingTime:this.salesTargetDetaiList.xstestsampletime,//产品测样时间点
+                samplingTime:this.salesTargetDetaiList.xsTestSampleTime,//产品测样时间点
                 orderTime:this.salesTargetDetaiList.xsorderoftime,//产品下单时间点
                 region:this.salesTargetDetaiList.xspurchasePriceCurrency?this.salesTargetDetaiList.xspurchasePriceCurrency:2,//目标采购价
                 
@@ -195,7 +196,7 @@ export default {
                     developmentId:this.$route.params.developmentId,
                     productId:this.$route.params.productId,
                     productCountryId:this.$route.params.productCountryId,
-                    xsstarRating:this.ruleForm.staRating,
+                    xsstarRating:this.ruleForm.westaRating,
                     xsTargetStarRating:this.ruleForm.staRawestaRatingting,
                     xsRepairRateRequirement:this.ruleForm.rateRequirements,
                     xsPurchasePrice:this.ruleForm.targetPrice,
@@ -203,7 +204,7 @@ export default {
                     xsFirstOrderQuantity:this.ruleForm.orderQuantity,
                     xsMarket:this.ruleForm.productMarket,
                     xsSpecialRequirements:this.ruleForm.specialPackaging,
-                    xsTestSampleTime:this.ruleForm.xsTestSampleTime,
+                    xsTestSampleTime:this.ruleForm.samplingTime,
                     xsOrderOfTime:this.ruleForm.orderTime,
                     xspurchasePriceCurrency:this.ruleForm.region,
                 }

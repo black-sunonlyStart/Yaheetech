@@ -122,3 +122,35 @@ export function developmentMsg(data) {
       data
     })
   }
+  //产品认证信息
+export function credential(data) {
+    return request({
+      url: '/productManage/credential',
+      method: "post", 
+      data
+    })
+  }
+  //编辑产品标题和供应商信息
+export function purchaseManager(data) {
+    return request({
+      url: '/productManage/purchaseManager',
+      method: "post", 
+      data
+    })
+  }
+  //产品尺寸和属性
+export function purchaseSku(data) {
+    return request({
+      url: '/productManage/sku',
+      method: "post", 
+      data
+    })
+  }
+  //采购信息
+export function productPurchase(data) {
+    return request({
+      url: 'productManage/productPurchase',
+      method: "post", 
+      data
+    })
+  }

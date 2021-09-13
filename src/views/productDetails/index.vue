@@ -40,7 +40,7 @@
         <el-col :span="12">
             <el-card class="card">
                 <div class="stepBox">
-                        <span class="leftButton" @click="leftMove"><i class="el-icon-d-arrow-left"></i></span>
+                    <span class="leftButton" @click="leftMove"><i class="el-icon-d-arrow-left"></i></span>
                         <span class="step-container">
                             <el-steps :active="copeDevProgress ? copeDevProgress.length - 1:0" space='200' align-center style="margin-right:15px" finish-status="success">
                                 <el-step v-for="item in developmentProgresses" :title="item.statusValue" :key="item.status" :description="item.createOn">
@@ -54,14 +54,17 @@
                                 </el-step>
                             </el-steps>
                         </span>
-                        <span class='rightButton' @click="rightMove"><i class="el-icon-d-arrow-right"></i></span>
-                </div>  
+                    <span class='rightButton' @click="rightMove"><i class="el-icon-d-arrow-right"></i></span>
+                </div> 
+                <div class="stepText">
+                    <span class="stepTextLittleTitle">业务：{{productCountryList.businessName}}</span><span>采购：{{productCountryList.buyerName}}</span>
+                </div> 
             </el-card>
         </el-col>
         </el-row>
     </div>
     <div class="cardBox">
-        <remarks ref="remarks" :remarksList='remarksList'></remarks>
+        <remarks ref="remarks" :remarksList='remarksList' :employee='employee'></remarks>
         <i class="remarks"
         @click="openRemarks"></i>
         <!-- <el-card class="card"> -->
@@ -429,6 +432,7 @@ export default {
   },
   data () {
     return {
+        employee:{},
         titleImgSrc:'',
         productMarketStrs:{},//头部信息产品利润信息
         copeDevProgress:{},
@@ -618,6 +622,7 @@ export default {
                 this.otherProductCountryList = res.data.productVos[0].productCountryList[0]
                 this.productVos = res.data.productVos[0]
                 this.productMarketStrs = res.data.productMarketStrs
+                this.employee = res.data.employee
                 // this.competingproducts = res.data.competingproducts[0]
                 this.getDevProgresses(res.data.developmentProgresses)
                 //开发类型、详情数据
@@ -727,6 +732,8 @@ export default {
                 //             return newData.includes(item.authId)
                 //         })
                 //     }
+                    let patentInfo = res.data.development.patentinfo? JSON.parse(res.data.development.patentinfo) : []
+                    console.log(patentInfo,'patentInfo')
                     this.prodCerInfoDetailList = {
                         isauth:this.productVos.isauth,//是否需要认证
                         credentialList1:credentialList1 ? credentialList1:[],//必要认证
@@ -736,7 +743,7 @@ export default {
                         applicableAge:this.productVos.applicableAge ,//产品年龄段
                         applicableAgeNote:this.productVos.applicableAgeNote ,//备注
                         riskllevel:this.productVos.riskllevel,//专利风险等级
-                        patentInfo:JSON.parse(this.development.patentinfo).LocalStrings,//专利确认
+                        patentInfo:patentInfo.LocalStrings,//专利确认
                     }
                 // }) 
                     //产品标题和供应商信息
@@ -992,9 +999,19 @@ export default {
           display: flex;
           .profit{
               font-weight: normal;
+              display: inline-block;
+              margin-right: 10px;
           }
       }
     }
+  }
+  .stepText{
+        font-weight: bold;
+        float: right;
+        margin-right: 368px;
+        .stepTextLittleTitle{
+            margin-right: 15px;
+        }
   }
   .stepBox{
       position: relative;

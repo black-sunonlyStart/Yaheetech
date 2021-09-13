@@ -64,14 +64,18 @@
                     <el-form-item label="必要认证附件:">
                         <el-upload
                             class="upload-demo"
-                            action="https://httpbin.org/post"
+                            :action='action'
                             :on-preview="handlePreview"
                             :on-remove="handleRemove"
                             :before-remove="beforeRemove"
                             multiple
                             :limit="3"
                             :on-exceed="handleExceed"
-                            :file-list="ruleForm.fileList">
+                            :file-list="ruleForm.fileList"
+                            :data="fileType"
+                            :with-credentials='true'
+
+                            >
                             <el-button size="small" type="primary" style="margin-right:15px">选择文件</el-button>
                                 <el-select 
                                     v-model="ruleForm.productMarket"
@@ -94,13 +98,15 @@
                     <el-form-item label="推荐认证附件:">
                         <el-upload
                             class="upload-demo"
-                            action="https://httpbin.org/post"
+                            :action="action"
                             :on-preview="handlePreview"
                             :on-remove="handleRemove"
                             :before-remove="beforeRemove"
                             multiple
                             :limit="3"
                             :on-exceed="handleExceed"
+                            :data="fileType"
+                            :with-credentials='true'
                             :file-list="ruleForm.recommendFileList">
                             <el-button size="small" type="primary" style="margin-right:15px">选择文件</el-button>
                                 <el-select 
@@ -131,7 +137,7 @@
                     <el-form-item label="工厂提供的图片:" prop="recommendFileList">
                         <el-upload
                             class="upload-demo"
-                            action="https://httpbin.org/post"
+                            action="action"
                             :on-preview="handlePreview"
                             :on-remove="handleRemove"
                             :before-remove="beforeRemove"
@@ -139,6 +145,7 @@
                             :limit="3"
                             :on-exceed="handleExceed"
                             list-type="picture-card"
+                            :with-credentials='true'
                             :file-list="ruleForm.recommendFileList">
                             <i class="el-icon-plus"></i>
                                 <!-- <el-button size="small" type="primary" style="margin-right:15px">选择本地图片</el-button>
@@ -155,11 +162,16 @@
     </div>
 </template>
 <script>
-import { getAdministrativeRegion } from '@/api/user.js'
+import { getAdministrativeRegion,purchaseManager } from '@/api/user.js'
+import { upload_file } from '@/utils/files'
 export default {
     name:'prodevInfoEdit',
     data(){
         return {
+            fileType:{
+                fileType:104
+            },
+            action:upload_file,
             provinceList:[],
             cityList:[],
             districtList:[],
@@ -284,7 +296,23 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
             if (valid) {
-                alert('submit!');
+                let params = {
+                    developmentId: this.$route.params.developmentId,
+                    productId: this.$route.params.productId,
+                    productCountryId: this.$route.params.productCountryId,
+                    title:this.ruleForm.chineseTitle,//中文标题
+                    description:this.ruleForm.chineseDescription,//中文描述
+                    certificationnote:this.ruleForm.certificationRemarks,//认证备注
+                    provinceCode: this.ruleForm.supplierLocation,//供应商所在地--省
+                    cityCode:this.ruleForm.supplierLocation1,//供应商所在地--市
+                    areaCode:this.ruleForm.supplierLocation2//供应商所在地--区 
+                }
+                purchaseManager(params).then((res) => {
+                    if(res.code == 200){
+                        this.$message.success('保存成功')
+                        this.$emit('closeEdit','false')
+                    }
+                })
             } else {
                 console.log('error submit!!');
                 return false;

@@ -52,7 +52,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        prop="address"
+        
         label="产品利润"
         show-overflow-tooltip
         >
@@ -61,21 +61,21 @@
                 <div>{{item.platformName}}:</div>
                 <div>{{item.currency}} {{item.developmentPrice}}/
                     <el-tooltip :content="rows.warehouseName" placement="top" effect="light" v-for="rows in item.marketProfits " :key="rows.warehouseId">
-                        <span>{{rows.profitMargin}}</span>
+                        <span :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin + '%' + '/'}}</span>
                     </el-tooltip>
                 </div>
             </div>
         </template>
       </el-table-column>
       <el-table-column 
-        prop="address"
+        
         label="产品尺寸/属性"
         show-overflow-tooltip
         >
         <template slot-scope="scope">
             <div>{{scope.row.size}}</div>
             <div>{{scope.row.packingWay}}</div>
-            <div>{{scope.row.shape}}</div>
+            <div>{{scope.row.shape }}</div>
         </template>
       </el-table-column>
       <el-table-column prop="categoryName"
@@ -86,7 +86,7 @@
                        label="开发状态"
                        show-overflow-tooltip>
       </el-table-column>
-      <el-table-column prop="address"
+      <el-table-column 
                        label="业务/采购"
                        show-overflow-tooltip>
             <template slot-scope="scope">
@@ -95,7 +95,7 @@
             </template>
       </el-table-column>
       <el-table-column 
-        prop="address"
+        
         label="创建/更新时间"
         show-overflow-tooltip>
             <template slot-scope="scope">
@@ -104,13 +104,22 @@
             </template>
       </el-table-column>
       <el-table-column 
-        prop="address"
+        
         label="操作"
         show-overflow-tooltip
         >
         <template slot-scope="scope">
-            <div>
-                wo shi
+            <div class="operaBox">
+                <div class="imageBox" @click="clickEdit(scope.row.developmentId,scope.row.productId,scope.row.id)"></div>
+                <el-popover
+                    placement="bottom"
+                    width="100"
+                    trigger="click">
+                    <div class="operationBox" v-for="item in operationList" :key="item.id"> 
+                        <div class="operationText" @click="putOperation(scope.row,item.id)">{{item.name}}</div>
+                    </div>
+                    <div class="imageBox1" slot="reference" @click="openOperation(scope.row)"></div>
+                </el-popover>
             </div>
         </template>             
       </el-table-column>
@@ -120,7 +129,7 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="currentPage4"
-            :page-sizes="[100, 200, 300, 400]"
+            :page-sizes="[50, 100, 150, 200]"
             :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
             :total="total"
@@ -128,23 +137,30 @@
             >
         </el-pagination>
     </div>
-    
+    <messageDialog :clickId='clickId' ref="messageDialog"></messageDialog>
   </div>
 
 </template>
 <script>
 import { fetchPageTableList } from '@/api/user.js'
 import { formatDate } from '@/utils/tools.js'
+import messageDialog from './messageDialog.vue'
 export default {
   name: 'mainTable',
+  components:{
+      messageDialog
+  },
   data () {
     return {
+      operationList:{},
       currentPage4: 1,
       tableData: [],
       multipleSelection: [],
-      pageSize:100,
+      pageSize:50,
       pageNum:1,
-      total:100
+      total:50,
+      dialogVisible: false,
+      clickId:0
     }
   },
   props:{
@@ -173,6 +189,201 @@ export default {
       this.getTableList(this.navFilterList)
   },
   methods: {
+      clickEdit(devId,proId,procountryId){
+          this.$router.push({
+            name:'productDetails',
+            params:{
+                developmentId:devId,
+                productId:proId,
+                productCountryId:procountryId,
+            }
+          })
+      },
+      putOperation(row,id){
+          this.clickId = id
+        //   if(id == 1){
+              this.$refs.messageDialog.openDialog()
+        //   }
+      },
+      openOperation(row){
+          if(row.state == 0){
+              this.operationList = [
+                  {
+                    name:'提交审批',
+                    id:1
+                  },
+                  {
+                    name:'审批通过',
+                    id:2
+                  },
+                  {
+                    name:'取消开发',
+                    id:3
+                  },
+              ]
+          }else if(row.state == 1){
+              this.operationList = [
+                  {
+                    name:'打回',
+                    id:4
+                  },
+                  {
+                    name:'取消开发',
+                    id:3
+                  },
+              ]
+          }else if(row.state == 2){
+              this.operationList = [
+                  {
+                    name:'提交采购主管审核',
+                    id:5
+                  },
+                  {
+                    name:'更改采购开发员',
+                    id:6
+                  },
+              ]
+          }else if(row.state == 3){
+              this.operationList = [
+                  {
+                    name:'开发新尺码',
+                    id:8
+                  },
+                  {
+                    name:'取消开发',
+                    id:3
+                  },
+                  {
+                    name:'更改采购开发员',
+                    id:6
+                  },
+              ]
+          }else if(row.state == 4){
+              this.operationList = [
+                  {
+                    name:'提交利润复核',
+                    id:14
+                  },
+                  {
+                    name:'开发新尺码',
+                    id:8
+                  },
+                  {
+                    name:'打回',
+                    id:4
+                  },
+                  {
+                    name:'更改采购开发员',
+                    id:6
+                  },
+              ]
+          }else if(row.state == 5){
+              this.operationList = [
+                  {
+                    name:'开发新尺码',
+                    id:8
+                  },
+                  {
+                    name:'打回',
+                    id:4
+                  },
+                  {
+                    name:'取消开发',
+                    id:3
+                  },
+                  {
+                    name:'更改采购开发员',
+                    id:6
+                  },
+              ]
+          }else if(row.state == 6){
+              this.operationList = [
+                  {
+                    name:'终审通过',
+                    id:9
+                  },
+                  {
+                    name:'开发新尺码',
+                    id:8
+                  },
+                  {
+                    name:'打回',
+                    id:4
+                  },
+                  {
+                    name:'取消开发',
+                    id:3
+                  },
+                  {
+                    name:'更改采购开发员',
+                    id:6
+                  },
+              ]
+          }else if(row.state == 10){
+              this.operationList = [
+                  {
+                    name:'样品采购审核',
+                    id:7
+                  },
+                  {
+                    name:'打回',
+                    id:4
+                  },
+                  {
+                    name:'开发新尺码',
+                    id:8
+                  },
+                  {
+                    name:'更改采购开发员',
+                    id:6
+                  },
+              ]
+          }else if(row.state == 11){
+              this.operationList = [
+                  {
+                    name:'打回',
+                    id:4
+                  },
+                  {
+                    name:'提交寻找供应商',
+                    id:10
+                  },
+              ]
+          }else if(row.state == 12){
+              this.operationList = [
+                  {
+                    name:'提交利润初审',
+                    id:11
+                  },
+                  {
+                    name:'打回',
+                    id:4
+                  },
+              ]
+          }else if(row.state == 13){
+              this.operationList = [
+                  {
+                    name:'审核通过',
+                    id:12
+                  },
+                  {
+                    name:'打回',
+                    id:4
+                  },
+                  {
+                    name:'取消开发',
+                    id:3
+                  },
+              ]
+          }else if(row.state == 14){
+              this.operationList = [
+                  {
+                    name:'返回冻结前状态',
+                    id:13
+                  },
+              ]
+          }
+      },
       routerMove(devId,proId,procountryId){
           this.$router.push({
             name:'productDetails',
@@ -249,5 +460,33 @@ export default {
         }
     }
     
+}
+.boxColor{
+    color: red;
+}
+.operationBox{
+    width: 100px;
+    .operationText{
+        &:hover{
+            color: #409EFF;
+            cursor: pointer;
+        }
+    }
+}
+.operaBox{
+    display: flex;
+
+    .imageBox{
+        height: 32px;
+        width: 32px;
+        // float: left;
+        background-image: url(../assets/bianji.png);
+    }
+    .imageBox1{
+        height: 32px;
+        width: 32px;
+        // float: left;
+        background-image: url(../assets/shenhe.png);
+    }
 }
 </style>

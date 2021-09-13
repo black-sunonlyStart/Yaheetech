@@ -13,7 +13,7 @@
             </el-row>
             <el-row>
                 <el-col :span="21">
-                    <el-form-item label="必要认证:" prop="nessCertification" >
+                    <el-form-item label="必要认证:" prop="usaNessCertification" >
                         <el-checkbox-group v-model="ruleForm.usaNessCertification">
                             <div class="contrayText">
                                 美国 : <el-checkbox :label="item.authId" v-for="item in isUsa" :key="item.authId">{{item.authName}}</el-checkbox>
@@ -40,7 +40,9 @@
                             <el-input
                                 type="textarea"
                                 autosize
-                                v-model="item.data">
+                                v-model="item.data"
+                                @change="changeRequirements(index,item.data)"
+                                >
                             </el-input>
                             <div class="iconBox">
                                 <i v-if="index !== 0" @click="delRements(index)" class="delText el-icon-circle-close"></i>
@@ -58,7 +60,10 @@
                             <el-input
                                 type="textarea"
                                 autosize
-                                v-model="item.data">
+                                v-model="item.data"
+                                @change='changeTestRequirements(index, item.data)'
+                                >
+                                
                             </el-input>
                             <div class="iconBox">
                                 <i v-if="index !== 0" @click="delTestRement" class="delText el-icon-circle-close"></i>
@@ -159,6 +164,7 @@
     </div>
 </template>
 <script>
+import { credential } from '@/api/user.js'
 export default {
     name:'prodCerInfoEdit',
     data(){
@@ -183,7 +189,18 @@ export default {
             },
             rules:{
                 isCertificationReq: [{ required: true, message: '请选择', trigger: 'blur' }],
-                nessCertification: [{ required: true, message: '请选择', trigger: 'blur' }],
+                usaNessCertification: [{
+                        required: true,
+                        validator: (rules, value, cb) => {
+                        let { ukNessCertification,euNessCertification } = this.ruleForm;
+                        if (value.length == 0 && ukNessCertification.length == 0 && euNessCertification.length == 0) {
+                            return cb(new Error("请选择!"));
+                        }
+
+                        return cb();
+                        },
+                        trigger: "change"
+                    }],
                 requirements: [{ required: true, message: '请填写认证要求', trigger: 'blur' }],
                 testRequirements: [{ required: true, message: '请填写测试要求', trigger: 'blur' }],
                 requirementsRemark: [{ required: true, message: '请填写认证备注', trigger: 'blur' }],
@@ -377,18 +394,33 @@ export default {
         addthis(val){
             console.log(val)
         },
+        changeTestRequirements(i,val){
+            this.ruleForm.testRequirements[i].data = val
+        },
         addRequireMent(){
             console.log(this.prodCerInfoDetailList)
-            this.ruleForm.testRequirements.push({})
+            this.ruleForm.testRequirements.push({
+                authtype:2,
+                developmentid:this.$route.params.developmentId,
+                productid:this.$route.params.productId
+                // data:data
+            })
         },
         delTestRement(index){
             this.ruleForm.testRequirements.splice(index,1)
         },
         addMustRequire(){
-            this.ruleForm.requirements.push({})
+            this.ruleForm.requirements.push({
+                authtype:1,
+                developmentid:this.$route.params.developmentId,
+                productid:this.$route.params.productId
+            })
         },
         delRements(i){
            this.ruleForm.requirements.splice(i,1)
+        },
+        changeRequirements(i,val){
+            this.ruleForm.requirements[i].data = val
         },
         getDetailPage(){
             if(!this.prodCerInfoDetailList.credentialList1)return
@@ -439,7 +471,35 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
             if (valid) {
-                alert('submit!');
+                let params = {
+                    developmentId:this.$route.params.developmentId,
+                    productId:this.$route.params.productId,
+                    productCountryId:this.$route.params.productCountryId,
+                    auth:this.ruleForm.isCertificationReq,
+                    authNote:this.ruleForm.requirementsRemark,
+                    applicableAge:this.ruleForm.productAgeGroup,
+                    applicableAgeNote:this.ruleForm.ageGroupRemarks,
+                    riskLevel:this.ruleForm.patentRiskLevel,
+                    usPatentInfo:this.ruleForm.checkedUSA,
+                    gbPatentInfo:this.ruleForm.checkedUK,
+                    dePatentInfo:this.ruleForm.checkedEU,
+                }
+                let dataList = this.ruleForm.usaNessCertification.concat(this.ruleForm.ukNessCertification).concat(this.ruleForm.euNessCertification)
+                let mustRequire = {
+                    developmentid:this.$route.params.developmentId,
+                    productid:this.$route.params.productId,
+                    authtype:0,
+                    data:dataList.toString()
+                }
+                let copeList = []
+                copeList.push(mustRequire,this.ruleForm.requirements,this.ruleForm.testRequirements)
+                let newCopeList = copeList.flat()
+                params.credentials = newCopeList
+                credential(params).then(res => {
+                    if(res.code == 200){
+                        this.$message.success('保存成功')
+                    }
+                })
             } else {
                 console.log('error submit!!');
                 return false;
