@@ -208,7 +208,7 @@ export default {
                 productId:this.$route.params.productId,
                 productCountryId:this.$route.params.productCountryId,
                 categoryId:this.ruleForm.treeId,
-                developmentType:this.ruleForm.relation,
+                developmentType:this.ruleForm.region,
                 developmentScenarios:this.ruleForm.scene,
                 addDevelopmentId:this.ruleForm.inputRelation,
                 associatedProductId:this.ruleForm.selectRelation,
@@ -218,6 +218,14 @@ export default {
                 if(res.code == 200){
                     this.$message.success('保存成功')
                     this.$emit('closeEdit','false')
+                    this.$router.push({
+                        name:'productDetails',
+                        params:{
+                            developmentId:res.data.developmentId,
+                            productId:res.data.productId,
+                            productCountryId:res.data.productCountryId,
+                        }
+                    })
                 }
             })
           } else {

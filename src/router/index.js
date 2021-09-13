@@ -17,7 +17,7 @@ export const constantRoutes = [
   },
   {
     name:'productDetails',
-    path: '/productDetails/:developmentId/:productId/:productCountryId',
+    path: '/productDetails/:developmentId?/:productId?/:productCountryId?',
     component: () => import('@/views/productDetails/index'),
     hidden: true
   },

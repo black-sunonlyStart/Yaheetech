@@ -137,7 +137,7 @@
             >
         </el-pagination>
     </div>
-    <messageDialog :clickId='clickId' ref="messageDialog"></messageDialog>
+    <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog" @getTableList='getTableList' :row="row"></messageDialog>
   </div>
 
 </template>
@@ -152,6 +152,8 @@ export default {
   },
   data () {
     return {
+      row:{},
+      dialogName:'',
       operationList:{},
       currentPage4: 1,
       tableData: [],
@@ -201,9 +203,48 @@ export default {
       },
       putOperation(row,id){
           this.clickId = id
-        //   if(id == 1){
+          if(id == 1){
+            this.dialogName = '提交审批' 
+          }else if (id == 2){
+              this.dialogName = '审批通过' 
+          }else if(id == 3){
+                this.dialogName = '取消开发' 
+          }else if (id == 4){
+              this.dialogName = '打回'
+          }else if (id == 5){
+              this.dialogName = '提交采购主管审核'
+          }else if (id == 6){
+              this.dialogName = '更改采购开发员'
+          }else if (id == 7){
+              this.dialogName = '样品采购审核'
+          }else if (id == 8){
+              this.$router.push({ //提交审批、审批通过、取消开发、打回、提交采购主管审核、更改采购开发员、样品采购审核、开发新尺码、终审通过、提交寻找供应商、提交利润初审、审核通过、返回冻结前状态
+                name:'productDetails',
+                params:{
+                    developmentId:row.developmentId,
+                    productId:row.productId,
+                    productCountryId:row.productCountryId,
+                }
+            })
+          }else if (id == 9){
+              this.dialogName='终审通过'
+              this.clickId = 2
+          }else if (id == 10){
+              this.dialogName ='提交寻找供应商'
+          }else if (id == 11){
+              this.dialogName ='提交利润初审'
+          }else if (id == 12){
+              this.clickId = 2
+          }else if (id == 13){
+              this.$message.success('解冻成功')
+          }else if(id == 14){
+             this.dialogName ='提交利润初审'
+          }
+          this.row = row
+          if(id != 13) {
               this.$refs.messageDialog.openDialog()
-        //   }
+          }
+           
       },
       openOperation(row){
           if(row.state == 0){
@@ -213,16 +254,16 @@ export default {
                     id:1
                   },
                   {
-                    name:'审批通过',
-                    id:2
-                  },
-                  {
                     name:'取消开发',
                     id:3
                   },
               ]
           }else if(row.state == 1){
-              this.operationList = [
+              this.operationList = [  //1  13 12 3 10 5 6 
+                  {
+                    name:'审批通过',
+                    id:2
+                  },
                   {
                     name:'打回',
                     id:4
@@ -246,6 +287,10 @@ export default {
           }else if(row.state == 3){
               this.operationList = [
                   {
+                    name:'审批通过',
+                    id:2
+                  },
+                  {
                     name:'开发新尺码',
                     id:8
                   },
@@ -258,11 +303,11 @@ export default {
                     id:6
                   },
               ]
-          }else if(row.state == 4){
+          }else if(row.state == 4){ //1 4 5 6 7 9 10
               this.operationList = [
                   {
                     name:'提交利润复核',
-                    id:14
+                    id:15
                   },
                   {
                     name:'开发新尺码',
@@ -279,6 +324,10 @@ export default {
               ]
           }else if(row.state == 5){
               this.operationList = [
+                  {
+                    name:'审批通过',
+                    id:2
+                  },
                   {
                     name:'开发新尺码',
                     id:8
@@ -298,6 +347,10 @@ export default {
               ]
           }else if(row.state == 6){
               this.operationList = [
+                  {
+                    name:'审批通过',
+                    id:2
+                  },
                   {
                     name:'终审通过',
                     id:9
@@ -319,8 +372,14 @@ export default {
                     id:6
                   },
               ]
-          }else if(row.state == 10){
+          }else if (row.state == 7){
+              console.log(row)
+          } else if(row.state == 10){
               this.operationList = [
+                  {
+                    name:'审批通过',
+                    id:2
+                  },
                   {
                     name:'样品采购审核',
                     id:7
@@ -340,17 +399,21 @@ export default {
               ]
           }else if(row.state == 11){
               this.operationList = [
+                    {
+                        name:'提交认证审核',
+                        id:16
+                    },
                   {
                     name:'打回',
                     id:4
                   },
-                  {
-                    name:'提交寻找供应商',
-                    id:10
-                  },
               ]
           }else if(row.state == 12){
               this.operationList = [
+                  {
+                    name:'审批通过',
+                    id:2
+                  },
                   {
                     name:'提交利润初审',
                     id:11
@@ -382,6 +445,13 @@ export default {
                     id:13
                   },
               ]
+          }else if (row.state == 9){
+              console.log(row)
+          }else if (row.state == 10){ //0 2 3 8
+              this.operationList = [{
+                    name:'审批通过',
+                    id:2
+                  }]
           }
       },
       routerMove(devId,proId,procountryId){

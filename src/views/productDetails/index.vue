@@ -598,7 +598,9 @@ export default {
     }
   },
   created () {
-      this.getAllpageList()
+      if(this.$route.params.productId){
+          this.getAllpageList()
+      }
   },
   mounted () {
     //   this.getAllpageList()
@@ -618,8 +620,13 @@ export default {
                 this.allDetailPageDate = res.data
                 this.development = res.data.development //产品数据
                 this.copeDevProgress = res.data.developmentProgresses
-                this.productCountryList = res.data.productVos[0] && res.data.productVos[0].productCountryList[0] ? res.data.productVos[0].productCountryList[0].countryMap :[]
-                this.otherProductCountryList = res.data.productVos[0].productCountryList[0]
+                if(res.data.productVos[0]  && res.data.productVos[0].productCountryList && res.data.productVos[0].productCountryList[0] ){
+                     this.productCountryList =  res.data.productVos[0].productCountryList[0].countryMap
+                }else {
+                    this.productCountryList = []
+                }
+               
+                this.otherProductCountryList = res.data.productVos && res.data.productVos[0] && res.data.productVos[0].productCountryList ? res.data.productVos[0].productCountryList[0] : []
                 this.productVos = res.data.productVos[0]
                 this.productMarketStrs = res.data.productMarketStrs
                 this.employee = res.data.employee
@@ -701,11 +708,11 @@ export default {
                     dutyrate1:JSON.parse(res.data.development.dutyrate).LocalStrings[0].Value,//是否需要专利确认
                     dutyrate2:JSON.parse(res.data.development.dutyrate).LocalStrings[2].Value,//是否需要专利确认
                     dutyrate3:JSON.parse(res.data.development.dutyrate).LocalStrings[3] ? JSON.parse(res.data.development.dutyrate).LocalStrings[3].Value : '',//是否需要专利确认
-                    orderProduct:this.productVos.productCountryList[0].businessName,//采购开发
-                    businessProduct:this.productVos.productCountryList[0].buyerName,//业务开发
-                    productCountryList:this.productVos.productCountryList[0],//业务开发
-                    computemode:this.productVos.productCountryList[0].productMarketList[0].computemode,//业务开发
-                    productMarketList:this.productVos.productCountryList[0].productMarketList ,//表格数据
+                    orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName : [],//采购开发
+                    businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : [],//业务开发
+                    productCountryList:this.productVos.productCountryList ? this.productVos.productCountryList[0] : [],//业务开发
+                    computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],//业务开发
+                    productMarketList: this.productVos.productCountryList &&  this.productVos.productCountryList[0] ?  this.productVos.productCountryList[0].productMarketList : [],//表格数据
                 }
                 //产品认证信息
                 let credentialList1 = this.productVos.credentialList.filter(item => { //必要认证
@@ -853,6 +860,7 @@ export default {
       getDevProgresses(val){
         if(!this.developmentProgresses)return
         this.developmentProgresses.forEach(item => {
+            if(!val)return
             val.forEach(val => {
                 if( item.statusValue == val.statusValue){
                     item.createBy = val.createBy
