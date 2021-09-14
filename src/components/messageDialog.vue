@@ -4,6 +4,7 @@
             :title="dialogName"
             :visible.sync="dialogVisible"
             width="30%"
+            :modal='false'
             >
             <span v-if="clickId == 1" class="dialogText">说明:确定要把选择的产品提交给业务主管(经理)进行审批?</span>
             <span v-if="clickId == 2" class="dialogText">说明:确定要把选择的产品审批通过,让认证专员去完善认证需求?</span>
@@ -11,6 +12,7 @@
             <span v-if="clickId == 7" class="dialogText">说明:确定选择的产品有利润空间后,让采购开发员去购买样品?</span>
             <span v-if="clickId == 10" class="dialogText">说明:确定选择的产品认证需求信息完善,让采购去寻找供应商?</span>
             <span v-if="clickId == 11" class="dialogText">说明:确定选择的产品资料已经正确,让业务开发员初步审核利润率?</span>
+            <span v-if="clickId == 21" class="dialogText">说明:确定选择的产品资料已经正确,让业务开发员初步审核利润率?</span>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm" size='mini'>
                <el-form-item label="开发优先级" prop="platformid" v-if="clickId == 2">
                     <el-select 
@@ -53,10 +55,24 @@
                         </el-option>
                     </el-select> 
                 </el-form-item>
-                <el-form-item :label="label" prop="remark" v-if="clickId !== 6">
+                <el-form-item :label="label" prop="remark" v-if="clickId != 6 && clickId != 20">
                     <el-input v-model="ruleForm.remark" type="textarea" ></el-input>
                 </el-form-item>
-                <el-form-item label="更改采购开发员" prop="dailySales" v-if="clickId ==6">
+                <el-form-item label="更改采购开发员" prop="dailySales" v-if="clickId == 6">
+                    <el-select 
+                        v-model="ruleForm.dailySales"
+                        filterable 
+                        >
+                        <el-option 
+                            v-for="item in dailySales"                        
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id"
+                            >
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="更改业务开发员" prop="dailySales" v-if="clickId ==20">
                     <el-select 
                         v-model="ruleForm.dailySales"
                         filterable 
@@ -76,7 +92,7 @@
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="submitList">确 定</el-button>
+                <el-button type="primary" @click="submitList('ruleForm')">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -93,7 +109,7 @@ export default {
             ruleForm:{
 
             },
-            platformid:'',
+            platformid:0,
             dialogVisible: false,
             remark:'',
              rules: {
@@ -108,6 +124,9 @@ export default {
                 ],
                 dailySales: [
                     { required: true, message: '请选择采购开发', trigger: 'blur' },
+                ],
+                platformid: [
+                    { required: true, message: '请选择开发优先级', trigger: 'blur' },
                 ],
              },
              devSign:[
@@ -215,25 +234,39 @@ export default {
              ]
         }
     },
+    watch:{
+        clickId:{
+          handler:function(val){
+              if(val){
+                this.$nextTick(() => {
+                    this.clickId = val
+                    if(this.clickId == 6 || this.clickId == 20 ){
+                        this.getTypeList()
+                    } 
+                })
+              }
+          },
+      }
+    },
     props:{
         clickId:{
             type:Number,
+            default:0
         },
         dialogName:{
             type:String,
             default:''
         },
         row:{
-            type:Object,
-            default:() => ({})
+            type:Array,
+            default:() => ([])
         }
     },
     mounted(){
         this.changeLabel()
-        if(this.clickId == 6 ){
+        if(this.clickId == 6 || this.clickId == 20 ){
               this.getTypeList()
-        }
-      
+        } 
     },
     methods:{
         getTypeList(){
@@ -244,14 +277,12 @@ export default {
             selectRoleEmployeeForRoleId(params).then(res => {
                 this.dailySales = res.data
             })
-            }else {
+            }else if(this.clickId == 20){
                 let itemList = {
                     rid:171//业务开发
                 }
                 selectRoleEmployeeForRoleId(itemList).then(res => {
                     this.dailySales = res.data
-                    this.dialogVisible = false
-                    this.$emit('getTableList')
                 })
             }
         },
@@ -273,7 +304,9 @@ export default {
          openDialog(){
             this.dialogVisible = true
         },
-        submitList(){debugger
+        submitList(formName){
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
             let toState = ''
             if(this.row.state == 0){
                 toState = 1
@@ -296,10 +329,13 @@ export default {
             }else {
                 toState = this.row.state + 1
             }
+            let row = this.row.map(res => {
+                return res.id
+            })
             let normalList = [1,5,7,10,11,15,16]
             if(normalList.includes(this.clickId)){
                 let params = {
-                    productCountryId:this.row.productCountryId,
+                    productCountryId:this.row.id,
                     state:toState,
                     whyNote:this.ruleForm.remark
                 }
@@ -307,7 +343,7 @@ export default {
                     if(res.code == 200){
                         this.$message.success('保存成功')
                         this.dialogVisible = false
-                         this.$emit('this.getTableList')
+                         this.$emit('getTableList')
                     }
                 })
             }
@@ -315,13 +351,13 @@ export default {
                 let params = {
                     priority:this.ruleForm.platformid,
                     whyNote:this.ruleForm.remark,
-                    productCountryIds:this.row.productCountryIds
+                    productCountryIds:row.toString()
                 }
                 beginApprovalPass(params).then(res => {
                     if(res.code == 200){
                         this.$message.success('保存成功')
                         this.dialogVisible = false
-                        this.$emit('this.getTableList')
+                        this.$emit('getTableList')
                     }   
                 })
             }
@@ -330,19 +366,19 @@ export default {
                     whyNote:this.ruleForm.remark,
                     backstate:this.ruleForm.status,
                     backType:this.ruleForm.type,
-                    productCountryId:this.row.productCountryIds
+                    productCountryId:this.row.id
                 }
                 loadToBack(params).then(res => {
                     if(res.code == 200){
                         this.$message.success('保存成功')
                         this.dialogVisible = false
-                        this.$emit('this.getTableList')
+                        this.$emit('getTableList')
                     }   
                 })
             }
             if(this.clickId == 6){
                 let params = {
-                    whyNote:this.ruleForm.remark,
+                    productCountryIds:row.toString(),
                     type:1,
                     empId:this.ruleForm.dailySales,
                 }
@@ -350,12 +386,28 @@ export default {
                     if(res.code == 200){
                         this.$message.success('保存成功')
                         this.dialogVisible = false
-                        this.$emit('this.getTableList')
+                        this.$emit('getTableList')
                     }  
                 })
             }
-        }
+            if(this.clickId == 20){
+                let params = {
+                    productCountryIds:row.toString(),
+                    type:2,
+                    empId:this.ruleForm.dailySales,
+                }
+                updateResponsible(params).then(res => {
+                    if(res.code == 200){
+                        this.$message.success('保存成功')
+                        this.dialogVisible = false
+                        this.$emit('getTableList')
+                    }  
+                })
+            }
+          }
+        })
     }
+}
     
 }
 </script>
@@ -363,6 +415,7 @@ export default {
 .dialogText{
     margin-left: 75px;
     display: inline-block;
+    margin-bottom: 15px;
 }
 .defText{
     margin-left: 102px;

@@ -4,10 +4,10 @@
       <navBar  @putTableList='putTableList'></navBar>
     </el-card>
     <el-card class="button-card">
-      <abilityBtn></abilityBtn>
+      <abilityBtn :selectRow='selectRow'></abilityBtn>
     </el-card>
     <el-card class="mainTable-card">
-      <mainTable :navFilterList='filterList'></mainTable>
+      <mainTable :navFilterList='filterList' @putTbleSelection='putTbleSelection'></mainTable>
     </el-card>
   </div>
 </template>
@@ -27,7 +27,8 @@ export default {
     return {
       currentRole: 'adminDashboard',
       faCoRemarks: false,
-      filterList:{}
+      filterList:{},
+      selectRow:[],
     }
   },
   computed: {
@@ -36,6 +37,9 @@ export default {
 
   },
   methods: {
+    putTbleSelection(val){
+        this.selectRow = val || []
+    },
     putTableList (val){
         console.log(this.filterList)
         this.filterList = val

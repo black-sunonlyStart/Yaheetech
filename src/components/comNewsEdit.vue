@@ -368,6 +368,14 @@ export default {
         addPageList(){
             console.log(this.comNewsDetailList.competingproducts,'competingproducts')
             this.comNewsDetailList.competingproducts.push({
+                     id:'',
+                     platformid:'',
+                     platformsiteid:'',
+                     xsin:'',
+                     price:'',
+                     recentsalesvolume:'',
+                     note:'',
+                     pictureuri:'',
             })
         },
         getDetailPage(){

@@ -84,7 +84,7 @@
                                     label="采购成本=
                                     净采购价+杂费+包装费(¥)">
                                     <template slot-scope="scope">
-                                         <span>{{scope.row.costPrice  + scope.row.miscprice  + scope.row.warpperfee }}</span>      
+                                         <span>{{scope.row.calculateprofittype == 2 ? scope.row.purchaseFOBPrice : (scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee || " " }}</span>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                           
@@ -183,7 +183,7 @@
                                     label="采购成本=
                                     净采购价+杂费+包装费(¥)">
                                     <template slot-scope="scope">
-                                        <div>{{scope.row.costPrice  + scope.row.miscprice  + scope.row.warpperfee}} </div>   
+                                        <div>{{scope.row.calculateprofittype == 2 ? scope.row.purchaseFOBPrice : (scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee || " "}} </div>   
                                     </template>
                                 </el-table-column>
                                 <el-table-column
@@ -338,7 +338,7 @@ export default {
     name:'purchaseInfoEdit',
     data(){
         return {
-            selectRow:{},
+            selectRow:[],
             ruleForm:{
                 createdName:'',
                 taxleviedpoint:'',
@@ -409,7 +409,7 @@ export default {
                 bandprice :this.purchaseInfoDetaiList.bandprice,
                 sampledeliverydays :this.purchaseInfoDetaiList.sampledeliverydays,
                 fobbandprice :this.purchaseInfoDetaiList.fobbandprice,
-                packedvolume :this.purchaseInfoDetaiList.packedvolume * 93,
+                packedvolume :this.purchaseInfoDetaiList.packedvolume * 93 || '',
                 productPurchaseVoList :this.purchaseInfoDetaiList.productPurchaseVoList,
                 lastProductPurchaseVoList :this.purchaseInfoDetaiList.lastProductPurchaseVoList,
                 purchaseprice :this.purchaseInfoDetaiList.purchaseprice,
@@ -418,6 +418,7 @@ export default {
         },
         addTableList(){
           this.ruleForm.productPurchaseVoList.push({
+
           })
       },
       submitForm(formName) {

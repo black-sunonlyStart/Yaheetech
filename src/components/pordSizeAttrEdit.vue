@@ -181,7 +181,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="3">
-                    <el-form-item  prop="outerBoxNum" label-width="15px">      
+                    <el-form-item  label-width="15px">      
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="proNetWeightLb" disabled>
                                 <template slot="append">LB</template>
@@ -443,6 +443,7 @@ export default {
     name:'pordSizeAttrEdit',
     data(){
         return {
+            firstList:false,
             putColor:false,
             copeMulAttrBute:{},
             selectid:'',
@@ -531,13 +532,13 @@ export default {
     },
     computed:{
         proGrossWeightLb(){
-            return (this.ruleForm.proGrossWeight * 2.20).toFixed(2)
+            return (this.ruleForm.proGrossWeight * 2.20).toFixed(2) || ''
         },
         proNetWeightLb(){
-            return (this.ruleForm.proNetWeight * 2.20).toFixed(2)
+            return (this.ruleForm.proNetWeight * 2.20).toFixed(2) || ''
         },
         proOuterBoxWeightLb(){
-            return (this.ruleForm.proOuterBoxWeight * 2.20).toFixed(2)
+            return (this.ruleForm.proOuterBoxWeight * 2.20).toFixed(2) || ''
         },
         productColor(){
             return this.ruleForm.productColor
@@ -562,7 +563,7 @@ export default {
         },
         productColor:{
             handler(val,oldVal){
-                if(val == oldVal || oldVal.length == 0 )return  
+                if(val == oldVal  || (oldVal.length == 0 && this.firstList))return  
                 if(val.length > oldVal.length){
                     let newVal = val.filter(item => {
                         return !oldVal.includes(item)
@@ -614,10 +615,15 @@ export default {
         },
         getDetaiList(){
             console.log(this.pordSizeAttrInfoList,'pordSizeAttrInfoList')
-            this.copeMulAttrBute =JSON.parse(JSON.stringify(this.pordSizeAttrInfoList.multiAttribute[0])) 
-            let prodInfoList =  this.pordSizeAttrInfoList.multiAttribute.map(item => {
-                return item.productColorList
-            })
+            
+            let prodInfoList = []
+            if(this.pordSizeAttrInfoList.multiAttribute && this.pordSizeAttrInfoList.multiAttribute[0]){
+                this.firstList = true
+                this.copeMulAttrBute =JSON.parse(JSON.stringify(this.pordSizeAttrInfoList.multiAttribute[0])) 
+                prodInfoList =  this.pordSizeAttrInfoList.multiAttribute.map(item => {
+                    return item.productColorList
+                })
+            } 
             let newProdInfoList = prodInfoList.flat()
             // console.log(newProdInfoList,'prodInfoList')
             newProdInfoList.forEach(item => {
@@ -634,7 +640,7 @@ export default {
             let productColor =  newProdInfoList.map(item => {
                 return item.color
             })
-            let proSize = this.pordSizeAttrInfoList.multiAttribute[0].size
+            let proSize = this.pordSizeAttrInfoList.multiAttribute &&this.pordSizeAttrInfoList.multiAttribute[0] ?  this.pordSizeAttrInfoList.multiAttribute[0].size : ''
            
             this.ruleForm = {
                 productType:this.pordSizeAttrInfoList.productType == 2 ? 2 : 1,
@@ -649,7 +655,7 @@ export default {
                 outerBoxSizeL:this.pordSizeAttrInfoList.outerBoxSizeL,
                 sizeRules:this.pordSizeAttrInfoList.packageshape,
                 outerBoxSizeRules:this.pordSizeAttrInfoList.cartonShape,
-                containersNumber:this.pordSizeAttrInfoList.containerModel,
+                containersNumber:this.pordSizeAttrInfoList.containerid,
                 outerBoxNum:this.pordSizeAttrInfoList.transportqty,
                 proNetWeight:this.pordSizeAttrInfoList.beforepackweight,
                 proGrossWeight:this.pordSizeAttrInfoList.afterpackweight,
@@ -709,7 +715,7 @@ export default {
                     params.productcolors = this.ruleForm.multiAttribute.map(res => {
                         return {
                             productneed:res.productneed,
-                            color:res.productColorList[0]? res.productColorList[0].color :''
+                            color:res.color || ''
                         }
                     })
                     purchaseSku(params).then(res => {

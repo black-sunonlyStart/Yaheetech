@@ -134,10 +134,10 @@
             </el-row>
             <el-row>
                 <el-col :span="24">
-                    <el-form-item label="工厂提供的图片:" prop="recommendFileList">
+                    <el-form-item label="工厂提供的图片:">
                         <el-upload
                             class="upload-demo"
-                            action="action"
+                            :action="action"
                             :on-preview="handlePreview"
                             :on-remove="handleRemove"
                             :before-remove="beforeRemove"
@@ -146,6 +146,7 @@
                             :on-exceed="handleExceed"
                             list-type="picture-card"
                             :with-credentials='true'
+                            :data="{fileType:102}"
                             :file-list="ruleForm.recommendFileList">
                             <i class="el-icon-plus"></i>
                                 <!-- <el-button size="small" type="primary" style="margin-right:15px">选择本地图片</el-button>
@@ -241,7 +242,21 @@ export default {
             }
             getAdministrativeRegion(params).then(res => {
                 this.provinceList = res.data
+                this.ruleForm.supplierLocation = this.prodevInfoDetaiList.provincecode.toString()
             })
+            if(this.prodevInfoDetaiList.provincecode){
+                getAdministrativeRegion({parentId:this.prodevInfoDetaiList.provincecode}).then(res => {
+                    this.cityList = res.data
+                     this.ruleForm.supplierLocation1=this.prodevInfoDetaiList.citycode.toString()
+                })
+            }
+            if(this.prodevInfoDetaiList.areacode){
+                getAdministrativeRegion({parentId:this.prodevInfoDetaiList.citycode}).then(res => {
+                    this.districtList = res.data
+                    this.ruleForm.supplierLocation2 = this.prodevInfoDetaiList.areacode.toString()
+                    
+                })
+            }
         },
         selectProvince(val){
             this.ruleForm.supplierLocation1 = ''
@@ -266,18 +281,18 @@ export default {
         },
         getDetaiList(){
             console.log(this.prodevInfoDetaiList,'recommendFileList')
-            // this.ruleForm = {
-            //         chineseTitle:this.prodevInfoDetaiList.title,
-            //         chineseDescription:this.prodevInfoDetaiList.description,
-            //         supplierLocation:'',
-            //         supplierLocation1:'',
-            //         supplierLocation2:'',
-            //         productMarket:'',
-            //         certificationRemarks:this.prodevInfoDetaiList.certificationnote,
-            //         fileList:[],
-            //         recommendFileList:[]
+            this.ruleForm = {
+                    chineseTitle:this.prodevInfoDetaiList.title,
+                    chineseDescription:this.prodevInfoDetaiList.description,
+                    supplierLocation:this.prodevInfoDetaiList.provincecode,
+                    supplierLocation1:this.prodevInfoDetaiList.citycode,
+                    supplierLocation2:this.prodevInfoDetaiList.areacode,
+                    // productMarket:'',
+                    certificationRemarks:this.prodevInfoDetaiList.certificationnote,
+                    // fileList:[],
+                    // recommendFileList:[]
 
-            // }
+            }
         },
         handleRemove(file, fileList) {
             console.log(file, fileList);

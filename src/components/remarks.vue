@@ -15,13 +15,13 @@
             <div class="remarksBox">
                 <div v-for='item in remarksList' :key="item.key"  class="bubbleText">
                     <div :class="item.createdby  ==employee.id?'bubbleROutBoxCont':'bubbleLOutBox'">
-                        <div><i v-if="item.createdby  !==employee.id" class="el-icon-user"></i>{{item.trueName}}<i v-if="item.statusValue =='寻找供应商'" class="el-icon-user"></i></div>
+                        <div><i v-if="item.createdby  !==employee.id" class="el-icon-user isLeft"></i>{{item.trueName}}<i v-if="item.createdby ==employee.id" class="el-icon-user isRight"></i></div>
                         <div>{{$moment(item.createdon).format("YYYY-MM-DD HH:mm:ss")}}</div>
                         <!-- <div>{{item.createdon}}</div> -->
                     </div>
                     <div class="bubbleROutBox">
-                        <div :class="item.createdby  ==employee.id?'bubbleTailRight':'bubbleTail'"></div>
-                        <div :class="item.createdby  ==employee.id?'bubbleBoxRight':'bubbleBox'">
+                        <div :class="item.createdby  == employee.id?'bubbleTailRight':'bubbleTail'"></div>
+                        <div :class="item.createdby  == employee.id?'bubbleBoxRight':'bubbleBox'">
                             <div class="topStatusTitle">
                                 <span >{{item.statusValue}}</span>
                                 <span class="bubbleBoxText">{{item.operation}}</span>
@@ -87,6 +87,12 @@ export default {
             position:relative;
             // overflow-y: auto;
             // overflow: hidden;
+            .isLeft{
+                margin-right: 5px;
+            }
+            .isRight{
+                margin-left: 5px;
+            }
             .bubbleLOutBox{
                 height: 50px;
                 width: 75px;
@@ -113,7 +119,7 @@ export default {
                     border-color:transparent;
                     border-right-width:16px;
                     border-right-color:currentColor;
-                    color:#dddddd;
+                    color:#eeeeee;
                 }
                 .bubbleTailRight{
                     position:absolute;
@@ -126,7 +132,7 @@ export default {
                     border-color:transparent;
                     border-left-width:16px;
                     border-left-color:currentColor;
-                    color:#dddddd;
+                    color:#eeeeee;
                     }
                 .bubbleBox{
                     padding: 5px;
@@ -136,7 +142,8 @@ export default {
                     top: 0px;
                     min-width: 140px;
                     // height: 40px;
-                    background-color:#dddddd; 
+                    background-color:#eeeeee; 
+                    // border: 1px solid #cccccc;
                     .topStatusTitle{
                         font-weight: bold;
                         .bubbleBoxText{
@@ -152,7 +159,8 @@ export default {
                     top: 0px;
                     width: 140px;
                     // height: 40px;
-                    background-color:#dddddd; 
+                    background-color:#eeeeee; 
+                    border: 1px solid #cccccc;
                     .topStatusTitle{
                         font-weight: bold;
                         color: red;

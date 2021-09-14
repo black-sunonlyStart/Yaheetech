@@ -68,8 +68,8 @@
                             <div class="textPostion">净采购价+杂费+包装费(¥)</div>
                         </template>
                         <template slot-scope="scope">
-                            <div>
-                                <span>{{scope.row.costPrice  + scope.row.miscprice  + scope.row.warpperfee }}</span>
+                            <div> 
+                                <span>{{scope.row.calculateprofittype == 2 ? scope.row.purchaseFOBPrice : (scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee || " "}}</span>
                             </div>
                         </template>
                     </el-table-column>
@@ -146,7 +146,7 @@
                         </template>
                         <template slot-scope="scope">
                             <div>
-                                <span>{{scope.row.costPrice  + scope.row.miscprice  + scope.row.warpperfee }}</span>
+                                <span>{{scope.row.calculateprofittype == 2 ? scope.row.purchaseFOBPrice : (scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee || " "}}</span>
                             </div>
                         </template>
                     </el-table-column>

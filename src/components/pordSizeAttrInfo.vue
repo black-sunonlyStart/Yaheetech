@@ -113,7 +113,7 @@
                 <span class="textWight">物流周长加长(美国):</span><span>{{pordSizeAttrInfoList.logisticsPerimeter}}(cm)</span>
             </el-col>
             <el-col :span="10">
-                <span class="textWight">物流周长加长(非美国):</span>
+                <span class="textWight">物流周长加长(非美国):{{ pordSizeAttrInfoList.logisticsPerimeter}}(cm)</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >

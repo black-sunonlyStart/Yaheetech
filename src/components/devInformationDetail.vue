@@ -5,7 +5,7 @@
                 产品中文概述:<span>{{devInformationDetaiList.description}}</span>
             </el-col>
             <el-col :span="10">
-                业务开发:<span>{{devInformationDetaiList.businessName}}</span>
+                业务开发:<span>{{devInformationDetaiList.businessProduct}}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
@@ -13,7 +13,7 @@
                 英文标题:<span>{{devInformationDetaiList.title}}</span>
             </el-col>
             <el-col :span="10">
-                采购开发:<span>{{devInformationDetaiList.buyerName}}</span>
+                采购开发:<span>{{devInformationDetaiList.orderProduct}}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
@@ -42,15 +42,15 @@
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
-                开发优先级:<span>{{devInformationDetaiList.priority }}</span>
+                开发优先级:<span>{{changPriority(devInformationDetaiList.priority) }}</span>
             </el-col>
             <el-col :span="10">
-                是否安吉产品:<span>{{devInformationDetaiList.isanji }}</span>
+                是否安吉产品:<span>{{devInformationDetaiList.isanji && devInformationDetaiList.isanji == 1 ? '是':'否' }}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >
             <el-col :span="10">
-                是否需要专利确认:<span>{{devInformationDetaiList.ispatentproduct}}</span>
+                是否需要专利确认:<span>{{devInformationDetaiList.isanji && devInformationDetaiList.ispatentproduct == 1 ? '是':'否' }}</span>
             </el-col>
         </el-row>
         <el-row v-for="item in devInformationDetaiList.productMarketList" :key="item.id">
@@ -75,8 +75,8 @@
                     <el-table-column
                         label="利润">
                         <template slot-scope="scope">
-                            <div>{{scope.row.profit/scope.row.profitmargin*100}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
-                            <div>{{scope.row.endprofit/scope.row.endprofitmargin*100}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div>{{scope.row.profit}}/{{scope.row.profitmargin*100}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div>{{scope.row.endprofit}}/{{scope.row.endprofitmargin*100}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -141,7 +141,24 @@
 export default {
     data(){
         return {
-             unit:''
+             unit:'',
+             devSign:[
+                 {
+                     key:1,
+                     label:'低',
+                     value:0,
+                 },
+                 {
+                     key:2,
+                     label:'中',
+                     value:1,
+                 },
+                 {
+                     key:3,
+                     label:'高',
+                     value:2,
+                 },
+             ],
         }
     },
     props:{
@@ -151,7 +168,7 @@ export default {
         }
     },
     mounted(){
-        // console.log(this.devInformationDetaiList.productMarketList,'111111')
+        console.log(this.devInformationDetaiList.productMarketList,'111111')
         // this.unitChange()
         // console.log(this.devInformationDetaiList,'3333333')
     },
@@ -165,6 +182,14 @@ export default {
         //         })
         //     }
         // }
+        changPriority(val){
+            if(typeof(val) == 'number'){
+                let newVal = this.devSign.filter(res => {
+                    return res.value == val
+                })
+                return newVal[0].label
+            }
+        }
     }
 }
 </script>

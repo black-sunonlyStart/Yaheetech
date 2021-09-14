@@ -201,7 +201,7 @@
                                 v-for="item in dailySales3"                        
                                 :key="item.id"
                                 :label="item.name"
-                                :value="item.name"
+                                :value="item.id"
                                 >
                             </el-option>
                         </el-select>
@@ -689,18 +689,22 @@ export default {
                 return
             }
             
-            if(this.ruleForm.marksContry1 != this.devInformationDetaiList.productMarketList[0].countrycode){
+            if(this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] && this.ruleForm.marksContry1 != this.devInformationDetaiList.productMarketList[0].countrycode){
                 this.$message({
                     type:'warning',
                     message:'不能添加其他国家的市场'
                 })
                 return
             }
+            let dailySales3 = this.dailySales3.filter(item => {
+                return item.id == this.ruleForm.marksContry3
+            })
             this.devInformationDetaiList.productMarketList.push({
                 platformname:this.ruleForm.marksContry2,
                 countrycode:this.ruleForm.marksContry1,
-                warehouseName:this.ruleForm.marksContry3,
-                developmentprice:this.devInformationDetaiList.productMarketList[0].developmentprice
+                warehouseName:dailySales3[0].warehouseName,
+                warehouseid:this.ruleForm.marksContry3,
+                developmentprice:this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] ? this.devInformationDetaiList.productMarketList[0].developmentprice : 0
             })
         },
         changeDevelopmentprice(val){
@@ -723,6 +727,7 @@ export default {
             })
         },
         getDetailPage(){
+            if(!this.devInformationDetaiList.productMarketList)return
             this.devInformationDetaiList.productMarketList.forEach(item => {
                 if(item.shippingname){
                     let shippingname=  item.shippingname.split('|')
@@ -733,9 +738,9 @@ export default {
             })
             this.ruleForm = {
                 staRating: this.devInformationDetaiList.title,
-                targetPrice: this.devInformationDetaiList.businessName,
+                targetPrice: this.devInformationDetaiList.businessid,
                 westaRating: this.devInformationDetaiList.keys,
-                dailySales: this.devInformationDetaiList.businessName,
+                dailySales: this.devInformationDetaiList.buyerid,
                 rateRequirements:this.devInformationDetaiList.description,
                 orderQuantity: this.devInformationDetaiList.priority,
                 productMarketUS: this.devInformationDetaiList.dutyrate1,
@@ -780,6 +785,7 @@ export default {
         submitForm() {
             this.$refs['ruleForm1'].validate((valid) => {
                 if(valid){
+                   if(this.$refs['ruleForm2']){
                     this.$refs['ruleForm2'][0].validate((valid) => {
                     if (valid) {
                         let params = {
@@ -794,8 +800,10 @@ export default {
                             auCountryBand:this.ruleForm.brandAo,
                             usDutyRate:this.ruleForm.productMarketUS,
                             gbDutyRate:this.ruleForm.productMarketGB,
+                            
                             deDutyRate:this.ruleForm.productMarketDE,
                             development:{
+                                description:this.ruleForm.rateRequirements,
                                 id:this.ruleForm.id,
                                 categoryid:this.ruleForm.categoryid,
                                 title:this.ruleForm.staRating,
@@ -852,6 +860,74 @@ export default {
                         return false;
                     }
                     });
+                   } else {
+                       let params = {
+                            developmentId:this.$route.params.developmentId,
+                            productId:this.$route.params.productId,
+                            productCountryId:this.$route.params.productCountryId,
+                            businessId:this.ruleForm.targetPrice,
+                            buyerId:this.ruleForm.dailySales,
+                            usCountryBand:this.ruleForm.brandUs,
+                            enCountryBand:this.ruleForm.brandEu,
+                            deCountryBand:this.ruleForm.brandDe,
+                            auCountryBand:this.ruleForm.brandAo,
+                            usDutyRate:this.ruleForm.productMarketUS,
+                            gbDutyRate:this.ruleForm.productMarketGB,
+                            deDutyRate:this.ruleForm.productMarketDE,
+                            development:{
+                                description:this.ruleForm.rateRequirements,
+                                id:this.ruleForm.id,
+                                categoryid:this.ruleForm.categoryid,
+                                title:this.ruleForm.staRating,
+                                keys:this.ruleForm.westaRating,
+                                titleDe:this.ruleForm.titleDe,
+                                titleJp:this.ruleForm.titleJp,
+                                priority:this.ruleForm.orderQuantity,
+                                isanji:this.ruleForm.isanji,
+                                ispatentproduct:this.ruleForm.ispatentproduct,
+                                computemode:this.ruleForm.seaFreight,
+                            },       
+                        }
+                        params.productMarkets = this.devInformationDetaiList.productMarketList.map(item => {
+                            return {
+                                id:item.id,
+                                productid:item.productidid,
+                                countrycode:item.countrycode,
+                                warehouseid:item.warehouseid,
+                                platformname:item.platformname,
+                                developmentprice:item.developmentprice,
+                                sfpDevelopmentPrice:item.sfpDevelopmentPrice,
+                                sfpOceanFreight:item.sfpOceanFreight,
+                                piprice:item.piprice,
+                                oceanfreight:item.oceanfreight,
+                                freightway:item.freightway,
+                                inlandportcosts:item.inlandportcosts,
+                                outlandportcosts:item.outlandportcosts,
+                                duty:item.duty,
+                                vatfee:item.vatfee,
+                                salesvat:item.salesvat,
+                                handlingfee:item.handlingfee,
+                                freight:item.freight,
+                                platformfee:item.platformfee,
+                                paypalprice:item.paypalprice,
+                                listingfee:item.listingfee,
+                                packagingfee:item.packagingfee,
+                                localizationfee:item.localizationfee,
+                                localshippingfeevat:item.localshippingfeevat,
+                                shippingname:item.shippingname,
+                                exchangerate:item.exchangerate,
+                                vatrate:item.vatrate,
+                                dutyrate:item.dutyrate,
+                                freightcalculated:item.freightcalculated,
+                            }
+                        })
+                        developmentMsg(params).then(res => {
+                            if(res.code == 200){
+                                this.$message.success('保存成功')
+                                this.$emit('closeEdit','false')
+                            }
+                        })
+                   }
                 }else {
                     return false
                 }

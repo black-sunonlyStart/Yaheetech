@@ -158,47 +158,47 @@ export function productPurchase(data) {
 export function approvalPass(data) {
     return request({
       url: '/productManage/approvalPass',
-      method: "post", 
-      data
+      method: "get", 
+      params:data
     })
   }
   //资料初审通过(批量)、待审核提交通过
 export function beginApprovalPass(data) {
     return request({
       url: '/productManage/beginApprovalPass',
-      method: "post", 
-      data
+      method: "get", 
+      params:data
     })
   }
   //打回
 export function loadToBack(data) {
     return request({
       url: '/productManage/loadToBack',
-      method: "post", 
-      data
+      method: "get", 
+      params:data
     })
   }
   //跟换业务采购开发
 export function updateResponsible(data) {
     return request({
       url: '/productManage/updateResponsible',
-      method: "post", 
-      data
+      method: "get", 
+      params:data
     })
   }
   //冻结数据
 export function freezing(data) {
     return request({
       url: '/productManage/freezing',
-      method: "post", 
-      data
+      method: "get", 
+      params:data
     })
   }
   //取消冻结
 export function unfreezing(data) {
     return request({
       url: '/productManage/unfreezing',
-      method: "post", 
-      data
+      method: "get", 
+      params:data
     })
   }

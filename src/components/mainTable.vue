@@ -142,7 +142,7 @@
 
 </template>
 <script>
-import { fetchPageTableList } from '@/api/user.js'
+import { fetchPageTableList,freezing,unfreezing } from '@/api/user.js'
 import { formatDate } from '@/utils/tools.js'
 import messageDialog from './messageDialog.vue'
 export default {
@@ -152,7 +152,7 @@ export default {
   },
   data () {
     return {
-      row:{},
+      row:[],
       dialogName:'',
       operationList:{},
       currentPage4: 1,
@@ -236,7 +236,15 @@ export default {
           }else if (id == 12){
               this.clickId = 2
           }else if (id == 13){
-              this.$message.success('解冻成功')
+              let params = {
+                  productCountryIds:row.id
+              }
+              unfreezing(params).then((res) => {
+                  if(res.code == 200){
+                      this.$message.success('解冻成功')
+                  }
+              })
+              
           }else if(id == 14){
              this.dialogName ='提交利润初审'
           }
@@ -493,6 +501,7 @@ export default {
     },
     handleSelectionChange (val) {
       this.multipleSelection = val;
+      this.$emit('putTbleSelection',val)
     },
     handleSizeChange (val) {
         this.pageSize = val

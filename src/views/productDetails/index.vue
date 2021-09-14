@@ -620,14 +620,14 @@ export default {
                 this.allDetailPageDate = res.data
                 this.development = res.data.development //产品数据
                 this.copeDevProgress = res.data.developmentProgresses
-                if(res.data.productVos[0]  && res.data.productVos[0].productCountryList && res.data.productVos[0].productCountryList[0] ){
+                if(res.data.productVos && res.data.productVos[0]  && res.data.productVos[0].productCountryList && res.data.productVos[0].productCountryList[0] ){
                      this.productCountryList =  res.data.productVos[0].productCountryList[0].countryMap
                 }else {
                     this.productCountryList = []
                 }
                
                 this.otherProductCountryList = res.data.productVos && res.data.productVos[0] && res.data.productVos[0].productCountryList ? res.data.productVos[0].productCountryList[0] : []
-                this.productVos = res.data.productVos[0]
+                this.productVos = res.data.productVos? res.data.productVos[0] : []
                 this.productMarketStrs = res.data.productMarketStrs
                 this.employee = res.data.employee
                 // this.competingproducts = res.data.competingproducts[0]
@@ -636,7 +636,7 @@ export default {
                 this.productVoDetail = {
                     developmenttype:this.productVos.developmenttype,//开发类型
                     developmentscenarios:this.productVos.developmentscenarios,//开发场景
-                    categoryname:res.data.development.categoryname,//所属分类
+                    categoryname:res.data.development ? res.data.development.categoryname : '',//所属分类
                     spu:res.data.development.spu,//关联spu
                     id:this.productVos.id,//关联spu id
                 }
@@ -673,7 +673,7 @@ export default {
                     jpweight:res.data.development.jpweight,//竞品的净重
                     basicinformation:res.data.development.basicinformation,//产品的规格参数
                     jpmaterial:res.data.development.jpmaterial,//竞品的材质
-                    jpprocess:res.data.development.jpjpprocesssize,//
+                    jpprocess:res.data.development.jpprocess,//
                     jpcolor:res.data.development.jpcolor,//竞品的颜色
                     advantagefunction:res.data.development.advantagefunction,//竞品优势功能
                     defectfeature:res.data.development.defectfeature,//竞品缺陷功能
@@ -694,7 +694,7 @@ export default {
                     })
                 }
                 
-                 this.titleImgSrc = this.comNewsDetailList.competingproducts[0].showImgUrl
+                 this.titleImgSrc = this.comNewsDetailList.competingproducts && this.comNewsDetailList.competingproducts[0]? this.comNewsDetailList.competingproducts[0].showImgUrl : ''
                 //开发信息
                 this.devInformationDetaiList = {
                     description:res.data.development.description,//产品中文概述
@@ -705,25 +705,33 @@ export default {
                     priority :res.data.development.priority,//开发优先级
                     isanji:res.data.development.isanji,//是否安吉产品
                     ispatentproduct:res.data.development.ispatentproduct,//是否需要专利确认
-                    dutyrate1:JSON.parse(res.data.development.dutyrate).LocalStrings[0].Value,//是否需要专利确认
-                    dutyrate2:JSON.parse(res.data.development.dutyrate).LocalStrings[2].Value,//是否需要专利确认
-                    dutyrate3:JSON.parse(res.data.development.dutyrate).LocalStrings[3] ? JSON.parse(res.data.development.dutyrate).LocalStrings[3].Value : '',//是否需要专利确认
+                    dutyrate1:res.data.development.dutyrate && res.data.development.dutyrate.LocalStrings && res.data.development.dutyrate.LocalStrings[0] ? JSON.parse(res.data.development.dutyrate).LocalStrings[0].Value : '',//是否需要专利确认
+                    dutyrate2:res.data.development.dutyrate && res.data.development.dutyrate.LocalStrings && res.data.development.dutyrate.LocalStrings[2] ? JSON.parse(res.data.development.dutyrate).LocalStrings[2].Value : '',//是否需要专利确认
+                    dutyrate3:res.data.development.dutyrate && res.data.development.dutyrate.LocalStrings && res.data.development.dutyrate.LocalStrings[3] ? JSON.parse(res.data.development.dutyrate).LocalStrings[3].Value : '',//是否需要专利确认
                     orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName : [],//采购开发
                     businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : [],//业务开发
                     productCountryList:this.productVos.productCountryList ? this.productVos.productCountryList[0] : [],//业务开发
                     computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],//业务开发
                     productMarketList: this.productVos.productCountryList &&  this.productVos.productCountryList[0] ?  this.productVos.productCountryList[0].productMarketList : [],//表格数据
+                    businessid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessid : '',   
+                    buyerid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerid : '',   
                 }
+                console.log(this.devInformationDetaiList,'devInformationDetaiList')
                 //产品认证信息
-                let credentialList1 = this.productVos.credentialList.filter(item => { //必要认证
-                    return item.authtype == 0
-                })
-                let credentialList2 = this.productVos.credentialList.filter(item => { //必要认证其他
-                    return item.authtype == 1
-                })
-                let credentialList3 = this.productVos.credentialList.filter(item => { //必要认证
-                    return item.authtype == 2
-                })
+                let credentialList1 = []
+                let credentialList2 = []
+                let credentialList3 = []
+                if(this.productVos && this.productVos.credentialList){
+                      credentialList1 = this.productVos.credentialList.filter(item => { //必要认证
+                        return item.authtype == 0
+                    })
+                    credentialList2 = this.productVos.credentialList.filter(item => { //必要认证其他
+                        return item.authtype == 1
+                    })
+                    credentialList3 = this.productVos.credentialList.filter(item => { //必要认证
+                        return item.authtype == 2
+                    })
+                }
                 
                 // let newCredentialList1 = []
                 // getProdCerInfoDetailList().then(res => {
@@ -739,8 +747,8 @@ export default {
                 //             return newData.includes(item.authId)
                 //         })
                 //     }
-                    let patentInfo = res.data.development.patentinfo? JSON.parse(res.data.development.patentinfo) : []
-                    console.log(patentInfo,'patentInfo')
+                let patentInfo = []
+                    // patentInfo = res.data.development && res.data.development.patentinfo? JSON.parse(res.data.development.patentinfo) : []
                     this.prodCerInfoDetailList = {
                         isauth:this.productVos.isauth,//是否需要认证
                         credentialList1:credentialList1 ? credentialList1:[],//必要认证
@@ -771,6 +779,9 @@ export default {
                     this.prodevInfoDetaiList = {
                         title:this.productVos.title,//中文标题
                         description:this.productVos.description,//中文标题
+                        provincecode:this.productVos.provincecode,
+                        citycode:this.productVos.citycode,
+                        areacode:this.productVos.areacode,
                         mustCredentialList,//必要认证附件
                         recommendCredentialList,//推荐认证附件
                         certificationnote:res.data.certificationnote, //备注
@@ -780,7 +791,7 @@ export default {
                 const ycun = 0.3937008;
                 const ychi = 35.3147248;
                 this.pordSizeAttrInfoList = {
-                    buyerName:this.productVos.productCountryList[0].buyerName,//分配采购开发员
+                    buyerName:this.productVos.productCountryList && this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//分配采购开发员
                     producttype:res.data.development.producttype, //产品类型
                     productSizeL:this.productVos.length,//产品尺寸
                     productSizeW:this.productVos.width,//产品尺寸
@@ -826,15 +837,22 @@ export default {
                     spu:res.data.development.spu,
                     packageshape:this.productVos.packageshape,
                     containerModel:this.productVos.containerModel,
+                    containerid:this.productVos.containerid,
                     cartonShape:this.productVos.cartonShape,
                 }
                 //采购信息
-                let productPurchaseVoList = this.productVos.productPurchaseVoList.filter(item => {
-                    return item.type == 0
-                })
-                let lastProductPurchaseVoList = this.productVos.productPurchaseVoList.filter(item => {
+                let productPurchaseVoList = []
+                let lastProductPurchaseVoList  = []
+                if(this.productVos.productPurchaseVoList &&this.productVos.productPurchaseVoList[0] ){
+                    productPurchaseVoList = this.productVos.productPurchaseVoList.filter(item => {
+                        return item.type == 0
+                    })
+                }
+                 if(this.productVos.productPurchaseVoList &&this.productVos.productPurchaseVoList[0] ){
+                    lastProductPurchaseVoList = this.productVos.productPurchaseVoList.filter(item => {
                     return item.type == 1
                 })
+                 }
                 this.purchaseInfoDetaiList = {
                     productPurchaseVoList,//样品采购前报价
                     lastProductPurchaseVoList,//最终报价
@@ -898,6 +916,7 @@ export default {
       },
       proInfoEdit(val){
           this.isEdit5 = val
+          this.getAllpageList()
       },
       prodevInfoEdit(val){
           this.isEdit6 = val
@@ -993,6 +1012,7 @@ export default {
       justify-content: center;
       margin-left: 10px;
       font-weight: bold;
+      justify-content: space-around;
       span {
           font-weight: normal;
       }
@@ -1038,12 +1058,15 @@ export default {
                 font-size: 30px;
             }
       }
-      .step-container{
+      ::v-deep.step-container{
         display: inline-block;
         width: 200%;
         // overflow: hidden;
         position: absolute;
         left: 23px;
+        .is-success{
+            color: green !important;
+        }
         .stepTitle{ 
             font-size: 10px;
             margin-right: 15px;

@@ -183,7 +183,7 @@ export default {
                 orderQuantity:this.salesTargetDetaiList.xsfirstorderquantity,//预估首单订单数量
                 productMarket:this.salesTargetDetaiList.xsmarket,//产品开发市场
                 specialPackaging:this.salesTargetDetaiList.xsspecialrequirements,//产品包装尺寸特殊要求
-                samplingTime:this.salesTargetDetaiList.xsTestSampleTime,//产品测样时间点
+                samplingTime:this.salesTargetDetaiList.xstestsampletime,//产品测样时间点
                 orderTime:this.salesTargetDetaiList.xsorderoftime,//产品下单时间点
                 region:this.salesTargetDetaiList.xspurchasePriceCurrency?this.salesTargetDetaiList.xspurchasePriceCurrency:2,//目标采购价
                 
@@ -196,15 +196,15 @@ export default {
                     developmentId:this.$route.params.developmentId,
                     productId:this.$route.params.productId,
                     productCountryId:this.$route.params.productCountryId,
-                    xsstarRating:this.ruleForm.westaRating,
-                    xsTargetStarRating:this.ruleForm.staRawestaRatingting,
+                    xsstarRating:this.ruleForm.staRating,
+                    xsTargetStarRating:this.ruleForm.westaRating,
                     xsRepairRateRequirement:this.ruleForm.rateRequirements,
                     xsPurchasePrice:this.ruleForm.targetPrice,
                     xsDailySales:this.ruleForm.dailySales,
                     xsFirstOrderQuantity:this.ruleForm.orderQuantity,
                     xsMarket:this.ruleForm.productMarket,
                     xsSpecialRequirements:this.ruleForm.specialPackaging,
-                    xsTestSampleTime:this.ruleForm.samplingTime,
+                    xstestsampletime:this.ruleForm.samplingTime,
                     xsOrderOfTime:this.ruleForm.orderTime,
                     xspurchasePriceCurrency:this.ruleForm.region,
                 }

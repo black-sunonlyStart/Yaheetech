@@ -16,7 +16,7 @@
                     </div>
                     <div class="imageTitle">
                         <div class="imageMainbox">
-                            平台：<span class="imageMainboxText">{{item.platformid}}{{item.platformsiteid}}</span>
+                            平台：<span class="imageMainboxText">{{item.platformid ? getPlatforms(item.platformid) : ''}}-{{item.platformsiteid ? getPlatformsiteid(item.platformsiteid):''}}</span>
                         </div>
                         <div class="imageMainbox">
                             ASIN:<span class="imageMainboxText">{{item.xsin}}</span>
@@ -107,32 +107,88 @@ export default {
     name:'comNewsDetail',
     data(){
         return {
-           productsList:[
-               {
-                   image:'我承认我是一个图片',
-                   text:'我是文字我不骗人',
-                   dirction:'那我是谁',
-                   key:'1'
-               },
-               {
-                   image:'我承认我是一个图片',
-                   text:'我是文字我不骗人',
-                   dirction:'那我是谁',
-                   key:'2'
-               },
-               {
-                   image:'我承认我是一个图片',
-                   text:'我是文字我不骗人',
-                   dirction:'那我是谁',
-                   key:'3'
-               },
-           ] 
+           devSign:[
+                {
+                    label: 'eBay',
+                    key: 1,
+                    value: 1
+                },
+                {
+                    label: 'Amazon',
+                    key: 2,
+                    value: 2
+                },    
+                {
+                    label: 'TradeMe',
+                    key: 3,
+                    value: 3
+                }, 
+                {
+                    label: 'Walmart',
+                    key: 4,
+                    value: 4
+                }, 
+            ], 
+            platforms:[
+                {
+                    name: 'US',
+                    key: 55,
+                    id:55
+                },
+                {
+                    name: 'DE',    //55：美国(USD)  56：德国(EUR)  54：英国(GBP)  30：澳大利亚(AUD)  65：新西兰(NZD)//
+                    key: 56,
+                    id: 56
+                },    
+                {
+                    name: 'GB',
+                    key: 54,
+                    id:29
+                }, 
+                {
+                    name: 'AU',
+                    key: 30,
+                    id: 30
+                }, 
+                {
+                    name: 'NZD',
+                    key: 65,
+                    id: 65
+                }, 
+            ],
         }
     },
     props: {
         comNewsDetailList:{
             type:Object,
             default:() => {}
+        }
+    },
+    methods:{
+        getPlatforms(val){
+            if(val){
+                let valList = this.devSign.filter(res => {
+                    return val == res.value
+                })
+                if(valList.length > 0){
+                    return valList[0].label
+                }else {
+                    return ''
+                }
+                
+            }
+        },
+        getPlatformsiteid(val){
+            if(val){
+                let newList = this.platforms.filter(res => {
+                    return val == res.id
+                })
+                if(newList.length > 0){
+                    return newList[0].name
+                }else {
+                    return ''
+                }
+            }
         }
     }
 }
@@ -175,7 +231,7 @@ export default {
             border:1px solid #cccccc;
         }
         .imageTitle{
-            width: 100px;
+            width: 150px;
             height: 100px;
             display: flex;
             // align-items: center;

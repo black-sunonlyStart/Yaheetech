@@ -174,8 +174,8 @@ export default {
                 usaNessCertification:[],
                 ukNessCertification:[],
                 euNessCertification:[],
-                requirements:'',
-                testRequirements:'',
+                requirements:[],
+                testRequirements:[],
                 requirementsRemark:'',
                 productAgeGroup:'',
                 ageGroupRemarks:'',
@@ -424,10 +424,9 @@ export default {
         },
         getDetailPage(){
             if(!this.prodCerInfoDetailList.credentialList1)return
-            let credentialList1 = this.prodCerInfoDetailList.credentialList1.map(item => {
-                return item.authId
-            })
-            if(this.prodCerInfoDetailList.patentInfo.length > 0){
+
+            let credentialList1 = this.prodCerInfoDetailList.credentialList1 && this.prodCerInfoDetailList.credentialList1[0] ? this.prodCerInfoDetailList.credentialList1[0].data :''
+            if(this.prodCerInfoDetailList.patentInfo && this.prodCerInfoDetailList.patentInfo.length > 0){
                 this.prodCerInfoDetailList.patentInfo.forEach(item => {
                     if(item.LanguageCode == 'en-US'){
                         this.ruleForm.checkedUSA = 'en-US'
@@ -451,17 +450,22 @@ export default {
                 testRequirements:this.prodCerInfoDetailList.credentialList3,
                 requirementsRemark:this.prodCerInfoDetailList.authnote,
                 productAgeGroup:this.prodCerInfoDetailList.applicableAge,
-                ageGroupRemarks:this.prodCerInfoDetailList.applicableAgeRemarks ? this.prodCerInfoDetailList.applicableAgeRemarks : '',
+                ageGroupRemarks:this.prodCerInfoDetailList.applicableAgeNote ? this.prodCerInfoDetailList.applicableAgeNote : '',
                 patentRiskLevel:this.prodCerInfoDetailList.riskllevel,
                 checkedUSA:[],
                 checkedUK:[],
                 checkedEU:[],
             }
-            console.log(this.ruleForm,'ruleForm')
         },
         getAuthId(isUsa,credentialList1){
-            let usaid = isUsa.filter(res => {
-                return credentialList1.includes(res.authId)
+            let newCredentialList1 = credentialList1.split(',')
+            let usaid = []
+             isUsa.forEach(item => {
+                 newCredentialList1.forEach(res => {
+                     if(res == item.authId){
+                         usaid.push(item)
+                     }
+                 })
             })
             let rUsaid = usaid.map(item => {
                 return item.authId
@@ -480,12 +484,13 @@ export default {
                     applicableAge:this.ruleForm.productAgeGroup,
                     applicableAgeNote:this.ruleForm.ageGroupRemarks,
                     riskLevel:this.ruleForm.patentRiskLevel,
-                    usPatentInfo:this.ruleForm.checkedUSA,
-                    gbPatentInfo:this.ruleForm.checkedUK,
-                    dePatentInfo:this.ruleForm.checkedEU,
+                    usPatentInfo:this.ruleForm.inputUSA,
+                    gbPatentInfo:this.ruleForm.inputUK,
+                    dePatentInfo:this.ruleForm.inputEU,
                 }
                 let dataList = this.ruleForm.usaNessCertification.concat(this.ruleForm.ukNessCertification).concat(this.ruleForm.euNessCertification)
                 let mustRequire = {
+                    id:this.prodCerInfoDetailList && this.prodCerInfoDetailList.credentialList1 && this.prodCerInfoDetailList.credentialList1[0] ? this.prodCerInfoDetailList.credentialList1[0].id : '',
                     developmentid:this.$route.params.developmentId,
                     productid:this.$route.params.productId,
                     authtype:0,
@@ -498,6 +503,7 @@ export default {
                 credential(params).then(res => {
                     if(res.code == 200){
                         this.$message.success('保存成功')
+                        this.$emit('closeEdit','false')
                     }
                 })
             } else {
