@@ -398,7 +398,6 @@ export default {
             this.ruleForm.testRequirements[i].data = val
         },
         addRequireMent(){
-            console.log(this.prodCerInfoDetailList)
             this.ruleForm.testRequirements.push({
                 authtype:2,
                 developmentid:this.$route.params.developmentId,

@@ -7,7 +7,7 @@
         style="width: 100%"
         border
         @selection-change="handleSelectionChange"
-        height="500"
+        height="570"
         :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
         >
       <el-table-column 
@@ -52,13 +52,12 @@
         </template>
       </el-table-column>
       <el-table-column
-        
         label="产品利润"
         show-overflow-tooltip
         >
         <template slot-scope="scope">
             <div v-for="item in scope.row.productMarketStrs" :key="item.platformName">
-                <div>{{item.platformName}}:</div>
+                <div style="font-weight:bold">{{item.platformName}}:</div>
                 <div>{{item.currency}} {{item.developmentPrice}}/
                     <el-tooltip :content="rows.warehouseName" placement="top" effect="light" v-for="rows in item.marketProfits " :key="rows.warehouseId">
                         <span :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin + '%' + '/'}}</span>
@@ -68,9 +67,9 @@
         </template>
       </el-table-column>
       <el-table-column 
-        
         label="产品尺寸/属性"
         show-overflow-tooltip
+        width="120px"
         >
         <template slot-scope="scope">
             <div>{{scope.row.size}}</div>
@@ -78,24 +77,28 @@
             <div>{{scope.row.shape }}</div>
         </template>
       </el-table-column>
-      <el-table-column prop="categoryName"
-                       label="产品分类"
-                       show-overflow-tooltip>
-      </el-table-column>
-      <el-table-column prop="stateName"
-                       label="开发状态"
-                       show-overflow-tooltip>
+      <el-table-column 
+        prop="categoryName"
+        label="产品分类"
+        show-overflow-tooltip>
       </el-table-column>
       <el-table-column 
-                       label="业务/采购"
-                       show-overflow-tooltip>
+            prop="stateName"
+            label="开发状态"
+            show-overflow-tooltip
+            width="150px"      
+        >
+      </el-table-column>
+      <el-table-column 
+            label="业务/采购"
+            show-overflow-tooltip
+            width="120px" >
             <template slot-scope="scope">
                 <div>{{scope.row.businessName}}</div>
                 <div>{{scope.row.buyerName}}</div>
             </template>
       </el-table-column>
       <el-table-column 
-        
         label="创建/更新时间"
         show-overflow-tooltip>
             <template slot-scope="scope">
@@ -104,9 +107,9 @@
             </template>
       </el-table-column>
       <el-table-column 
-        
         label="操作"
         show-overflow-tooltip
+        width="150px"
         >
         <template slot-scope="scope">
             <div class="operaBox">
@@ -486,7 +489,8 @@ export default {
             productOwner:val.productOwner,
             scenariosParentIds:val.scenariosParentIds,
             sampleDelivery:val.sampleDelivery,
-            patentProduct:val.patentProduct
+            patentProduct:val.patentProduct,
+            search:val.search
         }
         fetchPageTableList(params).then(res => {
             res.data.rows.forEach(item => {
@@ -495,7 +499,7 @@ export default {
             this.currentPage4 = res.data.pageNum
             this.tableData = res.data.rows
             this.total = res.data.records
-            console.log(this.tableData)
+        
         })
         
     },
@@ -513,7 +517,6 @@ export default {
     },
     getFormatDate(data){
         let newTime = formatDate(data)
-        console.log(newTime)
         return newTime
     }
   }
@@ -562,6 +565,7 @@ export default {
         background-image: url(../assets/bianji.png);
     }
     .imageBox1{
+        margin-left: 10px;
         height: 32px;
         width: 32px;
         // float: left;

@@ -776,7 +776,6 @@ export default {
             }
             getWarehouseByCountry(this.countryParams).then(res => {
                  this.dailySales3 =  res.data
-                 console.log(res.data)
             })
         },
         selectBox(val){

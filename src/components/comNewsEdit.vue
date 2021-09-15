@@ -366,7 +366,6 @@ export default {
             this.comNewsDetailList.competingproducts.splice(index,1)
         },
         addPageList(){
-            console.log(this.comNewsDetailList.competingproducts,'competingproducts')
             this.comNewsDetailList.competingproducts.push({
                      id:'',
                      platformid:'',
@@ -467,7 +466,6 @@ export default {
             }
         },
         beforeUpload(pageList,i){
-            console.log(111111)
             this.pageList = pageList
             this.pageListIndex = i
         },

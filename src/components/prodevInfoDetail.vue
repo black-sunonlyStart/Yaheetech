@@ -69,13 +69,12 @@ export default {
         //         parentId : 0 
         //     }
         //     getAdministrativeRegion(params).then(res => {
-
-                
         //         this.provinceList = res.data
         //         let provincecode  = this.prodevInfoDetaiList.provincecode.toString()
-        //         this.provinceList.find(res => {
-        //             return res.item[0] == provincecode
+        //         res.data.find(item => {
+        //             return item[0] == provincecode
         //         })
+        //         console.log(this.provinceList,'provinceList')
         //     })
         //     if(this.prodevInfoDetaiList.provincecode){
         //         getAdministrativeRegion({parentId:this.prodevInfoDetaiList.provincecode}).then(res => {

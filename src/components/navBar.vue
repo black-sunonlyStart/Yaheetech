@@ -32,7 +32,7 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col  :xs="8" :sm="8" :md="8" :lg="7" :xl="8">
+        <el-col  :xs="8" :sm="8" :md="8" :lg="7" :xl="6">
           <el-form-item label="产品负责人:">
             <el-radio-group v-model="form.productOwner">
               <el-radio v-for="item in productOwner" :label="item.value" :key="item.value" >{{item.label}}</el-radio>
@@ -42,9 +42,12 @@
         <el-col :xs="6" :sm="6" :md="6" :lg="4" :xl="6">
           <el-form-item>
             <el-input placeholder="请输入内容"
-                      v-model="form.search"
+                      v-model="search"
                       size='mini'
-                      class="input-with-select">
+                      class="input-with-select"
+                      @change="searchSomething"
+                      clearable
+                      >
               <el-button slot="append"
                          icon="el-icon-search"></el-button>
             </el-input>
@@ -307,7 +310,8 @@ export default {
                     productOwner:val.productOwner == 3 ? null:val.productOwner,
                     scenariosParentIds:val.developmentScenario.includes('all')? [] : val.developmentScenario,
                     sampleDelivery:val.sample == 'all'? '':val.sample,
-                    patentProduct:val.patent.includes('all')? '':val.patent
+                    patentProduct:val.patent.includes('all')? '':val.patent,
+                    search:val.search
                 }
                 this.$emit('putTableList',this.tableParams)
           },
@@ -332,14 +336,14 @@ export default {
     },
     typeChange (val) {
       this.changeTableList()
-
-      console.log(val)
-      console.log(this.form)
     },
     handleCheckedCitiesChange (value) {
       let checkedCount = value.length;
       this.checkAll = checkedCount === this.cities.length;
       this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+    },
+    searchSomething(val){
+        this.form.search = val
     }
   }
 }

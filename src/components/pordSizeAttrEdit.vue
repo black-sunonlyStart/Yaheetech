@@ -252,7 +252,7 @@
                     </el-form-item>
                 </el-col>
              </el-row>
-             <el-row v-if="ruleForm.packingMethod == '1'">
+             <el-row>
                  <el-col :span="6">
                     <el-form-item  prop="casesNumber" label="装箱数:">      
                         <div class="productSizeW">
@@ -614,8 +614,6 @@ export default {
             })
         },
         getDetaiList(){
-            console.log(this.pordSizeAttrInfoList,'pordSizeAttrInfoList')
-            
             let prodInfoList = []
             if(this.pordSizeAttrInfoList.multiAttribute && this.pordSizeAttrInfoList.multiAttribute[0]){
                 this.firstList = true
@@ -636,7 +634,6 @@ export default {
                     item.spu=this.pordSizeAttrInfoList.spu
                 }
             })
-            console.log(newProdInfoList,'prodInfoList')
             let productColor =  newProdInfoList.map(item => {
                 return item.color
             })
@@ -661,7 +658,7 @@ export default {
                 proGrossWeight:this.pordSizeAttrInfoList.afterpackweight,
                 proOuterBoxWeight:this.pordSizeAttrInfoList.cartonWeight,
                 packingMethod:this.pordSizeAttrInfoList.packingway,
-                casesNumber:this.pordSizeAttrInfoList.transportqty,
+                casesNumber:this.pordSizeAttrInfoList.caseQty,
                 productColor:productColor? productColor :[],
                 productSize:proSize,
                 multiAttribute:newProdInfoList,

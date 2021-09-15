@@ -5,7 +5,7 @@
                 <span class="textWight">分配采购开发员:</span><span style="font-weight:normal">{{pordSizeAttrInfoList.buyerName}}</span>
             </el-col>
             <el-col :span="10">
-                <span class="textWight">产品类型:</span><span>{{pordSizeAttrInfoList.producttype}}</span>
+                <span class="textWight">产品类型:</span><span style="font-weight:normal">{{pordSizeAttrInfoList.producttype== 1 ? '普通/多属性产品':'物理捆绑产品'}}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
@@ -14,8 +14,8 @@
                     产品尺寸:
                 </div>
                 <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.productSizeL}} *{{pordSizeAttrInfoList.productSizeW}} * {{pordSizeAttrInfoList.productSizeH}} (cm)</div>
-                    <div>{{pordSizeAttrInfoList.productSizeYcunL}} *{{pordSizeAttrInfoList.productSizeYcunW}} * {{pordSizeAttrInfoList.productSizeYcunH}} (inch)</div>
+                    <div>{{pordSizeAttrInfoList.productSizeL}} × {{pordSizeAttrInfoList.productSizeW}} × {{pordSizeAttrInfoList.productSizeH}} (cm)</div>
+                    <div>{{pordSizeAttrInfoList.productSizeYcunL}} × {{pordSizeAttrInfoList.productSizeYcunW}} × {{pordSizeAttrInfoList.productSizeYcunH}} (inch)</div>
                 </div>
             </el-col>
             <el-col :span="10" class="moreText">
@@ -34,8 +34,8 @@
                     包装尺寸(发货用):
                 </div>
                 <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.packageSizeL}} *{{pordSizeAttrInfoList.packageSizeW}} * {{pordSizeAttrInfoList.packageSizeH}} (cm)</div>
-                    <div>{{pordSizeAttrInfoList.packageSizeYcunL}} *{{pordSizeAttrInfoList.packageSizeYcunW}} * {{pordSizeAttrInfoList.packageSizeYcunH}} (inch)</div>
+                    <div>{{pordSizeAttrInfoList.packageSizeL}} ×{{pordSizeAttrInfoList.packageSizeW}} × {{pordSizeAttrInfoList.packageSizeH}} (cm)</div>
+                    <div>{{pordSizeAttrInfoList.packageSizeYcunL}} ×{{pordSizeAttrInfoList.packageSizeYcunW}} × {{pordSizeAttrInfoList.packageSizeYcunH}} (inch)</div>
                 </div>
             </el-col>
             <el-col :span="10" class="moreText"> 
@@ -54,8 +54,8 @@
                     外箱尺寸(装柜用):
                 </div>
                 <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.outerBoxSizeL}} *{{pordSizeAttrInfoList.outerBoxSizeW}} * {{pordSizeAttrInfoList.outerBoxSizeH}} (cm)</div>
-                    <div>{{pordSizeAttrInfoList.outerBoxSizeYcunL}} *{{pordSizeAttrInfoList.outerBoxSizeYcunW}} * {{pordSizeAttrInfoList.outerBoxSizeYcunH}} (inch)</div>
+                    <div>{{pordSizeAttrInfoList.outerBoxSizeL}} × {{pordSizeAttrInfoList.outerBoxSizeW}} × {{pordSizeAttrInfoList.outerBoxSizeH}} (cm)</div>
+                    <div>{{pordSizeAttrInfoList.outerBoxSizeYcunL}} × {{pordSizeAttrInfoList.outerBoxSizeYcunW}} × {{pordSizeAttrInfoList.outerBoxSizeYcunH}} (inch)</div>
                 </div>
             </el-col>
             <el-col :span="10" class="moreText"> 
@@ -83,8 +83,8 @@
                     每个产品所占体积:
                 </div>
                 <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.containerVolume}}(m³)</div>
-                    <div>{{pordSizeAttrInfoList.containerVolumeCu}}(cu ft)</div>
+                    <div>{{pordSizeAttrInfoList.containerVolume || ''}}(m³)</div>
+                    <div>{{pordSizeAttrInfoList.containerVolumeCu || ''}}(cu ft)</div>
                 </div>
             </el-col>
         </el-row>
@@ -110,23 +110,23 @@
         </el-row>
         <el-row class="textSpeaing" >
             <el-col :span="10">
-                <span class="textWight">物流周长加长(美国):</span><span>{{pordSizeAttrInfoList.logisticsPerimeter}}(cm)</span>
+                <span class="textWight">物流周长加长(美国):</span><span style="font-weight:normal">{{pordSizeAttrInfoList.logisticsPerimeter}}(cm)</span>
             </el-col>
             <el-col :span="10">
-                <span class="textWight">物流周长加长(非美国):{{ pordSizeAttrInfoList.logisticsPerimeter}}(cm)</span>
-            </el-col>
-        </el-row>
-        <el-row class="textSpeaing" >
-            <el-col :span="10">
-                <span class="textWight">选择发货货柜:</span><span>{{pordSizeAttrInfoList.logisticsPerimeter}}</span>
-            </el-col>
-            <el-col :span="10">
-                <span class="textWight">可装货柜数量:</span><span>{{pordSizeAttrInfoList.transportqty}}</span>
+                <span class="textWight">物流周长加长(非美国):</span><span style="font-weight:normal">{{ pordSizeAttrInfoList.logisticsPerimeter}}(cm)</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >
             <el-col :span="10">
-                <span class="textWight">包装方式:</span><span>{{pordSizeAttrInfoList.packingway}}</span>
+                <span class="textWight">选择发货货柜:</span><span style="font-weight:normal">{{pordSizeAttrInfoList.logisticsPerimeter}}</span>
+            </el-col>
+            <el-col :span="10">
+                <span class="textWight">可装货柜数量:</span><span style="font-weight:normal">{{pordSizeAttrInfoList.transportqty}}</span>
+            </el-col>
+        </el-row>
+        <el-row class="textSpeaing" >
+            <el-col :span="10">
+                <span class="textWight">包装方式:</span><span style="font-weight:normal">{{pordSizeAttrInfoList.packingway}}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >

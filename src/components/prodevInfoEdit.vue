@@ -280,7 +280,6 @@ export default {
             })
         },
         getDetaiList(){
-            console.log(this.prodevInfoDetaiList,'recommendFileList')
             this.ruleForm = {
                     chineseTitle:this.prodevInfoDetaiList.title,
                     chineseDescription:this.prodevInfoDetaiList.description,

@@ -227,9 +227,7 @@ export default {
             default:() => ({})
         }
     },
-    mounted(){
-        console.log(this.prodCerInfoDetailList,'prodCerInfoDetailList.credentialList1')
-        
+    mounted(){ 
     },
     methods:{
         getAuthId(credentialList1){
@@ -254,7 +252,7 @@ export default {
            })
            return personName[0].label
         },
-        getLevel(val){debugger
+        getLevel(val){
            let personName =  this.riskLevel.filter(res => {
                return res.value = val
            })

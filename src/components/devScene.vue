@@ -258,7 +258,7 @@ export default {
       },
       changeInputRelation(val){
           if(!val)return
-          findProductByDevId(val).then(res => {
+          findProductByDevId({devId:val}).then(res => {
               this.spuSign = res.data
           })
       }

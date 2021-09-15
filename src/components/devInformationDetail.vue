@@ -62,7 +62,9 @@
                     :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                     style="width: 100%">
                     <el-table-column
-                        label="类型">
+                        label="类型"
+                        width="100px"
+                        >
                         <template>
                             <div>普通</div>
                         </template>
@@ -70,13 +72,16 @@
                     <el-table-column
                         label="基准价"
                         prop="developmentprice"
+                        width="100px"
                         >
                     </el-table-column>
                     <el-table-column
-                        label="利润">
+                        label="利润"
+                        width="200px"
+                        >
                         <template slot-scope="scope">
-                            <div>{{scope.row.profit}}/{{scope.row.profitmargin*100}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
-                            <div>{{scope.row.endprofit}}/{{scope.row.endprofitmargin*100}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div :class="scope.row.profit >= 0 ? 'textColor':'noColor'">{{scope.row.profit}}%/{{scope.row.profitmargin*100}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div :class="scope.row.profit >= 0 ? 'textColor':'noColor'">{{scope.row.endprofit}}%/{{scope.row.endprofitmargin*100}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -131,7 +136,7 @@
                         </template>
                     </el-table-column>
                 </el-table>
-                <div class="tableBottomTitle">运输方式(自有/SFP)：GB_RoyalMail_Tracked48 / GB_DPD_Prime    汇率:8.58</div>
+                <div class="tableBottomTitle">运输方式(自有/SFP):{{item.shippingname}}    汇率:8.58</div>
             </el-col>
         </el-row>
         
@@ -168,9 +173,6 @@ export default {
         }
     },
     mounted(){
-        console.log(this.devInformationDetaiList.productMarketList,'111111')
-        // this.unitChange()
-        // console.log(this.devInformationDetaiList,'3333333')
     },
     methods:{
         // unitChange(){debugger
@@ -213,5 +215,11 @@ export default {
     height: 30px;
     line-height: 30px;
     padding-right: 10px;
+}
+.textColor{
+    color: green;
+}
+.noColor {
+    color: red;
 }
 </style>

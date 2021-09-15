@@ -282,8 +282,7 @@ export default {
       // 这里需要根据你自己的接口返回数据格式和层级来自行修改
       if (res) {
         if (this.imgList.length < this.limit) {
-          
-          this.imgList.push(res.files.file)
+            this.imgList.push(res.files.file)
         }
       } else {
         this.syncElUpload()

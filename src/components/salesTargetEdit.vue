@@ -173,7 +173,6 @@ export default {
     },
     methods:{
         getDetailPage(){
-            console.log(this.salesTargetDetaiList,'this.salesTargetDetaiList')
             this.ruleForm = {
                 staRating:this.salesTargetDetaiList.xsstarrating,//产品星级评分
                 targetPrice:this.salesTargetDetaiList.xspurchaseprice,//目标采购价

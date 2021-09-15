@@ -21,7 +21,7 @@
                     </div>
                     <div>
                         开发市场:<div class="countryTitle">{{ productCountryList.countryName }}</div> 
-                        <div v-for="item in productCountryList.otherCountryNames" :key="item" class="otherCountryTitle"> {{item}}</div>
+                        <div v-for="item in otherCountryList" :key="item" class="otherCountryTitle"> {{item.countryName}}</div>
                     </div>
                     <div class="haveMoneyLitte">
                         <div>
@@ -69,7 +69,7 @@
         @click="openRemarks"></i>
         <!-- <el-card class="card"> -->
             <div class="cardBoxMain">
-                <el-tabs v-model="activeName" @tab-click="handleClick">
+                <el-tabs v-model="activeName">
                     <el-tab-pane label="开发类型/场景" name="first" >
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
@@ -439,6 +439,7 @@ export default {
         allDetailPageDate:{},
         development:{},
         productCountryList:{},
+        otherCountryList:{},
         otherProductCountryList:{},
         productVos:{},
         productVoDetail:{},//开发类型详情数据
@@ -622,11 +623,12 @@ export default {
                 this.copeDevProgress = res.data.developmentProgresses
                 if(res.data.productVos && res.data.productVos[0]  && res.data.productVos[0].productCountryList && res.data.productVos[0].productCountryList[0] ){
                      this.productCountryList =  res.data.productVos[0].productCountryList[0].countryMap
+                     this.otherCountryList =  res.data.productVos[0].productCountryList[0].otherCountryMaps
                 }else {
                     this.productCountryList = []
                 }
                
-                this.otherProductCountryList = res.data.productVos && res.data.productVos[0] && res.data.productVos[0].productCountryList ? res.data.productVos[0].productCountryList[0] : []
+                // this.otherProductCountryList = res.data.productVos && res.data.productVos[0] && res.data.productVos[0].productCountryList ? res.data.productVos[0].productCountryList[0] : []
                 this.productVos = res.data.productVos? res.data.productVos[0] : []
                 this.productMarketStrs = res.data.productMarketStrs
                 this.employee = res.data.employee
@@ -716,7 +718,6 @@ export default {
                     businessid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessid : '',   
                     buyerid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerid : '',   
                 }
-                console.log(this.devInformationDetaiList,'devInformationDetaiList')
                 //产品认证信息
                 let credentialList1 = []
                 let credentialList2 = []
@@ -839,6 +840,7 @@ export default {
                     containerModel:this.productVos.containerModel,
                     containerid:this.productVos.containerid,
                     cartonShape:this.productVos.cartonShape,
+                    caseQty:this.productVos.caseQty,
                 }
                 //采购信息
                 let productPurchaseVoList = []
@@ -868,7 +870,6 @@ export default {
                     packedvolume:res.data.development.packedvolume, //FOB头程费
 
                 }
-                console.log(this.purchaseInfoDetaiList,'this.purchaseInfoDetaiList')
                 //备注信息
                 this.remarksList = res.data.developmentmemoVos
                }
@@ -890,9 +891,6 @@ export default {
                 }
             })
         })
-      },
-      handleClick(tab, event) {
-        console.log(tab, event);
       },
       editPage(val){
           this.isEdit = val
@@ -932,7 +930,6 @@ export default {
       },
       putImgList(val){
           this.imageList = val
-          console.log(this.imageList,'img')
       },
       leftMove(){
           let  image = document.querySelector('.step-container')
@@ -1019,9 +1016,11 @@ export default {
       .countryTitle{
           color: #409eff;
           display: inline-block;
+          cursor: pointer;
       }
       .otherCountryTitle{
           display: inline-block;
+          cursor: pointer;
       }
       .haveMoneyLitte{
           display: flex;
