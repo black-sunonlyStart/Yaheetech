@@ -12,7 +12,7 @@
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                供应商所在地:<span></span>
+                供应商所在地:<span>{{prodevInfoDetaiList.provinceStr}}-{{ prodevInfoDetaiList.cityStr}}-{{prodevInfoDetaiList.areaStr}}</span>
             </el-col>
         </el-row>
         <el-row>
@@ -45,7 +45,7 @@
     </div>
 </template>
 <script>
-import {getAdministrativeRegion} from '@/api/user.js'
+
 export default {
     name:'prodevInfoDetail',
     data(){
@@ -60,36 +60,9 @@ export default {
         }
     },
     mounted(){
-        // this.getContryList()
     },
 
     methods:{
-        // getContryList(){
-        //     let params = {
-        //         parentId : 0 
-        //     }
-        //     getAdministrativeRegion(params).then(res => {
-        //         this.provinceList = res.data
-        //         let provincecode  = this.prodevInfoDetaiList.provincecode.toString()
-        //         res.data.find(item => {
-        //             return item[0] == provincecode
-        //         })
-        //         console.log(this.provinceList,'provinceList')
-        //     })
-        //     if(this.prodevInfoDetaiList.provincecode){
-        //         getAdministrativeRegion({parentId:this.prodevInfoDetaiList.provincecode}).then(res => {
-        //             this.cityList = res.data
-        //              this.ruleForm.supplierLocation1=this.prodevInfoDetaiList.citycode.toString()
-        //         })
-        //     }
-        //     if(this.prodevInfoDetaiList.areacode){
-        //         getAdministrativeRegion({parentId:this.prodevInfoDetaiList.citycode}).then(res => {
-        //             this.districtList = res.data
-        //             this.ruleForm.supplierLocation2 = this.prodevInfoDetaiList.areacode.toString()
-                    
-        //         })
-        //     }
-        // },
     }
 }
 </script>

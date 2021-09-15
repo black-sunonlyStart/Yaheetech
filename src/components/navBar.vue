@@ -2,14 +2,16 @@
   <div class="navbarContainer">
     <el-form ref="form"
              :model="form"
-             label-width="110px">
-      <el-row :gutter="20">
+             label-width="150px">
+      <el-row :gutter="2">
         <el-col :xs="8" :sm="10" :md="12" :lg="13" :xl="10">
           <el-form-item class="firstCreateStyle"
                         label-width="10px">
             <el-select v-model="form.dateType"
                        @change="typeChange"
-                       size='mini'>
+                       size='mini'
+                    class="timeBox"
+                       >
               <el-option v-for="item in dataOptions"
                          :key="item.value"
                          :label="item.label"
@@ -32,7 +34,7 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col  :xs="8" :sm="8" :md="8" :lg="7" :xl="6">
+        <el-col  :xs="8" :sm="8" :md="8" :lg="7" :xl="8">
           <el-form-item label="产品负责人:">
             <el-radio-group v-model="form.productOwner">
               <el-radio v-for="item in productOwner" :label="item.value" :key="item.value" >{{item.label}}</el-radio>
@@ -71,9 +73,9 @@
         <el-col :span="14">
           <el-form-item label="开发场景:">
             <el-checkbox-group v-model="form.developmentScenario" > 
-                <el-checkbox label= 'all' >全部</el-checkbox>
-                <el-radio :label="4" v-model="radio" @change="showOtherCheck">全新开发</el-radio>
-                <el-radio :label="5" v-model="radio" @change="showOtherCheck">二次开发</el-radio>
+                <el-radio  label='all' v-model="radio" @change="showOtherCheck" class="radioStyle">全部</el-radio>
+                <el-radio :label="4" v-model="radio" @change="showOtherCheck" class="radioStyle">全新开发</el-radio>
+                <el-radio :label="5" v-model="radio" @change="showOtherCheck" class="radioStyle">二次开发</el-radio>
               <el-checkbox label= '1' v-if="newProd" >开发新产品</el-checkbox>
               <el-checkbox label= '2' v-if="newProd" >开发新市场</el-checkbox>
               <el-checkbox label= '3' v-if="newProd" >开发新尺码</el-checkbox>
@@ -108,7 +110,7 @@
       <el-row>
         <el-col :span="10">
           <el-form-item label="是否需要认证:">
-            <el-radio-group v-model="form.authentication">
+            <el-radio-group v-model="form.authentication" class="actionBox">
               <el-radio label="all">全部</el-radio>
               <el-radio label= 1>需要</el-radio>
               <el-radio label= 0>不需要</el-radio>
@@ -132,14 +134,14 @@
               <el-checkbox label="all">全部</el-checkbox>
               <el-checkbox label="0">未提交审批</el-checkbox>
               <el-checkbox label="1">待审批</el-checkbox>
-              <el-checkbox label="2">认证确认</el-checkbox>
-              <el-checkbox label="3">寻找供应商</el-checkbox>
-              <el-checkbox label="4">采购主管审核</el-checkbox>
-              <el-checkbox label="5">认证审核</el-checkbox>
-              <el-checkbox label="6">样品采购审核</el-checkbox>
-              <el-checkbox label="7">确认样品</el-checkbox>
-              <el-checkbox label="8">利润复审</el-checkbox>
-              <el-checkbox label="9">终审</el-checkbox>
+              <el-checkbox label="11">认证确认</el-checkbox>
+              <el-checkbox label="2">寻找供应商</el-checkbox>
+              <el-checkbox label="13">采购主管审核</el-checkbox>
+              <el-checkbox label="12">认证审核</el-checkbox>
+              <el-checkbox label="10">样品采购审核</el-checkbox>
+              <el-checkbox label="4">确认样品</el-checkbox>
+              <el-checkbox label="5">利润复审</el-checkbox>
+              <el-checkbox label="6">终审</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
         </el-col>
@@ -148,10 +150,10 @@
         <el-col :span="10">
           <el-form-item>
             <el-checkbox-group v-model="form.status">
-              <el-checkbox label="10">开发完未上架</el-checkbox>
-              <el-checkbox label="11">开发完已上架</el-checkbox>
-              <el-checkbox label="12">已取消</el-checkbox>
-              <el-checkbox label="13">已冻结</el-checkbox>
+              <el-checkbox label="7">开发完未上架</el-checkbox>
+              <el-checkbox label="8">开发完已上架</el-checkbox>
+              <el-checkbox label="9">已取消</el-checkbox>
+              <el-checkbox label="14">已冻结</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
         </el-col>
@@ -225,7 +227,7 @@ export default {
         {
           label: '全部',
           key: 0,
-          value: 3
+          value: 2
         },
         {
           label: '自己',
@@ -235,7 +237,7 @@ export default {
         {
           label: '其他',
           key: 2,
-          value: 2
+          value: 0
         }
       ],
       pickerOptions: {
@@ -307,7 +309,7 @@ export default {
                     seekEnd:val.suppliers == 'all' ?null:parseInt(val.suppliers),
                     auth:val.authentication == 'all'?null:parseInt(val.authentication),
                     state:val.status.map(Number),
-                    productOwner:val.productOwner == 3 ? null:val.productOwner,
+                    productOwner:val.productOwner == 2 ? null:val.productOwner,
                     scenariosParentIds:val.developmentScenario.includes('all')? [] : val.developmentScenario,
                     sampleDelivery:val.sample == 'all'? '':val.sample,
                     patentProduct:val.patent.includes('all')? '':val.patent,
@@ -332,6 +334,10 @@ export default {
             this.newProd = false
             this.showTwoProd = true
             this.form.developmentScenario = ['10','11','12'] 
+        }else if(val == 'all'){
+            this.newProd = false
+            this.showTwoProd = false
+            this.form.developmentScenario = [] 
         }
     },
     typeChange (val) {
@@ -344,6 +350,8 @@ export default {
     },
     searchSomething(val){
         this.form.search = val
+        this.$set(this.form,'search',val)
+        console.log(this.form,'form')
     }
   }
 }
@@ -358,7 +366,9 @@ export default {
     height: 30px;
     display: flex;
   }
-
+  .radioStyle{
+      margin-top: 14px;
+  }
   ::v-deep .el-form-item__label {
     color: #409eff !important;
     font-weight: bold;
@@ -376,5 +386,15 @@ export default {
   .countryCheckbox {
     display: flex;
   }
+    .actionBox{
+        width: 350px;
+    }
+    .el-radio{
+        width: 80px;
+    }
+    .timeBox{
+        width: 120px;
+        margin-left: 30px;
+    }
 }
 </style>

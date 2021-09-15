@@ -697,6 +697,20 @@ export default {
                 }
                 
                  this.titleImgSrc = this.comNewsDetailList.competingproducts && this.comNewsDetailList.competingproducts[0]? this.comNewsDetailList.competingproducts[0].showImgUrl : ''
+                 let dutyrate1 = []
+                 let dutyrate2 = []
+                 let dutyrate3 = []
+                 if(res.data.development &&  res.data.development.dutyrate && JSON.parse(res.data.development.dutyrate) && JSON.parse(res.data.development.dutyrate).LocalStrings){
+                     dutyrate1 = JSON.parse(res.data.development.dutyrate).LocalStrings.filter(res => {
+                         return res.LanguageCode == 'en-US'
+                     })
+                     dutyrate2 = JSON.parse(res.data.development.dutyrate).LocalStrings.filter(res => {
+                         return res.LanguageCode == 'en-GB'
+                     })
+                     dutyrate3 = JSON.parse(res.data.development.dutyrate).LocalStrings.filter(res => {
+                         return res.LanguageCode == 'de'
+                     })
+                 }
                 //开发信息
                 this.devInformationDetaiList = {
                     description:res.data.development.description,//产品中文概述
@@ -707,9 +721,9 @@ export default {
                     priority :res.data.development.priority,//开发优先级
                     isanji:res.data.development.isanji,//是否安吉产品
                     ispatentproduct:res.data.development.ispatentproduct,//是否需要专利确认
-                    dutyrate1:res.data.development.dutyrate && res.data.development.dutyrate.LocalStrings && res.data.development.dutyrate.LocalStrings[0] ? JSON.parse(res.data.development.dutyrate).LocalStrings[0].Value : '',//是否需要专利确认
-                    dutyrate2:res.data.development.dutyrate && res.data.development.dutyrate.LocalStrings && res.data.development.dutyrate.LocalStrings[2] ? JSON.parse(res.data.development.dutyrate).LocalStrings[2].Value : '',//是否需要专利确认
-                    dutyrate3:res.data.development.dutyrate && res.data.development.dutyrate.LocalStrings && res.data.development.dutyrate.LocalStrings[3] ? JSON.parse(res.data.development.dutyrate).LocalStrings[3].Value : '',//是否需要专利确认
+                    dutyrate1:dutyrate1 ? dutyrate1[0].Value : '',//是否需要专利确认
+                    dutyrate2:dutyrate2 ? dutyrate2[0].Value : '',
+                    dutyrate3:dutyrate3 ? dutyrate3[0].Value : '',
                     orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName : [],//采购开发
                     businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : [],//业务开发
                     productCountryList:this.productVos.productCountryList ? this.productVos.productCountryList[0] : [],//业务开发
@@ -718,6 +732,7 @@ export default {
                     businessid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessid : '',   
                     buyerid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerid : '',   
                 }
+                console.log(this.devInformationDetaiList,'devInformationDetaiList',JSON.parse(res.data.development.dutyrate))
                 //产品认证信息
                 let credentialList1 = []
                 let credentialList2 = []
@@ -749,7 +764,7 @@ export default {
                 //         })
                 //     }
                 let patentInfo = []
-                    // patentInfo = res.data.development && res.data.development.patentinfo? JSON.parse(res.data.development.patentinfo) : []
+                    patentInfo = res.data.development && res.data.development.patentinfo? JSON.parse(res.data.development.patentinfo) : []
                     this.prodCerInfoDetailList = {
                         isauth:this.productVos.isauth,//是否需要认证
                         credentialList1:credentialList1 ? credentialList1:[],//必要认证
@@ -762,6 +777,7 @@ export default {
                         patentInfo:patentInfo.LocalStrings,//专利确认
                     }
                 // }) 
+                console.log(JSON.parse(res.data.development.patentinfo),'111111111')
                     //产品标题和供应商信息
                     let mustCredentialList = res.data.developmentAttachmentList.filter(item => { //必要认证附件
                         return item.filetype  == 3
@@ -783,9 +799,12 @@ export default {
                         provincecode:this.productVos.provincecode,
                         citycode:this.productVos.citycode,
                         areacode:this.productVos.areacode,
+                        provinceStr:this.productVos.provinceStr,
+                        cityStr:this.productVos.cityStr,
+                        areaStr:this.productVos.areaStr,
                         mustCredentialList,//必要认证附件
                         recommendCredentialList,//推荐认证附件
-                        certificationnote:res.data.certificationnote, //备注
+                        certificationnote:res.data.development.certificationnote, //备注
                         factoryGaveImage//工厂提供的图片
                     }
                 //产品尺寸和属性
@@ -828,7 +847,7 @@ export default {
                     transportqty:this.productVos.transportqty,//可装货柜数量
                     packingway:this.productVos.packingway,//包装方式
                     productlistings:this.productVos.productlistings,//多箱清单
-                    multiAttribute:res.data.allProducts ,//销售（多）属性
+                    multiAttribute:res.data.allProducts[0].productColorList,//销售（多）属性
                     containerVolume:this.productVos.containerVolume / this.productVos.transportqty, //每个产品所占体积
                     containerVolumeCu:(parseFloat((this.productVos.containerVolume/this.productVos.transportqty).toFixed(2)) * 35.3147248).toFixed(2), //每个产品所占体积
                     packedlength:this.productVos.packedlength,

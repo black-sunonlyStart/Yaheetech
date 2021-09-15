@@ -231,7 +231,7 @@
                         label="开发状态"
                         >
                         <template slot-scope="scope">
-                            <div v-if="scope.row.id == pordSizeAttrInfoList.id">
+                            <div v-if="scope.row.productid == pordSizeAttrInfoList.id">
                                 当前开发
                             </div>
                             <div v-else>
@@ -254,8 +254,8 @@
                     <el-table-column
                         label="开发属性">
                     <template slot-scope="scope">
-                            <div v-for="item in scope.row.productColorList" :key="item.id">
-                                {{item.color}}
+                            <div>
+                                {{scope.row.color}}
                             </div>
                             <div>
                                 {{scope.row.size}}

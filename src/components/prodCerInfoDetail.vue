@@ -37,7 +37,7 @@
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                专利确认：<span v-for="item in prodCerInfoDetailList.patentInfo" :key="item.id">{{item.Value}}</span>
+                专利确认：<span v-for="item in prodCerInfoDetailList.patentInfo" :key="item.id">{{item.LanguageCode}}:{{item.Value}}</span>
             </el-col>
         </el-row>
     </div>

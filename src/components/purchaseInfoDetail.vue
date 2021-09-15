@@ -59,7 +59,7 @@
                         label="杂费(¥)">
                     </el-table-column>
                     <el-table-column
-                        prop="WarpperFee"
+                        prop="warpperfee"
                         label="产品包装费(¥)">
                     </el-table-column>
                     <el-table-column>
@@ -136,7 +136,7 @@
                         label="杂费(¥)">
                     </el-table-column>
                     <el-table-column
-                        prop="WarpperFee"
+                        prop="warpperfee"
                         label="产品包装费(¥)">
                     </el-table-column>
                     <el-table-column>

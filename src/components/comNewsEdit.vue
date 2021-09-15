@@ -347,9 +347,7 @@ export default {
     },
     methods:{
         selectPlatformid(val,index){
-            if(this.comNewsDetailList.competingproducts[index].platformsiteid){
-                this.comNewsDetailList.competingproducts[index].platformsiteid = ''
-            }
+            this.comNewsDetailList.competingproducts[index].platformsiteid = ''
             let countryList = this.devSign.filter(item => {
                 return item.value == val
             })
@@ -417,7 +415,7 @@ export default {
                     jpmaterial:this.ruleForm.jpmaterial,//产品的材质
                     jpprocess:this.ruleForm.jpprocess,//产品的工艺
                     jpcolor:this.ruleForm.jpcolor,//产品的颜色
-                    advantagefunction:this.ruleForm.jpsadvantagefunctionize,//竞品结论--竞品优势功能
+                    advantagefunction:this.ruleForm.advantagefunction,//竞品结论--竞品优势功能
                     defectfeature:this.ruleForm.defectfeature,//竞品结论--竞品缺陷功能
                     usagescenarios:this.ruleForm.usagescenarios,//竞品结论--产品使用场景
                     usecrowd:this.ruleForm.usecrowd,//竞品结论--产品目标人群
@@ -427,7 +425,7 @@ export default {
                     jpranking:this.ruleForm.jpranking//竞品结论--产品排名
                 },
             }
-             params.competingproducts = this.comNewsDetailList.competingproducts.map(res => {
+             params.competingproducts = this.comNewsDetailList.competingproducts.map(res => {debugger
                  return {
                      id:res.id,
                      platformid:res.platformid,
@@ -436,7 +434,7 @@ export default {
                      price:res.price,
                      recentsalesvolume:res.recentsalesvolume,
                      note:res.note,
-                     pictureuri:res.pictureuri,
+                     pictureuri:typeof(res.pictureuri) == 'string' ?res.pictureuri : res.pictureuri[0],
                  }
              })
             competingProduct(params).then(res => {
@@ -451,7 +449,7 @@ export default {
           }
         });
       },
-      onSuccessUpload (res, file, fileList) {
+      onSuccessUpload (res, file, fileList) {debugger
             if(fileList.length > 1){
                 fileList[0].url = fileList[1].url
                 fileList[0].name = fileList[1].name

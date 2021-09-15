@@ -501,12 +501,12 @@ export default {
                 {
                     label: '规则立方体',
                     key: 1,
-                    value: '1'
+                    value: 1
                 },
                 {
                     label: '不规则立方体',
                     key: 2,
-                    value: '2'
+                    value: 2
                 },    
             ],
             packingMethodType:[
@@ -614,27 +614,27 @@ export default {
             })
         },
         getDetaiList(){
-            let prodInfoList = []
-            if(this.pordSizeAttrInfoList.multiAttribute && this.pordSizeAttrInfoList.multiAttribute[0]){
-                this.firstList = true
-                this.copeMulAttrBute =JSON.parse(JSON.stringify(this.pordSizeAttrInfoList.multiAttribute[0])) 
-                prodInfoList =  this.pordSizeAttrInfoList.multiAttribute.map(item => {
-                    return item.productColorList
-                })
-            } 
-            let newProdInfoList = prodInfoList.flat()
-            // console.log(newProdInfoList,'prodInfoList')
-            newProdInfoList.forEach(item => {
-                if(item.productid == this.pordSizeAttrInfoList.id){
-                    item.encodingrules=this.copeMulAttrBute.encodingrules,
-                    // item.productneed=this.copeMulAttrBute.productneed,
-                    item.productdraftid=this.copeMulAttrBute.productdraftid,
-                    item.kualias=this.copeMulAttrBute.skualias,
-                    item.sku=this.copeMulAttrBute.sku,
-                    item.spu=this.pordSizeAttrInfoList.spu
-                }
-            })
-            let productColor =  newProdInfoList.map(item => {
+            // let prodInfoList = []
+            // if(this.pordSizeAttrInfoList.multiAttribute && this.pordSizeAttrInfoList.multiAttribute[0]){
+            //     this.firstList = true
+            //     this.copeMulAttrBute =JSON.parse(JSON.stringify(this.pordSizeAttrInfoList.multiAttribute[0])) 
+            //     prodInfoList =  this.pordSizeAttrInfoList.multiAttribute.map(item => {
+            //         return item.productColorList
+            //     })
+            // } 
+            // let newProdInfoList = prodInfoList.flat()
+            // // console.log(newProdInfoList,'prodInfoList')
+            // newProdInfoList.forEach(item => {
+            //     if(item.productid == this.pordSizeAttrInfoList.id){
+            //         item.encodingrules=this.copeMulAttrBute.encodingrules,
+            //         // item.productneed=this.copeMulAttrBute.productneed,
+            //         item.productdraftid=this.copeMulAttrBute.productdraftid,
+            //         item.kualias=this.copeMulAttrBute.skualias,
+            //         item.sku=this.copeMulAttrBute.sku,
+            //         item.spu=this.pordSizeAttrInfoList.spu
+            //     }
+            // })
+            let productColor =  this.pordSizeAttrInfoList.multiAttribute.map(item => {
                 return item.color
             })
             let proSize = this.pordSizeAttrInfoList.multiAttribute &&this.pordSizeAttrInfoList.multiAttribute[0] ?  this.pordSizeAttrInfoList.multiAttribute[0].size : ''
@@ -650,8 +650,8 @@ export default {
                 outerBoxSizeH:this.pordSizeAttrInfoList.outerBoxSizeH,
                 outerBoxSizeW:this.pordSizeAttrInfoList.outerBoxSizeW,
                 outerBoxSizeL:this.pordSizeAttrInfoList.outerBoxSizeL,
-                sizeRules:this.pordSizeAttrInfoList.packageshape,
-                outerBoxSizeRules:this.pordSizeAttrInfoList.cartonShape,
+                sizeRules:this.pordSizeAttrInfoList.packageshape?this.pordSizeAttrInfoList.packageshape:2,
+                outerBoxSizeRules:this.pordSizeAttrInfoList.cartonShape?this.pordSizeAttrInfoList.cartonShape:2,
                 containersNumber:this.pordSizeAttrInfoList.containerid,
                 outerBoxNum:this.pordSizeAttrInfoList.transportqty,
                 proNetWeight:this.pordSizeAttrInfoList.beforepackweight,
@@ -661,7 +661,7 @@ export default {
                 casesNumber:this.pordSizeAttrInfoList.caseQty,
                 productColor:productColor? productColor :[],
                 productSize:proSize,
-                multiAttribute:newProdInfoList,
+                multiAttribute:this.pordSizeAttrInfoList.multiAttribute,
                 productlistings:this.pordSizeAttrInfoList.productlistings ? this.pordSizeAttrInfoList.productlistings:[],
             }
         },
@@ -704,7 +704,10 @@ export default {
                             cartonWeight:this.ruleForm.proOuterBoxWeight,//外箱重量
                             packingway:this.ruleForm.packingMethod,//包装方式
                             caseQty:this.ruleForm.casesNumber,//装箱数
-                            size:this.ruleForm.productSize//尺码
+                            size:this.ruleForm.productSize,//尺码
+                            cartonShape:this.ruleForm.outerBoxSizeRules,
+                            packageshape:this.ruleForm.sizeRules
+                            
 
                         },
                         productlistings: this.ruleForm.productlistings

@@ -29,7 +29,7 @@
                 日文标题:<span>{{devInformationDetaiList.titleJp}}</span>
             </el-col>
             <el-col :span="10">
-                DE Duty税率:<span>{{devInformationDetaiList.dutyrate2}}%</span>
+                DE Duty税率:<span>{{devInformationDetaiList.dutyrate2 || 3.91}}%</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
@@ -37,7 +37,7 @@
                 英文关键词:<span>{{devInformationDetaiList.keys}}</span>
             </el-col>
             <el-col :span="10">
-                GB Duty税率:<span>{{devInformationDetaiList.dutyrate3}}%</span>
+                GB Duty税率:<span>{{devInformationDetaiList.dutyrate3 || 3.26}}%</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
@@ -80,8 +80,8 @@
                         width="200px"
                         >
                         <template slot-scope="scope">
-                            <div :class="scope.row.profit >= 0 ? 'textColor':'noColor'">{{scope.row.profit}}%/{{scope.row.profitmargin*100}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
-                            <div :class="scope.row.profit >= 0 ? 'textColor':'noColor'">{{scope.row.endprofit}}%/{{scope.row.endprofitmargin*100}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div :class="scope.row.profit >= 0 ? 'textColor':'noColor'">{{scope.row.profit ?scope.row.profit:0 }}%/{{scope.row.profitmargin ? scope.row.profitmargin*100 :0}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div :class="scope.row.profit >= 0 ? 'textColor':'noColor'">{{scope.row.endprofit ? scope.row.endprofit :0}}%/{{scope.row.endprofitmargin ? scope.row.endprofitmargin*100 :0}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -98,7 +98,7 @@
                     <el-table-column
                         label="海运费成本">
                         <template slot-scope="scope">
-                            <div>港前:{{scope.row.inlandportcosts}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div>港 {{' '}} 前:{{scope.row.inlandportcosts}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
                             <div>海运:{{scope.row.oceanfreight}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
                             <div>目的港:{{scope.row.outlandportcosts}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
                         </template>

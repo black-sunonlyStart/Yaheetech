@@ -135,21 +135,21 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row v-if="ruleForm.checkedUSA.length > 0">
+            <el-row v-if="ruleForm.checkedUSA">
                 <el-col :span="10">
                     <el-form-item label="美国">
                          <el-input v-model="ruleForm.inputUSA"></el-input>  
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row v-if="ruleForm.checkedUK.length > 0">
+            <el-row v-if="ruleForm.checkedUK">
                 <el-col :span="10">
                     <el-form-item label="英国">
                          <el-input v-model="ruleForm.inputUK"></el-input>  
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row v-if="ruleForm.checkedEU.length > 0">
+            <el-row v-if="ruleForm.checkedEU">
                 <el-col :span="10">
                     <el-form-item label="德国">
                          <el-input v-model="ruleForm.inputEU"></el-input>  
@@ -425,21 +425,6 @@ export default {
             if(!this.prodCerInfoDetailList.credentialList1)return
 
             let credentialList1 = this.prodCerInfoDetailList.credentialList1 && this.prodCerInfoDetailList.credentialList1[0] ? this.prodCerInfoDetailList.credentialList1[0].data :''
-            if(this.prodCerInfoDetailList.patentInfo && this.prodCerInfoDetailList.patentInfo.length > 0){
-                this.prodCerInfoDetailList.patentInfo.forEach(item => {
-                    if(item.LanguageCode == 'en-US'){
-                        this.ruleForm.checkedUSA = 'en-US'
-                        this.ruleForm.inputUSA = item.Value
-                    }else if(item.LanguageCode == 'EN_GB'){
-                        this.ruleForm.checkedUSA = 'EN_GB'
-                        this.ruleForm.inputUK = item.Value
-                    }else if (item.LanguageCode == 'DE'){
-                        this.ruleForm.checkedUSA = 'DE'
-                        this.ruleForm.inputEU = item.Value
-                    }
-                    
-                })
-            }
             this.ruleForm = {
                 isCertificationReq:this.prodCerInfoDetailList.isauth,
                 usaNessCertification:this.getAuthId(this.isUsa,credentialList1),
@@ -451,9 +436,21 @@ export default {
                 productAgeGroup:this.prodCerInfoDetailList.applicableAge,
                 ageGroupRemarks:this.prodCerInfoDetailList.applicableAgeNote ? this.prodCerInfoDetailList.applicableAgeNote : '',
                 patentRiskLevel:this.prodCerInfoDetailList.riskllevel,
-                checkedUSA:[],
-                checkedUK:[],
-                checkedEU:[],
+            }
+            if(this.prodCerInfoDetailList.patentInfo && this.prodCerInfoDetailList.patentInfo.length > 0){
+                this.prodCerInfoDetailList.patentInfo.forEach(item => {
+                    if(item.LanguageCode == 'en-US'){
+                        this.ruleForm.checkedUSA =['en-US']
+                        this.ruleForm.inputUSA = item.Value
+                    }else if(item.LanguageCode == 'en-GB'){
+                        this.ruleForm.checkedUK = ['EN_GB']
+                        this.ruleForm.inputUK = item.Value
+                    }else if (item.LanguageCode == 'de'){
+                        this.ruleForm.checkedEU = ['DE']
+                        this.ruleForm.inputEU = item.Value
+                    }
+                    
+                })
             }
         },
         getAuthId(isUsa,credentialList1){

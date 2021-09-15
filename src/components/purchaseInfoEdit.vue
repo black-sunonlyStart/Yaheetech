@@ -27,37 +27,37 @@
                                 <el-table-column
                                     label="最小起订量">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.minbuynum"></el-input>      
+                                        <el-input-number style="width:90px" :controls='false' v-model="scope.row.minbuynum"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
                                     label="首单下单数量">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.firstorderqty"></el-input>      
+                                        <el-input-number style="width:90px" :controls='false' v-model="scope.row.firstorderqty"></el-input-number >      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
                                     label="出厂价(¥)">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.purchaseprice"></el-input>      
+                                        <el-input-number  style="width:90px" :controls='false' v-model="scope.row.purchaseprice"></el-input-number >      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
                                     label="FOB价(¥)">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.fobprice"></el-input>      
+                                        <el-input-number  style="width:90px" :controls='false' v-model="scope.row.fobprice"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
                                     label="含税价(¥)">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.taxprice"></el-input>      
+                                        <el-input-number style="width:90px" :controls='false' v-model="scope.row.taxprice"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
                                     label="选择利润计算采购价">
                                     <template slot-scope="scope">
-                                        <el-select v-model="scope.row.purchaseprice">
+                                        <el-select v-model="scope.row.calculateprofittype">
                                             <el-option 
                                                 v-for="item in devSign"                        
                                                 :key="item.key"
@@ -71,18 +71,20 @@
                                 <el-table-column
                                     label="杂费(¥)">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.MiscPrice"></el-input>      
+                                        <el-input-number style="width:90px" :controls='false' v-model="scope.row.MiscPrice"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
                                     label="产品包装费(¥)">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.WarpperFee"></el-input>      
+                                        <el-input-number style="width:90px" :controls='false' v-model="scope.row.warpperfee"></el-input-number>      
                                     </template>
                                 </el-table-column>
-                                <el-table-column
-                                    label="采购成本=
-                                    净采购价+杂费+包装费(¥)">
+                                <el-table-column>
+                                    <template slot="header">
+                                        <div class="textPostion">采购成本</div>
+                                        <div class="textPostion">净采购价+杂费+包装费(¥)</div>
+                                    </template>
                                     <template slot-scope="scope">
                                          <span>{{scope.row.calculateprofittype == 2 ? scope.row.purchaseFOBPrice : (scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee || " " }}</span>      
                                     </template>
@@ -90,13 +92,13 @@
                                 <el-table-column                           
                                     label="交期(天)">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.deliverydays"></el-input>      
+                                        <el-input-number style="width:90px" :controls='false' v-model="scope.row.deliverydays"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                        
                                     label="装箱数量(/箱)">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.packingquantity"></el-input>      
+                                        <el-input-number style="width:90px" :controls='false' v-model="scope.row.packingquantity"></el-input-number>      
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -120,43 +122,43 @@
                                     label="采购开发"
                                     >
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.name"></el-input>      
+                                        <el-input-number style="width:90px" :controls='false'  v-model="scope.row.name"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                        
                                     label="最小起订量">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.date"></el-input>      
+                                        <el-input-number style="width:90px" :controls='false' v-model="scope.row.date"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                           
                                     label="首单下单数量">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.firstorderqty"></el-input>      
+                                        <el-input-number style="width:90px" :controls='false' v-model="scope.row.firstorderqty"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                      
                                     label="出厂价(¥)">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.purchaseprice"></el-input>      
+                                        <el-input-number style="width:90px" :controls='false' v-model="scope.row.purchaseprice"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                            
                                     label="FOB价(¥)">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.fobprice"></el-input>      
+                                        <el-input-number style="width:90px" :controls='false' v-model="scope.row.fobprice"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                            
                                     label="含税价(¥)">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.taxprice"></el-input>      
+                                        <el-input-number  style="width:90px" :controls='false' v-model="scope.row.taxprice"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                  <el-table-column
                                     label="选择利润计算采购价">
                                     <template slot-scope="scope">
-                                        <el-select v-model="scope.row.purchaseprice">
+                                        <el-select v-model="scope.row.calculateprofittype">
                                             <el-option 
                                                 v-for="item in devSign"                        
                                                 :key="item.key"
@@ -170,18 +172,20 @@
                                 <el-table-column                         
                                     label="杂费(¥)">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.MiscPrice"></el-input>      
+                                        <el-input-number style="width:90px" :controls='false' v-model="scope.row.MiscPrice"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                            
                                     label="产品包装费(¥)">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.WarpperFee"></el-input>      
+                                        <el-input-number style="width:90px" :controls='false' v-model="scope.row.warpperfee"></el-input-number>      
                                     </template>
                                 </el-table-column>
-                                <el-table-column                            
-                                    label="采购成本=
-                                    净采购价+杂费+包装费(¥)">
+                                <el-table-column>
+                                    <template slot="header">
+                                        <div class="textPostion">采购成本</div>
+                                        <div class="textPostion">净采购价+杂费+包装费(¥)</div>
+                                    </template>
                                     <template slot-scope="scope">
                                         <div>{{scope.row.calculateprofittype == 2 ? scope.row.purchaseFOBPrice : (scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee || " "}} </div>   
                                     </template>
@@ -189,13 +193,13 @@
                                 <el-table-column
                                     label="交期(天)">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.deliverydays"></el-input>      
+                                        <el-input-number style="width:90px" :controls='false' v-model="scope.row.deliverydays"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                         
                                     label="装箱数量(/箱)">
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.packingquantity"></el-input>      
+                                        <el-input-number style="width:90px" :controls='false' v-model="scope.row.packingquantity"></el-input-number>      
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -203,27 +207,30 @@
                  </el-col>
              </el-row>
              <el-row>
-                 <el-col :span="8">
+                 <el-col :span="7">
                     <el-form-item label="样品购买价:" prop="productprice">
-                        <el-input v-model="ruleForm.productprice">
-                            <template slot="append">产品价格（RMB）</template>
-                        </el-input>
+                        <div class="inputBox">
+                            <el-input-number :controls='false' v-model="ruleForm.productprice"></el-input-number>
+                            <span class="inputUnit">产品价格（RMB）</span>
+                        </div> 
                     </el-form-item>
                 </el-col>
-                <el-col :span="3">
+                <el-col :span="4">
                     <el-form-item  prop="freight" label-width="15px">
-                            <el-input v-model="ruleForm.freight">
-                                <template slot="append">运费（RMB）</template>
-                            </el-input>
+                            <div class="inputBox">
+                                <el-input-number :controls='false' v-model="ruleForm.freight"></el-input-number>
+                                <span class="inputUnit">运费（RMB）</span>
+                            </div> 
                     </el-form-item>
                  </el-col>
 
                  <el-col :span="8">
                      <el-form-item label="含税价税点:" prop="taxPoint">
                          <div class="feeForOrderText">
-                            <el-input v-model="ruleForm.taxleviedpoint">
-                                <template slot="append">%</template>
-                            </el-input>
+                            <div class="inputBox">
+                                <el-input-number :controls='false' v-model="ruleForm.taxleviedpoint"></el-input-number>
+                                <span class="inputUnit">%</span>
+                            </div> 
                          </div>
                      </el-form-item>
                  </el-col>
@@ -232,9 +239,10 @@
                 <el-col :span="11">
                     <el-form-item label="下单返样品费:" prop="feeForOrdering">
                         <div class="feeForOrderText">
-                            <el-input v-model="ruleForm.backpurchaseprice">
-                                <template slot="append">(RMB)</template>
-                            </el-input>
+                            <div class="inputBox">
+                                <el-input-number :controls='false' v-model="ruleForm.backpurchaseprice"></el-input-number>
+                                <span class="inputUnit">RMB</span>
+                            </div> 
                         </div>
                          
                      </el-form-item>
@@ -242,9 +250,10 @@
                 <el-col :span="8">
                     <el-form-item label="海关退税率:" prop="feeForOrdering">
                         <div class="feeForOrderText">
-                            <el-input v-model="ruleForm.tax">
-                                <template slot="append">%</template>
-                            </el-input>
+                            <div class="inputBox">
+                                <el-input-number :controls='false' v-model="ruleForm.tax"></el-input-number>
+                                <span class="inputUnit">%</span>
+                            </div> 
                          </div>
                      </el-form-item>
                 </el-col>
@@ -253,19 +262,17 @@
                 <el-col :span="11">
                     <el-form-item label="返样品费详情备注:" prop="feeForOrdering">
                         <div class="feeForOrderText">
-                            <el-input type="textarea" v-model="ruleForm.backpurchasepricenote">
-                                <template slot="append">(RMB)</template>
-                            </el-input>
-                        </div>
-                         
+                            <el-input type="textarea" autosize v-model="ruleForm.backpurchasepricenote"></el-input>
+                        </div>  
                      </el-form-item>
                 </el-col>
                 <el-col :span="8">
                     <el-form-item label="品牌费:" prop="feeForOrdering">
                         <div class="feeForOrderText">
-                            <el-input v-model="ruleForm.bandprice">
-                                <template slot="append">RMB</template>
-                            </el-input>
+                            <div class="inputBox">
+                                <el-input-number :controls='false' v-model="ruleForm.bandprice"></el-input-number>
+                                <span class="inputUnit">RMB</span>
+                            </div>  
                          </div>
                      </el-form-item>
                 </el-col>
@@ -285,9 +292,10 @@
                 <el-col :span="8">
                     <el-form-item label="FOB报价品牌费:" prop="feeForOrdering">
                         <div class="feeForOrderText">
-                            <el-input v-model="ruleForm.fobbandprice">
-                            <template slot="append">RMB</template>
-                            </el-input>
+                            <div class="inputBox">
+                                <el-input-number :controls='false' v-model="ruleForm.fobbandprice"></el-input-number>
+                                <span class="inputUnit">RMB</span>
+                            </div>  
                          </div>
                      </el-form-item>
                 </el-col>
@@ -307,9 +315,10 @@
                 <el-col :span="8">
                     <el-form-item label="FOB头程费:" prop="feeForOrdering">
                         <div class="feeForOrderText">
-                            <el-input v-model="ruleForm.packedvolume">
-                                <template slot="append">RMB</template>
-                            </el-input>
+                            <div class="inputBox">
+                                <el-input-number :controls='false' v-model="ruleForm.packedvolume"></el-input-number>
+                                <span class="inputUnit">RMB</span>
+                            </div>  
                         </div>
                      </el-form-item>
                 </el-col>
@@ -318,9 +327,7 @@
                 <el-col :span="11">
                     <el-form-item label="货好时间详情备注:" prop="goodTimeDate"> 
                         <div class="feeForOrderText">
-                            <el-input type="textarea" v-model="ruleForm.feeForOrdering">
-                                <template slot="append">(RMB)</template>
-                            </el-input>
+                            <el-input type="textarea" autosize v-model="ruleForm.feeForOrdering"></el-input>
                         </div>      
                      </el-form-item>
                 </el-col>
@@ -349,8 +356,13 @@ export default {
                 sampledeliverydays:'',
                 fobbandprice:'',
                 packedvolume:'',
-                purchaseprice:'',
-                productPurchaseVoList:[],
+                purchaseprice:0,
+                productPurchaseVoList:[
+                    {
+                        createdName:'',
+                        minbuynum:''
+                    }
+                ],
                 lastProductPurchaseVoList:[],
             },
             rules:{
@@ -389,6 +401,7 @@ export default {
         }
     },
     mounted(){
+        
         this.getDetailList()
     },
     methods:{
@@ -404,17 +417,20 @@ export default {
                 createdName :this.purchaseInfoDetaiList.createdName,
                 taxleviedpoint :this.purchaseInfoDetaiList.taxleviedpoint,
                 backpurchaseprice :this.purchaseInfoDetaiList.backpurchaseprice,
-                tax :this.purchaseInfoDetaiList.tax > 0 ? this.purchaseInfoDetaiList.tax * 100 : this.purchaseInfoDetaiList.tax + '%',
+                tax :this.purchaseInfoDetaiList.tax,
                 backpurchasepricenote :this.purchaseInfoDetaiList.backpurchasepricenote,
                 bandprice :this.purchaseInfoDetaiList.bandprice,
                 sampledeliverydays :this.purchaseInfoDetaiList.sampledeliverydays,
                 fobbandprice :this.purchaseInfoDetaiList.fobbandprice,
                 packedvolume :this.purchaseInfoDetaiList.packedvolume * 93 || '',
-                productPurchaseVoList :this.purchaseInfoDetaiList.productPurchaseVoList,
-                lastProductPurchaseVoList :this.purchaseInfoDetaiList.lastProductPurchaseVoList,
+                productPurchaseVoList :this.purchaseInfoDetaiList.productPurchaseVoList || [],
+                lastProductPurchaseVoList :this.purchaseInfoDetaiList.lastProductPurchaseVoList || [],
                 purchaseprice :this.purchaseInfoDetaiList.purchaseprice,
             }
-            
+            this.$nextTick((res) => {
+                this.$refs.singleTable.toggleRowSelection(this.ruleForm.productPurchaseVoList[0])
+            })
+             
         },
         addTableList(){
           this.ruleForm.productPurchaseVoList.push({
@@ -436,7 +452,7 @@ export default {
                         backpurchasepricenote:this.ruleForm.backpurchasepricenote,//返样品费详情备注
                         taxleviedpoint:this.ruleForm.taxleviedpoint,//含税价税点
                         tax:this.ruleForm.tax,//海关退税率
-                        bandprice:this.ruleForm.bandprice//品牌费
+                        bandprice:this.ruleForm.bandprice,//品牌费
                     },
                     sampleDeliveryOn:this.ruleForm.sampledeliverydays,//样品交期
                     sampledeliverydays:4,//样品交期--时间差
@@ -493,4 +509,32 @@ export default {
 .feeForOrderText{
     width: 392px;
 }
+::v-deep.inputBox{
+        width: 300px;
+        display: inline-block;
+        // display: flex;
+        .el-input-number {
+            width: 150px;
+            .el-input__inner{
+                color: black !important;
+                border-top-right-radius: 0px !important;
+                border-bottom-right-radius: 0px !important;
+            }
+        }
+    }
+    .inputUnit{
+        text-align: center;
+        line-height: 28px;
+        background-color: #F5F7FA;
+        display: inline-block;
+        height: 28px;
+        width: 105px;
+        border: 1px solid #E4E7ED;
+        color: black;
+        font-size: 12px;
+        position: relative;
+        top: 1px;
+        border-top-right-radius: 4px ;
+        border-bottom-right-radius: 4px ;
+    }
 </style>

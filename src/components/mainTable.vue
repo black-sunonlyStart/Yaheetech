@@ -67,20 +67,20 @@
         </template>
       </el-table-column>
       <el-table-column 
-        label="产品尺寸/属性"
-        show-overflow-tooltip
-        width="120px"
+            label="产品尺寸/属性"
+            show-overflow-tooltip
+            width="120px"
         >
         <template slot-scope="scope">
             <div>{{scope.row.size}}</div>
-            <div>{{scope.row.packingWay}}</div>
-            <div>{{scope.row.shape }}</div>
+            <div v-if="scope.row.packingWay == '多箱'" style="color:red">{{scope.row.packingWay}}</div>
+            <div v-if="scope.row.packingWay == '不规则'" style="color:red">{{scope.row.shape }}</div>
         </template>
       </el-table-column>
       <el-table-column 
-        prop="categoryName"
-        label="产品分类"
-        show-overflow-tooltip>
+            prop="categoryName"
+            label="产品分类"
+            show-overflow-tooltip>
       </el-table-column>
       <el-table-column 
             prop="stateName"
@@ -187,7 +187,6 @@ export default {
   computed:{
       scrollContainer(){
           return document.querySelector('.el-table__body-wrapper')
-
       }
   },
   mounted(){
@@ -245,6 +244,7 @@ export default {
               unfreezing(params).then((res) => {
                   if(res.code == 200){
                       this.$message.success('解冻成功')
+                      this.getTableList(this.navFilterList)
                   }
               })
               
@@ -475,7 +475,7 @@ export default {
             }
           })
       },
-    getTableList(val){
+    getTableList(val){debugger
         let params = {
             pageNum :this.pageNum,
             pageSize:this.pageSize,

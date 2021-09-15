@@ -809,7 +809,7 @@ export default {
                                 keys:this.ruleForm.westaRating,
                                 titleDe:this.ruleForm.titleDe,
                                 titleJp:this.ruleForm.titleJp,
-                                priority:this.ruleForm.orderQuantity,
+                                priority:this.ruleForm.orderQuantity || 0,
                                 isanji:this.ruleForm.isanji,
                                 ispatentproduct:this.ruleForm.ispatentproduct,
                                 computemode:this.ruleForm.seaFreight,
