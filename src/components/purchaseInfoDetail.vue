@@ -228,6 +228,7 @@ export default {
     text-align: center;
     height: 30px;
     line-height: 30px;
+    font-weight: bold;
 }
 .tableBottomTitle{
     border: 1px solid #EBEEF5;

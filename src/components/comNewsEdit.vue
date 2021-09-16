@@ -425,7 +425,7 @@ export default {
                     jpranking:this.ruleForm.jpranking//竞品结论--产品排名
                 },
             }
-             params.competingproducts = this.comNewsDetailList.competingproducts.map(res => {debugger
+             params.competingproducts = this.comNewsDetailList.competingproducts.map(res => {
                  return {
                      id:res.id,
                      platformid:res.platformid,
@@ -449,7 +449,7 @@ export default {
           }
         });
       },
-      onSuccessUpload (res, file, fileList) {debugger
+      onSuccessUpload (res, file, fileList) {
             if(fileList.length > 1){
                 fileList[0].url = fileList[1].url
                 fileList[0].name = fileList[1].name
@@ -478,10 +478,10 @@ export default {
     color: #409EFF;
     margin: 10px 0;
     display: inline-block;
+    font-weight: bold;
 }
 .mainImage{
     margin-left: 55px;
-    margin-top: 10px;
     // border: 1px solid #EBEEF5;
     border-top: none;
     ::v-deep .el-form-item{
@@ -491,7 +491,9 @@ export default {
         display: inline-block;
         margin-top: 15px;
         .el-icon-remove-outline{
-            color: #409EFF;
+            margin-top: 30px;
+            color: red;
+            font-size: 15px;
         }
     }
     .formInput{
@@ -503,12 +505,13 @@ export default {
         height: 40px;
         line-height: 40px;
         text-align: center;
-        border-bottom: 1px solid #EBEEF5;
+        border-bottom: 1px solid #aaaaaa;
+        font-weight: bold;
     }
     ::v-deep.imgDetail{
-        border: 1px solid #EBEEF5 !important;
+        border: 1px solid #aaaaaa !important;
         height: 250px;
-        margin-top: 15px;
+        margin-top: 45px;
         margin-right: 15px;
         // position:absolute;
         .imgbox{

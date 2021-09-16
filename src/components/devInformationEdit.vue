@@ -215,6 +215,7 @@
                     <el-form-item label="计算海运费方式:" prop="seaFreight">
                         <el-select 
                             v-model="ruleForm.seaFreight"
+                            style="width:250px"
                             >
                             <el-option 
                                 v-for="item in seaFreightSign"                        
@@ -230,7 +231,9 @@
         </el-form>
         <el-row style="margin-top:30px">
             <el-col v-for="(item,index) in devInformationDetaiList.productMarketList" :key="item.id" :span="12">
-                <span class="mainTitle">{{item.platformname}}-{{item.countrycode}}   {{item.warehouseName}}</span> <el-button type="primary" @click="delProductMarketList(index)" size="mini" class="delButton">删除</el-button>
+                <div class="titleAndButton">
+                    <span class="mainTitle">{{item.platformname}}-{{item.countrycode}}   {{item.warehouseName}}</span> <el-button type="primary" @click="delProductMarketList(index)" size="mini" class="delButton">删除</el-button>
+                </div>
                 <el-form :model="item" :rules="wareHouseRules" ref="ruleForm2" label-width="200px" class="demo-ruleForm" size="mini">
                     <el-form-item label="产品开发价:" prop="developmentprice" >
                         <div class="inputBox"> 
@@ -702,7 +705,7 @@ export default {
             this.devInformationDetaiList.productMarketList.push({
                 platformname:this.ruleForm.marksContry2,
                 countrycode:this.ruleForm.marksContry1,
-                warehouseName:dailySales3[0].warehouseName,
+                warehouseName:dailySales3[0].name,
                 warehouseid:this.ruleForm.marksContry3,
                 developmentprice:this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] ? this.devInformationDetaiList.productMarketList[0].developmentprice : 0
             })
@@ -956,10 +959,7 @@ export default {
     .taxRate{
         display: flex;
     }
-    .delButton{
-        float: right;
-        margin-right:20px;
-    } 
+     
     .inputUnit{
         text-align: center;
         line-height: 28px;
@@ -987,9 +987,22 @@ export default {
             }
         }
     }
-    .mainTitle{
-        font-weight: bold;
-    }
+    .titleAndButton{
+        display: flex;
+        justify-content: space-between;
+        border: 1px solid #E4E7ED;
+        margin:0px 20px 10px 0px;
+        background-color: #F5F7FA;
+        border-radius: 4px;
+        width: 730px;
+        .delButton{
+            
+            // margin-right:20px;
+        }
+        .mainTitle{
+            font-weight: bold;
+        }
+     }
     .shippingPutBox{
         width: 500;
     }

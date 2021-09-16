@@ -393,7 +393,7 @@
                                         {{scope.row.color}}
                                     </div>
                                     <div>
-                                        {{scope.row.size}}
+                                        {{ruleForm.productSize}}
                                     </div>
                                 </template>
                             </el-table-column>
@@ -528,6 +528,10 @@ export default {
         pordSizeAttrInfoList:{
             type:Object,
             default:() => ({})
+        },
+        multiAttribute:{
+            type:Array,
+            default:() => ([])
         }
     },
     computed:{
@@ -552,15 +556,6 @@ export default {
         this.init()
     },
     watch:{
-        productSize : {
-            handler(val){
-                if(val){
-                    this.ruleForm.multiAttribute.forEach(item => [
-                        item.size = val
-                    ])
-                }
-            }
-        },
         productColor:{
             handler(val,oldVal){
                 if(val == oldVal  || (oldVal.length == 0 && this.firstList))return  
@@ -571,7 +566,7 @@ export default {
                     this.ruleForm.multiAttribute.push({
                         size:this.ruleForm.productSize,
                         color:newVal.toString(),
-                        id:this.pordSizeAttrInfoList.id,
+                        productid:this.copeMulAttrBute.productid,
                         encodingrules:this.copeMulAttrBute.encodingrules,
                         productneed:this.copeMulAttrBute.productneed,
                         productdraftid:this.copeMulAttrBute.productdraftid,
@@ -588,12 +583,9 @@ export default {
                         if(item && item.color == colorNewVal){
                             this.ruleForm.multiAttribute.splice(index,1)
                         }
-                    })
-                    
-                }
-                
+                    }) 
+                } 
             }
-           
         },
         deep:true
     },
@@ -614,31 +606,15 @@ export default {
             })
         },
         getDetaiList(){
-            // let prodInfoList = []
-            // if(this.pordSizeAttrInfoList.multiAttribute && this.pordSizeAttrInfoList.multiAttribute[0]){
-            //     this.firstList = true
-            //     this.copeMulAttrBute =JSON.parse(JSON.stringify(this.pordSizeAttrInfoList.multiAttribute[0])) 
-            //     prodInfoList =  this.pordSizeAttrInfoList.multiAttribute.map(item => {
-            //         return item.productColorList
-            //     })
-            // } 
-            // let newProdInfoList = prodInfoList.flat()
-            // // console.log(newProdInfoList,'prodInfoList')
-            // newProdInfoList.forEach(item => {
-            //     if(item.productid == this.pordSizeAttrInfoList.id){
-            //         item.encodingrules=this.copeMulAttrBute.encodingrules,
-            //         // item.productneed=this.copeMulAttrBute.productneed,
-            //         item.productdraftid=this.copeMulAttrBute.productdraftid,
-            //         item.kualias=this.copeMulAttrBute.skualias,
-            //         item.sku=this.copeMulAttrBute.sku,
-            //         item.spu=this.pordSizeAttrInfoList.spu
-            //     }
-            // })
-            let productColor =  this.pordSizeAttrInfoList.multiAttribute.map(item => {
+            if(this.multiAttribute && this.multiAttribute[0]){
+                this.firstList = true
+                this.copeMulAttrBute =JSON.parse(JSON.stringify(this.multiAttribute[0])) 
+            } 
+            let productColor =  this.multiAttribute.map(item => {
                 return item.color
             })
-            let proSize = this.pordSizeAttrInfoList.multiAttribute &&this.pordSizeAttrInfoList.multiAttribute[0] ?  this.pordSizeAttrInfoList.multiAttribute[0].size : ''
-           
+            let proSize = this.multiAttribute &&this.multiAttribute[0] ?  this.multiAttribute[0].size : ''
+
             this.ruleForm = {
                 productType:this.pordSizeAttrInfoList.productType == 2 ? 2 : 1,
                 productSizeL:this.pordSizeAttrInfoList.productSizeL,
@@ -661,7 +637,7 @@ export default {
                 casesNumber:this.pordSizeAttrInfoList.caseQty,
                 productColor:productColor? productColor :[],
                 productSize:proSize,
-                multiAttribute:this.pordSizeAttrInfoList.multiAttribute,
+                multiAttribute:this.multiAttribute,
                 productlistings:this.pordSizeAttrInfoList.productlistings ? this.pordSizeAttrInfoList.productlistings:[],
             }
         },

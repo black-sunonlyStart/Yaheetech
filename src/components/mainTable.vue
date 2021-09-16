@@ -19,14 +19,27 @@
         label="产品图片"
         width="120">
         <template slot-scope="scope">
-            <el-image
-                style="width: 100px; height: 100px; dispaly:black"
-                :key="scope.row.showImgUrl" 
-                :src="scope.row.showImgUrl" 
-                lazy
-                :scroll-container="scrollContainer"
-                fit="fill">
-            </el-image>
+            <el-popover
+                placement="right"
+                title=""
+                trigger="hover">
+                <el-image
+                    style="width: 200px; height: 200px; dispaly:black"
+                    :key="scope.row.showImgUrl" 
+                    :src="scope.row.showImgUrl" 
+                    fit="fill">
+                </el-image>
+                <el-image
+                    slot="reference"
+                    style="width: 100px; height: 100px; dispaly:black"
+                    :key="scope.row.showImgUrl" 
+                    :src="scope.row.showImgUrl" 
+                    lazy
+                    :scroll-container="scrollContainer"
+                    fit="fill">
+                </el-image>
+         </el-popover>
+
         </template>
       </el-table-column>
       <el-table-column 
@@ -74,7 +87,7 @@
         <template slot-scope="scope">
             <div>{{scope.row.size}}</div>
             <div v-if="scope.row.packingWay == '多箱'" style="color:red">{{scope.row.packingWay}}</div>
-            <div v-if="scope.row.packingWay == '不规则'" style="color:red">{{scope.row.shape }}</div>
+            <div v-if="scope.row.shape == '不规则'" style="color:red">{{scope.row.shape }}</div>
         </template>
       </el-table-column>
       <el-table-column 
@@ -475,7 +488,7 @@ export default {
             }
           })
       },
-    getTableList(val){debugger
+    getTableList(val){
         let params = {
             pageNum :this.pageNum,
             pageSize:this.pageSize,
@@ -493,9 +506,11 @@ export default {
             search:val.search
         }
         fetchPageTableList(params).then(res => {
-            res.data.rows.forEach(item => {
-                item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentId}/${item.imagesUri}`
-            });
+            if(res.data && res.data.rows){
+                res.data.rows.forEach(item => {
+                    item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentId}/${item.imagesUri}`
+                });
+              }
             this.currentPage4 = res.data.pageNum
             this.tableData = res.data.rows
             this.total = res.data.records

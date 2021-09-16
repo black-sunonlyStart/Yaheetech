@@ -71,29 +71,22 @@
           </el-form-item>
         </el-col>
         <el-col :span="14">
-          <el-form-item label="开发场景:">
-            <el-checkbox-group v-model="form.developmentScenario" > 
-                <el-radio  label='all' v-model="radio" @change="showOtherCheck" class="radioStyle">全部</el-radio>
-                <el-radio :label="4" v-model="radio" @change="showOtherCheck" class="radioStyle">全新开发</el-radio>
-                <el-radio :label="5" v-model="radio" @change="showOtherCheck" class="radioStyle">二次开发</el-radio>
-              <el-checkbox label= '1' v-if="newProd" >开发新产品</el-checkbox>
-              <el-checkbox label= '2' v-if="newProd" >开发新市场</el-checkbox>
-              <el-checkbox label= '3' v-if="newProd" >开发新尺码</el-checkbox>
-              
-              <el-checkbox label= '10' v-if="showTwoProd" >二次开发市场 </el-checkbox>
-              <el-checkbox label= '11' v-if="showTwoProd" >二次开发产品</el-checkbox>
-              <el-checkbox label= '12' v-if="showTwoProd" >二次开发尺码</el-checkbox>
-            </el-checkbox-group>
+            <el-form-item label="是否需要专利:">
+            <el-radio-group v-model="form.patent">
+              <el-radio label="all">全部</el-radio>
+              <el-radio label= 1>需要</el-radio>
+              <el-radio label= 0>不需要</el-radio>
+            </el-radio-group>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="10">
           <el-form-item label="寻找供应商:">
-            <el-radio-group v-model="form.suppliers">
-              <el-radio label="all">全部</el-radio>
-              <el-radio label="1">已找过</el-radio>
-              <el-radio label="0">未找过</el-radio>
+            <el-radio-group v-model="form.suppliers" >
+              <el-radio style="width:52px" label="all">全部</el-radio>
+              <el-radio style="width:52px" label="1">已找过</el-radio>
+              <el-radio style="width:52px" label="0">未找过</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -111,19 +104,26 @@
         <el-col :span="10">
           <el-form-item label="是否需要认证:">
             <el-radio-group v-model="form.authentication" class="actionBox">
-              <el-radio label="all">全部</el-radio>
-              <el-radio label= 1>需要</el-radio>
-              <el-radio label= 0>不需要</el-radio>
+              <el-radio style="width:52px" label="all">全部</el-radio>
+              <el-radio style="width:52px" label= 1>需要</el-radio>
+              <el-radio style="width:52px" label= 0>不需要</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="10">
-          <el-form-item label="是否需要专利:">
-            <el-radio-group v-model="form.patent">
-              <el-radio label="all">全部</el-radio>
-              <el-radio label="1">需要</el-radio>
-              <el-radio label="0">不需要</el-radio>
-            </el-radio-group>
+        <el-col :span="14">
+           <el-form-item label="开发场景:">
+            <el-checkbox-group v-model="form.developmentScenario" > 
+                <el-radio  label='all' v-model="radio" @change="showOtherCheck" class="radioStyle">全部</el-radio>
+                <el-radio :label="4" v-model="radio" @change="showOtherCheck" class="radioStyle">全新开发</el-radio>
+                <el-radio :label="5" v-model="radio" @change="showOtherCheck" class="radioStyle">二次开发</el-radio>
+              <el-checkbox label= '1' v-if="newProd" >开发新产品</el-checkbox>
+              <el-checkbox label= '2' v-if="newProd" >开发新市场</el-checkbox>
+              <el-checkbox label= '3' v-if="newProd" >开发新尺码</el-checkbox>
+              
+              <el-checkbox label= '10' v-if="showTwoProd" >二次开发市场 </el-checkbox>
+              <el-checkbox label= '11' v-if="showTwoProd" >二次开发产品</el-checkbox>
+              <el-checkbox label= '12' v-if="showTwoProd" >二次开发尺码</el-checkbox>
+            </el-checkbox-group>
           </el-form-item>
         </el-col>
       </el-row>
@@ -131,17 +131,17 @@
         <el-col :span="24">
           <el-form-item label="开发状态:">
             <el-checkbox-group v-model="form.status">
-              <el-checkbox label="all">全部</el-checkbox>
-              <el-checkbox label="0">未提交审批</el-checkbox>
-              <el-checkbox label="1">待审批</el-checkbox>
-              <el-checkbox label="11">认证确认</el-checkbox>
-              <el-checkbox label="2">寻找供应商</el-checkbox>
-              <el-checkbox label="13">采购主管审核</el-checkbox>
-              <el-checkbox label="12">认证审核</el-checkbox>
-              <el-checkbox label="10">样品采购审核</el-checkbox>
-              <el-checkbox label="4">确认样品</el-checkbox>
-              <el-checkbox label="5">利润复审</el-checkbox>
-              <el-checkbox label="6">终审</el-checkbox>
+              <el-checkbox label= '15'>全部</el-checkbox>
+              <el-checkbox label= '0'>未提交审批</el-checkbox>
+              <el-checkbox label= '1'>待审批</el-checkbox>
+              <el-checkbox label= '11'>认证确认</el-checkbox>
+              <el-checkbox label= '2'>寻找供应商</el-checkbox>
+              <el-checkbox label= '13'>采购主管审核</el-checkbox>
+              <el-checkbox label= '12'>认证审核</el-checkbox>
+              <el-checkbox label= '10'>样品采购审核</el-checkbox>
+              <el-checkbox label= '4'>确认样品</el-checkbox>
+              <el-checkbox label= '5'>利润复审</el-checkbox>
+              <el-checkbox label= '6'>终审</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
         </el-col>
@@ -150,10 +150,10 @@
         <el-col :span="10">
           <el-form-item>
             <el-checkbox-group v-model="form.status">
-              <el-checkbox label="7">开发完未上架</el-checkbox>
-              <el-checkbox label="8">开发完已上架</el-checkbox>
-              <el-checkbox label="9">已取消</el-checkbox>
-              <el-checkbox label="14">已冻结</el-checkbox>
+              <el-checkbox label= '7'>开发完未上架</el-checkbox>
+              <el-checkbox label= '8'>开发完已上架</el-checkbox>
+              <el-checkbox label= '9'>已取消</el-checkbox>
+              <el-checkbox label= '14'>已冻结</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
         </el-col>
@@ -169,7 +169,8 @@ export default {
 
   data () {
     return {
-    radio:'',
+        checked:true,
+    radio:'all',
     showTwoProd:false,
     newProd:false,
     search: '',
@@ -283,14 +284,14 @@ export default {
         name: '',
         timeValue2: [],
         dateType: 0,
-        productOwner: null,
+        productOwner: 2,
         developmentScenario: [],
-        suppliers: null,
-        sample: '',
-        authentication: null,
-        patent: '',
-        status: [],
-        checkedCities:[],
+        suppliers: 'all',
+        sample: 'all',
+        authentication: 'all',
+        patent: 'all',
+        status: ['15'],
+        checkedCities:['all'],
       },
       tableParams:{}
     }
@@ -305,14 +306,14 @@ export default {
                     timeType:val.dateType,
                     dateFrom:val.timeValue2 && val.timeValue2.length > 0 ? val.timeValue2[0]:'',
                     dateTo:val.timeValue2 && val.timeValue2.length > 0 ? val.timeValue2[1]:'',
-                    countryCodes:val.checkedCities,
+                    countryCodes:val.checkedCities.includes('all')?[]:val.checkedCities,
                     seekEnd:val.suppliers == 'all' ?null:parseInt(val.suppliers),
                     auth:val.authentication == 'all'?null:parseInt(val.authentication),
-                    state:val.status.map(Number),
+                    state:this.changeMath(val.status),
                     productOwner:val.productOwner == 2 ? null:val.productOwner,
                     scenariosParentIds:val.developmentScenario.includes('all')? [] : val.developmentScenario,
-                    sampleDelivery:val.sample == 'all'? '':val.sample,
-                    patentProduct:val.patent.includes('all')? '':val.patent,
+                    sampleDelivery:val.sample == 'all'? '':Number(val.sample),
+                    patentProduct:val.patent.includes('all')? null:val.patent,
                     search:val.search
                 }
                 this.$emit('putTableList',this.tableParams)
@@ -323,6 +324,17 @@ export default {
   mounted () {
   },
   methods: {
+    changeMath(val){
+        if(val.length > 0 && val.includes('15')){
+            let index = val.indexOf('15');
+            val.splice(index, 1)
+            let newVal = val.map(Number)
+            return newVal
+        }else{
+            let newVal = val.map(Number)
+            return newVal
+        }
+    },
     changeTableList(){
     },
     showOtherCheck(val){

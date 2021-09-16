@@ -42,7 +42,7 @@
                 <div class="stepBox">
                     <span class="leftButton" @click="leftMove"><i class="el-icon-d-arrow-left"></i></span>
                         <span class="step-container">
-                            <el-steps :active="copeDevProgress ? copeDevProgress.length - 1:0" space='200' align-center style="margin-right:15px" finish-status="success">
+                            <el-steps :active="copeDevProgress ? copeDevProgress.length:0" space='150' align-center style="margin-right:15px" finish-status="success">
                                 <el-step v-for="item in developmentProgresses" :title="item.statusValue" :key="item.status" :description="item.createOn">
                                         <template slot="title">
                                             <el-tooltip class="item" effect="dark" :content="item.createBy" placement="top">
@@ -69,7 +69,7 @@
         @click="openRemarks"></i>
         <!-- <el-card class="card"> -->
             <div class="cardBoxMain">
-                <el-tabs v-model="activeName">
+                <el-tabs v-model="activeName" @tab-click="handleClick">
                     <el-tab-pane label="开发类型/场景" name="first" >
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
@@ -339,10 +339,10 @@
                                     </div>   
                                 </div>
                                 <div v-if="isEdit7">
-                                    <pordSizeAttrInfo :pordSizeAttrInfoList='pordSizeAttrInfoList'></pordSizeAttrInfo>
+                                    <pordSizeAttrInfo :pordSizeAttrInfoList='pordSizeAttrInfoList' :multiAttribute='multiAttribute'></pordSizeAttrInfo>
                                 </div>
                                 <div v-else>
-                                    <pordSizeAttrEdit  @closeEdit='closeProdevAttr' :pordSizeAttrInfoList='pordSizeAttrInfoList'></pordSizeAttrEdit>
+                                    <pordSizeAttrEdit  @closeEdit='closeProdevAttr' :pordSizeAttrInfoList='pordSizeAttrInfoList' :multiAttribute='multiAttribute'></pordSizeAttrEdit>
                                 </div>
                             </el-card>
                         </div>
@@ -366,19 +366,19 @@
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="备注" name="tenth">
-                        <div class="backgoundCon"></div>
-                        <div class='remarkContainer'>
-                            <el-card>
-                                <div slot="header" class="clearfix">
+                        <!-- <div class="backgoundCon"></div> -->
+                        <!-- <div class='remarkContainer'> -->
+                            <!-- <el-card> -->
+                                <!-- <div slot="header" class="clearfix">
                                     <div>
                                         备注信息
                                     </div>   
                                 </div>
                                 <div>
                                     <remarksTable :remarksList='remarksList'></remarksTable>
-                                </div>
-                            </el-card>
-                        </div>
+                                </div> -->
+                            <!-- </el-card> -->
+                        <!-- </div> -->
                     </el-tab-pane>
                 </el-tabs>   
             </div>
@@ -387,26 +387,7 @@
   </div>
 </template>
 <script>
- import { getProductDevDetail } from '@/api/user.js'
-//  import devDetail from '@/components/devDetail.vue'
-//  import devScene from '@/components/devScene.vue'
-//  import imgUpload from '@/components/uploadImg.vue'
-//  import remarksTable from '@/components/remarksTable.vue'
-//  import salesTargetDetail from '@/components/salesTargetDetail.vue'
-//  import salesTargetEdit from '@/components/salesTargetEdit.vue'
-//  import comNewsDetail from '@/components/comNewsDetail.vue'
-//  import comNewsEdit from '@/components/comNewsEdit.vue'
-//  import devInformationDetail from '@/components/devInformationDetail.vue'
-//  import devInformationEdit from '@/components/devInformationEdit.vue'
-//  import prodCerInfoDetail from '@/components/prodCerInfoDetail.vue'
-//  import prodevInfoDetail from '@/components/prodevInfoDetail.vue'
-//  import prodCerInfoEdit from '@/components/prodCerInfoEdit.vue'
-//  import prodevInfoEdit from '@/components/prodevInfoEdit.vue'
-//  import pordSizeAttrInfo from '@/components/pordSizeAttrInfo.vue'
-//  import pordSizeAttrEdit from '@/components/pordSizeAttrEdit.vue'
-//  import purchaseInfoDetail from '@/components/purchaseInfoDetail.vue'
-//  import purchaseInfoEdit from '@/components/purchaseInfoEdit.vue'
-//  import remarks from '@/components/remarks.vue'
+ import { getProductDevDetail,getProductMultipleAttribute } from '@/api/user.js'
 export default {
   name: 'productDetails',
   components:{
@@ -427,11 +408,11 @@ export default {
       pordSizeAttrEdit:() => import('@/components/pordSizeAttrEdit'),
       purchaseInfoDetail:() => import('@/components/purchaseInfoDetail'),
       purchaseInfoEdit:() => import('@/components/purchaseInfoEdit'),
-      remarksTable:() => import('@/components/remarksTable'),
       remarks:() => import('@/components/remarks'),
   },
   data () {
     return {
+        multiAttribute:[],
         employee:{},
         titleImgSrc:'',
         productMarketStrs:{},//头部信息产品利润信息
@@ -748,21 +729,6 @@ export default {
                         return item.authtype == 2
                     })
                 }
-                
-                // let newCredentialList1 = []
-                // getProdCerInfoDetailList().then(res => {
-                //     let newData = credentialList1 ?credentialList1[0].data.split(','): []
-                //     let newRate = res.data.credentialsRates.map(item => {
-                //         return item.authRates
-                        
-                //     })
-                //     let newRate1 = newRate.flat()
-                //     newData = newData.map(Number)
-                //     if(newData.length > 0){
-                //         newCredentialList1 = newRate1.filter(item => {
-                //             return newData.includes(item.authId)
-                //         })
-                //     }
                 let patentInfo = []
                     patentInfo = res.data.development && res.data.development.patentinfo? JSON.parse(res.data.development.patentinfo) : []
                     this.prodCerInfoDetailList = {
@@ -776,8 +742,7 @@ export default {
                         riskllevel:this.productVos.riskllevel,//专利风险等级
                         patentInfo:patentInfo.LocalStrings,//专利确认
                     }
-                // }) 
-                console.log(JSON.parse(res.data.development.patentinfo),'111111111')
+                // })
                     //产品标题和供应商信息
                     let mustCredentialList = res.data.developmentAttachmentList.filter(item => { //必要认证附件
                         return item.filetype  == 3
@@ -808,6 +773,14 @@ export default {
                         factoryGaveImage//工厂提供的图片
                     }
                 //产品尺寸和属性
+                    let devParams = {
+                        developmentId:this.$route.params.developmentId,
+                        productId:this.$route.params.productId,
+                    }
+                    getProductMultipleAttribute(devParams).then(res => {
+                        this.multiAttribute = res.data
+                    })
+
                 const ycun = 0.3937008;
                 const ychi = 35.3147248;
                 this.pordSizeAttrInfoList = {
@@ -847,7 +820,8 @@ export default {
                     transportqty:this.productVos.transportqty,//可装货柜数量
                     packingway:this.productVos.packingway,//包装方式
                     productlistings:this.productVos.productlistings,//多箱清单
-                    multiAttribute:res.data.allProducts[0].productColorList,//销售（多）属性
+                    // multiAttribute:res.data.allProducts[0].productColorList,//销售（多）属性
+                    // size:res.data.allProducts[0].size,//销售（多）属性
                     containerVolume:this.productVos.containerVolume / this.productVos.transportqty, //每个产品所占体积
                     containerVolumeCu:(parseFloat((this.productVos.containerVolume/this.productVos.transportqty).toFixed(2)) * 35.3147248).toFixed(2), //每个产品所占体积
                     packedlength:this.productVos.packedlength,
@@ -964,6 +938,11 @@ export default {
               image.style.left = image.offsetLeft - 100 + 'px'
           }
           
+      },
+      handleClick(tab){
+          if(tab.name == 'tenth'){
+              this.$refs.remarks.openHandle()
+          }
       }
   }
 }
@@ -980,7 +959,7 @@ export default {
     .remarks {
         position: fixed;
         left: 16px;
-        top: 417px;
+        top: 245px;
         height: 32px;
         width: 32px;
         z-index: 1000;
@@ -1054,7 +1033,7 @@ export default {
   .stepText{
         font-weight: bold;
         float: right;
-        margin-right: 368px;
+        margin-right: 50px;
         .stepTextLittleTitle{
             margin-right: 15px;
         }
@@ -1088,7 +1067,7 @@ export default {
         .stepTitle{ 
             font-size: 10px;
             margin-right: 15px;
-            width: 130px;
+            width: 100px;
         }
     }
     .rightButton{
@@ -1155,10 +1134,11 @@ export default {
           .imgCon{
               margin: 0 10px;
           }
-      }
-      
-      
+      }  
   }
+  .is-active{
+          font-weight: bold;
+      }
   
 }
 </style>

@@ -223,7 +223,7 @@
                 
                 <el-table
                      border
-                    :data="pordSizeAttrInfoList.multiAttribute"
+                    :data="multiAttribute"
                     style="width: 100%"
                     :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                     >
@@ -244,7 +244,7 @@
                         >
                         <template slot-scope="scope">
                             <div>
-                                {{scope.row.id}}
+                                {{scope.row.productid}}
                             </div>
                             <div>
                                 {{scope.row.encodingrules}}
@@ -326,6 +326,11 @@ export default {
             type:Object,
             default:() => ({})
                     
+        },
+        multiAttribute:{
+            type:Array,
+            default:() => ([])
+                    
         }
     }
 }
@@ -352,6 +357,7 @@ export default {
     text-align: center;
     height: 30px;
     line-height: 30px;
+    font-weight: bold;
 }
 .tableBottomTitle{
     border: 1px solid #EBEEF5;

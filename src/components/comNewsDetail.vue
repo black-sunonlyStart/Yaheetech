@@ -202,7 +202,7 @@ export default {
 .mainInofTitle{
     color: #409EFF;
     font-weight: bold;
-    margin: 30px 0;
+    margin: 40px 0 10px 0;
 }
 .imageMainbox {
     font-weight: bold;

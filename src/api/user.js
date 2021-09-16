@@ -202,3 +202,11 @@ export function unfreezing(data) {
       params:data
     })
   }
+  //查询多属性
+export function getProductMultipleAttribute(data) {
+    return request({
+      url: '/productManage/getProductMultipleAttribute',
+      method: "get", 
+      params:data
+    })
+  }

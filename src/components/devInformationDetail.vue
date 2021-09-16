@@ -55,7 +55,7 @@
         </el-row>
         <el-row v-for="item in devInformationDetaiList.productMarketList" :key="item.id">
             <el-col :span="22">
-                <div class="tableTitle">{{item.platformname}}- {{item.countrycode}}   {{item.warehouseName}}</div>
+                <div class="tableTitle">{{item.platformname}}- {{item.countrycode}} :  {{item.warehouseName}}</div>
                 <el-table
                      border
                     :data="[item]"
@@ -208,6 +208,7 @@ export default {
     text-align: center;
     height: 30px;
     line-height: 30px;
+    font-weight: bold;
 }
 .tableBottomTitle{
     border: 1px solid #EBEEF5;
