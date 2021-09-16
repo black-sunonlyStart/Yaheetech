@@ -7,7 +7,7 @@
         style="width: 100%"
         border
         @selection-change="handleSelectionChange"
-        height="570"
+        height="640"
         :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
         >
       <el-table-column 
@@ -31,7 +31,7 @@
                 </el-image>
                 <el-image
                     slot="reference"
-                    style="width: 100px; height: 100px; dispaly:black"
+                    style="width: 50px; height: 50px; dispaly:black"
                     :key="scope.row.showImgUrl" 
                     :src="scope.row.showImgUrl" 
                     lazy
@@ -72,7 +72,7 @@
             <div v-for="item in scope.row.productMarketStrs" :key="item.platformName">
                 <div style="font-weight:bold">{{item.platformName}}:</div>
                 <div>{{item.currency}} {{item.developmentPrice}}/
-                    <el-tooltip :content="rows.warehouseName" placement="top" effect="light" v-for="rows in item.marketProfits " :key="rows.warehouseId">
+                    <el-tooltip :content="rows.warehouseName" effect="dark" placement="top"  v-for="rows in item.marketProfits " :key="rows.warehouseId">
                         <span :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin + '%' + '/'}}</span>
                     </el-tooltip>
                 </div>
@@ -126,7 +126,9 @@
         >
         <template slot-scope="scope">
             <div class="operaBox">
-                <div class="imageBox" @click="clickEdit(scope.row.developmentId,scope.row.productId,scope.row.id)"></div>
+                <el-tooltip class="item" effect="dark" content="编辑" placement="bottom-start">
+                    <div class="imageBox" @click="clickEdit(scope.row.developmentId,scope.row.productId,scope.row.id)"></div>
+                </el-tooltip>
                 <el-popover
                     placement="bottom"
                     width="100"
@@ -158,7 +160,7 @@
 
 </template>
 <script>
-import { fetchPageTableList,freezing,unfreezing } from '@/api/user.js'
+import { fetchPageTableList,unfreezing } from '@/api/user.js'
 import { formatDate } from '@/utils/tools.js'
 import messageDialog from './messageDialog.vue'
 export default {
@@ -574,17 +576,27 @@ export default {
     display: flex;
 
     .imageBox{
-        height: 32px;
-        width: 32px;
+        height: 18px;
+        width: 18px;
         // float: left;
         background-image: url(../assets/bianji.png);
     }
     .imageBox1{
         margin-left: 10px;
-        height: 32px;
-        width: 32px;
+        height: 22px;
+        width: 22px;
         // float: left;
         background-image: url(../assets/shenhe.png);
     }
+    
 }
+::v-deep.el-table {
+    td {
+        padding: 2px 0 2px 0 !important;
+    }
+    .cell{
+            line-height: 18px !important;
+        }
+}
+
 </style>

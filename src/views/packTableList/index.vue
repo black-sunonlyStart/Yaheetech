@@ -54,26 +54,32 @@ export default {
   width: 100%;
   height: 100%;
   background-color: rgba(230, 230, 230, 1);
-  .nav-card {
+  ::v-deep .nav-card {
     margin: 0px 26px 10px 10px;
     position: fixed;
     width: 97.6%;
     z-index: 999;
-  }
- ::v-deep .button-card {
-    margin: 0px 18px 10px 10px;
-    position: fixed;
-    top: 244px;
-    z-index: 1000;
-    width: 97.6%;
     .el-card__body{
         padding: 10px 20px;
     }
   }
-  .mainTable-card {
+ ::v-deep .button-card {
+    margin: 0px 18px 10px 10px;
+    position: fixed;
+    top: 223px;
+    z-index: 1000;
+    width: 97.6%;
+    .el-card__body{
+        padding: 3px 20px;
+    }
+  }
+  ::v-deep.mainTable-card {
     margin: 0px 18px 10px 10px;
     position: relative;
-    top: 282px;
+    top: 246px;
+    .el-card__body{
+        padding: 5px 20px;
+    }
   }
 }
 </style>

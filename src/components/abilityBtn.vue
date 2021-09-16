@@ -3,12 +3,12 @@
         <el-button size="mini" @click="addProctList" type="primary" plain>开发产品</el-button>
         <el-button size="mini" type="primary" plain>导出报表</el-button>
         <!-- <el-button size="mini" >更换业务开发</el-button> -->
-        <el-dropdown trigger="click" @command="handleCommand" size='mini' >
-            <el-button type="primary" size='mini' plain style="margin-left:10px;margin-right:10px">
-                更改业务负责人<i class="el-icon-arrow-down el-icon--right"></i>
+        <el-dropdown trigger="hover" @command="handleCommand" size='mini' >
+            <el-button type="primary" size='mini' plain style="margin-left:10px;margin-right:10px" @click="changeOrderPer">
+                更换采购开发<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command= 6 plain>更换采购开发</el-dropdown-item>
+                <!-- <el-dropdown-item command= 6 plain>更换采购开发</el-dropdown-item> -->
                 <el-dropdown-item command= 20 plain>更换业务开发</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
@@ -55,14 +55,21 @@
                     return
                 }
                 this.row = this.selectRow
-                if (val == '6'){
-                    this.dialogName = '更换采购开发'
-                    this.clickId = 6
-                }else if(val == '20'){
+                 if(val == '20'){
                     this.dialogName = '更换业务开发'
                     this.clickId = 20
                 }
                 
+                this.$refs.messageDialog.openDialog()
+            },
+            changeOrderPer(){
+                if( !this.selectRow || this.selectRow.length == 0 || this.selectRow.length == undefined){
+                    this.$message.error('请选择数据')
+                    return
+                }
+                this.row = this.selectRow
+                this.dialogName = '更换采购开发'
+                this.clickId = 6
                 this.$refs.messageDialog.openDialog()
             },
             frozenCommand(val){

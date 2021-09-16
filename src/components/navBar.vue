@@ -178,7 +178,7 @@ export default {
     
       cities: [
         {
-            countryCodes:'all',
+            countryCodes:'15',
             country:'全部'
         },
         {
@@ -291,7 +291,7 @@ export default {
         authentication: 'all',
         patent: 'all',
         status: ['15'],
-        checkedCities:['all'],
+        checkedCities:['15'],
       },
       tableParams:{}
     }
@@ -306,7 +306,7 @@ export default {
                     timeType:val.dateType,
                     dateFrom:val.timeValue2 && val.timeValue2.length > 0 ? val.timeValue2[0]:'',
                     dateTo:val.timeValue2 && val.timeValue2.length > 0 ? val.timeValue2[1]:'',
-                    countryCodes:val.checkedCities.includes('all')?[]:val.checkedCities,
+                    countryCodes:this.changeCities(val.checkedCities),
                     seekEnd:val.suppliers == 'all' ?null:parseInt(val.suppliers),
                     auth:val.authentication == 'all'?null:parseInt(val.authentication),
                     state:this.changeMath(val.status),
@@ -333,6 +333,15 @@ export default {
         }else{
             let newVal = val.map(Number)
             return newVal
+        }
+    },
+    changeCities(val){
+        if(val.length > 0 && val.includes('15')){
+            let index = val.indexOf('15');
+            val.splice(index, 1)
+            return val
+        }else{
+            return val
         }
     },
     changeTableList(){
