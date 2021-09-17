@@ -4,10 +4,10 @@
       <navBar  @putTableList='putTableList'></navBar>
     </el-card>
     <el-card class="button-card">
-      <abilityBtn :selectRow='selectRow'></abilityBtn>
+      <abilityBtn :selectRow='selectRow' @putTbleList='putTbleList'></abilityBtn>
     </el-card>
     <el-card class="mainTable-card">
-      <mainTable :navFilterList='filterList' @putTbleSelection='putTbleSelection'></mainTable>
+      <mainTable :navFilterList='filterList' @putTbleSelection='putTbleSelection' ref="mainTable"></mainTable>
     </el-card>
   </div>
 </template>
@@ -43,6 +43,9 @@ export default {
     putTableList (val){
         console.log(this.filterList)
         this.filterList = val
+    },
+    putTbleList(){
+        this.$refs.mainTable.getTableList(this.filterList)
     }
   }
 }

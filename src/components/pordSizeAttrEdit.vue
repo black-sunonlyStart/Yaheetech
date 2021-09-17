@@ -732,7 +732,7 @@ export default {
     }
 }
 .tableText{
-    color:#409eff ;
+    color:#3366cc ;
     cursor: pointer;
     display: inline-block;
 }

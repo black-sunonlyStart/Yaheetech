@@ -591,12 +591,19 @@ export default {
         openRemarks () {
             this.$refs.remarks.openHandle()
         },
-       getAllpageList(){
+       getAllpageList(val){
           let params = {
-                developmentId:this.$route.params.developmentId,
-                productId:this.$route.params.productId,
-                productCountryId:this.$route.params.productCountryId,
+                developmentId:this.$route.params.developmentId?this.$route.params.developmentId:'',
+                productId:this.$route.params.productId?this.$route.params.productId:'',
+                productCountryId:this.$route.params.productCountryId?this.$route.params.productCountryId:'',
           }
+          if(val){
+                params = {
+                developmentId:val.developmentId?val.developmentId:'',
+                productId:val.productId?val.productId:'',
+                productCountryId:val.productCountryId?val.productCountryId:'',
+          }
+           }
            getProductDevDetail(params).then(res => {
                if(res.data){
                 this.allDetailPageDate = res.data
@@ -617,7 +624,7 @@ export default {
                 this.getDevProgresses(res.data.developmentProgresses)
                 //开发类型、详情数据
                 this.productVoDetail = {
-                    developmenttype:this.productVos.developmenttype,//开发类型
+                    developmenttype:this.productVos ? this.productVos.developmenttype :'',//开发类型
                     developmentscenarios:this.productVos.developmentscenarios,//开发场景
                     categoryname:res.data.development ? res.data.development.categoryname : '',//所属分类
                     spu:res.data.development.spu,//关联spu
@@ -702,9 +709,9 @@ export default {
                     priority :res.data.development.priority,//开发优先级
                     isanji:res.data.development.isanji,//是否安吉产品
                     ispatentproduct:res.data.development.ispatentproduct,//是否需要专利确认
-                    dutyrate1:dutyrate1 ? dutyrate1[0].Value : '',//是否需要专利确认
-                    dutyrate2:dutyrate2 ? dutyrate2[0].Value : '',
-                    dutyrate3:dutyrate3 ? dutyrate3[0].Value : '',
+                    dutyrate1:dutyrate1 && dutyrate1[0] ? dutyrate1[0].Value : '',//是否需要专利确认
+                    dutyrate2:dutyrate2  && dutyrate2[0]? dutyrate2[0].Value : '',
+                    dutyrate3:dutyrate3 && dutyrate3[0]? dutyrate3[0].Value : '',
                     orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName : [],//采购开发
                     businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : [],//业务开发
                     productCountryList:this.productVos.productCountryList ? this.productVos.productCountryList[0] : [],//业务开发
@@ -885,9 +892,9 @@ export default {
             })
         })
       },
-      editPage(val){
+      editPage(val,res){
           this.isEdit = val
-          this.getAllpageList()
+          this.getAllpageList(res)
       },
       updeEditPage(val){  
           this.isEdit1 = val
@@ -901,9 +908,10 @@ export default {
           this.isEdit3 = val
           this.getAllpageList()
       },
-      devInfoEdit(val){
+      devInfoEdit(val,res){
           this.isEdit4 = val
-          this.getAllpageList()
+          this.getAllpageList(res)
+
       },
       proInfoEdit(val){
           this.isEdit5 = val
@@ -1012,7 +1020,7 @@ export default {
           font-weight: normal;
       }
       .countryTitle{
-          color: #409eff;
+          color: #3366cc;
           display: inline-block;
           cursor: pointer;
       }
@@ -1106,12 +1114,12 @@ export default {
       .edit-position{
           float: right;
           margin-right:10px;
-          color: #409eff;
+          color: #3366cc;
           height: 20px;
           width: 55px;
           font-size: 14px;
           &:hover{
-              background-color: #409eff;
+              background-color: #3366cc;
               color: #ffffff;
               cursor: pointer;   
               text-align: center;

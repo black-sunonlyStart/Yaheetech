@@ -217,7 +217,7 @@ export default {
             exploitType(params).then(res => {
                 if(res.code == 200){
                     this.$message.success('保存成功')
-                    this.$emit('closeEdit','false')
+                    this.$emit('closeEdit','false',res.data)
                     this.$router.push({
                         name:'productDetails',
                         params:{
@@ -289,7 +289,7 @@ export default {
             //   width: 300px;
           }
           .signText{
-              color: #409eff ;
+              color: #3366cc ;
               margin-left: 10px;
             //   width: 300px;
             &:hover{

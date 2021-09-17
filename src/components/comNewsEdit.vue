@@ -475,7 +475,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .mainTitle{
-    color: #409EFF;
+    color: #3366cc;
     margin: 10px 0;
     display: inline-block;
     font-weight: bold;

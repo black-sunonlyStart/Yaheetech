@@ -1,6 +1,6 @@
 <template>
-    <span>
-        <el-button size="mini" @click="addProctList" type="primary" plain>开发产品</el-button>
+    <span class="navButton">
+        <el-button size="mini" @click="addProctList" type="primary" plain  icon="el-icon-circle-plus-outline">开发产品</el-button>
         <el-button size="mini" type="primary" plain>导出报表</el-button>
         <!-- <el-button size="mini" >更换业务开发</el-button> -->
         <el-dropdown trigger="hover" @command="handleCommand" size='mini' >
@@ -21,8 +21,8 @@
             </el-dropdown-menu>
         </el-dropdown>
         <el-button size="mini" type="primary" plain @click="putDataPass">资料初审通过</el-button>
-        <el-button size="mini" type="primary" plain>综审通过</el-button>
-        <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog" :row="row"></messageDialog>
+        <el-button size="mini" type="primary" plain>终审通过</el-button>
+        <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog" :selectRow="selectRow" @getTableList='getTableList'></messageDialog>
     </span>
 </template>
 <script>
@@ -46,12 +46,23 @@
             }
         },
         methods:{
+            getTableList(){
+                this.$emit('putTbleList')
+            },
             addProctList(){
-                this.$router.push({name:'productDetails'})
+            let routeData = this.$router.resolve({
+                name: "productDetails"
+    
+            });
+            window.open(routeData.href, '_blank');
             },
             handleCommand(val){
                 if( !this.selectRow || this.selectRow.length == 0 || this.selectRow.length == undefined){
-                    this.$message.error('请选择数据')
+                    this.$message({
+                        type: 'error', 
+                        message:'请选择数据',
+                        offset:220
+                    })
                     return
                 }
                 this.row = this.selectRow
@@ -64,7 +75,11 @@
             },
             changeOrderPer(){
                 if( !this.selectRow || this.selectRow.length == 0 || this.selectRow.length == undefined){
-                    this.$message.error('请选择数据')
+                    this.$message({
+                        type: 'error', 
+                        message:'请选择数据',
+                        offset:220
+                    })
                     return
                 }
                 this.row = this.selectRow
@@ -74,7 +89,11 @@
             },
             frozenCommand(val){
                  if( !this.selectRow || this.selectRow.length == 0 || this.selectRow.length == undefined){
-                    this.$message.error('请选择数据')
+                    this.$message({
+                        type: 'error', 
+                        message:'请选择数据',
+                        offset:220
+                    })
                     return
                 }
                 if(val){
@@ -86,12 +105,25 @@
                     }
                     unfreezing(params).then(res => {
                         if(res.code == 200){
-                            this.$message.success('数据解除冻结成功')
+                            this.$message({
+                                type: 'success', 
+                                message:'数据解除冻结成功',
+                                offset:220
+                            })
+                            this.$emit('putTbleList')
                         }
                     })
                 }
             },
             freezelist(){
+                if( !this.selectRow || this.selectRow.length == 0 || this.selectRow.length == undefined){
+                    this.$message({
+                        type: 'error', 
+                        message:'请选择数据',
+                        offset:220
+                    })
+                    return
+                }
                 let row = this.selectRow.map(res => {
                         return res.id
                     })
@@ -101,12 +133,17 @@
                     freezing(params).then(res => {
                         if(res.code == 200){
                             this.$message.success('数据冻结成功')
+                            this.$emit('putTbleList')
                         }
                     })
             },
             putDataPass(){
                 if( !this.selectRow || this.selectRow.length == 0 || this.selectRow.length == undefined){
-                    this.$message.error('请选择数据')
+                    this.$message({
+                        type: 'error', 
+                        message:'请选择数据',
+                        offset:220
+                    })
                     return
                 }
                 this.dialogName = '资料初审通过'
@@ -129,5 +166,13 @@
     
 </script>
 <style lang="scss" scoped>
-
+    .navButton{
+        .el-button{
+             font-weight: bold;
+             color: #ffffff;
+        }
+       .is-plain{
+           background: #3366cc;
+       }
+    }
 </style>

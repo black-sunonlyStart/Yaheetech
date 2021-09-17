@@ -195,12 +195,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 .productsTitle{
-    color: #409EFF;
+    color: #3366cc;
     font-weight: bold;
     margin-bottom: 15px;
 }
 .mainInofTitle{
-    color: #409EFF;
+    color: #3366cc;
     font-weight: bold;
     margin: 40px 0 10px 0;
 }

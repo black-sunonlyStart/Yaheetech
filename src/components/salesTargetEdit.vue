@@ -67,15 +67,18 @@
                     <el-form-item label="产品测样时间点:" prop="samplingTime">
                         <el-date-picker
                             v-model="ruleForm.samplingTime"
-                            type="date"
-                            placeholder="选择日期">
+                            type="datetime"
+                            placeholder="选择日期"
+                            default-time="12:00:00"
+                            >
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item label="产品下单时间点:" prop="orderTime">
                         <el-date-picker
                             v-model="ruleForm.orderTime"
-                            type="date"
-                            placeholder="选择日期">
+                            type="datetime"
+                            placeholder="选择日期"
+                            default-time="12:00:00">
                         </el-date-picker>
                     </el-form-item>
                 </el-col>
@@ -119,10 +122,10 @@ export default {
                 { required: true, message: '请填写价格', trigger: 'blur' }
             ],
             westaRating: [
-                { type: 'date', required: true, message: '请添加评分', trigger: 'blur' }
+                { required: true, message: '请添加评分', trigger: 'blur' }
             ],
             dailySales: [
-                { type: 'date', required: true, message: '请添加产品预估日销量', trigger: 'blur' }
+                {  required: true, message: '请添加产品预估日销量', trigger: 'blur' }
             ],
             rateRequirements: [
                 { required: true, message: '请添加返修率', trigger: 'blur' }

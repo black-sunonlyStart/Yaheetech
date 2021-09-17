@@ -1,11 +1,14 @@
 <template>
     <div>
         <el-dialog
-            :title="dialogName"
             :visible.sync="dialogVisible"
             width="30%"
             :modal='false'
+            class="dialogBox"
             >
+            <div class="titleText" slot="title">
+                {{this.dialogName}}
+            </div>
             <span v-if="clickId == 1" class="dialogText">说明:确定要把选择的产品提交给业务主管(经理)进行审批?</span>
             <span v-if="clickId == 2" class="dialogText">说明:确定要把选择的产品审批通过,让认证专员去完善认证需求?</span>
             <span v-if="clickId == 5" class="dialogText">说明:确定选择的产品资料已经正确,让采购主管审核?</span>
@@ -91,8 +94,8 @@
                 </div>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false">取 消</el-button>
-                <el-button type="primary" @click="submitList('ruleForm')">确 定</el-button>
+                <el-button @click="dialogVisible = false" size="mini">取 消</el-button>
+                <el-button type="primary" @click="submitList('ruleForm')" size="mini">确 定</el-button>
             </span>
         </el-dialog>
     </div>
@@ -258,9 +261,17 @@ export default {
             default:''
         },
         row:{
+            type:Object,
+            default:() => ({})
+        },
+        selectRow:{
             type:Array,
             default:() => ([])
-        }
+        },
+        navFilterList:{
+            type: Object,
+            default:() => ({})
+        },
     },
     mounted(){
         this.changeLabel()
@@ -329,9 +340,12 @@ export default {
             }else {
                 toState = this.row.state + 1
             }
-            let row = this.row.map(res => {
-                return res.id
-            })
+            let row = []
+            if(this.clickId == 2 || this.clickId == 6 || this.clickId ==20){
+                 row = this.selectRow.map(res => {
+                    return res.id
+                })
+            }
             let normalList = [1,5,7,10,11,15,16]
             if(normalList.includes(this.clickId)){
                 let params = {
@@ -342,8 +356,9 @@ export default {
                 approvalPass(params).then(res => {
                     if(res.code == 200){
                         this.$message.success('保存成功')
+                        this.$emit('getTableList',this.navFilterList)
                         this.dialogVisible = false
-                         this.$emit('getTableList')
+                         
                     }
                 })
             }
@@ -356,8 +371,9 @@ export default {
                 beginApprovalPass(params).then(res => {
                     if(res.code == 200){
                         this.$message.success('保存成功')
+                        this.$emit('getTableList',this.navFilterList)
                         this.dialogVisible = false
-                        this.$emit('getTableList')
+                        
                     }   
                 })
             }
@@ -371,8 +387,9 @@ export default {
                 loadToBack(params).then(res => {
                     if(res.code == 200){
                         this.$message.success('保存成功')
+                        this.$emit('getTableList',this.navFilterList)
                         this.dialogVisible = false
-                        this.$emit('getTableList')
+                        
                     }   
                 })
             }
@@ -385,8 +402,8 @@ export default {
                 updateResponsible(params).then(res => {
                     if(res.code == 200){
                         this.$message.success('保存成功')
-                        this.dialogVisible = false
-                        this.$emit('getTableList')
+                        this.$emit('getTableList',this.navFilterList)
+                        this.dialogVisible = false   
                     }  
                 })
             }
@@ -399,8 +416,8 @@ export default {
                 updateResponsible(params).then(res => {
                     if(res.code == 200){
                         this.$message.success('保存成功')
-                        this.dialogVisible = false
-                        this.$emit('getTableList')
+                         this.$emit('getTableList',this.navFilterList)
+                        this.dialogVisible = false  
                     }  
                 })
             }
@@ -419,5 +436,16 @@ export default {
 }
 .defText{
     margin-left: 102px;
+}
+.titleText{
+    width: 100%;
+    height: 30px;
+    font-weight: bold;
+    font-size: 16px;
+}
+::v-deep.dialogBox{
+    .el-dialog__header{
+        border-bottom: 1px solid #cccccc;
+    }
 }
 </style>

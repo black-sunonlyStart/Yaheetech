@@ -28,8 +28,8 @@
                 start-placeholder="开始日期"
                 end-placeholder="结束日期"
                 :picker-options="pickerOptions"
-                format="yyyy-MM-dd HH:mm:ss"
-                value-format="yyyy-MM-dd HH:mm:ss"
+                format="yyyy-MM-dd"
+                value-format="yyyy-MM-dd"
                 size='mini'>
             </el-date-picker>
           </el-form-item>
@@ -43,31 +43,36 @@
         </el-col>
         <el-col :xs="6" :sm="6" :md="6" :lg="4" :xl="6">
           <el-form-item>
-            <el-input placeholder="请输入内容"
-                      v-model="search"
-                      size='mini'
-                      class="input-with-select"
-                      @change="searchSomething"
-                      clearable
-                      >
-              <el-button slot="append"
-                         icon="el-icon-search"></el-button>
-            </el-input>
+            <div class="searchBox">
+                <el-input placeholder="综合搜索"
+                        v-model="putSearch"
+                        size='mini'
+                        class="input-with-select"
+                        clearable
+                        >
+                </el-input>
+                <el-button type="primary" size="mini" @click="searchSomething">搜索</el-button>
+            </div>
           </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="10">
           <el-form-item label="开发国家:">
-              <el-checkbox-group v-model="form.checkedCities"
-                                 @change="handleCheckedCitiesChange">
-                <el-checkbox 
-                    v-for="item in cities"
-                    :label="item.countryCodes"
-                    :key="item.countryCodes">
-                    {{item.country}}
-                </el-checkbox>
-              </el-checkbox-group>
+              <div class="checkBoxAll">
+                <el-checkbox class="checkboxAlltext" :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+                <el-checkbox-group 
+                class="chengboxMoreBox"
+                    v-model="form.checkedCities"
+                    @change="handleCheckedCitiesChange">
+                    <el-checkbox 
+                        v-for="item in cities"
+                        :label="item.countryCodes"
+                        :key="item.countryCodes">
+                        {{item.country}}
+                    </el-checkbox>
+                </el-checkbox-group>
+              </div>
           </el-form-item>
         </el-col>
         <el-col :span="14">
@@ -84,9 +89,9 @@
         <el-col :span="10">
           <el-form-item label="寻找供应商:">
             <el-radio-group v-model="form.suppliers" >
-              <el-radio style="width:52px" label="all">全部</el-radio>
+              <el-radio style="width:42px" label="all">全部</el-radio>
               <el-radio style="width:52px" label="1">已找过</el-radio>
-              <el-radio style="width:52px" label="0">未找过</el-radio>
+              <el-radio style="width:42px" label="0">未找过</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -104,9 +109,9 @@
         <el-col :span="10">
           <el-form-item label="是否需要认证:">
             <el-radio-group v-model="form.authentication" class="actionBox">
-              <el-radio style="width:52px" label="all">全部</el-radio>
+              <el-radio style="width:42px" label="all">全部</el-radio>
               <el-radio style="width:52px" label= 1>需要</el-radio>
-              <el-radio style="width:52px" label= 0>不需要</el-radio>
+              <el-radio style="width:42px" label= 0>不需要</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -128,33 +133,19 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="24">
-          <el-form-item label="开发状态:">
-            <el-checkbox-group v-model="form.status">
-              <el-checkbox label= '15'>全部</el-checkbox>
-              <el-checkbox label= '0'>未提交审批</el-checkbox>
-              <el-checkbox label= '1'>待审批</el-checkbox>
-              <el-checkbox label= '11'>认证确认</el-checkbox>
-              <el-checkbox label= '2'>寻找供应商</el-checkbox>
-              <el-checkbox label= '13'>采购主管审核</el-checkbox>
-              <el-checkbox label= '12'>认证审核</el-checkbox>
-              <el-checkbox label= '10'>样品采购审核</el-checkbox>
-              <el-checkbox label= '4'>确认样品</el-checkbox>
-              <el-checkbox label= '5'>利润复审</el-checkbox>
-              <el-checkbox label= '6'>终审</el-checkbox>
-            </el-checkbox-group>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="10">
-          <el-form-item>
-            <el-checkbox-group v-model="form.status">
-              <el-checkbox label= '7'>开发完未上架</el-checkbox>
-              <el-checkbox label= '8'>开发完已上架</el-checkbox>
-              <el-checkbox label= '9'>已取消</el-checkbox>
-              <el-checkbox label= '14'>已冻结</el-checkbox>
-            </el-checkbox-group>
+        <el-col :span="20">
+          <el-form-item label="开发状态:" class="statusBox">
+            <div class="checkBoxAll1">
+                <el-checkbox class="checkboxAlltext1" :indeterminate="isIndeterminate1" v-model="checkStatusAll" @change="handleStatusAllChange">全选</el-checkbox>
+                <el-checkbox-group class="chengboxMoreBox1" v-model="form.status" @change="handleCheckedStatusChange">
+                    <el-checkbox 
+                        v-for="item in statusList"
+                        :label="item.label"
+                        :key="item.key">
+                        {{item.name}}
+                    </el-checkbox>
+                </el-checkbox-group>
+            </div>
           </el-form-item>
         </el-col>
       </el-row>
@@ -162,26 +153,21 @@
   </div>
 
 </template>
-
 <script>
+const cityOptions = ['GB','US','DE','AU','NZ','JP'];
+const statusOptions = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14];
 export default {
-  name: 'navBar',
-
+  name: 'navBar',  
   data () {
     return {
-        checked:true,
+    checked:true,
     radio:'all',
     showTwoProd:false,
     newProd:false,
-    search: '',
+    putSearch: '',
     checkAll: false,
-    
-      cities: [
-        {
-            countryCodes:'15',
-            country:'全部'
-        },
-        {
+    checkStatusAll:false,
+    cities:[{
             countryCodes:'GB',
             country:'英国'
         },
@@ -204,9 +190,86 @@ export default {
         {
             countryCodes:'JP',
             country:'日本'
-        },
+        }],
+      statusList:[
+          {
+              name:'未提交审批',
+              label:0,
+              key:0
+          },
+          {
+              name:'待审批',
+              label:1,
+              key:1
+          },
+          {
+              name:'认证确认',
+              label:11,
+              key:11
+          },
+          {
+              name:'寻找供应商',
+              label:2,
+              key:2
+          },
+          {
+              name:'采购主管审核',
+              label:13,
+              key:13
+          },
+          {
+              name:'认证审核',
+              label:12,
+              key:12
+          },
+          {
+              name:'利润初审',
+              label:3,
+              key:3
+          },
+          {
+              name:'样品采购审核',
+              label:10,
+              key:10
+          },
+          {
+              name:'确认样品',
+              label:4,
+              key:4
+          },
+          {
+              name:'利润复审',
+              label:5,
+              key:5
+          },
+          {
+              name:'终审',
+              label:6,
+              key:6
+          },
+          {
+              name:'开发完未上架',
+              label:7,
+              key:7
+          },
+          {
+              name:'开发完已上架',
+              label:8,
+              key:8
+          },
+          {
+              name:'已取消',
+              label:9,
+              key:9
+          },
+          {
+              name:'已冻结',
+              label:14,
+              key:14
+          },
       ],
       isIndeterminate: true,
+      isIndeterminate1: true,
       dataOptions: [
         {
           label: '创建时间',
@@ -291,7 +354,7 @@ export default {
         authentication: 'all',
         patent: 'all',
         status: ['15'],
-        checkedCities:['15'],
+        checkedCities:[],
       },
       tableParams:{}
     }
@@ -303,7 +366,7 @@ export default {
       form:{
           handler:function(val){
                this.tableParams = {//传出的数据
-                    timeType:val.dateType,
+                    timeType:val.dateType == 0 ?0: val.dateType,
                     dateFrom:val.timeValue2 && val.timeValue2.length > 0 ? val.timeValue2[0]:'',
                     dateTo:val.timeValue2 && val.timeValue2.length > 0 ? val.timeValue2[1]:'',
                     countryCodes:this.changeCities(val.checkedCities),
@@ -325,12 +388,17 @@ export default {
   },
   methods: {
     changeMath(val){
-        if(val.length > 0 && val.includes('15')){
-            let index = val.indexOf('15');
-            val.splice(index, 1)
-            let newVal = val.map(Number)
+        if(val.length == 1 && val.includes('15')){
+            val = [0,1,2,3,4,5,6,10,11,12,13]
+            return val
+        }else if(val.length > 1 && val.includes('15')){
+            let copeIndex = JSON.parse(JSON.stringify(val))
+            let index = copeIndex.indexOf('15');
+            copeIndex.splice(index, 1)
+
+            let newVal = copeIndex.map(Number)
             return newVal
-        }else{
+        }else {
             let newVal = val.map(Number)
             return newVal
         }
@@ -370,10 +438,21 @@ export default {
       this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
     },
     searchSomething(val){
-        this.form.search = val
-        this.$set(this.form,'search',val)
-        console.log(this.form,'form')
-    }
+        this.$set(this.form,'search',this.putSearch)
+    },
+    handleCheckedStatusChange (value) {
+      let checkedCount = value.length;
+      this.checkStatusAll = checkedCount === this.statusList.length;
+      this.isIndeterminate1 = checkedCount > 0 && checkedCount < this.statusList.length;
+    },
+    handleCheckAllChange(val) {
+        this.form.checkedCities = val ? cityOptions : [];
+        this.isIndeterminate = false;
+      },
+      handleStatusAllChange(val){
+        this.form.status = val ? statusOptions : [];
+        this.isIndeterminate1 = false;
+      }
   }
 }
 </script>
@@ -391,7 +470,7 @@ export default {
       margin-top: 14px;
   }
   ::v-deep .el-form-item__label {
-    color: #409eff !important;
+    color: #3366cc !important;
     font-weight: bold;
   }
   ::v-deep .firstCreateStyle {
@@ -416,6 +495,41 @@ export default {
     .timeBox{
         width: 120px;
         margin-left: 30px;
+    }
+}
+.checkBoxAll{
+    display: flex;
+    .checkboxAlltext{
+        display: inline-block;
+        margin-right: 20px;
+    }
+    .chengboxMoreBox{
+        width: 500px;
+        display: inline-block;
+    }
+}
+.checkBoxAll1{
+    display: flex;
+    padding-top: 9px;
+    .checkboxAlltext1{
+        display: inline-block;
+        margin-right: 20px;
+    }
+    .chengboxMoreBox1{
+        width: 1350px;
+        display: inline-block;
+    }
+}
+::v-deep.statusBox{
+    .el-form-item__content{
+        line-height: 25px !important;
+    }
+}
+.searchBox{
+    display: flex;
+    .el-button{
+        height: 27px;
+        margin-top: 6px;
     }
 }
 </style>

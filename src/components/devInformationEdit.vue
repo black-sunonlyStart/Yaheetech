@@ -854,7 +854,15 @@ export default {
                         developmentMsg(params).then(res => {
                             if(res.code == 200){
                                 this.$message.success('保存成功')
-                                this.$emit('closeEdit','false')
+                                this.$router.push({
+                                    name:'productDetails',
+                                    params:{
+                                        developmentId:res.data.developmentId,
+                                        productId:res.data.productId,
+                                        productCountryId:res.data.productCountryId,
+                                    }
+                                })
+                                this.$emit('closeEdit','false',res.data)
                             }
                         })
                     } else {
@@ -926,7 +934,15 @@ export default {
                         developmentMsg(params).then(res => {
                             if(res.code == 200){
                                 this.$message.success('保存成功')
-                                this.$emit('closeEdit','false')
+                                this.$router.push({
+                                    name:'productDetails',
+                                    params:{
+                                        developmentId:res.data.developmentId,
+                                        productId:res.data.productId,
+                                        productCountryId:res.data.productCountryId,
+                                    }
+                                })
+                                this.$emit('closeEdit','false',res.data)
                             }
                         })
                    }

@@ -427,7 +427,7 @@ export default {
                 lastProductPurchaseVoList :this.purchaseInfoDetaiList.lastProductPurchaseVoList || [],
                 purchaseprice :this.purchaseInfoDetaiList.purchaseprice,
             }
-            this.$nextTick((res) => {
+            this.$nextTick(() => {
                 this.$refs.singleTable.toggleRowSelection(this.ruleForm.productPurchaseVoList[0])
             })
              
@@ -503,7 +503,7 @@ export default {
     justify-content: flex-end;
 }
 .tableText{
-    color:#409eff ;
+    color:#3366cc ;
     cursor: pointer;
 }
 .feeForOrderText{

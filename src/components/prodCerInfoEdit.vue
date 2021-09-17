@@ -532,7 +532,7 @@ export default {
     }
     .requireMentsBox{
         cursor: pointer;
-        color: #409Eff;
+        color: #3366cc;
         display: inline-block;
     }
     ::v-deep.el-checkbox {
@@ -550,7 +550,7 @@ export default {
                 margin-left: 10px;
                 line-height: 30px;
                 &:hover{
-                    color: #409Eff;
+                    color: #3366cc;
                 }
             }
         }

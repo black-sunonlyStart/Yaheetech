@@ -31,7 +31,7 @@
                 </el-image>
                 <el-image
                     slot="reference"
-                    style="width: 50px; height: 50px; dispaly:black"
+                    style="width: 60px; height: 60px; dispaly:black"
                     :key="scope.row.showImgUrl" 
                     :src="scope.row.showImgUrl" 
                     lazy
@@ -155,7 +155,7 @@
             >
         </el-pagination>
     </div>
-    <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog" @getTableList='getTableList' :row="row"></messageDialog>
+    <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog" @getTableList='getTableList' :row="row" :navFilterList='navFilterList'></messageDialog>
   </div>
 
 </template>
@@ -170,7 +170,7 @@ export default {
   },
   data () {
     return {
-      row:[],
+      row:{},
       dialogName:'',
       operationList:{},
       currentPage4: 1,
@@ -186,7 +186,7 @@ export default {
   props:{
       navFilterList:{
       type: Object,
-      required: true
+      default:() => ({})
     },
   },
   watch:{
@@ -481,26 +481,35 @@ export default {
           }
       },
       routerMove(devId,proId,procountryId){
-          this.$router.push({
-            name:'productDetails',
+        //   this.$router.push({
+        //     name:'productDetails',
+        //     params:{
+        //         developmentId:devId,
+        //         productId:proId,
+        //         productCountryId:procountryId,
+        //     }
+        //   })
+          let routeData = this.$router.resolve({
+            name: "productDetails",
             params:{
-                developmentId:devId,
-                productId:proId,
-                productCountryId:procountryId,
-            }
-          })
+                    developmentId:devId,
+                    productId:proId,
+                    productCountryId:procountryId,
+                }
+            });
+            window.open(routeData.href, '_blank');
       },
     getTableList(val){
         let params = {
             pageNum :this.pageNum,
             pageSize:this.pageSize,
-            timeType:val.dateType,
+            timeType:val.timeType == 0 ? 0 : val.timeType,
             dateFrom:val.dateFrom,
             dateTo:val.dateTo,
             countryCodes:val.countryCodes,
             seekEnd:val.seekEnd,
             auth:val.auth,
-            state:val.state,
+            state:val.state ? val.state:[0,1,2,3,4,5,6,10,11,12,13],
             productOwner:val.productOwner,
             scenariosParentIds:val.scenariosParentIds,
             sampleDelivery:val.sampleDelivery,
@@ -542,7 +551,7 @@ export default {
 <style lang="scss" scoped>
 
 .remarksTitle{
-    color: #409EFF;
+    color: #3366cc;
     cursor: pointer;
 }
 .pagePosition{
@@ -567,7 +576,7 @@ export default {
     width: 100px;
     .operationText{
         &:hover{
-            color: #409EFF;
+            color: #3366cc;
             cursor: pointer;
         }
     }
