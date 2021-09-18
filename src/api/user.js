@@ -75,6 +75,14 @@ export function getWarehouseByCountry(data) {
     })
   }
   //上传接口
+export function loadFile(data) {
+    return request({
+      url: '/productManage/loadFile',
+      method: "post", 
+      data
+    })
+  }
+  //竞品信息上传接口
 export function uploadFile(data) {
     return request({
       url: '/productManage/uploadFile',

@@ -71,7 +71,7 @@
         <template slot-scope="scope">
             <div v-for="item in scope.row.productMarketStrs" :key="item.platformName">
                 <div style="font-weight:bold">{{item.platformName}}:</div>
-                <div>{{item.currency}} {{item.developmentPrice}}/
+                <div>{{item.currency}} {{item.developmentPrice.toFixed(2)}}/
                     <el-tooltip :content="rows.warehouseName" effect="dark" placement="top"  v-for="rows in item.marketProfits " :key="rows.warehouseId">
                         <span :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin + '%' + '/'}}</span>
                     </el-tooltip>
@@ -80,7 +80,7 @@
         </template>
       </el-table-column>
       <el-table-column 
-            label="产品尺寸/属性"
+            label="产品尺寸 / 属性"
             show-overflow-tooltip
             width="120px"
         >
@@ -93,7 +93,9 @@
       <el-table-column 
             prop="categoryName"
             label="产品分类"
-            show-overflow-tooltip>
+            show-overflow-tooltip
+            width="300px"
+            >
       </el-table-column>
       <el-table-column 
             prop="stateName"
@@ -103,7 +105,7 @@
         >
       </el-table-column>
       <el-table-column 
-            label="业务/采购"
+            label="业务 / 采购"
             show-overflow-tooltip
             width="120px" >
             <template slot-scope="scope">
@@ -115,14 +117,15 @@
         label="创建/更新时间"
         show-overflow-tooltip>
             <template slot-scope="scope">
-                <div>{{$moment(scope.row.createdOn).format("YYYY-MM-DD HH:mm:ss")}}</div>
-                <div>{{$moment(scope.row.modifyOn).format("YYYY-MM-DD HH:mm:ss")}}</div>
+                <div>{{$moment(scope.row.createdOn).format("YYYY-MM-DD HH:mm")}}</div>
+                <div>{{$moment(scope.row.modifyOn).format("YYYY-MM-DD HH:mm")}}</div>
+                <div :class="scope.row.priority == 0? 'priorityStyle':'smallPriorityStyle'">{{getPriority(scope.row.priority)}}</div>
             </template>
       </el-table-column>
       <el-table-column 
         label="操作"
         show-overflow-tooltip
-        width="150px"
+        width="100px"
         >
         <template slot-scope="scope">
             <div class="operaBox">
@@ -208,6 +211,15 @@ export default {
       this.getTableList(this.navFilterList)
   },
   methods: {
+      getPriority(val){
+          if(val == 0){
+              return '高优先级'
+          }else if(val == 1){
+              return '中优先级'
+          }else{
+              return '低优先级'
+          }
+      },
       clickEdit(devId,proId,procountryId){
           this.$router.push({
             name:'productDetails',
@@ -481,14 +493,6 @@ export default {
           }
       },
       routerMove(devId,proId,procountryId){
-        //   this.$router.push({
-        //     name:'productDetails',
-        //     params:{
-        //         developmentId:devId,
-        //         productId:proId,
-        //         productCountryId:procountryId,
-        //     }
-        //   })
           let routeData = this.$router.resolve({
             name: "productDetails",
             params:{
@@ -522,9 +526,9 @@ export default {
                     item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentId}/${item.imagesUri}`
                 });
               }
-            this.currentPage4 = res.data.pageNum
-            this.tableData = res.data.rows
-            this.total = res.data.records
+            this.currentPage4 = res.data && res.data.pageNum ? res.data.pageNum : 0
+            this.tableData = res.data && res.data.rows ? res.data.rows : []
+            this.total = res.data && res.data.rows ? res.data.records : 0
         
         })
         
@@ -606,6 +610,12 @@ export default {
     .cell{
             line-height: 18px !important;
         }
+}
+.priorityStyle{
+    color: red;
+}
+.smallPriorityStyle{
+    color: #cccccc;
 }
 
 </style>

@@ -636,13 +636,17 @@ export default {
                 })
                 if(this.productImgDetail.length > 0){
                     this.productImgDetail.forEach(item => {
-                        item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentid}/${item.fileuri}`
+                        item.showImgUrl = `${process.env.VUE_APP_NEWIMAGE_API}/${item.fileuri}`
                     })
                 }
                 
                this.imageList = this.productImgDetail.map(item => {
-                   return item.showImgUrl
+                   return {
+                            showImgUrl:item.showImgUrl,
+                            id:item.id
+                        }
                })
+               console.log(this.imageList,'imageList')
                 //销售目标数据 
                 this.salesTargetDetaiList = {
                     xsstarrating : this.productVos.xsstarrating, //产品星级评分
@@ -712,8 +716,8 @@ export default {
                     dutyrate1:dutyrate1 && dutyrate1[0] ? dutyrate1[0].Value : '',//是否需要专利确认
                     dutyrate2:dutyrate2  && dutyrate2[0]? dutyrate2[0].Value : '',
                     dutyrate3:dutyrate3 && dutyrate3[0]? dutyrate3[0].Value : '',
-                    orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName : [],//采购开发
-                    businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : [],//业务开发
+                    orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName : '',//采购开发
+                    businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//业务开发
                     productCountryList:this.productVos.productCountryList ? this.productVos.productCountryList[0] : [],//业务开发
                     computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],//业务开发
                     productMarketList: this.productVos.productCountryList &&  this.productVos.productCountryList[0] ?  this.productVos.productCountryList[0].productMarketList : [],//表格数据
@@ -897,8 +901,13 @@ export default {
           this.getAllpageList(res)
       },
       updeEditPage(val){  
-          this.isEdit1 = val
-        this.getAllpageList()
+          if(val){
+            this.isEdit1 = val
+            this.getAllpageList()
+          }else {
+            this.getAllpageList()
+          }
+          
       },
       salesEditPage(val){  
           this.isEdit2 = val
@@ -918,8 +927,12 @@ export default {
           this.getAllpageList()
       },
       prodevInfoEdit(val){
-          this.isEdit6 = val
-          this.getAllpageList()
+          if(val){
+            this.isEdit6 = val
+            this.getAllpageList()
+          }else {
+            this.getAllpageList()
+          }
       },
       closeProdevAttr(val){
           this.isEdit7 = val

@@ -237,7 +237,7 @@
                 <el-form :model="item" :rules="wareHouseRules" ref="ruleForm2" label-width="200px" class="demo-ruleForm" size="mini">
                     <el-form-item label="产品开发价:" prop="developmentprice" >
                         <div class="inputBox"> 
-                            <span class="inputUnit">GPB</span>
+                            <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                             <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.developmentprice" @change="changeDevelopmentprice"></el-input-number>  
                         </div>
                         <el-button  v-if="item.vatfee">计算利润</el-button>
@@ -245,37 +245,37 @@
                     <div v-if="item.vatfee">
                         <el-form-item label="SFP开发价:" prop="sfpDevelopmentPrice">
                             <div class="inputBox"> 
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.sfpDevelopmentPrice"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="SFP运费:" prop="sfpOceanFreight">
                             <div class="inputBox"> 
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.sfpOceanFreight"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="发货包装费:" prop="packagingfee">
                             <div class="inputBox">
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.packagingfee"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="本地化费用:" prop="localizationfee">
                             <div class="inputBox">
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.localizationfee"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="PI:" prop="piprice">
                             <div class="inputBox"> 
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.piprice"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="空/海运费:" >
                             <div class="inputBox">
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.SFProductPrice"></el-input-number>
                             </div>
                             <el-select 
@@ -292,73 +292,73 @@
                         </el-form-item>
                         <el-form-item label="港前费用:" prop="inlandportcosts">
                             <div class="inputBox">
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.inlandportcosts"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="目的地港费用:" prop="outlandportcosts">
                             <div class="inputBox">
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.outlandportcosts"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="进口DUTY费:" prop="duty">
                             <div class="inputBox">
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.duty"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="VAT费:" prop="vatfee">
                             <div class="inputBox">
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.vatfee"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="销售VAT费:" prop="salesvat">
                             <div class="inputBox">
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.salesvat"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="操作费:" prop="handlingfee">
                             <div class="inputBox">
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.handlingfee"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="本土运费:" prop="freight">
                             <div class="inputBox">
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.freight"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="成交费:" prop="platformfee">
                             <div class="inputBox">
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.platformfee"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="PayPal Fee:" prop="paypalprice">
                             <div class="inputBox">
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.paypalprice"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="刊登Fee:" prop="listingfee">
                             <div class="inputBox">
-                            <span class="inputUnit">GPB</span>
+                            <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.listingfee"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="退回进口VAT费:" prop="vatfee">
                             <div class="inputBox">
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.vatfee"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="退回快递费VAT:" prop="localshippingfeevat">
                             <div class="inputBox">
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.localshippingfeevat"></el-input-number>
                             </div>
                         </el-form-item>
@@ -371,19 +371,19 @@
                         </el-form-item>
                         <el-form-item label="汇率:" prop="exchangerate">
                             <div class="inputBox">
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.exchangerate"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="VAT费率:" prop="vatrate">
                             <div class="inputBox">
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.vatrate"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="DUTY税率:" prop="dutyrate">
                             <div class="inputBox">
-                                <span class="inputUnit">GPB</span>
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.dutyrate"></el-input-number>
                             </div>
                         </el-form-item>
@@ -449,7 +449,7 @@ export default {
                 isbrand:'',
                 titleDe:'',
                 titleJp:'',
-                ispatentproduct:'',
+                ispatentproduct:1,
                 seaFreight:'',
                 productMarketUS: '',
                 productMarketGB: '',
@@ -669,6 +669,9 @@ export default {
             }
         }
     },
+    computed:{
+        
+    },
     props:{
         devInformationDetaiList:{
             type:Object,
@@ -680,6 +683,17 @@ export default {
         this.getTypeList()
     },
     methods:{
+        contryCurry(val){
+            if(val == 'US'){
+                return 'USD'
+            }else if(val == 'GB'){
+                return 'GBP'
+            }else if(val == 'DE'){
+                return 'EUR'
+            }else if(val == 'AU'){
+                return 'AUD'
+            }
+        },
         delProductMarketList(i){
             this.devInformationDetaiList.productMarketList.splice(i,1)
         },
@@ -753,7 +767,7 @@ export default {
                 isbrand:this.devInformationDetaiList.ispatentproduct,
                 titleDe:this.devInformationDetaiList.titleDe,
                 titleJp:this.devInformationDetaiList.titleJp,
-                ispatentproduct:this.devInformationDetaiList.ispatentproduct,
+                ispatentproduct:this.devInformationDetaiList.ispatentproduct || 1,
                 seaFreight:this.devInformationDetaiList.computemode?0:1,
                 brandEu:0,
                 brandUs:0,

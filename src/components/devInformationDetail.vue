@@ -5,7 +5,7 @@
                 产品中文概述:<span>{{devInformationDetaiList.description}}</span>
             </el-col>
             <el-col :span="10">
-                业务开发:<span>{{devInformationDetaiList.businessProduct}}</span>
+                业务开发:<span>{{devInformationDetaiList.businessProduct ?devInformationDetaiList.businessProduct:'' }}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
@@ -13,7 +13,7 @@
                 英文标题:<span>{{devInformationDetaiList.title}}</span>
             </el-col>
             <el-col :span="10">
-                采购开发:<span>{{devInformationDetaiList.orderProduct}}</span>
+                采购开发:<span>{{devInformationDetaiList.orderProduct ? devInformationDetaiList.orderProduct:'' }}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
@@ -45,12 +45,12 @@
                 开发优先级:<span>{{changPriority(devInformationDetaiList.priority) }}</span>
             </el-col>
             <el-col :span="10">
-                是否安吉产品:<span>{{devInformationDetaiList.isanji && devInformationDetaiList.isanji == 1 ? '是':'否' }}</span>
+                是否安吉产品:<span>{{devInformationDetaiList.isanji && devInformationDetaiList.isanji == 1 ? '是':devInformationDetaiList.isanji && devInformationDetaiList.isanji == 0?'否':'' }}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >
             <el-col :span="10">
-                是否需要专利确认:<span>{{devInformationDetaiList.isanji && devInformationDetaiList.ispatentproduct == 1 ? '是':'否' }}</span>
+                是否需要专利确认:<span>{{devInformationDetaiList.ispatentproduct && devInformationDetaiList.ispatentproduct == 0 ? '否':'是' }}</span>
             </el-col>
         </el-row>
         <el-row v-for="item in devInformationDetaiList.productMarketList" :key="item.id">
@@ -80,15 +80,15 @@
                         width="200px"
                         >
                         <template slot-scope="scope">
-                            <div :class="scope.row.profit >= 0 ? 'textColor':'noColor'">{{scope.row.profit ?scope.row.profit:0 }}%/{{scope.row.profitmargin ? scope.row.profitmargin*100 :0}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
-                            <div :class="scope.row.profit >= 0 ? 'textColor':'noColor'">{{scope.row.endprofit ? scope.row.endprofit :0}}%/{{scope.row.endprofitmargin ? scope.row.endprofitmargin*100 :0}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div :class="scope.row.profit >= 0 ? 'textColor':'noColor'">{{scope.row.profit ?scope.row.profit:0 }}%/{{scope.row.profitmargin ? scope.row.profitmargin*100 :0}} {{   contryCurry(scope.row.countrycode)}}</div>
+                            <div :class="scope.row.profit >= 0 ? 'textColor':'noColor'">{{scope.row.endprofit ? scope.row.endprofit :0}}%/{{scope.row.endprofitmargin ? scope.row.endprofitmargin*100 :0}} {{   contryCurry(scope.row.countrycode)}}</div>
                         </template>
                     </el-table-column>
                     <el-table-column
                         label="运费">
                         <template slot-scope="scope">
-                            <div v-if="scope.row.freightway == 1">{{scope.row.inlandportcosts+scope.row.oceanfreight+scope.row.outlandportcosts}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
-                            <div v-if="scope.row.freightway == 2">{{scope.row.oceanfreight}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div v-if="scope.row.freightway == 1">{{scope.row.inlandportcosts+scope.row.oceanfreight+scope.row.outlandportcosts}} {{   contryCurry(scope.row.countrycode)}}</div>
+                            <div v-if="scope.row.freightway == 2">{{scope.row.oceanfreight}} {{   contryCurry(scope.row.countrycode)}}</div>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -98,41 +98,41 @@
                     <el-table-column
                         label="海运费成本">
                         <template slot-scope="scope">
-                            <div>港 {{' '}} 前:{{scope.row.inlandportcosts}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
-                            <div>海运:{{scope.row.oceanfreight}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
-                            <div>目的港:{{scope.row.outlandportcosts}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div>港 {{' '}} 前:{{scope.row.inlandportcosts}} {{   contryCurry(scope.row.countrycode)}}</div>
+                            <div>海运:{{scope.row.oceanfreight}} {{   contryCurry(scope.row.countrycode)}}</div>
+                            <div>目的港:{{scope.row.outlandportcosts}} {{   contryCurry(scope.row.countrycode)}}</div>
                         </template>
                     </el-table-column>
                     <el-table-column
                         label="税费">
                         <template slot-scope="scope">
-                            <div>进口DUTY:{{scope.row.duty}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
-                            <div>进口VAT:{{scope.row.vatfee}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
-                            <div>销售VAT:{{scope.row.salesvat}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div>进口DUTY:{{scope.row.duty}} {{   contryCurry(scope.row.countrycode)}}</div>
+                            <div>进口VAT:{{scope.row.vatfee}} {{   contryCurry(scope.row.countrycode)}}</div>
+                            <div>销售VAT:{{scope.row.salesvat}} {{   contryCurry(scope.row.countrycode)}}</div>
                         </template>
                     </el-table-column>
                     <el-table-column
                         label="平台费">
                         <template slot-scope="scope">
-                            <div>成交费:{{scope.row.platformfee}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
-                            <div>PayPal:{{scope.row.paypalprice}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
-                            <div>刊登费:{{scope.row.listingfee}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>  
+                            <div>成交费:{{scope.row.platformfee}} {{   contryCurry(scope.row.countrycode)}}</div>
+                            <div>PayPal:{{scope.row.paypalprice}} {{   contryCurry(scope.row.countrycode)}}</div>
+                            <div>刊登费:{{scope.row.listingfee}} {{   contryCurry(scope.row.countrycode)}}</div>  
                         </template>
                     </el-table-column>
                     <el-table-column
                         label="海外仓成本">
                         <template slot-scope="scope">                          
-                            <div>操作费:{{scope.row.handlingfee}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
-                            <div>发货包装:{{scope.row.packagingfee}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
-                            <div>本地化费:{{scope.row.localizationfee}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>   
+                            <div>操作费:{{scope.row.handlingfee}} {{   contryCurry(scope.row.countrycode)}}</div>
+                            <div>发货包装:{{scope.row.packagingfee}} {{   contryCurry(scope.row.countrycode)}}</div>
+                            <div>本地化费:{{scope.row.localizationfee}} {{   contryCurry(scope.row.countrycode)}}</div>   
                         </template>
                     </el-table-column>
                     <el-table-column
                         prop="developmentprice"
                         label="可抵扣税费">
                         <template slot-scope="scope">
-                            <div>进口VAT:{{scope.row.vatfee}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
-                            <div>快递VAT:{{scope.row.localshippingfeevat}}{{scope.row.countrycode == 'GB' ? 'GBP': scope.row.countrycode == 'US'? '$' : '￥'}}</div>
+                            <div>进口VAT:{{scope.row.vatfee}} {{   contryCurry(scope.row.countrycode)}}</div>
+                            <div>快递VAT:{{scope.row.localshippingfeevat}} {{   contryCurry(scope.row.countrycode)}}</div>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -184,6 +184,17 @@ export default {
         //         })
         //     }
         // }
+        contryCurry(val){
+            if(val == 'US'){
+                return 'USD'
+            }else if(val == 'GB'){
+                return 'GBP'
+            }else if(val == 'DE'){
+                return 'EUR'
+            }else if(val == 'AU'){
+                return 'AUD'
+            }
+        },
         changPriority(val){
             if(typeof(val) == 'number'){
                 let newVal = this.devSign.filter(res => {

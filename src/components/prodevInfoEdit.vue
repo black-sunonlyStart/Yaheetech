@@ -66,15 +66,14 @@
                             class="upload-demo"
                             :action='action'
                             :on-preview="handlePreview"
-                            :on-remove="handleRemove"
                             :before-remove="beforeRemove"
                             multiple
                             :limit="3"
                             :on-exceed="handleExceed"
                             :file-list="ruleForm.fileList"
-                            :data="fileType"
+                            :data="{fileType:3,developmentId:$route.params.developmentId}"
                             :with-credentials='true'
-
+                            :on-remove='removeMustFile'
                             >
                             <el-button size="small" type="primary" style="margin-right:15px">选择文件</el-button>
                                 <el-select 
@@ -105,7 +104,7 @@
                             multiple
                             :limit="3"
                             :on-exceed="handleExceed"
-                            :data="fileType"
+                            :data="{fileType:2,developmentId:$route.params.developmentId}"
                             :with-credentials='true'
                             :file-list="ruleForm.recommendFileList">
                             <el-button size="small" type="primary" style="margin-right:15px">选择文件</el-button>
@@ -146,8 +145,8 @@
                             :on-exceed="handleExceed"
                             list-type="picture-card"
                             :with-credentials='true'
-                            :data="{fileType:102}"
-                            :file-list="ruleForm.recommendFileList">
+                            :data="{fileType:1,developmentId:$route.params.developmentId}"
+                            :file-list="ruleForm.factoryGaveImage">
                             <i class="el-icon-plus"></i>
                                 <!-- <el-button size="small" type="primary" style="margin-right:15px">选择本地图片</el-button>
                                 <el-button size="small" type="primary" style="margin-right:15px">清空图片</el-button> -->
@@ -163,14 +162,14 @@
     </div>
 </template>
 <script>
-import { getAdministrativeRegion,purchaseManager } from '@/api/user.js'
+import { getAdministrativeRegion,purchaseManager,loadFile } from '@/api/user.js'
 import { upload_file } from '@/utils/files'
 export default {
     name:'prodevInfoEdit',
     data(){
         return {
             fileType:{
-                fileType:104
+                fileType:2
             },
             action:upload_file,
             provinceList:[],
@@ -185,12 +184,10 @@ export default {
                 productMarket:'',
                 certificationRemarks:'',
                 fileList:[
-                    {name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, 
-                    {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}
+                  
                     ],
                 recommendFileList:[
-                    {name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, 
-                    {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}
+               
                 ],
 
 
@@ -242,7 +239,7 @@ export default {
             }
             getAdministrativeRegion(params).then(res => {
                 this.provinceList = res.data
-                this.ruleForm.supplierLocation = this.prodevInfoDetaiList.provincecode.toString()
+                this.ruleForm.supplierLocation = this.prodevInfoDetaiList.provincecode ? this.prodevInfoDetaiList.provincecode.toString() :''
             })
             if(this.prodevInfoDetaiList.provincecode){
                 getAdministrativeRegion({parentId:this.prodevInfoDetaiList.provincecode}).then(res => {
@@ -283,18 +280,34 @@ export default {
             this.ruleForm = {
                     chineseTitle:this.prodevInfoDetaiList.title,
                     chineseDescription:this.prodevInfoDetaiList.description,
-                    supplierLocation:this.prodevInfoDetaiList.provincecode,
-                    supplierLocation1:this.prodevInfoDetaiList.citycode,
-                    supplierLocation2:this.prodevInfoDetaiList.areacode,
-                    // productMarket:'',
+                    supplierLocation:this.prodevInfoDetaiList.provincecode ?this.prodevInfoDetaiList.provincecode:'',
+                    supplierLocation1:this.prodevInfoDetaiList.citycode?this.prodevInfoDetaiList.citycode:'',
+                    supplierLocation2:this.prodevInfoDetaiList.areacode?this.prodevInfoDetaiList.areacode:'',
                     certificationRemarks:this.prodevInfoDetaiList.certificationnote,
-                    // fileList:[],
-                    // recommendFileList:[]
+                    fileList:this.prodevInfoDetaiList.mustCredentialList,
+                    factoryGaveImage:this.prodevInfoDetaiList.factoryGaveImage,
+                    recommendFileList:this.prodevInfoDetaiList.recommendCredentialList,//推荐认证附件
+                
 
             }
         },
         handleRemove(file, fileList) {
             console.log(file, fileList);
+        },
+        removeMustFile(file, fileList){
+            console.log(file, fileList);
+            let params = {
+                fileType:3,
+                developmentId:this.$route.params.developmentId,
+                datta:file.id,
+                file:file
+            }
+            loadFile(params).then(res => {
+                if(res.code == 200){
+                   this.$emit('closeEdit')
+                }
+            })
+
         },
         handlePreview(file) {
             //文件点击事件

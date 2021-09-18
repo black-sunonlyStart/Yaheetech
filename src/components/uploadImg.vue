@@ -18,8 +18,8 @@
         class="draggable-item"
         :style="{ width: width + 'px', height: height + 'px' }"
       >
-        <el-image :src="item" :preview-src-list="[item]"></el-image>
-        <div class="shadow" @click="onRemoveHandler(index)">
+        <el-image :src="item.showImgUrl" :preview-src-list="[item]"></el-image>
+        <div class="shadow" @click="onRemoveHandler(item,index)">
           <i class="el-icon-delete"></i>
         </div>
       </li>
@@ -49,7 +49,6 @@
         :show-file-list="false"
         :multiple="!isSingle"
         :limit="limit"
-        :before-upload="beforeUpload"
         :on-success="onSuccessUpload"
         :on-exceed="onExceed"
         :data="fileType"
@@ -81,13 +80,12 @@
 <script>
 import vuedraggable from 'vuedraggable'
 // import { getToken } from '@/utils/auth' // 获取token，
-import { validImgUpload } from '@/utils/validate'
-import lrz from 'lrz' // 前端图片压缩插件
+// import { validImgUpload } from '@/utils/validate'
+// import lrz from 'lrz' // 前端图片压缩插件
 import tools from '@/utils/tools'
-import {uploadFile} from '@/api/user.js'
+import {loadFile} from '@/api/user.js'
 export default {
   name: 'ImgUpload',
-
   props: {
     // 图片数据(图片url组成的数组) 通过v-model传递
     value: {
@@ -142,16 +140,14 @@ export default {
     //   headers: { token: getToken() },
       isUploading: false, // 正在上传状态
       isFirstMount: true ,// 控制防止重复回显
-      fileType:{
-          fileType:102
-      }
+      fileType:{},
 
     }
   },
 
   computed: {
       action(){
-          return `${process.env.VUE_APP_DEVSERVER}/productManage/uploadFile`
+          return `${process.env.VUE_APP_DEVSERVER}/productManage/loadFile`
       },
     // 图片数组数据
     imgList: {
@@ -185,15 +181,30 @@ export default {
   },
 
   mounted () {
+    this.fileType = {
+          fileType:4,
+          developmentId:this.$route.params.developmentId
+      }
     if (this.value.length > 0) {
       this.syncElUpload()
     }
   },
 
   methods: {
-    // submitUpload() {
-    //     this.$refs.uploadRef.submit();
-    // },
+    //   removeMustFile(file, fileList){
+    //         console.log(file, fileList);
+    //         let params = {
+    //             fileType:1,
+    //             developmentId:this.$route.params.developmentId,
+    //             datta:file.id,
+    //         }
+    //         loadFile(params).then(res => {
+    //             if(res.code == 200){
+    //                this.$emit('closeEdit')
+    //             }
+    //         })
+
+    //     },
     handleChange(file, fileList) {
       this.fileList = fileList;
       console.log(fileList,'fileList')
@@ -204,85 +215,26 @@ export default {
       const imgList = val || this.imgList
       this.$refs.uploadRef.uploadFiles = imgList.map((v, i) => {
         return {
+          id:v.id,
           name: 'pic' + i,
-          url: v,
+          url: v.imageList,
           status: 'success',
           uid: tools.createUniqueString()
         }
       })
-      console.log(this.$refs.uploadRef.uploadFiles,'this.$refs.uploadRef.uploadFiles')
       this.isFirstMount = false
     },
     // 上传图片之前
     beforeUpload (file) {
-      this.isFirstMount = false
-    //   if (this.useCompress) {
-    //     // 图片压缩
-    //     return new Promise((resolve, reject) => {
-    //       lrz(file, { width: 1920 }).then((rst) => {
-    //         file = rst.file
-    //       }).always(() => {
-    //         if (validImgUpload(file, this.size)) {
-    //           this.isUploading = true
-    //           resolve()
-    //         } else {
-    //           reject(new Error())
-    //         }
-    //       })
-    //     })
-    //   } else {
-    //     if (validImgUpload(file, this.size)) {
-    //       this.isUploading = true
-    //       return true
-    //     } else {
-    //       return false
-    //     }
-    //   }
-
-    // this.imgname =  file.name;
-    // const isLt2M = file.size / 1024 / 1024 < 2;
-    //     if (!isLt2M) {
-    // this.$message.error('上传图片大小不能超过 2MB!');
-    // }
-    // else{
-        console.log(file);
-        //创建临时的路径来展示图片
-        // var windowURL = window.URL || window.webkitURL; 
-        // this.imageUrl=windowURL.createObjectURL(file);
-        this.param = new FormData();
-        this.param.append('files', file);
-        //下面append的东西就会到form表单数据的fields中；
-        this.param.append('fileType', 102);
-    // }
-    // return false;
-
+        this.isFirstMount = false
     },
-    httprequest() {
-        var that=this;
-        let config = {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }; 
-        uploadFile(this.param, config).then(function(res) { 
-            if(res.code == 200){ //本项目中判断接口返回code
-                    that.$message.success("上传成功");
-                    let showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${this.$route.params.developmentid}/${res.data[0]}`
-                    that.imgList.push(showImgUrl) 
-                }else{
-                    this.$message.error(res.data.invokeResultMessage);
-                }
-            }).catch((res) => { 
-                this.$message.error('请稍候重试或联系管理员');
-        })
-    },
-
     // 上传完单张图片
     onSuccessUpload (res, file, fileList) {
       // 这里需要根据你自己的接口返回数据格式和层级来自行修改
       if (res) {
+          this.$message({ type: 'success', message: '上传成功' })
         if (this.imgList.length < this.limit) {
-            this.imgList.push(res.files.file)
+           this.$emit('closeEdit')
         }
       } else {
         this.syncElUpload()
@@ -291,16 +243,29 @@ export default {
       this.isUploading = false
     },
     // 移除单张图片
-    onRemoveHandler (index) {
+    onRemoveHandler (item) {
       this.$confirm('确定删除该图片?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       })
         .then(() => {
-          this.imgList = this.imgList.filter((v, i) => {
-            return i !== index
-          })
+            let param = new FormData();
+            param.append('developmentId', this.$route.params.developmentId);
+            param.append('fileType', 1);
+            param.append('datta', item.id);
+            let config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            }; 
+            console.log(param,'this.param')
+            loadFile(param,config).then(res => {
+                if(res.code == 200){
+                   this.$emit('closeEdit')
+                }
+            })
+          
         })
         .catch(() => {})
     },
@@ -324,6 +289,7 @@ export default {
     },
     saveImgList(){
         this.$emit('inputImg', this.imgList)
+        this.$emit('closeEdit','false')
     }
   },
 

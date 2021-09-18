@@ -79,7 +79,7 @@
                 </el-row>
             </div>
             <div class="addBottomButton">
-                    <el-button type="primary" @click="addPageList" size="mini">添加竞品</el-button>
+                <el-button type="primary" @click="addPageList" size="mini" style="margin-right:140px">添加竞品</el-button>
             </div>
         </div>
             <span class="mainTitle">
@@ -219,7 +219,7 @@ export default {
             ],
             action:upload_file,
             fileType:{
-                fileType:102
+                fileType:103
             },
             pageImageIndex:'',
             ruleForm:{
@@ -326,22 +326,6 @@ export default {
             default:() => {}
         }
     },
-    // computed:{
-    //     platformsList(index){
-    //         return this.comNewsDetailList.competingproducts[index].platforms
-    //     }
-    // },
-    // watch:{
-    //     platformsList:{
-    //         handler:function(val){
-    //           if(val){
-    //             this.getTableList(val)
-    //           }
-    //       },
-    //       deep:true
-    //     }
-        
-    // },
     mounted(){
         this.getDetailPage()
     },
@@ -356,7 +340,16 @@ export default {
             }
             getPlatformSiteByPlatformName(params).then(res => {
                 this.$nextTick(() => {
-                    this.comNewsDetailList.competingproducts[index].platforms = res.data
+                    this.$set(this.comNewsDetailList.competingproducts[index],'platforms',res.data)
+                    this.$set(this.comNewsDetailList.competingproducts[index],'name',this.comNewsDetailList.competingproducts[index].name)
+                    this.$set(this.comNewsDetailList.competingproducts[index],'url',this.comNewsDetailList.competingproducts[index].url)
+                    this.$set(this.comNewsDetailList.competingproducts[index],'pictureuri',this.comNewsDetailList.competingproducts[index].pictureuri)
+                    this.$set(this.comNewsDetailList.competingproducts[index],'id',this.comNewsDetailList.competingproducts[index].id)
+                    this.$set(this.comNewsDetailList.competingproducts[index],'platformid',this.comNewsDetailList.competingproducts[index].platformid)
+                    this.$set(this.comNewsDetailList.competingproducts[index],'xsin',this.comNewsDetailList.competingproducts[index].xsin)
+                    this.$set(this.comNewsDetailList.competingproducts[index],'price',this.comNewsDetailList.competingproducts[index].price)
+                    this.$set(this.comNewsDetailList.competingproducts[index],'recentsalesvolume',this.comNewsDetailList.competingproducts[index].recentsalesvolume)
+                    this.$set(this.comNewsDetailList.competingproducts[index],'note',this.comNewsDetailList.competingproducts[index].note)
                 })     
             })
         },
@@ -427,7 +420,7 @@ export default {
             }
              params.competingproducts = this.comNewsDetailList.competingproducts.map(res => {
                  return {
-                     id:res.id,
+                     id:res.id || null,
                      platformid:res.platformid,
                      platformsiteid:res.platformsiteid,
                      xsin:res.xsin,
@@ -456,11 +449,16 @@ export default {
                 fileList[0].pictureuri = res.data
                 fileList.splice(1)
             }else if(fileList.length == 1) {
-                this.comNewsDetailList.competingproducts[this.pageImageIndex] = {
-                    name:fileList[0].name,
-                    url:fileList[0].url,
-                    pictureuri:res.data[0],
-                }
+                    this.$set(this.comNewsDetailList.competingproducts[this.pageImageIndex],'platforms',res.data)
+                    this.$set(this.comNewsDetailList.competingproducts[this.pageImageIndex],'name',fileList[0].name)
+                    this.$set(this.comNewsDetailList.competingproducts[this.pageImageIndex],'url',fileList[0].url)
+                    this.$set(this.comNewsDetailList.competingproducts[this.pageImageIndex],'pictureuri',res.data[0])
+                    this.$set(this.comNewsDetailList.competingproducts[this.pageImageIndex],'id',this.comNewsDetailList.competingproducts[this.pageImageIndex].id)
+                    this.$set(this.comNewsDetailList.competingproducts[this.pageImageIndex],'platformid',this.comNewsDetailList.competingproducts[this.pageImageIndex].platformid)
+                    this.$set(this.comNewsDetailList.competingproducts[this.pageImageIndex],'xsin',this.comNewsDetailList.competingproducts[this.pageImageIndex].xsin)
+                    this.$set(this.comNewsDetailList.competingproducts[this.pageImageIndex],'price',this.comNewsDetailList.competingproducts[this.pageImageIndex].price)
+                    this.$set(this.comNewsDetailList.competingproducts[this.pageImageIndex],'recentsalesvolume',this.comNewsDetailList.competingproducts[this.pageImageIndex].recentsalesvolume)
+                    this.$set(this.comNewsDetailList.competingproducts[this.pageImageIndex],'note',this.comNewsDetailList.competingproducts[this.pageImageIndex].note)
             }
         },
         beforeUpload(pageList,i){
@@ -491,7 +489,7 @@ export default {
         display: inline-block;
         margin-top: 15px;
         .el-icon-remove-outline{
-            margin-top: 30px;
+            // margin-top: 30px;
             color: red;
             font-size: 15px;
         }
@@ -511,7 +509,7 @@ export default {
     ::v-deep.imgDetail{
         border: 1px solid #aaaaaa !important;
         height: 250px;
-        margin-top: 45px;
+        margin-bottom: 45px;
         margin-right: 15px;
         // position:absolute;
         .imgbox{
@@ -549,7 +547,7 @@ export default {
     height: 30px;   
     display: flex;
     justify-content: flex-end;
-    margin-right: 20px;
+    margin-right: 50px;
     margin-top: 20px;
 }
     

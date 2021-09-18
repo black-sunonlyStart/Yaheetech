@@ -206,7 +206,7 @@ export default {
                     xsFirstOrderQuantity:this.ruleForm.orderQuantity,
                     xsMarket:this.ruleForm.productMarket,
                     xsSpecialRequirements:this.ruleForm.specialPackaging,
-                    xstestsampletime:this.ruleForm.samplingTime,
+                    xsTestSampleTime:this.ruleForm.samplingTime,
                     xsOrderOfTime:this.ruleForm.orderTime,
                     xspurchasePriceCurrency:this.ruleForm.region,
                 }

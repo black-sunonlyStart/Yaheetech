@@ -1,1 +1,1 @@
-export const upload_file = `${process.env.VUE_APP_DEVSERVER}/productManage/uploadFile`
+export const upload_file = `${process.env.VUE_APP_DEVSERVER}/productManage/loadFile`
