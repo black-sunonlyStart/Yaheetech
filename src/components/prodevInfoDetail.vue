@@ -35,7 +35,7 @@
                 <div>工厂提供照片：</div>
                     <div v-for="item in prodevInfoDetaiList.factoryGaveImage" :key="item.id">
                         <el-image
-                            style="width: 100px; height: 100px; dispaly:black"
+                            style="width: 100px; height: 100px; dispaly:black;margin-right:10px"
                             :src="item.showImgUrl"
                             fit="fill">
                         </el-image>

@@ -163,7 +163,7 @@
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
-                样品购买价:<span>{{purchaseInfoDetaiList.productprice}} (产品价格) + {{purchaseInfoDetaiList.freight}} (运费) = {{purchaseInfoDetaiList.productprice + purchaseInfoDetaiList.freight}}$</span>
+                样品购买价:<span>{{purchaseInfoDetaiList.productprice}} (产品价格) + {{purchaseInfoDetaiList.freight}} (运费) = {{purchaseInfoDetaiList.productprice + purchaseInfoDetaiList.freight}}RMB</span>
             </el-col>
             <el-col :span="10">
                 含税价税点:<span>{{purchaseInfoDetaiList.taxleviedpoint}}</span>
@@ -174,7 +174,7 @@
                 下大单返样品费:<span>{{purchaseInfoDetaiList.backpurchaseprice}}</span>
             </el-col>
             <el-col :span="10">
-                海关退税率:<span>{{purchaseInfoDetaiList.tax > 0 ? purchaseInfoDetaiList.tax * 100 : purchaseInfoDetaiList.tax + '%'}}</span>
+                海关退税率:<span>{{purchaseInfoDetaiList.tax > 0 ?purchaseInfoDetaiList.tax + '%': purchaseInfoDetaiList.tax * 100 + '%'}}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">

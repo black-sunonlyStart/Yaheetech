@@ -21,7 +21,7 @@
                                     label="采购开发"
                                     >
                                     <template slot-scope="scope">
-                                        <el-input v-model="scope.row.createdName"></el-input>      
+                                        <el-input v-model="scope.row.createdName" disabled></el-input>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
@@ -43,7 +43,7 @@
                                     </template>
                                 </el-table-column>
                                 <el-table-column
-                                    label="FOB价(¥)">
+                                    label="FOB价($)">
                                     <template slot-scope="scope">
                                         <el-input-number  style="width:90px" :controls='false' v-model="scope.row.fobprice"></el-input-number>      
                                     </template>
@@ -144,7 +144,7 @@
                                     </template>
                                 </el-table-column>
                                 <el-table-column                            
-                                    label="FOB价(¥)">
+                                    label="FOB价($)">
                                     <template slot-scope="scope">
                                         <el-input-number style="width:90px" :controls='false' v-model="scope.row.fobprice"></el-input-number>      
                                     </template>
@@ -294,7 +294,7 @@
                         <div class="feeForOrderText">
                             <div class="inputBox">
                                 <el-input-number :controls='false' v-model="ruleForm.fobbandprice"></el-input-number>
-                                <span class="inputUnit">RMB</span>
+                                <span class="inputUnit">$</span>
                             </div>  
                          </div>
                      </el-form-item>
@@ -436,6 +436,11 @@ export default {
           this.ruleForm.productPurchaseVoList.push({
 
           })
+          if(this.selectRow.length == 0 || (this.selectRow.length == 1 && this.selectRow[0] == undefined)){
+          this.$nextTick(() => {
+                this.$refs.singleTable.toggleRowSelection(this.ruleForm.productPurchaseVoList[0])
+            })
+          }
       },
       submitForm(formName) {
             this.$refs[formName].validate((valid) => {
@@ -490,6 +495,7 @@ export default {
             this.$emit('closeEdit','false')
         },
         handleSelectionChange(val){
+            this.rows = val
             if(val.length > 1) return
         }
     }

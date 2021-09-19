@@ -4,14 +4,24 @@
             <el-row>
                 <el-col :span="11">
                     <el-form-item label="中文标题:">
-                        <el-input type="textarea" autosize v-model="ruleForm.chineseTitle"></el-input>
+                        <el-input type="textarea"  
+                            maxlength="25"
+                            show-word-limit autosize 
+                            v-model="ruleForm.chineseTitle">
+                        </el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="11">
                     <el-form-item label="中文描述:" type="textarea" autosize prop="chineseDescription">
-                        <el-input type="textarea" autosize v-model="ruleForm.chineseDescription"></el-input>
+                        <el-input 
+                            type="textarea" 
+                            autosize 
+                            v-model="ruleForm.chineseDescription"
+                            maxlength="200"
+                            show-word-limit  
+                        ></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -77,7 +87,7 @@
                             >
                             <el-button size="small" type="primary" style="margin-right:15px">选择文件</el-button>
                                 <el-select 
-                                    v-model="ruleForm.productMarket"
+                                    v-model="ruleForm.productMustMarket"
                                     placeholder="请选择文档所属市场"
                                     >
                                     <el-option 
@@ -126,8 +136,13 @@
             </el-row>
             <el-row>
                 <el-col :span="11">
-                    <el-form-item label="认证备注:" prop="certificationRemarks">
-                        <el-input type="textarea" autosize v-model="ruleForm.certificationRemarks"></el-input>
+                    <el-form-item label="认证备注:">
+                        <el-input type="textarea" 
+                            autosize 
+                            v-model="ruleForm.certificationRemarks"
+                            maxlength="200"
+                            show-word-limit
+                        ></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -138,10 +153,10 @@
                             class="upload-demo"
                             :action="action"
                             :on-preview="handlePreview"
-                            :on-remove="handleRemove"
+                            :on-remove="imageHandleRemove"
                             :before-remove="beforeRemove"
                             multiple
-                            :limit="3"
+                            :limit="6"
                             :on-exceed="handleExceed"
                             list-type="picture-card"
                             :with-credentials='true'
@@ -291,16 +306,39 @@ export default {
 
             }
         },
-        handleRemove(file, fileList) {
-            console.log(file, fileList);
+        handleRemove(file) {
+            let params = {
+                fileType:2,
+                developmentId:this.$route.params.developmentId,
+                datta:file.id,
+            }
+            loadFile(params).then(res => {
+                if(res.code == 200){
+                   this.$emit('closeEdit')
+                }
+            })
         },
-        removeMustFile(file, fileList){
-            console.log(file, fileList);
+        imageHandleRemove(file) {
+            let param = new FormData();
+            param.append('developmentId', this.$route.params.developmentId);
+            param.append('fileType', 1);
+            param.append('datta', file.id);
+            let config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            loadFile(param,config).then(res => {
+                if(res.code == 200){
+                   this.$emit('closeEdit')
+                }
+            })
+        },
+        removeMustFile(file){
             let params = {
                 fileType:3,
                 developmentId:this.$route.params.developmentId,
                 datta:file.id,
-                file:file
             }
             loadFile(params).then(res => {
                 if(res.code == 200){

@@ -24,7 +24,7 @@
                  <el-col :span="3">
                     <el-form-item  prop="productSizeW" label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.productSizeW">
+                            <el-input placeholder="请输入内容" v-model="ruleForm.productSizeW" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">宽(cm)</template>
                             </el-input>
                         </div>
@@ -33,7 +33,7 @@
                  <el-col :span="3">
                     <el-form-item  prop="productSizeH" label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.productSizeH">
+                            <el-input placeholder="请输入内容" v-model="ruleForm.productSizeH" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">高(cm)</template>
                             </el-input>
                         </div>
@@ -44,7 +44,7 @@
                  <el-col :span="6">
                     <el-form-item label="包装尺寸(发货用):" prop="packageSizeL">
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.packageSizeL">
+                            <el-input placeholder="请输入内容" v-model="ruleForm.packageSizeL" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">长(cm)</template>
                             </el-input>
                         </div>
@@ -53,7 +53,7 @@
                  <el-col :span="3">
                     <el-form-item  prop="packageSizeW" label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.packageSizeW">
+                            <el-input placeholder="请输入内容" v-model="ruleForm.packageSizeW" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">宽(cm)</template>
                             </el-input>
                         </div>
@@ -62,7 +62,7 @@
                  <el-col :span="3">
                     <el-form-item  prop="packageSizeH" label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.packageSizeH">
+                            <el-input placeholder="请输入内容" v-model="ruleForm.packageSizeH" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">高(cm)</template>
                             </el-input>
                         </div>
@@ -93,25 +93,25 @@
                  <el-col :span="6">
                     <el-form-item label="外箱尺寸(装柜用):" prop="outerBoxSizeL">
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.outerBoxSizeL">
+                            <el-input placeholder="请输入内容" v-model="ruleForm.outerBoxSizeL" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">长(cm)</template>
                             </el-input>
                         </div>
                     </el-form-item>
                 </el-col>
                  <el-col :span="3">
-                    <el-form-item  prop="packageSizeW" label-width="15px">      
+                    <el-form-item  prop="outerBoxSizeW" label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.outerBoxSizeW">
+                            <el-input placeholder="请输入内容" v-model="ruleForm.outerBoxSizeW" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">宽(cm)</template>
                             </el-input>
                         </div>
                     </el-form-item>
                 </el-col>
                  <el-col :span="3">
-                    <el-form-item  prop="packageSizeH" label-width="15px">      
+                    <el-form-item  prop="outerBoxSizeH" label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.outerBoxSizeH">
+                            <el-input placeholder="请输入内容" v-model="ruleForm.outerBoxSizeH" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">高(cm)</template>
                             </el-input>
                         </div>
@@ -134,14 +134,14 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="2">
-                    <span class="vacanBox">体积：</span><span v-if="ruleForm.outerBoxSizeRules == '1'">{{(ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeW) / 1000}}m³</span>
+                    <span class="vacanBox">体积：</span><span v-if="ruleForm.outerBoxSizeRules == '1'">{{(ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000}}m³</span>
                                       <span v-else-if="ruleForm.outerBoxSizeRules == '2'">{{(ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000}}m³</span>
                 </el-col>
              </el-row>
              
              <el-row>
                  <el-col :span="6">
-                    <el-form-item  prop="containersNumber" label="可装货柜数量：">      
+                    <el-form-item  prop="containersNumber" label="可装货柜数量：" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">      
                         <el-select 
                             v-model="ruleForm.containersNumber"
                             placeholder="请选择"
@@ -160,7 +160,7 @@
                 <el-col :span="3">
                     <el-form-item  prop="outerBoxNum" label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.outerBoxNum">
+                            <el-input placeholder="请输入内容" v-model="ruleForm.outerBoxNum" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">个/柜</template>
                             </el-input>
                         </div>
@@ -174,7 +174,7 @@
                  <el-col :span="6">
                     <el-form-item  prop="proNetWeight" label="净重:">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.proNetWeight">
+                            <el-input placeholder="请输入内容" v-model="ruleForm.proNetWeight" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">Kg</template>
                             </el-input>
                         </div>
@@ -194,7 +194,7 @@
                  <el-col :span="6">
                     <el-form-item  prop="proGrossWeight" label="毛重:">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.proGrossWeight">
+                            <el-input placeholder="请输入内容" v-model="ruleForm.proGrossWeight" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">Kg</template>
                             </el-input>
                         </div>
@@ -218,7 +218,7 @@
                  <el-col :span="6">
                     <el-form-item  prop="proOuterBoxWeight" label="外箱重量:">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.proOuterBoxWeight">
+                            <el-input placeholder="请输入内容" v-model="ruleForm.proOuterBoxWeight" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">Kg</template>
                             </el-input>
                         </div>
@@ -256,7 +256,7 @@
                  <el-col :span="6">
                     <el-form-item  prop="casesNumber" label="装箱数:">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.casesNumber" >
+                            <el-input placeholder="请输入内容" v-model="ruleForm.casesNumber" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')" >
                                 <template slot="append">个/箱</template>
                             </el-input>
                         </div>
@@ -283,28 +283,28 @@
                                 label="包装后 - 长(cm)"
                             >
                             <template slot-scope="scope">
-                                <el-input v-model="scope.row.packedlength"></el-input>      
+                                <el-input v-model="scope.row.packedlength" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')"></el-input>      
                             </template>
                             </el-table-column>
                             <el-table-column
                                 prop="packedwidth"
                                 label="包装后 - 宽(cm)">
                             <template slot-scope="scope">
-                                <el-input v-model="scope.row.packedwidth"></el-input>      
+                                <el-input v-model="scope.row.packedwidth" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')"></el-input>      
                             </template>
                             </el-table-column>
                             <el-table-column
                                 prop="packedheight"
                                 label="包装后 - 高(cm)">
                             <template slot-scope="scope">
-                                <el-input v-model="scope.row.packedheight"></el-input>      
+                                <el-input v-model="scope.row.packedheight" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')"></el-input>      
                             </template>
                             </el-table-column>
                             <el-table-column
                                 label="包装后 - 重量(Kg)">
                             <template slot-scope="scope">
                                 <div>
-                                   <el-input v-model="scope.row.packedWi"></el-input>
+                                   <el-input v-model="scope.row.packedweight" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')"></el-input>
                                 </div>
                             </template>
                             </el-table-column>
@@ -366,7 +366,7 @@
                                 label="开发状态"
                                 >
                                 <template slot-scope="scope">
-                                    <div v-if="scope.row.productid == pordSizeAttrInfoList.id">
+                                    <div v-if="scope.row.productid == pordSizeAttrInfoList.id || !scope.row.productid">
                                         当前开发
                                     </div>
                                     <div v-else>
@@ -603,6 +603,7 @@ export default {
             }
             findBoxTypesById(params).then(res => {
                 this.boxType = res.data.boxType
+                this.selectid = this.pordSizeAttrInfoList.containerid
             })
         },
         getDetaiList(){
@@ -649,7 +650,7 @@ export default {
                 packedlength:'',
                 packedwidth:'',
                 packedheight:'',
-                packedWi:'',
+                packedweight:'',
             })
         },
         submitForm(formName) {
@@ -662,35 +663,47 @@ export default {
                         productType:this.ruleForm.productType,//0普通产品  1多属性产品 2物理捆绑产品
                         product:{//产品信息
                             id:this.$route.params.productId,
-                            length:this.ruleForm.productSizeL,//产品尺寸
-                            width:this.ruleForm.productSizeW,
-                            height:this.ruleForm.productSizeH,
-                            packedlength:this.ruleForm.packageSizeL,//包装尺寸
-                            packedwidth:this.ruleForm.packageSizeW,
-                            packedheight:this.ruleForm.packageSizeH,
-                            cartonLength:this.ruleForm.outerBoxSizeL,//外箱尺寸
-                            cartonWidth:this.ruleForm.outerBoxSizeW,
-                            cartonHeight:this.ruleForm.outerBoxSizeH,
-                            containerid:this.ruleForm.containersNumber,//可装货柜数量--货柜id
-                            transportqty:this.ruleForm.outerBoxNum,//可装货柜数量--数量
-                            beforepackweight:this.ruleForm.proNetWeight,//净重--kg
-                            abroadbeforepackweight:this.proNetWeightLb,//净重--lb
-                            afterpackweight:this.ruleForm.proGrossWeight,//毛重--kg
-                            abroadafterpackweight:this.proGrossWeightLb,//毛重--lb
-                            cartonWeight:this.ruleForm.proOuterBoxWeight,//外箱重量
+                            length:Number(this.ruleForm.productSizeL),//产品尺寸
+                            width:Number(this.ruleForm.productSizeW),
+                            height:Number(this.ruleForm.productSizeH),
+                            packedlength:Number( this.ruleForm.packageSizeL),//包装尺寸
+                            packedwidth: Number( this.ruleForm.packageSizeW),
+                            packedheight:Number( this.ruleForm.packageSizeH),
+                            cartonLength:Number(this.ruleForm.outerBoxSizeL),//外箱尺寸
+                            cartonWidth:Number( this.ruleForm.outerBoxSizeW),
+                            cartonHeight:Number( this.ruleForm.outerBoxSizeH),
+                            containerid:Number( this.ruleForm.containersNumber),//可装货柜数量--货柜id
+                            transportqty:Number( this.ruleForm.outerBoxNum),//可装货柜数量--数量
+                            beforepackweight:Number( this.ruleForm.proNetWeight),//净重--kg
+                            abroadbeforepackweight:Number( this.proNetWeightLb),//净重--lb
+                            afterpackweight:Number( this.ruleForm.proGrossWeight),//毛重--kg
+                            abroadafterpackweight:Number(this.proGrossWeightLb),//毛重--lb
+                            cartonWeight:Number (this.ruleForm.proOuterBoxWeight),//外箱重量
                             packingway:this.ruleForm.packingMethod,//包装方式
-                            caseQty:this.ruleForm.casesNumber,//装箱数
+                            caseQty:Number (this.ruleForm.casesNumber),//装箱数
                             size:this.ruleForm.productSize,//尺码
                             cartonShape:this.ruleForm.outerBoxSizeRules,
                             packageshape:this.ruleForm.sizeRules
                             
 
                         },
-                        productlistings: this.ruleForm.productlistings
                     }
+                    if(this.ruleForm.productlistings.length > 0){
+                        params.productlistings= this.ruleForm.productlistings.map(res => {
+                            return {
+                                packedlength:Number(res.packedlength),//包装尺寸
+                                packedwidth:Number(res.packedwidth),
+                                packedheight:Number(res.packedheight),
+                                packedweight:Number(res.packedweight)//包装后 - 重量
+                            }
+                        })
+                    }else {
+                        params.productlistings = []
+                    }
+                    
                     params.productcolors = this.ruleForm.multiAttribute.map(res => {
                         return {
-                            productneed:res.productneed,
+                            productneed:res.productneed || false,
                             color:res.color || ''
                         }
                     })

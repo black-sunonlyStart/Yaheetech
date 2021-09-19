@@ -75,7 +75,7 @@
             </el-row>
             <el-row>
                 <el-col :span="10">
-                    <el-form-item label="认证备注:" prop="testRequirements">
+                    <el-form-item label="认证备注:">
                         <el-input
                             type="textarea"
                             :autosize="{ minRows: 2, maxRows: 4}"
@@ -129,30 +129,30 @@
             <el-row :gutter="10">
                 <el-col :span="10">
                     <el-form-item label="专利确认">
-                         <el-checkbox v-model="ruleForm.checkedUSA" label='en-US'  @change="addthis">美国</el-checkbox>
-                         <el-checkbox v-model="ruleForm.checkedUK" label="EN_GB">英国</el-checkbox>
-                         <el-checkbox v-model="ruleForm.checkedEU" label="DE">德国</el-checkbox>
+                         <el-checkbox v-model="checkedUSA" label='en-US'>美国</el-checkbox>
+                         <el-checkbox v-model="checkedUK" label="EN_GB">英国</el-checkbox>
+                         <el-checkbox v-model="checkedEU" label="DE">德国</el-checkbox>
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row v-if="ruleForm.checkedUSA">
+            <el-row v-if="checkedUSA.length>0">
                 <el-col :span="10">
                     <el-form-item label="美国">
-                         <el-input v-model="ruleForm.inputUSA"></el-input>  
+                         <el-input v-model="inputUSA"></el-input>  
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row v-if="ruleForm.checkedUK">
+            <el-row v-if="checkedUK.length>0">
                 <el-col :span="10">
                     <el-form-item label="英国">
-                         <el-input v-model="ruleForm.inputUK"></el-input>  
+                         <el-input v-model="inputUK"></el-input>  
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row v-if="ruleForm.checkedEU">
+            <el-row v-if="checkedEU.length>0">
                 <el-col :span="10">
                     <el-form-item label="德国">
-                         <el-input v-model="ruleForm.inputEU"></el-input>  
+                         <el-input v-model="inputEU"></el-input>  
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -169,6 +169,12 @@ export default {
     name:'prodCerInfoEdit',
     data(){
         return {
+            inputUSA:'',
+            inputUK:'',
+            inputEU:'',
+            checkedUSA:[],
+            checkedUK:[],
+            checkedEU:[],
             ruleForm:{
                 isCertificationReq:3,
                 usaNessCertification:[],
@@ -180,12 +186,6 @@ export default {
                 productAgeGroup:'',
                 ageGroupRemarks:'',
                 patentRiskLevel:'',
-                checkedUSA:[],
-                checkedUK:[],
-                checkedEU:[],
-                inputUSA:'',
-                inputUK:'',
-                inputEU:'',
             },
             rules:{
                 isCertificationReq: [{ required: true, message: '请选择', trigger: 'blur' }],
@@ -391,9 +391,9 @@ export default {
         this.getDetailPage()
     },
     methods:{
-        addthis(val){
-            console.log(val)
-        },
+        // changUSAinput(e){
+        //     this.$forceUpdate()
+        // },
         changeTestRequirements(i,val){
             this.ruleForm.testRequirements[i].data = val
         },
@@ -440,14 +440,14 @@ export default {
             if(this.prodCerInfoDetailList.patentInfo && this.prodCerInfoDetailList.patentInfo.length > 0){
                 this.prodCerInfoDetailList.patentInfo.forEach(item => {
                     if(item.LanguageCode == 'en-US'){
-                        this.ruleForm.checkedUSA =['en-US']
-                        this.ruleForm.inputUSA = item.Value
+                        this.checkedUSA =['en-US']
+                        this.inputUSA = item.Value
                     }else if(item.LanguageCode == 'en-GB'){
-                        this.ruleForm.checkedUK = ['EN_GB']
-                        this.ruleForm.inputUK = item.Value
+                        this.checkedUK = ['EN_GB']
+                        this.inputUK = item.Value
                     }else if (item.LanguageCode == 'de'){
-                        this.ruleForm.checkedEU = ['DE']
-                        this.ruleForm.inputEU = item.Value
+                        this.checkedEU = ['DE']
+                        this.inputEU = item.Value
                     }
                     
                 })
@@ -480,9 +480,9 @@ export default {
                     applicableAge:this.ruleForm.productAgeGroup,
                     applicableAgeNote:this.ruleForm.ageGroupRemarks,
                     riskLevel:this.ruleForm.patentRiskLevel,
-                    usPatentInfo:this.ruleForm.inputUSA,
-                    gbPatentInfo:this.ruleForm.inputUK,
-                    dePatentInfo:this.ruleForm.inputEU,
+                    usPatentInfo:this.inputUSA,
+                    gbPatentInfo:this.inputUK,
+                    dePatentInfo:this.inputEU,
                 }
                 let dataList = this.ruleForm.usaNessCertification.concat(this.ruleForm.ukNessCertification).concat(this.ruleForm.euNessCertification)
                 let mustRequire = {

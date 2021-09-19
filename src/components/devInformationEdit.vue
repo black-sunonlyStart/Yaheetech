@@ -4,7 +4,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="英文标题:" prop="staRating">
-                        <el-input v-model="ruleForm.staRating"></el-input>
+                        <el-input type="textarea" autosize v-model="ruleForm.staRating"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -27,7 +27,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="英文关键字:" prop="westaRating">
-                        <el-input v-model="ruleForm.westaRating"></el-input>
+                        <el-input type="textarea" autosize v-model="ruleForm.westaRating"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -56,9 +56,9 @@
                 <el-col :span="12">
                     <el-form-item label="开发优先级:" prop="orderQuantity">
                         <el-radio-group v-model="ruleForm.orderQuantity">
-                            <el-radio :label="0">高</el-radio>
+                            <el-radio :label="0">低</el-radio>
                             <el-radio :label="1">中</el-radio>
-                            <el-radio :label="2">低</el-radio>
+                            <el-radio :label="2">高</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -66,7 +66,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="德文标题:" >
-                        <el-input v-model="ruleForm.titleDe"></el-input>
+                        <el-input type="textarea" autosize v-model="ruleForm.titleDe"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -81,7 +81,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="日文标题:" >
-                        <el-input v-model="ruleForm.titleJp"></el-input>
+                        <el-input type="textarea" autosize v-model="ruleForm.titleJp"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -769,10 +769,10 @@ export default {
                 titleJp:this.devInformationDetaiList.titleJp,
                 ispatentproduct:this.devInformationDetaiList.ispatentproduct || 1,
                 seaFreight:this.devInformationDetaiList.computemode?0:1,
-                brandEu:0,
-                brandUs:0,
-                brandDe:0,
-                brandAo:0,  
+                brandEu:this.devInformationDetaiList.enCountryBand,
+                brandUs:this.devInformationDetaiList.usCountryBand,
+                brandDe:this.devInformationDetaiList.deCountryBand,
+                brandAo:this.devInformationDetaiList.auCountryBand,  
             }
         },
         seleContry(val){
@@ -799,6 +799,14 @@ export default {
             this.ruleForm.marksContry3 = val
         },
         submitForm() {
+            if(this.devInformationDetaiList.productMarketList.length == 0){
+                this.$message({
+                    type: 'error', 
+                    message:'请选择开发市场',
+                    offset:220
+                })
+                return
+            }
             this.$refs['ruleForm1'].validate((valid) => {
                 if(valid){
                    if(this.$refs['ruleForm2']){
@@ -814,10 +822,9 @@ export default {
                             enCountryBand:this.ruleForm.brandEu,
                             deCountryBand:this.ruleForm.brandDe,
                             auCountryBand:this.ruleForm.brandAo,
-                            usDutyRate:this.ruleForm.productMarketUS,
-                            gbDutyRate:this.ruleForm.productMarketGB,
-                            
-                            deDutyRate:this.ruleForm.productMarketDE,
+                            usDutyRate:Number(this.ruleForm.productMarketUS),
+                            gbDutyRate:Number(this.ruleForm.productMarketGB),
+                            deDutyRate:Number(this.ruleForm.productMarketDE),
                             development:{
                                 description:this.ruleForm.rateRequirements,
                                 id:this.ruleForm.id,

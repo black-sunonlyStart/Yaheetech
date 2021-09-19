@@ -95,8 +95,7 @@
                                 <div v-if="isEdit1" class="imgContainer">
                                     <div v-for="item in productImgDetail" :key="item.key" class="imgCon">
                                         <el-image
-                                            lazy
-                                            style="width: 150px; height: 150px; dispaly:black"
+                                            style="width: 100px; height: 100px; dispaly:black"
                                             :src="item.showImgUrl"
                                             fit="fill">
                                         </el-image>
@@ -146,7 +145,6 @@
                                 <div v-if="isEdit1" class="imgContainer">
                                     <div v-for="item in productImgDetail" :key="item.key" class="imgCon">
                                         <el-image
-                                            lazy
                                             style="width: 100px; height: 100px; dispaly:black"
                                             :src="item.showImgUrl"
                                             fit="fill">
@@ -198,7 +196,6 @@
                                 <div v-if="isEdit1" class="imgContainer">
                                     <div v-for="item in productImgDetail" :key="item.key" class="imgCon">
                                         <el-image
-                                            lazy
                                             style="width: 100px; height: 100px; dispaly:black"
                                             :src="item.showImgUrl"
                                             fit="fill">
@@ -646,7 +643,6 @@ export default {
                             id:item.id
                         }
                })
-               console.log(this.imageList,'imageList')
                 //销售目标数据 
                 this.salesTargetDetaiList = {
                     xsstarrating : this.productVos.xsstarrating, //产品星级评分
@@ -705,6 +701,10 @@ export default {
                  }
                 //开发信息
                 this.devInformationDetaiList = {
+                    usCountryBand:res.data.development.usCountryBand,
+                    enCountryBand:res.data.development.enCountryBand,
+                    deCountryBand:res.data.development.deCountryBand,
+                    auCountryBand:res.data.development.auCountryBand,
                     description:res.data.development.description,//产品中文概述
                     title:res.data.development.title,//英文标题
                     titleDe:res.data.development.titleDe,//德文标题
@@ -766,7 +766,17 @@ export default {
                     })
                     if(factoryGaveImage){
                         factoryGaveImage.forEach(item => {
-                            item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentid}/${item.fileuri}`
+                            item.showImgUrl = `${process.env.VUE_APP_NEWIMAGE_API}/${item.fileuri}`
+                        })
+                     }
+                    if(recommendCredentialList){
+                        recommendCredentialList.forEach(item => {
+                            item.name = item.fileuri
+                        })
+                     }
+                    if(mustCredentialList){
+                        mustCredentialList.forEach(item => {
+                            item.name = item.fileuri
                         })
                      }
                     this.prodevInfoDetaiList = {
