@@ -556,12 +556,12 @@ export default {
                 {
                     label: '是',
                     key: 1,
-                    value: 1
+                    value: '1'
                 },
                 {
                     label: '否',
                     key: 0,
-                    value: 0
+                    value: '0'
                 },       
             ],
             seaFreightSign:[    
@@ -701,7 +701,8 @@ export default {
             if(!this.ruleForm.marksContry1 || !this.ruleForm.marksContry2 || !this.ruleForm.marksContry3){
                 this.$message({
                     type: 'warning',
-                    message: '请选择开发市场'
+                    message: '请选择开发市场',
+                    offset:220
                 })
                 return
             }
@@ -709,7 +710,8 @@ export default {
             if(this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] && this.ruleForm.marksContry1 != this.devInformationDetaiList.productMarketList[0].countrycode){
                 this.$message({
                     type:'warning',
-                    message:'不能添加其他国家的市场'
+                    message:'不能添加其他国家的市场',
+                    offset:220
                 })
                 return
             }
@@ -874,7 +876,11 @@ export default {
                         })
                         developmentMsg(params).then(res => {
                             if(res.code == 200){
-                                this.$message.success('保存成功')
+                                this.$message({
+                                    type: 'success', 
+                                    message:'数据保存成功',
+                                    offset:220
+                                })
                                 this.$router.push({
                                     name:'productDetails',
                                     params:{
@@ -954,7 +960,11 @@ export default {
                         })
                         developmentMsg(params).then(res => {
                             if(res.code == 200){
-                                this.$message.success('保存成功')
+                                this.$message({
+                                    type: 'success', 
+                                    message:'数据保存成功',
+                                    offset:220
+                                })
                                 this.$router.push({
                                     name:'productDetails',
                                     params:{

@@ -216,7 +216,11 @@ export default {
             }
             exploitType(params).then(res => {
                 if(res.code == 200){
-                    this.$message.success('保存成功')
+                    this.$message({
+                        type: 'success', 
+                        message:'数据保存成功',
+                        offset:220
+                    })
                     this.$emit('closeEdit','false',res.data)
                     this.$router.push({
                         name:'productDetails',

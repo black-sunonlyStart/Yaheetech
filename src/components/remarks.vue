@@ -5,7 +5,7 @@
             :direction="direction"
             :modal='false'
             size="20%"
-            style="height:80%;margin-top:197px"
+            style="height:80%;margin-top:197px;"
             :before-close="handleClose"
             :withHeader='false'
             >
@@ -180,6 +180,7 @@ export default {
     ::v-deep.el-drawer{
         .el-drawer__header{
             padding-bottom: 0px !important;
+            border:1px solid #cccccc;
         }
     }
     .bubbleBoxMainText{

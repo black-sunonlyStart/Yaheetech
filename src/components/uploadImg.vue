@@ -232,7 +232,11 @@ export default {
     onSuccessUpload (res, file, fileList) {
       // 这里需要根据你自己的接口返回数据格式和层级来自行修改
       if (res) {
-          this.$message({ type: 'success', message: '上传成功' })
+          this.$message({
+                        type: 'success', 
+                        message:'上传成功',
+                        offset:220
+                    })
         if (this.imgList.length < this.limit) {
            this.$emit('closeEdit')
         }
@@ -275,7 +279,8 @@ export default {
       this.syncElUpload()
       this.$message({
         type: 'warning',
-        message: `图片超限，最多可上传${this.limit}张图片`
+        message: `图片超限，最多可上传${this.limit}张图片`,
+        offset:220
       })
     },
     onDragStart (e) {

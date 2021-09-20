@@ -408,7 +408,11 @@ export default {
         selectionLineChangeHandle(val){
             this.selectRow = val
             if(val.length > 1){
-                this.$message.error('只能选择一条数据')
+                this.$message({
+                    type: 'error', 
+                    message:'只能选择一条数据',
+                    offset:220
+                })
                 return
             }
         },
@@ -480,7 +484,11 @@ export default {
                 params.purchases = tableList.flat()
                 productPurchase(params).then(res => {
                     if(res.code == 200){
-                        this.$message.success('保存成功')
+                        this.$message({
+                            type: 'success', 
+                            message:'保存成功',
+                            offset:220
+                        })
                         this.$emit('closeEdit','false')
                     }
                 })

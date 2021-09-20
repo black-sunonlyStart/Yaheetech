@@ -699,12 +699,30 @@ export default {
                          return res.LanguageCode == 'de'
                      })
                  }
+                 let usCountryBand = []
+                 let enCountryBand = []
+                 let deCountryBand = []
+                 let auCountryBand = []
+                 if(res.data.development &&  res.data.development.countryband && JSON.parse(res.data.development.countryband) && JSON.parse(res.data.development.countryband).LocalStrings){
+                     usCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
+                         return res.LanguageCode == 'en-US'
+                     })
+                     enCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
+                         return res.LanguageCode == 'en'
+                     })
+                     deCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
+                         return res.LanguageCode == 'de'
+                     })
+                     auCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
+                         return res.LanguageCode == 'en-AU'
+                     })
+                 }
                 //开发信息
                 this.devInformationDetaiList = {
-                    usCountryBand:res.data.development.usCountryBand,
-                    enCountryBand:res.data.development.enCountryBand,
-                    deCountryBand:res.data.development.deCountryBand,
-                    auCountryBand:res.data.development.auCountryBand,
+                    usCountryBand:usCountryBand && usCountryBand[0] ? usCountryBand[0].Value : '',
+                    enCountryBand:enCountryBand && enCountryBand[0] ? enCountryBand[0].Value : '',
+                    deCountryBand:deCountryBand && deCountryBand[0] ? deCountryBand[0].Value : '',
+                    auCountryBand:auCountryBand && auCountryBand[0] ? auCountryBand[0].Value : '',
                     description:res.data.development.description,//产品中文概述
                     title:res.data.development.title,//英文标题
                     titleDe:res.data.development.titleDe,//德文标题

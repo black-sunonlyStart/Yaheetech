@@ -7,6 +7,7 @@ import './styles/index.scss'
 import VueLazyload from 'vue-lazyload'
 import moment from "moment";
 import './styles/element-variables.scss'
+import '@/utils/directives.js'
 Vue.prototype.$moment = moment;
 Vue.use(Element)
 

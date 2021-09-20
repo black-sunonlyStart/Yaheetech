@@ -132,7 +132,11 @@
                     }
                     freezing(params).then(res => {
                         if(res.code == 200){
-                            this.$message.success('数据冻结成功')
+                             this.$message({
+                                type: 'success', 
+                                message:'数据冻结成功',
+                                offset:220
+                            })
                             this.$emit('putTbleList')
                         }
                     })

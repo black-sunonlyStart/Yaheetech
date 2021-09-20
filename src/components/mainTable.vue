@@ -9,6 +9,7 @@
         @selection-change="handleSelectionChange"
         height="640"
         :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
+        @row-click="handleRowClick"
         >
       <el-table-column 
         type="selection"
@@ -211,6 +212,9 @@ export default {
       this.getTableList(this.navFilterList)
   },
   methods: {
+      handleRowClick(row){
+          this.$refs.multipleTable.toggleRowSelection(row);
+      },
       getPriority(val){
           if(val == 0){
               return '高优先级'
@@ -270,7 +274,11 @@ export default {
               }
               unfreezing(params).then((res) => {
                   if(res.code == 200){
-                      this.$message.success('解冻成功')
+                      this.$message({
+                        type: 'success', 
+                        message:'解冻成功',
+                        offset:220
+                    })
                       this.getTableList(this.navFilterList)
                   }
               })

@@ -5,6 +5,7 @@
             width="30%"
             :modal='false'
             class="dialogBox"
+            v-dialogDrag
             >
             <div class="titleText" slot="title">
                 {{this.dialogName}}

@@ -4,7 +4,7 @@
              :model="form"
              label-width="150px">
       <el-row :gutter="2">
-        <el-col :xs="8" :sm="10" :md="12" :lg="13" :xl="10">
+        <el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="12">
           <el-form-item class="firstCreateStyle"
                         label-width="10px">
             <el-select v-model="form.dateType"
@@ -34,15 +34,15 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col  :xs="8" :sm="8" :md="8" :lg="7" :xl="8">
-          <el-form-item label="产品负责人:">
+        <el-col  :xs="12" :sm="12" :md="11" :lg="10" :xl="10">
+          <el-form-item label="产品负责人:" label-width="173px">
             <el-radio-group v-model="form.productOwner">
               <el-radio v-for="item in productOwner" :label="item.value" :key="item.value" >{{item.label}}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :xs="6" :sm="6" :md="6" :lg="4" :xl="6">
-          <el-form-item>
+        <el-col :xs="12" :sm="12" :md="6" :lg="4" :xl="5">
+          <el-form-item label-width="10px">
             <div class="searchBox">
                 <el-input placeholder="综合搜索"
                         v-model="putSearch"
@@ -57,7 +57,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="10">
+        <el-col :span="10" :xs="24" :sm="24" :md="24" :lg="24" :xl="11">
           <el-form-item label="开发国家:">
               <div class="checkBoxAll">
                 <el-checkbox class="checkboxAlltext" :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
@@ -75,7 +75,7 @@
               </div>
           </el-form-item>
         </el-col>
-        <el-col :span="14">
+        <el-col :span="10" :lg="24" :xl="10">
             <el-form-item label="是否需要专利:">
             <el-radio-group v-model="form.patent">
               <el-radio label="all">全部</el-radio>
@@ -86,7 +86,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="10">
+        <el-col :span="11">
           <el-form-item label="寻找供应商:">
             <el-radio-group v-model="form.suppliers" >
               <el-radio style="width:42px" label="all">全部</el-radio>
@@ -106,7 +106,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="10">
+        <el-col :span="11">
           <el-form-item label="是否需要认证:">
             <el-radio-group v-model="form.authentication" class="actionBox">
               <el-radio style="width:42px" label="all">全部</el-radio>
@@ -115,7 +115,7 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="14">
+        <el-col :span="10">
            <el-form-item label="开发场景:">
             <el-checkbox-group v-model="form.developmentScenario" > 
                 <el-radio  label='all' v-model="radio" @change="showOtherCheck" class="radioStyle">全部</el-radio>
