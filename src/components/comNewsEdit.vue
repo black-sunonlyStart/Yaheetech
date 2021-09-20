@@ -182,7 +182,7 @@
 </template>
 <script>
 import { getPlatformSiteByPlatformName,competingProduct } from '@/api/user.js'
-import { upload_file } from '@/utils/files'
+import { jupload_file } from '@/utils/files'
 export default {
     name:'comNewsEdit',
     components:{
@@ -217,7 +217,7 @@ export default {
                     id: 65
                 }, 
             ],
-            action:upload_file,
+            action:jupload_file,
             fileType:{
                 fileType:103
             },
