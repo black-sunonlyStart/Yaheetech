@@ -18,8 +18,9 @@
       </el-table-column>
       <el-table-column 
         label="产品图片"
-        width="120">
+        width="100">
         <template slot-scope="scope">
+            <div :class="scope.row.developmentScenarios < 8 ?'imageTitel':'imageTitelRed'">{{showScenarios(scope.row.developmentScenarios)}}</div>
             <el-popover
                 placement="right"
                 title=""
@@ -32,7 +33,7 @@
                 </el-image>
                 <el-image
                     slot="reference"
-                    style="width: 60px; height: 60px; dispaly:black"
+                    style="width: 80px; height: 80px; dispaly:black;margin-top:3px"
                     :key="scope.row.showImgUrl" 
                     :src="scope.row.showImgUrl" 
                     lazy
@@ -56,13 +57,12 @@
       <el-table-column 
             prop="productTypeName"
             label="产品名称"
-            show-overflow-tooltip
             >
         <template slot-scope="scope">
-            <div class="remarksTitle" @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">{{scope.row.enTitle}}</div>
+            <div class="remarksenTitle" @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">{{scope.row.enTitle}}</div>
             <div>{{scope.row.title}}</div>
             <div>普通产品:{{scope.row.developmentId}}</div>
-            <div>sku别名:{{scope.row.title}}</div>
+            <div>sku别名:{{scope.row.skuAlias}}</div>
         </template>
       </el-table-column>
       <el-table-column
@@ -212,6 +212,21 @@ export default {
       this.getTableList(this.navFilterList)
   },
   methods: {
+      showScenarios(val){
+          if(val == 1){
+              return '新产品'
+          }else if(val == 2){
+              return '新市场'
+          }else if(val == 3){
+              return '新尺码'
+          }else if(val == 10){
+              return '二 · 产品'
+          }else if(val == 11){
+              return '二 · 市场'
+          }else if(val == 12){
+              return '二 · 尺寸'
+          }
+      },
       handleRowClick(row){
           this.$refs.multipleTable.toggleRowSelection(row);
       },
@@ -225,14 +240,15 @@ export default {
           }
       },
       clickEdit(devId,proId,procountryId){
-          this.$router.push({
-            name:'productDetails',
+          let routeData = this.$router.resolve({
+            name: "productDetails",
             params:{
-                developmentId:devId,
-                productId:proId,
-                productCountryId:procountryId,
-            }
-          })
+                    developmentId:devId,
+                    productId:proId,
+                    productCountryId:procountryId,
+                }
+            });
+            window.open(routeData.href, '_blank');
       },
       putOperation(row,id){
           this.clickId = id
@@ -561,10 +577,47 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
+.imageTitel {
+    display: inline-block;
+    font-size: 12px;
+    // font-weight: bold;
+    z-index: 10000;
+    position: absolute;
+    right: 0px;
+    color: #3366cc;
+    background-color: #ffffff;
+    border: 1px dashed #cccccc;
+}
+.imageTitelRed {
+    display: inline-block;
+    font-size: 12px;
+    // font-weight: bold;
+    z-index: 10000;
+    position: absolute;
+    right: 0px;
+    color: red;
+    background-color: #ffffff;
+    border: 1px dashed #cccccc;
+}
 .remarksTitle{
     color: #3366cc;
     cursor: pointer;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.remarksenTitle{
+    color: #3366cc;
+    cursor: pointer;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    
+    &:hover{
+        background-color:#3366cc ;
+        color: #ffffff;
+        display: inline-block;
+    }
 }
 .pagePosition{
     float: right;

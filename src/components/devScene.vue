@@ -118,11 +118,11 @@ export default {
                 }, 
                 {
                     value: 11,
-                    label: '二次开发- 市场(已有二次二次开发产品，开发其他市场)'
+                    label: '二次开发- 市场(已有二次开发产品，开发其他市场)'
                 }, 
                 {
                     value: 12,
-                    label: '二次开发-尺寸(已有二尺开发产品，开发其他尺码)'
+                    label: '二次开发-尺寸(已有二次开发产品，开发其他尺码)'
                 }, 
             ]
         }],
@@ -307,5 +307,8 @@ export default {
           display: flex;
           justify-content: flex-end;
       }
+      .el-select-dropdown__wrap {
+            max-height: 100% !important;
+        }
       
 </style>

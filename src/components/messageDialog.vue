@@ -95,7 +95,7 @@
                 </div>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="dialogVisible = false" size="mini">取 消</el-button>
+                <el-button @click="resetForm('ruleForm')" size="mini">取 消</el-button>
                 <el-button type="primary" @click="submitList('ruleForm')" size="mini">确 定</el-button>
             </span>
         </el-dialog>
@@ -281,6 +281,10 @@ export default {
         } 
     },
     methods:{
+        resetForm(formName) {
+            this.$refs[formName].resetFields();
+             this.dialogVisible = false
+      },
         getTypeList(){
             if(this.clickId == 6){
             let params = {
@@ -362,6 +366,7 @@ export default {
                             offset:220
                         })
                         this.$emit('getTableList',this.navFilterList)
+                        this.$refs['ruleForm'].resetFields();
                         this.dialogVisible = false
                          
                     }
@@ -381,6 +386,7 @@ export default {
                             offset:220
                         })
                         this.$emit('getTableList',this.navFilterList)
+                        this.$refs['ruleForm'].resetFields();
                         this.dialogVisible = false
                         
                     }   
@@ -401,6 +407,7 @@ export default {
                             offset:220
                         })
                         this.$emit('getTableList',this.navFilterList)
+                        this.$refs['ruleForm'].resetFields();
                         this.dialogVisible = false
                         
                     }   
@@ -420,6 +427,7 @@ export default {
                             offset:220
                         })
                         this.$emit('getTableList',this.navFilterList)
+                        this.$refs['ruleForm'].resetFields();
                         this.dialogVisible = false   
                     }  
                 })
@@ -438,6 +446,7 @@ export default {
                             offset:220
                         })
                          this.$emit('getTableList',this.navFilterList)
+                         this.$refs['ruleForm'].resetFields();
                         this.dialogVisible = false  
                     }  
                 })

@@ -20,8 +20,8 @@
                         生成型号:<span>{{$route.params.productId}}</span>
                     </div>
                     <div>
-                        开发市场:<div class="countryTitle">{{ productCountryList.countryName }}</div> 
-                        <div v-for="item in otherCountryList" :key="item" class="otherCountryTitle"> {{item.countryName}}</div>
+                        开发市场:<div class="countryTitle">{{ productCountryList ? productCountryList.countryName:'' }}</div> 
+                        <div v-for="item in otherCountryList" :key="item.id" class="otherCountryTitle"> {{item ? item.countryName : ''}}</div>
                     </div>
                     <div class="haveMoneyLitte">
                         <div>
@@ -42,7 +42,7 @@
                 <div class="stepBox">
                     <span class="leftButton" @click="leftMove"><i class="el-icon-d-arrow-left"></i></span>
                         <span class="step-container">
-                            <el-steps :active="copeDevProgress ? copeDevProgress.length:0" space='150' align-center style="margin-right:15px" finish-status="success">
+                            <el-steps :active="nowStatus" space='150' align-center style="margin-right:15px" finish-status="success" process-status='process'>
                                 <el-step v-for="item in developmentProgresses" :title="item.statusValue" :key="item.status" :description="item.createOn">
                                         <template slot="title">
                                             <el-tooltip class="item" effect="dark" :content="item.createBy" placement="top">
@@ -57,7 +57,7 @@
                     <span class='rightButton' @click="rightMove"><i class="el-icon-d-arrow-right"></i></span>
                 </div> 
                 <div class="stepText">
-                    <span class="stepTextLittleTitle">业务：{{productCountryList.businessName}}</span><span>采购：{{productCountryList.buyerName}}</span>
+                    <span class="stepTextLittleTitle">业务：{{productCountryList ? productCountryList.businessName :''}}</span><span>采购：{{productCountryList ? productCountryList.buyerName :''}}</span>
                 </div> 
             </el-card>
         </el-col>
@@ -574,6 +574,7 @@ export default {
         isEdit6:true,
         isEdit7:true,
         isEdit8:true,
+        nowStatus:0
     }
   },
   created () {
@@ -612,7 +613,60 @@ export default {
                 }else {
                     this.productCountryList = []
                 }
-               
+                if(res.data.developmentProgresses && res.data.developmentProgresses.length > 0){
+                    let index = res.data.developmentProgresses.length - 1
+                    let status = res.data.developmentProgresses[index].status
+                    switch(status){
+                        case 0 :
+                        this.nowStatus = 0;
+                        break;
+                        case 1:
+                        this.nowStatus = 1;
+                        break;
+                        case 11:
+                        this.nowStatus = 2;
+                        break;
+                        case 2:
+                        this.nowStatus = 3;
+                        break;
+                        case 13 :
+                        this.nowStatus = 4;
+                        break;
+                        case 12:
+                        this.nowStatus = 5;
+                        break;
+                        case 3 :
+                        this.nowStatus = 6;
+                        break;
+                        case 10:
+                        this.nowStatus = 7;
+                        break;
+                        case 4:
+                        this.nowStatus = 8;
+                        break;
+                        case 5:
+                        this.nowStatus = 9;
+                        break;
+                        case 6:
+                        this.nowStatus = 10;
+                        break;
+                        case 7:
+                        this.nowStatus = 11;
+                        break;
+                        case 8:
+                        this.nowStatus = 12;
+                        break;
+                        case 9:
+                        this.nowStatus = 13;
+                        break;
+                        case 14:
+                        this.nowStatus = 14;
+                        break;
+                    }
+
+                }else {
+                    this.nowStatus = 0
+                }
                 // this.otherProductCountryList = res.data.productVos && res.data.productVos[0] && res.data.productVos[0].productCountryList ? res.data.productVos[0].productCountryList[0] : []
                 this.productVos = res.data.productVos? res.data.productVos[0] : []
                 this.productMarketStrs = res.data.productMarketStrs

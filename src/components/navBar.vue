@@ -115,7 +115,7 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="10">
+        <el-col :span="13">
            <el-form-item label="开发场景:">
             <el-checkbox-group v-model="form.developmentScenario" > 
                 <el-radio  label='all' v-model="radio" @change="showOtherCheck" class="radioStyle">全部</el-radio>
@@ -155,7 +155,7 @@
 </template>
 <script>
 const cityOptions = ['GB','US','DE','AU','NZ','JP'];
-const statusOptions = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14];
+const statusOptions = [0, 1, 2, 3, 4, 5, 6, 10, 11, 12, 13];
 export default {
   name: 'navBar',  
   data () {
