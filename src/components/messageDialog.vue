@@ -321,6 +321,7 @@ export default {
             this.dialogVisible = true
         },
         submitList(formName){
+            console.log(this.row,'this.row')
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let toState = ''
@@ -346,10 +347,14 @@ export default {
                 toState = this.row.state + 1
             }
             let row = []
-            if(this.clickId == 2 || this.clickId == 6 || this.clickId ==20){
+            console.log(this.selectRow,'selectRow',this.selectRow.length)
+            if((this.clickId == 2 || this.clickId == 6 || this.clickId == 20 )&& this.selectRow.length > 0){
                  row = this.selectRow.map(res => {
                     return res.id
                 })
+            }
+            if(this.row && this.row.id){
+                row = this.row.id
             }
             let normalList = [1,5,7,10,11,15,16]
             if(normalList.includes(this.clickId)){

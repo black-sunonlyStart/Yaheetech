@@ -60,7 +60,7 @@ export default {
   ::v-deep .nav-card {
     margin: 0px 26px 10px 10px;
     position: fixed;
-    width: 97.6%;
+    width: 98%;
     z-index: 999;
     .el-card__body{
         padding: 10px 20px;
@@ -69,9 +69,9 @@ export default {
  ::v-deep .button-card {
     margin: 0px 18px 10px 10px;
     position: fixed;
-    top: 223px;
+    top: 215px;
     z-index: 1000;
-    width: 97.6%;
+    width: 98%;
     .el-card__body{
         padding: 3px 20px;
     }
@@ -80,6 +80,7 @@ export default {
     margin: 0px 18px 10px 10px;
     position: relative;
     top: 246px;
+    width: 98%;
     .el-card__body{
         padding: 5px 20px;
     }

@@ -231,7 +231,7 @@ export default {
     // 上传完单张图片
     onSuccessUpload (res, file, fileList) {
       // 这里需要根据你自己的接口返回数据格式和层级来自行修改
-      if (res) {
+      if (res.code == 200) {
           this.$message({
                         type: 'success', 
                         message:'上传成功',

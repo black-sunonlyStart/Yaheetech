@@ -159,7 +159,7 @@
             >
         </el-pagination>
     </div>
-    <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog" @getTableList='getTableList' :row="row" :navFilterList='navFilterList'></messageDialog>
+    <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog" @getTableList='getTableList' :row='row' :navFilterList='navFilterList'></messageDialog>
   </div>
 
 </template>
@@ -283,6 +283,7 @@ export default {
           }else if (id == 11){
               this.dialogName ='提交利润初审'
           }else if (id == 12){
+              this.dialogName='审核通过'
               this.clickId = 2
           }else if (id == 13){
               let params = {
@@ -412,10 +413,6 @@ export default {
                   {
                     name:'审批通过',
                     id:2
-                  },
-                  {
-                    name:'终审通过',
-                    id:9
                   },
                   {
                     name:'开发新尺码',

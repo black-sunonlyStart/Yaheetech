@@ -93,21 +93,21 @@ export default {
           showRelation:true,
           sceneOptions: [{
           label: '全新开发',
-            options: [
-            {
-                value: 1,
-                label: '开发新产品'
-            }, 
-            {
-                value: 2,
-                label: '开发新市场(国家)'
-            },
-            {
-                value: 3,
-                label: '开发新尺码(已有产品添加新尺码)'
-            },
-            ]
-            }, 
+            options:[
+                        {
+                            value: 1,
+                            label: '开发新产品'
+                        }, 
+                        {
+                            value: 2,
+                            label: '开发新市场(国家)'
+                        },
+                        {
+                            value: 3,
+                            label: '开发新尺码(已有产品添加新尺码)'
+                        },
+                    ]
+                }, 
             {
             label: '二次开发',
             options: 

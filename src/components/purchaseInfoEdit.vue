@@ -437,8 +437,13 @@ export default {
              
         },
         addTableList(){
+            let createdName = ''
+            if(this.purchaseInfoDetaiList.productPurchaseVoList && this.purchaseInfoDetaiList.productPurchaseVoList[0]){
+                 createdName = this.purchaseInfoDetaiList.productPurchaseVoList[0].createdName
+            }
+            
           this.ruleForm.productPurchaseVoList.push({
-
+              createdName:createdName
           })
           if(this.selectRow.length == 0 || (this.selectRow.length == 1 && this.selectRow[0] == undefined)){
           this.$nextTick(() => {

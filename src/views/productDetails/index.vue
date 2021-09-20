@@ -21,7 +21,7 @@
                     </div>
                     <div>
                         开发市场:<div class="countryTitle">{{ productCountryList ? productCountryList.countryName:'' }}</div> 
-                        <div v-for="item in otherCountryList" :key="item.id" class="otherCountryTitle"> {{item ? item.countryName : ''}}</div>
+                        <div v-for="item in otherCountryList" :key="item.id" class="otherCountryTitle" @click="changeCountry(item.developmentId,item.productId,item.productCountryId)"> {{item ? item.countryName : ''}}</div>
                     </div>
                     <div class="haveMoneyLitte">
                         <div>
@@ -1046,6 +1046,17 @@ export default {
           if(tab.name == 'tenth'){
               this.$refs.remarks.openHandle()
           }
+      },
+      changeCountry(developmentId,productId,productCountryId){
+        let routeData = this.$router.resolve({
+            name: "productDetails",
+            params:{
+                    developmentId:developmentId,
+                    productId:productId,
+                    productCountryId:productCountryId,
+                }
+            });
+            window.open(routeData.href, '_blank');
       }
   }
 }
@@ -1085,7 +1096,7 @@ export default {
   }
   .navTitle{
     position: fixed;
-    width: 98.9%;
+    width: 100%;
     top: 0px;
     z-index: 999;
     background-color: rgba(230, 230, 230, 1)
@@ -1122,6 +1133,8 @@ export default {
       .otherCountryTitle{
           display: inline-block;
           cursor: pointer;
+          margin-left: 5px;
+          text-decoration: underline;
       }
       .haveMoneyLitte{
           display: flex;
