@@ -53,7 +53,7 @@ export default {
             }else if (val == 11){
                 return '二次开发- 市场'
             }else if (val == 12){
-                return '二次开发-尺寸'
+                return '二次开发-尺码'
             }
         }
     }

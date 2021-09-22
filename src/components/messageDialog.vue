@@ -12,6 +12,7 @@
             </div>
             <span v-if="clickId == 1" class="dialogText">说明:确定要把选择的产品提交给业务主管(经理)进行审批?</span>
             <span v-if="clickId == 2" class="dialogText">说明:确定要把选择的产品审批通过,让认证专员去完善认证需求?</span>
+            <span v-if="clickId == 25" class="dialogText">说明:确定要把选择的产品审批通过,让认证专员去完善认证需求?</span>
             <span v-if="clickId == 5" class="dialogText">说明:确定选择的产品资料已经正确,让采购主管审核?</span>
             <span v-if="clickId == 7" class="dialogText">说明:确定选择的产品有利润空间后,让采购开发员去购买样品?</span>
             <span v-if="clickId == 10" class="dialogText">说明:确定选择的产品认证需求信息完善,让采购去寻找供应商?</span>
@@ -102,7 +103,7 @@
     </div>
 </template>
 <script>
-import { selectRoleEmployeeForRoleId,approvalPass,beginApprovalPass,loadToBack,updateResponsible } from '@/api/user.js'
+import { selectRoleEmployeeForRoleId,approvalPass,beginApprovalPass,loadToBack,updateResponsible,cancelExploit } from '@/api/user.js'
 export default {
     name:'messageDialog',
     data(){
@@ -356,7 +357,7 @@ export default {
             if(this.row && this.row.id){
                 row = this.row.id
             }
-            let normalList = [1,5,7,10,11,15,16]
+            let normalList = [1,5,7,10,11,15,16,25]
             if(normalList.includes(this.clickId)){
                 let params = {
                     productCountryId:this.row.id,
@@ -456,6 +457,24 @@ export default {
                     }  
                 })
             }
+            if(this.clickId == 3){
+                let  params = {
+                    productCountryId:this.row.id,
+                    whyNote:this.ruleForm.remark
+                }
+                cancelExploit(params).then(res => {
+                    if(res.code == 200){
+                        this.$message({
+                            type: 'success', 
+                            message:'保存成功',
+                            offset:220
+                        })
+                         this.$emit('getTableList',this.navFilterList)
+                         this.$refs['ruleForm'].resetFields();
+                        this.dialogVisible = false 
+                    }
+                })
+            }
           }
         })
     }
@@ -470,7 +489,7 @@ export default {
     margin-bottom: 15px;
 }
 .defText{
-    margin-left: 102px;
+    margin-left: 122px;
 }
 .titleText{
     width: 100%;

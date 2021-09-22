@@ -32,7 +32,7 @@
             <el-form-item label="关联产品" prop="relation" v-if="showRelation">
                 <div >
                     <el-radio v-model="ruleForm.relation" label='1' :disabled='relationId'>产品开发ID</el-radio>
-                    <el-radio v-model="ruleForm.relation" label='2'>SPU号</el-radio>
+                    <el-radio v-model="ruleForm.relation" label='2' :disabled='spuChange'>SPU号</el-radio>
                 </div>
             </el-form-item>
             <el-form-item  prop="inputRelation" v-if="showRelation && ruleForm.relation =='1'">
@@ -61,12 +61,12 @@
                     </div>
                 </div>
             </el-form-item>
-            <el-form-item label="所属分类" prop="classiFication" v-if="ruleForm.scene == 10 || ruleForm.scene == 1 ">
+            <el-form-item label="所属分类" prop="classiFication">
                 <div class="signClass">
                     <div class="signInput">
                         <div> {{ruleForm.classiFication}}</div>
                     </div>
-                    <div class="signText" @click="openTypeDialog">
+                    <div class="signText" @click="openTypeDialog" v-if="ruleForm.scene == 1 ">
                         重选分类
                     </div>
                 </div>
@@ -90,6 +90,7 @@ export default {
     data() {
       return {
           relationId:false,
+          spuChange:false,
           showRelation:true,
           sceneOptions: [{
           label: '全新开发',
@@ -118,11 +119,11 @@ export default {
                 }, 
                 {
                     value: 11,
-                    label: '二次开发- 市场(已有二次开发产品，开发其他市场)'
+                    label: '二次开发 - 市场(已有二次开发产品，开发其他市场)'
                 }, 
                 {
                     value: 12,
-                    label: '二次开发-尺寸(已有二次开发产品，开发其他尺码)'
+                    label: '二次开发 - 尺码(已有二次开发产品，开发其他尺码)'
                 }, 
             ]
         }],
@@ -245,19 +246,22 @@ export default {
       selectScene(val){
           this.showRelation = true
           this.relationId = false
+          this.spuChange = false
           if(val == 1){
-              this.showRelation = false
+            this.showRelation = false
           } else if (val == 2){
-            //   this.ruleForm.relation = 2
+            this.spuChange = true
           } else if (val == 3){
                 // this.ruleForm.relation = 2
+            this.spuChange = true
           } else if (val == 10){
               this.ruleForm.relation = '2'
               this.relationId = true
+              
           }else if (val == 11){
-            //   this.ruleForm.relation = 2
+            this.spuChange = true
           } else if (val == 12){
-            //   this.ruleForm.relation = 2
+            this.spuChange = true
           }
       },
       changeInputRelation(val){

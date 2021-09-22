@@ -150,10 +150,20 @@
                     })
                     return
                 }
-                this.dialogName = '资料初审通过'
-                this.clickId = 2
-                this.row = this.selectRow
-                this.$refs.messageDialog.openDialog()
+                if(this.selectRow.every(res => res.state == 1)){
+                    this.dialogName = '资料初审通过'
+                    this.clickId = 2
+                    this.row = this.selectRow
+                    this.$refs.messageDialog.openDialog()
+                }else {
+                    this.$message({
+                        type: 'error', 
+                        message:'所选产品中包含无需初审产品',
+                        offset:220
+                    })
+                    return
+                }
+                
             },
             // lastPutDataPass(){
             //     if( !this.selectRow || this.selectRow.length == 0 || this.selectRow.length == undefined){

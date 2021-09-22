@@ -210,6 +210,14 @@ export function unfreezing(data) {
       params:data
     })
   }
+  //取消开发
+export function cancelExploit(data) {
+    return request({
+      url: '/productManage/cancelExploit',
+      method: "get", 
+      params:data
+    })
+  }
   //查询多属性
 export function getProductMultipleAttribute(data) {
     return request({

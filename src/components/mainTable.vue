@@ -267,14 +267,15 @@ export default {
           }else if (id == 7){
               this.dialogName = '样品采购审核'
           }else if (id == 8){
-              this.$router.push({ //提交审批、审批通过、取消开发、打回、提交采购主管审核、更改采购开发员、样品采购审核、开发新尺码、终审通过、提交寻找供应商、提交利润初审、审核通过、返回冻结前状态
-                name:'productDetails',
-                params:{
+            let routeData = this.$router.resolve({
+            name: "productDetails",
+            params:{
                     developmentId:row.developmentId,
                     productId:row.productId,
                     productCountryId:row.productCountryId,
                 }
-            })
+            });
+            window.open(routeData.href, '_blank');
           }else if (id == 9){
               this.dialogName='终审通过'
               this.clickId = 2
@@ -298,13 +299,23 @@ export default {
                     })
                       this.getTableList(this.navFilterList)
                   }
-              })
-              
+              }) 
           }else if(id == 14){
              this.dialogName ='提交利润初审'
+          }else if (id == 26){
+              let routeData = this.$router.resolve({
+                name: "productDetails",
+                params:{
+                        developmentId:row.developmentId,
+                        productId:row.productId,
+                        productCountryId:row.productCountryId,
+                    }
+                });
+            window.open(routeData.href, '_blank');
+            return
           }
           this.row = row
-          if(id != 13) {
+          if(id != 13 || id != 8 || id != 26) {
               this.$refs.messageDialog.openDialog()
           }
            
@@ -319,6 +330,10 @@ export default {
                   {
                     name:'取消开发',
                     id:3
+                  },
+                  {
+                    name:'开发新市场',
+                    id:26
                   },
               ]
           }else if(row.state == 1){
@@ -335,6 +350,10 @@ export default {
                     name:'取消开发',
                     id:3
                   },
+                  {
+                    name:'开发新市场',
+                    id:26
+                  },
               ]
           }else if(row.state == 2){
               this.operationList = [
@@ -346,12 +365,24 @@ export default {
                     name:'更改采购开发员',
                     id:6
                   },
+                  {
+                    name:'打回',
+                    id:4
+                  },
+                  {
+                    name:'开发新市场',
+                    id:26
+                  },
+                  {
+                    name:'开发新尺码',
+                    id:8
+                  },
               ]
           }else if(row.state == 3){
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:2
+                    id:25
                   },
                   {
                     name:'开发新尺码',
@@ -364,6 +395,14 @@ export default {
                   {
                     name:'更改采购开发员',
                     id:6
+                  },
+                  {
+                    name:'打回',
+                    id:4
+                  },
+                  {
+                    name:'开发新市场',
+                    id:26
                   },
               ]
           }else if(row.state == 4){ //1 4 5 6 7 9 10
@@ -384,12 +423,16 @@ export default {
                     name:'更改采购开发员',
                     id:6
                   },
+                  {
+                    name:'开发新市场',
+                    id:26
+                  },
               ]
           }else if(row.state == 5){
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:2
+                    id:25
                   },
                   {
                     name:'开发新尺码',
@@ -406,13 +449,17 @@ export default {
                   {
                     name:'更改采购开发员',
                     id:6
+                  },
+                  {
+                    name:'开发新市场',
+                    id:26
                   },
               ]
           }else if(row.state == 6){
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:2
+                    id:25
                   },
                   {
                     name:'开发新尺码',
@@ -429,6 +476,10 @@ export default {
                   {
                     name:'更改采购开发员',
                     id:6
+                  },
+                  {
+                    name:'开发新市场',
+                    id:26
                   },
               ]
           }else if (row.state == 7){
@@ -437,11 +488,7 @@ export default {
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:2
-                  },
-                  {
-                    name:'样品采购审核',
-                    id:7
+                    id:25
                   },
                   {
                     name:'打回',
@@ -459,19 +506,23 @@ export default {
           }else if(row.state == 11){
               this.operationList = [
                     {
-                        name:'提交认证审核',
-                        id:16
+                        name:'提交寻找供应商',
+                        id:10
                     },
                   {
                     name:'打回',
                     id:4
+                  },
+                  {
+                    name:'开发新市场',
+                    id:26
                   },
               ]
           }else if(row.state == 12){
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:2
+                    id:25
                   },
                   {
                     name:'提交利润初审',
@@ -481,12 +532,20 @@ export default {
                     name:'打回',
                     id:4
                   },
+                  {
+                    name:'开发新市场',
+                    id:26
+                  },
+                  {
+                    name:'开发新尺码',
+                    id:8
+                  },
               ]
           }else if(row.state == 13){
               this.operationList = [
                   {
-                    name:'审核通过',
-                    id:12
+                    name:'审批通过',
+                    id:25
                   },
                   {
                     name:'打回',
@@ -495,6 +554,14 @@ export default {
                   {
                     name:'取消开发',
                     id:3
+                  },
+                  {
+                    name:'开发新市场',
+                    id:26
+                  },
+                  {
+                    name:'开发新尺码',
+                    id:8
                   },
               ]
           }else if(row.state == 14){
@@ -507,10 +574,20 @@ export default {
           }else if (row.state == 9){
               console.log(row)
           }else if (row.state == 10){ //0 2 3 8
-              this.operationList = [{
+              this.operationList = [
+                  {
                     name:'审批通过',
-                    id:2
-                  }]
+                    id:25
+                  },
+                  {
+                    name:'开发新市场',
+                    id:26
+                  },
+                  {
+                    name:'开发新尺码',
+                    id:8
+                  },
+                ]
           }
       },
       routerMove(devId,proId,procountryId){
