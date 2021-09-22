@@ -255,17 +255,17 @@ export default {
           if(id == 1){
             this.dialogName = '提交审批' 
           }else if (id == 2){
-              this.dialogName = '审批通过' 
+            this.dialogName = '审批通过' 
           }else if(id == 3){
-                this.dialogName = '取消开发' 
+            this.dialogName = '取消开发' 
           }else if (id == 4){
-              this.dialogName = '打回'
+            this.dialogName = '打回'
           }else if (id == 5){
-              this.dialogName = '提交采购主管审核'
+            this.dialogName = '提交采购主管审核'
           }else if (id == 6){
-              this.dialogName = '更改采购开发员'
+            this.dialogName = '更改采购开发员'
           }else if (id == 7){
-              this.dialogName = '样品采购审核'
+            this.dialogName = '样品采购审核'
           }else if (id == 8){
             let routeData = this.$router.resolve({
             name: "productDetails",

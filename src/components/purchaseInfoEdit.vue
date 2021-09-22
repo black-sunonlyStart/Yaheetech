@@ -483,7 +483,7 @@ export default {
                         tableList.push(this.selectRow)
                 }
                 if(this.ruleForm.lastProductPurchaseVoList.length != 0){
-                        this.ruleForm.lastProductPurchaseVoLis.type = 1
+                        this.ruleForm.lastProductPurchaseVoList.type = 1
                         tableList.push(this.ruleForm.lastProductPurchaseVoList)
                 }
                 params.purchases = tableList.flat()

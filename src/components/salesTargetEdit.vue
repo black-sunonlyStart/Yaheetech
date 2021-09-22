@@ -67,18 +67,17 @@
                     <el-form-item label="产品测样时间点:" prop="samplingTime">
                         <el-date-picker
                             v-model="ruleForm.samplingTime"
-                            type="datetime"
+                            type="date"
                             placeholder="选择日期"
-                            default-time="12:00:00"
                             >
                         </el-date-picker>
                     </el-form-item>
                     <el-form-item label="产品下单时间点:" prop="orderTime">
                         <el-date-picker
                             v-model="ruleForm.orderTime"
-                            type="datetime"
+                            type="date"
                             placeholder="选择日期"
-                            default-time="12:00:00">
+                            >
                         </el-date-picker>
                     </el-form-item>
                 </el-col>

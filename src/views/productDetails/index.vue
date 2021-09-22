@@ -69,8 +69,9 @@
         @click="openRemarks"></i>
         <!-- <el-card class="card"> -->
             <div class="cardBoxMain">
-                <el-tabs v-model="activeName" @tab-click="handleClick">
-                    <el-tab-pane label="开发类型/场景" name="first" >
+                <el-tabs v-model="activeName" :before-leave="handleClick">
+                    <el-tab-pane name="first" >
+                    <span slot="label"><span style="margin-right:30px">开发类型/场景</span><span style="margin-right:30px">产品尺寸图</span><span>销售目标</span></span>
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
                             <el-card>
@@ -120,7 +121,7 @@
                             </el-card>
                         </div>                   
                     </el-tab-pane>
-                    <el-tab-pane label="产品尺寸图" name="second">
+                    <!-- <el-tab-pane label="产品尺寸图" name="second">
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
                             <el-card>
@@ -220,7 +221,7 @@
                                 </div>
                             </el-card>
                         </div>                  
-                    </el-tab-pane>
+                    </el-tab-pane> -->
                     <el-tab-pane label="竞品信息" name="fourth">
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
@@ -258,6 +259,7 @@
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="产品认证信息" name="sixth">
+                        <span slot="label"><span style="margin-right:30px">产品认证信息</span><span>产品标题和供应商信息</span></span>
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
                             <el-card>
@@ -291,7 +293,7 @@
                             </el-card>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="产品标题和供应商信息" name="seventh">
+                    <!-- <el-tab-pane label="产品标题和供应商信息" name="seventh">
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
                             <el-card>
@@ -325,7 +327,7 @@
                                 </div>
                             </el-card>
                         </div>
-                    </el-tab-pane>
+                    </el-tab-pane> -->
                     <el-tab-pane label="产品尺寸和属性信息" name="eigth">
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
@@ -377,7 +379,8 @@
                             <!-- </el-card> -->
                         <!-- </div> -->
                     </el-tab-pane>
-                </el-tabs>   
+                </el-tabs>
+                <operationButton :nowStatus='nowStatus'></operationButton>   
             </div>
         <!-- </el-card> -->
     </div>
@@ -406,6 +409,7 @@ export default {
       purchaseInfoDetail:() => import('@/components/purchaseInfoDetail'),
       purchaseInfoEdit:() => import('@/components/purchaseInfoEdit'),
       remarks:() => import('@/components/remarks'),
+      operationButton:() => import('@/components/operationButton')
   },
   data () {
     return {
@@ -1042,9 +1046,10 @@ export default {
           }
           
       },
-      handleClick(tab){
-          if(tab.name == 'tenth'){
+      handleClick(activeName){
+          if(activeName == 'tenth'){
               this.$refs.remarks.openHandle()
+              return false
           }
       },
       changeCountry(developmentId,productId,productCountryId){
