@@ -279,13 +279,14 @@
             </el-row>
             <el-row>
                 <el-col :span="11">
-                    <el-form-item label="样品交期:" prop="sampledeliverydays">
+                    <el-form-item label="样品交期:" prop="sampleDeliveryOn">
                         <div class="feeForOrderText">
                             <el-date-picker
-                                v-model="ruleForm.sampledeliverydays"
+                                v-model="ruleForm.sampleDeliveryOn"
                                 type="date"
                                 placeholder="选择日期">
                             </el-date-picker>
+                            距样品交期: {{ ruleForm.sampledeliverydays }}天
                         </div>   
                      </el-form-item>
                 </el-col>
@@ -354,6 +355,7 @@ export default {
                 backpurchasepricenote:'',
                 bandprice:'',
                 sampledeliverydays:'',
+                sampleDeliveryOn:'',
                 fobbandprice:'',
                 packedvolume:'',
                 purchaseprice:0,
@@ -367,7 +369,7 @@ export default {
             },
             rules:{
                 productprice: [{ required: true, message: '请填写样品购买价', trigger: 'blur' }],
-                sampledeliverydays: [{ required: true, message: '请选择样品交期', trigger: 'blur' }],
+                sampleDeliveryOn: [{ required: true, message: '请选择样品交期', trigger: 'blur' }],
                 freight: [{ required: true, message: '请填写运费', trigger: 'blur' }],
             },
             devSign:[
@@ -424,6 +426,7 @@ export default {
                 tax :this.purchaseInfoDetaiList.tax,
                 backpurchasepricenote :this.purchaseInfoDetaiList.backpurchasepricenote,
                 bandprice :this.purchaseInfoDetaiList.bandprice,
+                sampleDeliveryOn :this.purchaseInfoDetaiList.sampleDeliveryOn,
                 sampledeliverydays :this.purchaseInfoDetaiList.sampledeliverydays,
                 fobbandprice :this.purchaseInfoDetaiList.fobbandprice,
                 packedvolume :this.purchaseInfoDetaiList.packedvolume * 93 || '',
@@ -432,7 +435,17 @@ export default {
                 purchaseprice :this.purchaseInfoDetaiList.purchaseprice,
             }
             this.$nextTick(() => {
-                this.$refs.singleTable.toggleRowSelection(this.ruleForm.productPurchaseVoList[0])
+                if(this.purchaseInfoDetaiList.productPurchaseVoList.length > 0){
+                    this.purchaseInfoDetaiList.productPurchaseVoList.forEach((item,index) => {
+                        if(item.isdefault){
+                            this.$refs.singleTable.toggleRowSelection(this.ruleForm.productPurchaseVoList[index])
+                        }                       
+                    })
+                    if(this.selectRow.length == 0){
+                        this.$refs.singleTable.toggleRowSelection(this.ruleForm.productPurchaseVoList[0])
+                    }
+                }
+                
             })
              
         },
@@ -443,7 +456,8 @@ export default {
             }
             
           this.ruleForm.productPurchaseVoList.push({
-              createdName:createdName
+              createdName:createdName,
+              isdefault:false
           })
           if(this.selectRow.length == 0 || (this.selectRow.length == 1 && this.selectRow[0] == undefined)){
           this.$nextTick(() => {
@@ -452,6 +466,14 @@ export default {
           }
       },
       submitForm(formName) {
+          if(!this.selectRow || this.selectRow.length == 0){
+              this.$message({
+                            type: 'error', 
+                            message:'请选择一条采购前报价数据',
+                            offset:220
+                        })
+                        return
+          }
             this.$refs[formName].validate((valid) => {
             if (valid) {
                 let params = {
@@ -468,8 +490,8 @@ export default {
                         tax:this.ruleForm.tax,//海关退税率
                         bandprice:this.ruleForm.bandprice,//品牌费
                     },
-                    sampleDeliveryOn:this.ruleForm.sampledeliverydays,//样品交期
-                    sampledeliverydays:4,//样品交期--时间差
+                    sampleDeliveryOn:this.ruleForm.sampleDeliveryOn,//样品交期
+                    sampledeliverydays:this.ruleForm.sampledeliverydays,//样品交期--时间差
                     packedvolume:this.ruleForm.packedvolume,//FOB头程费
                     gooddate:this.ruleForm.goodTimeDate,//货好时间
                     goodnote:this.ruleForm.feeForOrdering,//货好时间详情备注
@@ -478,6 +500,15 @@ export default {
                 } 
                 
                 let tableList = []
+                if(this.purchaseInfoDetaiList.productPurchaseVoList && this.purchaseInfoDetaiList.productPurchaseVoList[0]){
+                   this.purchaseInfoDetaiList.productPurchaseVoList.forEach(item => {
+                       this.selectRow.forEach(res => {
+                           if(item.isdefault){
+                               item.isdefault = res.isdefault
+                           }
+                       })
+                   })
+                }
                 if(this.selectRow.length != 0){
                         this.selectRow.type = 0
                         tableList.push(this.selectRow)

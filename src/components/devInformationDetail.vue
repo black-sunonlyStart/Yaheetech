@@ -136,7 +136,7 @@
                         </template>
                     </el-table-column>
                 </el-table>
-                <div class="tableBottomTitle">运输方式(自有/SFP):{{item.shippingname}}    汇率:8.58</div>
+                <div class="tableBottomTitle">运输方式(自有/SFP):{{item.shippingname}}    汇率:{{item.exchangerate}}</div>
             </el-col>
         </el-row>
         

@@ -952,6 +952,7 @@ export default {
                     freight:res.data.development.freight, //运费
                     backpurchaseprice:res.data.development.backpurchaseprice, //下大单返样品费
                     backpurchasepricenote:res.data.development.backpurchasepricenote, //返样品费详情备注
+                    sampleDeliveryOn:res.data.development.sampleDeliveryOn, //样品交期
                     sampledeliverydays:this.productVos.sampledeliverydays, //样品交期
                     taxleviedpoint:res.data.development.taxleviedpoint, //含税价税点
                     tax:res.data.development.tax, //海关退税率
