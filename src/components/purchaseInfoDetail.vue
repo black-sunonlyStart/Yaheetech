@@ -56,7 +56,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        prop="MiscPrice"
+                        prop="miscprice"
                         label="杂费(¥)">
                     </el-table-column>
                     <el-table-column
@@ -164,39 +164,39 @@
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
-                样品购买价:<span>{{purchaseInfoDetaiList.productprice}} (产品价格) + {{purchaseInfoDetaiList.freight}} (运费) = {{purchaseInfoDetaiList.productprice + purchaseInfoDetaiList.freight}}RMB</span>
+                样品购买价: <span>{{purchaseInfoDetaiList.productprice}} (产品价格) + {{purchaseInfoDetaiList.freight}} (运费) = {{purchaseInfoDetaiList.productprice + purchaseInfoDetaiList.freight}}RMB</span>
             </el-col>
             <el-col :span="10">
-                含税价税点:<span>{{purchaseInfoDetaiList.taxleviedpoint}}</span>
-            </el-col>
-        </el-row>
-        <el-row class="textSpeaing">
-            <el-col :span="10">
-                下大单返样品费:<span>{{purchaseInfoDetaiList.backpurchaseprice}}</span>
-            </el-col>
-            <el-col :span="10">
-                海关退税率:<span>{{purchaseInfoDetaiList.tax > 0 ?purchaseInfoDetaiList.tax + '%': purchaseInfoDetaiList.tax * 100 + '%'}}</span>
+                含税价税点: <span>{{purchaseInfoDetaiList.taxleviedpoint ? purchaseInfoDetaiList.taxleviedpoint + '%' : ''}}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
-                返样品费详情备注:<span>{{purchaseInfoDetaiList.backpurchasepricenote}}</span>
+                下大单返样品费: <span>{{purchaseInfoDetaiList.backpurchaseprice}}</span>
             </el-col>
             <el-col :span="10">
-                品牌费:<span>{{purchaseInfoDetaiList.bandprice}}</span>
-            </el-col>
-        </el-row>
-        <el-row class="textSpeaing">
-            <el-col :span="10">
-                样品交期:<span>{{purchaseInfoDetaiList.sampledeliverydays}}</span>
-            </el-col>
-            <el-col :span="10">
-                FOB报价品牌费:<span>{{purchaseInfoDetaiList.fobbandprice}}</span>
+                海关退税率: <span>{{purchaseInfoDetaiList.tax > 0 ?purchaseInfoDetaiList.tax * 100 + '%' : purchaseInfoDetaiList.tax  + '%'}}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
-                FOB头程费:<span>{{purchaseInfoDetaiList.packedvolume * 93}}</span>
+                返样品费详情备注: <span>{{purchaseInfoDetaiList.backpurchasepricenote}}</span>
+            </el-col>
+            <el-col :span="10">
+                品牌费: <span>{{purchaseInfoDetaiList.bandprice}}</span>
+            </el-col>
+        </el-row>
+        <el-row class="textSpeaing">
+            <el-col :span="10">
+                样品交期: <span>{{purchaseInfoDetaiList.sampledeliverydays}}</span>
+            </el-col>
+            <el-col :span="10">
+                FOB报价品牌费: <span>{{purchaseInfoDetaiList.fobbandprice}}</span>
+            </el-col>
+        </el-row>
+        <el-row class="textSpeaing">
+            <el-col :span="10">
+                FOB头程费: <span>{{purchaseInfoDetaiList.packedvolume ? purchaseInfoDetaiList.packedvolume * 93 : 0}}</span>
             </el-col>
         </el-row>
     </div>

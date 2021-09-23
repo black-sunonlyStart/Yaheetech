@@ -521,10 +521,6 @@ export default {
           }else if(row.state == 12){
               this.operationList = [
                   {
-                    name:'审批通过',
-                    id:25
-                  },
-                  {
                     name:'提交利润初审',
                     id:11
                   },

@@ -43,8 +43,8 @@
                     包装体积(发货用):
                 </div>
                 <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.packedvolume}}(m³)</div>
-                    <div>{{pordSizeAttrInfoList.packedvolumeYchi}}(cu ft)</div>
+                    <div>{{pordSizeAttrInfoList.packedvolume ? pordSizeAttrInfoList.packedvolume : ''}}(m³)</div>
+                    <div>{{pordSizeAttrInfoList.packedvolumeYchi ? pordSizeAttrInfoList.packedvolumeYchi : ''}}(cu ft)</div>
                 </div>
             </el-col>
         </el-row>
@@ -63,8 +63,8 @@
                     外箱体积(装柜用):
                 </div>
                 <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.outerBoxVolume}}(m³)</div>
-                    <div>{{pordSizeAttrInfoList.outerBoxVolumeYcun}}(cu ft)</div>
+                    <div>{{pordSizeAttrInfoList.outerBoxVolume ? pordSizeAttrInfoList.outerBoxVolume:''}}(m³)</div>
+                    <div>{{pordSizeAttrInfoList.outerBoxVolumeYcun ? pordSizeAttrInfoList.outerBoxVolumeYcun : ''}}(cu ft)</div>
                 </div>
             </el-col>
         </el-row>

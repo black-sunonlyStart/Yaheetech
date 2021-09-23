@@ -740,8 +740,8 @@ export default {
                     productSizeYcunL:(this.productVos.length * ycun).toFixed(2),//产品尺寸ycun
                     productSizeYcunW:(this.productVos.width * ycun).toFixed(2) ,//产品尺寸ycun
                     productSizeYcunH:(this.productVos.height * ycun).toFixed(2),//产品尺寸ycun
-                    productVolume:(this.productVos.length / 100) * (this.productVos.width / 100) * (this.productVos.height / 100), //产品体积
-                    productVolumeYchi:(((this.productVos.length / 100) * (this.productVos.width / 100) * (this.productVos.height / 100)) * ychi).toFixed(2) , //产品体积
+                    productVolume:((this.productVos.length / 100) * (this.productVos.width / 100) * (this.productVos.height / 100)).toFixed(6), //产品体积
+                    productVolumeYchi:(((this.productVos.length / 100) * (this.productVos.width / 100) * (this.productVos.height / 100)) * ychi).toFixed(6) , //产品体积
                     packageSizeL:this.productVos.packedlength,//包装尺寸发货用
                     packageSizeW:this.productVos.packedwidth,//包装尺寸发货用
                     packageSizeH:this.productVos.packedheight,//包装尺寸发货用
@@ -749,15 +749,15 @@ export default {
                     packageSizeYcunW:((this.productVos.packedwidth) * ycun).toFixed(2),//包装尺寸发货用
                     packageSizeYcunH:((this.productVos.packedheight) * ycun).toFixed(2),//包装尺寸发货用
                     packedvolume:this.productVos.packedvolume,//包装体积(发货用)
-                    packedvolumeYchi:(this.productVos.packedvolume * ychi).toFixed(2),//包装体积(发货用)
+                    packedvolumeYchi:(this.productVos.packedvolume * ychi).toFixed(6),//包装体积(发货用)
                     outerBoxSizeL:this.productVos.cartonLength,//外箱尺寸(装柜用
                     outerBoxSizeW:this.productVos.cartonWidth,//外箱尺寸(装柜用
                     outerBoxSizeH:this.productVos.cartonHeight,//外箱尺寸(装柜用
                     outerBoxSizeYcunL:((this.productVos.cartonLength) * ycun).toFixed(2),//外箱尺寸(装柜用
                     outerBoxSizeYcunW: (this.productVos.cartonWidth  * ycun).toFixed(2),//外箱尺寸(装柜用
                     outerBoxSizeYcunH:((this.productVos.cartonHeight) * ycun).toFixed(2),//外箱尺寸(装柜用
-                    outerBoxVolume:(this.productVos.cartonLength  / 100) * (this.productVos.cartonWidth  / 100) * (this.productVos.cartonHeight  / 100), //外箱体积(装柜用
-                    outerBoxVolumeYcun:(((this.productVos.cartonLength  / 100) * (this.productVos.cartonWidth  / 100) * (this.productVos.cartonHeight  / 100)) * ychi).toFixed(2), //外箱体积(装柜用
+                    outerBoxVolume:((this.productVos.cartonLength  / 100) * (this.productVos.cartonWidth  / 100) * (this.productVos.cartonHeight  / 100)).toFixed(6), //外箱体积(装柜用
+                    outerBoxVolumeYcun:(((this.productVos.cartonLength  / 100) * (this.productVos.cartonWidth  / 100) * (this.productVos.cartonHeight  / 100)) * ychi).toFixed(6), //外箱体积(装柜用
                     cartonWeight:this.productVos.cartonWeight,//外箱重量(装柜用)
                     cartonWeightLB:this.productVos.cartonWeight * 2.20,//外箱重量(装柜用)
                     beforepackweight:this.productVos.beforepackweight,//净重
@@ -803,14 +803,16 @@ export default {
                     freight:res.data.development.freight, //运费
                     backpurchaseprice:res.data.development.backpurchaseprice, //下大单返样品费
                     backpurchasepricenote:res.data.development.backpurchasepricenote, //返样品费详情备注
-                    sampleDeliveryOn:res.data.development.sampleDeliveryOn, //样品交期
+                    sampleDeliveryOn:this.productVos.sampleDeliveryOn, //样品交期
                     sampledeliverydays:this.productVos.sampledeliverydays, //样品交期
                     taxleviedpoint:res.data.development.taxleviedpoint, //含税价税点
                     tax:res.data.development.tax, //海关退税率
                     bandprice:res.data.development.bandprice, //品牌费
                     fobbandprice:res.data.development.fobbandprice, //FOB报价品牌费
-                    packedvolume:res.data.development.packedvolume, //FOB头程费
-
+                    packedvolume:this.productVos.packedvolume, //FOB头程费
+                    gooddate:this.productVos.gooddate,
+                    goodnote:this.productVos.goodnote,
+                    
                 }
                 //备注信息
                 this.remarksList = res.data.developmentmemoVos

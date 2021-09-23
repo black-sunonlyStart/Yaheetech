@@ -12,12 +12,12 @@
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                必要认证其他：<span class="credentialListBox" v-for="item in prodCerInfoDetailList.credentialList2" :key="item.id">{{item.data}}</span>
+                必要认证其他：<span class="credentialListBox" v-for="item in prodCerInfoDetailList.credentialList2" :key="item.data">{{item.data}}</span>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                推荐认证：<span v-for="item in prodCerInfoDetailList.credentialList3" :key="item.id">{{item.data}}</span>
+                推荐认证：<span v-for="item in prodCerInfoDetailList.credentialList3" :key="item.data">{{item.data}}</span>
             </el-col>
         </el-row>
         <el-row>
@@ -37,7 +37,7 @@
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                专利确认：<span v-for="item in prodCerInfoDetailList.patentInfo" :key="item.id">{{item.LanguageCode}}:{{item.Value}}</span>
+                专利确认：<span v-for="item in prodCerInfoDetailList.patentInfo" :key="item.Value">{{item.LanguageCode}}:{{item.Value}}</span>
             </el-col>
         </el-row>
     </div>
@@ -231,6 +231,7 @@ export default {
     },
     methods:{
         getAuthId(credentialList1){
+
             let newCredentialList1 = credentialList1.split(',')
             let usaid = []
              this.isUsa.forEach(item => {

@@ -74,7 +74,7 @@
                                 <el-table-column
                                     label="杂费(¥)">
                                     <template slot-scope="scope">
-                                        <el-input-number style="width:90px" :controls='false' v-model="scope.row.MiscPrice"></el-input-number>      
+                                        <el-input-number style="width:90px" :controls='false' v-model="scope.row.miscprice"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
@@ -432,7 +432,11 @@ export default {
                 backpurchasepricenote :this.purchaseInfoDetaiList.backpurchasepricenote,
                 bandprice :this.purchaseInfoDetaiList.bandprice,
                 sampleDeliveryOn :this.purchaseInfoDetaiList.sampleDeliveryOn,
+                productprice:this.purchaseInfoDetaiList.productprice,
+                goodTimeDate:this.purchaseInfoDetaiList.gooddate,
+                feeForOrdering:this.purchaseInfoDetaiList.goodnote,
                 sampledeliverydays :this.purchaseInfoDetaiList.sampledeliverydays,
+                freight:this.purchaseInfoDetaiList.freight,
                 fobbandprice :this.purchaseInfoDetaiList.fobbandprice,
                 packedvolume :this.purchaseInfoDetaiList.packedvolume * 93 || '',
                 productPurchaseVoList :this.purchaseInfoDetaiList.productPurchaseVoList || [],
@@ -468,10 +472,11 @@ export default {
           if(this.selectRow.length == 0 || (this.selectRow.length == 1 && this.selectRow[0] == undefined)){
           this.$nextTick(() => {
                 this.radio = 0
+                this.selectRow = this.ruleForm.productPurchaseVoList[0]
             })
           }
       },
-      submitForm(formName) {debugger
+      submitForm(formName) {
           if(!this.selectRow || this.selectRow.length == 0){
               this.$message({
                             type: 'error', 
@@ -499,6 +504,7 @@ export default {
                     sampleDeliveryOn:this.ruleForm.sampleDeliveryOn,//样品交期
                     sampledeliverydays:this.ruleForm.sampledeliverydays,//样品交期--时间差
                     packedvolume:this.ruleForm.packedvolume,//FOB头程费
+                    fobbandprice:this.ruleForm.fobbandprice,//FOB
                     gooddate:this.ruleForm.goodTimeDate,//货好时间
                     goodnote:this.ruleForm.feeForOrdering,//货好时间详情备注
                     purchases:[//采购信息

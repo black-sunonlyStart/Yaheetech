@@ -29,7 +29,7 @@
                 日文标题: <span>{{devInformationDetaiList.titleJp}}</span>
             </el-col>
             <el-col :span="10">
-                DE Duty税率: <span>{{devInformationDetaiList.dutyrate2 || 3.91}}%</span>
+                GB Duty税率: <span>{{devInformationDetaiList.dutyrate2 || 3.26}}%</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
@@ -37,7 +37,7 @@
                 英文关键词: <span>{{devInformationDetaiList.keys}}</span>
             </el-col>
             <el-col :span="10">
-                GB Duty税率: <span>{{devInformationDetaiList.dutyrate3 || 3.26}}%</span>
+                DE Duty税率: <span>{{devInformationDetaiList.dutyrate3 || 3.91}}%</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
@@ -202,17 +202,7 @@ export default {
     mounted(){
     },
     methods:{
-        // unitChange(){debugger
-        //     if(this.devInformationDetaiList.productMarketList.length > 0 ){
-        //         this.devInformationDetaiList.productMarketList.forEach(item => {
-        //             if(item.countrycode == 'GB'){
-        //                 item.unit == 'GBP'
-        //             }
-        //         })
-        //     }
-        // }
-        contryCurry(val,index){
-            console.log(val,index,'1111111111111111')
+        contryCurry(val){
             if(val == 'US'){
                 return 'USD'
             }else if(val == 'GB'){

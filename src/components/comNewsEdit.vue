@@ -27,6 +27,7 @@
                                 <div class="formInput">
                                     <el-form size="mini" label-width="80px" 
                                         :model="item" :rules="comProductRules"
+                                        ref="formInput"
                                     >
                                         <el-form-item label="平台:" prop="platformid">
                                             <el-select 
@@ -394,57 +395,64 @@ export default {
             this.$emit('closeEdit','false')
         },
       submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            let params = {
-                developmentId:this.$route.params.developmentId,
-                productId:this.$route.params.productId,
-                productCountryId:this.$route.params.productCountryId,
-                development:{
-                    id:this.$route.params.developmentId,//开发id
-                    jpsize:this.ruleForm.jpsize,//产品的尺寸
-                    jpweight:this.ruleForm.jpweight,//产品的净重
-                    basicinformation:this.ruleForm.basicinformation,//产品的规格参数
-                    jpmaterial:this.ruleForm.jpmaterial,//产品的材质
-                    jpprocess:this.ruleForm.jpprocess,//产品的工艺
-                    jpcolor:this.ruleForm.jpcolor,//产品的颜色
-                    advantagefunction:this.ruleForm.advantagefunction,//竞品结论--竞品优势功能
-                    defectfeature:this.ruleForm.defectfeature,//竞品结论--竞品缺陷功能
-                    usagescenarios:this.ruleForm.usagescenarios,//竞品结论--产品使用场景
-                    usecrowd:this.ruleForm.usecrowd,//竞品结论--产品目标人群
-                    jppositioning:this.ruleForm.jppositioning,//竞品结论--产品定位
-                    jpadjustmentpoint:this.ruleForm.jpadjustmentpoint,//竞品结论--产品确定开发调整点
-                    note:this.ruleForm.note,//竞品结论--备注
-                    jpranking:this.ruleForm.jpranking//竞品结论--产品排名
-                },
-            }
-             params.competingproducts = this.comNewsDetailList.competingproducts.map(res => {
-                 return {
-                     id:res.id || null,
-                     platformid:res.platformid,
-                     platformsiteid:res.platformsiteid,
-                     xsin:res.xsin,
-                     price:res.price,
-                     recentsalesvolume:res.recentsalesvolume,
-                     note:res.note,
-                     pictureuri:typeof(res.pictureuri) == 'string' ?res.pictureuri : res.pictureuri[0],
-                 }
-             })
-            competingProduct(params).then(res => {
-                if(res.code == 200){
-                    this.$message({
-                        type: 'success', 
-                        message:'数据保存成功',
-                        offset:220
-                    })
-                    this.$emit('closeEdit','false')
+        this.$refs['formInput'].forEach(item => {
+            item.validate((valid) => {
+                if(valid){
+                    this.$refs[formName].validate((valid) => {
+                    if (valid) {
+                        let params = {
+                            developmentId:this.$route.params.developmentId,
+                            productId:this.$route.params.productId,
+                            productCountryId:this.$route.params.productCountryId,
+                            development:{
+                                id:this.$route.params.developmentId,//开发id
+                                jpsize:this.ruleForm.jpsize,//产品的尺寸
+                                jpweight:this.ruleForm.jpweight,//产品的净重
+                                basicinformation:this.ruleForm.basicinformation,//产品的规格参数
+                                jpmaterial:this.ruleForm.jpmaterial,//产品的材质
+                                jpprocess:this.ruleForm.jpprocess,//产品的工艺
+                                jpcolor:this.ruleForm.jpcolor,//产品的颜色
+                                advantagefunction:this.ruleForm.advantagefunction,//竞品结论--竞品优势功能
+                                defectfeature:this.ruleForm.defectfeature,//竞品结论--竞品缺陷功能
+                                usagescenarios:this.ruleForm.usagescenarios,//竞品结论--产品使用场景
+                                usecrowd:this.ruleForm.usecrowd,//竞品结论--产品目标人群
+                                jppositioning:this.ruleForm.jppositioning,//竞品结论--产品定位
+                                jpadjustmentpoint:this.ruleForm.jpadjustmentpoint,//竞品结论--产品确定开发调整点
+                                note:this.ruleForm.note,//竞品结论--备注
+                                jpranking:this.ruleForm.jpranking//竞品结论--产品排名
+                            },
+                        }
+                        params.competingproducts = this.comNewsDetailList.competingproducts.map(res => {
+                            return {
+                                id:res.id || null,
+                                platformid:res.platformid,
+                                platformsiteid:res.platformsiteid,
+                                xsin:res.xsin,
+                                price:res.price,
+                                recentsalesvolume:res.recentsalesvolume,
+                                note:res.note,
+                                pictureuri:typeof(res.pictureuri) == 'string' ?res.pictureuri : res.pictureuri[0],
+                            }
+                        })
+                        competingProduct(params).then(res => {
+                            if(res.code == 200){
+                                this.$message({
+                                    type: 'success', 
+                                    message:'数据保存成功',
+                                    offset:220
+                                })
+                                this.$emit('closeEdit','false')
+                            }
+                        })
+                    } else {
+                        console.log('error submit!!');
+                        return false;
+                    }
+                    });
                 }
             })
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
+        })
+        
       },
       onSuccessUpload (res, file, fileList) {
             if(fileList.length > 1){
@@ -485,9 +493,10 @@ export default {
 .mainImage{
     margin-left: 55px;
     // border: 1px solid #EBEEF5;
+    margin-top: 8px;
     border-top: none;
     ::v-deep .el-form-item{
-        margin-bottom:5px !important;
+        margin-bottom:10px !important;
     }
     .iconDelbox{
         display: inline-block;
@@ -499,7 +508,7 @@ export default {
         }
     }
     .formInput{
-        margin-top: 23px;
+        margin-top: 8px;
         width: 370px;
         margin-left: -10px
     }

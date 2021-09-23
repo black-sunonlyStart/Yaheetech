@@ -684,8 +684,6 @@ export default {
                             size:this.ruleForm.productSize,//尺码
                             cartonShape:this.ruleForm.outerBoxSizeRules,
                             packageshape:this.ruleForm.sizeRules
-                            
-
                         },
                     }
                     if(this.ruleForm.productlistings.length > 0){
