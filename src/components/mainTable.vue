@@ -72,9 +72,9 @@
         <template slot-scope="scope">
             <div v-for="item in scope.row.productMarketStrs" :key="item.platformName">
                 <div style="font-weight:bold">{{item.platformName}}:</div>
-                <div>{{item.currency}} {{item.developmentPrice.toFixed(2)}}/
+                <div>{{item.currency}} {{item.developmentPrice.toFixed(2)}} /
                     <el-tooltip :content="rows.warehouseName" effect="dark" placement="top"  v-for="rows in item.marketProfits " :key="rows.warehouseId">
-                        <span :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin + '%' + '/'}}</span>
+                        <span :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin + '%' + ' ' + '/'}}</span>
                     </el-tooltip>
                 </div>
             </div>

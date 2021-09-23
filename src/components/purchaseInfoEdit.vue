@@ -13,8 +13,11 @@
                                 @selection-change="selectionLineChangeHandle"
                                 >
                                 <el-table-column
-                                    type="selection"
+                                     label="选择"
                                     >
+                                    <template slot-scope="scope">
+                                        <el-radio :label="scope.$index" v-model="radio" @change.native="handleSelectionChange(scope.row)">&nbsp;</el-radio>
+                                    </template>
                                 </el-table-column>
                                 <el-table-column
                                     prop="createdName"
@@ -347,6 +350,7 @@ export default {
     data(){
         return {
             selectRow:[],
+             radio:'',
             ruleForm:{
                 createdName:'',
                 taxleviedpoint:'',
@@ -359,6 +363,7 @@ export default {
                 fobbandprice:'',
                 packedvolume:'',
                 purchaseprice:0,
+               
                 productPurchaseVoList:[
                     {
                         createdName:'',
@@ -438,11 +443,12 @@ export default {
                 if(this.purchaseInfoDetaiList.productPurchaseVoList.length > 0){
                     this.purchaseInfoDetaiList.productPurchaseVoList.forEach((item,index) => {
                         if(item.isdefault){
-                            this.$refs.singleTable.toggleRowSelection(this.ruleForm.productPurchaseVoList[index])
+                            this.radio = index
                         }                       
                     })
                     if(this.selectRow.length == 0){
-                        this.$refs.singleTable.toggleRowSelection(this.ruleForm.productPurchaseVoList[0])
+                        this.radio = 0
+                        this.selectRow = this.ruleForm.productPurchaseVoList[0]
                     }
                 }
                 
@@ -461,11 +467,11 @@ export default {
           })
           if(this.selectRow.length == 0 || (this.selectRow.length == 1 && this.selectRow[0] == undefined)){
           this.$nextTick(() => {
-                this.$refs.singleTable.toggleRowSelection(this.ruleForm.productPurchaseVoList[0])
+                this.radio = 0
             })
           }
       },
-      submitForm(formName) {
+      submitForm(formName) {debugger
           if(!this.selectRow || this.selectRow.length == 0){
               this.$message({
                             type: 'error', 
@@ -498,21 +504,10 @@ export default {
                     purchases:[//采购信息
                     ]
                 } 
-                
                 let tableList = []
-                if(this.purchaseInfoDetaiList.productPurchaseVoList && this.purchaseInfoDetaiList.productPurchaseVoList[0]){
-                   this.purchaseInfoDetaiList.productPurchaseVoList.forEach(item => {
-                       this.selectRow.forEach(res => {
-                           if(item.isdefault){
-                               item.isdefault = res.isdefault
-                           }
-                       })
-                   })
-                }
-                if(this.selectRow.length != 0){
-                        this.selectRow.type = 0
-                        tableList.push(this.selectRow)
-                }
+                this.selectRow.isdefault = true
+                this.selectRow.type = 0
+                tableList.push(this.selectRow)
                 if(this.ruleForm.lastProductPurchaseVoList.length != 0){
                         this.ruleForm.lastProductPurchaseVoList.type = 1
                         tableList.push(this.ruleForm.lastProductPurchaseVoList)
@@ -539,7 +534,8 @@ export default {
             this.$emit('closeEdit','false')
         },
         handleSelectionChange(val){
-            this.rows = val
+            console.log(val,'111111111111')
+            this.selectRow = val
             if(val.length > 1) return
         }
     }

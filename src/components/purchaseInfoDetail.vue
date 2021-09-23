@@ -17,6 +17,7 @@
                     <el-table-column
                         prop="createdName"
                         label="采购开发"
+                        header-align='center'
                         >
                     </el-table-column>
                     <el-table-column
@@ -105,7 +106,7 @@
                        >
                     </el-table-column>
                     <el-table-column
-                        label="出厂价(¥)">
+                        label="出厂价( ¥ )">
                         <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.purchaseprice}}</span>
@@ -114,7 +115,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="FOB价(¥)">
+                        label="FOB价( ¥ )">
                          <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.fobprice }}</span>
@@ -123,7 +124,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="含税价(¥)">
+                        label="含税价( ¥ )">
                         <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.taxprice}}</span>
@@ -133,16 +134,16 @@
                     </el-table-column>
                     <el-table-column
                         prop="MiscPrice"
-                        label="杂费(¥)">
+                        label="杂费( ¥ )">
                     </el-table-column>
                     <el-table-column
                         prop="warpperfee"
-                        label="产品包装费(¥)">
+                        label="产品包装费( ¥ )">
                     </el-table-column>
                     <el-table-column>
                         <template slot="header">
                             <div class="textPostion">采购成本</div>
-                            <div class="textPostion">净采购价+杂费+包装费(¥)</div>
+                            <div class="textPostion">净采购价+杂费+包装费( ¥ )</div>
                         </template>
                         <template slot-scope="scope">
                             <div>

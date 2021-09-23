@@ -21,7 +21,7 @@
                     </div>
                     <div>
                         开发市场:<div class="countryTitle">{{ productCountryList ? productCountryList.countryName:'' }}</div> 
-                        <div v-for="item in otherCountryList" :key="item.id" class="otherCountryTitle" @click="changeCountry(item.developmentId,item.productId,item.productCountryId)"> {{item ? item.countryName : ''}}</div>
+                        <div v-for="item in otherCountryList" :key="item.productCountryId" class="otherCountryTitle" @click="changeCountry(item.developmentId,item.productId,item.productCountryId)"> {{item ? item.countryName : ''}}</div>
                     </div>
                     <div class="haveMoneyLitte">
                         <div>
@@ -106,7 +106,7 @@
                                     <imgUpload @inputImg='putImgList' :value='imageList' @closeEdit='updeEditPage'></imgUpload> 
                                 </div>
                             </el-card>
-                            <el-card style="margin-top:10px">
+                            <el-card style="margin-top:10px;margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <span>销售目标
                                         <div class="edit-position" @click="isEdit2 = !isEdit2" v-if="isEdit2"><i class="icon-edit"></i>编辑</div>
@@ -121,111 +121,10 @@
                             </el-card>
                         </div>                   
                     </el-tab-pane>
-                    <!-- <el-tab-pane label="产品尺寸图" name="second">
-                        <div class="backgoundCon"></div>
-                        <div class='tabContainer'>
-                            <el-card>
-                                <div slot="header" class="clearfix">
-                                    <div>开发类型/场景
-                                        <div class="edit-position" @click="isEdit = !isEdit" v-if="isEdit"><i class="icon-edit"></i>编辑</div>
-                                    </div>   
-                                </div>
-                                <div v-if="isEdit">
-                                    <devDetail :productVoDetail='productVoDetail'></devDetail>
-                                </div>
-                                <div v-else>
-                                    <devScene @closeEdit='editPage' :productVoDetail='productVoDetail'></devScene>
-                                </div>
-                            </el-card>
-                            <el-card style="margin-top:10px">
-                                <div slot="header" class="clearfix">
-                                    <span>产品尺寸图
-                                        <div class="edit-position" @click="isEdit1 = !isEdit1" v-if="isEdit1"><i class="icon-edit"></i>编辑</div>
-                                    </span>
-                                </div>
-                                <div v-if="isEdit1" class="imgContainer">
-                                    <div v-for="item in productImgDetail" :key="item.key" class="imgCon">
-                                        <el-image
-                                            style="width: 100px; height: 100px; dispaly:black"
-                                            :src="item.showImgUrl"
-                                            fit="fill">
-                                        </el-image>
-                                    </div>
-                                </div>
-                                <div v-else>
-                                    <imgUpload @inputImg='putImgList' :value='imageList' @closeEdit='updeEditPage'></imgUpload> 
-                                </div>
-                            </el-card>
-                            <el-card style="margin-top:10px">
-                                <div slot="header" class="clearfix">
-                                    <span>销售目标
-                                        <div class="edit-position" @click="isEdit2 = !isEdit2" v-if="isEdit2"><i class="icon-edit"></i>编辑</div>
-                                    </span>
-                                </div>
-                                <div v-if="isEdit2">
-                                    <sales-target-detail :salesTargetDetaiList='salesTargetDetaiList'></sales-target-detail>
-                                </div>
-                                <div v-else>
-                                    <salesTargetEdit @closeEdit='salesEditPage' :salesTargetDetaiList='salesTargetDetaiList'></salesTargetEdit>
-                                </div>
-                            </el-card>
-                        </div>                  
-                        
-                    </el-tab-pane>
-                    <el-tab-pane label="销售目标" name="third">
-                        <div class="backgoundCon"></div>
-                        <div class='tabContainer'>
-                            <el-card>
-                                <div slot="header" class="clearfix">
-                                    <div>开发类型/场景
-                                        <div class="edit-position" @click="isEdit = !isEdit" v-if="isEdit"><i class="icon-edit"></i>编辑</div>
-                                    </div>   
-                                </div>
-                                <div v-if="isEdit">
-                                    <devDetail :productVoDetail='productVoDetail'></devDetail>
-                                </div>
-                                <div v-else>
-                                    <devScene @closeEdit='editPage' :productVoDetail='productVoDetail'></devScene>
-                                </div>
-                            </el-card>
-                            <el-card style="margin-top:10px">
-                                <div slot="header" class="clearfix">
-                                    <span>产品尺寸图
-                                        <div class="edit-position" @click="isEdit1 = !isEdit1" v-if="isEdit1"><i class="icon-edit"></i>编辑</div>
-                                    </span>
-                                </div>
-                                <div v-if="isEdit1" class="imgContainer">
-                                    <div v-for="item in productImgDetail" :key="item.key" class="imgCon">
-                                        <el-image
-                                            style="width: 100px; height: 100px; dispaly:black"
-                                            :src="item.showImgUrl"
-                                            fit="fill">
-                                        </el-image>
-                                    </div>
-                                </div>
-                                <div v-else>
-                                    <imgUpload @inputImg='putImgList' :value='imageList' @closeEdit='updeEditPage'></imgUpload> 
-                                </div>
-                            </el-card>
-                            <el-card style="margin-top:10px">
-                                <div slot="header" class="clearfix">
-                                    <span>销售目标
-                                        <div class="edit-position" @click="isEdit2 = !isEdit2" v-if="isEdit2"><i class="icon-edit"></i>编辑</div>
-                                    </span>
-                                </div>
-                                <div v-if="isEdit2">
-                                    <sales-target-detail :salesTargetDetaiList='salesTargetDetaiList'></sales-target-detail>
-                                </div>
-                                <div v-else>
-                                    <salesTargetEdit @closeEdit='salesEditPage' :salesTargetDetaiList='salesTargetDetaiList'></salesTargetEdit>
-                                </div>
-                            </el-card>
-                        </div>                  
-                    </el-tab-pane> -->
                     <el-tab-pane label="竞品信息" name="fourth">
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
-                            <el-card>
+                            <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>竞品信息
                                         <div class="edit-position" @click="isEdit3 = !isEdit3" v-if="isEdit3"><i class="icon-edit"></i>编辑</div>
@@ -240,7 +139,7 @@
                             </el-card>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="开发信息" name="fifth">
+                    <el-tab-pane label="开发信息" name="fifth" style="margin-bottom:30px">
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
                             <el-card>
@@ -278,7 +177,7 @@
                         </div>
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
-                            <el-card>
+                            <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>产品标题和供应商信息
                                         <div class="edit-position" @click="isEdit6 = !isEdit6" v-if="isEdit6"><i class="icon-edit"></i>编辑</div>
@@ -293,45 +192,10 @@
                             </el-card>
                         </div>
                     </el-tab-pane>
-                    <!-- <el-tab-pane label="产品标题和供应商信息" name="seventh">
-                        <div class="backgoundCon"></div>
-                        <div class='tabContainer'>
-                            <el-card>
-                                <div slot="header" class="clearfix">
-                                    <div>产品认证信息
-                                        <div class="edit-position" @click="isEdit5 = !isEdit5" v-if="isEdit5"><i class="icon-edit"></i>编辑</div>
-                                    </div>   
-                                </div>
-                                <div v-if="isEdit5">
-                                    <prodCerInfoDetail :prodCerInfoDetailList='prodCerInfoDetailList'></prodCerInfoDetail>
-                                
-                                </div>
-                                <div v-else>
-                                    <prodCerInfoEdit @closeEdit='proInfoEdit' :prodCerInfoDetailList='prodCerInfoDetailList'></prodCerInfoEdit>
-                                </div>
-                            </el-card>
-                        </div>
-                        <div class="backgoundCon"></div>
-                        <div class='tabContainer'>
-                            <el-card>
-                                <div slot="header" class="clearfix">
-                                    <div>产品标题和供应商信息
-                                        <div class="edit-position" @click="isEdit6 = !isEdit6" v-if="isEdit6"><i class="icon-edit"></i>编辑</div>
-                                    </div>   
-                                </div>
-                                <div v-if="isEdit6">
-                                    <prodevInfoDetail :prodevInfoDetaiList='prodevInfoDetaiList'></prodevInfoDetail>
-                                </div>
-                                <div v-else>
-                                    <prodevInfoEdit @closeEdit='prodevInfoEdit' :prodevInfoDetaiList='prodevInfoDetaiList'></prodevInfoEdit>
-                                </div>
-                            </el-card>
-                        </div>
-                    </el-tab-pane> -->
                     <el-tab-pane label="产品尺寸和属性信息" name="eigth">
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
-                            <el-card>
+                            <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>产品尺寸和属性信息
                                         <div class="edit-position" @click="isEdit7 = !isEdit7" v-if="isEdit7"><i class="icon-edit"></i>编辑</div>
@@ -349,7 +213,7 @@
                     <el-tab-pane label="采购信息" name="nineth">
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
-                            <el-card>
+                            <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>采购信息
                                         <div class="edit-position" @click="isEdit8 = !isEdit8" v-if="isEdit8"><i class="icon-edit"></i>编辑</div>
@@ -365,19 +229,6 @@
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="备注" name="tenth">
-                        <!-- <div class="backgoundCon"></div> -->
-                        <!-- <div class='remarkContainer'> -->
-                            <!-- <el-card> -->
-                                <!-- <div slot="header" class="clearfix">
-                                    <div>
-                                        备注信息
-                                    </div>   
-                                </div>
-                                <div>
-                                    <remarksTable :remarksList='remarksList'></remarksTable>
-                                </div> -->
-                            <!-- </el-card> -->
-                        <!-- </div> -->
                     </el-tab-pane>
                 </el-tabs>
                 <operationButton :nowStatus='nowStatus'></operationButton>   

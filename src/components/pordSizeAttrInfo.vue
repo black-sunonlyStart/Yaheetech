@@ -141,35 +141,35 @@
                     :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                     >
                     <el-table-column
-                        label="美国(FEDEX & UPS)= 长*宽*高/9935"
+                        label="美国(FEDEX & UPS)= 长*宽*高 / 9935"
                         >
                         <template slot-scope="scope">
-                            <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /9935).toFixed(2)}}Kg/</span>
+                            <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /9935).toFixed(2)}}Kg / </span>
                             <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /9935 * 2.20).toFixed(2)}}LB</span>
                         </template>
                     </el-table-column>
                     <el-table-column
                         prop="name"
-                        label="美国 JD UPS = 长*宽*高/8128"
+                        label="美国 JD UPS = 长*宽*高 / 8128"
                         >
                         <template slot-scope="scope">
-                            <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /8182).toFixed(2)}}Kg/</span>
+                            <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /8182).toFixed(2)}}Kg / </span>
                             <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /8182 * 2.20).toFixed(2)}}LB</span>
                         </template>
                     </el-table-column>
                     <el-table-column
                         prop="address"
-                        label="英国 XDP = 长*宽*高/5000">
+                        label="英国 XDP = 长*宽*高 / 5000">
                         <template slot-scope="scope">
-                            <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /5000).toFixed(2)}}Kg/</span>
+                            <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /5000).toFixed(2)}}Kg / </span>
                             <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /5000 * 2.20).toFixed(2)}}LB</span>
                         </template>
                     </el-table-column>
                     <el-table-column
                         prop="address"
-                        label="英国 Tuffnell = 长*宽*高/4000">
+                        label="英国 Tuffnell = 长*宽*高 / 4000">
                         <template slot-scope="scope">
-                            <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /4000).toFixed(2)}}Kg/</span>
+                            <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /4000).toFixed(2)}}Kg / </span>
                             <span>{{(scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /4000 * 2.20).toFixed(2)}}LB</span>
                         </template>
                     </el-table-column>
@@ -302,23 +302,6 @@
 export default {
     data(){
         return {
-             tableData: [{
-                date: '2016-05-02',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1518 弄'
-            }, {
-                date: '2016-05-04',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1517 弄'
-            }, {
-                date: '2016-05-01',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1519 弄'
-            }, {
-                date: '2016-05-03',
-                name: '王小虎',
-                address: '上海市普陀区金沙江路 1516 弄'
-            }]
         }
     },
     props:{

@@ -5,9 +5,9 @@
                 竞品信息
             </span>
             <div class="mainImage">
-                <el-row>
+                <el-row >
                     <div v-for="(item, index) in comNewsDetailList.competingproducts" :key="item.key" >
-                        <el-col :span="9" class="imgDetail">
+                        <el-col  class="imgDetail" :xs="24" :sm="24" :md="24" :lg="10" :xl="8">
                             <div class="productTitle">竞品{{index + 1}}</div>
                             <div class="imgbox">
                                 <div class="uploadBox">
@@ -501,7 +501,7 @@ export default {
     .formInput{
         margin-top: 23px;
         width: 370px;
-        margin-left: 38px
+        margin-left: -10px
     }
     .productTitle{
         height: 40px;
