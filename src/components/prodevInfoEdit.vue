@@ -199,13 +199,9 @@ export default {
                 productMarket:'',
                 certificationRemarks:'',
                 fileList:[
-                  
                     ],
                 recommendFileList:[
-               
                 ],
-
-
             },
             rules:{
                 chineseDescription: [{ required: true, message: '请填写描述信息', trigger: 'blur' }],
@@ -215,24 +211,19 @@ export default {
             },
             devSign:[
                 {
-                    label: 'eBay',
+                    label: '美国',
                     key: 1,
-                    value: 1
+                    value: 'USA'
                 },
                 {
-                    label: 'Amazon',
+                    label: '英国',
                     key: 2,
-                    value: 2
+                    value: 'GB'
                 },    
                 {
-                    label: 'TradeMe',
+                    label: '欧盟',
                     key: 3,
-                    value: 3
-                }, 
-                {
-                    label: 'Walmart',
-                    key: 4,
-                    value: 4
+                    value: 'UK'
                 }, 
             ],
         }

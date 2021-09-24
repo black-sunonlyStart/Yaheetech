@@ -39,27 +39,27 @@
             <el-col  :span="12">
                 <div class="mainInofTitle">基础信息</div>
                 <div class="mianInfo">
-                    <span>产品的尺寸：</span>
+                    <span class='showTitle'>产品的尺寸：</span>
                     <span class="mianInfoTitle">{{comNewsDetailList.jpsize}}</span>
                 </div>
                 <div class="mianInfo">
-                    <span>产品的净重：</span>
+                    <span class='showTitle'>产品的净重：</span>
                     <span class="mianInfoTitle">{{comNewsDetailList.jpweight}}</span>
                 </div>
                 <div class="mianInfo">
-                    <span>产品的规格参数：</span>
+                    <span class="showTitle">产品的规格参数：</span>
                     <span class="mianInfoTitle">{{comNewsDetailList.basicinformation}}</span>
                 </div>
                 <div class="mianInfo">
-                    <span>产品的材质：</span>
+                    <span class='showTitle'>产品的材质：</span>
                     <span class="mianInfoTitle">{{comNewsDetailList.jpmaterial}}</span>
                 </div>
                 <div class="mianInfo">
-                    <span>产品的工艺：</span>
+                    <span class='showTitle'>产品的工艺：</span>
                     <span class="mianInfoTitle">{{comNewsDetailList.jpprocess}}</span>
                 </div>
                 <div class="mianInfo">
-                    <span>产品的颜色：</span>
+                    <span class='showTitle'>产品的颜色：</span>
                     <span class="mianInfoTitle">{{comNewsDetailList.jpcolor}}</span>
                 </div >
                 
@@ -67,36 +67,36 @@
             <el-col  :span="12">
                 <div class="mainInofTitle">竞品结论</div>
                 <div class="mianInfo">
-                    <span>竞品优势功能：</span>
-                    <span class="mianInfoTitle">{{comNewsDetailList.advantagefunction}}</span>
+                    <div class='showTitle'>竞品优势功能：</div>
+                    <div class="mianInfoTitle">{{comNewsDetailList.advantagefunction}}</div>
                 </div>
                 <div class="mianInfo">
-                    <span>竞品缺陷功能：</span>
-                    <span class="mianInfoTitle">{{comNewsDetailList.defectfeature}}</span>
+                    <div class='showTitle'>竞品缺陷功能：</div>
+                    <div class="mianInfoTitle">{{comNewsDetailList.defectfeature}}</div>
                 </div>
                 <div class="mianInfo">
-                    <span>产品使用场景：</span>
-                    <span class="mianInfoTitle">{{comNewsDetailList.usagescenarios}}</span>
+                    <div class='showTitle'>产品使用场景：</div>
+                    <div class="mianInfoTitle">{{comNewsDetailList.usagescenarios}}</div>
                 </div>
                 <div class="mianInfo">
-                    <span>产品目标人群：</span>
-                    <span class="mianInfoTitle">{{comNewsDetailList.usecrowd}}</span>
+                    <div class='showTitle'>产品目标人群：</div>
+                    <div class="mianInfoTitle">{{comNewsDetailList.usecrowd}}</div>
                 </div>
                 <div class="mianInfo">
-                    <span>产品定位：</span>
-                    <span class="mianInfoTitle">{{comNewsDetailList.jppositioning}}</span>
+                    <div class='showTitle'>产品定位：</div>
+                    <div class="mianInfoTitle">{{comNewsDetailList.jppositioning}}</div>
                 </div>           
                 <div class="mianInfo">
-                    <span>产品排名：</span>
-                    <span class="mianInfoTitle">{{comNewsDetailList.jpranking}}</span>
+                    <div class='showTitle'>产品排名：</div>
+                    <div class="mianInfoTitle">{{comNewsDetailList.jpranking}}</div>
                 </div>           
                 <div class="mianInfo">
-                    <span>产品确定开发调整点：</span>
-                    <span class="mianInfoTitle">{{comNewsDetailList.jpadjustmentpoint}}</span>
+                    <div class='showTitle'>产品确定开发调整点：</div>
+                    <div class="mianInfoTitle">{{comNewsDetailList.jpadjustmentpoint}}</div>
                 </div>           
                 <div class="mianInfo">
-                    <span>备注：</span>
-                    <span class="mianInfoTitle">{{comNewsDetailList.note}}</span>
+                    <div class='showTitle'>备注：</div>
+                    <div class="mianInfoTitle">{{comNewsDetailList.note}}</div>
                 </div>           
             </el-col>
         </el-row>
@@ -211,10 +211,12 @@ export default {
     }
 }
 .mianInfo{
+    display: flex;
     margin-bottom: 10px;
     font-weight: bold;
     .mianInfoTitle{
         font-weight: normal;
+        width: 660px;
     }
 }
 .productsMain{
@@ -241,6 +243,11 @@ export default {
         }
         display: flex;
     }
+}
+.showTitle{
+    display: inline-block;
+    text-align: right;
+    width: 140px;
 }
     
 </style>

@@ -60,7 +60,7 @@
             >
         <template slot-scope="scope">
             <div class="remarksenTitle" @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">{{scope.row.enTitle}}</div>
-            <div>{{scope.row.title}}</div>
+            <div>{{scope.row.title || null}}</div>
             <div>普通产品:{{scope.row.developmentId}}</div>
             <div>sku别名:{{scope.row.skuAlias}}</div>
         </template>

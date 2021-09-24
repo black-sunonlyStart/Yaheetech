@@ -57,7 +57,7 @@
                     <span class='rightButton' @click="rightMove"><i class="el-icon-d-arrow-right"></i></span>
                 </div> 
                 <div class="stepText">
-                    <span class="stepTextLittleTitle">业务：{{productCountryList ? productCountryList.businessName :''}}</span><span>采购：{{productCountryList ? productCountryList.buyerName :''}}</span>
+                    <span class="stepTextLittleTitle">业务：{{devInformationDetaiList ? devInformationDetaiList.businessProduct :''}}</span><span>采购：{{devInformationDetaiList ? devInformationDetaiList.orderProduct :''}}</span>
                 </div> 
             </el-card>
         </el-col>
@@ -531,7 +531,7 @@ export default {
                 //开发类型、详情数据
                 this.productVoDetail = {
                     developmenttype:this.productVos ? this.productVos.developmenttype :'',//开发类型
-                    developmentscenarios:this.productVos.developmentscenarios,//开发场景
+                    developmentscenarios:this.productVos ? this.productVos.developmentscenarios : '',//开发场景
                     categoryname:res.data.development ? res.data.development.categoryname : '',//所属分类
                     spu:res.data.development.spu,//关联spu
                     id:this.productVos.id,//关联spu id
@@ -737,41 +737,41 @@ export default {
                     productSizeL:this.productVos.length,//产品尺寸
                     productSizeW:this.productVos.width,//产品尺寸
                     productSizeH:this.productVos.height,//产品尺寸
-                    productSizeYcunL:(this.productVos.length * ycun).toFixed(2),//产品尺寸ycun
-                    productSizeYcunW:(this.productVos.width * ycun).toFixed(2) ,//产品尺寸ycun
-                    productSizeYcunH:(this.productVos.height * ycun).toFixed(2),//产品尺寸ycun
-                    productVolume:((this.productVos.length / 100) * (this.productVos.width / 100) * (this.productVos.height / 100)).toFixed(6), //产品体积
-                    productVolumeYchi:(((this.productVos.length / 100) * (this.productVos.width / 100) * (this.productVos.height / 100)) * ychi).toFixed(6) , //产品体积
+                    productSizeYcunL:this.productVos.length ? (this.productVos.length * ycun).toFixed(2) : '',//产品尺寸ycun
+                    productSizeYcunW:this.productVos.width ? (this.productVos.width * ycun).toFixed(2):'' ,//产品尺寸ycun
+                    productSizeYcunH:this.productVos.height ? (this.productVos.height * ycun).toFixed(2) :'',//产品尺寸ycun
+                    productVolume:this.productVos.length ? ((this.productVos.length / 100) * (this.productVos.width / 100) * (this.productVos.height / 100)).toFixed(6) : '', //产品体积
+                    productVolumeYchi:this.productVos.length  ? (((this.productVos.length / 100) * (this.productVos.width / 100) * (this.productVos.height / 100)) * ychi).toFixed(6) :'', //产品体积
                     packageSizeL:this.productVos.packedlength,//包装尺寸发货用
                     packageSizeW:this.productVos.packedwidth,//包装尺寸发货用
                     packageSizeH:this.productVos.packedheight,//包装尺寸发货用
-                    packageSizeYcunL:((this.productVos.packedlength) * ycun).toFixed(2),//包装尺寸发货用
-                    packageSizeYcunW:((this.productVos.packedwidth) * ycun).toFixed(2),//包装尺寸发货用
-                    packageSizeYcunH:((this.productVos.packedheight) * ycun).toFixed(2),//包装尺寸发货用
+                    packageSizeYcunL:this.productVos.packedlength ? ((this.productVos.packedlength) * ycun).toFixed(2) :'',//包装尺寸发货用
+                    packageSizeYcunW:this.productVos.packedwidth? ((this.productVos.packedwidth) * ycun).toFixed(2) :'',//包装尺寸发货用
+                    packageSizeYcunH:this.productVos.packedheight ? ((this.productVos.packedheight) * ycun).toFixed(2):'',//包装尺寸发货用
                     packedvolume:this.productVos.packedvolume,//包装体积(发货用)
-                    packedvolumeYchi:(this.productVos.packedvolume * ychi).toFixed(6),//包装体积(发货用)
+                    packedvolumeYchi:this.productVos.packedvolume? (this.productVos.packedvolume * ychi).toFixed(6) :'',//包装体积(发货用)
                     outerBoxSizeL:this.productVos.cartonLength,//外箱尺寸(装柜用
                     outerBoxSizeW:this.productVos.cartonWidth,//外箱尺寸(装柜用
                     outerBoxSizeH:this.productVos.cartonHeight,//外箱尺寸(装柜用
-                    outerBoxSizeYcunL:((this.productVos.cartonLength) * ycun).toFixed(2),//外箱尺寸(装柜用
-                    outerBoxSizeYcunW: (this.productVos.cartonWidth  * ycun).toFixed(2),//外箱尺寸(装柜用
-                    outerBoxSizeYcunH:((this.productVos.cartonHeight) * ycun).toFixed(2),//外箱尺寸(装柜用
-                    outerBoxVolume:((this.productVos.cartonLength  / 100) * (this.productVos.cartonWidth  / 100) * (this.productVos.cartonHeight  / 100)).toFixed(6), //外箱体积(装柜用
-                    outerBoxVolumeYcun:(((this.productVos.cartonLength  / 100) * (this.productVos.cartonWidth  / 100) * (this.productVos.cartonHeight  / 100)) * ychi).toFixed(6), //外箱体积(装柜用
+                    outerBoxSizeYcunL:this.productVos.cartonLength? ((this.productVos.cartonLength) * ycun).toFixed(2):'',//外箱尺寸(装柜用
+                    outerBoxSizeYcunW: this.productVos.cartonWidth ? (this.productVos.cartonWidth  * ycun).toFixed(2) :'',//外箱尺寸(装柜用
+                    outerBoxSizeYcunH:this.productVos.cartonHeight ? ((this.productVos.cartonHeight) * ycun).toFixed(2) :'',//外箱尺寸(装柜用
+                    outerBoxVolume:this.productVos.cartonLength  ? ((this.productVos.cartonLength  / 100) * (this.productVos.cartonWidth  / 100) * (this.productVos.cartonHeight  / 100)).toFixed(6) :'', //外箱体积(装柜用
+                    outerBoxVolumeYcun:this.productVos.cartonLength  ? (((this.productVos.cartonLength  / 100) * (this.productVos.cartonWidth  / 100) * (this.productVos.cartonHeight  / 100)) * ychi).toFixed(6) : '', //外箱体积(装柜用
                     cartonWeight:this.productVos.cartonWeight,//外箱重量(装柜用)
                     cartonWeightLB:this.productVos.cartonWeight * 2.20,//外箱重量(装柜用)
                     beforepackweight:this.productVos.beforepackweight,//净重
                     abroadbeforepackweight :this.productVos.abroadbeforepackweight, //净重
                     afterpackweight:this.productVos.abroadbeforepackweight, //毛重(发货用)
                     abroadafterpackweight:this.productVos.abroadbeforepackweight, //毛重(发货用)
-                    logisticsPerimeter:(this.productVos.packedlength + (this.productVos.packedwidth + this.productVos.packedheight) * 2), //物流周长加长(美国)
+                    logisticsPerimeter:this.productVos.packedlength ? (this.productVos.packedlength + (this.productVos.packedwidth + this.productVos.packedheight) * 2) : '', //物流周长加长(美国)
                     transportqty:this.productVos.transportqty,//可装货柜数量
                     packingway:this.productVos.packingway,//包装方式
                     productlistings:this.productVos.productlistings,//多箱清单
                     // multiAttribute:res.data.allProducts[0].productColorList,//销售（多）属性
                     // size:res.data.allProducts[0].size,//销售（多）属性
                     containerVolume:this.productVos.containerVolume / this.productVos.transportqty, //每个产品所占体积
-                    containerVolumeCu:(parseFloat((this.productVos.containerVolume/this.productVos.transportqty).toFixed(2)) * 35.3147248).toFixed(2), //每个产品所占体积
+                    containerVolumeCu:this.productVos.containerVolume ? (parseFloat((this.productVos.containerVolume/this.productVos.transportqty).toFixed(2)) * 35.3147248).toFixed(2) :'', //每个产品所占体积
                     packedlength:this.productVos.packedlength,
                     packedwidth:this.productVos.packedwidth,
                     packedheight:this.productVos.packedheight,

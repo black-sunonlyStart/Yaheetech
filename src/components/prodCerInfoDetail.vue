@@ -2,42 +2,58 @@
     <div>
         <el-row>
             <el-col :span="24" class="produInfo"> 
-                是否需要认证：<span>{{prodCerInfoDetailList.isauth?'需要':'不需要'}}</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">是否需要认证: </div> <div class="colBoxContent">{{prodCerInfoDetailList.isauth?'是':'否'}}</div>
+                </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                必要认证：<span v-for="item in prodCerInfoDetailList.credentialList1" :key="item.authId">{{getAuthId(item.data)}}</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">必要认证: </div><div> <div class="colBoxContent" v-for="item in prodCerInfoDetailList.credentialList1" :key="item.authId">{{getAuthId(item.data)}}</div></div>
+                </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                必要认证其他：<span class="credentialListBox" v-for="item in prodCerInfoDetailList.credentialList2" :key="item.data">{{item.data}}</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">必要认证其他：</div> <div><div class="colBoxContent" v-for="item in prodCerInfoDetailList.credentialList2" :key="item.data">{{item.data}}</div></div>
+                </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                推荐认证：<span v-for="item in prodCerInfoDetailList.credentialList3" :key="item.data">{{item.data}}</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">推荐认证：</div> <div><div class="colBoxContent" v-for="item in prodCerInfoDetailList.credentialList3" :key="item.data">{{item.data}}</div></div>
+                </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                认证备注：<span>{{prodCerInfoDetailList.authnote}}</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">认证备注： </div> <div class="colBoxContent">{{prodCerInfoDetailList.authnote}}</div>
+                </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                产品年龄段：<span>{{prodCerInfoDetailList.applicableAge ? getPersonName(prodCerInfoDetailList.applicableAge):prodCerInfoDetailList.applicableAge == 0 ? '婴儿':'' }} {{prodCerInfoDetailList.applicableAgeNote}}</span>
+                 <div class="colbox">
+                    <div class="colBoxTitle">产品年龄段： </div> <div class="colBoxContent">{{prodCerInfoDetailList.applicableAge ? getPersonName(prodCerInfoDetailList.applicableAge):prodCerInfoDetailList.applicableAge == 0 ? '婴儿':'' }} {{prodCerInfoDetailList.applicableAgeNote}}</div>
+                </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                专利风险等级：<span>{{ prodCerInfoDetailList.riskllevel ? getLevel(prodCerInfoDetailList.riskllevel) : prodCerInfoDetailList.riskllevel ==0 ? '高风险':'' }}</span>
+                 <div class="colbox">
+                    <div class="colBoxTitle">专利风险等级: </div> <div class="colBoxContent">{{ prodCerInfoDetailList.riskllevel ? getLevel(prodCerInfoDetailList.riskllevel) : prodCerInfoDetailList.riskllevel ==0 ? '高风险':'' }}</div>
+                </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                专利确认：<span v-for="item in prodCerInfoDetailList.patentInfo" :key="item.Value">{{item.LanguageCode}}:{{item.Value}}</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">专利确认： </div> <div class="colBoxContent" v-for="item in prodCerInfoDetailList.patentInfo" :key="item.Value">{{item.LanguageCode}}:{{item.Value}}、</div>
+                </div>
             </el-col>
         </el-row>
     </div>
@@ -265,7 +281,6 @@ export default {
 <style lang="scss" scoped>
 .produInfo{
     margin: 15px 0px 0px 50px;
-    font-weight: bold;
     span {
         font-weight: normal;
         margin-right: 15px;
@@ -274,5 +289,16 @@ export default {
 .credentialListBox{
     margin-left: 15px;
 }
-
+.colbox{
+    display: flex;
+    .colBoxTitle{
+        font-weight: bold;
+        width: 120px;
+        text-align: right;
+        .colBoxContent{
+            width: 600px;
+            font-weight: normal !important;
+        }
+    }
+}
 </style>

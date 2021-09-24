@@ -10,11 +10,10 @@
                 <el-col :span="10">
                     <el-form-item label="目标采购价:" prop="targetPrice">
                         <div class="targetPriceWbox">
-                            <div class="targetPriceBox">
-                                <el-input v-model="ruleForm.targetPrice">
-                                    <template slot="append" v-if="ruleForm.region == 1">$</template>
-                                    <template slot="append" v-else>¥</template>
-                                </el-input>
+                            <div class="inputBox">
+                                <el-input-number :controls='false' v-model="ruleForm.targetPrice"></el-input-number>
+                                <span class="inputUnit" v-if="ruleForm.region == 1">$</span>
+                                <span class="inputUnit" v-else>¥</span>
                             </div>
                             <div>
                                 <el-select 
@@ -41,7 +40,7 @@
                 </el-col>
                 <el-col :span="10">
                     <el-form-item label="产品预估日销量:" prop="dailySales">
-                        <el-input v-model="ruleForm.dailySales"></el-input>
+                        <el-input-number  :controls='false'  v-model="ruleForm.dailySales" class="numberInput"></el-input-number>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -55,7 +54,7 @@
                 </el-col>
                 <el-col :span="10">
                     <el-form-item label="预估首单订单数量:" prop="orderQuantity">
-                        <el-input v-model="ruleForm.orderQuantity"></el-input>
+                        <el-input-number  :controls='false'  v-model="ruleForm.orderQuantity" class="numberInput"></el-input-number>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -252,5 +251,33 @@ export default {
         .el-input__inner{
             text-align: left;
         }
-    }   
+    }  
+    ::v-deep.inputBox{
+        width: 300px;
+        display: inline-block;
+        // display: flex;
+        .el-input-number {
+            width: 150px;
+            .el-input__inner{
+                color: black !important;
+                border-top-right-radius: 0px !important;
+                border-bottom-right-radius: 0px !important;
+            }
+        }
+    } 
+    .inputUnit{
+        text-align: center;
+        line-height: 28px;
+        background-color: #F5F7FA;
+        display: inline-block;
+        height: 28px;
+        width: 105px;
+        border: 1px solid #E4E7ED;
+        color: black;
+        font-size: 12px;
+        position: relative;
+        top: 1px;
+        border-top-right-radius: 4px ;
+        border-bottom-right-radius: 4px ;
+    }
 </style>

@@ -110,8 +110,8 @@
           <el-form-item label="是否需要认证:">
             <el-radio-group v-model="form.authentication" class="actionBox">
               <el-radio style="width:42px" label="all">全部</el-radio>
-              <el-radio style="width:52px" label= 1>需要</el-radio>
-              <el-radio style="width:42px" label= 0>不需要</el-radio>
+              <el-radio style="width:52px" label= 1>是</el-radio>
+              <el-radio style="width:42px" label= 0>否</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>

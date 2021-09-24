@@ -29,11 +29,12 @@
                                         :model="item" :rules="comProductRules"
                                         ref="formInput"
                                     >
-                                        <el-form-item label="平台:" prop="platformid">
+                                        <el-form-item label="平台：" prop="platformid">
                                             <el-select 
                                                 v-model="item.platformid"
                                                 style="width:140px;margin-right:10px"
                                                 @change="selectPlatformid(item.platformid,index)"
+                                                placeholder="请选择渠道"
                                                 >
                                                 <el-option 
                                                     v-for="item in devSign"                        
@@ -46,6 +47,7 @@
                                             <el-select 
                                                 v-model="item.platformsiteid" 
                                                 style="width:140px"
+                                                placeholder="请选择站点"
                                                 >
                                                 <el-option 
                                                     v-for="isItem in item.platforms"                        
@@ -56,18 +58,18 @@
                                                 </el-option>
                                             </el-select>  
                                         </el-form-item>
-                                        <el-form-item label="ASIN:" prop="xsin">
+                                        <el-form-item label="ASIN：" prop="xsin">
                                             <el-input v-model="item.xsin"> {{item.xsin}}</el-input>
                                         </el-form-item>
-                                        <el-form-item label="售价:" prop="price">
-                                            <el-input-number  :controls='false' v-model="item.price" type='number' style="width:290px"> {{item.price}}</el-input-number>
+                                        <el-form-item label="售价：" prop="price">
+                                            <el-input-number  :controls='false' v-model="item.price" type='number' placeholder="0" class="inputNumberStyle" > {{item.price}}</el-input-number>
                                         </el-form-item>
                                     
-                                        <el-form-item label="日销量:" prop="recentsalesvolume">
-                                            <el-input-number :controls='false'  v-model="item.recentsalesvolume" style="width:290px">{{item.recentsalesvolume}}</el-input-number >
+                                        <el-form-item label="日销量：" prop="recentsalesvolume">
+                                            <el-input-number :controls='false'  v-model="item.recentsalesvolume" placeholder="0" class="inputNumberStyle">{{item.recentsalesvolume}}</el-input-number >
                                         </el-form-item>
                                     
-                                        <el-form-item label="备注:">
+                                        <el-form-item label="备注：">
                                             <el-input v-model="item.note">{{item.note}}</el-input>
                                         </el-form-item>
                                     </el-form>
@@ -359,20 +361,22 @@ export default {
         },
         addPageList(){
             this.comNewsDetailList.competingproducts.push({
-                     id:'',
-                     platformid:'',
-                     platformsiteid:'',
-                     xsin:'',
-                     price:'',
-                     recentsalesvolume:'',
-                     note:'',
-                     pictureuri:'',
+                    id:'',
+                    platformid:'',
+                    platformsiteid:'',
+                    xsin:'',
+                    price:undefined,
+                    recentsalesvolume:undefined,
+                    note:'',
+                    pictureuri:'',
             })
         },
         getDetailPage(){
-            this.comNewsDetailList.competingproducts.forEach(item => {
-                item.platforms = this.platforms
-            })
+            if(this.comNewsDetailList && this.comNewsDetailList.competingproducts){
+                this.comNewsDetailList.competingproducts.forEach(item => {
+                    item.platforms = this.platforms
+                })
+            }
             this.ruleForm = {
                 advantagefunction:this.comNewsDetailList.advantagefunction,
                 jpsize:this.comNewsDetailList.jpsize,
@@ -389,6 +393,11 @@ export default {
                 jpadjustmentpoint:this.comNewsDetailList.jpadjustmentpoint,
                 note:this.comNewsDetailList.note,
             }
+            // if(!this.comNewsDetailList.competingproducts ){
+            //     this.comNewsDetailList.competingproducts = []
+            //     // this.addPageList()
+            // }
+            
         },
       resetForm() {
             // this.$refs[formName].resetFields();
@@ -562,6 +571,14 @@ export default {
     justify-content: flex-end;
     margin-right: 50px;
     margin-top: 20px;
+}
+::v-deep.inputNumberStyle{
+    width:290px;
+    .el-input{
+        input{
+            text-align: left;
+        }
+    }
 }
     
 </style>

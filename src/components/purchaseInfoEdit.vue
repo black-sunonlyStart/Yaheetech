@@ -320,7 +320,7 @@
                     <el-form-item label="FOB头程费:" prop="feeForOrdering">
                         <div class="feeForOrderText">
                             <div class="inputBox">
-                                <el-input-number :controls='false' v-model="ruleForm.packedvolume"></el-input-number>
+                                <el-input-number :controls='false' v-model="ruleForm.packedvolume" disabled></el-input-number>
                                 <span class="inputUnit">RMB</span>
                             </div>  
                         </div>
@@ -500,11 +500,11 @@ export default {
                         taxleviedpoint:this.ruleForm.taxleviedpoint,//含税价税点
                         tax:this.ruleForm.tax,//海关退税率
                         bandprice:this.ruleForm.bandprice,//品牌费
+                        fobbandprice:this.ruleForm.fobbandprice,//FOB
                     },
                     sampleDeliveryOn:this.ruleForm.sampleDeliveryOn,//样品交期
                     sampledeliverydays:this.ruleForm.sampledeliverydays,//样品交期--时间差
                     packedvolume:this.ruleForm.packedvolume,//FOB头程费
-                    fobbandprice:this.ruleForm.fobbandprice,//FOB
                     gooddate:this.ruleForm.goodTimeDate,//货好时间
                     goodnote:this.ruleForm.feeForOrdering,//货好时间详情备注
                     purchases:[//采购信息

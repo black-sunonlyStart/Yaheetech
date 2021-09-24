@@ -172,6 +172,7 @@
                         <el-select 
                             v-model="ruleForm.marksContry1"
                             @change="seleContry"
+                            placeholder="选择开发市场"
                             >
                             <el-option 
                                 v-for="item in dailySales1"                        
@@ -184,6 +185,7 @@
                         <el-select 
                             v-model="ruleForm.marksContry2"
                             @change="selectSale"
+                            placeholder="选择开发平台"
                             >
                             <el-option 
                                 v-for="item in dailySales2"                        
@@ -196,6 +198,7 @@
                         <el-select 
                             v-model="ruleForm.marksContry3"
                             @change="selectBox"
+                            placeholder="选择开发仓库"
                             >
                             <el-option 
                                 v-for="item in dailySales3"                        
@@ -771,10 +774,10 @@ export default {
                 titleJp:this.devInformationDetaiList.titleJp,
                 ispatentproduct:this.devInformationDetaiList.ispatentproduct || 1,
                 seaFreight:this.devInformationDetaiList.computemode?0:1,
-                brandEu:this.devInformationDetaiList.enCountryBand,
-                brandUs:this.devInformationDetaiList.usCountryBand,
-                brandDe:this.devInformationDetaiList.deCountryBand,
-                brandAo:this.devInformationDetaiList.auCountryBand,  
+                brandEu:this.devInformationDetaiList.enCountryBand || '0',
+                brandUs:this.devInformationDetaiList.usCountryBand || '0',
+                brandDe:this.devInformationDetaiList.deCountryBand || '0',
+                brandAo:this.devInformationDetaiList.auCountryBand || '0',  
             }
         },
         seleContry(val){
@@ -808,6 +811,14 @@ export default {
                     offset:220
                 })
                 return
+            }
+            if(this.devInformationDetaiList.productMarketList.find(item =>  item.developmentprice == 0)){
+                this.$message({
+                    type:'error',
+                    message:'开发价不能为0',
+                    offset:220,
+                });
+                return 
             }
             this.$refs['ruleForm1'].validate((valid) => {
                 if(valid){

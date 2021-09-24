@@ -72,7 +72,10 @@ export default {
           margin-top: 15px;
       }
       .imageMainbox{
+          text-align: right;
           font-weight: bold;
+          width: 150px;
+          display: inline-block;
           .imageMainboxText{
               font-weight: normal;
           }

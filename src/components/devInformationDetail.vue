@@ -2,55 +2,81 @@
     <div>
         <el-row class="textSpeaing">
             <el-col :span="10">
-                产品中文概述: <span>{{devInformationDetaiList.description}}</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">产品中文概述: </div> <div class="colBoxContent">{{devInformationDetaiList.description}}</div>
+                </div>
             </el-col>
             <el-col :span="10">
-                业务开发: <span>{{devInformationDetaiList.businessProduct ?devInformationDetaiList.businessProduct:'' }}</span>
-            </el-col>
-        </el-row>
-        <el-row class="textSpeaing">
-            <el-col :span="10">
-                英文标题: <span>{{devInformationDetaiList.title}}</span>
-            </el-col>
-            <el-col :span="10">
-                采购开发: <span>{{devInformationDetaiList.orderProduct ? devInformationDetaiList.orderProduct:'' }}</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">业务开发: </div> <div class="colBoxContent">{{devInformationDetaiList.businessProduct ?devInformationDetaiList.businessProduct:''}}</div>
+                </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
-                德文标题: <span>{{devInformationDetaiList.titleDe}}</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">英文标题: </div> <div class="colBoxContent">{{devInformationDetaiList.title}}</div>
+                </div>
             </el-col>
             <el-col :span="10">
-                US Duty税率: <span>{{devInformationDetaiList.dutyrate1}}%</span>
-            </el-col>
-        </el-row>
-        <el-row class="textSpeaing">
-            <el-col :span="10">
-                日文标题: <span>{{devInformationDetaiList.titleJp}}</span>
-            </el-col>
-            <el-col :span="10">
-                GB Duty税率: <span>{{devInformationDetaiList.dutyrate2 || 3.26}}%</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">采购开发: </div> <div class="colBoxContent">{{devInformationDetaiList.orderProduct ? devInformationDetaiList.orderProduct:'' }}</div>
+                </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
-                英文关键词: <span>{{devInformationDetaiList.keys}}</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">德文标题: </div> <div class="colBoxContent">{{devInformationDetaiList.titleDe }}</div>
+                </div>
             </el-col>
             <el-col :span="10">
-                DE Duty税率: <span>{{devInformationDetaiList.dutyrate3 || 3.91}}%</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">US Duty税率: </div> <div class="colBoxContent">{{devInformationDetaiList.dutyrate1}}%</div>
+                </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
-                开发优先级: <span>{{changPriority(devInformationDetaiList.priority) }}</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">日文标题: </div> <div class="colBoxContent">{{devInformationDetaiList.titleJp}}</div>
+                </div>
             </el-col>
             <el-col :span="10">
-                是否安吉产品: <span>{{devInformationDetaiList.isanji && devInformationDetaiList.isanji == 1 ? '是':devInformationDetaiList.isanji == 0 ? '否' : ' ' }}</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">GB Duty税率: </div> <div class="colBoxContent">{{devInformationDetaiList.dutyrate2 || 3.26}}%</div>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row class="textSpeaing">
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">英文关键词: </div> <div class="colBoxContent">{{devInformationDetaiList.keys}}</div>
+                </div>
+            </el-col>
+            <el-col :span="10">
+                 <div class="colbox">
+                    <div class="colBoxTitle">DE Duty税率: </div> <div class="colBoxContent">{{devInformationDetaiList.dutyrate3 || 3.91}}%</div>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row class="textSpeaing">
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">开发优先级: </div> <div class="colBoxContent">{{changPriority(devInformationDetaiList.priority) }}</div>
+                </div>
+            </el-col>
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">是否安吉产品: </div> <div class="colBoxContent">{{devInformationDetaiList.isanji && devInformationDetaiList.isanji == 1 ? '是':devInformationDetaiList.isanji == 0 ? '否' : ' ' }}</div>
+                </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >
             <el-col :span="10">
-                是否需要专利确认: <span>{{devInformationDetaiList.ispatentproduct && devInformationDetaiList.ispatentproduct == 0 ? '否':'是' }}</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">是否需要专利确认: </div> <div class="colBoxContent">{{devInformationDetaiList.ispatentproduct && devInformationDetaiList.ispatentproduct == 0 ? '否':'是'}}</div>
+                </div>
             </el-col>
         </el-row>
         <el-row v-for="item in devInformationDetaiList.productMarketList" :key="item.id">
@@ -251,5 +277,16 @@ export default {
 }
 .noColor {
     color: red;
+}
+.colbox{
+    display: flex;
+    .colBoxTitle{
+        font-weight: bold;
+        width: 120px;
+        text-align: right;
+        .colBoxContent{
+            width: 600px;
+        }
+    }
 }
 </style>

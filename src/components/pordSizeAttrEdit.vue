@@ -84,9 +84,9 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="2">
-                    <span class="vacanBox">体积：</span><span v-if="ruleForm.sizeRules == '1'">{{(ruleForm.productSizeH * ruleForm.packageSizeW * ruleForm.packageSizeH) / 1000}}m³</span>
-                                      <span v-else-if="ruleForm.sizeRule == '2'">{{(ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000}}m³</span>
+                <el-col :span="3">
+                    <span class="vacanBox">体积：</span><span v-if="ruleForm.sizeRules == '1'">{{ruleForm.packageSizeL && ruleForm.packageSizeW && ruleForm.packageSizeH ? ((ruleForm.packageSizeL * ruleForm.packageSizeW * ruleForm.packageSizeH) / 1000 ).toFixed(6)+ 'm³' :''}}</span>
+                                      <span v-else-if="ruleForm.sizeRules == '2'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000).toFixed(6)+ 'm³' :''}}</span>
                 </el-col>
              </el-row>
              <el-row>
@@ -133,9 +133,9 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="2">
-                    <span class="vacanBox">体积：</span><span v-if="ruleForm.outerBoxSizeRules == '1'">{{(ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000}}m³</span>
-                                      <span v-else-if="ruleForm.outerBoxSizeRules == '2'">{{(ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000}}m³</span>
+                <el-col :span="3">
+                    <span class="vacanBox">体积：</span><span v-if="ruleForm.outerBoxSizeRules == '1'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000).toFixed(6)+ 'm³' :''}}</span>
+                                      <span v-else-if="ruleForm.outerBoxSizeRules == '2'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000).toFixed(6) + 'm³' :''}}</span>
                 </el-col>
              </el-row>
              
@@ -337,7 +337,7 @@
                             <div class="productSizeInput">
                                 <el-input  v-model="ruleForm.productSize"></el-input>
                             </div>
-                            <div>
+                            <div class="titleColor">
                                 如要开发更多尺码, 请在保存产品信息以后，在此产品基础上选择开发其它尺码!
                             </div>
                         </div>
@@ -345,7 +345,7 @@
                  </el-col>
              </el-row>
              <el-row>
-                 <el-col :span="15">
+                 <el-col :span="20">
                      <el-form-item  label="颜色:" prop="productColor">      
                         <el-checkbox-group v-model="ruleForm.productColor" > 
                             <el-checkbox :label="item" v-for="item in checkList" :key="item + Math.random()"></el-checkbox>
@@ -459,7 +459,7 @@ export default {
                 outerBoxSizeH:'',
                 outerBoxSizeW:'',
                 outerBoxSizeL:'',
-                sizeRules:[],
+                sizeRules:[1],
                 outerBoxSizeRules:'',
                 containersNumber:'',
                 outerBoxNum:'',
@@ -627,8 +627,8 @@ export default {
                 outerBoxSizeH:this.pordSizeAttrInfoList.outerBoxSizeH,
                 outerBoxSizeW:this.pordSizeAttrInfoList.outerBoxSizeW,
                 outerBoxSizeL:this.pordSizeAttrInfoList.outerBoxSizeL,
-                sizeRules:this.pordSizeAttrInfoList.packageshape?this.pordSizeAttrInfoList.packageshape:2,
-                outerBoxSizeRules:this.pordSizeAttrInfoList.cartonShape?this.pordSizeAttrInfoList.cartonShape:2,
+                sizeRules:this.pordSizeAttrInfoList.packageshape?this.pordSizeAttrInfoList.packageshape:1,
+                outerBoxSizeRules:this.pordSizeAttrInfoList.cartonShape?this.pordSizeAttrInfoList.cartonShape:1,
                 containersNumber:this.pordSizeAttrInfoList.containerid,
                 outerBoxNum:this.pordSizeAttrInfoList.transportqty,
                 proNetWeight:this.pordSizeAttrInfoList.beforepackweight,
@@ -755,5 +755,9 @@ export default {
     display: inline-block;
     height: 30px;
     line-height: 30px;
+    // width: 500px;
+}
+.titleColor {
+    color: #cccccc;
 }
 </style>
