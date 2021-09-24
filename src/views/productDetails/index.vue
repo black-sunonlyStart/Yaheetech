@@ -103,7 +103,7 @@
                                     </div>
                                 </div>
                                 <div v-else>
-                                    <imgUpload @inputImg='putImgList' :value='imageList' @closeEdit='updeEditPage'></imgUpload> 
+                                    <imgUpload @inputImg='putImgList' :value='imageList' @closeEdit='updeEditPage' :limit="10"></imgUpload> 
                                 </div>
                             </el-card>
                             <el-card style="margin-top:10px;margin-bottom:30px">
@@ -220,10 +220,10 @@
                                     </div>   
                                 </div>
                                 <div v-if="isEdit8">
-                                    <purchaseInfoDetail :purchaseInfoDetaiList='purchaseInfoDetaiList'></purchaseInfoDetail>
+                                    <purchaseInfoDetail :purchaseInfoDetaiList='purchaseInfoDetaiList' :nowStatus='nowStatus'></purchaseInfoDetail>
                                 </div>
                                 <div v-else>
-                                    <purchaseInfoEdit  @closeEdit='closePurchaseInfo' :purchaseInfoDetaiList='purchaseInfoDetaiList'></purchaseInfoEdit>
+                                    <purchaseInfoEdit  @closeEdit='closePurchaseInfo' :purchaseInfoDetaiList='purchaseInfoDetaiList' :nowStatus='nowStatus'></purchaseInfoEdit>
                                 </div>
                             </el-card>
                         </div>
@@ -470,7 +470,7 @@ export default {
                 }
                 if(res.data.developmentProgresses && res.data.developmentProgresses.length > 0){
                     let index = res.data.developmentProgresses.length - 1
-                    let status = res.data.developmentProgresses[index].status
+                    let status = res.data.developmentProgresses[index].toStatus
                     switch(status){
                         case 0 :
                         this.nowStatus = 0;
@@ -522,6 +522,7 @@ export default {
                 }else {
                     this.nowStatus = 0
                 }
+                console.log(this.nowStatus,'nowStatus')
                 // this.otherProductCountryList = res.data.productVos && res.data.productVos[0] && res.data.productVos[0].productCountryList ? res.data.productVos[0].productCountryList[0] : []
                 this.productVos = res.data.productVos? res.data.productVos[0] : []
                 this.productMarketStrs = res.data.productMarketStrs
@@ -646,8 +647,8 @@ export default {
                     orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName : '',//采购开发
                     businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//业务开发
                     productCountryList:this.productVos.productCountryList ? this.productVos.productCountryList[0] : [],//业务开发
-                    computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],//业务开发
-                    productMarketList: this.productVos.productCountryList &&  this.productVos.productCountryList[0] ?  this.productVos.productCountryList[0].productMarketList : [],//表格数据
+                    computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList && this.productVos.productCountryList[0].productMarketList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],//业务开发
+                    productMarketList: this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList  && this.productVos.productCountryList[0].productMarketList[0] ?  this.productVos.productCountryList[0].productMarketList : [],//表格数据
                     businessid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessid : '',   
                     buyerid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerid : '',   
                 }
@@ -811,8 +812,8 @@ export default {
                     fobbandprice:res.data.development.fobbandprice, //FOB报价品牌费
                     packedvolume:this.productVos.packedvolume, //FOB头程费
                     gooddate:this.productVos.gooddate,
-                    goodnote:this.productVos.goodnote,
-                    
+                    goodnote:this.productVos.goodnote,   
+                    orderProduct:this.devInformationDetaiList.orderProduct
                 }
                 //备注信息
                 this.remarksList = res.data.developmentmemoVos
@@ -1112,7 +1113,7 @@ export default {
       }  
   }
   .is-active{
-          font-weight: bold;
+          font-weight: bold !important;
       }
   
 }

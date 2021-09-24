@@ -536,13 +536,13 @@ export default {
     },
     computed:{
         proGrossWeightLb(){
-            return (this.ruleForm.proGrossWeight * 2.20).toFixed(2) || ''
+            return (this.ruleForm.proGrossWeight * 2.2014).toFixed(6) || ''
         },
         proNetWeightLb(){
-            return (this.ruleForm.proNetWeight * 2.20).toFixed(2) || ''
+            return (this.ruleForm.proNetWeight * 2.2014).toFixed(6) || ''
         },
         proOuterBoxWeightLb(){
-            return (this.ruleForm.proOuterBoxWeight * 2.20).toFixed(2) || ''
+            return (this.ruleForm.proOuterBoxWeight * 2.2014).toFixed(6) || ''
         },
         productColor(){
             return this.ruleForm.productColor
@@ -568,7 +568,7 @@ export default {
                         color:newVal.toString(),
                         productid:this.copeMulAttrBute.productid,
                         encodingrules:this.copeMulAttrBute.encodingrules,
-                        productneed:this.copeMulAttrBute.productneed,
+                        productneed:true,
                         productdraftid:this.copeMulAttrBute.productdraftid,
                         skualias:this.copeMulAttrBute.skualias,
                         sku:this.copeMulAttrBute.sku,

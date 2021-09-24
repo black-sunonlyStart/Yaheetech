@@ -111,22 +111,22 @@ export default {
                 {
                     label: 'eBay',
                     key: 1,
-                    value: 1
+                    value: 0
                 },
                 {
                     label: 'Amazon',
                     key: 2,
-                    value: 2
+                    value: 1
                 },    
                 {
                     label: 'TradeMe',
                     key: 3,
-                    value: 3
+                    value: 2
                 }, 
                 {
                     label: 'Walmart',
                     key: 4,
-                    value: 4
+                    value: 3
                 }, 
             ], 
             platforms:[

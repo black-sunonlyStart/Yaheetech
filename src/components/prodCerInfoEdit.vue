@@ -66,7 +66,7 @@
                                 
                             </el-input>
                             <div class="iconBox">
-                                <i v-if="index !== 0" @click="delTestRement" class="delText el-icon-circle-close"></i>
+                                <i v-if="index !== 0" @click="delTestRement(index)" class="delText el-icon-circle-close"></i>
                             </div>      
                         </div>
                         <div class="requireMentsBox" @click="addRequireMent">添加</div>

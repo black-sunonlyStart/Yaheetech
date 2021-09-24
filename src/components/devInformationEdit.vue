@@ -243,9 +243,9 @@
                             <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                             <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.developmentprice" @change="changeDevelopmentprice"></el-input-number>  
                         </div>
-                        <el-button  v-if="item.vatfee">计算利润</el-button>
+                        <el-button  v-if="item.piprice">计算利润</el-button>
                     </el-form-item>
-                    <div v-if="item.vatfee">
+                    <div v-if="item.piprice">
                         <el-form-item label="SFP开发价:" prop="sfpDevelopmentPrice">
                             <div class="inputBox"> 
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>

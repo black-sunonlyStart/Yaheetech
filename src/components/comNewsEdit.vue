@@ -59,7 +59,7 @@
                                             </el-select>  
                                         </el-form-item>
                                         <el-form-item label="ASIN：" prop="xsin">
-                                            <el-input v-model="item.xsin"> {{item.xsin}}</el-input>
+                                            <el-input v-model="item.xsin" oninput="value=value.replace(/[^\d|chun]/g,'')" > {{item.xsin}}</el-input>
                                         </el-form-item>
                                         <el-form-item label="售价：" prop="price">
                                             <el-input-number  :controls='false' v-model="item.price" type='number' placeholder="0" class="inputNumberStyle" > {{item.price}}</el-input-number>
@@ -196,7 +196,7 @@ export default {
             platforms:[
                 {
                     name: 'US',
-                    key: 27,
+                    key: 55,
                     id:55
                 },
                 {
@@ -207,7 +207,7 @@ export default {
                 {
                     name: 'GB',
                     key: 54,
-                    id:29
+                    id:54
                 }, 
                 {
                     name: 'AU',
@@ -303,22 +303,22 @@ export default {
                 {
                     label: 'eBay',
                     key: 1,
-                    value: 1
+                    value: 0
                 },
                 {
                     label: 'Amazon',
                     key: 2,
-                    value: 2
+                    value: 1
                 },    
                 {
                     label: 'TradeMe',
                     key: 3,
-                    value: 3
+                    value: 2
                 }, 
                 {
                     label: 'Walmart',
                     key: 4,
-                    value: 4
+                    value: 3
                 }, 
             ], 
         }
@@ -374,7 +374,13 @@ export default {
         getDetailPage(){
             if(this.comNewsDetailList && this.comNewsDetailList.competingproducts){
                 this.comNewsDetailList.competingproducts.forEach(item => {
-                    item.platforms = this.platforms
+                    let params = {
+                        platformName:item.platformid
+                    }
+                    getPlatformSiteByPlatformName(params).then(res => {
+                        item.platforms = res.data
+                        this.$forceUpdate()
+                    })
                 })
             }
             this.ruleForm = {

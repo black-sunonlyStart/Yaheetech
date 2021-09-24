@@ -17,14 +17,14 @@
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">必要认证其他：</div> <div><div class="colBoxContent" v-for="item in prodCerInfoDetailList.credentialList2" :key="item.data">{{item.data}}</div></div>
+                    <div class="colBoxTitle">必要认证其他：</div> <div><div class="colBoxContent" v-for="item in prodCerInfoDetailList.credentialList2" :key="item.id">{{item.data}}</div></div>
                 </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">推荐认证：</div> <div><div class="colBoxContent" v-for="item in prodCerInfoDetailList.credentialList3" :key="item.data">{{item.data}}</div></div>
+                    <div class="colBoxTitle">推荐认证：</div> <div><div class="colBoxContent" v-for="item in prodCerInfoDetailList.credentialList3" :key="item.id">{{item.data}}</div></div>
                 </div>
             </el-col>
         </el-row>
@@ -52,7 +52,7 @@
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">专利确认： </div> <div class="colBoxContent" v-for="item in prodCerInfoDetailList.patentInfo" :key="item.Value">{{item.LanguageCode}}:{{item.Value}}、</div>
+                    <div class="colBoxTitle">专利确认： </div> <div class="colBoxContent" v-for="item in prodCerInfoDetailList.patentInfo" :key="item.id">{{item.LanguageCode}}:{{item.Value}}、</div>
                 </div>
             </el-col>
         </el-row>

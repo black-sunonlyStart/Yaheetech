@@ -2,7 +2,7 @@
     <div>
         <el-row class="textSpeaing" >
             <el-col :span="2">
-                <span style="font-weight:bold">样品采购前报价：</span>
+                <span class="colBoxTitle">样品采购前报价：</span>
             </el-col>
             <el-col :span="20">
                 <el-table
@@ -63,7 +63,9 @@
                         prop="warpperfee"
                         label="产品包装费(¥)">
                     </el-table-column>
-                    <el-table-column>
+                    <el-table-column
+                        width="200px"
+                    >
                         <template slot="header">
                             <div class="textPostion">采购成本</div>
                             <div class="textPostion">净采购价+杂费+包装费(¥)</div>
@@ -85,9 +87,9 @@
                 </el-table>
             </el-col>
         </el-row>
-        <el-row class="textSpeaing" >
+        <el-row class="textSpeaing" v-if="statusList.includes(nowStatus)" >
             <el-col :span="2">
-                <span style="font-weight:bold">最终报价：</span>
+                <span class="colBoxTitle">最终报价：</span>
             </el-col>
             <el-col :span="20">
                 <el-table
@@ -96,7 +98,7 @@
                     :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                     style="width: 100%">
                     <el-table-column
-                        prop="date"
+                        prop="minbuynum"
                         label="最小起订量"
                        >
                     </el-table-column>
@@ -133,14 +135,16 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        prop="MiscPrice"
+                        prop="miscprice"
                         label="杂费( ¥ )">
                     </el-table-column>
                     <el-table-column
                         prop="warpperfee"
                         label="产品包装费( ¥ )">
                     </el-table-column>
-                    <el-table-column>
+                    <el-table-column
+                     width="200px"
+                    >
                         <template slot="header">
                             <div class="textPostion">采购成本</div>
                             <div class="textPostion">净采购价+杂费+包装费( ¥ )</div>
@@ -164,39 +168,57 @@
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
-                样品购买价: <span>{{purchaseInfoDetaiList.productprice}} (产品价格) + {{purchaseInfoDetaiList.freight}} (运费) = {{purchaseInfoDetaiList.productprice + purchaseInfoDetaiList.freight}}RMB</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">样品购买价: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.productprice}} (产品价格) + {{purchaseInfoDetaiList.freight}} (运费) = {{purchaseInfoDetaiList.productprice + purchaseInfoDetaiList.freight}}RMB</div>
+                </div>
             </el-col>
             <el-col :span="10">
-                含税价税点: <span>{{purchaseInfoDetaiList.taxleviedpoint ? purchaseInfoDetaiList.taxleviedpoint + '%' : ''}}</span>
-            </el-col>
-        </el-row>
-        <el-row class="textSpeaing">
-            <el-col :span="10">
-                下大单返样品费: <span>{{purchaseInfoDetaiList.backpurchaseprice}}</span>
-            </el-col>
-            <el-col :span="10">
-                海关退税率: <span>{{purchaseInfoDetaiList.tax > 0 ?purchaseInfoDetaiList.tax * 100 + '%' : purchaseInfoDetaiList.tax  + '%'}}</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">含税价税点: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.taxleviedpoint ? purchaseInfoDetaiList.taxleviedpoint + '%' : ''}}</div>
+                </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
-                返样品费详情备注: <span>{{purchaseInfoDetaiList.backpurchasepricenote}}</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">下大单返样品费: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.backpurchaseprice}}</div>
+                </div>
             </el-col>
             <el-col :span="10">
-                品牌费: <span>{{purchaseInfoDetaiList.bandprice}}</span>
-            </el-col>
-        </el-row>
-        <el-row class="textSpeaing">
-            <el-col :span="10">
-                样品交期: <span>{{purchaseInfoDetaiList.sampledeliverydays}}</span>
-            </el-col>
-            <el-col :span="10">
-                FOB报价品牌费: <span>{{purchaseInfoDetaiList.fobbandprice}}</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">海关退税率: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.tax > 0 ?purchaseInfoDetaiList.tax * 100 + '%' : purchaseInfoDetaiList.tax  + '%'}}</div>
+                </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
-                FOB头程费: <span>{{purchaseInfoDetaiList.packedvolume ? purchaseInfoDetaiList.packedvolume * 93 : 0}}</span>
+                <div class="colbox">
+                    <div class="colBoxTitle">返样品费详情备注: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.backpurchasepricenote}}</div>
+                </div>
+            </el-col>
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">品牌费: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.bandprice}}</div>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row class="textSpeaing">
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">样品交期: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.sampledeliverydays}}</div>
+                </div>
+            </el-col>
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">FOB报价品牌费: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.fobbandprice}}</div>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row class="textSpeaing">
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">FOB头程费: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.packedvolume ? purchaseInfoDetaiList.packedvolume * 93 : 0}}</div>
+                </div>
             </el-col>
         </el-row>
     </div>
@@ -205,13 +227,17 @@
 export default {
     data(){
         return {
-             
+             statusList:[4,5,6,7,8,9,14]
         }
     },
     props:{
         purchaseInfoDetaiList:{
             type:Object,
             default:() => ({})
+        },
+        nowStatus:{
+            type:Number,
+            default:() => (0)
         }        
     }
 }
@@ -219,9 +245,9 @@ export default {
 <style lang="scss" scoped>
 .textSpeaing{
     margin-top: 15px;
-    font-weight: bold;
+    // font-weight: bold;
     span {
-        font-weight: normal;
+        // font-weight: normal;
     }
 }
 .tableTitle{
@@ -240,5 +266,23 @@ export default {
 }
 .textPostion{
     text-align: center;
+}
+.colbox{
+    display: flex;
+    .colBoxTitle{
+        font-weight: bold;
+        width: 120px;
+        text-align: right;
+        .colBoxContent{
+            width: 600px;
+            font-weight: normal !important;
+        }
+    }
+}
+.colBoxTitle{
+        font-weight: bold;
+        width: 100%;
+        text-align: right;
+        display: inline-block;
 }
 </style>

@@ -3,7 +3,7 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm" size="mini">
             <el-row>
                 <el-col :span="11">
-                    <el-form-item label="中文标题:">
+                    <el-form-item label="中文标题:" prop="chineseTitle">
                         <el-input type="textarea"  
                             maxlength="25"
                             show-word-limit autosize 
@@ -205,6 +205,7 @@ export default {
             },
             rules:{
                 chineseDescription: [{ required: true, message: '请填写描述信息', trigger: 'blur' }],
+                chineseTitle: [{ required: true, message: '请填写中文标题', trigger: 'blur' }],
                 supplierLocation: [{ required: true, message: '请选择供应商所在地', trigger: 'blur' }],
                 certificationRemarks: [{ required: true, message: '请填写认证备注', trigger: 'blur' }],
                 recommendFileList: [{ required: true, message: '请添加图片', trigger: 'blur' }],

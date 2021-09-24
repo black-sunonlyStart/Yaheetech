@@ -61,12 +61,12 @@
                     </div>
                 </div>
             </el-form-item>
-            <el-form-item label="所属分类" prop="classiFication">
+            <el-form-item label="所属分类" prop="classiFication" v-if="ruleForm.scene == 1 ">
                 <div class="signClass">
                     <div class="signInput">
                         <div> {{ruleForm.classiFication}}</div>
                     </div>
-                    <div class="signText" @click="openTypeDialog" v-if="ruleForm.scene == 1 ">
+                    <div class="signText" @click="openTypeDialog" >
                         重选分类
                     </div>
                 </div>
