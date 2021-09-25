@@ -701,15 +701,16 @@ export default {
             this.devInformationDetaiList.productMarketList.splice(i,1)
         },
         addRemarks(){
-            if(!this.ruleForm.marksContry1 || !this.ruleForm.marksContry2 || !this.ruleForm.marksContry3){
+            if((!this.ruleForm.marksContry1 || !this.ruleForm.marksContry2 || !this.ruleForm.marksContry3) && (this.ruleForm.marksContry1 && this.ruleForm.marksContry1 == 'AU')){
                 this.$message({
                     type: 'warning',
                     message: '请选择开发市场',
                     offset:220
                 })
+
                 return
             }
-            
+
             if(this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] && this.ruleForm.marksContry1 != this.devInformationDetaiList.productMarketList[0].countrycode){
                 this.$message({
                     type:'warning',
@@ -718,16 +719,108 @@ export default {
                 })
                 return
             }
+            
             let dailySales3 = this.dailySales3.filter(item => {
                 return item.id == this.ruleForm.marksContry3
             })
+            let wareHouseList = [
+                    {
+                      warehouseName:'美国CHI',
+                      warehouseid:8  
+                    },
+                    {
+                      warehouseName:'美国CA',
+                      warehouseid:16  
+                    },
+                    {
+                      warehouseName:'美国NY',
+                      warehouseid:18  
+                    },
+                ]
+            let platformNameList = [
+                {
+                    name:'Amazon',
+                    id:55
+                },
+                {
+                    name:'eBoy',
+                    id:27
+                },
+            ]
+            if(this.ruleForm.marksContry1 && this.ruleForm.marksContry2 && this.ruleForm.marksContry3){
             this.devInformationDetaiList.productMarketList.push({
-                platformname:this.ruleForm.marksContry2,
-                countrycode:this.ruleForm.marksContry1,
-                warehouseName:dailySales3[0].name,
-                warehouseid:this.ruleForm.marksContry3,
-                developmentprice:this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] ? this.devInformationDetaiList.productMarketList[0].developmentprice : 0
-            })
+                    platformname:this.ruleForm.marksContry2,
+                    countrycode:this.ruleForm.marksContry1,
+                    warehouseName:dailySales3[0].name,
+                    warehouseid:this.ruleForm.marksContry3,
+                    developmentprice:this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] ? this.devInformationDetaiList.productMarketList[0].developmentprice : 0
+                })
+            }else if(this.ruleForm.marksContry1 == 'US' && this.ruleForm.marksContry2 && !this.ruleForm.marksContry3){
+                wareHouseList.forEach(item => {
+                    this.devInformationDetaiList.productMarketList.push({
+                        platformname:this.ruleForm.marksContry2,
+                        countrycode:this.ruleForm.marksContry1,
+                        warehouseName:item.warehouseName,
+                        warehouseid:item.warehouseid,
+                        developmentprice:this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] ? this.devInformationDetaiList.productMarketList[0].developmentprice : 0
+                    })
+                })  
+            }else if (this.ruleForm.marksContry1 == 'US' && !this.ruleForm.marksContry2 && !this.ruleForm.marksContry3){
+                wareHouseList.forEach(item => {
+                    this.devInformationDetaiList.productMarketList.push({
+                        platformname:'Amazon',
+                        countrycode:this.ruleForm.marksContry1,
+                        warehouseName:item.warehouseName,
+                        warehouseid:item.warehouseid,
+                        developmentprice:this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] ? this.devInformationDetaiList.productMarketList[0].developmentprice : 0
+                    })
+                })
+                wareHouseList.forEach(item => {
+                    this.devInformationDetaiList.productMarketList.push({
+                        platformname:'eBay',
+                        countrycode:this.ruleForm.marksContry1,
+                        warehouseName:item.warehouseName,
+                        warehouseid:item.warehouseid,
+                        developmentprice:this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] ? this.devInformationDetaiList.productMarketList[0].developmentprice : 0
+                    })
+                })
+            }else if (this.ruleForm.marksContry1 == 'GB' && !this.ruleForm.marksContry2 && !this.ruleForm.marksContry3){
+                platformNameList.forEach(item => {
+                     this.devInformationDetaiList.productMarketList.push({
+                        platformname:item.name,
+                        countrycode:this.ruleForm.marksContry1,
+                        warehouseName:'英国仓',
+                        warehouseid:9,
+                        developmentprice:this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] ? this.devInformationDetaiList.productMarketList[0].developmentprice : 0
+                    })
+                })
+            }else if(this.ruleForm.marksContry1 == 'GB' && this.ruleForm.marksContry2 && !this.ruleForm.marksContry3){
+                this.devInformationDetaiList.productMarketList.push({
+                        platformname:this.ruleForm.marksContry2,
+                        countrycode:this.ruleForm.marksContry1,
+                        warehouseName:'英国仓',
+                        warehouseid:9,
+                        developmentprice:this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] ? this.devInformationDetaiList.productMarketList[0].developmentprice : 0
+                    })
+            }else if(this.ruleForm.marksContry1 == 'DE' && !this.ruleForm.marksContry2 && !this.ruleForm.marksContry3){
+                platformNameList.forEach(item => {
+                     this.devInformationDetaiList.productMarketList.push({
+                        platformname:item.name,
+                        countrycode:this.ruleForm.marksContry1,
+                        warehouseName:'德国仓',
+                        warehouseid:11,
+                        developmentprice:this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] ? this.devInformationDetaiList.productMarketList[0].developmentprice : 0
+                    })
+                })
+            }else if(this.ruleForm.marksContry1 == 'GB' && this.ruleForm.marksContry2 && !this.ruleForm.marksContry3){
+                this.devInformationDetaiList.productMarketList.push({
+                        platformname:this.ruleForm.marksContry2,
+                        countrycode:this.ruleForm.marksContry1,
+                        warehouseName:'德国仓',
+                        warehouseid:11,
+                        developmentprice:this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] ? this.devInformationDetaiList.productMarketList[0].developmentprice : 0
+                    })
+                }
         },
         changeDevelopmentprice(val){
             this.devInformationDetaiList.productMarketList.forEach(item => {

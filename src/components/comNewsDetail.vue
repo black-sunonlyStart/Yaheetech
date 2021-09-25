@@ -16,13 +16,13 @@
                     </div>
                     <div class="imageTitle">
                         <div class="imageMainbox">
-                            平台：<span class="imageMainboxText">{{item.platformid ? getPlatforms(item.platformid) : ''}}-{{item.platformsiteid ? getPlatformsiteid(item.platformsiteid):''}}</span>
+                            平台：<span class="imageMainboxText">{{item.platformid >= 0 ? getPlatforms(item.platformid) : ''}}-{{item.platformsiteid ? getPlatformsiteid(item.platformsiteid):''}}</span>
                         </div>
                         <div class="imageMainbox">
                             ASIN:<span class="imageMainboxText">{{item.xsin}}</span>
                         </div>
                         <div class="imageMainbox">
-                            售价：<span class="imageMainboxText">{{item.price}}</span>
+                            售价：<span class="imageMainboxText">{{item.price}} {{showMoneyCurry(item.platformsiteid)}}</span>
                         </div> 
                         <div class="imageMainbox">
                             日销量：<span class="imageMainboxText">{{item.recentsalesvolume}}</span>
@@ -103,6 +103,7 @@
     </div>
 </template>
 <script>
+import { getPlatformSiteByPlatformName } from '@/api/user.js'
 export default {
     name:'comNewsDetail',
     data(){
@@ -164,9 +165,20 @@ export default {
             default:() => {}
         }
     },
+    mounted(){
+        console.log(this.comNewsDetailList,'comNewsDetailList11111111111')
+        this.getDetailList()
+    },
     methods:{
+        getDetailList(){
+            getPlatformSiteByPlatformName().then(res => {
+                if(res.data){
+                    this.platforms = res.data
+                }
+            })
+        },
         getPlatforms(val){
-            if(val){
+            if(val >= 0){
                 let valList = this.devSign.filter(res => {
                     return val == res.value
                 })
@@ -188,6 +200,21 @@ export default {
                 }else {
                     return ''
                 }
+            }
+        },
+        showMoneyCurry(val){
+            if(val == 27 || val == 55){
+                return 'USD'
+            }else if (val == 29 || val == 54){
+                return 'GBP'
+            }else if(val == 56 || val == 34 ){
+                return 'EUR'
+            }else if (val == 30 ){
+                return 'AUD'
+            }else if(val == 65){
+                return 'NZD'
+            }else {
+                return 'USD'
             }
         }
     }

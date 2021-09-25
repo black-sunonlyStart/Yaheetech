@@ -9,12 +9,16 @@
                 <span class="boldTitle">开发场景: </span>
                 <span>{{ showSign(productVoDetail.developmentscenarios) }}</span>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="8" v-if="productVoDetail.developmentscenarios != 1">
                 <span class="boldTitle">关联产品: </span>
                 <span>({{productVoDetail.id}}){{productVoDetail.spu}}</span>
             </el-col>
+            <el-col :span="8" v-else>
+                <span class="boldTitle">所属分类: </span>
+                <span>{{productVoDetail.categoryname}}</span>
+            </el-col>
         </el-row>
-        <el-row class="textSpeaing">
+        <el-row class="textSpeaing" v-if="productVoDetail.developmentscenarios != 1" >
             <el-col :span="8">
                 <span class="boldTitle">所属分类: </span>
                 <span>{{productVoDetail.categoryname}}</span>

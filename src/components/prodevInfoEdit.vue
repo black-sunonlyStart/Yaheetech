@@ -81,7 +81,7 @@
                             :limit="3"
                             :on-exceed="handleExceed"
                             :file-list="ruleForm.fileList"
-                            :data="{fileType:3,developmentId:$route.params.developmentId}"
+                            :data="{fileType:3,developmentId:$route.params.developmentId,countryCode:ruleForm.productMustMarket}"
                             :with-credentials='true'
                             :on-remove='removeMustFile'
                             >
@@ -114,7 +114,7 @@
                             multiple
                             :limit="3"
                             :on-exceed="handleExceed"
-                            :data="{fileType:2,developmentId:$route.params.developmentId}"
+                            :data="{fileType:2,developmentId:$route.params.developmentId,countryCode:ruleForm.productMarket}"
                             :with-credentials='true'
                             :file-list="ruleForm.recommendFileList">
                             <el-button size="small" type="primary" style="margin-right:15px">选择文件</el-button>
@@ -214,7 +214,7 @@ export default {
                 {
                     label: '美国',
                     key: 1,
-                    value: 'USA'
+                    value: 'US'
                 },
                 {
                     label: '英国',
@@ -224,7 +224,7 @@ export default {
                 {
                     label: '欧盟',
                     key: 3,
-                    value: 'UK'
+                    value: 'OU'
                 }, 
             ],
         }

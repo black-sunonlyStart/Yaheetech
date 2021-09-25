@@ -226,3 +226,11 @@ export function getProductMultipleAttribute(data) {
       params:data
     })
   }
+  //检查XSIN
+export function checkXSIN(data) {
+    return request({
+      url: '/productManage/checkXSIN',
+      method: "get", 
+      params:data
+    })
+  }

@@ -59,18 +59,24 @@
                                             </el-select>  
                                         </el-form-item>
                                         <el-form-item label="ASIN：" prop="xsin">
-                                            <el-input v-model="item.xsin" oninput="value=value.replace(/[^\d|chun]/g,'')" > {{item.xsin}}</el-input>
+                                            <el-input v-model="item.xsin"  @change="changeAsin(item.xsin,index)" ></el-input>
+                                            <div class="asinText" v-if="item.showMessage">此数据在系统中已存在，请确认是否重复开发！</div>
                                         </el-form-item>
+                                        
                                         <el-form-item label="售价：" prop="price">
-                                            <el-input-number  :controls='false' v-model="item.price" type='number' placeholder="0" class="inputNumberStyle" > {{item.price}}</el-input-number>
+                                            <!-- <el-input-number  :controls='false' v-model="item.price" type='number' placeholder="0" class="inputNumberStyle" > {{item.price}}</el-input-number> -->
+                                            <div class="inputBox">
+                                                <el-input-number :controls='false' v-model="item.price" ></el-input-number>
+                                                <span class="inputUnit">{{showMoneyCurry(item.platformsiteid)}}</span>
+                                            </div>
                                         </el-form-item>
                                     
                                         <el-form-item label="日销量：" prop="recentsalesvolume">
-                                            <el-input-number :controls='false'  v-model="item.recentsalesvolume" placeholder="0" class="inputNumberStyle">{{item.recentsalesvolume}}</el-input-number >
+                                            <el-input-number :controls='false'  v-model="item.recentsalesvolume" placeholder="0" class="inputNumberStyle"></el-input-number >
                                         </el-form-item>
                                     
                                         <el-form-item label="备注：">
-                                            <el-input v-model="item.note">{{item.note}}</el-input>
+                                            <el-input v-model="item.note"></el-input>
                                         </el-form-item>
                                     </el-form>
                                 </div>
@@ -184,7 +190,7 @@
         </div>
 </template>
 <script>
-import { getPlatformSiteByPlatformName,competingProduct } from '@/api/user.js'
+import { getPlatformSiteByPlatformName,competingProduct,checkXSIN } from '@/api/user.js'
 import { jupload_file } from '@/utils/files'
 export default {
     name:'comNewsEdit',
@@ -333,7 +339,7 @@ export default {
         this.getDetailPage()
     },
     methods:{
-        selectPlatformid(val,index){
+       async selectPlatformid(val,index){
             this.comNewsDetailList.competingproducts[index].platformsiteid = ''
             let countryList = this.devSign.filter(item => {
                 return item.value == val
@@ -341,7 +347,7 @@ export default {
             let params = {
                 platformName:countryList[0].label
             }
-            getPlatformSiteByPlatformName(params).then(res => {
+          await getPlatformSiteByPlatformName(params).then(res => {
                 this.$nextTick(() => {
                     this.$set(this.comNewsDetailList.competingproducts[index],'platforms',res.data)
                     this.$set(this.comNewsDetailList.competingproducts[index],'name',this.comNewsDetailList.competingproducts[index].name)
@@ -353,6 +359,7 @@ export default {
                     this.$set(this.comNewsDetailList.competingproducts[index],'price',this.comNewsDetailList.competingproducts[index].price)
                     this.$set(this.comNewsDetailList.competingproducts[index],'recentsalesvolume',this.comNewsDetailList.competingproducts[index].recentsalesvolume)
                     this.$set(this.comNewsDetailList.competingproducts[index],'note',this.comNewsDetailList.competingproducts[index].note)
+                    this.$forceUpdate()
                 })     
             })
         },
@@ -375,7 +382,7 @@ export default {
             if(this.comNewsDetailList && this.comNewsDetailList.competingproducts){
                 this.comNewsDetailList.competingproducts.forEach(item => {
                     let params = {
-                        platformName:item.platformid
+                        platformId:item.platformid
                     }
                     getPlatformSiteByPlatformName(params).then(res => {
                         item.platforms = res.data
@@ -410,9 +417,25 @@ export default {
             this.$emit('closeEdit','false')
         },
       submitForm(formName) {
+          if( !this.comNewsDetailList.competingproducts || this.comNewsDetailList.competingproducts.length == 0){
+              this.$message({
+                  type:'error',
+                  message:'请至少添加一个竞品',
+                  offset:220,
+              })
+              return
+          }
+          if(!this.comNewsDetailList.competingproducts[0].pictureuri){
+              this.$message({
+                  type:'error',
+                  message:'第一个竞品图片必填！',
+                  offset:220,
+              })
+              return
+          }
         this.$refs['formInput'].forEach(item => {
-            item.validate((valid) => {
-                if(valid){
+            item.validate((validList) => {
+                if(validList){
                     this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let params = {
@@ -494,6 +517,29 @@ export default {
         },
         openImage(item,index){
             this.pageImageIndex = index
+        },
+        changeAsin(val,index){
+            let params = {
+                xsin:val
+            }
+            checkXSIN(params).then( res => {
+                this.$set(this.comNewsDetailList.competingproducts[index],'showMessage',res.data) 
+            })
+        },//55：美国(USD)  56：德国(EUR)  54：英国(GBP)  30：澳大利亚(AUD)  65：新西兰(NZD)//
+        showMoneyCurry(val){
+            if(val == 27 || val == 55){
+                return 'USD'
+            }else if (val == 29 || val == 54){
+                return 'GBP'
+            }else if(val == 56 || val == 34 ){
+                return 'EUR'
+            }else if (val == 30 ){
+                return 'AUD'
+            }else if(val == 65){
+                return 'NZD'
+            }else {
+                return 'USD'
+            }
         }
     }
 }
@@ -586,5 +632,39 @@ export default {
         }
     }
 }
-    
+.asinText{
+    font-size: 12px;
+    line-height: 0px;
+    margin-top: 8px;
+    color: red;
+}  
+::v-deep.inputBox{
+        width: 290px;
+        display: inline-block;
+        // display: flex;
+        .el-input-number {
+            width: 210px;
+            .el-input__inner{
+                color: black !important;
+                border-top-right-radius: 0px !important;
+                border-bottom-right-radius: 0px !important;
+                text-align: left;
+            }
+        }
+    }
+    .inputUnit{
+        text-align: center;
+        line-height: 28px;
+        background-color: #F5F7FA;
+        display: inline-block;
+        height: 28px;
+        width: 80px;
+        border: 1px solid #E4E7ED;
+        color: black;
+        font-size: 12px;
+        position: relative;
+        top: 1px;
+        border-top-right-radius: 4px ;
+        border-bottom-right-radius: 4px ;
+    }
 </style>
