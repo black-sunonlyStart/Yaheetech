@@ -316,7 +316,7 @@ export default {
              this.dialogName ='提交利润复核'
           }
           this.row = row
-          if(id != 13 || id != 8 || id != 26) {
+          if(id != 13 && id != 8 && id != 26) {
               this.$refs.messageDialog.openDialog()
           }
            

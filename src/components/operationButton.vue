@@ -1,7 +1,7 @@
 <template>
     <div class="buttonStyle">
         <el-button v-for="item in operationList" :key="item.id" size="mini" type="primary" @click="putOperation(item.id)">{{item.name}}</el-button>
-        <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog"  :row='row'></messageDialog>
+        <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog"  @getTableList='getTableList' :row='row'></messageDialog>
     </div>
     
 </template>
@@ -30,11 +30,14 @@ export default {
         this.openOperation(this.nowStatus)
     },
     methods:{
+        getTableList(){
+            this.$emit('getTableList')
+        },
         putOperation(id){
           let row = {
             developmentId:this.$route.params.developmentId,
             productId:this.$route.params.productId,
-            productCountryId:this.$route.params.productCountryId || '',
+            id:this.$route.params.productCountryId || '',
             state:this.nowStatus
           }
           this.clickId = id
@@ -157,10 +160,6 @@ export default {
                     id:25
                   },
                   {
-                    name:'开发新尺码',
-                    id:8
-                  },
-                  {
                     name:'取消开发',
                     id:3
                   },
@@ -180,10 +179,6 @@ export default {
                     id:15
                   },
                   {
-                    name:'开发新尺码',
-                    id:8
-                  },
-                  {
                     name:'打回',
                     id:4
                   },
@@ -197,10 +192,6 @@ export default {
                   {
                     name:'审批通过',
                     id:25
-                  },
-                  {
-                    name:'开发新尺码',
-                    id:8
                   },
                   {
                     name:'打回',
@@ -220,10 +211,6 @@ export default {
                   {
                     name:'审批通过',
                     id:25
-                  },
-                  {
-                    name:'开发新尺码',
-                    id:8
                   },
                   {
                     name:'打回',

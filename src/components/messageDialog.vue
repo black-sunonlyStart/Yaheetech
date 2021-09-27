@@ -543,7 +543,7 @@ export default {
     font-size: 16px;
 }
 ::v-deep.dialogBox{
-    margin-top: 30px;
+    margin-top: 60px;
     .el-dialog__header{
         border-bottom: 1px solid #cccccc;
     }

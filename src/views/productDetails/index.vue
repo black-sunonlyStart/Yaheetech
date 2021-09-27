@@ -231,7 +231,7 @@
                     <el-tab-pane label="备注" name="tenth">
                     </el-tab-pane>
                 </el-tabs>
-                <operationButton :nowStatus='timeStatus'></operationButton>   
+                <operationButton :nowStatus='timeStatus' @getTableList='getAllpageList'></operationButton>   
             </div>
         <!-- </el-card> -->
     </div>
