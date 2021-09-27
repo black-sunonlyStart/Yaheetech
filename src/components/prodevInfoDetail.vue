@@ -10,7 +10,7 @@
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">中文描述: </div> <div class="colBoxContent">{{prodevInfoDetaiList.description}}</div>
+                    <div class="colBoxTitle">中文描述: </div> <div class="colBoxContent" style="width:1200px">{{prodevInfoDetaiList.description}}</div>
                 </div>
             </el-col>
         </el-row>
@@ -34,7 +34,7 @@
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">认证备注: </div> <div class="colBoxContent">{{prodevInfoDetaiList.certificationnote}}</div>
+                    <div class="colBoxTitle">认证备注: </div> <div class="colBoxContent" style="width:1200px">{{prodevInfoDetaiList.certificationnote}}</div>
                 </div>
             </el-col>
         </el-row>

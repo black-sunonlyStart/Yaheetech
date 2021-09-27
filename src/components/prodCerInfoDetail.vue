@@ -31,7 +31,7 @@
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">认证备注： </div> <div class="colBoxContent">{{prodCerInfoDetailList.authnote}}</div>
+                    <div class="colBoxTitle">认证备注： </div> <div class="colBoxContent" style="width:1200px">{{prodCerInfoDetailList.authnote}}</div>
                 </div>
             </el-col>
         </el-row>

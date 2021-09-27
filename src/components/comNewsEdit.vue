@@ -287,9 +287,6 @@ export default {
                 jpadjustmentpoint: [
                     { required: true, message: '请输入产品确定开发调整点', trigger: 'blur' },
                 ],
-                note: [
-                    { required: true, message: '请输入产品备注', trigger: 'blur' },
-                ],
             },
             comProductRules:{
                 platformid: [
