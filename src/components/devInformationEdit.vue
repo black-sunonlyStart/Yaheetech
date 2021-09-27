@@ -730,7 +730,7 @@ export default {
                 }
             }
             if(this.devInformationDetaiList.productMarketListALL && this.devInformationDetaiList.productMarketListALL[0]){
-                if(this.devInformationDetaiList.productMarketListALL.find(item =>  item.countrycode == this.ruleForm.marksContry1 && item.platformname == this.ruleForm.marksContry2 && item.warehouseid == this.ruleForm.marksContry3)){
+                if(this.devInformationDetaiList.productMarketListALL.find(item =>  item.countrycode == this.ruleForm.marksContry1)){
                     this.$message({
                                 type:'warning',
                                 message:'你选择的国家+平台+仓库已存在',

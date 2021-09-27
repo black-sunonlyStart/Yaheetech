@@ -39,9 +39,11 @@
                             :key="item.id" class="remarkBox">
                             <el-input
                                 type="textarea"
-                                autosize
+                                :autosize="{ minRows: 1, maxRows: 4}"
                                 v-model="item.data"
+                                clearable
                                 @change="changeRequirements(index,item.data)"
+                                style="width:525px"
                                 >
                             </el-input>
                             <div class="iconBox">
@@ -59,9 +61,11 @@
                             :key="item.id" class="remarkBox">
                             <el-input
                                 type="textarea"
-                                autosize
+                                :autosize="{ minRows: 1, maxRows: 4}"
                                 v-model="item.data"
+                                clearable
                                 @change='changeTestRequirements(index, item.data)'
+                                style="width:525px"
                                 >
                                 
                             </el-input>
@@ -80,6 +84,7 @@
                             type="textarea"
                             :autosize="{ minRows: 2, maxRows: 4}"
                             placeholder="请输入内容"
+                            clearable
                             v-model="ruleForm.requirementsRemark">
                         </el-input>
                     </el-form-item>
@@ -104,7 +109,14 @@
                 <el-col :span="3">
                     <el-form-item label-width="20px">
                         <!-- <span class="ageRemarks"> -->
-                            <el-input v-model="ruleForm.ageGroupRemarks" placeholder="备注"></el-input>
+                            <el-input v-model="ruleForm.ageGroupRemarks" 
+                                style="width:340px" 
+                                clearable 
+                                maxlength="120"
+                                show-word-limit type="textarea" 
+                                :autosize="{ minRows: 1, maxRows: 4}" 
+                                placeholder="备注">
+                            </el-input>
                         <!-- </span> -->
                     </el-form-item>
                 </el-col>
@@ -138,21 +150,21 @@
             <el-row v-if="checkedUSA.length>0">
                 <el-col :span="10">
                     <el-form-item label="美国">
-                         <el-input v-model="inputUSA"></el-input>  
+                         <el-input v-model="inputUSA" type="textarea" :autosize="{ minRows: 1, maxRows: 4}" clearable></el-input>  
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row v-if="checkedUK.length>0">
                 <el-col :span="10">
                     <el-form-item label="英国">
-                         <el-input v-model="inputUK"></el-input>  
+                         <el-input v-model="inputUK" type="textarea" :autosize="{ minRows: 1, maxRows: 4}" clearable></el-input>  
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row v-if="checkedEU.length>0">
                 <el-col :span="10">
                     <el-form-item label="德国">
-                         <el-input v-model="inputEU"></el-input>  
+                         <el-input v-model="inputEU" type="textarea" :autosize="{ minRows: 1, maxRows: 4}" clearable></el-input>  
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -480,9 +492,9 @@ export default {
                     applicableAge:this.ruleForm.productAgeGroup,
                     applicableAgeNote:this.ruleForm.ageGroupRemarks,
                     riskLevel:this.ruleForm.patentRiskLevel,
-                    usPatentInfo:this.inputUSA,
-                    gbPatentInfo:this.inputUK,
-                    dePatentInfo:this.inputEU,
+                    usPatentInfo:this.checkedUSA.length > 0 ? this.inputUSA : '',
+                    gbPatentInfo:this.checkedUK.length > 0 ?this.inputUK : '',
+                    dePatentInfo:this.checkedEU.length > 0 ?this.inputEU : '',
                 }
                 let dataList = this.ruleForm.usaNessCertification.concat(this.ruleForm.ukNessCertification).concat(this.ruleForm.euNessCertification)
                 let mustRequire = {

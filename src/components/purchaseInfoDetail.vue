@@ -183,7 +183,7 @@
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">下大单返样品费: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.backpurchaseprice}}</div>
+                    <div class="colBoxTitle">下大单返样品费: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.backpurchaseprice ? purchaseInfoDetaiList.backpurchaseprice + '(RMB)' : ''}}</div>
                 </div>
             </el-col>
             <el-col :span="10">
@@ -200,26 +200,26 @@
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">品牌费: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.bandprice}}</div>
+                    <div class="colBoxTitle">品牌费: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.bandprice? purchaseInfoDetaiList.bandprice + '(RMB)' : ''}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">样品交期: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.sampledeliverydays}}</div>
+                    <div class="colBoxTitle">样品交期: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.sampledeliverydays ? purchaseInfoDetaiList.sampledeliverydays + '(天)' : purchaseInfoDetaiList.sampledeliverydays == 0 ? 0 + '(天)' :"" }}</div>
                 </div>
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">FOB报价品牌费: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.fobbandprice}}</div>
+                    <div class="colBoxTitle">FOB报价品牌费: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.fobbandprice ? purchaseInfoDetaiList.fobbandprice + '($)' : ''}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">FOB头程费: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.packedvolume ? purchaseInfoDetaiList.packedvolume * 93 : 0}}</div>
+                    <div class="colBoxTitle">FOB头程费: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.packedvolume ? purchaseInfoDetaiList.packedvolume * 93 + "(RMB)" : 0}}</div>
                 </div>
             </el-col>
         </el-row>

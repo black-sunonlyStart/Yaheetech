@@ -618,7 +618,7 @@ export default {
         fetchPageTableList(params).then(res => {
             if(res.data && res.data.rows){
                 res.data.rows.forEach(item => {
-                    item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentId}/${item.imagesUri}`
+                    item.showImgUrl = `${process.env.VUE_APP_NEWIMAGE_API}/${item.imagesUri}`
                 });
               }
             this.currentPage4 = res.data && res.data.pageNum ? res.data.pageNum : 0

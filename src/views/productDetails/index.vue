@@ -220,10 +220,10 @@
                                     </div>   
                                 </div>
                                 <div v-if="isEdit8">
-                                    <purchaseInfoDetail :purchaseInfoDetaiList='purchaseInfoDetaiList' :nowStatus='nowStatus'></purchaseInfoDetail>
+                                    <purchaseInfoDetail :purchaseInfoDetaiList='purchaseInfoDetaiList' :nowStatus='timeStatus'></purchaseInfoDetail>
                                 </div>
                                 <div v-else>
-                                    <purchaseInfoEdit  @closeEdit='closePurchaseInfo' :purchaseInfoDetaiList='purchaseInfoDetaiList' :nowStatus='nowStatus'></purchaseInfoEdit>
+                                    <purchaseInfoEdit  @closeEdit='closePurchaseInfo' :purchaseInfoDetaiList='purchaseInfoDetaiList' :nowStatus='timeStatus'></purchaseInfoEdit>
                                 </div>
                             </el-card>
                         </div>
@@ -231,7 +231,7 @@
                     <el-tab-pane label="备注" name="tenth">
                     </el-tab-pane>
                 </el-tabs>
-                <operationButton :nowStatus='nowStatus'></operationButton>   
+                <operationButton :nowStatus='timeStatus'></operationButton>   
             </div>
         <!-- </el-card> -->
     </div>
@@ -429,7 +429,8 @@ export default {
         isEdit6:true,
         isEdit7:true,
         isEdit8:true,
-        nowStatus:0
+        nowStatus:0,
+        timeStatus:0
     }
   },
   created () {
@@ -471,6 +472,7 @@ export default {
                 if(res.data.developmentProgresses && res.data.developmentProgresses.length > 0){
                     let index = res.data.developmentProgresses.length - 1
                     let status = res.data.developmentProgresses[index].toStatus
+                    this.timeStatus = res.data.developmentProgresses[index].toStatus
                     switch(status){
                         case 0 :
                         this.nowStatus = 0;
@@ -586,8 +588,8 @@ export default {
                 }
                 if(this.comNewsDetailList && this.comNewsDetailList.competingproducts){
                     this.comNewsDetailList.competingproducts.forEach(item => {
-                        item.url = `${process.env.VUE_APP_IMAGE_API}/${item.developmentid}/${item.pictureuri}`
-                        item.showImgUrl = `${process.env.VUE_APP_IMAGE_API}/${item.developmentid}/${item.pictureuri}`
+                        item.url = `${process.env.VUE_APP_NEWIMAGE_API}/${item.pictureuri}`
+                        item.showImgUrl = `${process.env.VUE_APP_NEWIMAGE_API}/${item.pictureuri}`
                         item.name = item.developmentid
 
                     })
@@ -772,7 +774,7 @@ export default {
                     transportqty:this.productVos.transportqty,//可装货柜数量
                     packingway:this.productVos.packingway,//包装方式
                     productlistings:this.productVos.productlistings,//多箱清单
-                    containerVolume:this.productVos.containerVolume ? (this.productVos.containerVolume / this.productVos.transportqty).toFixed(6) : '', //每个产品所占体积
+                    containerVolume:this.productVos.containerVolume && this.productVos.transportqty ? (this.productVos.containerVolume / this.productVos.transportqty).toFixed(6) : '', //每个产品所占体积
                     containerVolumeCu:this.productVos.containerVolume ? (parseFloat((this.productVos.containerVolume/this.productVos.transportqty).toFixed(2)) * 35.3147248).toFixed(2) :'', //每个产品所占体积
                     packedlength:this.productVos.packedlength,
                     packedwidth:this.productVos.packedwidth,
