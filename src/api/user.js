@@ -234,3 +234,19 @@ export function checkXSIN(data) {
       params:data
     })
   }
+  //查询状态
+export function getDevelopStates(data) {
+    return request({
+      url: '/productManage/getDevelopStates',
+      method: "get", 
+      params:data
+    })
+  }
+  //终审通过
+export function toEndCheck(data) {
+    return request({
+      url: '/productManage/toEndCheck',
+      method: "get", 
+      params:data
+    })
+  }

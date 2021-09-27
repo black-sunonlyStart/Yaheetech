@@ -43,11 +43,11 @@
                     <span class="leftButton" @click="leftMove"><i class="el-icon-d-arrow-left"></i></span>
                         <span class="step-container">
                             <el-steps :active="nowStatus" space='150' align-center style="margin-right:15px" finish-status="success" process-status='process'>
-                                <el-step v-for="item in developmentProgresses" :title="item.statusValue" :key="item.status" :description="item.createOn">
+                                <el-step v-for="item in developmentProgresses" :title="item.toStatusValue" :key="item.status" :description="item.createOn">
                                         <template slot="title">
                                             <el-tooltip class="item" effect="dark" :content="item.createBy" placement="top">
                                                 <div class="stepTitle">
-                                                    {{item.statusValue}}
+                                                    {{item.toStatusValue}}
                                                 </div>
                                             </el-tooltip>
                                         </template>
@@ -303,7 +303,7 @@ export default {
                 createBy:'',
                 createOn:'',
                 toStatus :'',
-                toStatusValue:''
+                toStatusValue:'未提交审批'
             },
             {
                 statusValue:'待审批',
@@ -311,7 +311,7 @@ export default {
                 createBy:'',
                 createOn:'',
                 toStatus :'',
-                toStatusValue:''
+                toStatusValue:'待审批'
             },
             {
                 statusValue:'待认证确认',
@@ -319,7 +319,7 @@ export default {
                 createBy:'',
                 createOn:'',
                 toStatus :'',
-                toStatusValue:''
+                toStatusValue:'待认证确认'
             },
             {
                 statusValue:'寻找供应商',
@@ -327,7 +327,7 @@ export default {
                 createBy:'',
                 createOn:'',
                 toStatus :'',
-                toStatusValue:''
+                toStatusValue:'寻找供应商'
             },
             {
                 statusValue:'采购主管审核',
@@ -335,7 +335,7 @@ export default {
                 createBy:'',
                 createOn:'',
                 toStatus :'',
-                toStatusValue:''
+                toStatusValue:'采购主管审核'
             },
             {
                 statusValue:'认证审核',
@@ -343,7 +343,7 @@ export default {
                 createBy:'',
                 createOn:'',
                 toStatus :'',
-                toStatusValue:''
+                toStatusValue:'认证审核'
             },
             {
                 statusValue:'待利润初审',
@@ -351,7 +351,7 @@ export default {
                 createBy:'',
                 createOn:'',
                 toStatus :'',
-                toStatusValue:''
+                toStatusValue:'待利润初审'
             },
             {
                 statusValue:'样品采购审核',
@@ -359,7 +359,7 @@ export default {
                 createBy:'',
                 createOn:'',
                 toStatus :'',
-                toStatusValue:''
+                toStatusValue:'样品采购审核'
             },
             {
                 statusValue:'确认样品',
@@ -367,7 +367,7 @@ export default {
                 createBy:'',
                 createOn:'',
                 toStatus :'',
-                toStatusValue:''
+                toStatusValue:'确认样品'
             },
             {
                 statusValue:'待利润复核',
@@ -375,7 +375,7 @@ export default {
                 createBy:'',
                 createOn:'',
                 toStatus :'',
-                toStatusValue:''
+                toStatusValue:'待利润复核'
             },
             {
                 statusValue:'待终审',
@@ -383,7 +383,7 @@ export default {
                 createBy:'',
                 createOn:'',
                 toStatus :'',
-                toStatusValue:''
+                toStatusValue:'待终审'
             },
             {
                 statusValue:'开发完未上架',
@@ -391,7 +391,7 @@ export default {
                 createBy:'',
                 createOn:'',
                 toStatus :'',
-                toStatusValue:''
+                toStatusValue:'开发完未上架'
             },
             {
                 statusValue:'开发完已上架',
@@ -399,7 +399,7 @@ export default {
                 createBy:'',
                 createOn:'',
                 toStatus :'',
-                toStatusValue:''
+                toStatusValue:'开发完已上架'
             },
             {
                 statusValue:'已取消',
@@ -407,7 +407,7 @@ export default {
                 createBy:'',
                 createOn:'',
                 toStatus :'',
-                toStatusValue:''
+                toStatusValue:'已取消'
             },
             {
                 statusValue:'已冻结',
@@ -415,7 +415,7 @@ export default {
                 createBy:'',
                 createOn:'',
                 toStatus :'',
-                toStatusValue:''
+                toStatusValue:'已冻结'
             },
         ],//进度条数据
         imageList:[],
@@ -522,7 +522,6 @@ export default {
                 }else {
                     this.nowStatus = 0
                 }
-                console.log(this.nowStatus,'nowStatus')
                 // this.otherProductCountryList = res.data.productVos && res.data.productVos[0] && res.data.productVos[0].productCountryList ? res.data.productVos[0].productCountryList[0] : []
                 this.productVos = res.data.productVos? res.data.productVos[0] : []
                 this.productMarketStrs = res.data.productMarketStrs
@@ -824,16 +823,15 @@ export default {
       },
       //步骤条显示数据处理
       getDevProgresses(val){
-        if(!this.developmentProgresses)return
-        this.developmentProgresses.forEach(item => {
-            if(!val)return
+        if(!val)return
+        this.developmentProgresses.forEach(item => {  
             val.forEach(val => {
-                if( item.statusValue == val.statusValue){
+                if( item.statusValue == val.toStatusValue){
                     item.createBy = val.createBy
                     item.createOn = this.$moment(val.createOn).format("YYYY-MM-DD HH:mm:ss")
                     // item.statusValue = val.statusValue
-                    item.status == val.status 
-                    item.toStatus = val.toStatus
+                    // item.status = val.status 
+                    // item.toStatus = val.toStatus
                     item.toStatusValue = val.toStatusValue
                 }
             })

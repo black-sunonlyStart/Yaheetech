@@ -166,11 +166,10 @@
 <script>
 import { fetchPageTableList,unfreezing } from '@/api/user.js'
 import { formatDate } from '@/utils/tools.js'
-import messageDialog from './messageDialog.vue'
 export default {
   name: 'mainTable',
   components:{
-      messageDialog
+      messageDialog:() => import('./messageDialog.vue')
   },
   data () {
     return {
@@ -316,6 +315,7 @@ export default {
           }else if(id == 15){
              this.dialogName ='提交利润复核'
           }
+          this.row = row
           if(id != 13 || id != 8 || id != 26) {
               this.$refs.messageDialog.openDialog()
           }

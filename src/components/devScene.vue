@@ -40,18 +40,21 @@
                     <div class="inputLength" >
                         <el-input  v-model="ruleForm.inputRelation" @change="changeInputRelation" ></el-input>
                     </div>
-                    <div class="litterBox" >-</div>
-                    <el-select 
-                        v-model="ruleForm.selectRelation"
-                        >
-                        <el-option 
-                            v-for="item in spuSign"                        
-                            :key="item.id"
-                            :label="item.id"
-                            :value="item.id"
+                    <div v-if="selectId" class="litterBox">
+                        <div style="margin-right:10px">-</div>
+                        <el-select 
+                            v-model="ruleForm.selectRelation"
+                            
                             >
-                        </el-option>
-                    </el-select>
+                            <el-option 
+                                v-for="item in spuSign"                        
+                                :key="item.id"
+                                :label="item.id"
+                                :value="item.id"
+                                >
+                            </el-option>
+                        </el-select>
+                    </div>
                 </div>
             </el-form-item>
             <el-form-item  prop="skuid" v-else-if="showRelation && ruleForm.relation =='2'">
@@ -139,6 +142,7 @@ export default {
           value: 2
         },
         ],
+        selectId:false,
         spuSign:[],  
         ruleForm: {
           scene: '',
@@ -247,20 +251,24 @@ export default {
           this.showRelation = true
           this.relationId = false
           this.spuChange = false
+          this.selectId = false
           if(val == 1){
             this.showRelation = false
           } else if (val == 2){
             this.spuChange = true
+            this.selectId = true
           } else if (val == 3){
-                // this.ruleForm.relation = 2
+               this.ruleForm.relation = '1'
             this.spuChange = true
           } else if (val == 10){
               this.ruleForm.relation = '2'
               this.relationId = true
               
           }else if (val == 11){
+              this.ruleForm.relation = '1'
             this.spuChange = true
           } else if (val == 12){
+              this.ruleForm.relation = '1'
             this.spuChange = true
           }
       },
@@ -289,6 +297,8 @@ export default {
         }
         .litterBox{
             margin: 0 10px;
+            display: flex;
+            margin-right: 10px;
         }
       }
       .signClass{

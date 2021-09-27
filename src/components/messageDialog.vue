@@ -6,12 +6,14 @@
             :modal='false'
             class="dialogBox"
             v-dialogDrag
+            
             >
             <div class="titleText" slot="title">
                 {{this.dialogName}}
             </div>
             <span v-if="clickId == 1" class="dialogText">说明:确定要把选择的产品提交给业务主管(经理)进行审批?</span>
             <span v-if="clickId == 2" class="dialogText">说明:确定要把选择的产品审批通过,让认证专员去完善认证需求?</span>
+            <span v-if="clickId == 30" class="dialogText">说明:确定选择产品的利润和资料均复核公司开发要求,审核通过进入上架流程?</span>
             <span v-if="clickId == 25" class="dialogText">说明:确定要把选择的产品审批通过,让认证专员去完善认证需求?</span>
             <span v-if="clickId == 15" class="dialogText">说明:确定选择的产品样品资料已经正确,让业务开发员复核利润率?</span>
             <span v-if="clickId == 5" class="dialogText">说明:确定选择的产品资料已经正确,让采购主管审核?</span>
@@ -40,9 +42,9 @@
                         >
                         <el-option 
                             v-for="item in status"                        
-                            :key="item.key"
-                            :label="item.label"
-                            :value="item.value"
+                            :key="item.status"
+                            :label="item.statusValue"
+                            :value="item.status"
                             
                             >
                         </el-option>
@@ -104,11 +106,12 @@
     </div>
 </template>
 <script>
-import { selectRoleEmployeeForRoleId,approvalPass,beginApprovalPass,loadToBack,updateResponsible,cancelExploit } from '@/api/user.js'
+import { selectRoleEmployeeForRoleId,approvalPass,beginApprovalPass,loadToBack,updateResponsible,cancelExploit,getDevelopStates,toEndCheck } from '@/api/user.js'
 export default {
     name:'messageDialog',
     data(){
         return {
+            developStateList:[],
             dailySales:[],
             type2:[],
             label:'',
@@ -155,18 +158,18 @@ export default {
              status:[
                  {
                      key:1,
-                     label:'未提交审批',
-                     value:1,
+                     statusValue:'未提交审批',
+                     status:1,
                  },
                  {
                      key:2,
-                     label:'待审批',
-                     value:2,
+                     statusValue:'待审批',
+                     status:2,
                  },
                  {
                      key:3,
-                     label:'采购数据不完整/错填',
-                     value:3,
+                     statusValue:'采购数据不完整/错填',
+                     status:3,
                  },
              ],
              type:[
@@ -252,7 +255,15 @@ export default {
                 })
               }
           },
-      }
+      },
+    row:{
+        handler:function(val){
+              if(val.id){
+                this.getDevelopStatesList()
+              }
+          },
+            deep:true
+        }
     },
     props:{
         clickId:{
@@ -281,20 +292,34 @@ export default {
         if(this.clickId == 6 || this.clickId == 20 ){
               this.getTypeList()
         } 
+
     },
     methods:{
+        getDevelopStatesList(){
+            getDevelopStates().then(res => {
+                let getIndex = ''
+                this.developStateList = res.data
+                this.developStateList.forEach((item,index) => {
+                    if(item.status == this.row.state){
+                        getIndex = index
+                    }
+                })
+
+                this.status = this.developStateList.slice(0,getIndex)
+            })
+        },
         resetForm(formName) {
             this.$refs[formName].resetFields();
-             this.dialogVisible = false
+             this.dialogVisible = false      
       },
         getTypeList(){
             if(this.clickId == 6){
-            let params = {
-                rid:170//采购开发
-            }
-            selectRoleEmployeeForRoleId(params).then(res => {
-                this.dailySales = res.data
-            })
+                let params = {
+                    rid:170//采购开发
+                }
+                selectRoleEmployeeForRoleId(params).then(res => {
+                    this.dailySales = res.data
+                })
             }else if(this.clickId == 20){
                 let itemList = {
                     rid:171//业务开发
@@ -350,7 +375,7 @@ export default {
             }
             let row = []
             console.log(this.selectRow,'selectRow',this.selectRow.length)
-            if((this.clickId == 2 || this.clickId == 6 || this.clickId == 20 )&& this.selectRow.length > 0){
+            if((this.clickId == 2 || this.clickId == 6 || this.clickId == 20 || this.clickId == 30 )&& this.selectRow.length > 0){
                  row = this.selectRow.map(res => {
                     return res.id
                 })
@@ -386,6 +411,25 @@ export default {
                     productCountryIds:row.toString()
                 }
                 beginApprovalPass(params).then(res => {
+                    if(res.code == 200){
+                        this.$message({
+                            type: 'success', 
+                            message:'保存成功',
+                            offset:220
+                        })
+                        this.$emit('getTableList',this.navFilterList)
+                        this.$refs['ruleForm'].resetFields();
+                        this.dialogVisible = false
+                        
+                    }   
+                })
+            }
+            if(this.clickId == 30){
+                let params = {
+                    whyNote:this.ruleForm.remark,
+                    productCountryIds:row.toString()
+                }
+                toEndCheck(params).then(res => {
                     if(res.code == 200){
                         this.$message({
                             type: 'success', 
@@ -499,6 +543,7 @@ export default {
     font-size: 16px;
 }
 ::v-deep.dialogBox{
+    margin-top: 30px;
     .el-dialog__header{
         border-bottom: 1px solid #cccccc;
     }

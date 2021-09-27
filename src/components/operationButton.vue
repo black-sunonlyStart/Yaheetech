@@ -1,14 +1,23 @@
 <template>
     <div class="buttonStyle">
-        <el-button v-for="item in operationList" :key="item.id" size="mini" type="primary">{{item.name}}</el-button>
+        <el-button v-for="item in operationList" :key="item.id" size="mini" type="primary" @click="putOperation(item.id)">{{item.name}}</el-button>
+        <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog"  :row='row'></messageDialog>
     </div>
+    
 </template>
 <script>
+import { unfreezing } from '@/api/user.js'
 export default {
     name:'operationButton',
+    components:{
+        messageDialog:() => import('@/components/messageDialog')
+    },
     data(){
         return {
-            operationList:[]
+            operationList:[],
+            clickId:0,
+            dialogName:'',
+            row:{}
         }
     },
     props:{
@@ -21,6 +30,84 @@ export default {
         this.openOperation(this.nowStatus)
     },
     methods:{
+        putOperation(id){
+          let row = {
+            developmentId:this.$route.params.developmentId,
+            productId:this.$route.params.productId,
+            productCountryId:this.$route.params.productCountryId || '',
+            state:this.nowStatus
+          }
+          this.clickId = id
+          if(id == 1){
+            this.dialogName = '提交审批' 
+          }else if (id == 2){
+            this.dialogName = '审批通过' 
+          }else if(id == 3){
+            this.dialogName = '取消开发' 
+          }else if (id == 4){
+            this.dialogName = '打回'
+          }else if (id == 5){
+            this.dialogName = '提交采购主管审核'
+          }else if (id == 6){
+            this.dialogName = '更改采购开发员'
+          }else if (id == 7){
+            this.dialogName = '样品采购审核'
+          }else if (id == 8){
+            let routeData = this.$router.resolve({
+            name: "productDetails",
+            params:{
+                    developmentId:row.developmentId,
+                    productId:row.productId,
+                    productCountryId:row.productCountryId,
+                }
+            });
+            window.open(routeData.href, '_blank');
+          }else if (id == 9){
+              this.dialogName='终审通过'
+              this.clickId = 2
+          }else if (id == 10){
+              this.dialogName ='提交寻找供应商'
+          }else if (id == 11){
+              this.dialogName ='提交利润初审'
+          }else if (id == 12){
+              this.dialogName='审核通过'
+              this.clickId = 2
+          }else if (id == 13){
+              let params = {
+                  productCountryIds:row.id
+              }
+              unfreezing(params).then((res) => {
+                  if(res.code == 200){
+                      this.$message({
+                        type: 'success', 
+                        message:'解冻成功',
+                        offset:220
+                    })
+                    //   this.getTableList(this.navFilterList)
+                  }
+              }) 
+          }else if(id == 14){
+             this.dialogName ='提交利润初审'
+          }else if (id == 26){
+              let routeData = this.$router.resolve({
+                name: "productDetails",
+                params:{
+                        developmentId:row.developmentId,
+                        productId:row.productId,
+                        productCountryId:row.productCountryId,
+                    }
+                });
+            window.open(routeData.href, '_blank');
+            return
+          }else if(id == 15){
+             this.dialogName ='提交利润复核'
+          }
+          this.row = row
+          if(id != 13 || id != 8 || id != 26) {
+              this.$refs.messageDialog.openDialog()
+          }
+           
+      },
         openOperation(state){
           if(state == 0){
               this.operationList = [
@@ -31,10 +118,6 @@ export default {
                   {
                     name:'取消开发',
                     id:3
-                  },
-                  {
-                    name:'开发新市场',
-                    id:26
                   },
               ]
           }else if(state == 1){
@@ -51,10 +134,6 @@ export default {
                     name:'取消开发',
                     id:3
                   },
-                  {
-                    name:'开发新市场',
-                    id:26
-                  },
               ]
           }else if(state == 2){
               this.operationList = [
@@ -69,14 +148,6 @@ export default {
                   {
                     name:'打回',
                     id:4
-                  },
-                  {
-                    name:'开发新市场',
-                    id:26
-                  },
-                  {
-                    name:'开发新尺码',
-                    id:8
                   },
               ]
           }else if(state == 3){
@@ -101,10 +172,6 @@ export default {
                     name:'打回',
                     id:4
                   },
-                  {
-                    name:'开发新市场',
-                    id:26
-                  },
               ]
           }else if(state == 4){ //1 4 5 6 7 9 10
               this.operationList = [
@@ -123,10 +190,6 @@ export default {
                   {
                     name:'更改采购开发员',
                     id:6
-                  },
-                  {
-                    name:'开发新市场',
-                    id:26
                   },
               ]
           }else if(state == 5){
@@ -151,10 +214,6 @@ export default {
                     name:'更改采购开发员',
                     id:6
                   },
-                  {
-                    name:'开发新市场',
-                    id:26
-                  },
               ]
           }else if(state == 6){
               this.operationList = [
@@ -178,10 +237,6 @@ export default {
                     name:'更改采购开发员',
                     id:6
                   },
-                  {
-                    name:'开发新市场',
-                    id:26
-                  },
               ]
           }else if (state == 7){
               console.log(state)
@@ -194,10 +249,6 @@ export default {
                   {
                     name:'打回',
                     id:4
-                  },
-                  {
-                    name:'开发新尺码',
-                    id:8
                   },
                   {
                     name:'更改采购开发员',
@@ -214,10 +265,6 @@ export default {
                     name:'打回',
                     id:4
                   },
-                  {
-                    name:'开发新市场',
-                    id:26
-                  },
               ]
           }else if(state == 12){
               this.operationList = [
@@ -232,14 +279,6 @@ export default {
                   {
                     name:'打回',
                     id:4
-                  },
-                  {
-                    name:'开发新市场',
-                    id:26
-                  },
-                  {
-                    name:'开发新尺码',
-                    id:8
                   },
               ]
           }else if(state == 13){
@@ -256,14 +295,6 @@ export default {
                     name:'取消开发',
                     id:3
                   },
-                  {
-                    name:'开发新市场',
-                    id:26
-                  },
-                  {
-                    name:'开发新尺码',
-                    id:8
-                  },
               ]
           }else if(state == 14){
               this.operationList = [
@@ -279,14 +310,6 @@ export default {
                   {
                     name:'审批通过',
                     id:25
-                  },
-                  {
-                    name:'开发新市场',
-                    id:26
-                  },
-                  {
-                    name:'开发新尺码',
-                    id:8
                   },
                 ]
           }else if(state == '') {

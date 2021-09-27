@@ -21,7 +21,7 @@
             </el-dropdown-menu>
         </el-dropdown>
         <el-button size="mini" type="primary" plain @click="putDataPass">资料初审通过</el-button>
-        <el-button size="mini" type="primary" plain>终审通过</el-button>
+        <el-button size="mini" type="primary" plain @click="lastPutDataPass">终审通过</el-button>
         <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog" :selectRow="selectRow" @getTableList='getTableList'></messageDialog>
     </span>
 </template>
@@ -165,16 +165,26 @@
                 }
                 
             },
-            // lastPutDataPass(){
-            //     if( !this.selectRow || this.selectRow.length == 0 || this.selectRow.length == undefined){
-            //         this.$message.error('请选择数据')
-            //         return
-            //     }
-            //     this.dialogName = '资料终审通过'
-            //     this.clickId = 2
-            //     this.row = this.selectRow
-            //     this.$refs.messageDialog.openDialog()
-            // }
+            lastPutDataPass(){
+                if( !this.selectRow || this.selectRow.length == 0 || this.selectRow.length == undefined){
+                    this.$message.error('请选择数据')
+                    return
+                }
+                if(this.selectRow.every(res => res.state == 6)){
+                    this.dialogName = '资料终审通过'
+                    this.clickId = 30
+                    this.row = this.selectRow
+                    this.$refs.messageDialog.openDialog()
+                }else {
+                    this.$message({
+                        type: 'error', 
+                        message:'所选产品中包含无需终审产品',
+                        offset:220
+                    })
+                    return
+                }
+                
+            }
         }
     }
     
