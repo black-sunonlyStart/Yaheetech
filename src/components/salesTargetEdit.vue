@@ -148,17 +148,17 @@ export default {
                 {
                     label: '出厂价',
                     key: 1,
-                    value:0
+                    value:1
                 },
                 {
                     label: 'FOB价',
                     key: 2,
-                    value: 1
+                    value: 2
                 },    
                 {
                     label: '含税价',
                     key: 3,
-                    value: 2
+                    value:3
                 },    
                 ],
         }

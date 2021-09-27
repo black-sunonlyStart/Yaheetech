@@ -13,6 +13,7 @@
             <span v-if="clickId == 1" class="dialogText">说明:确定要把选择的产品提交给业务主管(经理)进行审批?</span>
             <span v-if="clickId == 2" class="dialogText">说明:确定要把选择的产品审批通过,让认证专员去完善认证需求?</span>
             <span v-if="clickId == 25" class="dialogText">说明:确定要把选择的产品审批通过,让认证专员去完善认证需求?</span>
+            <span v-if="clickId == 15" class="dialogText">说明:确定选择的产品样品资料已经正确,让业务开发员复核利润率?</span>
             <span v-if="clickId == 5" class="dialogText">说明:确定选择的产品资料已经正确,让采购主管审核?</span>
             <span v-if="clickId == 7" class="dialogText">说明:确定选择的产品有利润空间后,让采购开发员去购买样品?</span>
             <span v-if="clickId == 10" class="dialogText">说明:确定选择的产品认证需求信息完善,让采购去寻找供应商?</span>

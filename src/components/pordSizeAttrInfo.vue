@@ -121,19 +121,28 @@
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >
-            <el-col :span="10">
-                <span class="textWight">物流周长加长(美国): </span><span style="font-weight:normal">
-                    {{pordSizeAttrInfoList.logisticsPerimeter? pordSizeAttrInfoList.logisticsPerimeter + '(cm)' : ''}}
-                    </span>
+            <el-col :span="10" class="moreText">
+                <div class="textWight">
+                    物流周长加长(美国):
+                </div>
+                 <div class="textBox">
+                    <div>{{pordSizeAttrInfoList.logisticsPerimeter? pordSizeAttrInfoList.logisticsPerimeter + '(cm)' : ''}}</div>
+                    <div>{{pordSizeAttrInfoList.logisticsPerimeterYcun? pordSizeAttrInfoList.logisticsPerimeterYcun + '(inch)' : ''}}</div>
+                </div>
             </el-col>
-            <el-col :span="10">
-                <span class="textWight">物流周长加长(非美国): </span><span style="font-weight:normal">
-                    {{ pordSizeAttrInfoList.logisticsPerimeter? pordSizeAttrInfoList.logisticsPerimeter + '(cm)' : ''}}</span>
+            <el-col :span="10" class="moreText">
+                <div class="textWight">
+                    物流周长加长(非美国):
+                </div>
+                 <div class="textBox">
+                    <div>{{pordSizeAttrInfoList.logisticsPerimeterNoUsa? pordSizeAttrInfoList.logisticsPerimeterNoUsa + '(cm)' : ''}}</div>
+                    <div>{{pordSizeAttrInfoList.logisticsPerimeterNoUsaYcun? pordSizeAttrInfoList.logisticsPerimeterNoUsaYcun + '(inch)' : ''}}</div>
+                </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >
             <el-col :span="10">
-                <span class="textWight">选择发货货柜: </span><span style="font-weight:normal">{{pordSizeAttrInfoList.logisticsPerimeter}}</span>
+                <span class="textWight">选择发货货柜: </span><span style="font-weight:normal">{{pordSizeAttrInfoList.containerModel}}</span>
             </el-col>
             <el-col :span="10">
                 <span class="textWight">可装货柜数量: </span><span style="font-weight:normal">{{pordSizeAttrInfoList.transportqty}}</span>

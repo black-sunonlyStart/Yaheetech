@@ -38,7 +38,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="FOB价(¥)">
+                        label="FOB价($)">
                          <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.fobprice }}</span>
@@ -78,7 +78,8 @@
                     </el-table-column>
                     <el-table-column
                         prop="deliverydays"
-                        label="交期(天)">
+                        label="交期(天)"
+                        >
                     </el-table-column>
                     <el-table-column
                         prop="packingquantity"
@@ -117,7 +118,7 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="FOB价( ¥ )">
+                        label="FOB价( $ )">
                          <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.fobprice }}</span>
@@ -157,7 +158,8 @@
                     </el-table-column>
                     <el-table-column
                         prop="deliverydays"
-                        label="交期(天)">
+                        label="交期(天)"
+                        >
                     </el-table-column>
                     <el-table-column
                         prop="packingquantity"

@@ -241,7 +241,7 @@
                     <el-form-item label="产品开发价:" prop="developmentprice" >
                         <div class="inputBox"> 
                             <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
-                            <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.developmentprice" @change="changeDevelopmentprice"></el-input-number>  
+                            <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.developmentprice" @change="changeDevelopmentprice(item.developmentprice,item.platformname)"></el-input-number>  
                         </div>
                         <el-button  v-if="item.piprice">计算利润</el-button>
                     </el-form-item>
@@ -719,6 +719,26 @@ export default {
                 })
                 return
             }
+            if(this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0]){
+                if(this.devInformationDetaiList.productMarketList.find(item =>  item.countrycode == this.ruleForm.marksContry1 && item.platformname == this.ruleForm.marksContry2 && item.warehouseid == this.ruleForm.marksContry3)){
+                    this.$message({
+                                type:'warning',
+                                message:'你选择的国家+平台+仓库已存在',
+                                offset:220
+                            })
+                    return 
+                }
+            }
+            if(this.devInformationDetaiList.productMarketListALL && this.devInformationDetaiList.productMarketListALL[0]){
+                if(this.devInformationDetaiList.productMarketListALL.find(item =>  item.countrycode == this.ruleForm.marksContry1 && item.platformname == this.ruleForm.marksContry2 && item.warehouseid == this.ruleForm.marksContry3)){
+                    this.$message({
+                                type:'warning',
+                                message:'你选择的国家+平台+仓库已存在',
+                                offset:220
+                            })
+                    return 
+                }
+            }
             
             let dailySales3 = this.dailySales3.filter(item => {
                 return item.id == this.ruleForm.marksContry3
@@ -822,9 +842,12 @@ export default {
                     })
                 }
         },
-        changeDevelopmentprice(val){
+        changeDevelopmentprice(val,platformname){
             this.devInformationDetaiList.productMarketList.forEach(item => {
-                item.developmentprice = val
+                if(item.platformname == platformname){
+                    item.developmentprice = val
+                }
+                
             })
         },
         getTypeList(){

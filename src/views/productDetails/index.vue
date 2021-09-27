@@ -29,7 +29,7 @@
                         </div>
                         <div>
                             <div v-for="item in productMarketStrs" :key="item.platformName" class="profit">
-                                {{item.platformName}}-{{item.marketProfits[0].warehouseName}}-{{item.currency}} {{item.developmentPrice}}/{{item.marketProfits[0].profitMargin}}
+                                {{item.platformName}}-{{item.marketProfits[0].warehouseName}}-{{item.currency}} {{item.developmentPrice}} / {{item.marketProfits[0].profitMargin}}
                             </div>
                         </div>
                     </div>
@@ -647,12 +647,13 @@ export default {
                     orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName : '',//采购开发
                     businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//业务开发
                     productCountryList:this.productVos.productCountryList ? this.productVos.productCountryList[0] : [],//业务开发
+                    productMarketListALL:this.productVos.productMarketListALL ? this.productVos.productMarketListALL[0] : [],//业务开发
                     computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList && this.productVos.productCountryList[0].productMarketList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],//业务开发
                     productMarketList: this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList  && this.productVos.productCountryList[0].productMarketList[0] ?  this.productVos.productCountryList[0].productMarketList : [],//表格数据
                     businessid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessid : '',   
                     buyerid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerid : '',   
                 }
-                console.log(this.devInformationDetaiList,'devInformationDetaiList',JSON.parse(res.data.development.dutyrate))
+                // console.log(this.devInformationDetaiList,'devInformationDetaiList',JSON.parse(res.data.development.dutyrate))
                 //产品认证信息
                 let credentialList1 = []
                 let credentialList2 = []
@@ -765,13 +766,14 @@ export default {
                     abroadbeforepackweight :this.productVos.abroadbeforepackweight, //净重
                     afterpackweight:this.productVos.abroadbeforepackweight, //毛重(发货用)
                     abroadafterpackweight:this.productVos.abroadbeforepackweight, //毛重(发货用)
-                    logisticsPerimeter:this.productVos.packedlength ? (this.productVos.packedlength + (this.productVos.packedwidth + this.productVos.packedheight) * 2) : '', //物流周长加长(美国)
+                    logisticsPerimeter:this.productVos.packedlength ? (Math.ceil(this.productVos.packedlength) + (Math.ceil(this.productVos.packedwidth) + Math.ceil(this.productVos.packedheight)) * 2).toFixed(2) : '', //物流周长加长(美国)
+                    logisticsPerimeterYcun:this.productVos.packedlength ? (Math.ceil(this.productVos.packedlength  * ycun) + (Math.ceil(this.productVos.packedwidth  * ycun) + Math.ceil(this.productVos.packedheight  * ycun)) * 2).toFixed(2) : '', //物流周长加长(美国)
+                    logisticsPerimeterNoUsa:this.productVos.packedlength ? (this.productVos.packedlength + (this.productVos.packedwidth + this.productVos.packedheight) * 2).toFixed(2) : '', //物流周长加长(非美国)
+                    logisticsPerimeterNoUsaYcun:this.productVos.packedlength ? (this.productVos.packedlength * ycun + ((this.productVos.packedwidth * ycun) + (this.productVos.packedheight * ycun)) * 2).toFixed(2) : '', //物流周长加长(非美国)
                     transportqty:this.productVos.transportqty,//可装货柜数量
                     packingway:this.productVos.packingway,//包装方式
                     productlistings:this.productVos.productlistings,//多箱清单
-                    // multiAttribute:res.data.allProducts[0].productColorList,//销售（多）属性
-                    // size:res.data.allProducts[0].size,//销售（多）属性
-                    containerVolume:this.productVos.containerVolume / this.productVos.transportqty, //每个产品所占体积
+                    containerVolume:this.productVos.containerVolume ? (this.productVos.containerVolume / this.productVos.transportqty).toFixed(6) : '', //每个产品所占体积
                     containerVolumeCu:this.productVos.containerVolume ? (parseFloat((this.productVos.containerVolume/this.productVos.transportqty).toFixed(2)) * 35.3147248).toFixed(2) :'', //每个产品所占体积
                     packedlength:this.productVos.packedlength,
                     packedwidth:this.productVos.packedwidth,

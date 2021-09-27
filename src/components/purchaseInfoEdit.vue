@@ -61,7 +61,9 @@
                                     </template>
                                 </el-table-column>
                                 <el-table-column
-                                    label="选择利润计算采购价">
+                                    label="选择利润计算采购价"
+                                    width="120px"
+                                    >
                                     <template slot-scope="scope">
                                         <el-select v-model="scope.row.calculateprofittype">
                                             <el-option 
@@ -100,9 +102,11 @@
                                     </template>
                                 </el-table-column>
                                 <el-table-column                           
-                                    label="交期(天)">
+                                    label="交期(天)"
+                                    width='80px'
+                                    >
                                     <template slot-scope="scope">
-                                        <el-input-number style="width:80px" :controls='false' v-model="scope.row.deliverydays"></el-input-number>      
+                                        <el-input-number style="width:60px" :controls='false' v-model="scope.row.deliverydays"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                        
@@ -130,12 +134,11 @@
                                 style="width: 100%"
                                 >
                                 <el-table-column
-                                    prop="name"
+                                    prop="createdName"
                                     label="采购开发"
-                                    width="80px"
                                     >
                                     <template slot-scope="scope">
-                                        <el-input style="width:60px"  v-model="scope.row.name" disabled></el-input>      
+                                        <el-input style="width:80px"  v-model="scope.row.createdName" disabled></el-input>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                        
@@ -169,7 +172,9 @@
                                     </template>
                                 </el-table-column>
                                  <el-table-column
-                                    label="选择利润计算采购价">
+                                    label="选择利润计算采购价"
+                                     width="120px"
+                                    >
                                     <template slot-scope="scope">
                                         <el-select v-model="scope.row.calculateprofittype">
                                             <el-option 
@@ -206,9 +211,11 @@
                                     </template>
                                 </el-table-column>
                                 <el-table-column
-                                    label="交期(天)">
+                                    label="交期(天)"
+                                    width='80px'
+                                    >
                                     <template slot-scope="scope">
-                                        <el-input-number style="width:80px" :controls='false' v-model="scope.row.deliverydays"></el-input-number>      
+                                        <el-input-number style="width:60px" :controls='false' v-model="scope.row.deliverydays"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                         
@@ -218,7 +225,8 @@
                                     </template>
                                 </el-table-column>
                             </el-table>
-                    </el-form-item>
+                            <div class="showtext" v-if="showText">最终报价与采购样品前报价不一致，请审核人员认真检查是否合理</div>
+                    </el-form-item>  
                  </el-col>
              </el-row>
              <el-row>
@@ -378,7 +386,7 @@ export default {
                 sampleDeliveryOn:'',
                 fobbandprice:'',
                 packedvolume:'',
-                purchaseprice:0,
+                purchaseprice:'',
                
                 productPurchaseVoList:[
                     {
@@ -408,9 +416,10 @@ export default {
                 {
                     label: '含税价',
                     key: 3,
-                    value: 3
+                    value:3
                 },
-            ]
+            ],
+            showText:false
         }
     },
     computed:{
@@ -544,6 +553,18 @@ export default {
                         this.ruleForm.lastProductPurchaseVoList.type = 1
                         tableList.push(this.ruleForm.lastProductPurchaseVoList)
                 }
+                this.showText = false
+                //minbuynum  firstorderqty   purchaseprice  fobprice  taxprice  calculateprofittype  miscprice warpperfee deliverydays packingquantity
+                let lastProductPurchaseVoList = this.ruleForm.lastProductPurchaseVoList[0]
+                if(this.selectRow.minbuynum != lastProductPurchaseVoList.minbuynum || this.selectRow.firstorderqty != lastProductPurchaseVoList.firstorderqty 
+                    || this.selectRow.purchaseprice != lastProductPurchaseVoList.purchaseprice || this.selectRow.fobprice != lastProductPurchaseVoList.fobprice
+                    || this.selectRow.taxprice != lastProductPurchaseVoList.taxprice || this.selectRow.calculateprofittype != lastProductPurchaseVoList.calculateprofittype
+                    || this.selectRow.miscprice != lastProductPurchaseVoList.miscprice || this.selectRow.warpperfee != lastProductPurchaseVoList.warpperfee
+                    || this.selectRow.deliverydays != lastProductPurchaseVoList.deliverydays || this.selectRow.packingquantity != lastProductPurchaseVoList.packingquantity
+
+                ){
+                    this.showText = true
+                }
                 params.purchases = tableList.flat()
                 productPurchase(params).then(res => {
                     if(res.code == 200){
@@ -552,7 +573,11 @@ export default {
                             message:'保存成功',
                             offset:220
                         })
-                        this.$emit('closeEdit','false')
+                        if(this.showText){
+                            this.$emit('closeEdit','true')
+                        }else {
+                            this.$emit('closeEdit','false')
+                        }
                     }
                 })
             } else {
@@ -592,6 +617,7 @@ export default {
 .tableText{
     color:#3366cc ;
     cursor: pointer;
+    display: inline-block;
 }
 .feeForOrderText{
     width: 392px;
@@ -623,5 +649,11 @@ export default {
         top: 1px;
         border-top-right-radius: 4px ;
         border-bottom-right-radius: 4px ;
+    }
+    .showtext{
+        width: 600px;
+        border: 1px solid sandybrown;
+        margin-top: 5px;
+        padding-left: 5px;
     }
 </style>

@@ -313,8 +313,9 @@ export default {
                 });
             window.open(routeData.href, '_blank');
             return
+          }else if(id == 15){
+             this.dialogName ='提交利润复核'
           }
-          this.row = row
           if(id != 13 || id != 8 || id != 26) {
               this.$refs.messageDialog.openDialog()
           }

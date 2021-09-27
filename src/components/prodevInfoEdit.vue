@@ -212,6 +212,11 @@ export default {
             },
             devSign:[
                 {
+                    label: '请选择文档所属市场',
+                    key: 0,
+                    value: 0
+                },
+                {
                     label: '美国',
                     key: 1,
                     value: 'US'

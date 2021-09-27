@@ -85,8 +85,8 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="3">
-                    <span class="vacanBox">体积：</span><span v-if="ruleForm.sizeRules == '1'">{{ruleForm.packageSizeL && ruleForm.packageSizeW && ruleForm.packageSizeH ? ((ruleForm.packageSizeL * ruleForm.packageSizeW * ruleForm.packageSizeH) / 1000 ).toFixed(6)+ 'm³' :''}}</span>
-                                      <span v-else-if="ruleForm.sizeRules == '2'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000).toFixed(6)+ 'm³' :''}}</span>
+                    <span class="vacanBox">体积：</span><span v-if="ruleForm.sizeRules == '1'">{{ruleForm.packageSizeL && ruleForm.packageSizeW && ruleForm.packageSizeH ? ((ruleForm.packageSizeL * ruleForm.packageSizeW * ruleForm.packageSizeH) / 1000000 ).toFixed(6)+ 'm³' :''}}</span>
+                                      <span v-else-if="ruleForm.sizeRules == '2'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000000).toFixed(6)+ 'm³' :''}}</span>
                 </el-col>
              </el-row>
              <el-row>
@@ -134,8 +134,8 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="3">
-                    <span class="vacanBox">体积：</span><span v-if="ruleForm.outerBoxSizeRules == '1'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000).toFixed(6)+ 'm³' :''}}</span>
-                                      <span v-else-if="ruleForm.outerBoxSizeRules == '2'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000).toFixed(6) + 'm³' :''}}</span>
+                    <span class="vacanBox">体积：</span><span v-if="ruleForm.outerBoxSizeRules == '1'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000000).toFixed(6)+ 'm³' :''}}</span>
+                                      <span v-else-if="ruleForm.outerBoxSizeRules == '2'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000000).toFixed(6) + 'm³' :''}}</span>
                 </el-col>
              </el-row>
              
