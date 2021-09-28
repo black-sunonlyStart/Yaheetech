@@ -30,7 +30,9 @@ export default {
          nowStatus:{
           handler:function(val){
               if(val){
-                this.openOperation(this.nowStatus)
+                    this.$nextTick(() => {
+                        this.openOperation(this.nowStatus)
+                    })
               }
           },
           deep:true

@@ -888,7 +888,7 @@ export default {
                 isbrand:this.devInformationDetaiList.ispatentproduct,
                 titleDe:this.devInformationDetaiList.titleDe,
                 titleJp:this.devInformationDetaiList.titleJp,
-                ispatentproduct:this.devInformationDetaiList.ispatentproduct || 1,
+                ispatentproduct:this.devInformationDetaiList.ispatentproduct,
                 seaFreight:this.devInformationDetaiList.computemode?0:1,
                 brandEu:this.devInformationDetaiList.enCountryBand || '0',
                 brandUs:this.devInformationDetaiList.usCountryBand || '0',

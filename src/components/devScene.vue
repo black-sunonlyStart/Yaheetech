@@ -15,7 +15,7 @@
             </el-select>
             </el-form-item>
             <el-form-item label="开发场景" prop="scene">
-                <el-select v-model="ruleForm.scene " placeholder="请选择" @change="selectScene">
+                <el-select v-model="ruleForm.scene " placeholder="请选择" @change="selectScene" :disabled='closeComponent'>
                     <el-option-group
                         v-for="group in sceneOptions"
                         :key="group.label"
@@ -143,6 +143,7 @@ export default {
         },
         ],
         selectId:false,
+        closeComponent:false,
         spuSign:[],  
         ruleForm: {
           scene: '',
@@ -203,6 +204,9 @@ export default {
           }
           if(this.productVoDetail.developmentscenarios == 1){
               this.showRelation = false
+          }
+          if(this.productVoDetail.developmentscenarios){
+              this.closeComponent = true
           }
       },
       submitForm(formName) {
@@ -284,7 +288,7 @@ export default {
 <style lang="scss" scoped>
     ::v-deep.demo-ruleForm{
         .el-form-item {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
     }
     .textSpeaing{

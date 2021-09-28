@@ -565,11 +565,11 @@ export default {
                 this.showText = false
                 //minbuynum  firstorderqty   purchaseprice  fobprice  taxprice  calculateprofittype  miscprice warpperfee deliverydays packingquantity
                 let lastProductPurchaseVoList = this.ruleForm.lastProductPurchaseVoList[0]
-                if(this.selectRow.minbuynum != lastProductPurchaseVoList.minbuynum || this.selectRow.firstorderqty != lastProductPurchaseVoList.firstorderqty 
+                if(this.selectRow && lastProductPurchaseVoList && (this.selectRow.minbuynum != lastProductPurchaseVoList.minbuynum || this.selectRow.firstorderqty != lastProductPurchaseVoList.firstorderqty 
                     || this.selectRow.purchaseprice != lastProductPurchaseVoList.purchaseprice || this.selectRow.fobprice != lastProductPurchaseVoList.fobprice
                     || this.selectRow.taxprice != lastProductPurchaseVoList.taxprice || this.selectRow.calculateprofittype != lastProductPurchaseVoList.calculateprofittype
                     || this.selectRow.miscprice != lastProductPurchaseVoList.miscprice || this.selectRow.warpperfee != lastProductPurchaseVoList.warpperfee
-                    || this.selectRow.deliverydays != lastProductPurchaseVoList.deliverydays || this.selectRow.packingquantity != lastProductPurchaseVoList.packingquantity
+                    || this.selectRow.deliverydays != lastProductPurchaseVoList.deliverydays || this.selectRow.packingquantity != lastProductPurchaseVoList.packingquantity)
 
                 ){
                     this.showText = true

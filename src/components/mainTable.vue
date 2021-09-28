@@ -269,9 +269,8 @@ export default {
             let routeData = this.$router.resolve({
             name: "productDetails",
             params:{
-                    developmentId:row.developmentId,
-                    productId:row.productId,
-                    productCountryId:row.productCountryId,
+                    row,
+                    id
                 }
             });
             window.open(routeData.href, '_blank');

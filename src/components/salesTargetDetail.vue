@@ -23,7 +23,7 @@
         <el-row class="textSpeaing">
             <el-col :span="8">
                 <span class="imageMainbox">目标售后返修率要求: </span>
-                <span class="imageMainboxText">{{salesTargetDetaiList.xsrepairraterequirement}}</span>
+                <span class="imageMainboxText">{{salesTargetDetaiList.xsrepairraterequirement ? salesTargetDetaiList.xsrepairraterequirement + '%' : '' }}</span>
             </el-col>
             <el-col :span="8">
                 <span class="imageMainbox">预估首单订单数量: </span>

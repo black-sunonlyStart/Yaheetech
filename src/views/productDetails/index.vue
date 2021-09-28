@@ -14,7 +14,7 @@
                 </div>
                 <div class="detailsText">
                     <div>
-                        开发id:<span>{{development.id}}</span>
+                        开发id:<span>{{development && development.id ?development.id:'' }}</span>
                     </div>
                     <div>
                         生成型号:<span>{{$route.params.productId}}</span>
@@ -84,7 +84,7 @@
                                     <devDetail :productVoDetail='productVoDetail'></devDetail>
                                 </div>
                                 <div v-else>
-                                    <devScene @closeEdit='editPage' :productVoDetail='productVoDetail'></devScene>
+                                    <devScene @closeEdit='editPage' :productVoDetail='productVoDetail' ></devScene>
                                 </div>
                             </el-card>
                             <el-card style="margin-top:10px">
@@ -238,7 +238,7 @@
   </div>
 </template>
 <script>
- import { getProductDevDetail,getProductMultipleAttribute } from '@/api/user.js'
+ import { getProductDevDetail,getProductMultipleAttribute,exploitType } from '@/api/user.js'
 export default {
   name: 'productDetails',
   components:{
@@ -440,8 +440,33 @@ export default {
   },
   mounted () {
     //   this.getAllpageList()
+    console.log(this.$route,'id')
+    if(this.$route.params.id == 8 || this.$route.params.id == 23){
+        this.getNewSizeList()
+    }
   },
   methods: {
+        getNewSizeList(){debugger
+            let params = {
+                developmentType:this.$route.params.row.developmentType,
+                developmentScenarios:this.$route.params.id == 8 ? 2 : 3,
+                addDevelopmentId:this.$route.params.row.inputRelation,
+                associatedProductId:this.$route.params.row.selectRelation,
+            }
+            exploitType(params).then(res => {
+                if(res.data){
+                    this.$router.push({
+                        name:'productDetails',
+                        params:{
+                            developmentId:res.data.developmentId,
+                            productId:res.data.productId,
+                            productCountryId:res.data.productCountryId,
+                        }
+                    })
+                    this.getAllpageList()
+                }
+            })
+        },
         openRemarks () {
             this.$refs.remarks.openHandle()
         },
@@ -535,8 +560,8 @@ export default {
                     developmenttype:this.productVos ? this.productVos.developmenttype :'',//开发类型
                     developmentscenarios:this.productVos ? this.productVos.developmentscenarios : '',//开发场景
                     categoryname:res.data.development ? res.data.development.categoryname : '',//所属分类
-                    spu:res.data.development.spu,//关联spu
-                    id:this.productVos.id,//关联spu id
+                    spu:res.data.development ? res.data.development.spu : '',//关联spu
+                    id:this.productVos ? this.productVos.id : '',//关联spu id
                 }
                 //图片信息数据
                 this.productImgDetail =  res.data.developmentAttachmentList.filter(item => {
@@ -646,8 +671,8 @@ export default {
                     dutyrate1:dutyrate1 && dutyrate1[0] ? dutyrate1[0].Value : '',//是否需要专利确认
                     dutyrate2:dutyrate2  && dutyrate2[0]? dutyrate2[0].Value : '',
                     dutyrate3:dutyrate3 && dutyrate3[0]? dutyrate3[0].Value : '',
-                    orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName : '',//采购开发
-                    businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//业务开发
+                    orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//采购开发
+                    businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName: '',//业务开发
                     productCountryList:this.productVos.productCountryList ? this.productVos.productCountryList[0] : [],//业务开发
                     productMarketListALL:this.productVos.productMarketListALL ? this.productVos.productMarketListALL[0] : [],//业务开发
                     computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList && this.productVos.productCountryList[0].productMarketList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],//业务开发
