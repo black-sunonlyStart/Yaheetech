@@ -26,6 +26,16 @@ export default {
             default:() => {0}
         }
     },
+    watch:{
+         nowStatus:{
+          handler:function(val){
+              if(val){
+                this.openOperation(this.nowStatus)
+              }
+          },
+          deep:true
+      }
+    },
     mounted(){
         this.openOperation(this.nowStatus)
     },

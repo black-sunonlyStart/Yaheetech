@@ -501,12 +501,12 @@ export default {
                 {
                     label: '规则立方体',
                     key: 1,
-                    value: 1
+                    value: '1'
                 },
                 {
                     label: '不规则立方体',
                     key: 2,
-                    value: 2
+                    value: '2'
                 },    
             ],
             packingMethodType:[
@@ -627,8 +627,8 @@ export default {
                 outerBoxSizeH:this.pordSizeAttrInfoList.outerBoxSizeH,
                 outerBoxSizeW:this.pordSizeAttrInfoList.outerBoxSizeW,
                 outerBoxSizeL:this.pordSizeAttrInfoList.outerBoxSizeL,
-                sizeRules:this.pordSizeAttrInfoList.packageshape?this.pordSizeAttrInfoList.packageshape:1,
-                outerBoxSizeRules:this.pordSizeAttrInfoList.cartonShape?this.pordSizeAttrInfoList.cartonShape:1,
+                sizeRules:this.pordSizeAttrInfoList.packageshape?this.pordSizeAttrInfoList.packageshape:'1',
+                outerBoxSizeRules:this.pordSizeAttrInfoList.cartonShape?this.pordSizeAttrInfoList.cartonShape:'1',
                 containersNumber:this.pordSizeAttrInfoList.containerid,
                 outerBoxNum:this.pordSizeAttrInfoList.transportqty,
                 proNetWeight:this.pordSizeAttrInfoList.beforepackweight,

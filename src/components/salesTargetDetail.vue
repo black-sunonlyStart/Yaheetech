@@ -7,7 +7,7 @@
             </el-col>
             <el-col :span="8">
                 <span class="imageMainbox">目标采购价: </span>
-                <span class="imageMainboxText">{{salesTargetDetaiList.xspurchaseprice}}</span>
+                <span class="imageMainboxText">{{salesTargetDetaiList.xspurchaseprice}} {{salesTargetDetaiList.xspurchasePriceCurrency==2 ? '$' : "￥"}}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">

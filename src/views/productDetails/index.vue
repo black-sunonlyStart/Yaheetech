@@ -223,7 +223,7 @@
                                     <purchaseInfoDetail :purchaseInfoDetaiList='purchaseInfoDetaiList' :nowStatus='timeStatus'></purchaseInfoDetail>
                                 </div>
                                 <div v-else>
-                                    <purchaseInfoEdit  @closeEdit='closePurchaseInfo' :purchaseInfoDetaiList='purchaseInfoDetaiList' :nowStatus='timeStatus'></purchaseInfoEdit>
+                                    <purchaseInfoEdit  @closeEdit='closePurchaseInfo' @getTableList='getAllpageList' :purchaseInfoDetaiList='purchaseInfoDetaiList' :nowStatus='timeStatus'></purchaseInfoEdit>
                                 </div>
                             </el-card>
                         </div>
@@ -566,6 +566,7 @@ export default {
                     xsfirstorderquantity:this.productVos.xsfirstorderquantity, //预估首单订单数量
                     xsspecialrequirements:this.productVos.xsspecialrequirements, //产品包装尺寸有无特殊要求
                     xsorderoftime:this.productVos.xsorderoftime, //产品下单时间点
+                    xspurchasePriceCurrency:this.productVos.xspurchasePriceCurrency, //产品下单时间点
                 }  
                 //竞品信息数据
                 this.comNewsDetailList = {

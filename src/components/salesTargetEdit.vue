@@ -12,7 +12,7 @@
                         <div class="targetPriceWbox">
                             <div class="inputBox">
                                 <el-input-number :controls='false' v-model="ruleForm.targetPrice"></el-input-number>
-                                <span class="inputUnit" v-if="ruleForm.region == 1">$</span>
+                                <span class="inputUnit" v-if="ruleForm.region == 2">$</span>
                                 <span class="inputUnit" v-else>¥</span>
                             </div>
                             <div>
@@ -148,17 +148,17 @@ export default {
                 {
                     label: '出厂价',
                     key: 1,
-                    value:1
+                    value:'1'
                 },
                 {
                     label: 'FOB价',
                     key: 2,
-                    value: 2
+                    value: '2'
                 },    
                 {
                     label: '含税价',
                     key: 3,
-                    value:3
+                    value:'3'
                 },    
                 ],
         }

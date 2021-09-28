@@ -583,7 +583,7 @@ export default {
                             offset:220
                         })
                         if(this.showText){
-                            this.$emit('closeEdit','true')
+                            this.$emit('getTableList')
                         }else {
                             this.$emit('closeEdit','false')
                         }
