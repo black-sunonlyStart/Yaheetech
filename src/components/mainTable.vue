@@ -268,8 +268,10 @@ export default {
           }else if (id == 8){
             let routeData = this.$router.resolve({
             name: "productDetails",
-            params:{
-                    row,
+                query:{
+                    developmentType:row.developmentType,
+                    developmentId:row.developmentId,
+                    productId:row.productId,
                     id
                 }
             });
@@ -303,10 +305,11 @@ export default {
           }else if (id == 26){
               let routeData = this.$router.resolve({
                 name: "productDetails",
-                params:{
+                query:{
+                        developmentType:row.developmentType,
                         developmentId:row.developmentId,
                         productId:row.productId,
-                        productCountryId:row.productCountryId,
+                        id
                     }
                 });
             window.open(routeData.href, '_blank');

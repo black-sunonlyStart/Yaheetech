@@ -271,6 +271,7 @@ export default {
 }
 .colbox{
     display: flex;
+    margin-left: 20px;
     .colBoxTitle{
         font-weight: bold;
         width: 120px;

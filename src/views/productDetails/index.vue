@@ -441,17 +441,17 @@ export default {
   mounted () {
     //   this.getAllpageList()
     console.log(this.$route,'id')
-    if(this.$route.params.id == 8 || this.$route.params.id == 23){
+    if(this.$route.query.id == 8 || this.$route.query.id == 26){
         this.getNewSizeList()
     }
   },
   methods: {
-        getNewSizeList(){debugger
+        getNewSizeList(){
             let params = {
-                developmentType:this.$route.params.row.developmentType,
-                developmentScenarios:this.$route.params.id == 8 ? 2 : 3,
-                addDevelopmentId:this.$route.params.row.inputRelation,
-                associatedProductId:this.$route.params.row.selectRelation,
+                developmentType:this.$route.query.developmentType,
+                developmentScenarios:this.$route.query.id == 8 ? 3 : 2,
+                addDevelopmentId:this.$route.query.developmentId,
+                associatedProductId:this.$route.query.id == 8 ? '' : this.$route.query.productId,
             }
             exploitType(params).then(res => {
                 if(res.data){
@@ -462,8 +462,14 @@ export default {
                             productId:res.data.productId,
                             productCountryId:res.data.productCountryId,
                         }
+                        
                     })
-                    this.getAllpageList()
+                    let data = {
+                        developmentId:res.data.developmentId,
+                        productId:res.data.productId,
+                        productCountryId:res.data.productCountryId,
+                    }
+                    this.getAllpageList(data)
                 }
             })
         },
