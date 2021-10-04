@@ -213,8 +213,28 @@ export default {
                         },
                         trigger: "change"
                     }],
-                requirements: [{ required: true, message: '请填写认证要求', trigger: 'blur' }],
-                testRequirements: [{ required: true, message: '请填写测试要求', trigger: 'blur' }],
+                requirements: [{ required: true,
+                                // message: '请填写认证要求',
+                                validator: (rules, value, cb) => {
+                                    if (value.find(item => item.data == null || !item.data)) {
+                                        return cb(new Error("请填写认证要求!"));
+                                    }
+
+                                    return cb();
+                                    },
+                                trigger: 'blur' 
+                                }],
+                testRequirements: [{ required: true,
+                                // message: '请填写认证要求',
+                                validator: (rules, value, cb) => {
+                                    if (value.find(item => item.data == null || !item.data)) {
+                                        return cb(new Error("请填写测试要求!"));
+                                    }
+
+                                    return cb();
+                                    },
+                                trigger: 'blur' 
+                                }],
                 requirementsRemark: [{ required: true, message: '请填写认证备注', trigger: 'blur' }],
                 productAgeGroup: [{ required: true, message: '请选择适用年龄段', trigger: 'blur' }],
                 patentRiskLevel: [{ required: true, message: '请选择风险等级', trigger: 'blur' }],
@@ -448,6 +468,12 @@ export default {
                 productAgeGroup:this.prodCerInfoDetailList.applicableAge,
                 ageGroupRemarks:this.prodCerInfoDetailList.applicableAgeNote ? this.prodCerInfoDetailList.applicableAgeNote : '',
                 patentRiskLevel:this.prodCerInfoDetailList.riskllevel,
+            }
+            if(this.ruleForm.requirements.length == 0){
+                this.addMustRequire()
+            }
+            if(this.ruleForm.testRequirements.length == 0){
+                this.addRequireMent()
             }
             if(this.prodCerInfoDetailList.patentInfo && this.prodCerInfoDetailList.patentInfo.length > 0){
                 this.prodCerInfoDetailList.patentInfo.forEach(item => {

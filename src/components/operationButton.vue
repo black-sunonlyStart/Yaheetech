@@ -116,6 +116,8 @@ export default {
             return
           }else if(id == 15){
              this.dialogName ='提交利润复核'
+          }else {
+             this.dialogName ='审核通过' 
           }
           this.row = row
           if(id != 13 || id != 8 || id != 26) {
@@ -238,7 +240,7 @@ export default {
                   },
               ]
           }else if (state == 7){
-              console.log(state)
+              this.operationList=[]
           } else if(state == 10){
               this.operationList = [
                   {
@@ -303,7 +305,7 @@ export default {
                   },
               ]
           }else if (state == 9){
-              console.log(state)
+               this.operationList=[]
           }else if (state == 10){ //0 2 3 8
               this.operationList = [
                   {

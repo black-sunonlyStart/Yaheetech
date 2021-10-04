@@ -516,11 +516,16 @@ export default {
             this.pageImageIndex = index
         },
         changeAsin(val,index){
+             this.$set(this.comNewsDetailList.competingproducts[index],'showMessage',false) 
+            if(!val)return
             let params = {
                 xsin:val
             }
             checkXSIN(params).then( res => {
-                this.$set(this.comNewsDetailList.competingproducts[index],'showMessage',res.data) 
+                if(res.data){
+                    this.$set(this.comNewsDetailList.competingproducts[index],'showMessage',res.data) 
+                }
+                
             })
         },//55：美国(USD)  56：德国(EUR)  54：英国(GBP)  30：澳大利亚(AUD)  65：新西兰(NZD)//
         showMoneyCurry(val){
@@ -554,7 +559,7 @@ export default {
     margin-top: 8px;
     border-top: none;
     ::v-deep .el-form-item{
-        margin-bottom:10px !important;
+        margin-bottom:12px !important;
     }
     .iconDelbox{
         display: inline-block;
@@ -632,8 +637,10 @@ export default {
 .asinText{
     font-size: 12px;
     line-height: 0px;
-    margin-top: 8px;
+    margin-top: 0px;
     color: red;
+    position: relative;
+    top: 7px
 }  
 ::v-deep.inputBox{
         width: 290px;

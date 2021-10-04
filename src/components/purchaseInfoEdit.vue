@@ -329,7 +329,7 @@
             </el-row>
             <el-row>
                 <el-col :span="11">
-                    <el-form-item label="货好时间:" prop="goodTimeDate">
+                    <el-form-item label="货好时间:" prop="goodTimeDate" v-if="nowStatus == 4">
                         <div class="feeForOrderText">
                             <el-date-picker
                                 v-model="ruleForm.goodTimeDate"
@@ -343,7 +343,7 @@
                     <el-form-item label="FOB头程费:" prop="feeForOrdering">
                         <div class="feeForOrderText">
                             <div class="inputBox">
-                                <el-input-number :controls='false' v-model="ruleForm.packedvolume" disabled></el-input-number>
+                                <el-input-number :controls='false' :precision="2" v-model="ruleForm.packedvolume" disabled></el-input-number>
                                 <span class="inputUnit">RMB</span>
                             </div>  
                         </div>
@@ -352,7 +352,7 @@
             </el-row>
             <el-row>
                 <el-col :span="11">
-                    <el-form-item label="货好时间详情备注:" prop="goodTimeDate"> 
+                    <el-form-item label="货好时间详情备注:" v-if="nowStatus == 4"> 
                         <div class="feeForOrderText">
                             <el-input type="textarea" autosize v-model="ruleForm.feeForOrdering"></el-input>
                         </div>      
