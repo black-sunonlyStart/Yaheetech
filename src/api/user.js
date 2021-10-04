@@ -250,3 +250,11 @@ export function toEndCheck(data) {
       params:data
     })
   }
+  //获取图片下载地址
+export function getImagePath(data) {
+    return request({
+      url: '/productManage/getImagePath',
+      method: "get", 
+      params:data
+    })
+  }

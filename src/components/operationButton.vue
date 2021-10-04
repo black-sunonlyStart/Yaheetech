@@ -79,7 +79,7 @@ export default {
             window.open(routeData.href, '_blank');
           }else if (id == 9){
               this.dialogName='终审通过'
-              this.clickId = 2
+              this.clickId = 30
           }else if (id == 10){
               this.dialogName ='提交寻找供应商'
           }else if (id == 11){
@@ -221,8 +221,8 @@ export default {
           }else if(state == 6){
               this.operationList = [
                   {
-                    name:'审批通过',
-                    id:25
+                    name:'提交终审',
+                    id:9
                   },
                   {
                     name:'打回',
@@ -311,7 +311,7 @@ export default {
                     id:25
                   },
                 ]
-          }else if(state == '') {
+          }else {
               this.operationList = []
           }
       }

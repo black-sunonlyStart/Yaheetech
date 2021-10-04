@@ -39,6 +39,9 @@
                     lazy
                     :scroll-container="scrollContainer"
                     fit="fill">
+                    <div slot="error" class="image-slot" style="margin-top:35px;margin-left:5px">
+                        <i class="el-icon-picture-outline">暂无图片</i>
+                    </div>
                 </el-image>
          </el-popover>
 
@@ -60,9 +63,9 @@
             >
         <template slot-scope="scope">
             <div class="remarksenTitle" @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">{{scope.row.enTitle}}</div>
-            <div>{{scope.row.title || null}}</div>
+            <div>{{scope.row.title || '--'}}</div>
             <div>普通产品:{{scope.row.developmentId}}</div>
-            <div>sku别名:{{scope.row.skuAlias}}</div>
+            <div>sku:{{scope.row.skuAlias}}</div>
         </template>
       </el-table-column>
       <el-table-column
@@ -72,9 +75,9 @@
         <template slot-scope="scope">
             <div v-for="item in scope.row.productMarketStrs" :key="item.platformName">
                 <div style="font-weight:bold">{{item.platformName}}:</div>
-                <div>{{item.currency}} {{item.developmentPrice.toFixed(2)}} /
+                <div>{{item.currency}} {{item.developmentPrice ? item.developmentPrice.toFixed(2) : '--'}} /
                     <el-tooltip :content="rows.warehouseName" effect="dark" placement="top"  v-for="rows in item.marketProfits " :key="rows.warehouseId">
-                        <span :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin + '%' + ' ' + '/'}}</span>
+                        <span :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin ? rows.profitMargin.toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
                     </el-tooltip>
                 </div>
             </div>
@@ -278,7 +281,7 @@ export default {
             window.open(routeData.href, '_blank');
           }else if (id == 9){
               this.dialogName='终审通过'
-              this.clickId = 2
+              this.clickId = 30
           }else if (id == 10){
               this.dialogName ='提交寻找供应商'
           }else if (id == 11){
@@ -461,8 +464,8 @@ export default {
           }else if(row.state == 6){
               this.operationList = [
                   {
-                    name:'审批通过',
-                    id:25
+                    name:'提交终审',
+                    id:9
                   },
                   {
                     name:'开发新尺码',
@@ -727,6 +730,7 @@ export default {
         width: 18px;
         // float: left;
         background-image: url(../assets/bianji.png);
+        cursor: pointer;
     }
     .imageBox1{
         margin-left: 10px;
@@ -734,6 +738,7 @@ export default {
         width: 22px;
         // float: left;
         background-image: url(../assets/shenhe.png);
+        cursor: pointer;
     }
     
 }

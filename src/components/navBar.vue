@@ -124,9 +124,9 @@
               <el-checkbox label= '1' v-if="newProd" >开发新产品</el-checkbox>
               <el-checkbox label= '2' v-if="newProd" >开发新市场</el-checkbox>
               <el-checkbox label= '3' v-if="newProd" >开发新尺码</el-checkbox>
-              
-              <el-checkbox label= '10' v-if="showTwoProd" >二次开发市场 </el-checkbox>
+
               <el-checkbox label= '11' v-if="showTwoProd" >二次开发产品</el-checkbox>
+              <el-checkbox label= '10' v-if="showTwoProd" >二次开发市场 </el-checkbox>
               <el-checkbox label= '12' v-if="showTwoProd" >二次开发尺码</el-checkbox>
             </el-checkbox-group>
           </el-form-item>

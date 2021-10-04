@@ -166,6 +166,7 @@
                         label="装箱数量(/箱)">
                     </el-table-column>
                 </el-table>
+                <div class="showtext" v-if="showText">最终报价与采购样品前报价不一致，请审核人员认真检查是否合理</div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
@@ -229,7 +230,9 @@
 export default {
     data(){
         return {
-             statusList:[4,5,6,7,8,9,14]
+             statusList:[4,5,6,7,8,9,14],
+             showText:false,
+             selectRow:{}
         }
     },
     props:{
@@ -241,6 +244,29 @@ export default {
             type:Number,
             default:() => (0)
         }        
+    },
+    mounted(){
+        this.showTitle()
+    },
+    methods:{
+        showTitle(){
+            if(this.purchaseInfoDetaiList.lastProductPurchaseVoList && this.purchaseInfoDetaiList.lastProductPurchaseVoList[0] && this.purchaseInfoDetaiList.productPurchaseVoList){
+                let lastProductPurchaseVoList = this.purchaseInfoDetaiList.lastProductPurchaseVoList[0] || []
+                let filSelectRow = this.purchaseInfoDetaiList.productPurchaseVoList.filter(item => {
+                    return item.isdefault == true
+                })
+                this.selectRow = filSelectRow[0]
+                if(this.selectRow && lastProductPurchaseVoList && (this.selectRow.minbuynum != lastProductPurchaseVoList.minbuynum || this.selectRow.firstorderqty != lastProductPurchaseVoList.firstorderqty 
+                    || this.selectRow.purchaseprice != lastProductPurchaseVoList.purchaseprice || this.selectRow.fobprice != lastProductPurchaseVoList.fobprice
+                    || this.selectRow.taxprice != lastProductPurchaseVoList.taxprice || this.selectRow.calculateprofittype != lastProductPurchaseVoList.calculateprofittype
+                    || this.selectRow.miscprice != lastProductPurchaseVoList.miscprice || this.selectRow.warpperfee != lastProductPurchaseVoList.warpperfee
+                    || this.selectRow.deliverydays != lastProductPurchaseVoList.deliverydays || this.selectRow.packingquantity != lastProductPurchaseVoList.packingquantity)
+
+                ){
+                    this.showText = true
+                }
+            }
+        }
     }
 }
 </script>
@@ -288,4 +314,11 @@ export default {
         text-align: right;
         display: inline-block;
 }
+.showtext{
+        width: 600px;
+        border: 1px solid sandybrown;
+        margin-top: 5px;
+        padding-left: 5px;
+        color: red;
+    }
 </style>

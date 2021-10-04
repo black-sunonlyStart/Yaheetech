@@ -187,7 +187,7 @@
                                     <prodevInfoDetail :prodevInfoDetaiList='prodevInfoDetaiList'></prodevInfoDetail>
                                 </div>
                                 <div v-else>
-                                    <prodevInfoEdit @closeEdit='prodevInfoEdit' :prodevInfoDetaiList='prodevInfoDetaiList'></prodevInfoEdit>
+                                    <prodevInfoEdit @closeEdit='prodevInfoEdit' :proImageList='proImageList'  @getAllpageList='getAllpageList' :prodevInfoDetaiList='prodevInfoDetaiList'></prodevInfoEdit>
                                 </div>
                             </el-card>
                         </div>
@@ -238,7 +238,7 @@
   </div>
 </template>
 <script>
- import { getProductDevDetail,getProductMultipleAttribute,exploitType } from '@/api/user.js'
+ import { getProductDevDetail,getProductMultipleAttribute,exploitType,getImagePath } from '@/api/user.js'
 export default {
   name: 'productDetails',
   components:{
@@ -430,7 +430,8 @@ export default {
         isEdit7:true,
         isEdit8:true,
         nowStatus:0,
-        timeStatus:0
+        timeStatus:0,
+        proImageList:'',
     }
   },
   created () {
@@ -446,6 +447,13 @@ export default {
     }
   },
   methods: {
+        newGetImagePath(){
+            getImagePath().then(res => {
+                if(res.data){
+                     this.proImageList = res.data
+                }
+            })
+        },
         getNewSizeList(){
             let params = {
                 developmentType:this.$route.query.developmentType,
@@ -476,7 +484,8 @@ export default {
         openRemarks () {
             this.$refs.remarks.openHandle()
         },
-       getAllpageList(val){
+   async getAllpageList(val){
+           await this.newGetImagePath()
           let params = {
                 developmentId:this.$route.params.developmentId?this.$route.params.developmentId:'',
                 productId:this.$route.params.productId?this.$route.params.productId:'',
@@ -500,6 +509,7 @@ export default {
                 }else {
                     this.productCountryList = []
                 }
+
                 if(res.data.developmentProgresses && res.data.developmentProgresses.length > 0){
                     let index = res.data.developmentProgresses.length - 1
                     let status = res.data.developmentProgresses[index].toStatus
@@ -575,7 +585,7 @@ export default {
                 })
                 if(this.productImgDetail.length > 0){
                     this.productImgDetail.forEach(item => {
-                        item.showImgUrl = `${process.env.VUE_APP_NEWIMAGE_API}/${item.fileuri}`
+                        item.showImgUrl = `${this.proImageList}upload/CompetingProduct/${item.developmentid}/${item.fileuri}`
                     })
                 }
                 
@@ -620,8 +630,10 @@ export default {
                 }
                 if(this.comNewsDetailList && this.comNewsDetailList.competingproducts){
                     this.comNewsDetailList.competingproducts.forEach(item => {
-                        item.url = `${process.env.VUE_APP_NEWIMAGE_API}/${item.pictureuri}`
-                        item.showImgUrl = `${process.env.VUE_APP_NEWIMAGE_API}/${item.pictureuri}`
+                        // item.url = `${process.env.VUE_APP_NEWIMAGE_API}/${item.pictureuri}`
+                        item.showImgUrl = `${this.proImageList}upload/CompetingProduct/${item.developmentid}/${item.pictureuri}`
+                        item.url = `${this.proImageList}upload/CompetingProduct/${item.developmentid}/${item.pictureuri}`
+                        // item.showImgUrl = `${process.env.VUE_APP_NEWIMAGE_API}/${item.pictureuri}`
                         item.name = item.developmentid
 
                     })
@@ -728,7 +740,7 @@ export default {
                     })
                     if(factoryGaveImage){
                         factoryGaveImage.forEach(item => {
-                            item.showImgUrl = `${process.env.VUE_APP_NEWIMAGE_API}/${item.fileuri}`
+                            item.showImgUrl = `${this.proImageList}upload/CompetingProduct/${item.developmentid}/${item.fileuri}`
                         })
                      }
                     if(recommendCredentialList){

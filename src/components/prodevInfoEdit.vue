@@ -77,6 +77,7 @@
                             :action='action'
                             :on-preview="handlePreview"
                             :before-remove="beforeRemove"
+                            :on-success="successUploadFile"
                             multiple
                             :limit="3"
                             :on-exceed="handleExceed"
@@ -111,6 +112,7 @@
                             :on-preview="handlePreview"
                             :on-remove="handleRemove"
                             :before-remove="beforeRemove"
+                            :on-success="successUploadFile"
                             multiple
                             :limit="3"
                             :on-exceed="handleExceed"
@@ -152,13 +154,14 @@
                         <el-upload
                             class="upload-demo"
                             :action="action"
-                            :on-preview="handlePreview"
                             :on-remove="imageHandleRemove"
                             :before-remove="beforeRemove"
+                            :on-success="successUploadFile"
                             multiple
                             :limit="6"
                             :on-exceed="handleExceed"
                             list-type="picture-card"
+                            accept=".jpg,.jpeg,.png,.gif"
                             :with-credentials='true'
                             :data="{fileType:1,developmentId:$route.params.developmentId}"
                             :file-list="ruleForm.factoryGaveImage">
@@ -238,6 +241,10 @@ export default {
         prodevInfoDetaiList:{
             type:Object,
             default:() => ({})
+        },
+        proImageList:{
+            type:String,
+            default:() => ('')
         }
     },
     mounted(){
@@ -264,6 +271,14 @@ export default {
                     this.districtList = res.data
                     this.ruleForm.supplierLocation2 = this.prodevInfoDetaiList.areacode.toString()
                     
+                })
+            }
+        },
+        successUploadFile(data,file){
+            // this.$emit('getAllpageList')
+            if(data.data){
+                data.data.forEach(item => {
+                        file.id = item
                 })
             }
         },
@@ -299,17 +314,19 @@ export default {
                     fileList:this.prodevInfoDetaiList.mustCredentialList,
                     factoryGaveImage:this.prodevInfoDetaiList.factoryGaveImage,
                     recommendFileList:this.prodevInfoDetaiList.recommendCredentialList,//推荐认证附件
-                
-
             }
         },
         handleRemove(file) {
-            let params = {
-                fileType:2,
-                developmentId:this.$route.params.developmentId,
-                datta:file.id,
-            }
-            loadFile(params).then(res => {
+            let param = new FormData();
+            param.append('developmentId', this.$route.params.developmentId);
+            param.append('fileType', 2);
+            param.append('datta', file.id);
+            let config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            loadFile(param,config).then(res => {
                 if(res.code == 200){
                    this.$emit('closeEdit')
                 }
@@ -332,12 +349,16 @@ export default {
             })
         },
         removeMustFile(file){
-            let params = {
-                fileType:3,
-                developmentId:this.$route.params.developmentId,
-                datta:file.id,
-            }
-            loadFile(params).then(res => {
+            let param = new FormData();
+            param.append('developmentId', this.$route.params.developmentId);
+            param.append('fileType', 2);
+            param.append('datta', file.id);
+            let config = {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            };
+            loadFile(param,config).then(res => {
                 if(res.code == 200){
                    this.$emit('closeEdit')
                 }
@@ -346,7 +367,7 @@ export default {
         },
         handlePreview(file) {
             //文件点击事件
-            console.log(file);
+            window.open(`${this.proImageList}Development/downloadFile?developmentId=${this.$route.params.developmentId}&fileName=${file.fileuri}`)
         },
         handleExceed(files, fileList) {
             console.log(files,'222222')
