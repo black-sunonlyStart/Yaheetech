@@ -189,7 +189,7 @@
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">海关退税率： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.tax > 0 ?purchaseInfoDetaiList.tax * 100 + '%' : purchaseInfoDetaiList.tax  + '%'}}</div>
+                    <div class="colBoxTitle">海关退税率： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.tax > 0 ?purchaseInfoDetaiList.tax  + '%' : ''}}</div>
                 </div>
             </el-col>
         </el-row>

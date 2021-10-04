@@ -729,7 +729,7 @@ export default {
                     return 
                 }
             }
-            if(this.devInformationDetaiList.productMarketListALL && this.devInformationDetaiList.productMarketListALL.length > 0){
+            if(this.devInformationDetaiList.productMarketListALL && this.devInformationDetaiList.productMarketListALL[0]){
                 if(this.devInformationDetaiList.productMarketListALL.find(item =>  item.countrycode == this.ruleForm.marksContry1)){
                     this.$message({
                                 type:'warning',

@@ -38,13 +38,13 @@
             <el-form-item  prop="inputRelation" v-if="showRelation && ruleForm.relation =='1'">
                 <div class="relationBox">
                     <div class="inputLength" >
-                        <el-input  v-model="ruleForm.inputRelation" @change="changeInputRelation" ></el-input>
+                        <el-input  v-model="ruleForm.inputRelation" @change="changeInputRelation" :disabled='closeComponent' ></el-input>
                     </div>
                     <div v-if="selectId" class="litterBox">
                         <div style="margin-right:10px">-</div>
                         <el-select 
                             v-model="ruleForm.selectRelation"
-                            
+                            :disabled='closeComponent'
                             >
                             <el-option 
                                 v-for="item in spuSign"                        
@@ -200,13 +200,16 @@ export default {
               region : this.productVoDetail.developmenttype,
               scene:this.productVoDetail.developmentscenarios,
               classiFication:this.productVoDetail.categoryname,
-              relation:this.productVoDetail.id ? '1':'2'
+              relation:this.productVoDetail.id ? '1':'2',
+              inputRelation:this.productVoDetail.spuid,
+              selectRelation:this.productVoDetail.id,
           }
           if(this.productVoDetail.developmentscenarios == 1){
               this.showRelation = false
           }
           if(this.productVoDetail.developmentscenarios){
               this.closeComponent = true
+              this.selectScene(this.productVoDetail.developmentscenarios)
           }
       },
       submitForm(formName) {

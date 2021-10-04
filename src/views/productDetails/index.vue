@@ -504,8 +504,8 @@ export default {
                 this.development = res.data.development //产品数据
                 this.copeDevProgress = res.data.developmentProgresses
                 if(res.data.productVos && res.data.productVos[0]  && res.data.productVos[0].productCountryList && res.data.productVos[0].productCountryList[0] ){
-                     this.productCountryList =  res.data.productVos[0].productCountryList[0].countryMap
-                     this.otherCountryList =  res.data.productVos[0].productCountryList[0].otherCountryMaps
+                     this.productCountryList =  res.data.productVos[0].countryMap
+                     this.otherCountryList =  res.data.productVos[0].otherCountryMaps
                 }else {
                     this.productCountryList = []
                 }
@@ -578,6 +578,7 @@ export default {
                     categoryname:res.data.development ? res.data.development.categoryname : '',//所属分类
                     spu:res.data.development ? res.data.development.spu : '',//关联spu
                     id:this.productVos ? this.productVos.id : '',//关联spu id
+                    spuid:this.productVos ? res.data.development.id : '',//关联spu id
                 }
                 //图片信息数据
                 this.productImgDetail =  res.data.developmentAttachmentList.filter(item => {
@@ -686,13 +687,13 @@ export default {
                     priority :res.data.development.priority,//开发优先级
                     isanji:res.data.development.isanji,//是否安吉产品
                     ispatentproduct:res.data.development.ispatentproduct,//是否需要专利确认
-                    dutyrate1:dutyrate1 && dutyrate1[0] ? dutyrate1[0].Value : '',//是否需要专利确认
-                    dutyrate2:dutyrate2  && dutyrate2[0]? dutyrate2[0].Value : '',
-                    dutyrate3:dutyrate3 && dutyrate3[0]? dutyrate3[0].Value : '',
+                    dutyrate1:dutyrate1 && dutyrate1[0] ? dutyrate1[0].Value * 100 : '',//是否需要专利确认
+                    dutyrate2:dutyrate2  && dutyrate2[0]? dutyrate2[0].Value * 100: '',
+                    dutyrate3:dutyrate3 && dutyrate3[0]? dutyrate3[0].Value * 100: '',
                     orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//采购开发
                     businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName: '',//业务开发
                     productCountryList:this.productVos.productCountryList ? this.productVos.productCountryList[0] : [],//业务开发
-                    productMarketListALL:this.productVos.productMarketListALL ? this.productVos.productMarketListALL[0] : [],//业务开发
+                    productMarketListALL:this.productVos.productMarketListALL ? this.productVos.productMarketListALL : [],//业务开发
                     computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList && this.productVos.productCountryList[0].productMarketList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],//业务开发
                     productMarketList: this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList  && this.productVos.productCountryList[0].productMarketList[0] ?  this.productVos.productCountryList[0].productMarketList : [],//表格数据
                     businessid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessid : '',   
@@ -854,7 +855,7 @@ export default {
                     sampleDeliveryOn:this.productVos.sampleDeliveryOn, //样品交期
                     sampledeliverydays:this.productVos.sampledeliverydays, //样品交期
                     taxleviedpoint:res.data.development.taxleviedpoint, //含税价税点
-                    tax:res.data.development.tax, //海关退税率
+                    tax:res.data.development.tax ? res.data.development.tax * 100 : '', //海关退税率
                     bandprice:res.data.development.bandprice, //品牌费
                     fobbandprice:res.data.development.fobbandprice, //FOB报价品牌费
                     packedvolume:this.productVos.packedvolume, //FOB头程费
