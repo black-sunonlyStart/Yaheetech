@@ -3,27 +3,27 @@
         <el-row>
             <el-col :span="24" class="produInfo"> 
                 <div class="colbox">
-                    <div class="colBoxTitle">中文标题: </div> <div class="colBoxContent">{{prodevInfoDetaiList.title}}</div>
+                    <div class="colBoxTitle">中文标题： </div> <div class="colBoxContent">{{prodevInfoDetaiList.title}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">中文描述: </div> <div class="colBoxContent" style="width:1200px">{{prodevInfoDetaiList.description}}</div>
+                    <div class="colBoxTitle">中文描述： </div> <div class="colBoxContent" style="width:1200px">{{prodevInfoDetaiList.description}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">供应商所在地: </div> <div class="colBoxContent">{{prodevInfoDetaiList.provinceStr}}-{{ prodevInfoDetaiList.cityStr}}-{{prodevInfoDetaiList.areaStr}}</div>
+                    <div class="colBoxTitle">供应商所在地： </div> <div class="colBoxContent">{{prodevInfoDetaiList.provinceStr}}-{{ prodevInfoDetaiList.cityStr}}-{{prodevInfoDetaiList.areaStr}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                <span class="postionBox">必要认证附件:</span><span v-for="item in prodevInfoDetaiList.mustCredentialList" :key="item.id">[{{item.fileuri}}]、</span>
+                <span class="postionBox">必要认证附件：</span><span v-for="item in prodevInfoDetaiList.mustCredentialList" :key="item.id">[{{item.fileuri}}]、</span>
             </el-col>
         </el-row>
         <el-row>
@@ -34,7 +34,7 @@
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">认证备注: </div> <div class="colBoxContent" style="width:1200px">{{prodevInfoDetaiList.certificationnote}}</div>
+                    <div class="colBoxTitle">认证备注： </div> <div class="colBoxContent" style="width:1200px">{{prodevInfoDetaiList.certificationnote}}</div>
                 </div>
             </el-col>
         </el-row>

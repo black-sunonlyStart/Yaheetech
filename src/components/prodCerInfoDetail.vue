@@ -3,14 +3,14 @@
         <el-row>
             <el-col :span="24" class="produInfo"> 
                 <div class="colbox">
-                    <div class="colBoxTitle">是否需要认证: </div> <div class="colBoxContent">{{prodCerInfoDetailList.isauth?'是':'否'}}</div>
+                    <div class="colBoxTitle">是否需要认证： </div> <div class="colBoxContent">{{prodCerInfoDetailList.isauth?'是':'否'}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">必要认证: </div><div> <div class="colBoxContent" style="width:1200px" v-for="item in prodCerInfoDetailList.credentialList1" :key="item.authId">{{getAuthId(item.data)}}</div></div>
+                    <div class="colBoxTitle">必要认证： </div><div> <div class="colBoxContent" style="width:1200px" v-for="item in prodCerInfoDetailList.credentialList1" :key="item.authId">{{getAuthId(item.data)}}</div></div>
                 </div>
             </el-col>
         </el-row>
@@ -45,7 +45,7 @@
         <el-row>
             <el-col :span="24" class="produInfo">
                  <div class="colbox">
-                    <div class="colBoxTitle">专利风险等级: </div> <div class="colBoxContent">{{ prodCerInfoDetailList.riskllevel ? getLevel(prodCerInfoDetailList.riskllevel) : prodCerInfoDetailList.riskllevel ==0 ? '高风险':'' }}</div>
+                    <div class="colBoxTitle">专利风险等级： </div> <div class="colBoxContent">{{ prodCerInfoDetailList.riskllevel ? getLevel(prodCerInfoDetailList.riskllevel) : prodCerInfoDetailList.riskllevel ==0 ? '高风险':'' }}</div>
                 </div>
             </el-col>
         </el-row>

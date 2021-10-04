@@ -2,16 +2,16 @@
     <div>
         <el-row class="textSpeaing">
             <el-col :span="10">
-                <span class="textWight">分配采购开发员: </span><span style="font-weight:normal">{{pordSizeAttrInfoList.buyerName}}</span>
+                <span class="textWight">分配采购开发员： </span><span style="font-weight:normal">{{pordSizeAttrInfoList.buyerName}}</span>
             </el-col>
             <el-col :span="10">
-                <span class="textWight">产品类型: </span><span style="font-weight:normal">{{pordSizeAttrInfoList.producttype== 1 ? '普通/多属性产品':pordSizeAttrInfoList.producttype== 2 ?'物理捆绑产品':''}}</span>
+                <span class="textWight">产品类型： </span><span style="font-weight:normal">{{pordSizeAttrInfoList.producttype== 1 ? '普通/多属性产品':pordSizeAttrInfoList.producttype== 2 ?'物理捆绑产品':''}}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10" class="moreText">
                 <div class="textWight">
-                    产品尺寸:
+                    产品尺寸：
                 </div>
                 <div class="textBox">
                     <div>{{pordSizeAttrInfoList.productSizeL ?pordSizeAttrInfoList.productSizeL + '×' :'' }}  {{pordSizeAttrInfoList.productSizeW ? pordSizeAttrInfoList.productSizeW + '×' : ''}}  {{pordSizeAttrInfoList.productSizeH ? pordSizeAttrInfoList.productSizeH + '(cm)' : ''}} </div>
@@ -20,7 +20,7 @@
             </el-col>
             <el-col :span="10" class="moreText">
                 <div class="textWight">
-                    产品体积: 
+                    产品体积： 
                 </div>
                 <div class="textBox">
                     <div>{{pordSizeAttrInfoList.productVolume ?pordSizeAttrInfoList.productVolume + '(m³)' :''}}</div>
@@ -31,7 +31,7 @@
         <el-row class="textSpeaing">
             <el-col :span="10" class="moreText">
                 <div class="textWight">
-                    包装尺寸(发货用): 
+                    包装尺寸(发货用)：
                 </div>
                 <div class="textBox">
                     <div>{{pordSizeAttrInfoList.packageSizeL ? pordSizeAttrInfoList.packageSizeL + '×' : ''}} 
@@ -47,7 +47,7 @@
             </el-col>
             <el-col :span="10" class="moreText"> 
                 <div class="textWight">
-                    包装体积(发货用): 
+                    包装体积(发货用)： 
                 </div>
                 <div class="textBox">
                     <div>{{pordSizeAttrInfoList.packedvolume ? pordSizeAttrInfoList.packedvolume + '(m³)': ''}}</div>
@@ -58,7 +58,7 @@
         <el-row class="textSpeaing">
             <el-col :span="10" class="moreText">
                 <div class="textWight">
-                    外箱尺寸(装柜用): 
+                    外箱尺寸(装柜用)： 
                 </div>
                 <div class="textBox">
                     <div>{{pordSizeAttrInfoList.outerBoxSizeL ? pordSizeAttrInfoList.outerBoxSizeL + '×' : ''}}
@@ -72,7 +72,7 @@
             </el-col>
             <el-col :span="10" class="moreText"> 
                 <div class="textWight">
-                    外箱体积(装柜用): 
+                    外箱体积(装柜用)： 
                 </div>
                 <div class="textBox">
                     <div>{{pordSizeAttrInfoList.outerBoxVolume ? pordSizeAttrInfoList.outerBoxVolume + '(m³)':''}}</div>
@@ -83,7 +83,7 @@
         <el-row class="textSpeaing">
             <el-col :span="10" class="moreText"> 
                 <div class="textWight">
-                    外箱重量(装柜用): 
+                    外箱重量(装柜用)： 
                 </div>
                 <div class="textBox">
                     <div>{{pordSizeAttrInfoList.cartonWeight ?pordSizeAttrInfoList.cartonWeight.toFixed(6) + '(kg)':'' }}</div>
@@ -92,7 +92,7 @@
             </el-col>
             <el-col :span="10" class="moreText">
                 <div class="textWight">
-                    每个产品所占体积: 
+                    每个产品所占体积： 
                 </div>
                 <div class="textBox">
                     <div>{{pordSizeAttrInfoList.containerVolume ? pordSizeAttrInfoList.containerVolume + '(m³)':''}}</div>
@@ -103,7 +103,7 @@
         <el-row class="textSpeaing">
             <el-col :span="10" class="moreText"> 
                 <div class="textWight">
-                    净重: 
+                    净重：
                 </div>
                 <div class="textBox">
                     <div>{{pordSizeAttrInfoList.beforepackweight?pordSizeAttrInfoList.beforepackweight + '(kg)':''}}</div>
@@ -112,7 +112,7 @@
             </el-col>
             <el-col :span="10" class="moreText"> 
                 <div class="textWight">
-                    毛重(发货用): 
+                    毛重(发货用)： 
                 </div>
                 <div class="textBox">
                     <div>{{pordSizeAttrInfoList.afterpackweight?pordSizeAttrInfoList.afterpackweight + '(kg)':''}}</div>
@@ -123,7 +123,7 @@
         <el-row class="textSpeaing" >
             <el-col :span="10" class="moreText">
                 <div class="textWight">
-                    物流周长加长(美国):
+                    物流周长加长(美国)：
                 </div>
                  <div class="textBox">
                     <div>{{pordSizeAttrInfoList.logisticsPerimeter? pordSizeAttrInfoList.logisticsPerimeter + '(cm)' : ''}}</div>
@@ -132,7 +132,7 @@
             </el-col>
             <el-col :span="10" class="moreText">
                 <div class="textWight">
-                    物流周长加长(非美国):
+                    物流周长加长(非美国)：
                 </div>
                  <div class="textBox">
                     <div>{{pordSizeAttrInfoList.logisticsPerimeterNoUsa? pordSizeAttrInfoList.logisticsPerimeterNoUsa + '(cm)' : ''}}</div>
@@ -142,15 +142,15 @@
         </el-row>
         <el-row class="textSpeaing" >
             <el-col :span="10">
-                <span class="textWight">选择发货货柜: </span><span style="font-weight:normal">{{pordSizeAttrInfoList.containerModel}}</span>
+                <span class="textWight">选择发货货柜： </span><span style="font-weight:normal">{{pordSizeAttrInfoList.containerModel}}</span>
             </el-col>
             <el-col :span="10">
-                <span class="textWight">可装货柜数量: </span><span style="font-weight:normal">{{pordSizeAttrInfoList.transportqty}}</span>
+                <span class="textWight">可装货柜数量： </span><span style="font-weight:normal">{{pordSizeAttrInfoList.transportqty}}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >
             <el-col :span="10">
-                <span class="textWight">包装方式: </span><span style="font-weight:normal">{{pordSizeAttrInfoList.packingway == 0 ? ' 单箱包装' : pordSizeAttrInfoList.packingway == 1 ? '多箱包装' : ''  }}</span>
+                <span class="textWight">包装方式： </span><span style="font-weight:normal">{{pordSizeAttrInfoList.packingway == 0 ? ' 单箱包装' : pordSizeAttrInfoList.packingway == 1 ? '多箱包装' : ''  }}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >
@@ -294,16 +294,16 @@
                     <template slot-scope="scope">
                         <div v-if="scope.row.productdraftid && scope.row.skualias && scope.row.sku && scope.row.spu">
                             <div>
-                                上架ID:{{scope.row.productdraftid}}
+                                上架ID：{{scope.row.productdraftid}}
                             </div>
                             <div>
-                                SKU别名{{scope.row.skualias }}
+                                SKU别名：{{scope.row.skualias }}
                             </div>
                             <div>
-                                SKU:{{scope.row.sku}}
+                                SKU：{{scope.row.sku}}
                             </div>
                             <div>
-                                SPU{{pordSizeAttrInfoList.spu}}
+                                SPU：{{pordSizeAttrInfoList.spu}}
                             </div>
                         </div>
                         <div v-else>

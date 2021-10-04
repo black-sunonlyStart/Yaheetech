@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-loading="loading">
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm" size="mini">
             <el-row>
                  <el-col :span="22">
@@ -36,7 +36,7 @@
                                 </el-table-column>
                                 <el-table-column
                                     label="首单下单数量"
-                                    width="120px"
+                                    width="110px"
                                     >
                                     <template slot-scope="scope">
                                         <el-input-number style="width:80px" :controls='false' v-model="scope.row.firstorderqty" :min="1"></el-input-number >      
@@ -84,7 +84,7 @@
                                 </el-table-column>
                                 <el-table-column
                                     label="产品包装费(¥)"
-                                    width="120px"
+                                    width="110px"
                                     >
                                     <template slot-scope="scope">
                                         <el-input-number style="width:80px" :controls='false' v-model="scope.row.warpperfee"></el-input-number>      
@@ -111,10 +111,27 @@
                                 </el-table-column>
                                 <el-table-column                        
                                     label="装箱数量(/箱)"
-                                    width="120px"
+                                    width="110px"
                                     >
                                     <template slot-scope="scope">
                                         <el-input-number style="width:80px" :controls='false' v-model="scope.row.packingquantity"></el-input-number>      
+                                    </template>
+                                </el-table-column>
+                                <el-table-column                        
+                                    label="操作"
+                                    width="50px"
+                                    >
+                                    <template slot-scope="scope">
+                                        <div v-if="scope.$index == 0">
+                                            
+                                        </div>
+                                        <el-button
+                                            v-else
+                                            @click.native.prevent="deleteRow(scope.$index, ruleForm.productPurchaseVoList)"
+                                            type="text"
+                                            size="small">
+                                            移除
+                                        </el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -372,6 +389,7 @@ export default {
     name:'purchaseInfoEdit',
     data(){
         return {
+            loading:false,
             days:'',
             statusList:[4,5,6,7,8,9,14],
             selectRow:[],
@@ -448,6 +466,9 @@ export default {
         this.getDetailList()
     },
     methods:{
+        deleteRow(index, rows) {
+            rows.splice(index, 1);
+        },
         selectionLineChangeHandle(val){
             this.selectRow = val
             if(val.length > 1){
@@ -562,6 +583,7 @@ export default {
                 }
                 //minbuynum  firstorderqty   purchaseprice  fobprice  taxprice  calculateprofittype  miscprice warpperfee deliverydays packingquantity
                 params.purchases = tableList.flat()
+                this.loading = true
                 productPurchase(params).then(res => {
                     if(res.code == 200){
                         this.$message({
@@ -569,6 +591,7 @@ export default {
                             message:'保存成功',
                             offset:220
                         })
+                        this.loading = false
                         this.$emit('closeEdit','false')                 
                     }
                 })

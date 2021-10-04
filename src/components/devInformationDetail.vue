@@ -3,79 +3,79 @@
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">产品中文概述: </div> <div class="colBoxContent">{{devInformationDetaiList.description}}</div>
+                    <div class="colBoxTitle">产品中文概述： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.description}}</div>
                 </div>
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">业务开发: </div> <div class="colBoxContent">{{devInformationDetaiList.businessProduct ?devInformationDetaiList.businessProduct:''}}</div>
-                </div>
-            </el-col>
-        </el-row>
-        <el-row class="textSpeaing">
-            <el-col :span="10">
-                <div class="colbox">
-                    <div class="colBoxTitle">英文标题: </div> <div class="colBoxContent">{{devInformationDetaiList.title}}</div>
-                </div>
-            </el-col>
-            <el-col :span="10">
-                <div class="colbox">
-                    <div class="colBoxTitle">采购开发: </div> <div class="colBoxContent">{{devInformationDetaiList.orderProduct ? devInformationDetaiList.orderProduct:'' }}</div>
+                    <div class="colBoxTitle">业务开发： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.businessProduct ?devInformationDetaiList.businessProduct:''}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">德文标题: </div> <div class="colBoxContent">{{devInformationDetaiList.titleDe }}</div>
+                    <div class="colBoxTitle">英文标题： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.title}}</div>
                 </div>
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">US Duty税率: </div> <div class="colBoxContent">{{devInformationDetaiList.dutyrate1}}%</div>
-                </div>
-            </el-col>
-        </el-row>
-        <el-row class="textSpeaing">
-            <el-col :span="10">
-                <div class="colbox">
-                    <div class="colBoxTitle">日文标题: </div> <div class="colBoxContent">{{devInformationDetaiList.titleJp}}</div>
-                </div>
-            </el-col>
-            <el-col :span="10">
-                <div class="colbox">
-                    <div class="colBoxTitle">GB Duty税率: </div> <div class="colBoxContent">{{devInformationDetaiList.dutyrate2 || 3.26}}%</div>
+                    <div class="colBoxTitle">采购开发： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.orderProduct ? devInformationDetaiList.orderProduct:'' }}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">英文关键词: </div> <div class="colBoxContent">{{devInformationDetaiList.keys}}</div>
+                    <div class="colBoxTitle">德文标题： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.titleDe }}</div>
+                </div>
+            </el-col>
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">US Duty税率： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.dutyrate1}}%</div>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row class="textSpeaing">
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">日文标题： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.titleJp}}</div>
+                </div>
+            </el-col>
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">GB Duty税率： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.dutyrate2 || 3.26}}%</div>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row class="textSpeaing">
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">英文关键词： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.keys}}</div>
                 </div>
             </el-col>
             <el-col :span="10">
                  <div class="colbox">
-                    <div class="colBoxTitle">DE Duty税率: </div> <div class="colBoxContent">{{devInformationDetaiList.dutyrate3 || 3.91}}%</div>
+                    <div class="colBoxTitle">DE Duty税率:</div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.dutyrate3 || 3.91}}%</div>
                 </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">开发优先级: </div> <div class="colBoxContent">{{changPriority(devInformationDetaiList.priority) }}</div>
+                    <div class="colBoxTitle">开发优先级: </div> <div class="colBoxContent" style="font-weight: normal">{{changPriority(devInformationDetaiList.priority) }}</div>
                 </div>
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">是否安吉产品: </div> <div class="colBoxContent">{{devInformationDetaiList.isanji && devInformationDetaiList.isanji == 1 ? '是':devInformationDetaiList.isanji == 0 ? '否' : ' ' }}</div>
+                    <div class="colBoxTitle">是否安吉产品: </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.isanji && devInformationDetaiList.isanji == 1 ? '是':devInformationDetaiList.isanji == 0 ? '否' : ' ' }}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">是否需要专利确认: </div> <div class="colBoxContent">{{ devInformationDetaiList.ispatentproduct == 0 ? '否':'是'}}</div>
+                    <div class="colBoxTitle">是否需要专利确认: </div> <div class="colBoxContent" style="font-weight: normal">{{ devInformationDetaiList.ispatentproduct == 0 ? '否':'是'}}</div>
                 </div>
             </el-col>
         </el-row>
@@ -285,6 +285,7 @@ export default {
         width: 120px;
         text-align: right;
         .colBoxContent{
+            font-weight: normal !important;
             width: 600px;
         }
     }

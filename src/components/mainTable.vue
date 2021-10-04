@@ -10,6 +10,7 @@
         height="640"
         :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
         @row-click="handleRowClick"
+         v-loading="loading"
         >
       <el-table-column 
         type="selection"
@@ -39,7 +40,7 @@
                     lazy
                     :scroll-container="scrollContainer"
                     fit="fill">
-                    <div slot="error" class="image-slot" style="margin-top:35px;margin-left:5px">
+                    <div slot="error" class="image-slot" style="margin-top:35px;margin-left:5px;color:#cccccc">
                         <i class="el-icon-picture-outline">暂无图片</i>
                     </div>
                 </el-image>
@@ -89,7 +90,7 @@
             width="120px"
         >
         <template slot-scope="scope">
-            <div>{{scope.row.size}}</div>
+            <div>{{scope.row.size || '--'}}</div>
             <div v-if="scope.row.packingWay == '多箱'" style="color:red">{{scope.row.packingWay}}</div>
             <div v-if="scope.row.shape == '不规则'" style="color:red">{{scope.row.shape }}</div>
         </template>
@@ -167,7 +168,7 @@
 
 </template>
 <script>
-import { fetchPageTableList,unfreezing } from '@/api/user.js'
+import { fetchPageTableList,unfreezing,getImagePath } from '@/api/user.js'
 import { formatDate } from '@/utils/tools.js'
 export default {
   name: 'mainTable',
@@ -186,7 +187,9 @@ export default {
       pageNum:1,
       total:50,
       dialogVisible: false,
-      clickId:0
+      clickId:0,
+      lastImageUrl:'',
+      loading:true
     }
   },
   props:{
@@ -603,7 +606,13 @@ export default {
             });
             window.open(routeData.href, '_blank');
       },
-    getTableList(val){
+      newGetImagePath(){
+          getImagePath().then(res => {
+              this.lastImageUrl = res.data
+          })
+      },
+   async getTableList(val){
+       await this.newGetImagePath()
         let params = {
             pageNum :this.pageNum,
             pageSize:this.pageSize,
@@ -623,7 +632,8 @@ export default {
         fetchPageTableList(params).then(res => {
             if(res.data && res.data.rows){
                 res.data.rows.forEach(item => {
-                    item.showImgUrl = `${process.env.VUE_APP_NEWIMAGE_API}/${item.imagesUri}`
+                    item.showImgUrl = `${this.lastImageUrl}upload/CompetingProduct/${item.developmentId}/${item.imagesUri}`
+                   this.loading= false
                 });
               }
             this.currentPage4 = res.data && res.data.pageNum ? res.data.pageNum : 0

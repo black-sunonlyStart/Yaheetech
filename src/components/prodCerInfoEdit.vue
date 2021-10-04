@@ -92,7 +92,7 @@
             </el-row>
             <el-row :gutter="10">
                 <el-col :span="5">
-                    <el-form-item label="产品年龄段" prop="productAgeGroup">
+                    <el-form-item label="产品年龄段:" prop="productAgeGroup">
                         <el-select 
                             v-model="ruleForm.productAgeGroup"
                             >
@@ -123,7 +123,7 @@
             </el-row>
             <el-row :gutter="10">
                 <el-col :span="5">
-                    <el-form-item label="专利风险等级" prop="patentRiskLevel">
+                    <el-form-item label="专利风险等级:" prop="patentRiskLevel">
                         <el-select 
                             v-model="ruleForm.patentRiskLevel"
                             >
@@ -140,7 +140,7 @@
             </el-row>
             <el-row :gutter="10">
                 <el-col :span="10">
-                    <el-form-item label="专利确认">
+                    <el-form-item label="专利确认:">
                          <el-checkbox v-model="checkedUSA" label='en-US'>美国</el-checkbox>
                          <el-checkbox v-model="checkedUK" label="EN_GB">英国</el-checkbox>
                          <el-checkbox v-model="checkedEU" label="DE">德国</el-checkbox>

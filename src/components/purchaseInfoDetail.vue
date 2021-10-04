@@ -172,55 +172,55 @@
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">样品购买价: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.productprice}} (产品价格) + {{purchaseInfoDetaiList.freight}} (运费) = {{purchaseInfoDetaiList.productprice + purchaseInfoDetaiList.freight}}RMB</div>
+                    <div class="colBoxTitle">样品购买价： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.productprice}} (产品价格) + {{purchaseInfoDetaiList.freight}} (运费) = {{purchaseInfoDetaiList.productprice + purchaseInfoDetaiList.freight}}RMB</div>
                 </div>
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">含税价税点: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.taxleviedpoint ? purchaseInfoDetaiList.taxleviedpoint + '%' : ''}}</div>
-                </div>
-            </el-col>
-        </el-row>
-        <el-row class="textSpeaing">
-            <el-col :span="10">
-                <div class="colbox">
-                    <div class="colBoxTitle">下大单返样品费: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.backpurchaseprice ? purchaseInfoDetaiList.backpurchaseprice + '(RMB)' : ''}}</div>
-                </div>
-            </el-col>
-            <el-col :span="10">
-                <div class="colbox">
-                    <div class="colBoxTitle">海关退税率: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.tax > 0 ?purchaseInfoDetaiList.tax * 100 + '%' : purchaseInfoDetaiList.tax  + '%'}}</div>
+                    <div class="colBoxTitle">含税价税点： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.taxleviedpoint ? purchaseInfoDetaiList.taxleviedpoint + '%' : ''}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">返样品费详情备注: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.backpurchasepricenote}}</div>
+                    <div class="colBoxTitle">下大单返样品费： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.backpurchaseprice ? purchaseInfoDetaiList.backpurchaseprice + '(RMB)' : ''}}</div>
                 </div>
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">品牌费: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.bandprice? purchaseInfoDetaiList.bandprice + '(RMB)' : ''}}</div>
-                </div>
-            </el-col>
-        </el-row>
-        <el-row class="textSpeaing">
-            <el-col :span="10">
-                <div class="colbox">
-                    <div class="colBoxTitle">样品交期: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.sampledeliverydays ? purchaseInfoDetaiList.sampledeliverydays + '(天)' : purchaseInfoDetaiList.sampledeliverydays == 0 ? 0 + '(天)' :"" }}</div>
-                </div>
-            </el-col>
-            <el-col :span="10">
-                <div class="colbox">
-                    <div class="colBoxTitle">FOB报价品牌费: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.fobbandprice ? purchaseInfoDetaiList.fobbandprice + '($)' : ''}}</div>
+                    <div class="colBoxTitle">海关退税率： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.tax > 0 ?purchaseInfoDetaiList.tax * 100 + '%' : purchaseInfoDetaiList.tax  + '%'}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">FOB头程费: </div> <div class="colBoxContent">{{purchaseInfoDetaiList.packedvolume ? (purchaseInfoDetaiList.packedvolume * 93).toFixed(2) + "(RMB)" : 0}}</div>
+                    <div class="colBoxTitle">返样品费详情备注： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.backpurchasepricenote}}</div>
+                </div>
+            </el-col>
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">品牌费： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.bandprice? purchaseInfoDetaiList.bandprice + '(RMB)' : ''}}</div>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row class="textSpeaing">
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">样品交期： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.sampledeliverydays ? purchaseInfoDetaiList.sampledeliverydays + '(天)' : purchaseInfoDetaiList.sampledeliverydays == 0 ? 0 + '(天)' :"" }}</div>
+                </div>
+            </el-col>
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">FOB报价品牌费： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.fobbandprice ? purchaseInfoDetaiList.fobbandprice + '($)' : ''}}</div>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row class="textSpeaing">
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">FOB头程费： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.packedvolume ? (purchaseInfoDetaiList.packedvolume * 93).toFixed(2) + "(RMB)" : 0}}</div>
                 </div>
             </el-col>
         </el-row>
@@ -300,7 +300,7 @@ export default {
     margin-left: 20px;
     .colBoxTitle{
         font-weight: bold;
-        width: 120px;
+        width: 130px;
         text-align: right;
         .colBoxContent{
             width: 600px;
@@ -321,4 +321,17 @@ export default {
         padding-left: 5px;
         color: red;
     }
+    .iconBox{
+            width: 30px;
+            height: 30px;
+            .delText{
+                display: inline-block;
+                width: 30px;
+                margin-left: 10px;
+                line-height: 30px;
+                &:hover{
+                    color: #3366cc;
+                }
+            }
+        }
 </style>
