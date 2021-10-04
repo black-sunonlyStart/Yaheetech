@@ -633,8 +633,10 @@ export default {
             if(res.data && res.data.rows){
                 res.data.rows.forEach(item => {
                     item.showImgUrl = `${this.lastImageUrl}upload/CompetingProduct/${item.developmentId}/${item.imagesUri}`
-                   this.loading= false
+                   this.loading = false
                 });
+              }else{
+                this.loading = false  
               }
             this.currentPage4 = res.data && res.data.pageNum ? res.data.pageNum : 0
             this.tableData = res.data && res.data.rows ? res.data.rows : []

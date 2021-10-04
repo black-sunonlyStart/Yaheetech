@@ -486,7 +486,7 @@ export default {
             if(this.clickId == 20){
                 let params = {
                     productCountryIds:row.toString(),
-                    type:2,
+                    type:0,
                     empId:this.ruleForm.dailySales,
                 }
                 updateResponsible(params).then(res => {

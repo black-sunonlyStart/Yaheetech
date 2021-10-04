@@ -170,8 +170,8 @@ export default {
           }else if(state == 3){
               this.operationList = [
                   {
-                    name:'审批通过',
-                    id:25
+                    name:'审核通过',
+                    id:14
                   },
                   {
                     name:'取消开发',
@@ -245,7 +245,7 @@ export default {
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:25
+                    id:7
                   },
                   {
                     name:'打回',
@@ -269,10 +269,6 @@ export default {
               ]
           }else if(state == 12){
               this.operationList = [
-                  {
-                    name:'审批通过',
-                    id:25
-                  },
                   {
                     name:'提交利润初审',
                     id:11
