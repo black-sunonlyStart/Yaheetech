@@ -29,7 +29,7 @@
                         </div>
                         <div>
                             <div v-for="item in productMarketStrs" :key="item.platformName" class="profit">
-                                {{item.platformName}}-{{item.marketProfits[0].warehouseName}}-{{item.currency}} {{item.developmentPrice}} / {{item.marketProfits[0].profitMargin}}
+                                {{item.platformName}}-{{item.marketProfits[0].warehouseName}}-{{item.currency}}<span :class="item.developmentPrice <= 0 ? 'showColor':''"> {{item.developmentPrice}}</span> / {{item.marketProfits[0].profitMargin}}
                             </div>
                         </div>
                     </div>
@@ -65,7 +65,9 @@
     </div>
     <div class="cardBox">
         <remarks ref="remarks" :remarksList='remarksList' :employee='employee'></remarks>
-        <div class="iconRemarks"><i class="remarks" @click="openRemarks"></i></div>
+        <el-tooltip class="item" effect="dark" content="展开" placement="bottom">
+            <div class="iconRemarks"><i class="remarks" @click="openRemarks"></i></div>
+        </el-tooltip>
         <!-- <el-card class="card"> -->
             <div class="cardBoxMain">
                 <el-tabs v-model="activeName" :before-leave="handleClick">
@@ -977,16 +979,26 @@ export default {
     width: 100%;
     top: 177px;
     .iconRemarks{
-        padding: 5px;
+        position: fixed;
+        left: 16px;
+        top: 245px;
+        width: 44px;
+        height: 39px;
+        z-index: 1000;
+        border: 1px solid #3366cc;
+        border-radius: 5px;
     .remarks {
             position: fixed;
-            left: 16px;
-            top: 245px;
+            left: 22px;
+            top: 248px;
             height: 32px;
             width: 32px;
             z-index: 1000;
-            background-image: url(../../assets/shousuo.png);
-            border: 1px solid #3366cc;
+            background-image: url(../../assets/svg/shousuo.svg);
+            &:hover{
+                background-image: url(../../assets/svg/shousuo1.svg);
+                cursor: pointer;
+            }
         }
     }
     .cardBoxMain{
@@ -1085,7 +1097,7 @@ export default {
             .el-icon-d-arrow-left{
                 font-size: 30px;
             }
-      }
+      } 
       ::v-deep.step-container{
         display: inline-block;
         width: 200%;
@@ -1094,6 +1106,7 @@ export default {
         left: 23px;
         .is-success{
             color: green !important;
+            border-color: green !important;
         }
         .stepTitle{ 
             font-size: 10px;
@@ -1167,7 +1180,9 @@ export default {
           }
       }  
   }
- 
+ .showColor{
+     color: red;
+ }
   
 }
 </style>

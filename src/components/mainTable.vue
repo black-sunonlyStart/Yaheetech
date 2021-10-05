@@ -143,7 +143,7 @@
                         width="100"
                         trigger="click">
                         <div class="operationBox" v-for="item in operationList" :key="item.id"> 
-                            <div class="operationText" @click="putOperation(scope.row,item.id)">{{item.name}}</div>
+                            <div class="operationText" @click="putOperation(scope.row,item.id)"><div class="nameBox">{{item.name}}</div></div>
                         </div>
                         <div class="imageBox1" slot="reference" @click="openOperation(scope.row)"></div>
                     </el-popover>
@@ -729,11 +729,21 @@ export default {
     color: red;
 }
 .operationBox{
-    width: 100px;
+    width: 120px;
     .operationText{
-        &:hover{
-            color: #3366cc;
-            cursor: pointer;
+        
+        .nameBox{
+            width: 120px;
+            line-height: 12px;
+            font-size: 12px;
+            border-bottom: 1px solid #cccccc;
+            // margin-top: 5px;
+            padding: 10px 0px;
+            &:hover{
+                background-color: #3366cc;
+                color: #ffffff;
+                cursor: pointer;
+            }
         }
     }
 }

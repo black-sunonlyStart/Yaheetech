@@ -4,7 +4,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="英文标题:" prop="staRating">
-                        <el-input type="textarea" autosize v-model="ruleForm.staRating"></el-input>
+                        <el-input type="textarea" maxlength="200" show-word-limit  autosize v-model="ruleForm.staRating"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -27,7 +27,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="英文关键字:" prop="westaRating">
-                        <el-input type="textarea" autosize v-model="ruleForm.westaRating"></el-input>
+                        <el-input type="textarea"  maxlength="100" show-word-limit autosize v-model="ruleForm.westaRating"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
