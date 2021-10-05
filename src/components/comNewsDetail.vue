@@ -16,19 +16,19 @@
                     </div>
                     <div class="imageTitle">
                         <div class="imageMainbox">
-                            平台：<span class="imageMainboxText">{{item.platformid >= 0 ? getPlatforms(item.platformid) : ''}}-{{item.platformsiteid ? getPlatformsiteid(item.platformsiteid):''}}</span><span class="textUrl" @click="showUrl(item.platformsiteid,item.xsin)">访问地址</span>
+                            <span class="textPostion">平台：</span><span class="imageMainboxText">{{item.platformid >= 0 ? getPlatforms(item.platformid) : ''}}-{{item.platformsiteid ? getPlatformsiteid(item.platformsiteid):''}}</span><span class="textUrl" @click="showUrl(item.platformsiteid,item.xsin)">访问地址</span>
                         </div>
                         <div class="imageMainbox">
-                            ASIN：<span class="imageMainboxText">{{item.xsin}}</span>
+                            <span class="textPostion">ASIN：</span><span class="imageMainboxText">{{item.xsin}}</span>
                         </div>
                         <div class="imageMainbox">
-                            售价：<span class="imageMainboxText">{{item.price}} {{showMoneyCurry(item.platformsiteid)}}</span>
+                            <span class="textPostion">售价：</span><span class="imageMainboxText">{{item.price}} {{showMoneyCurry(item.platformsiteid)}}</span>
                         </div> 
                         <div class="imageMainbox">
-                            日销量：<span class="imageMainboxText">{{item.recentsalesvolume}}</span>
+                            <span class="textPostion">日销量：</span><span class="imageMainboxText">{{item.recentsalesvolume}}</span>
                         </div> 
                         <div class="imageMainbox">
-                            备注：<span class="imageMainboxText">{{item.note}}</span>
+                            <span class="textPostion">备注：</span><span class="imageMainboxText">{{item.note}}</span>
                         </div> 
                     </div>
                 </div>
@@ -272,6 +272,11 @@ export default {
     .imageMainboxText{
         font-weight: normal;
     }
+    .textPostion{
+        width: 50px;
+        text-align: right;
+        display: inline-block;
+    }
 }
 .mianInfo{
     display: flex;
@@ -296,7 +301,7 @@ export default {
             border:1px solid #cccccc;
         }
         .imageTitle{
-            width: 160px;
+            width: 250px;
             height: 100px;
             display: flex;
             // align-items: center;
@@ -310,7 +315,7 @@ export default {
 .showTitle{
     display: inline-block;
     text-align: right;
-    width: 140px;
+    width: 160px;
 }
 .textUrl{
     font-size: 12px;

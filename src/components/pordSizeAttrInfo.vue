@@ -153,7 +153,7 @@
                 <span class="textWight">包装方式： </span><span style="font-weight:normal">{{pordSizeAttrInfoList.packingway == 0 ? '单箱包装' : pordSizeAttrInfoList.packingway == 1 ? '多箱包装' : ''  }}</span>
             </el-col>
         </el-row>
-        <el-row class="textSpeaing" >
+        <el-row class="tableTextSpeaing" >
             <el-col :span="2">
                 <span class="textWight">体积重： </span>
             </el-col>
@@ -165,7 +165,7 @@
                     :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                     >
                     <el-table-column
-                        label="美国(FEDEX & UPS)= 长*宽*高 / 9935"
+                        label="美国 FEDEX & UPS = 长*宽*高 / 9935"
                         >
                         <template slot-scope="scope">
                             <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /9935).toFixed(2) + 'Kg /' : ''}} </span>
@@ -200,7 +200,7 @@
                 </el-table>
             </el-col>
         </el-row>
-        <el-row class="textSpeaing" v-if="pordSizeAttrInfoList.packingway == '1'">
+        <el-row class="tableTextSpeaing" v-if="pordSizeAttrInfoList.packingway == '1'">
             <el-col :span="2">
                 
                 <span class="textWight">多箱清单： </span>
@@ -240,7 +240,7 @@
                 </el-table>
             </el-col>
         </el-row>
-        <el-row class="textSpeaing" >
+        <el-row class="tableTextSpeaing" >
             <el-col :span="2">
                 
                 <span class="textWight">销售（多）属性： </span>
@@ -360,6 +360,18 @@ export default {
     // span {
     //     font-weight: normal;
     // }
+}
+.tableTextSpeaing{
+    display: flex;
+    margin-top: 15px;
+    .moreText{
+        display: flex;
+        .textBox {
+            font-weight: normal;
+            line-height: 25px;
+            // margin-left: 5px;
+        }
+    }
 }
 .tableTitle{
     border: 1px solid #EBEEF5;

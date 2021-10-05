@@ -49,6 +49,7 @@
                         size='mini'
                         class="input-with-select"
                         clearable
+                        @keyup.enter="searchSomething"
                         >
                 </el-input>
                 <el-button type="primary" size="mini" @click="searchSomething">搜索</el-button>

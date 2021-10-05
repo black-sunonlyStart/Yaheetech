@@ -74,7 +74,7 @@ export default {
       .imageMainbox{
           text-align: right;
           font-weight: bold;
-          width: 160px;
+          width: 180px;
           display: inline-block;
           .imageMainboxText{
               font-weight: normal;

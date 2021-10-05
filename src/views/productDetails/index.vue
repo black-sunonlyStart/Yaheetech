@@ -589,6 +589,9 @@ export default {
                     this.productImgDetail.forEach(item => {
                         item.showImgUrl = `${this.proImageList}upload/CompetingProduct/${item.developmentid}/${item.fileuri}`
                     })
+                    this.productImgDetail.forEach(item => {
+                        item.name = item.fileName || item.fileuri
+                    })
                 }
                 
                this.imageList = this.productImgDetail.map(item => {
@@ -693,8 +696,8 @@ export default {
                     dutyrate3:dutyrate3 && dutyrate3[0]? dutyrate3[0].Value * 100: '',
                     orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//采购开发
                     businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName: '',//业务开发
-                    productCountryList:this.productVos.productCountryList ? this.productVos.productCountryList[0] : [],//业务开发
-                    productMarketListALL:this.productVos.productMarketListALL ? this.productVos.productMarketListALL : [],//业务开发
+                    productCountryList:this.productVos.productCountryList ? this.productVos.productCountryList[0] : [],
+                    productMarketListALL:this.productVos.productMarketListALL ? this.productVos.productMarketListALL : [],
                     computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList && this.productVos.productCountryList[0].productMarketList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],//业务开发
                     productMarketList: this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList  && this.productVos.productCountryList[0].productMarketList[0] ?  this.productVos.productCountryList[0].productMarketList : [],//表格数据
                     businessid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessid : '',   
@@ -743,18 +746,20 @@ export default {
                     if(factoryGaveImage){
                         factoryGaveImage.forEach(item => {
                             item.showImgUrl = `${this.proImageList}upload/CompetingProduct/${item.developmentid}/${item.fileuri}`
+                            item.name = item.fileName || item.fileuri
                         })
                      }
                     if(recommendCredentialList){
                         recommendCredentialList.forEach(item => {
-                            item.name = item.fileuri
+                            item.name = item.fileName || item.fileuri
                         })
                      }
                     if(mustCredentialList){
                         mustCredentialList.forEach(item => {
-                            item.name = item.fileuri
+                            item.name = item.fileName || item.fileuri
                         })
                      }
+                     console.log(mustCredentialList,recommendCredentialList,'1111111111111111')
                     this.prodevInfoDetaiList = {
                         title:this.productVos.title,//中文标题
                         description:this.productVos.description,//中文标题

@@ -383,7 +383,7 @@ export default {
             if(this.row && this.row.id){
                 row = this.row.id
             }
-            let normalList = [1,5,7,10,11,15,16,25]
+            let normalList = [1,5,7,10,11,14,15,16,25]
             if(normalList.includes(this.clickId)){
                 let params = {
                     productCountryId:this.row.id,

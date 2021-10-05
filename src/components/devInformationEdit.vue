@@ -12,6 +12,7 @@
                         <el-select 
                             v-model="ruleForm.targetPrice"
                             filterable 
+                            :disabled='showDailySales'
                             >
                             <el-option 
                                 v-for="item in targetPrice"                        
@@ -35,6 +36,7 @@
                         <el-select 
                             v-model="ruleForm.dailySales"
                             filterable 
+                            :disabled='showDailySales'
                             >
                             <el-option 
                                 v-for="item in dailySales"                        
@@ -243,9 +245,12 @@
                             <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                             <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.developmentprice" @change="changeDevelopmentprice(item.developmentprice,item.platformname)"></el-input-number>  
                         </div>
-                        <el-button  v-if="item.piprice">计算利润</el-button>
+                        <el-button  v-if="showList(item.createdon)" @click="getMoeny(item,index)">计算利润</el-button>
+                        <div :class="item.profit > 0 ? 'titleText' :'noTitleText'" v-show="item.showProfit">
+                            {{contryCurry(item.countrycode)}}: {{item.profit}} - 利润率：{{item.profitmargin * 100}}%
+                        </div>
                     </el-form-item>
-                    <div v-if="item.piprice">
+                    <div v-if="showList(item.createdon)">
                         <el-form-item label="SFP开发价:" prop="sfpDevelopmentPrice">
                             <div class="inputBox"> 
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
@@ -279,10 +284,10 @@
                         <el-form-item label="空/海运费:" >
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
-                                <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.SFProductPrice"></el-input-number>
+                                <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.oceanfreight"></el-input-number>
                             </div>
                             <el-select 
-                                v-model="item.seaSkySelectKey"
+                                v-model="item.freightway "
                                 >
                                 <el-option 
                                     v-for="item in seaSkySelect"                        
@@ -427,7 +432,7 @@
     </div>
 </template>
 <script>
-import { selectRoleEmployeeForRoleId , getPlatformSiteByCountry, getWarehouseByCountry ,developmentMsg} from '@/api/user.js'
+import { selectRoleEmployeeForRoleId , getPlatformSiteByCountry, getWarehouseByCountry ,developmentMsg,profitMargin} from '@/api/user.js'
 export default {
     name:'devInformationEdit',
     data(){
@@ -673,7 +678,13 @@ export default {
         }
     },
     computed:{
-        
+        showDailySales(){
+            if(this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] && this.devInformationDetaiList.productMarketList[0].createdon){
+                return true
+            }else {
+                return false
+            }
+        }
     },
     props:{
         devInformationDetaiList:{
@@ -686,6 +697,26 @@ export default {
         this.getTypeList()
     },
     methods:{
+        showList(val){
+            if(!val)return
+            if(val){
+                return true
+            }else {
+                return false
+            }
+        },
+        getMoeny(val,index){
+            profitMargin(val).then(res => {
+                if(res.code == 200){
+                    // this.devInformationDetaiList.productMarketList[index].showProfit = true
+                    this.$nextTick(res => {
+                         this.$set(this.devInformationDetaiList.productMarketList[index],'showProfit' ,true)
+                         console.log(this.devInformationDetaiList.productMarketList)
+                    })
+                   
+                }
+            })
+        },
         contryCurry(val){
             if(val == 'US'){
                 return 'USD'
@@ -1179,6 +1210,16 @@ export default {
      }
     .shippingPutBox{
         width: 500;
+    }
+    .titleText{
+        display: inline-block;
+        color: green;
+        margin-left: 10px;
+    }
+    .noTitleText{
+        display: inline-block;
+        color: red;
+        margin-left: 10px;
     }
       
 </style>

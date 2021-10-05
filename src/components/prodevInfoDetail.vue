@@ -23,12 +23,12 @@
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                <span class="postionBox">必要认证附件：</span><span v-for="item in prodevInfoDetaiList.mustCredentialList" :key="item.id">[{{item.fileuri}}]、</span>
+                <span class="postionBox">必要认证附件：</span><div class="mustListStyle"><div v-for="item in prodevInfoDetaiList.mustCredentialList" :key="item.id"><span class="countryList">{{changCountry(item.countryCode)}}</span>：[{{item.name}}]</div></div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                <span class="postionBox">推荐认证附件：</span><span v-for="item in prodevInfoDetaiList.recommendCredentialList" :key="item.id">[{{item.fileuri}}]、</span>
+                <span class="postionBox">推荐认证附件：</span><div class="mustListStyle"><div v-for="item in prodevInfoDetaiList.recommendCredentialList" :key="item.id"><span class="countryList">{{changCountry(item.countryCode)}}</span>：[{{item.name}}]</div></div>
             </el-col>
         </el-row>
         <el-row>
@@ -71,11 +71,23 @@ export default {
     },
 
     methods:{
+        changCountry(val){
+            if(val == 'US'){
+                return '美国'
+            }else if (val == 'GB' ){
+                return '英国'
+            }else if(val == 'OU'){
+                return '欧盟'
+            }else {
+                return '所有市场'
+            }
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
 .produInfo{
+    display: flex;
     margin: 15px 0px 0px 50px;
     // font-weight: bold;
     span {
@@ -103,6 +115,14 @@ export default {
     width: 120px;
     display: inline-block;
     font-weight: bold;
+}
+.mustListStyle{
+    display: inline-block;
+    .countryList{
+        display: inline-block;
+        width: 50px;
+        text-align: right;
+    }
 }
 
 </style>

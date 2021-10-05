@@ -258,3 +258,11 @@ export function getImagePath(data) {
       params:data
     })
   }
+  //计算利润
+export function profitMargin(data) {
+    return request({
+      url: '/productManage/profitMargin',
+      method: "post", 
+      data
+    })
+  }

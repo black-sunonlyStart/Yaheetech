@@ -17,7 +17,7 @@
                                      width="50px"
                                     >
                                     <template slot-scope="scope">
-                                        <el-radio :label="scope.$index" v-model="radio" :disabled='canTableEdit' @change.native="handleSelectionChange(scope.row)">&nbsp;</el-radio>
+                                        <el-radio :label="scope.$index" v-model="radio" :disabled='canTableEdit' @change.native="handleSelectionChange(scope.row,scope.$index)">&nbsp;</el-radio>
                                     </template>
                                 </el-table-column>
                                 <el-table-column
@@ -98,7 +98,7 @@
                                         <div class="textPostion">净采购价+杂费+包装费(¥)</div>
                                     </template>
                                     <template slot-scope="scope">
-                                         <span>{{scope.row.calculateprofittype == 2 ? scope.row.purchaseFOBPrice : (scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee || " " }}</span>      
+                                         <span>{{scope.row.calculateprofittype == 2 ? scope.row.fobprice : (scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee || " " }}</span>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                           
@@ -326,7 +326,7 @@
                                 v-model="ruleForm.sampleDeliveryOn"
                                 type="date"
                                 placeholder="选择日期"
-                                @change="changeDate"
+                              
                                 >
                             </el-date-picker>
                             距样品交期: {{ ruleForm.sampledeliverydays }}天
@@ -438,6 +438,7 @@ export default {
                     value:3
                 },
             ],
+            seleindex:0,
         }
     },
     computed:{
@@ -468,8 +469,7 @@ export default {
             type:Number,
         }
     },
-    mounted(){
-        
+    mounted(){    
         this.getDetailList()
     },
     methods:{
@@ -537,7 +537,8 @@ export default {
             
           this.ruleForm.productPurchaseVoList.push({
               createdName:createdName,
-              isdefault:false
+              isdefault:false,
+              type:0
           })
           if(this.selectRow.length == 0 || (this.selectRow.length == 1 && this.selectRow[0] == undefined)){
           this.$nextTick(() => {
@@ -580,10 +581,11 @@ export default {
                     purchases:[//采购信息
                     ]
                 } 
+                this.ruleForm.productPurchaseVoList[this.seleindex].isdefault = true
                 let tableList = []
-                this.selectRow.isdefault = true
-                this.selectRow.type = 0
-                tableList.push(this.selectRow)
+                // this.selectRow.isdefault = true
+                // this.selectRow.type = 0
+                tableList.push( this.ruleForm.productPurchaseVoList)
                 if(this.ruleForm.lastProductPurchaseVoList.length != 0){
                         this.ruleForm.lastProductPurchaseVoList.type = 1
                         tableList.push(this.ruleForm.lastProductPurchaseVoList)
@@ -599,6 +601,8 @@ export default {
                         })
                         this.loading = false
                         this.$emit('closeEdit','false')                 
+                    }else {
+                        this.loading = false
                     }
                 })
             } else {
@@ -610,8 +614,9 @@ export default {
       resetForm() {
             this.$emit('closeEdit','false')
         },
-        handleSelectionChange(val){
+        handleSelectionChange(val,index){
             this.selectRow = val
+            this.seleindex = index
             if(val.length > 1) return
         },
         changeDate(val){
