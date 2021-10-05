@@ -282,7 +282,7 @@ export default {
     display: flex;
     .colBoxTitle{
         font-weight: bold;
-        width: 120px;
+        width: 130px;
         text-align: right;
         .colBoxContent{
             font-weight: normal !important;

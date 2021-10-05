@@ -629,6 +629,7 @@ export default {
             patentProduct:val.patentProduct,
             search:val.search
         }
+        this.loading = true
         fetchPageTableList(params).then(res => {
             if(res.data && res.data.rows){
                 res.data.rows.forEach(item => {

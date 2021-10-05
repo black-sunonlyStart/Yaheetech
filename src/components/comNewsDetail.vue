@@ -317,6 +317,11 @@ export default {
     color: royalblue;
     margin-left: 5px;
     cursor: pointer;
+    display: inline-block;
+    &:hover{
+        color: #ffffff;
+        background-color: royalblue;
+    }
 }
     
 </style>
