@@ -16,10 +16,10 @@
                     </div>
                     <div class="imageTitle">
                         <div class="imageMainbox">
-                            平台：<span class="imageMainboxText">{{item.platformid >= 0 ? getPlatforms(item.platformid) : ''}}-{{item.platformsiteid ? getPlatformsiteid(item.platformsiteid):''}}</span>
+                            平台：<span class="imageMainboxText">{{item.platformid >= 0 ? getPlatforms(item.platformid) : ''}}-{{item.platformsiteid ? getPlatformsiteid(item.platformsiteid):''}}</span><span class="textUrl" @click="showUrl(item.platformsiteid,item.xsin)">访问地址</span>
                         </div>
                         <div class="imageMainbox">
-                            ASIN:<span class="imageMainboxText">{{item.xsin}}</span>
+                            ASIN：<span class="imageMainboxText">{{item.xsin}}</span>
                         </div>
                         <div class="imageMainbox">
                             售价：<span class="imageMainboxText">{{item.price}} {{showMoneyCurry(item.platformsiteid)}}</span>
@@ -166,10 +166,46 @@ export default {
         }
     },
     mounted(){
-        console.log(this.comNewsDetailList,'comNewsDetailList11111111111')
         this.getDetailList()
     },
     methods:{
+        showUrl(PlatformSiteId,XSIN){
+            let productUrl = ''
+                switch (PlatformSiteId)
+                    {
+                        case 29://英国
+                            productUrl = "http://www.ebay.co.uk/itm/" + XSIN;
+                            break;
+                        case 27://美国
+                            productUrl = "http://www.ebay.com/itm/" + XSIN;
+                            break;
+                        case 34://德国
+                            productUrl = "http://www.ebay.de/itm/" + XSIN;
+                            break;
+                        case 30://澳洲
+                            productUrl = "http://www.ebay.com.au/itm/" + XSIN;
+                            break;
+                        case 54://英国
+                            productUrl = "http://www.amazon.co.uk/gp/product/" + XSIN;
+                            break;
+                        case 55://美国
+                            productUrl = "http://www.amazon.com/gp/product/" + XSIN;
+                            break;
+                        case 56://德国
+                            productUrl = "http://www.amazon.de/gp/product/" + XSIN;
+                            break;
+                        case 65://新西兰
+                            productUrl = "http://www.trademe.co.nz/Browse/Listing.aspx?archive=1&id=" + XSIN;
+                            break;
+                        case 183://日本
+                            productUrl = "https://www.amazon.co.jp/dp/" + XSIN + "?psc=1";
+                            break;
+                        case 63://美国
+                            productUrl = "https://www.walmart.com/ip/" + XSIN + "?findingMethod=hliab";
+                            break;
+                    }
+                    window.open(productUrl, '_blank')
+        },
         getDetailList(){
             getPlatformSiteByPlatformName().then(res => {
                 if(res.data){
@@ -260,7 +296,7 @@ export default {
             border:1px solid #cccccc;
         }
         .imageTitle{
-            width: 150px;
+            width: 160px;
             height: 100px;
             display: flex;
             // align-items: center;
@@ -275,6 +311,12 @@ export default {
     display: inline-block;
     text-align: right;
     width: 140px;
+}
+.textUrl{
+    font-size: 12px;
+    color: royalblue;
+    margin-left: 5px;
+    cursor: pointer;
 }
     
 </style>

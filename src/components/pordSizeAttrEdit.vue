@@ -549,6 +549,9 @@ export default {
         },
         productSize(){
             return this.ruleForm.productSize
+        },
+        productValue(){
+            return ((this.ruleForm.outerBoxSizeL * this.ruleForm.outerBoxSizeW * this.ruleForm.outerBoxSizeH) / 1000000).toFixed(6)
         }
     },
     mounted(){
@@ -683,7 +686,8 @@ export default {
                             caseQty:Number (this.ruleForm.casesNumber),//装箱数
                             size:this.ruleForm.productSize,//尺码
                             cartonShape:this.ruleForm.outerBoxSizeRules,
-                            packageshape:this.ruleForm.sizeRules
+                            packageshape:this.ruleForm.sizeRules,
+                            packedvolume:Number(this.productValue)
                         },
                     }
                     if(this.ruleForm.productlistings.length > 0){
