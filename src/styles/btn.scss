@@ -40,9 +40,14 @@
 .yellow-btn {
   @include colorBtn($yellow)
 }
-
+.el-form-item__label{
+    font-size: 12px !important;
+}
+.el-table{
+    font-size: 12px !important;
+}
 .pan-btn {
-  font-size: 14px;
+  font-size: 12px;
   color: #fff;
   padding: 14px 36px;
   border-radius: 8px;
@@ -94,6 +99,6 @@
   outline: 0;
   margin: 0;
   padding: 10px 15px;
-  font-size: 14px;
+  font-size: 12px;
   border-radius: 4px;
 }

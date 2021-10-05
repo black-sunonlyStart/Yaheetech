@@ -14,8 +14,8 @@
                     产品尺寸：
                 </div>
                 <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.productSizeL ?pordSizeAttrInfoList.productSizeL + '×' :'' }}  {{pordSizeAttrInfoList.productSizeW ? pordSizeAttrInfoList.productSizeW + '×' : ''}}  {{pordSizeAttrInfoList.productSizeH ? pordSizeAttrInfoList.productSizeH + '(cm)' : ''}} </div>
-                    <div>{{pordSizeAttrInfoList.productSizeYcunL ?pordSizeAttrInfoList.productSizeYcunL + '×' :''}} {{pordSizeAttrInfoList.productSizeYcunW ?pordSizeAttrInfoList.productSizeYcunW + '×' :''}} {{pordSizeAttrInfoList.productSizeYcunH ?pordSizeAttrInfoList.productSizeYcunH + '(inch)' :''}}</div>
+                    <div>{{pordSizeAttrInfoList.productSizeL ?pordSizeAttrInfoList.productSizeL + '×' :'' }}  {{pordSizeAttrInfoList.productSizeW ? pordSizeAttrInfoList.productSizeW + '×' : ''}}  {{pordSizeAttrInfoList.productSizeH ? pordSizeAttrInfoList.productSizeH + ' cm '  : ''}} </div>
+                    <div>{{pordSizeAttrInfoList.productSizeYcunL ?pordSizeAttrInfoList.productSizeYcunL + '×' :''}} {{pordSizeAttrInfoList.productSizeYcunW ?pordSizeAttrInfoList.productSizeYcunW + '×' :''}} {{pordSizeAttrInfoList.productSizeYcunH ?pordSizeAttrInfoList.productSizeYcunH + ' inch '  :''}}</div>
                 </div>
             </el-col>
             <el-col :span="10" class="moreText">
@@ -23,8 +23,8 @@
                     产品体积： 
                 </div>
                 <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.productVolume ?pordSizeAttrInfoList.productVolume + '(m³)' :''}}</div>
-                    <div>{{pordSizeAttrInfoList.productVolumeYchi ? pordSizeAttrInfoList.productVolumeYchi + '(cu ft)' : ''}}</div>
+                    <div>{{pordSizeAttrInfoList.productVolume ?pordSizeAttrInfoList.productVolume + ' m³ '  :''}}</div>
+                    <div>{{pordSizeAttrInfoList.productVolumeYchi ? pordSizeAttrInfoList.productVolumeYchi + ' cu ft '  : ''}}</div>
                 </div>
             </el-col>
         </el-row>
@@ -36,12 +36,12 @@
                 <div class="textBox">
                     <div>{{pordSizeAttrInfoList.packageSizeL ? pordSizeAttrInfoList.packageSizeL + '×' : ''}} 
                         {{pordSizeAttrInfoList.packageSizeW ?  pordSizeAttrInfoList.packageSizeW + '×' : ''}} 
-                        {{pordSizeAttrInfoList.packageSizeH ?  pordSizeAttrInfoList.packageSizeH + '(cm)' : ''}} 
+                        {{pordSizeAttrInfoList.packageSizeH ?  pordSizeAttrInfoList.packageSizeH + ' cm '  : ''}} 
                     </div>
                     <div>
                         {{pordSizeAttrInfoList.packageSizeYcunL ? pordSizeAttrInfoList.packageSizeYcunL + '×' : ''}}
                         {{pordSizeAttrInfoList.packageSizeYcunW ? pordSizeAttrInfoList.packageSizeYcunW + '×' : ''}} 
-                        {{pordSizeAttrInfoList.packageSizeYcunH ?  pordSizeAttrInfoList.packageSizeYcunH + '(inch)' : ''}} 
+                        {{pordSizeAttrInfoList.packageSizeYcunH ?  pordSizeAttrInfoList.packageSizeYcunH + ' inch '  : ''}} 
                     </div>
                 </div>
             </el-col>
@@ -50,8 +50,8 @@
                     包装体积(发货用)： 
                 </div>
                 <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.packedvolume ? pordSizeAttrInfoList.packedvolume + '(m³)': ''}}</div>
-                    <div>{{pordSizeAttrInfoList.packedvolumeYchi ? pordSizeAttrInfoList.packedvolumeYchi + '(cu ft)' : ''}}</div>
+                    <div>{{pordSizeAttrInfoList.packedvolume ? pordSizeAttrInfoList.packedvolume + ' m³ ' : ''}}</div>
+                    <div>{{pordSizeAttrInfoList.packedvolumeYchi ? pordSizeAttrInfoList.packedvolumeYchi + ' cu ft '  : ''}}</div>
                 </div>
             </el-col>
         </el-row>
@@ -63,10 +63,10 @@
                 <div class="textBox">
                     <div>{{pordSizeAttrInfoList.outerBoxSizeL ? pordSizeAttrInfoList.outerBoxSizeL + '×' : ''}}
                          {{pordSizeAttrInfoList.outerBoxSizeW ? pordSizeAttrInfoList.outerBoxSizeW + '×' : ''}} 
-                         {{pordSizeAttrInfoList.outerBoxSizeH ? pordSizeAttrInfoList.outerBoxSizeH + '(cm)' : ''}} </div>
+                         {{pordSizeAttrInfoList.outerBoxSizeH ? pordSizeAttrInfoList.outerBoxSizeH + ' cm '  : ''}} </div>
                     <div>{{pordSizeAttrInfoList.outerBoxSizeYcunL ? pordSizeAttrInfoList.outerBoxSizeYcunL + '×' : ''}}
                           {{pordSizeAttrInfoList.outerBoxSizeYcunW ? pordSizeAttrInfoList.outerBoxSizeYcunW + '×' : ''}}
-                           {{pordSizeAttrInfoList.outerBoxSizeYcunH ? pordSizeAttrInfoList.outerBoxSizeYcunH + '(inch)' : ''}}
+                           {{pordSizeAttrInfoList.outerBoxSizeYcunH ? pordSizeAttrInfoList.outerBoxSizeYcunH + ' inch '  : ''}}
                            </div>
                 </div>
             </el-col>
@@ -75,8 +75,8 @@
                     外箱体积(装柜用)： 
                 </div>
                 <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.outerBoxVolume ? pordSizeAttrInfoList.outerBoxVolume + '(m³)':''}}</div>
-                    <div>{{pordSizeAttrInfoList.outerBoxVolumeYcun ? pordSizeAttrInfoList.outerBoxVolumeYcun + '(cu ft)' : ''}}</div>
+                    <div>{{pordSizeAttrInfoList.outerBoxVolume ? pordSizeAttrInfoList.outerBoxVolume +  ' m³ ' :''}}</div>
+                    <div>{{pordSizeAttrInfoList.outerBoxVolumeYcun ? pordSizeAttrInfoList.outerBoxVolumeYcun +  ' cu ft '  : ''}}</div>
                 </div>
             </el-col>
         </el-row>
@@ -86,8 +86,8 @@
                     外箱重量(装柜用)： 
                 </div>
                 <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.cartonWeight ?pordSizeAttrInfoList.cartonWeight.toFixed(6) + '(kg)':'' }}</div>
-                    <div>{{pordSizeAttrInfoList.cartonWeightLB ? pordSizeAttrInfoList.cartonWeightLB.toFixed(6) + '(LB)' : ''}}</div>
+                    <div>{{pordSizeAttrInfoList.cartonWeight ?pordSizeAttrInfoList.cartonWeight.toFixed(6) +  ' kg ' :'' }}</div>
+                    <div>{{pordSizeAttrInfoList.cartonWeightLB ? pordSizeAttrInfoList.cartonWeightLB.toFixed(6) +  ' LB '  : ''}}</div>
                 </div>
             </el-col>
             <el-col :span="10" class="moreText">
@@ -95,8 +95,8 @@
                     每个产品所占体积： 
                 </div>
                 <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.containerVolume ? pordSizeAttrInfoList.containerVolume + '(m³)':''}}</div>
-                    <div>{{pordSizeAttrInfoList.containerVolumeCu ? pordSizeAttrInfoList.containerVolumeCu + '(cu ft)' : ''}}</div>
+                    <div>{{pordSizeAttrInfoList.containerVolume ? pordSizeAttrInfoList.containerVolume +  ' m³ ' :''}}</div>
+                    <div>{{pordSizeAttrInfoList.containerVolumeCu ? pordSizeAttrInfoList.containerVolumeCu +  ' cu ft '  : ''}}</div>
                 </div>
             </el-col>
         </el-row>
@@ -106,8 +106,8 @@
                     净重：
                 </div>
                 <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.beforepackweight?pordSizeAttrInfoList.beforepackweight + '(kg)':''}}</div>
-                    <div>{{pordSizeAttrInfoList.abroadbeforepackweight  ? pordSizeAttrInfoList.abroadbeforepackweight + '(LB)' : ''}}</div>
+                    <div>{{pordSizeAttrInfoList.beforepackweight?pordSizeAttrInfoList.beforepackweight +  ' kg ' :''}}</div>
+                    <div>{{pordSizeAttrInfoList.abroadbeforepackweight  ? pordSizeAttrInfoList.abroadbeforepackweight +  ' LB '  : ''}}</div>
                 </div>
             </el-col>
             <el-col :span="10" class="moreText"> 
@@ -115,8 +115,8 @@
                     毛重(发货用)： 
                 </div>
                 <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.afterpackweight?pordSizeAttrInfoList.afterpackweight + '(kg)':''}}</div>
-                    <div>{{pordSizeAttrInfoList.abroadafterpackweight? pordSizeAttrInfoList.abroadafterpackweight + '(LB)' : ''}}</div>
+                    <div>{{pordSizeAttrInfoList.afterpackweight?pordSizeAttrInfoList.afterpackweight +  ' kg ' :''}}</div>
+                    <div>{{pordSizeAttrInfoList.abroadafterpackweight? pordSizeAttrInfoList.abroadafterpackweight +  ' LB '  : ''}}</div>
                 </div>
             </el-col>
         </el-row>
@@ -126,8 +126,8 @@
                     物流周长加长(美国)：
                 </div>
                  <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.logisticsPerimeter? pordSizeAttrInfoList.logisticsPerimeter + '(cm)' : ''}}</div>
-                    <div>{{pordSizeAttrInfoList.logisticsPerimeterYcun? pordSizeAttrInfoList.logisticsPerimeterYcun + '(inch)' : ''}}</div>
+                    <div>{{pordSizeAttrInfoList.logisticsPerimeter? pordSizeAttrInfoList.logisticsPerimeter + ' cm' : ''}}</div>
+                    <div>{{pordSizeAttrInfoList.logisticsPerimeterYcun? pordSizeAttrInfoList.logisticsPerimeterYcun + ' inch' : ''}}</div>
                 </div>
             </el-col>
             <el-col :span="10" class="moreText">
@@ -135,8 +135,8 @@
                     物流周长加长(非美国)：
                 </div>
                  <div class="textBox">
-                    <div>{{pordSizeAttrInfoList.logisticsPerimeterNoUsa? pordSizeAttrInfoList.logisticsPerimeterNoUsa + '(cm)' : ''}}</div>
-                    <div>{{pordSizeAttrInfoList.logisticsPerimeterNoUsaYcun? pordSizeAttrInfoList.logisticsPerimeterNoUsaYcun + '(inch)' : ''}}</div>
+                    <div>{{pordSizeAttrInfoList.logisticsPerimeterNoUsa? pordSizeAttrInfoList.logisticsPerimeterNoUsa +  ' cm '  : ''}}</div>
+                    <div>{{pordSizeAttrInfoList.logisticsPerimeterNoUsaYcun? pordSizeAttrInfoList.logisticsPerimeterNoUsaYcun +  ' inch '  : ''}}</div>
                 </div>
             </el-col>
         </el-row>
@@ -150,7 +150,7 @@
         </el-row>
         <el-row class="textSpeaing" >
             <el-col :span="10">
-                <span class="textWight">包装方式： </span><span style="font-weight:normal">{{pordSizeAttrInfoList.packingway == 0 ? ' 单箱包装' : pordSizeAttrInfoList.packingway == 1 ? '多箱包装' : ''  }}</span>
+                <span class="textWight">包装方式： </span><span style="font-weight:normal">{{pordSizeAttrInfoList.packingway == 0 ? '单箱包装' : pordSizeAttrInfoList.packingway == 1 ? '多箱包装' : ''  }}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >

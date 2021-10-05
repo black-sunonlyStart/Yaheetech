@@ -137,15 +137,17 @@
                 <el-tooltip class="item" effect="dark" content="编辑" placement="bottom-start">
                     <div class="imageBox" @click="clickEdit(scope.row.developmentId,scope.row.productId,scope.row.id)"></div>
                 </el-tooltip>
-                <el-popover
-                    placement="bottom"
-                    width="100"
-                    trigger="click">
-                    <div class="operationBox" v-for="item in operationList" :key="item.id"> 
-                        <div class="operationText" @click="putOperation(scope.row,item.id)">{{item.name}}</div>
-                    </div>
-                    <div class="imageBox1" slot="reference" @click="openOperation(scope.row)"></div>
-                </el-popover>
+                <el-tooltip class="item" effect="dark" content="操作" placement="bottom-start">
+                    <el-popover
+                        placement="bottom"
+                        width="100"
+                        trigger="click">
+                        <div class="operationBox" v-for="item in operationList" :key="item.id"> 
+                            <div class="operationText" @click="putOperation(scope.row,item.id)">{{item.name}}</div>
+                        </div>
+                        <div class="imageBox1" slot="reference" @click="openOperation(scope.row)"></div>
+                    </el-popover>
+                </el-tooltip>
             </div>
         </template>             
       </el-table-column>

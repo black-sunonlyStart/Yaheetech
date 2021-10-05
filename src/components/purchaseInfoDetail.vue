@@ -61,7 +61,9 @@
                     </el-table-column>
                     <el-table-column
                         prop="warpperfee"
-                        label="产品包装费(¥)">
+                        label="产品包装费(¥)"
+                        width="120px"
+                        >
                     </el-table-column>
                     <el-table-column
                         width="200px"
@@ -83,7 +85,9 @@
                     </el-table-column>
                     <el-table-column
                         prop="packingquantity"
-                        label="装箱数量(/箱)">
+                        label="装箱数量(/箱)"
+                        width="120px"
+                        >
                     </el-table-column>
                 </el-table>
             </el-col>

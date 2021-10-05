@@ -44,7 +44,7 @@
                         <div style="margin-right:10px">-</div>
                         <el-select 
                             v-model="ruleForm.selectRelation"
-                            :disabled='closeComponent'
+                            :disabled='showSelect'
                             >
                             <el-option 
                                 v-for="item in spuSign"                        
@@ -178,6 +178,15 @@ export default {
         }
       };
     },
+    computed:{
+        showSelect(){
+            if(this.$route.params.productCountryId){
+                return true
+            }else {
+                return false
+            }
+        }
+    },
     props:{
         productVoDetail:{
             type:Object,
@@ -210,6 +219,7 @@ export default {
           if(this.productVoDetail.developmentscenarios){
               this.closeComponent = true
               this.selectScene(this.productVoDetail.developmentscenarios)
+              this.changeInputRelation(this.ruleForm.inputRelation)
           }
       },
       submitForm(formName) {

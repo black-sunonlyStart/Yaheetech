@@ -14,18 +14,18 @@
                 </div>
                 <div class="detailsText">
                     <div>
-                        开发id:<span>{{development && development.id ?development.id:'' }}</span>
+                        开发id：<span>{{development && development.id ?development.id:'' }}</span>
                     </div>
                     <div>
-                        生成型号:<span>{{$route.params.productId}}</span>
+                        生成型号：<span>{{$route.params.productId}}</span>
                     </div>
                     <div>
-                        开发市场:<div class="countryTitle">{{ productCountryList ? productCountryList.countryName:'' }}</div> 
+                        开发市场：<div class="countryTitle">{{ productCountryList ? productCountryList.countryName:'' }}</div> 
                         <div v-for="item in otherCountryList" :key="item.productCountryId" class="otherCountryTitle" @click="changeCountry(item.developmentId,item.productId,item.productCountryId)"> {{item ? item.countryName : ''}}</div>
                     </div>
                     <div class="haveMoneyLitte">
                         <div>
-                            开发价/最低利润:
+                            开发价/最低利润：
                         </div>
                         <div>
                             <div v-for="item in productMarketStrs" :key="item.platformName" class="profit">
@@ -42,7 +42,7 @@
                 <div class="stepBox">
                     <span class="leftButton" @click="leftMove"><i class="el-icon-d-arrow-left"></i></span>
                         <span class="step-container">
-                            <el-steps :active="nowStatus" space='150' align-center style="margin-right:15px" finish-status="success" process-status='process'>
+                            <el-steps :active="nowStatus" space='150' align-center  finish-status="success" process-status='finish'>
                                 <el-step v-for="item in developmentProgresses" :title="item.toStatusValue" :key="item.status" :description="item.createOn">
                                         <template slot="title">
                                             <el-tooltip class="item" effect="dark" :content="item.createBy" placement="top">
@@ -65,8 +65,7 @@
     </div>
     <div class="cardBox">
         <remarks ref="remarks" :remarksList='remarksList' :employee='employee'></remarks>
-        <i class="remarks"
-        @click="openRemarks"></i>
+        <div class="iconRemarks"><i class="remarks" @click="openRemarks"></i></div>
         <!-- <el-card class="card"> -->
             <div class="cardBoxMain">
                 <el-tabs v-model="activeName" :before-leave="handleClick">
@@ -578,7 +577,7 @@ export default {
                     categoryname:res.data.development ? res.data.development.categoryname : '',//所属分类
                     spu:res.data.development ? res.data.development.spu : '',//关联spu
                     id:this.productVos ? this.productVos.id : '',//关联spu id
-                    spuid:this.productVos ? res.data.development.id : '',//关联spu id
+                    spuid:res.data.development ? res.data.development.id : '',//关联spu id
                 }
                 //图片信息数据
                 this.productImgDetail =  res.data.developmentAttachmentList.filter(item => {
@@ -811,7 +810,7 @@ export default {
                     beforepackweight:this.productVos.beforepackweight,//净重
                     abroadbeforepackweight :this.productVos.abroadbeforepackweight, //净重
                     afterpackweight:this.productVos.abroadbeforepackweight, //毛重(发货用)
-                    abroadafterpackweight:this.productVos.abroadbeforepackweight, //毛重(发货用)
+                    abroadafterpackweight:this.productVos.abroadbeforepackweight ? (this.productVos.abroadbeforepackweight * 2.2014).toFixed(4) : '', //毛重(发货用)
                     logisticsPerimeter:this.productVos.packedlength ? (Math.ceil(this.productVos.packedlength) + (Math.ceil(this.productVos.packedwidth) + Math.ceil(this.productVos.packedheight)) * 2).toFixed(2) : '', //物流周长加长(美国)
                     logisticsPerimeterYcun:this.productVos.packedlength ? (Math.ceil(this.productVos.packedlength  * ycun) + (Math.ceil(this.productVos.packedwidth  * ycun) + Math.ceil(this.productVos.packedheight  * ycun)) * 2).toFixed(2) : '', //物流周长加长(美国)
                     logisticsPerimeterNoUsa:this.productVos.packedlength ? (this.productVos.packedlength + (this.productVos.packedwidth + this.productVos.packedheight) * 2).toFixed(2) : '', //物流周长加长(非美国)
@@ -977,17 +976,26 @@ export default {
     position: relative;
     width: 100%;
     top: 177px;
+    .iconRemarks{
+        padding: 5px;
     .remarks {
-        position: fixed;
-        left: 16px;
-        top: 245px;
-        height: 32px;
-        width: 32px;
-        z-index: 1000;
-        background-image: url(../../assets/shousuo.png);
+            position: fixed;
+            left: 16px;
+            top: 245px;
+            height: 32px;
+            width: 32px;
+            z-index: 1000;
+            background-image: url(../../assets/shousuo.png);
+            border: 1px solid #3366cc;
+        }
     }
     .cardBoxMain{
         margin: 10px;
+        ::v-deep .el-tabs__nav{
+                .is-active{
+                font-weight: bold !important;
+            }
+        }
     }
     ::v-deep .el-tabs__header{
         margin:0 !important;
@@ -1089,8 +1097,8 @@ export default {
         }
         .stepTitle{ 
             font-size: 10px;
-            margin-right: 15px;
-            width: 100px;
+            // margin-right: 15px;
+            width: 120px;
         }
     }
     .rightButton{
@@ -1132,7 +1140,7 @@ export default {
           color: #3366cc;
           height: 20px;
           width: 55px;
-          font-size: 14px;
+          font-size: 12px;
           &:hover{
               background-color: #3366cc;
               color: #ffffff;
@@ -1159,9 +1167,7 @@ export default {
           }
       }  
   }
-  .is-active{
-          font-weight: bold !important;
-      }
+ 
   
 }
 </style>
