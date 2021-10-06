@@ -8,9 +8,11 @@ import VueLazyload from 'vue-lazyload'
 import moment from "moment";
 import './styles/element-variables.scss'
 import '@/utils/directives.js'
+import { VueJsonp } from 'vue-jsonp'
 Vue.prototype.$moment = moment;
+Vue.prototype.$jsonp = VueJsonp
 Vue.use(Element)
-
+Vue.use(VueJsonp)
 Vue.use(VueLazyload, {
     //预加载高度
     preLoad: 1.3,

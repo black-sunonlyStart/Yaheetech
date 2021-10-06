@@ -264,7 +264,7 @@
                 </el-col>
              </el-row>
              <el-row v-if="ruleForm.packingMethod == '1'">
-                 <el-col :span="24">
+                 <el-col :span="20">
                     <el-form-item  label="多箱清单:">      
                          <el-table
                             :data="ruleForm.productlistings"
@@ -536,13 +536,13 @@ export default {
     },
     computed:{
         proGrossWeightLb(){
-            return (this.ruleForm.proGrossWeight * 2.2014).toFixed(6) || ''
+            return (this.ruleForm.proGrossWeight * 2.204).toFixed(6) || ''
         },
         proNetWeightLb(){
-            return (this.ruleForm.proNetWeight * 2.2014).toFixed(6) || ''
+            return (this.ruleForm.proNetWeight * 2.204).toFixed(6) || ''
         },
         proOuterBoxWeightLb(){
-            return (this.ruleForm.proOuterBoxWeight * 2.2014).toFixed(6) || ''
+            return (this.ruleForm.proOuterBoxWeight * 2.204).toFixed(6) || ''
         },
         productColor(){
             return this.ruleForm.productColor

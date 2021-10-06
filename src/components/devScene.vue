@@ -283,7 +283,8 @@ export default {
               
           }else if (val == 11){
               this.ruleForm.relation = '1'
-            this.spuChange = true
+                this.spuChange = true
+                this.selectId = true
           } else if (val == 12){
               this.ruleForm.relation = '1'
             this.spuChange = true

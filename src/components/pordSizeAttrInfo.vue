@@ -233,7 +233,7 @@
                         label="毛重">
                         <template slot-scope="scope">
                             <div>
-                                {{scope.row.packedweight}}Kg / {{scope.row.packedweight ? (scope.row.packedweight * 2.2014).toFixed(2) : ''}}LB
+                                {{scope.row.packedweight}}Kg / {{scope.row.packedweight ? (scope.row.packedweight * 2.204).toFixed(2) : ''}}LB
                             </div>
                         </template>
                     </el-table-column>
