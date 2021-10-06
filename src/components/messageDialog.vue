@@ -95,7 +95,7 @@
                     </el-select>
                 </el-form-item>
                 <div v-if="clickId == 3" class="defText">
-                    取消开发以后，产品数据会作废。
+                    取消开发以后，产品数据会作废，且不可再开发此市场。
                 </div>
             </el-form>
             <span slot="footer" class="dialog-footer">
@@ -535,6 +535,7 @@ export default {
 }
 .defText{
     margin-left: 122px;
+    color: red;
 }
 .titleText{
     width: 100%;

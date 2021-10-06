@@ -49,7 +49,7 @@
                         size='mini'
                         class="input-with-select"
                         clearable
-                        @keyup.enter="searchSomething"
+                        @keyup.enter.native="searchSomething"
                         >
                 </el-input>
                 <el-button type="primary" size="mini" @click="searchSomething">搜索</el-button>
@@ -430,7 +430,7 @@ export default {
             this.form.developmentScenario = [] 
         }
     },
-    typeChange (val) {
+    typeChange () {
       this.changeTableList()
     },
     handleCheckedCitiesChange (value) {
@@ -438,8 +438,12 @@ export default {
       this.checkAll = checkedCount === this.cities.length;
       this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
     },
-    searchSomething(val){
+    searchSomething(){
         this.$set(this.form,'search',this.putSearch)
+        if(this.form.status[0] == '15'){
+            this.form.status = [];
+        }
+        
     },
     handleCheckedStatusChange (value) {
       let checkedCount = value.length;

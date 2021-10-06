@@ -274,16 +274,25 @@ export default {
           }else if (id == 7){
             this.dialogName = '样品采购审核'
           }else if (id == 8){
-            let routeData = this.$router.resolve({
-            name: "productDetails",
-                query:{
-                    developmentType:row.developmentType,
-                    developmentId:row.developmentId,
-                    productId:row.productId,
-                    id
-                }
+              this.$confirm('确定开发此产品的新尺码？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+                }).then(() => {
+                let routeData = this.$router.resolve({
+                    name: "productDetails",
+                        query:{
+                            developmentType:row.developmentType,
+                            developmentId:row.developmentId,
+                            productId:row.productId,
+                            id
+                        }
+                    });
+                    window.open(routeData.href, '_blank');
+                }).catch(() => {
+                return          
             });
-            window.open(routeData.href, '_blank');
+            
           }else if (id == 9){
               this.dialogName='终审通过'
               this.clickId = 30
@@ -311,17 +320,24 @@ export default {
           }else if(id == 14){
              this.dialogName ='提交利润初审'
           }else if (id == 26){
-              let routeData = this.$router.resolve({
-                name: "productDetails",
-                query:{
-                        developmentType:row.developmentType,
-                        developmentId:row.developmentId,
-                        productId:row.productId,
-                        id
-                    }
-                });
-            window.open(routeData.href, '_blank');
-            return
+              this.$confirm('确定开发此产品的新市场？', '提示', {
+                confirmButtonText: '确定',
+                cancelButtonText: '取消',
+                type: 'warning'
+                }).then(() => {
+                let routeData = this.$router.resolve({
+                        name: "productDetails",
+                        query:{
+                                developmentType:row.developmentType,
+                                developmentId:row.developmentId,
+                                productId:row.productId,
+                                id
+                            }
+                        });
+                    window.open(routeData.href, '_blank');
+                }).catch(() => {
+                return          
+            });
           }else if(id == 15){
              this.dialogName ='提交利润复核'
           }
@@ -672,7 +688,7 @@ export default {
     display: inline-block;
     font-size: 12px;
     // font-weight: bold;
-    z-index: 10000;
+    z-index: 1000;
     position: absolute;
     right: 0px;
     color: #3366cc;

@@ -326,7 +326,7 @@
                                 v-model="ruleForm.sampleDeliveryOn"
                                 type="date"
                                 placeholder="选择日期"
-                              
+                                @change="changeDate"
                                 >
                             </el-date-picker>
                             距样品交期: {{ ruleForm.sampledeliverydays }}天
