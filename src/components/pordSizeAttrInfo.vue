@@ -353,7 +353,7 @@ export default {
         display: flex;
         .textBox {
             font-weight: normal;
-            line-height: 25px;
+            line-height: 18px;
             // margin-left: 5px;
         }
     }
@@ -368,7 +368,7 @@ export default {
         display: flex;
         .textBox {
             font-weight: normal;
-            line-height: 25px;
+            line-height: 18px;
             // margin-left: 5px;
         }
     }

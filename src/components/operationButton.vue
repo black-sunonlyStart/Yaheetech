@@ -38,6 +38,15 @@ export default {
           deep:true
       }
     },
+    computed:{
+        showButton(){
+            if(!this.$route.params.productId || !this.$route.params.productCountryId){
+                return true
+            }else {
+                return false
+            }
+        }
+    },
     mounted(){
         this.openOperation(this.nowStatus)
     },

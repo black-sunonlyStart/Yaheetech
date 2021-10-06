@@ -364,6 +364,7 @@ export default {
             this.comNewsDetailList.competingproducts.splice(index,1)
         },
         addPageList(){
+            if(!this.comNewsDetailList.competingproducts)return
             this.comNewsDetailList.competingproducts.push({
                     id:'',
                     platformid:'',
@@ -414,6 +415,14 @@ export default {
             this.$emit('closeEdit','false')
         },
       submitForm(formName) {
+          if(!this.$route.params.productId){
+               this.$message({
+                  type:'error',
+                  message:'请先完善产品【开发类型/场景】信息',
+                  offset:220,
+              })
+              return
+          }
           if( !this.comNewsDetailList.competingproducts || this.comNewsDetailList.competingproducts.length == 0){
               this.$message({
                   type:'error',

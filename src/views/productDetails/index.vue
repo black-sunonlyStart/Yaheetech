@@ -42,8 +42,11 @@
                 <div class="stepBox">
                     <span class="leftButton" @click="leftMove"><i class="el-icon-d-arrow-left"></i></span>
                         <span class="step-container">
-                            <el-steps :active="nowStatus" space='150' align-center  finish-status="success" process-status='finish'>
+                            <el-steps :active="nowStatus + 1" space='150' align-center  finish-status="success" process-status='wait'>
                                 <el-step v-for="item in developmentProgresses" :title="item.toStatusValue" :key="item.status" :description="item.createOn">
+                                        <template slot="icon">
+                                            <div class="imageBox"></div>
+                                        </template>
                                         <template slot="title">
                                             <el-tooltip class="item" effect="dark" :content="item.createBy" placement="top">
                                                 <div class="stepTitle">
@@ -1188,6 +1191,11 @@ export default {
  .showColor{
      color: red;
  }
-  
+  .imageBox{
+        height: 18px;
+        width: 18px;
+        background-image: url(../../assets/shixiyuan.png);
+        cursor: pointer;
+    }
 }
 </style>

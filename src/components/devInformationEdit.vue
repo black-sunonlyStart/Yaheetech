@@ -951,6 +951,14 @@ export default {
             this.ruleForm.marksContry3 = val
         },
         submitForm() {
+            if(!this.$route.params.productId){
+                this.$message({
+                    type:'error',
+                    message:'请先完善产品【开发类型/场景】信息',
+                    offset:220,
+                })
+                return
+            }
             if(this.devInformationDetaiList.productMarketList.length == 0){
                 this.$message({
                     type: 'error', 
