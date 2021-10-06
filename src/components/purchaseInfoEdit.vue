@@ -98,7 +98,7 @@
                                         <div class="textPostion">净采购价+杂费+包装费(¥)</div>
                                     </template>
                                     <template slot-scope="scope">
-                                         <span>{{scope.row.calculateprofittype == 2 ? scope.row.fobprice : (scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee || " " }}</span>      
+                                         <span>{{scope.row.calculateprofittype == 2 ? scope.row.fobprice * purchaseInfoDetaiList.exchangeRate : (scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee || 0 }}</span>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                           
@@ -226,7 +226,7 @@
                                         <div class="textPostion">净采购价+杂费+包装费(¥)</div>
                                     </template>
                                     <template slot-scope="scope">
-                                        <div>{{scope.row.calculateprofittype == 2 ? scope.row.purchaseFOBPrice : (scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee || " "}} </div>   
+                                        <div>{{scope.row.calculateprofittype == 2 ?  scope.row.fobprice * purchaseInfoDetaiList.exchangeRate : (scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee || 0}} </div>   
                                     </template>
                                 </el-table-column>
                                 <el-table-column
@@ -346,12 +346,14 @@
             </el-row>
             <el-row>
                 <el-col :span="11">
-                    <el-form-item label="货好时间:" prop="goodTimeDate" v-if="nowStatus == 4">
+                    <el-form-item label="货好时间:" prop="goodTimeDate">
                         <div class="feeForOrderText">
                             <el-date-picker
                                 v-model="ruleForm.goodTimeDate"
                                 type="date"
-                                placeholder="选择日期">
+                                placeholder="选择日期"
+                                :disabled='canEdit'
+                                >
                             </el-date-picker>
                         </div>   
                      </el-form-item>

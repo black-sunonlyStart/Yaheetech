@@ -762,7 +762,7 @@ export default {
                             item.name = item.fileName || item.fileuri
                         })
                      }
-                     console.log(mustCredentialList,recommendCredentialList,'1111111111111111')
+                    //  console.log(mustCredentialList,recommendCredentialList,'1111111111111111')
                     this.prodevInfoDetaiList = {
                         title:this.productVos.title,//中文标题
                         description:this.productVos.description,//中文标题
@@ -819,8 +819,8 @@ export default {
                     cartonWeightLB:this.productVos.cartonWeight * 2.20,//外箱重量(装柜用)
                     beforepackweight:this.productVos.beforepackweight,//净重
                     abroadbeforepackweight :this.productVos.abroadbeforepackweight, //净重
-                    afterpackweight:this.productVos.abroadbeforepackweight, //毛重(发货用)
-                    abroadafterpackweight:this.productVos.abroadbeforepackweight ? (this.productVos.abroadbeforepackweight * 2.2014).toFixed(4) : '', //毛重(发货用)
+                    afterpackweight:this.productVos.afterpackweight, //毛重(发货用)
+                    abroadafterpackweight:this.productVos.afterpackweight ? (this.productVos.afterpackweight * 2.2014).toFixed(4) : '', //毛重(发货用)
                     logisticsPerimeter:this.productVos.packedlength ? (Math.ceil(this.productVos.packedlength) + (Math.ceil(this.productVos.packedwidth) + Math.ceil(this.productVos.packedheight)) * 2).toFixed(2) : '', //物流周长加长(美国)
                     logisticsPerimeterYcun:this.productVos.packedlength ? (Math.ceil(this.productVos.packedlength  * ycun) + (Math.ceil(this.productVos.packedwidth  * ycun) + Math.ceil(this.productVos.packedheight  * ycun)) * 2).toFixed(2) : '', //物流周长加长(美国)
                     logisticsPerimeterNoUsa:this.productVos.packedlength ? (this.productVos.packedlength + (this.productVos.packedwidth + this.productVos.packedheight) * 2).toFixed(2) : '', //物流周长加长(非美国)
@@ -868,6 +868,7 @@ export default {
                     bandprice:res.data.development.bandprice, //品牌费
                     fobbandprice:res.data.development.fobbandprice, //FOB报价品牌费
                     packedvolume:this.productVos.packedvolume, //FOB头程费
+                    exchangeRate:res.data.exchangeRate, //汇率
                     gooddate:this.productVos.gooddate,
                     goodnote:this.productVos.goodnote,   
                     orderProduct:this.devInformationDetaiList.orderProduct

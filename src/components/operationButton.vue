@@ -111,7 +111,7 @@ export default {
                   }
               }) 
           }else if(id == 14){
-             this.dialogName ='提交利润初审'
+             this.dialogName ='利润初审通过'
           }else if (id == 26){
               let routeData = this.$router.resolve({
                 name: "productDetails",
@@ -183,16 +183,12 @@ export default {
                     id:14
                   },
                   {
-                    name:'取消开发',
-                    id:3
-                  },
-                  {
-                    name:'更改采购开发员',
-                    id:6
-                  },
-                  {
                     name:'打回',
                     id:4
+                  },
+                  {
+                    name:'取消开发',
+                    id:3
                   },
               ]
           }else if(state == 4){ //1 4 5 6 7 9 10

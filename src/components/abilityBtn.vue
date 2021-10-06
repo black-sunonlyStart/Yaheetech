@@ -1,7 +1,6 @@
 <template>
     <span class="navButton">
         <el-button size="mini" @click="addProctList" type="primary" plain  icon="el-icon-circle-plus-outline">开发产品</el-button>
-        <el-button size="mini" type="primary" plain>导出报表</el-button>
         <!-- <el-button size="mini" >更换业务开发</el-button> -->
         <el-dropdown trigger="hover" @command="handleCommand" size='mini' >
             <el-button type="primary" size='mini' plain style="margin-left:10px;margin-right:10px" @click="changeOrderPer">
@@ -22,6 +21,7 @@
         </el-dropdown>
         <el-button size="mini" type="primary" plain @click="putDataPass">资料初审通过</el-button>
         <el-button size="mini" type="primary" plain @click="lastPutDataPass">终审通过</el-button>
+        <el-button size="mini" type="primary" plain>导出报表</el-button>
         <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog" :selectRow="selectRow" @getTableList='getTableList'></messageDialog>
     </span>
 </template>

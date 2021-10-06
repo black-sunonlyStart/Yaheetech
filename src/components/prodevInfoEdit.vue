@@ -79,27 +79,26 @@
                             :before-remove="beforeRemove"
                             :on-success="successUploadFile"
                             multiple
-                            :limit="3"
                             :on-exceed="handleExceed"
                             :file-list="ruleForm.fileList"
                             :data="{fileType:3,developmentId:$route.params.developmentId,countryCode:ruleForm.productMustMarket}"
                             :with-credentials='true'
                             :on-remove='removeMustFile'
                             >
-                            <el-button size="small" type="primary" style="margin-right:15px">选择文件</el-button>
-                                <el-select 
-                                    v-model="ruleForm.productMustMarket"
-                                    placeholder="请选择文档所属市场"
+                            <el-select 
+                                v-model="ruleForm.productMustMarket"
+                                placeholder="请选择文档所属市场"
+                                >
+                                <el-option 
+                                    v-for="item in devSign"                        
+                                    :key="item.key"
+                                    :label="item.label"
+                                    :value="item.value"
                                     >
-                                    <el-option 
-                                        v-for="item in devSign"                        
-                                        :key="item.key"
-                                        :label="item.label"
-                                        :value="item.value"
-                                        >
-                                    </el-option>
-                                </el-select>
-                            </el-upload>
+                                </el-option>
+                            </el-select>
+                            <el-button size="small" type="primary" style="margin-left:15px">选择文件</el-button>
+                        </el-upload>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -114,12 +113,10 @@
                             :before-remove="beforeRemove"
                             :on-success="successUploadFile"
                             multiple
-                            :limit="3"
                             :on-exceed="handleExceed"
                             :data="{fileType:2,developmentId:$route.params.developmentId,countryCode:ruleForm.productMarket}"
                             :with-credentials='true'
                             :file-list="ruleForm.recommendFileList">
-                            <el-button size="small" type="primary" style="margin-right:15px">选择文件</el-button>
                                 <el-select 
                                     v-model="ruleForm.productMarket"
                                     placeholder="请选择文档所属市场"
@@ -132,6 +129,7 @@
                                         >
                                     </el-option>
                                 </el-select>
+                                <el-button size="small" type="primary" style="margin-left:15px">选择文件</el-button>
                             </el-upload>
                     </el-form-item>
                 </el-col>
@@ -199,8 +197,9 @@ export default {
                 supplierLocation:'',
                 supplierLocation1:'',
                 supplierLocation2:'',
-                productMarket:'',
+                productMarket:0,
                 certificationRemarks:'',
+                productMustMarket:0,
                 fileList:[
                     ],
                 recommendFileList:[
@@ -215,7 +214,7 @@ export default {
             },
             devSign:[
                 {
-                    label: '请选择文档所属市场',
+                    label: '所有市场',
                     key: 0,
                     value: 0
                 },

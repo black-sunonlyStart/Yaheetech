@@ -318,7 +318,7 @@ export default {
                   }
               }) 
           }else if(id == 14){
-             this.dialogName ='提交利润初审'
+             this.dialogName ='利润初审通过'
           }else if (id == 26){
               this.$confirm('确定开发此产品的新市场？', '提示', {
                 confirmButtonText: '确定',
@@ -409,7 +409,7 @@ export default {
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:25
+                    id:14
                   },
                   {
                     name:'开发新尺码',

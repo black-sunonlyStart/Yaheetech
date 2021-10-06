@@ -18,6 +18,7 @@
             <span v-if="clickId == 15" class="dialogText">说明:确定选择的产品样品资料已经正确,让业务开发员复核利润率?</span>
             <span v-if="clickId == 5" class="dialogText">说明:确定选择的产品资料已经正确,让采购主管审核?</span>
             <span v-if="clickId == 7" class="dialogText">说明:确定选择的产品有利润空间后,让采购开发员去购买样品?</span>
+            <span v-if="clickId == 14" class="dialogText">说明:确定选择的产品有利润空间,让采购开发员确定样品资料?</span>
             <span v-if="clickId == 10" class="dialogText">说明:确定选择的产品认证需求信息完善,让采购去寻找供应商?</span>
             <span v-if="clickId == 11" class="dialogText">说明:确定选择的产品资料已经正确,让业务开发员初步审核利润率?</span>
             <span v-if="clickId == 21" class="dialogText">说明:确定选择的产品资料已经正确,让业务开发员初步审核利润率?</span>
