@@ -379,7 +379,8 @@ export default {
                     scenariosParentIds:val.developmentScenario.includes('all')? [] : val.developmentScenario,
                     sampleDelivery:val.sample == 'all'? '':Number(val.sample),
                     patentProduct:val.patent.includes('all')? null:val.patent,
-                    search:val.search
+                    search:val.search,
+                    almorlist:val.almorlist
                 }
                 this.$emit('putTableList',this.tableParams)
           },
@@ -441,9 +442,10 @@ export default {
     },
     searchSomething(){
         this.$set(this.form,'search',this.putSearch)
+        this.$set(this.form,'almorlist',Math.random())
         if(this.form.status[0] == '15'){
             this.form.status = [];
-        }
+        }  
         
     },
     handleCheckedStatusChange (value) {

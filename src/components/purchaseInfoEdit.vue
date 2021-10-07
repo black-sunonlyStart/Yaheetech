@@ -479,11 +479,11 @@ export default {
         changePrice(calculateprofittype,fobprice,taxprice,purchaseprice,miscprice,warpperfee){
             if(!calculateprofittype && !this.purchaseInfoDetaiList.exchangeRate )return ''
             if(calculateprofittype == 2) {
-                return fobprice * this.purchaseInfoDetaiList.exchangeRate + miscprice + warpperfee
+                return (fobprice * this.purchaseInfoDetaiList.exchangeRate + miscprice + warpperfee).toFixed(2)
             }else if (calculateprofittype == 3){
-              return  taxprice + miscprice + warpperfee
+              return  (taxprice + miscprice + warpperfee).toFixed(2)
             }else {
-                return purchaseprice + miscprice + warpperfee
+                return (purchaseprice + miscprice + warpperfee).toFixed(2)
             }
             // == 2 ? scope.row.fobprice * purchaseInfoDetaiList.exchangeRate : (scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee || 0
         },

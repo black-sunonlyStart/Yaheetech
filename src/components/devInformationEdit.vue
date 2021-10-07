@@ -927,7 +927,7 @@ export default {
                 titleDe:this.devInformationDetaiList.titleDe,
                 titleJp:this.devInformationDetaiList.titleJp,
                 ispatentproduct:this.devInformationDetaiList.ispatentproduct,
-                seaFreight:this.devInformationDetaiList.computemode?0:1,
+                seaFreight:this.devInformationDetaiList.computemode == 0 ||  this.devInformationDetaiList.computemode == '' ?0:1,
                 brandEu:this.devInformationDetaiList.enCountryBand || '0',
                 brandUs:this.devInformationDetaiList.usCountryBand || '0',
                 brandDe:this.devInformationDetaiList.deCountryBand || '0',
@@ -1007,6 +1007,7 @@ export default {
                             usDutyRate:Number(this.ruleForm.productMarketUS),
                             gbDutyRate:Number(this.ruleForm.productMarketGB),
                             deDutyRate:Number(this.ruleForm.productMarketDE),
+                            computemode:this.ruleForm.seaFreight,
                             development:{
                                 description:this.ruleForm.rateRequirements,
                                 id:this.ruleForm.id,
@@ -1075,7 +1076,7 @@ export default {
                             }else {
                                this.loading=false
                             }
-                        })
+                        }).catch(err => { this.loading = false })
                     } else {
                         console.log('error submit!!');
                         return false;

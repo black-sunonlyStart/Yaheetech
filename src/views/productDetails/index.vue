@@ -29,7 +29,7 @@
                         </div>
                         <div>
                             <div v-for="item in productMarketStrs" :key="item.platformName" class="profit">
-                                {{item.platformName}}-{{item.marketProfits[0].warehouseName}}-{{item.currency}}<span :class="item.developmentPrice <= 0 ? 'showColor':''"> {{item.developmentPrice}}</span> / {{item.marketProfits[0].profitMargin}}
+                                {{item.platformName}}-{{item.marketProfits[0].warehouseName}}-{{item.currency}}<span :class="item.developmentPrice <= 0 ? 'showColor':''"> {{item.developmentPrice}}</span> /<span :class="item.marketProfits && item.marketProfits[0] && item.marketProfits[0].profitMargin <= 0 ? 'showColor':'redColor'" > {{item.marketProfits[0].profitMargin ? item.marketProfits[0].profitMargin + '%' : '' }}</span>
                             </div>
                         </div>
                     </div>
@@ -175,7 +175,7 @@
                                     <prodCerInfoDetail :prodCerInfoDetailList='prodCerInfoDetailList'></prodCerInfoDetail>
                                 </div>
                                 <div v-else>
-                                    <prodCerInfoEdit @closeEdit='proInfoEdit' :prodCerInfoDetailList='prodCerInfoDetailList'></prodCerInfoEdit>
+                                    <prodCerInfoEdit @closeEdit='proInfoEdit'  :prodCerInfoDetailList='prodCerInfoDetailList'></prodCerInfoEdit>
                                 </div>
                             </el-card>
                         </div>
@@ -188,7 +188,7 @@
                                     </div>   
                                 </div>
                                 <div v-if="isEdit6">
-                                    <prodevInfoDetail :prodevInfoDetaiList='prodevInfoDetaiList'></prodevInfoDetail>
+                                    <prodevInfoDetail :prodevInfoDetaiList='prodevInfoDetaiList'  :proImageList='proImageList'></prodevInfoDetail>
                                 </div>
                                 <div v-else>
                                     <prodevInfoEdit @closeEdit='prodevInfoEdit' :proImageList='proImageList'  @getAllpageList='getAllpageList' :prodevInfoDetaiList='prodevInfoDetaiList'></prodevInfoEdit>
@@ -1192,6 +1192,9 @@ export default {
   }
  .showColor{
      color: red;
+ }
+ .redColor{
+     color: green;
  }
   .imageBox{
         height: 18px;

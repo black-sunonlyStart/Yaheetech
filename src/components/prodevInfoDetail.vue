@@ -23,12 +23,12 @@
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                <span class="postionBox">必要认证附件：</span><div class="mustListStyle"><div v-for="item in prodevInfoDetaiList.mustCredentialList" :key="item.id"><span class="countryList">{{changCountry(item.countryCode)}}</span>：[{{item.name}}]</div></div>
+                <span class="postionBox">必要认证附件：</span><div class="mustListStyle"><div v-for="item in prodevInfoDetaiList.mustCredentialList" :key="item.id"><span class="countryList">{{changCountry(item.countryCode)}}</span>：<span class="filesStyl" @click='uploadFiles(item.fileuri)'>[{{item.name}}]</span></div></div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                <span class="postionBox">推荐认证附件：</span><div class="mustListStyle"><div v-for="item in prodevInfoDetaiList.recommendCredentialList" :key="item.id"><span class="countryList">{{changCountry(item.countryCode)}}</span>：[{{item.name}}]</div></div>
+                <span class="postionBox">推荐认证附件：</span><div class="mustListStyle"><div v-for="item in prodevInfoDetaiList.recommendCredentialList" :key="item.id"><span class="countryList">{{changCountry(item.countryCode)}}</span>：<span class="filesStyl" @click='uploadFiles(item.fileuri)'>[{{item.name}}]</span></div></div>
             </el-col>
         </el-row>
         <el-row>
@@ -65,6 +65,10 @@ export default {
         prodevInfoDetaiList:{
             type:Object,
             default:() => ({})
+        },
+        proImageList:{
+            type:String,
+            default:() => ('')
         }
     },
     mounted(){
@@ -81,6 +85,10 @@ export default {
             }else {
                 return '所有市场'
             }
+        },
+        uploadFiles(fileuri){
+            //文件点击事件
+            window.open(`${this.proImageList}Development/downloadFile?developmentId=${this.$route.params.developmentId}&fileName=${fileuri}`)
         }
     }
 }
@@ -122,6 +130,15 @@ export default {
         display: inline-block;
         width: 50px;
         text-align: right;
+    }
+}
+.filesStyl{
+    color: royalblue;
+    cursor: pointer;
+    display: inline-block;
+    &:hover{
+        color: #ffffff;
+        background: royalblue;
     }
 }
 
