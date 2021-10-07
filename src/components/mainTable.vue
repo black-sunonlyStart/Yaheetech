@@ -136,7 +136,7 @@
         <template slot-scope="scope">
             <div class="operaBox">
                 <el-tooltip class="item" effect="dark" content="编辑" placement="bottom-start">
-                    <div class="imageBox" @click="clickEdit(scope.row.developmentId,scope.row.productId,scope.row.id)"></div>
+                    <div class="imageBox" @click="clickEdit(scope.row.developmentId,scope.row.productId,scope.row.id)" perkey='ERP.Product.ProductDev.SalesManEdit'></div>
                 </el-tooltip>
                 <el-tooltip class="item" effect="dark" content="操作" placement="bottom-start">
                     <el-popover
@@ -144,7 +144,7 @@
                         width="100"
                         trigger="click">
                         <div class="operationBox" v-for="item in operationList" :key="item.id"> 
-                            <div class="operationText" @click="putOperation(scope.row,item.id)"><div class="nameBox">{{item.name}}</div></div>
+                            <div class="operationText" @click="putOperation(scope.row,item.id)"><div class="nameBox" :perkey='item.perkey'>{{item.name}}</div></div>
                         </div>
                         <div class="imageBox1" slot="reference" @click="openOperation(scope.row)"></div>
                     </el-popover>
@@ -364,7 +364,8 @@ export default {
                   },
                   {
                     name:'开发新市场',
-                    id:26
+                    id:26,
+                    perkey:'ERP.Product.ProductDev.ADD'
                   },
               ]
           }else if(row.state == 1){
@@ -386,7 +387,8 @@ export default {
                   },
                   {
                     name:'开发新市场',
-                    id:26
+                    id:26,
+                    perkey:'ERP.Product.ProductDev.ADD'
                   },
               ]
           }else if(row.state == 2){
@@ -398,7 +400,8 @@ export default {
                   },
                   {
                     name:'更改采购开发员',
-                    id:6
+                    id:6,
+                    perkey:'ERP.Product.ProductDev.EditGroup'
                   },
                   {
                     name:'打回',
@@ -407,7 +410,8 @@ export default {
                   },
                   {
                     name:'开发新市场',
-                    id:26
+                    id:26,
+                    perkey:'ERP.Product.ProductDev.ADD'
                   },
                   {
                     name:'开发新尺码',
@@ -434,7 +438,8 @@ export default {
                   },
                   {
                     name:'更改采购开发员',
-                    id:6
+                    id:6,
+                    perkey:'ERP.Product.ProductDev.EditGroup'
                   },
                   {
                     name:'打回',
@@ -443,7 +448,8 @@ export default {
                   },
                   {
                     name:'开发新市场',
-                    id:26
+                    id:26,
+                    perkey:'ERP.Product.ProductDev.ADD'
                   },
               ]
           }else if(row.state == 4){ //1 4 5 6 7 9 10
@@ -465,11 +471,13 @@ export default {
                   },
                   {
                     name:'更改采购开发员',
-                    id:6
+                    id:6,
+                    perkey:'ERP.Product.ProductDev.EditGroup'
                   },
                   {
                     name:'开发新市场',
-                    id:26
+                    id:26,
+                    perkey:'ERP.Product.ProductDev.ADD'
                   },
               ]
           }else if(row.state == 5){
@@ -496,11 +504,13 @@ export default {
                   },
                   {
                     name:'更改采购开发员',
-                    id:6
+                    id:6,
+                    perkey:'ERP.Product.ProductDev.EditGroup'
                   },
                   {
                     name:'开发新市场',
-                    id:26
+                    id:26,
+                    perkey:'ERP.Product.ProductDev.ADD'
                   },
               ]
           }else if(row.state == 6){
@@ -527,11 +537,13 @@ export default {
                   },
                   {
                     name:'更改采购开发员',
-                    id:6
+                    id:6,
+                    perkey:'ERP.Product.ProductDev.EditGroup'
                   },
                   {
                     name:'开发新市场',
-                    id:26
+                    id:26,
+                    perkey:'ERP.Product.ProductDev.ADD'
                   },
               ]
           }else if (row.state == 7){
@@ -555,14 +567,16 @@ export default {
                   },
                   {
                     name:'更改采购开发员',
-                    id:6
+                    id:6,
+                    perkey:'ERP.Product.ProductDev.EditGroup'
                   },
               ]
           }else if(row.state == 11){
               this.operationList = [
                     {
                         name:'提交寻找供应商',
-                        id:10
+                        id:10,
+                        perkey:'ERP.Product.ProductDev.EditAuth'
                     },
                   {
                     name:'打回',
@@ -571,7 +585,8 @@ export default {
                   },
                   {
                     name:'开发新市场',
-                    id:26
+                    id:26,
+                    perkey:'ERP.Product.ProductDev.ADD'
                   },
               ]
           }else if(row.state == 12){
@@ -588,7 +603,8 @@ export default {
                   },
                   {
                     name:'开发新市场',
-                    id:26
+                    id:26,
+                    perkey:'ERP.Product.ProductDev.ADD'
                   },
                   {
                     name:'开发新尺码',
@@ -615,7 +631,8 @@ export default {
                   },
                   {
                     name:'开发新市场',
-                    id:26
+                    id:26,
+                    perkey:'ERP.Product.ProductDev.ADD'
                   },
                   {
                     name:'开发新尺码',
@@ -642,7 +659,8 @@ export default {
                   },
                   {
                     name:'开发新市场',
-                    id:26
+                    id:26,
+                    perkey:'ERP.Product.ProductDev.ADD'
                   },
                   {
                     name:'开发新尺码',
