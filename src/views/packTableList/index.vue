@@ -58,6 +58,7 @@ export default {
   height: 100%;
   background-color: rgba(230, 230, 230, 1);
   ::v-deep .nav-card {
+    z-index: 10001;
     margin: 0px 26px 10px 10px;
     position: fixed;
     width: 98%;

@@ -229,11 +229,11 @@ export default {
           }else if(val == 3){
               return '新尺码'
           }else if(val == 10){
-              return '二 · 产品'
+              return '二次开发  新产品'
           }else if(val == 11){
-              return '二 · 市场'
+              return '二次开发  新市场'
           }else if(val == 12){
-              return '二 · 尺寸'
+              return '二次开发  新尺寸'
           }
       },
       handleRowClick(row){
@@ -699,7 +699,7 @@ export default {
     display: inline-block;
     font-size: 12px;
     // font-weight: bold;
-    z-index: 1000;
+    z-index: 990;
     position: absolute;
     right: 0px;
     color: #3366cc;
@@ -710,12 +710,14 @@ export default {
     display: inline-block;
     font-size: 12px;
     // font-weight: bold;
-    z-index: 10000;
+    z-index: 990;
     position: absolute;
     right: 0px;
-    color: red;
+    color: #AE1904;
     background-color: #ffffff;
     border: 1px dashed #cccccc;
+    width: 50px;
+    text-align: right;
 }
 .remarksTitle{
     color: #3366cc;

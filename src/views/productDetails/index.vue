@@ -817,7 +817,7 @@ export default {
                     outerBoxVolume:this.productVos.cartonLength  ? ((this.productVos.cartonLength  / 100) * (this.productVos.cartonWidth  / 100) * (this.productVos.cartonHeight  / 100)).toFixed(6) :'', //外箱体积(装柜用
                     outerBoxVolumeYcun:this.productVos.cartonLength  ? (((this.productVos.cartonLength  / 100) * (this.productVos.cartonWidth  / 100) * (this.productVos.cartonHeight  / 100)) * ychi).toFixed(6) : '', //外箱体积(装柜用
                     cartonWeight:this.productVos.cartonWeight,//外箱重量(装柜用)
-                    cartonWeightLB:this.productVos.cartonWeight * 2.20,//外箱重量(装柜用)
+                    cartonWeightLB:this.productVos.cartonWeight * 2.204,//外箱重量(装柜用)
                     beforepackweight:this.productVos.beforepackweight,//净重
                     abroadbeforepackweight :this.productVos.abroadbeforepackweight, //净重
                     afterpackweight:this.productVos.afterpackweight, //毛重(发货用)

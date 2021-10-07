@@ -98,7 +98,7 @@
                                         <div class="textPostion">净采购价+杂费+包装费(¥)</div>
                                     </template>
                                     <template slot-scope="scope">
-                                         <span>{{scope.row.calculateprofittype == 2 ? scope.row.fobprice * purchaseInfoDetaiList.exchangeRate : (scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee || 0 }}</span>      
+                                         <span>{{changePrice(scope.row.calculateprofittype,scope.row.fobprice,scope.row.taxprice,scope.row.purchaseprice,scope.row.miscprice,scope.row.warpperfee)|| 0 }}</span>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                           
@@ -226,7 +226,7 @@
                                         <div class="textPostion">净采购价+杂费+包装费(¥)</div>
                                     </template>
                                     <template slot-scope="scope">
-                                        <div>{{scope.row.calculateprofittype == 2 ?  scope.row.fobprice * purchaseInfoDetaiList.exchangeRate : (scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee || 0}} </div>   
+                                        <div>{{changePrice(scope.row.calculateprofittype,scope.row.fobprice,scope.row.taxprice,scope.row.purchaseprice,scope.row.miscprice,scope.row.warpperfee) || 0}} </div>   
                                     </template>
                                 </el-table-column>
                                 <el-table-column
@@ -476,6 +476,17 @@ export default {
         this.getDetailList()
     },
     methods:{
+        changePrice(calculateprofittype,fobprice,taxprice,purchaseprice,miscprice,warpperfee){
+            if(!calculateprofittype && !this.purchaseInfoDetaiList.exchangeRate )return ''
+            if(calculateprofittype == 2) {
+                return fobprice * this.purchaseInfoDetaiList.exchangeRate + miscprice + warpperfee
+            }else if (calculateprofittype == 3){
+              return  taxprice + miscprice + warpperfee
+            }else {
+                return purchaseprice + miscprice + warpperfee
+            }
+            // == 2 ? scope.row.fobprice * purchaseInfoDetaiList.exchangeRate : (scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee || 0
+        },
         deleteRow(index, rows) {
             rows.splice(index, 1);
         },
@@ -607,7 +618,7 @@ export default {
                     }else {
                         this.loading = false
                     }
-                })
+                }).catch(err => { this.loading = false })
             } else {
                 console.log('error submit!!');
                 return false;

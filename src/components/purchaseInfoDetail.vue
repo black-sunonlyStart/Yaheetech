@@ -74,7 +74,7 @@
                         </template>
                         <template slot-scope="scope">
                             <div> 
-                                <span>{{scope.row.calculateprofittype == 2 ? scope.row.purchaseFOBPrice : ((scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee) || " "}}</span>
+                                <span>{{changePrice(scope.row.calculateprofittype,scope.row.fobprice,scope.row.taxprice,scope.row.purchaseprice,scope.row.miscprice,scope.row.warpperfee)|| 0 }}</span>
                             </div>
                         </template>
                     </el-table-column>
@@ -156,7 +156,7 @@
                         </template>
                         <template slot-scope="scope">
                             <div>
-                                <span>{{scope.row.calculateprofittype == 2 ? scope.row.purchaseFOBPrice : ((scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee) || " "}}</span>
+                                <span>{{changePrice(scope.row.calculateprofittype,scope.row.fobprice,scope.row.taxprice,scope.row.purchaseprice,scope.row.miscprice,scope.row.warpperfee)|| 0}}</span>
                             </div>
                         </template>
                     </el-table-column>
@@ -253,6 +253,16 @@ export default {
         this.showTitle()
     },
     methods:{
+        changePrice(calculateprofittype,fobprice,taxprice,purchaseprice,miscprice,warpperfee){
+            if(!calculateprofittype && !this.purchaseInfoDetaiList.exchangeRate )return ''
+            if(calculateprofittype == 2) {
+                return fobprice * this.purchaseInfoDetaiList.exchangeRate + miscprice + warpperfee
+            }else if (calculateprofittype == 3){
+              return  taxprice + miscprice + warpperfee
+            }else {
+                return purchaseprice + miscprice + warpperfee
+            }
+        },
         showTitle(){
             if(this.purchaseInfoDetaiList.lastProductPurchaseVoList && this.purchaseInfoDetaiList.lastProductPurchaseVoList[0] && this.purchaseInfoDetaiList.productPurchaseVoList){
                 let lastProductPurchaseVoList = this.purchaseInfoDetaiList.lastProductPurchaseVoList[0] || []
