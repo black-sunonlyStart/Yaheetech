@@ -429,7 +429,7 @@
             </el-col>
         </el-row>
         <div class="bottomButton">
-            <el-button type="primary" @click="submitForm('ruleForm')" size="mini">保存</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')" size="mini" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
             <el-button @click="resetForm('ruleForm')" size="mini">取消</el-button>
         </div>
     </div>

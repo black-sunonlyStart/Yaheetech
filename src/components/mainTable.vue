@@ -354,11 +354,13 @@ export default {
               this.operationList = [
                   {
                     name:'提交审批',
-                    id:1
+                    id:1,
+                    perkey:'ERP.Product.ProductDev.ADD'
                   },
                   {
                     name:'取消开发',
-                    id:3
+                    id:3,
+                    perkey:'ERP.Product.ProductDev.ManagerCancel'
                   },
                   {
                     name:'开发新市场',
@@ -369,15 +371,18 @@ export default {
               this.operationList = [  //1  13 12 3 10 5 6 
                   {
                     name:'审批通过',
-                    id:2
+                    id:2,
+                    perkey:'ERP.Product.ProductDev.ManagerAudit'
                   },
                   {
                     name:'打回',
-                    id:4
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
                   {
                     name:'取消开发',
-                    id:3
+                    id:3,
+                    perkey:'ERP.Product.ProductDev.ManagerCancel'
                   },
                   {
                     name:'开发新市场',
@@ -388,7 +393,8 @@ export default {
               this.operationList = [
                   {
                     name:'提交采购主管审核',
-                    id:5
+                    id:5,
+                    perkey:'ERP.Product.ProductDev.BuyerEdit'
                   },
                   {
                     name:'更改采购开发员',
@@ -396,7 +402,8 @@ export default {
                   },
                   {
                     name:'打回',
-                    id:4
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
                   {
                     name:'开发新市场',
@@ -404,22 +411,26 @@ export default {
                   },
                   {
                     name:'开发新尺码',
-                    id:8
+                    id:8,
+                    perkey:'ERP.Product.ProductDev.ADD'
                   },
               ]
           }else if(row.state == 3){
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:14
+                    id:14,
+                    perkey:'ERP.Product.ProductDev.ManagerAudit'
                   },
                   {
                     name:'开发新尺码',
-                    id:8
+                    id:8,
+                     perkey:'ERP.Product.ProductDev.ADD'
                   },
                   {
                     name:'取消开发',
-                    id:3
+                    id:3,
+                    perkey:'ERP.Product.ProductDev.ManagerCancel'
                   },
                   {
                     name:'更改采购开发员',
@@ -427,7 +438,8 @@ export default {
                   },
                   {
                     name:'打回',
-                    id:4
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
                   {
                     name:'开发新市场',
@@ -438,15 +450,18 @@ export default {
               this.operationList = [
                   {
                     name:'提交利润复核',
-                    id:15
+                    id:15,
+                    perkey:'ERP.Product.ProductDev.BuyerEdit'
                   },
                   {
                     name:'开发新尺码',
-                    id:8
+                    id:8,
+                     perkey:'ERP.Product.ProductDev.ADD'
                   },
                   {
                     name:'打回',
-                    id:4
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
                   {
                     name:'更改采购开发员',
@@ -461,19 +476,23 @@ export default {
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:25
+                    id:25,
+                    perkey:'ERP.Product.ProductDev.ManagerAudit'
                   },
                   {
                     name:'开发新尺码',
-                    id:8
+                    id:8,
+                     perkey:'ERP.Product.ProductDev.ADD'
                   },
                   {
                     name:'打回',
-                    id:4
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
                   {
                     name:'取消开发',
-                    id:3
+                    id:3,
+                    perkey:'ERP.Product.ProductDev.ManagerCancel'
                   },
                   {
                     name:'更改采购开发员',
@@ -488,19 +507,23 @@ export default {
               this.operationList = [
                   {
                     name:'提交终审',
-                    id:9
+                    id:9,
+                    perkey:'ERP.Product.ProductDev.EndAudit'
                   },
                   {
                     name:'开发新尺码',
-                    id:8
+                    id:8,
+                    perkey:'ERP.Product.ProductDev.ADD'
                   },
                   {
                     name:'打回',
-                    id:4
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
                   {
                     name:'取消开发',
-                    id:3
+                    id:3,
+                    perkey:'ERP.Product.ProductDev.ManagerCancel'
                   },
                   {
                     name:'更改采购开发员',
@@ -517,15 +540,18 @@ export default {
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:25
+                    id:25,
+                    perkey:'ERP.Product.ProductDev.ManagerAudit'
                   },
                   {
                     name:'打回',
-                    id:4
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
                   {
                     name:'开发新尺码',
-                    id:8
+                    id:8,
+                    perkey:'ERP.Product.ProductDev.ADD'
                   },
                   {
                     name:'更改采购开发员',
@@ -540,7 +566,8 @@ export default {
                     },
                   {
                     name:'打回',
-                    id:4
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
                   {
                     name:'开发新市场',
@@ -551,11 +578,13 @@ export default {
               this.operationList = [
                   {
                     name:'提交利润初审',
-                    id:11
+                    id:11,
+                    perkey:'ERP.Product.ProductDev.AuditAuth'
                   },
                   {
                     name:'打回',
-                    id:4
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
                   {
                     name:'开发新市场',
@@ -563,22 +592,26 @@ export default {
                   },
                   {
                     name:'开发新尺码',
-                    id:8
+                    id:8,
+                     perkey:'ERP.Product.ProductDev.ADD'
                   },
               ]
           }else if(row.state == 13){
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:25
+                    id:25,
+                    perkey:'ERP.Product.ProductDev.ManagerAudit'
                   },
                   {
                     name:'打回',
-                    id:4
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
                   {
                     name:'取消开发',
-                    id:3
+                    id:3,
+                    perkey:'ERP.Product.ProductDev.ManagerCancel'
                   },
                   {
                     name:'开发新市场',
@@ -586,14 +619,16 @@ export default {
                   },
                   {
                     name:'开发新尺码',
-                    id:8
+                    id:8,
+                    perkey:'ERP.Product.ProductDev.ADD'
                   },
               ]
           }else if(row.state == 14){
               this.operationList = [
                   {
                     name:'返回冻结前状态',
-                    id:13
+                    id:13,
+                    perkey:'ERP.Product.ProductDev.BackToFreezingOff'
                   },
               ]
           }else if (row.state == 9){
@@ -602,7 +637,8 @@ export default {
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:25
+                    id:25,
+                    perkey:'ERP.Product.ProductDev.ManagerAudit'
                   },
                   {
                     name:'开发新市场',
@@ -610,7 +646,8 @@ export default {
                   },
                   {
                     name:'开发新尺码',
-                    id:8
+                    id:8,
+                    perkey:'ERP.Product.ProductDev.ADD'
                   },
                 ]
           }

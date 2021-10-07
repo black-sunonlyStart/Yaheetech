@@ -68,7 +68,7 @@
   <el-row v-if="showButton">
       <el-col :span="24">
           <div class="bottomButton">
-            <el-button type="primary"  size="mini" @click="saveImgList">保存</el-button>
+            <el-button type="primary"  size="mini" @click="saveImgList" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
             <el-button size="mini" @click="updeEditPage">取消</el-button>
         </div>
       </el-col> 
