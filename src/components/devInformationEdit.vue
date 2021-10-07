@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-loading='loading'>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm1" label-width="200px" class="demo-ruleForm" size="mini">
             <el-row>
                 <el-col :span="12">
@@ -246,8 +246,11 @@
                             <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.developmentprice" @change="changeDevelopmentprice(item.developmentprice,item.platformname)"></el-input-number>  
                         </div>
                         <el-button  v-if="showList(item.createdon)" @click="getMoeny(item,index)">计算利润</el-button>
-                        <div :class="item.profit > 0 ? 'titleText' :'noTitleText'" v-show="item.showProfit">
+                        <div :class="item.profit > 0 ? 'titleText' :'noTitleText'" v-show="item.showProfit && item.freight">
                             {{contryCurry(item.countrycode)}}: {{item.profit}} - 利润率：{{item.profitmargin * 100}}%
+                        </div>
+                        <div class='noTitleText' v-if="item.showProfit && !item.freight">
+                            【产品尺寸重量超过物流限制，SFP运费匹配不到】
                         </div>
                     </el-form-item>
                     <div v-if="showList(item.createdon)">
@@ -443,6 +446,8 @@ export default {
             dailySales2:[],
             dailySales3:[],
             countryParams:'',
+            loading:false,
+            computeModeDefault:true,
             ruleForm: {
                 // region:'',
                 staRating: '',
@@ -714,7 +719,6 @@ export default {
                         this.$set(this.devInformationDetaiList.productMarketList, index, newList)
                          this.$set(this.devInformationDetaiList.productMarketList[index],'showProfit' ,true)
                          this.$forceUpdate()
-                         console.log(this.devInformationDetaiList.productMarketList)
                     })
                    
                 }
@@ -978,6 +982,13 @@ export default {
                 });
                 return 
             }
+            if(this.devInformationDetaiList.productMarketList.find(item => (item.sfpDevelopmentPrice &&  !item.sfpOceanFreight))){
+                this.$message({
+                    type:'error',
+                    message:'【产品尺寸重量超过物流限制，SFP运费匹配不到】',
+                    offset:220,
+                });
+            }
             this.$refs['ruleForm1'].validate((valid) => {
                 if(valid){
                    if(this.$refs['ruleForm2']){
@@ -1043,8 +1054,10 @@ export default {
                                 freightcalculated:item.freightcalculated,
                             }
                         })
+                        this.loading=true,
                         developmentMsg(params).then(res => {
                             if(res.code == 200){
+                                this.loading=false,
                                 this.$message({
                                     type: 'success', 
                                     message:'数据保存成功',
@@ -1059,6 +1072,8 @@ export default {
                                     }
                                 })
                                 this.$emit('closeEdit','false',res.data)
+                            }else {
+                               this.loading=false
                             }
                         })
                     } else {
@@ -1134,14 +1149,16 @@ export default {
                                     message:'数据保存成功',
                                     offset:220
                                 })
-                                this.$router.push({
-                                    name:'productDetails',
-                                    params:{
-                                        developmentId:res.data.developmentId,
-                                        productId:res.data.productId,
-                                        productCountryId:res.data.productCountryId,
-                                    }
-                                })
+                                if(this.$route.params.productCountryId != res.data.productCountryId ){
+                                    this.$router.push({
+                                        name:'productDetails',
+                                        params:{
+                                            developmentId:res.data.developmentId,
+                                            productId:res.data.productId,
+                                            productCountryId:res.data.productCountryId,
+                                        }
+                                    })
+                                }
                                 this.$emit('closeEdit','false',res.data)
                             }
                         })
