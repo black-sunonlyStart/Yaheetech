@@ -346,7 +346,7 @@
             </el-row>
             <el-row>
                 <el-col :span="11">
-                    <el-form-item label="货好时间:" prop="goodTimeDate">
+                    <el-form-item label="货好时间:" prop="goodTimeDate" v-if="statusList.includes(nowStatus)">
                         <div class="feeForOrderText">
                             <el-date-picker
                                 v-model="ruleForm.goodTimeDate"
@@ -371,7 +371,7 @@
             </el-row>
             <el-row>
                 <el-col :span="11">
-                    <el-form-item label="货好时间详情备注:" v-if="nowStatus == 4"> 
+                    <el-form-item label="货好时间详情备注:" v-if="statusList.includes(nowStatus)"> 
                         <div class="feeForOrderText">
                             <el-input type="textarea" autosize v-model="ruleForm.feeForOrdering"></el-input>
                         </div>      
@@ -420,6 +420,7 @@ export default {
             rules:{
                 productprice: [{ required: true, message: '请填写样品购买价', trigger: 'blur' }],
                 sampleDeliveryOn: [{ required: true, message: '请选择样品交期', trigger: 'blur' }],
+                goodTimeDate: [{ required: true, message: '请选择货好时间', trigger: 'blur' }],
                 freight: [{ required: true, message: '请填写运费', trigger: 'blur' }],
                 tax: [{ required: true, message: '请填写税率', trigger: 'blur' }],
             },

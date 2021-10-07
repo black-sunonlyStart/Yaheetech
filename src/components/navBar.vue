@@ -49,6 +49,7 @@
                         size='mini'
                         class="input-with-select"
                         clearable
+                        @change="searchSomething"
                         @keyup.enter.native="searchSomething"
                         >
                 </el-input>

@@ -85,7 +85,7 @@
                                     </div>   
                                 </div>
                                 <div v-if="isEdit">
-                                    <devDetail :productVoDetail='productVoDetail'></devDetail>
+                                    <devDetail :productVoDetail='productVoDetail' :multiAttribute='multiAttribute'></devDetail>
                                 </div>
                                 <div v-else>
                                     <devScene @closeEdit='editPage' :productVoDetail='productVoDetail' ></devScene>
@@ -513,7 +513,7 @@ export default {
                 }else {
                     this.productCountryList = []
                 }
-
+                this.otherCountryList = res.data.productVos && res.data.productVos[0] ? res.data.productVos[0].otherCountryMaps : []
                 if(res.data.developmentProgresses && res.data.developmentProgresses.length > 0){
                     let index = res.data.developmentProgresses.length - 1
                     let status = res.data.developmentProgresses[index].toStatus
@@ -703,6 +703,7 @@ export default {
                     productMarketListALL:this.productVos.productMarketListALL ? this.productVos.productMarketListALL : [],
                     computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList && this.productVos.productCountryList[0].productMarketList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],//业务开发
                     productMarketList: this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList  && this.productVos.productCountryList[0].productMarketList[0] ?  this.productVos.productCountryList[0].productMarketList : [],//表格数据
+                    // mapProfit: this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList  && this.productVos.productCountryList[0].productMarketList[0] ?  this.productVos.productCountryList[0].productMarketList : [],//表格数据
                     businessid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessid : '',   
                     buyerid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerid : '',   
                 }
@@ -1118,7 +1119,7 @@ export default {
             border-color: green !important;
         }
         .stepTitle{ 
-            font-size: 10px;
+            font-size: 12px;
             // margin-right: 15px;
             width: 120px;
         }

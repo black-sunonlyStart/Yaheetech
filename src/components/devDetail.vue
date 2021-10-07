@@ -12,6 +12,7 @@
             <el-col :span="8" v-if="productVoDetail.developmentscenarios != 1">
                 <span class="boldTitle">关联产品： </span>
                 <span>({{productVoDetail.id}}){{productVoDetail.spu}}</span>
+                <div>请再次确认关联产品，当前关联产品尺码为{{getAttrBute(multiAttribute)}}</div>
             </el-col>
             <el-col :span="8" v-else>
                 <span class="boldTitle">所属分类：</span>
@@ -39,12 +40,24 @@ export default {
             default(){
                 return {}
             }
+        },
+        multiAttribute:{
+            type:Array,
+            default(){
+                return {}
+            }
         }
     },
     
     mounted(){
     },
     methods:{
+        getAttrBute(val){
+            let size = ''
+            if(!val || val.length == 0 )return
+            size = val[0].size
+            return size
+        },
         showSign(val){
             if(val == 1){
                 return '开发新产品'

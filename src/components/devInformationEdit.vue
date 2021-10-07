@@ -251,13 +251,13 @@
                         </div>
                     </el-form-item>
                     <div v-if="showList(item.createdon)">
-                        <el-form-item label="SFP开发价:" prop="sfpDevelopmentPrice">
+                        <el-form-item label="SFP开发价:" prop="sfpDevelopmentPrice" v-if="(item.countrycode == 'GB' || item.countrycode == 'DE') && item.platformname == 'Amazon'">
                             <div class="inputBox"> 
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.sfpDevelopmentPrice"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="SFP运费:" prop="sfpOceanFreight">
+                        <el-form-item label="SFP运费:" prop="sfpOceanFreight" v-if="(item.countrycode == 'GB' || item.countrycode == 'DE') && item.platformname == 'Amazon'">
                             <div class="inputBox"> 
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.sfpOceanFreight"></el-input-number>
@@ -708,9 +708,12 @@ export default {
         getMoeny(val,index){
             profitMargin(val).then(res => {
                 if(res.code == 200){
+                    let newList = res.data
                     // this.devInformationDetaiList.productMarketList[index].showProfit = true
                     this.$nextTick(res => {
+                        this.$set(this.devInformationDetaiList.productMarketList, index, newList)
                          this.$set(this.devInformationDetaiList.productMarketList[index],'showProfit' ,true)
+                         this.$forceUpdate()
                          console.log(this.devInformationDetaiList.productMarketList)
                     })
                    

@@ -15,7 +15,7 @@
             <div class="remarksBox">
                 <div v-for='item in remarksList' :key="item.key"  class="bubbleText">
                     <div :class="item.createdby  ==employee.id?'bubbleROutBoxCont':'bubbleLOutBox'">
-                        <div><i v-if="item.createdby  !==employee.id" class="el-icon-user isLeft"></i>{{item.trueName}}<i v-if="item.createdby ==employee.id" class="el-icon-user isRight"></i></div>
+                        <div><i v-if="item.createdby  !==employee.id" class="el-icon-user isLeft"></i>{{item.trueName}}<i v-if="item.createdby == employee.id" class="el-icon-user isRight"></i></div>
                         <div>{{$moment(item.createdon).format("YYYY-MM-DD HH:mm:ss")}}</div>
                         <!-- <div>{{item.createdon}}</div> -->
                     </div>
@@ -175,7 +175,10 @@ export default {
     }
     .titleRemarks{
         font-weight: bold;
-        margin: 15px 0 15px 15px;
+        // margin: 15px 0 15px 15px;
+        font-size: 16px;
+        border-bottom: 1px solid #cccccc;
+        padding: 15px
     }
     ::v-deep.el-drawer{
         .el-drawer__header{

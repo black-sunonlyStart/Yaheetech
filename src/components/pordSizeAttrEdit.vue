@@ -85,8 +85,8 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="3">
-                    <span class="vacanBox">体积：</span><span v-if="ruleForm.sizeRules == '1'">{{ruleForm.packageSizeL && ruleForm.packageSizeW && ruleForm.packageSizeH ? ((ruleForm.packageSizeL * ruleForm.packageSizeW * ruleForm.packageSizeH) / 1000000 ).toFixed(6)+ 'm³' :''}}</span>
-                                      <span v-else-if="ruleForm.sizeRules == '2'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000000).toFixed(6)+ 'm³' :''}}</span>
+                    <span class="vacanBox">体积：</span><span class="titleColor" v-if="ruleForm.sizeRules == '1'">{{ruleForm.packageSizeL && ruleForm.packageSizeW && ruleForm.packageSizeH ? ((ruleForm.packageSizeL * ruleForm.packageSizeW * ruleForm.packageSizeH) / 1000000 ).toFixed(6)+ 'm³' :''}}</span>
+                                      <span class="titleColor" v-else-if="ruleForm.sizeRules == '2'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000000).toFixed(6)+ 'm³' :''}}</span>
                 </el-col>
              </el-row>
              <el-row>
@@ -134,8 +134,8 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="3">
-                    <span class="vacanBox">体积：</span><span v-if="ruleForm.outerBoxSizeRules == '1'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000000).toFixed(6)+ 'm³' :''}}</span>
-                                      <span v-else-if="ruleForm.outerBoxSizeRules == '2'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000000).toFixed(6) + 'm³' :''}}</span>
+                    <span class="vacanBox ">体积：</span><span class="titleColor" v-if="ruleForm.outerBoxSizeRules == '1'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000000).toFixed(6)+ 'm³' :''}}</span>
+                                      <span class="titleColor" v-else-if="ruleForm.outerBoxSizeRules == '2'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000000).toFixed(6) + 'm³' :''}}</span>
                 </el-col>
              </el-row>
              
@@ -167,7 +167,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="5">
-                     <span class="vacanBox" v-if="this.selectid && ruleForm.outerBoxNum">每个产品所占体积:<span>{{this.selectid / ruleForm.outerBoxNum}}m³</span></span>       
+                     <span class="vacanBox" v-if="this.selectid && ruleForm.outerBoxNum">每个产品所占体积:<span  class="vacanBox">{{this.selectid / ruleForm.outerBoxNum}}m³</span></span>       
                 </el-col>
              </el-row>
              <el-row>
@@ -311,8 +311,8 @@
                             <el-table-column
                                 label="操作">
                                 <template slot-scope="scope">
-                                    <div v-if="scope.$index == 0">
-                                        第一条数据无法移除
+                                    <div v-if="scope.$index == 0 || scope.$index == 1">
+                                        前两条数据无法移除
                                     </div>
                                     <el-button
                                         v-else
@@ -533,6 +533,20 @@ export default {
             type:Array,
             default:() => ([])
         }
+    },
+    watch:{
+    //     clickId:{
+    //       handler:function(val){
+    //           if(val){
+    //             this.$nextTick(() => {
+    //                 this.clickId = val
+    //                 if(this.clickId == 6 || this.clickId == 20 ){
+    //                     this.getTypeList()
+    //                 } 
+    //             })
+    //           }
+    //       },
+    //   },
     },
     computed:{
         proGrossWeightLb(){
@@ -760,6 +774,7 @@ export default {
     height: 30px;
     line-height: 30px;
     // width: 500px;
+    color: #cccccc;
 }
 .titleColor {
     color: #cccccc;

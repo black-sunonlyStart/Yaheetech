@@ -266,3 +266,11 @@ export function profitMargin(data) {
       data
     })
   }
+  //查看当前是否是采购开发
+export function checkUserIdentity(data) {
+    return request({
+      url: '/productManage/checkUserIdentity',
+      method: "get", 
+      params:data
+    })
+  }

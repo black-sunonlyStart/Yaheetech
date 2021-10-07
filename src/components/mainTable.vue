@@ -100,6 +100,7 @@
             label="产品分类"
             show-overflow-tooltip
             width="300px"
+            v-if="showOrder"
             >
       </el-table-column>
       <el-table-column 
@@ -170,7 +171,7 @@
 
 </template>
 <script>
-import { fetchPageTableList,unfreezing,getImagePath } from '@/api/user.js'
+import { fetchPageTableList,unfreezing,getImagePath,checkUserIdentity } from '@/api/user.js'
 import { formatDate } from '@/utils/tools.js'
 export default {
   name: 'mainTable',
@@ -191,7 +192,8 @@ export default {
       dialogVisible: false,
       clickId:0,
       lastImageUrl:'',
-      loading:true
+      loading:true,
+      showOrder:false
     }
   },
   props:{
@@ -627,6 +629,15 @@ export default {
       newGetImagePath(){
           getImagePath().then(res => {
               this.lastImageUrl = res.data
+          })
+          let params = {
+              type : 0
+          }
+          checkUserIdentity(params).then(res => {
+              if(res.data){
+                  this.showOrder = res.data
+              }
+              
           })
       },
    async getTableList(val){
