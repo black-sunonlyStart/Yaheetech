@@ -708,6 +708,7 @@ export default {
 }
 .imageTitelRed {
     display: inline-block;
+    line-height: 12px;
     font-size: 12px;
     // font-weight: bold;
     z-index: 990;

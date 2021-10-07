@@ -1095,6 +1095,7 @@ export default {
                             usDutyRate:this.ruleForm.productMarketUS,
                             gbDutyRate:this.ruleForm.productMarketGB,
                             deDutyRate:this.ruleForm.productMarketDE,
+                            computemode:this.ruleForm.seaFreight,
                             development:{
                                 description:this.ruleForm.rateRequirements,
                                 id:this.ruleForm.id,
