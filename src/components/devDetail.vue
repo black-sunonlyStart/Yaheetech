@@ -12,7 +12,7 @@
             <el-col :span="8" v-if="productVoDetail.developmentscenarios != 1">
                 <span class="boldTitle">关联产品： </span>
                 <span>({{productVoDetail.id}}){{productVoDetail.spu}}</span>
-                <div>请再次确认关联产品，当前关联产品尺码为{{getAttrBute(multiAttribute)}}</div>
+                <div v-if="showSizeTitle">请再次确认关联产品，当前关联产品尺码为{{getAttrBute(multiAttribute)}}</div>
             </el-col>
             <el-col :span="8" v-else>
                 <span class="boldTitle">所属分类：</span>
@@ -45,6 +45,12 @@ export default {
             type:Array,
             default(){
                 return {}
+            }
+        },
+        showSizeTitle:{
+            type:Boolean,
+            default(){
+                return true
             }
         }
     },

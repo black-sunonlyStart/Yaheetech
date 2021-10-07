@@ -313,6 +313,8 @@ export default {
                     fileList:this.prodevInfoDetaiList.mustCredentialList,
                     factoryGaveImage:this.prodevInfoDetaiList.factoryGaveImage,
                     recommendFileList:this.prodevInfoDetaiList.recommendCredentialList,//推荐认证附件
+                    productMustMarket:0,
+                    productMarket:0
             }
         },
         handleRemove(file) {

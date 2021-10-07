@@ -194,7 +194,7 @@
                         </template>
                     </el-table-column>
                 </el-table>
-                <div class="tableBottomTitle">运输方式(自有/SFP): <span v-if="item.shippingname">{{item.shippingname}} </span><span class="showText" v-else>全国运输方式暂无匹配</span>   汇率: {{item.exchangerate}}</div>
+                <div class="tableBottomTitle">运输方式(自有/SFP): <span v-if="item.shippingname">{{item.shippingname}} </span><span v-if="item.sfpLogisticsCode"> {{item.sfpLogisticsCode + '/'}}</span><span class="showText" v-if="!item.shippingname && !item.sfpLogisticsCode">全国运输方式暂无匹配</span>   汇率: {{item.exchangerate}}</div>
             </el-col>
         </el-row>
         

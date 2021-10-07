@@ -14,14 +14,14 @@
             </div>
             <div class="remarksBox">
                 <div v-for='item in remarksList' :key="item.key"  class="bubbleText">
-                    <div :class="item.createdby  ==employee.id?'bubbleROutBoxCont':'bubbleLOutBox'">
-                        <div><i v-if="item.createdby  !==employee.id" class="el-icon-user isLeft"></i>{{item.trueName}}<i v-if="item.createdby == employee.id" class="el-icon-user isRight"></i></div>
+                    <div :class="item.createdby  == employee.id || employee.Id ?'bubbleROutBoxCont':'bubbleLOutBox'">
+                        <div><i v-if="item.createdby  !==employee.id || employee.Id" class="el-icon-user isLeft"></i>{{item.trueName}}<i v-if="item.createdby == employee.id || employee.Id " class="el-icon-user isRight"></i></div>
                         <div>{{$moment(item.createdon).format("YYYY-MM-DD HH:mm:ss")}}</div>
                         <!-- <div>{{item.createdon}}</div> -->
                     </div>
                     <div class="bubbleROutBox">
-                        <div :class="item.createdby  == employee.id?'bubbleTailRight':'bubbleTail'"></div>
-                        <div :class="item.createdby  == employee.id?'bubbleBoxRight':'bubbleBox'">
+                        <div :class="item.createdby  == employee.id || employee.Id?'bubbleTailRight':'bubbleTail'"></div>
+                        <div :class="item.createdby  == employee.id || employee.Id ?'bubbleBoxRight':'bubbleBox'">
                             <div class="topStatusTitle">
                                 <span >{{item.statusValue}}</span>
                                 <span class="bubbleBoxText">{{item.operation}}</span>

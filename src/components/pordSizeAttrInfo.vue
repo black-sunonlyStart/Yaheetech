@@ -32,6 +32,7 @@
             <el-col :span="10" class="moreText">
                 <div class="textWight">
                     包装尺寸(发货用)：
+                    <div class="boxSizeRule">{{changePorStyle(pordSizeAttrInfoList.packageshape)}}</div>
                 </div>
                 <div class="textBox">
                     <div>{{pordSizeAttrInfoList.packageSizeL ? pordSizeAttrInfoList.packageSizeL + '×' : ''}} 
@@ -59,6 +60,7 @@
             <el-col :span="10" class="moreText">
                 <div class="textWight">
                     外箱尺寸(装柜用)： 
+                    <div class="boxSizeRule">{{changePorStyle(pordSizeAttrInfoList.cartonShape)}}</div>
                 </div>
                 <div class="textBox">
                     <div>{{pordSizeAttrInfoList.outerBoxSizeL ? pordSizeAttrInfoList.outerBoxSizeL + '×' : ''}}
@@ -341,6 +343,16 @@ export default {
             default:() => ([])
                     
         }
+    },
+    methods:{
+        changePorStyle(val){
+            if(!val)return
+            if(val == 1){
+                return ''
+            }else if (val == 2){
+                return '不规则立方体'
+            }
+        }
     }
 }
 </script>
@@ -395,5 +407,8 @@ export default {
 }
 .has-gutter{
     color: black !important;
+}
+.boxSizeRule{
+    text-align: center;
 }
 </style>

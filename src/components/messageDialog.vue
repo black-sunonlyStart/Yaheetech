@@ -12,6 +12,7 @@
                 {{this.dialogName}}
             </div>
             <span v-if="clickId == 1" class="dialogText">说明:确定要把选择的产品提交给业务主管(经理)进行审批?</span>
+            <span v-if="clickId == 40" class="dialogText">说明:确定选择的产品有利润空间且产品资料正确,提交业务主管(经理)进行终审?</span>
             <span v-if="clickId == 2" class="dialogText">说明:确定要把选择的产品审批通过,让认证专员去完善认证需求?</span>
             <span v-if="clickId == 30" class="dialogText">说明:确定选择产品的利润和资料均复核公司开发要求,审核通过进入上架流程?</span>
             <span v-if="clickId == 25" class="dialogText">说明:确定要把选择的产品审批通过,让认证专员去完善认证需求?</span>
@@ -39,7 +40,6 @@
                <el-form-item label="打回状态" prop="status" v-if="clickId == 4">
                     <el-select 
                         v-model="ruleForm.status"
-                        @change="changStatus"
                         >
                         <el-option 
                             v-for="item in status"                        
@@ -275,6 +275,10 @@ export default {
             type:String,
             default:''
         },
+        showOrder:{
+            type:Boolean,
+            default:true
+        },
         row:{
             type:Object,
             default:() => ({})
@@ -330,14 +334,19 @@ export default {
                 })
             }
         },
-        changStatus(val){
-            if(val == 3){
-                this.type2 = this.type1
-            }else {
-                this.type2 = this.type
-            }
-        },
+        // changStatus(val){
+        //     if(val == 3){
+        //         this.type2 = this.type1
+        //     }else {
+        //         this.type2 = this.type
+        //     }
+        // },
         changeLabel(){
+            if(this.showOrder){
+                this.type2 = this.type
+            }else{
+              this.type2 = this.type1  
+            }
             this.label = '备注:'
             if(this.clickId == 3){
                 this.label = '取消原因:'
@@ -384,7 +393,7 @@ export default {
             if(this.row && this.row.id){
                 row = this.row.id
             }
-            let normalList = [1,5,7,10,11,14,15,16,25]
+            let normalList = [1,5,7,10,11,14,15,16,25,40]
             if(normalList.includes(this.clickId)){
                 let params = {
                     productCountryId:this.row.id,

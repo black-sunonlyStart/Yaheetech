@@ -1,12 +1,12 @@
 <template>
     <div class="buttonStyle">
         <el-button v-for="item in operationList" :key="item.id" size="mini" type="primary" @click="putOperation(item.id)">{{item.name}}</el-button>
-        <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog"  @getTableList='getTableList' :row='row'></messageDialog>
+        <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog"  @getTableList='getTableList' :row='row' :showOrder='showOrder'></messageDialog>
     </div>
     
 </template>
 <script>
-import { unfreezing } from '@/api/user.js'
+import { unfreezing,checkUserIdentity } from '@/api/user.js'
 export default {
     name:'operationButton',
     components:{
@@ -17,7 +17,8 @@ export default {
             operationList:[],
             clickId:0,
             dialogName:'',
-            row:{}
+            row:{},
+            showOrder:false
         }
     },
     props:{
@@ -49,8 +50,20 @@ export default {
     },
     mounted(){
         this.openOperation(this.nowStatus)
+        this.init()
     },
     methods:{
+        init(){
+            let params = {
+              type : 0
+          }
+          checkUserIdentity(params).then(res => {
+              if(res.data){
+                  this.showOrder = res.data
+              }
+              
+          })
+        },
         getTableList(){
             this.$emit('getTableList')
         },
@@ -210,7 +223,7 @@ export default {
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:25
+                    id:40
                   },
                   {
                     name:'打回',

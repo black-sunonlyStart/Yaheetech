@@ -3,7 +3,7 @@
         <el-button size="mini" @click="addProctList" type="primary" plain  icon="el-icon-circle-plus-outline" perkey="ERP.Product.ProductDev.ADD">开发产品</el-button>
         <!-- <el-button size="mini" >更换业务开发</el-button> -->
         <el-dropdown trigger="hover"  @command="changeOrderPer" size='mini' >
-            <el-button type="primary" size='mini' plain style="margin-left:10px;margin-right:10px" porkey='ERP.Product.ProductDev.EditGroup' @click="handleCommand">
+            <el-button type="primary" size='mini' plain style="margin-left:10px" porkey='ERP.Product.ProductDev.EditGroup' @click="handleCommand">
                  更换业务开发<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">

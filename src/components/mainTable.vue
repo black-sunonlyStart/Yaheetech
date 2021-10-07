@@ -61,6 +61,7 @@
       <el-table-column 
             prop="productTypeName"
             label="产品名称"
+             width="400px"
             >
         <template slot-scope="scope">
             <div class="remarksenTitle" @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">{{scope.row.enTitle}}</div>
@@ -72,6 +73,7 @@
       <el-table-column
         label="产品利润"
         show-overflow-tooltip
+        width="250px"
         >
         <template slot-scope="scope">
             <div v-for="item in scope.row.productMarketStrs" :key="item.platformName">
@@ -106,8 +108,7 @@
       <el-table-column 
             prop="stateName"
             label="开发状态"
-            show-overflow-tooltip
-            width="150px"      
+            show-overflow-tooltip     
         >
       </el-table-column>
       <el-table-column 
@@ -121,7 +122,9 @@
       </el-table-column>
       <el-table-column 
         label="创建/更新时间"
-        show-overflow-tooltip>
+        show-overflow-tooltip
+        width="150px"
+        >
             <template slot-scope="scope">
                 <div>{{$moment(scope.row.createdOn).format("YYYY-MM-DD HH:mm")}}</div>
                 <div>{{$moment(scope.row.modifyOn).format("YYYY-MM-DD HH:mm")}}</div>
@@ -166,7 +169,7 @@
             >
         </el-pagination>
     </div>
-    <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog" @getTableList='getTableList' :row='row' :navFilterList='navFilterList'></messageDialog>
+    <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog" @getTableList='getTableList' :row='row' :navFilterList='navFilterList' :showOrder='showOrder'></messageDialog>
   </div>
 
 </template>
@@ -342,6 +345,8 @@ export default {
             });
           }else if(id == 15){
              this.dialogName ='提交利润复核'
+          }else {
+              this.dialogName = '审批通过'
           }
           this.row = row
           if(id != 13 && id != 8 && id != 26) {
@@ -484,7 +489,7 @@ export default {
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:25,
+                    id:40,
                     perkey:'ERP.Product.ProductDev.ManagerAudit'
                   },
                   {

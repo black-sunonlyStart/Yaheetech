@@ -274,3 +274,11 @@ export function checkUserIdentity(data) {
       params:data
     })
   }
+  //查看当前登录用户
+export function getEmployee(data) {
+    return request({
+      url: '/common/getEmployee',
+      method: "get", 
+      params:data
+    })
+  }

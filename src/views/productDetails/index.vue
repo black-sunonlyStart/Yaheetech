@@ -29,7 +29,7 @@
                         </div>
                         <div>
                             <div v-for="item in productMarketStrs" :key="item.platformName" class="profit">
-                                {{item.platformName}}-{{item.marketProfits[0].warehouseName}}-{{item.currency}}<span :class="item.developmentPrice <= 0 ? 'showColor':''"> {{item.developmentPrice}}</span> /<span :class="item.marketProfits && item.marketProfits[0] && item.marketProfits[0].profitMargin <= 0 ? 'showColor':'redColor'" > {{item.marketProfits[0].profitMargin ? item.marketProfits[0].profitMargin + '%' : '' }}</span>
+                                {{item.platformName}}-{{item.marketProfits[0].warehouseName}}-{{item.currency}}<span :class="item.developmentPrice <= 0 ? 'showColor':''"> {{item.developmentPrice}}</span> /<span :class="item.marketProfits && item.marketProfits[0] && item.marketProfits[0].profitMargin <= 0 ? 'showColor':'redColor'" > {{item.marketProfits[0].profitMargin ? (item.marketProfits[0].profitMargin * 100).toFixed(2) + '%' : '' }}</span>
                             </div>
                         </div>
                     </div>
@@ -85,7 +85,7 @@
                                     </div>   
                                 </div>
                                 <div v-if="isEdit">
-                                    <devDetail :productVoDetail='productVoDetail' :multiAttribute='multiAttribute'></devDetail>
+                                    <devDetail :productVoDetail='productVoDetail' :multiAttribute='multiAttribute' :showSizeTitle='showSizeTitle'></devDetail>
                                 </div>
                                 <div v-else>
                                     <devScene @closeEdit='editPage' :productVoDetail='productVoDetail' ></devScene>
@@ -242,7 +242,7 @@
   </div>
 </template>
 <script>
- import { getProductDevDetail,getProductMultipleAttribute,exploitType,getImagePath } from '@/api/user.js'
+ import { getProductDevDetail,getProductMultipleAttribute,exploitType,getImagePath,getEmployee } from '@/api/user.js'
 export default {
   name: 'productDetails',
   components:{
@@ -436,6 +436,7 @@ export default {
         nowStatus:0,
         timeStatus:0,
         proImageList:'',
+        showSizeTitle:false,
     }
   },
   created () {
@@ -445,12 +446,20 @@ export default {
   },
   mounted () {
     //   this.getAllpageList()
-    console.log(this.$route,'id')
     if(this.$route.query.id == 8 || this.$route.query.id == 26){
         this.getNewSizeList()
+        this.showSizeTitle = true
     }
+    this.init()
   },
   methods: {
+      init(){
+          getEmployee().then(res => {
+              if(res.data){
+                  this.employee = res.data
+              }
+          })
+      },
         newGetImagePath(){
             getImagePath().then(res => {
                 if(res.data){
