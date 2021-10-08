@@ -51,7 +51,7 @@
       <el-table-column 
             prop="name"
             label="开发市场"
-            width="120"
+            width="60"
             >
         <template slot-scope="scope">
             <div class="remarksTitle">{{scope.row.countryName}}</div>
@@ -61,7 +61,7 @@
       <el-table-column 
             prop="productTypeName"
             label="产品名称"
-             width="400px"
+             width="350px"
             >
         <template slot-scope="scope">
             <div class="remarksenTitle" @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">{{scope.row.enTitle}}</div>
@@ -73,7 +73,7 @@
       <el-table-column
         label="产品利润"
         show-overflow-tooltip
-        width="250px"
+        width="350px"
         >
         <template slot-scope="scope">
             <div v-for="item in scope.row.productMarketStrs" :key="item.platformName">

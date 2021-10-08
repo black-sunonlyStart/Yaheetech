@@ -33,8 +33,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="showColor" v-for="item in showSizeText" :key="item">
-                        {{item}}
+                    <div class="sizeBox">
+                        <div class="sizeColor" v-for="item in showSizeText" :key="item">
+                            {{item}}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -897,48 +899,52 @@ export default {
       changeSizeTitle(pordSizeAttrInfoList,countryName,nowStatus){
             if(nowStatus != 9)return
             let sizeList = [pordSizeAttrInfoList.productSizeYcunL,pordSizeAttrInfoList.productSizeYcunW,pordSizeAttrInfoList.productSizeYcunH]
-                sizeList.map(Number)
                 sizeList.sort()
-            let sizePerimeter = (sizeList[0] +sizeList[1] + sizeList[2] ) * 2
+                sizeList.map(Number)
+            let sizePerimeter = (Number(sizeList[0]) + Number(sizeList[1]) + Number(sizeList[2]) ) * 2
             let numLogisticsPerimeter = Number(pordSizeAttrInfoList.logisticsPerimeter)
             if(countryName == '德国'){ 
                 // 产品【最长边】超过175cm，请审核人员重新计算利润!（长+（宽+高）*2大于300cm、重量超过31.5KG）
                 if(sizeList[2] > 175){
-                    this.showSizeText.push('产品【最长边】超过175cm，请审核人员重新计算利润!')
-                }else if( sizePerimeter > 300){
-                    this.showSizeText.push('产品周长超过300cm')
-                }else if(pordSizeAttrInfoList.afterpackweight > 31.5){
-                    this.showSizeText.push('重量超过31.5KG')
+                    this.showSizeText.push('产品最长边超过175cm，')
+                } if( sizePerimeter > 300){
+                    this.showSizeText.push('产品周长超过300cm，')
+                } if(pordSizeAttrInfoList.afterpackweight > 31.5){
+                    this.showSizeText.push('重量超过31.5KG，')
                 }
             }else if(countryName == '美国'){
                 // 美国：产品【最长边】超过118cm，请审核人员重新计算利润!（第二长边超过74cm、重量超过21KG、周长超过105inch/ 125 Inch/162 Inch）；
                 if(sizeList[2] > 118){
-                    this.showSizeText.push('产品【最长边】超过118cm，请审核人员重新计算利润!')
-                }else if(sizeList[1] > 74){
-                    this.showSizeText.push('第二长边超过74cm')
-                }else if(pordSizeAttrInfoList.afterpackweight > 31.5){
-                    this.showSizeText.push('重量超过21KG')
-                }else if(numLogisticsPerimeter > 105 && numLogisticsPerimeter <= 125){
-                    this.showSizeText.push('周长在105inch~125inch之间')
-                }else if(numLogisticsPerimeter > 125 && numLogisticsPerimeter <= 162){
-                    this.showSizeText.push('周长在125inch~162inch之间')
-                }else if(numLogisticsPerimeter > 162){
-                    this.showSizeText.push('周长在大于162inch')
+                    this.showSizeText.push('产品最长边超过118cm，')
+                } if(sizeList[1] > 74){
+                    this.showSizeText.push('第二长边超过74cm，')
+                } if(pordSizeAttrInfoList.afterpackweight > 31.5){
+                    this.showSizeText.push('重量超过21KG，')
+                } if(numLogisticsPerimeter > 105 && numLogisticsPerimeter <= 125){
+                    this.showSizeText.push('周长大于105inch，')
+                } if(numLogisticsPerimeter > 125 && numLogisticsPerimeter <= 162){
+                    this.showSizeText.push('周长大于125inch，')
+                } if(numLogisticsPerimeter > 162){
+                    this.showSizeText.push('周长大于162inch，')
                 }
             }else if(countryName == '英国'){
                 // 英国：产品【最长边】超过118cm，请审核人员重新计算利润!（第二长边超过70cm、第三长边超过60、重量超过30KG、体积超过0.23方）；
                 if(sizeList[2] > 118){
-                     this.showSizeText.push('产品【最长边】超过118cm，请审核人员重新计算利润!')
-                }else if(sizeList[1] > 70){
-                    this.showSizeText.push('第二长边超过70cm')
-                }else if (sizeList[0] > 60){
-                    this.showSizeText.push('第三长边超过60')
-                }else if(pordSizeAttrInfoList.afterpackweight > 30){
-                    this.showSizeText.push('重量超过30KG')
-                }else if(pordSizeAttrInfoList.productVolume > 0.23){
-                    this.showSizeText.push('体积超过0.23方')
+                     this.showSizeText.push('产品最长边超过118cm，')
+                } if(sizeList[1] > 70){
+                    this.showSizeText.push('第二长边超过70cm，')
+                } if (sizeList[0] > 60){
+                    this.showSizeText.push('第三长边超过60，')
+                } if(pordSizeAttrInfoList.afterpackweight > 30){
+                    this.showSizeText.push('重量超过30KG，')
+                } if(pordSizeAttrInfoList.productVolume > 0.23){
+                    this.showSizeText.push('体积超过0.23方，')
                 }
             }
+            if(this.showSizeText.length>0){
+                this.showSizeText.push('请审核人员重新计算利润！')
+            }
+            
       },
       //步骤条显示数据处理
       getDevProgresses(val){
@@ -1255,6 +1261,16 @@ export default {
      color: red;
      font-weight: normal;
  }
+ .sizeBox{
+     display: flex;
+     .sizeColor{
+        color: red;
+        font-weight: normal;
+        display: inline-block;
+        // margin-right: 5px;
+    }
+ }
+ 
  .redColor{
      color: green;
  }

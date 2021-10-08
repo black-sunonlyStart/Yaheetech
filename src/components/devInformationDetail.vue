@@ -15,7 +15,7 @@
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">英文标题： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.title}}</div>
+                    <div class="colBoxTitle">英文标题： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.title}}</div>
                 </div>
             </el-col>
             <el-col :span="10">
@@ -117,8 +117,14 @@
                             <div>利润  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
                         </template>
                         <template slot-scope="scope">
-                            <div :class="scope.row.profit >= 0 ? 'textColor':'noColor'">{{scope.row.profit ?scope.row.profit.toFixed(2):'0.00' }} / {{scope.row.profitmargin ? (scope.row.profitmargin*100).toFixed(2) :'0.00'}}% </div>
-                            <div :class="item.endprofit >= 0 ? 'textColor':'noColor'">{{item.endprofit ?item.endprofit.toFixed(2):'0.00' }} / {{item.endprofitmargin ? (item.endprofitmargin*100).toFixed(2) + '%' :'0.00%'}} </div>
+                            <div :class="scope.row.profit >= 0 ? 'textColor':'noColor'">
+                                {{scope.row.profit ?scope.row.profit.toFixed(2):'0.00' }} / 
+                                {{scope.row.profitmargin ? (scope.row.profitmargin*100).toFixed(2) :'0.00'}}% 
+                            </div>
+                            <div :class="scope.row.sfp ? (scope.row.sfpEndProfit >= 0  ? 'textColor':'noColor') : (scope.row.endprofit >= 0 ? 'textColor':'noColor' ) ">
+                                {{scope.row.sfp ?(scope.row.sfpEndProfit && scope.row.sfpEndProfit.toFixed(2))||'0.00' :  scope.row.endprofit.toFixed(2)||'0.00'}} /
+                                {{scope.row.sfp ?(scope.row.sfpPEndProfitMargin && (scope.row.sfpPEndProfitMargin * 100).toFixed(2) + '%') || '0.00%' : (item.endprofitmargin*100).toFixed(2) + '%' || '0.00%'}} 
+                            </div>
                         </template>   
                     </el-table-column>
                     <el-table-column>
