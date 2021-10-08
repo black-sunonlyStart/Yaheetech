@@ -51,7 +51,7 @@
       <el-table-column 
             prop="name"
             label="开发市场"
-            width="60"
+            width="70"
             >
         <template slot-scope="scope">
             <div class="remarksTitle">{{scope.row.countryName}}</div>
@@ -61,7 +61,6 @@
       <el-table-column 
             prop="productTypeName"
             label="产品名称"
-             width="350px"
             >
         <template slot-scope="scope">
             <div class="remarksenTitle" @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">{{scope.row.enTitle}}</div>
@@ -73,15 +72,20 @@
       <el-table-column
         label="产品利润"
         show-overflow-tooltip
-        width="350px"
         >
         <template slot-scope="scope">
             <div v-for="item in scope.row.productMarketStrs" :key="item.platformName">
                 <div style="font-weight:bold">{{item.platformName}}:</div>
                 <div>{{item.currency}} {{item.developmentPrice ? item.developmentPrice.toFixed(2) : '--'}} /
-                    <el-tooltip :content="rows.warehouseName" effect="dark" placement="top"  v-for="rows in item.marketProfits " :key="rows.warehouseId">
-                        <span :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin ? rows.profitMargin.toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
-                    </el-tooltip>
+                    <span v-for="rows in item.marketProfits " :key="rows.warehouseId">
+                        <el-tooltip :content="rows.warehouseName" effect="dark" placement="top" :key="rows.warehouseId">
+                            <span :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin ? rows.profitMargin.toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
+                        </el-tooltip>
+                        <span v-if="rows.sfpDevelopmentprice">
+                            <span > SFP： {{rows.sfpDevelopmentprice ? rows.sfpDevelopmentprice.toFixed(2) : '--'}} / </span>
+                            <span :class="rows.sfpProfitMargin < 0 ? 'boxColor':''">{{rows.sfpProfitMargin ? rows.profitMargin.toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
+                        </span>
+                    </span>              
                 </div>
             </div>
         </template>
@@ -101,14 +105,15 @@
             prop="categoryName"
             label="产品分类"
             show-overflow-tooltip
-            width="300px"
+            width="250px"
             v-if="showOrder"
             >
       </el-table-column>
       <el-table-column 
             prop="stateName"
             label="开发状态"
-            show-overflow-tooltip     
+            show-overflow-tooltip   
+            width="120px"  
         >
       </el-table-column>
       <el-table-column 

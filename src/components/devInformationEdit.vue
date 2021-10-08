@@ -259,6 +259,10 @@
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.sfpDevelopmentPrice"></el-input-number>
                             </div>
+                            <el-button  v-if="showList(item.createdon)" @click="getMoeny(item,index)">计算利润</el-button>
+                            <div :class="item.sfpProfit > 0 ? 'titleText' :'noTitleText'" v-show="item.showSfpProfit && item.freight">
+                                {{contryCurry(item.countrycode)}}: {{item.sfpEndProfit? item.sfpEndProfit:item.sfpProfit}} - 利润率：{{item.sfpPEndProfitMargin ? item.sfpPEndProfitMargin * 100 : item.sfpProfitMargin * 100}}%
+                            </div>
                         </el-form-item>
                         <el-form-item label="SFP运费:" prop="sfpOceanFreight" v-if="(item.countrycode == 'GB' || item.countrycode == 'DE') && item.platformname == 'Amazon'">
                             <div class="inputBox"> 
@@ -717,8 +721,8 @@ export default {
                     // this.devInformationDetaiList.productMarketList[index].showProfit = true
                     this.$nextTick(res => {
                         this.$set(this.devInformationDetaiList.productMarketList, index, newList)
-                         this.$set(this.devInformationDetaiList.productMarketList[index],'showProfit' ,true)
-                         this.$forceUpdate()
+                            this.$set(this.devInformationDetaiList.productMarketList[index],'showProfit' ,true)
+                            this.$set(this.devInformationDetaiList.productMarketList[index],'showSfpProfit' ,true)
                     })
                    
                 }
@@ -1245,11 +1249,13 @@ export default {
         display: inline-block;
         color: green;
         margin-left: 10px;
+        font-size: 12px;
     }
     .noTitleText{
         display: inline-block;
         color: red;
         margin-left: 10px;
+        font-size: 12px;
     }
       
 </style>

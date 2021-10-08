@@ -29,12 +29,15 @@
                         </div>
                         <div>
                             <div v-for="item in productMarketStrs" :key="item.platformName" class="profit">
-                                {{item.platformName}}-{{item.marketProfits[0].warehouseName}}-{{item.currency}}<span :class="item.developmentPrice <= 0 ? 'showColor':''"> {{item.developmentPrice}}</span> /<span :class="item.marketProfits && item.marketProfits[0] && item.marketProfits[0].profitMargin <= 0 ? 'showColor':'redColor'" > {{item.marketProfits[0].profitMargin ? (item.marketProfits[0].profitMargin * 100).toFixed(2) + '%' : '' }}</span>
+                                {{item.platformName}}-{{item.marketProfits[0].warehouseName}}-{{item.currency}}<span :class="item.developmentPrice <= 0 ? 'showColor':''"> {{item.developmentPrice}}</span> /
+                                <span :class="item.marketProfits && item.marketProfits[0] && item.marketProfits[0].profitMargin <= 0 ? 'showColor':'redColor'" > {{item.marketProfits[0].profitMargin ? (item.marketProfits[0].profitMargin * 100).toFixed(2) + '%' : '' }}</span>
+                                <span v-if="item.marketProfits[0].sfpDevelopmentprice"> SFP：{{item.marketProfits[0].sfpDevelopmentprice}} / </span>
+                                <span :class="item.marketProfits && item.marketProfits[0] && item.marketProfits[0].profitMargin <= 0 ? 'showColor':'redColor'" v-if="item.marketProfits[0].sfpDevelopmentprice">{{(item.marketProfits[0].sfpProfitMargin * 100).toFixed(2) + '%' }}</span>
                             </div>
                         </div>
                     </div>
                     <div class="sizeBox">
-                        <div class="sizeColor" v-for="item in showSizeText" :key="item">
+                        <div class="sizeColor" v-for="item in showSizeText" :key="item+Math.random()">
                             {{item}}
                         </div>
                     </div>

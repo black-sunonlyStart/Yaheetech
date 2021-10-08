@@ -87,11 +87,12 @@
                     :data="item.mapProfit"
                     :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                     style="width: 100%"
-                     :span-method="objectSpanMethod"
                     >
                     <el-table-column
                         label="类型"
                         width="100px"
+                        header-align='center'
+                        align="center"
                         >
                         <template slot-scope="scope">
                             <div v-if="scope.row.sfp">SFP</div>
@@ -100,7 +101,10 @@
                     </el-table-column>
                     <el-table-column
                         label="基准价"
+                         width="120px"
                         prop="developmentprice"
+                        header-align='center'
+                        align="center"
                         >
                         <template slot="header" >
                             <div>基准价 {{'(' + contryCurry(item.countrycode) + ")"}}</div>
@@ -111,7 +115,9 @@
                     </el-table-column>
                     <el-table-column
                         label="利润"
-                        width="200px"
+                        width="150px"
+                        header-align='center'
+                        align="center"
                         >
                         <template slot="header" >
                             <div>利润  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
@@ -127,7 +133,11 @@
                             </div>
                         </template>   
                     </el-table-column>
-                    <el-table-column>
+                    <el-table-column
+                     width="100px"
+                     header-align='center'
+                     align="center"
+                    >
                         <template slot="header" >
                             <div>运费  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
                         </template>
@@ -137,7 +147,11 @@
                     </el-table-column>
                     <el-table-column
                         prop="piprice"
-                        label="PI">
+                        label="PI"
+                         width="100px"
+                         header-align='center'
+                         align="center"
+                        >
                         <template slot="header" >
                             <div>PI  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
                         </template>
@@ -146,58 +160,87 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="海运费成本">
+                        label="海运费成本"
+                        header-align='center'
+                        align="center"
+                        >
                         <template slot="header" >
                             <div>海运费成本 {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div>港前 + 海运 + 目的港</div>
                         </template>
                         <template >
-                            <div>港 {{' '}} 前: {{item.inlandportcosts ? item.inlandportcosts.toFixed(2) : ''}} </div>
-                            <div>海运: {{item.oceanfreight ? item.oceanfreight.toFixed(2) : ''}} </div>
-                            <div>目的港: {{item.outlandportcosts ? item.outlandportcosts.toFixed(2) : ''}} </div>
+                            {{item.inlandportcosts ? item.inlandportcosts.toFixed(2)+  " + " :' 0 + '}}
+                            {{item.oceanfreight ? item.oceanfreight.toFixed(2)+  " + " :' 0 + '}} 
+                            {{item.outlandportcosts ? item.outlandportcosts.toFixed(2) : ' 0 '}} 
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="税费">
+                        label="税费"
+                        width="250px"
+                        header-align='center'
+                        align="center"
+                        >
                         <template slot="header" >
                             <div>税费  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div>进口DUTY + 进口VAT + 销售VAT</div>
                         </template>
-                        <template >
-                            <div>进口DUTY: {{item.duty ? item.duty.toFixed(2) :''}} </div>
-                            <div>进口VAT: {{item.vatfee ? item.vatfee.toFixed(2) : ''}} </div>
-                            <div>销售VAT: {{item.salesvat ? item.salesvat.toFixed(2) : ''}} </div>
+                        <template slot-scope="scope" >
+                            {{item.duty ? item.duty.toFixed(2)+  " + " :' 0 + '}}
+                            {{item.vatfee ? item.vatfee.toFixed(2) +  " + " :' 0 + '}}
+                            <span  v-if="scope.row.sfp">{{item.sfpSalesvat ? item.sfpSalesvat.toFixed(2) :' 0 '}} </span>
+                            <span  v-else>{{item.salesvat  ? item.salesvat .toFixed(2) :' 0 '}} </span>
+                            
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="平台费">
+                        label="平台费"
+                        header-align='center'
+                        align="center"
+                        >
                         <template slot="header" >
                             <div>平台费  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div>成交费 + PayPal + 刊登费</div>
                         </template>
-                        <template >
-                            <div>成交费: {{item.platformfee ? item.platformfee.toFixed(2) :''}} </div>
-                            <div>PayPal: {{item.paypalprice ? item.paypalprice.toFixed(2) : ''}} </div>
-                            <div>刊登费: {{item.listingfee ? item.listingfee.toFixed(2) : ''}} </div>  
+                        <template  slot-scope="scope" >
+                            <span  v-if="scope.row.sfp">{{item.sfpPlatformfee  ? item.sfpPlatformfee .toFixed(2)+ " + " : ' 0 + '}} </span>
+                            <span  v-else>{{item.platformfee  ? item.platformfee .toFixed(2)+ " + " : ' 0 + '}} </span>
+                            <!-- {{item.platformfee ? item.platformfee.toFixed(2) +  " + " :' 0 + '}}  -->
+                            {{item.paypalprice ? item.paypalprice.toFixed(2)  + " + " : ' 0 + '}} 
+                            {{item.listingfee ? item.listingfee.toFixed(2) : '0'}} 
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="海外仓成本">
+                        label="海外仓成本"
+                        header-align='center'
+                        align="center"
+                        >
                         <template slot="header" >
                             <div>海外仓成本  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div>
+                                操作费 + 发货包装 + 本地化费
+                            </div>
                         </template>
-                        <template >                          
-                            <div>操作费: {{item.handlingfee ? item.handlingfee.toFixed(2) : ''}} </div>
-                            <div>发货包装: {{item.packagingfee ? item.packagingfee.toFixed(2) : ''}} </div>
-                            <div>本地化费: {{item.localizationfee ? item.localizationfee.toFixed(2) : ''}} </div>   
+                        <template  slot-scope="scope" >     
+                            <span  v-if="scope.row.sfp">{{item.sfpHandlingfee  ? item.sfpHandlingfee .toFixed(2) + " + " :' 0 +  '}} </span>
+                            <span  v-else>{{item.handlingfee  ? item.handlingfee .toFixed(2) + " + " :' 0  + '}} </span>                     
+                            {{item.packagingfee ? item.packagingfee.toFixed(2)  + " + " : '0 + '}}
+                            {{item.localizationfee ? item.localizationfee.toFixed(2)  : '0'}}  
                         </template>
                     </el-table-column>
                     <el-table-column
                         prop="developmentprice"
-                        label="可抵扣税费">
+                        label="可抵扣税费"
+                        header-align='center'
+                        align="center"
+                        >
                         <template slot="header" >
                             <div>可抵扣税费  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div>进口VAT + 快递VAT </div>
                         </template>
-                        <template >
-                            <div>进口VAT: {{item.vatfee ? item.vatfee.toFixed(2) : ''}} </div>
-                            <div>快递VAT: {{item.localshippingfeevat ? item.localshippingfeevat.toFixed(2) : ''}} </div>
+                        <template   slot-scope="scope">
+                           {{item.vatfee ? item.vatfee.toFixed(2) + "+" : '0 + '}}
+                           <span  v-if="scope.row.sfp">{{item.sfpLocalshippingfeevat   ? item.sfpLocalshippingfeevat  .toFixed(2) :' 0 '}} </span>
+                           <span  v-else>{{item.localshippingfeevat  ? item.localshippingfeevat .toFixed(2) :' 0 '}} </span>  
                         </template>
                     </el-table-column>
                 </el-table>

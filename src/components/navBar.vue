@@ -3,8 +3,8 @@
     <el-form ref="form"
              :model="form"
              label-width="150px">
-      <el-row :gutter="2">
-        <el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="12">
+      <el-row  :gutter="10">
+        <el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11">
           <el-form-item class="firstCreateStyle"
                         label-width="10px">
             <el-select v-model="form.dateType"
@@ -41,7 +41,7 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :xs="12" :sm="12" :md="6" :lg="4" :xl="5">
+        <el-col :xs="12" :sm="12" :md="6" :lg="4" :xl="4">
           <el-form-item label-width="10px">
             <div class="searchBox">
                 <el-input placeholder="综合搜索"
@@ -59,7 +59,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="10" :xs="24" :sm="24" :md="24" :lg="24" :xl="11">
+        <el-col :span="10" :xs="24" :sm="24" :md="24" :lg="11" :xl="11">
           <el-form-item label="开发国家:">
               <div class="checkBoxAll">
                 <el-checkbox class="checkboxAlltext" :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
@@ -77,7 +77,7 @@
               </div>
           </el-form-item>
         </el-col>
-        <el-col :span="10" :lg="24" :xl="10">
+        <el-col :span="10" :lg="10" :xl="10">
             <el-form-item label="是否需要专利:">
             <el-radio-group v-model="form.patent">
               <el-radio label="all">全部</el-radio>

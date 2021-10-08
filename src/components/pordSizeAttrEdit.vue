@@ -636,7 +636,7 @@ export default {
             let proSize = this.multiAttribute &&this.multiAttribute[0] ?  this.multiAttribute[0].size : ''
 
             this.ruleForm = {
-                productType:this.pordSizeAttrInfoList.productType == 2 ? 2 : 1,
+                productType:this.pordSizeAttrInfoList.producttype == 2 ? 2 : 1,
                 productSizeL:this.pordSizeAttrInfoList.productSizeL,
                 productSizeW:this.pordSizeAttrInfoList.productSizeW,
                 productSizeH:this.pordSizeAttrInfoList.productSizeH,
