@@ -118,7 +118,8 @@
                         </template>
                         <template slot-scope="scope">
                             <div :class="scope.row.profit >= 0 ? 'textColor':'noColor'">{{scope.row.profit ?scope.row.profit.toFixed(2):'0.00' }} / {{scope.row.profitmargin ? (scope.row.profitmargin*100).toFixed(2) :'0.00'}}% </div>
-                        </template>
+                            <div :class="item.endprofit >= 0 ? 'textColor':'noColor'">{{item.endprofit ?item.endprofit.toFixed(2):'0.00' }} / {{item.endprofitmargin ? (item.endprofitmargin*100).toFixed(2) + '%' :'0.00%'}} </div>
+                        </template>   
                     </el-table-column>
                     <el-table-column>
                         <template slot="header" >
@@ -194,7 +195,7 @@
                         </template>
                     </el-table-column>
                 </el-table>
-                <div class="tableBottomTitle">运输方式(自有/SFP): <span v-if="item.shippingname">{{item.shippingname}} </span><span v-if="item.sfpLogisticsCode"> {{item.sfpLogisticsCode + '/'}}</span><span class="showText" v-if="!item.shippingname && !item.sfpLogisticsCode">全国运输方式暂无匹配</span>   汇率: {{item.exchangerate}}</div>
+                <div class="tableBottomTitle">运输方式(自有/SFP): <span v-if="item.shippingname">{{item.shippingname}} </span><span v-if="item.sfpLogisticsCode"> {{'/' + item.sfpLogisticsCode }}</span><span class="showText" v-if="!item.shippingname && !item.sfpLogisticsCode">全国运输方式暂无匹配</span>   汇率: {{item.exchangerate}}</div>
             </el-col>
         </el-row>
         

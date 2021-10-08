@@ -1,6 +1,6 @@
 <template>
     <div>
-         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm" size="mini">
+         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm" size="mini" v-loading='loading'>
              <el-row>
                  <el-col :span="10">
                      <el-form-item label="产品类型:" prop="productType">
@@ -443,6 +443,7 @@ export default {
     name:'pordSizeAttrEdit',
     data(){
         return {
+            loading:false,
             firstList:false,
             putColor:false,
             copeMulAttrBute:{},
@@ -612,7 +613,7 @@ export default {
             selectid = this.boxType.filter(item => {
                 return item._id == val
             })
-            this.selectid = selectid[0]._id
+            this.selectid = selectid[0]._volume
         },
         init(){
             let params = {
@@ -621,6 +622,7 @@ export default {
             findBoxTypesById(params).then(res => {
                 this.boxType = res.data.boxType
                 this.selectid = this.pordSizeAttrInfoList.containerid
+                this.selectConNumb(this.ruleForm.containersNumber)
             })
         },
         getDetaiList(){
@@ -658,6 +660,7 @@ export default {
                 multiAttribute:this.multiAttribute,
                 productlistings:this.pordSizeAttrInfoList.productlistings ? this.pordSizeAttrInfoList.productlistings:[],
             }
+            
         },
         deleteRow(index, rows) {
             rows.splice(index, 1);
@@ -723,16 +726,18 @@ export default {
                             color:res.color || ''
                         }
                     })
+                    this.loading = true
                     purchaseSku(params).then(res => {
                         if(res.code == 200){
+                            this.loading = false
                             this.$message({
                                 type: 'success', 
                                 message:'保存成功',
                                 offset:220
-                            })
+                            }) 
                             this.$emit('closeEdit','false')
                         }
-                    })
+                    }).catch(err => { this.loading = false })
                 } else {
                     console.log('error submit!!');
                     return false;

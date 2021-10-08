@@ -247,7 +247,7 @@
                         </div>
                         <el-button  v-if="showList(item.createdon)" @click="getMoeny(item,index)">计算利润</el-button>
                         <div :class="item.profit > 0 ? 'titleText' :'noTitleText'" v-show="item.showProfit && item.freight">
-                            {{contryCurry(item.countrycode)}}: {{item.profit}} - 利润率：{{item.profitmargin * 100}}%
+                            {{contryCurry(item.countrycode)}}: {{item.endprofit? item.endprofit:item.profit}} - 利润率：{{item.endprofitmargin ? item.endprofitmargin * 100 : item.profitmargin * 100}}%
                         </div>
                         <div class='noTitleText' v-if="item.showProfit && !item.freight">
                             【产品尺寸重量超过物流限制，SFP运费匹配不到】

@@ -14,14 +14,14 @@
             </div>
             <div class="remarksBox">
                 <div v-for='item in remarksList' :key="item.key"  class="bubbleText">
-                    <div :class="item.createdby  == employee.id || employee.Id ?'bubbleROutBoxCont':'bubbleLOutBox'">
-                        <div><i v-if="item.createdby  !==employee.id || employee.Id" class="el-icon-user isLeft"></i>{{item.trueName}}<i v-if="item.createdby == employee.id || employee.Id " class="el-icon-user isRight"></i></div>
+                    <div :class="item.createdby  == employee.id || item.createdby  == oemployee.Id ?'bubbleROutBoxCont':'bubbleLOutBox'">
+                        <div><i v-if="item.createdby  !== employee.id && item.createdby  !== oemployee.Id" class="el-icon-user isLeft"></i>{{item.trueName}}<i v-if="item.createdby == employee.id ||item.createdby  == oemployee.Id " class="el-icon-user isRight"></i></div>
                         <div>{{$moment(item.createdon).format("YYYY-MM-DD HH:mm:ss")}}</div>
                         <!-- <div>{{item.createdon}}</div> -->
                     </div>
                     <div class="bubbleROutBox">
-                        <div :class="item.createdby  == employee.id || employee.Id?'bubbleTailRight':'bubbleTail'"></div>
-                        <div :class="item.createdby  == employee.id || employee.Id ?'bubbleBoxRight':'bubbleBox'">
+                        <div :class="item.createdby  == employee.id || item.createdby  == oemployee.Id?'bubbleTailRight':'bubbleTail'"></div>
+                        <div :class="item.createdby  == employee.id ||item.createdby  == oemployee.Id ?'bubbleBoxRight':'bubbleBox'">
                             <div class="topStatusTitle">
                                 <span >{{item.statusValue}}</span>
                                 <span class="bubbleBoxText">{{item.operation}}</span>
@@ -53,8 +53,18 @@ export default {
             type: Object,
             default:() => ({})
         },
+        oemployee: {
+            type: Object,
+            default:() => ({})
+        },
+    },
+    created(){
+        this.init()
     },
     methods:{
+        init(){
+            console.log(this.employee,'employee')
+        },
          handleClose(done) {
             // this.$confirm('确认关闭？')
             // .then(_ => {
