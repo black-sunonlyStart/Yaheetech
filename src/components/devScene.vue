@@ -226,6 +226,7 @@ export default {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let params = {
+                scenarios:this.ruleForm.scene,
                 developmentId:this.$route.params.developmentId,
                 productId:this.$route.params.productId,
                 productCountryId:this.$route.params.productCountryId,
@@ -243,7 +244,7 @@ export default {
                         message:'数据保存成功',
                         offset:220
                     })
-                    this.$emit('closeEdit','false',res.data)
+                    this.$emit('closeEdit','false',res.data,this.ruleForm.scene)
                     this.$router.push({
                         name:'productDetails',
                         params:{
@@ -272,6 +273,7 @@ export default {
           if(val == 1){
             this.showRelation = false
           } else if (val == 2){
+            this.ruleForm.relation = '1'
             this.spuChange = true
             this.selectId = true
           } else if (val == 3){

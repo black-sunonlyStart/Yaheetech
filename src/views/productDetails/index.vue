@@ -276,6 +276,7 @@ export default {
   },
   data () {
     return {
+        scenarios:'',
         showSizeText:[],
         multiAttribute:[],
         employee:{},
@@ -597,7 +598,7 @@ export default {
                 //开发类型、详情数据
                 this.productVoDetail = {
                     developmenttype:this.productVos ? this.productVos.developmenttype :'',//开发类型
-                    developmentscenarios:this.productVos ? this.productVos.developmentscenarios : '',//开发场景
+                    developmentscenarios:this.scenarios ? this.scenarios :this.productVos ? this.productVos.developmentscenarios : '',//开发场景
                     categoryname:res.data.development ? res.data.development.categoryname : '',//所属分类
                     spu:res.data.development ? res.data.development.spu : '',//关联spu
                     id:this.productVos ? this.productVos.id : '',//关联spu id
@@ -701,6 +702,7 @@ export default {
                  }
                 //开发信息
                 this.devInformationDetaiList = {
+                    scenarios:this.scenarios ? this.scenarios :this.productVos ? this.productVos.developmentscenarios : '',
                     usCountryBand:usCountryBand && usCountryBand[0] ? usCountryBand[0].Value : '',
                     enCountryBand:enCountryBand && enCountryBand[0] ? enCountryBand[0].Value : '',
                     deCountryBand:deCountryBand && deCountryBand[0] ? deCountryBand[0].Value : '',
@@ -965,8 +967,9 @@ export default {
             })
         })
       },
-      editPage(val,res){
+      editPage(val,res,scenarios){
           this.isEdit = val
+          this.scenarios = scenarios
           this.getAllpageList(res)
       },
       updeEditPage(val){  

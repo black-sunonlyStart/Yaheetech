@@ -999,6 +999,7 @@ export default {
                     this.$refs['ruleForm2'][0].validate((valid) => {
                     if (valid) {
                         let params = {
+                            scenarios:this.devInformationDetaiList.scenarios,
                             developmentId:this.$route.params.developmentId,
                             productId:this.$route.params.productId,
                             productCountryId:this.$route.params.productCountryId,
