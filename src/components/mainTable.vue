@@ -133,7 +133,7 @@
             <template slot-scope="scope">
                 <div>{{$moment(scope.row.createdOn).format("YYYY-MM-DD HH:mm")}}</div>
                 <div>{{$moment(scope.row.modifyOn).format("YYYY-MM-DD HH:mm")}}</div>
-                <div :class="scope.row.priority == 0? 'priorityStyle':'smallPriorityStyle'">{{getPriority(scope.row.priority)}}</div>
+                <div :class="scope.row.priority == 2? 'priorityStyle':'smallPriorityStyle'">{{getPriority(scope.row.priority)}}</div>
             </template>
       </el-table-column>
       <el-table-column 
@@ -249,11 +249,11 @@ export default {
       },
       getPriority(val){
           if(val == 0){
-              return '高优先级'
+              return '低优先级'
           }else if(val == 1){
               return '中优先级'
           }else{
-              return '低优先级'
+              return '高优先级'
           }
       },
       clickEdit(devId,proId,procountryId){
