@@ -480,6 +480,7 @@ export default {
         },
         getNewSizeList(){
             let params = {
+                scenarios:this.$route.query.id == 8 ? 3 : 2,//开发场景
                 developmentType:this.$route.query.developmentType,
                 developmentScenarios:this.$route.query.id == 8 ? 3 : 2,
                 addDevelopmentId:this.$route.query.developmentId,
@@ -891,6 +892,7 @@ export default {
                     bandprice:res.data.development.bandprice, //品牌费
                     fobbandprice:res.data.development.fobbandprice, //FOB报价品牌费
                     packedvolume:this.productVos.packedvolume, //FOB头程费
+                    fobPrice:this.productVos.fobPrice, //FOB头程费
                     exchangeRate:res.data.exchangeRate, //汇率
                     gooddate:this.productVos.gooddate,
                     goodnote:this.productVos.goodnote,   
@@ -902,6 +904,7 @@ export default {
         })
       },
       changeSizeTitle(pordSizeAttrInfoList,countryName,nowStatus){
+          this.showSizeText = []
             if(nowStatus != 9)return
             let sizeList = [pordSizeAttrInfoList.productSizeYcunL,pordSizeAttrInfoList.productSizeYcunW,pordSizeAttrInfoList.productSizeYcunH]
                 sizeList.sort()

@@ -13,6 +13,9 @@
                     <el-table-column
                         label="选择"
                         >
+                        <div slot-scope="scope">
+                            {{scope.row.isdefault?'当前选择':''}}
+                        </div>
                     </el-table-column>
                     <el-table-column
                         prop="createdName"
@@ -224,7 +227,7 @@
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">FOB头程费： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.packedvolume ? (purchaseInfoDetaiList.packedvolume * 93).toFixed(2) + "(RMB)" : 0}}</div>
+                    <div class="colBoxTitle">FOB头程费： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.fobPrice ? (purchaseInfoDetaiList.fobPrice * 93).toFixed(2) + "(RMB)" : 0}}</div>
                 </div>
             </el-col>
         </el-row>
@@ -254,7 +257,7 @@ export default {
     },
     methods:{
         changePrice(calculateprofittype,fobprice,taxprice,purchaseprice,miscprice,warpperfee){
-            if(!calculateprofittype && !this.purchaseInfoDetaiList.exchangeRate )return ''
+            if(!calculateprofittype && !miscprice && !warpperfee && !this.purchaseInfoDetaiList.exchangeRate )return 0
             if(calculateprofittype == 2) {
                 return (fobprice * this.purchaseInfoDetaiList.exchangeRate + miscprice + warpperfee).toFixed(2)
             }else if (calculateprofittype == 3){

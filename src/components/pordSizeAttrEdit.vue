@@ -536,20 +536,11 @@ export default {
         }
     },
     watch:{
-    //     clickId:{
-    //       handler:function(val){
-    //           if(val){
-    //             this.$nextTick(() => {
-    //                 this.clickId = val
-    //                 if(this.clickId == 6 || this.clickId == 20 ){
-    //                     this.getTypeList()
-    //                 } 
-    //             })
-    //           }
-    //       },
-    //   },
     },
     computed:{
+        productlistings(){
+            return this.ruleForm.productlistings
+        },
         proGrossWeightLb(){
             return (this.ruleForm.proGrossWeight * 2.204).toFixed(6) || ''
         },

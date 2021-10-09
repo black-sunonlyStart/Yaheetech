@@ -362,7 +362,7 @@
                     <el-form-item label="FOB头程费:" prop="feeForOrdering">
                         <div class="feeForOrderText">
                             <div class="inputBox">
-                                <el-input-number :controls='false' :precision="2" v-model="ruleForm.packedvolume" disabled></el-input-number>
+                                <el-input-number :controls='false' :precision="2" v-model="ruleForm.fobPrice" disabled></el-input-number>
                                 <span class="inputUnit">RMB</span>
                             </div>  
                         </div>
@@ -476,7 +476,7 @@ export default {
         this.getDetailList()
     },
     methods:{
-        changePrice(calculateprofittype,fobprice,taxprice,purchaseprice,miscprice,warpperfee){
+        changePrice(calculateprofittype,fobprice = 0,taxprice = 0,purchaseprice = 0,miscprice = 0,warpperfee = 0){
             if(!calculateprofittype && !this.purchaseInfoDetaiList.exchangeRate )return ''
             if(calculateprofittype == 2) {
                 return (fobprice * this.purchaseInfoDetaiList.exchangeRate + miscprice + warpperfee).toFixed(2)
@@ -520,6 +520,7 @@ export default {
                 productPurchaseVoList :this.purchaseInfoDetaiList.productPurchaseVoList || [],
                 lastProductPurchaseVoList :this.purchaseInfoDetaiList.lastProductPurchaseVoList || [],
                 purchaseprice :this.purchaseInfoDetaiList.purchaseprice,
+                fobPrice :this.purchaseInfoDetaiList.fobPrice,
             }
             this.$nextTick(() => {
                 if(this.purchaseInfoDetaiList.productPurchaseVoList && this.purchaseInfoDetaiList.productPurchaseVoList.length > 0){

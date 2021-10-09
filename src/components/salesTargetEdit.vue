@@ -11,7 +11,7 @@
                     <el-form-item label="目标采购价:" prop="targetPrice">
                         <div class="targetPriceWbox">
                             <div class="inputBox">
-                                <el-input-number :controls='false' v-model="ruleForm.targetPrice"></el-input-number>
+                                <el-input-number :controls='false' v-model="ruleForm.targetPrice" ></el-input-number>
                                 <span class="inputUnit" v-if="ruleForm.region == 2">$</span>
                                 <span class="inputUnit" v-else>¥</span>
                             </div>
@@ -259,6 +259,7 @@ export default {
         .el-input-number {
             width: 150px;
             .el-input__inner{
+                text-align: left;
                 color: black !important;
                 border-top-right-radius: 0px !important;
                 border-bottom-right-radius: 0px !important;
