@@ -227,7 +227,7 @@
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">FOB头程费： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.fobPrice ? (purchaseInfoDetaiList.fobPrice * 93).toFixed(2) + "(RMB)" : 0}}</div>
+                    <div class="colBoxTitle">FOB头程费： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.fobPrice ? (purchaseInfoDetaiList.fobPrice ).toFixed(2) + "(RMB)" : 0}}</div>
                 </div>
             </el-col>
         </el-row>

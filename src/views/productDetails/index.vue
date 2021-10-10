@@ -32,7 +32,7 @@
                                 {{item.platformName}}-{{item.marketProfits[0].warehouseName}}-{{item.currency}}<span :class="item.developmentPrice <= 0 ? 'showColor':''"> {{item.developmentPrice}}</span> /
                                 <span :class="item.marketProfits && item.marketProfits[0] && item.marketProfits[0].profitMargin <= 0 ? 'showColor':'redColor'" > {{item.marketProfits[0].profitMargin ? (item.marketProfits[0].profitMargin * 100).toFixed(2) + '%' : '' }}</span>
                                 <span v-if="item.marketProfits[0].sfpDevelopmentprice"> SFP：{{item.marketProfits[0].sfpDevelopmentprice}} / </span>
-                                <span :class="item.marketProfits && item.marketProfits[0] && item.marketProfits[0].profitMargin <= 0 ? 'showColor':'redColor'" v-if="item.marketProfits[0].sfpDevelopmentprice">{{(item.marketProfits[0].sfpProfitMargin * 100).toFixed(2) + '%' }}</span>
+                                <span :class="item.marketProfits && item.marketProfits[0] && item.marketProfits[0].sfpProfitMargin <= 0 ? 'showColor':'redColor'" v-if="item.marketProfits[0].sfpDevelopmentprice">{{(item.marketProfits[0].sfpProfitMargin * 100).toFixed(2) + '%' }}</span>
                             </div>
                         </div>
                     </div>
@@ -727,7 +727,8 @@ export default {
                     productMarketList: this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList  && this.productVos.productCountryList[0].productMarketList[0] ?  this.productVos.productCountryList[0].productMarketList : [],//表格数据
                     // mapProfit: this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList  && this.productVos.productCountryList[0].productMarketList[0] ?  this.productVos.productCountryList[0].productMarketList : [],//表格数据
                     businessid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessid : '',   
-                    buyerid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerid : '',   
+                    buyerid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerid : '',
+                    packingway:this.productVos.packingway,//包装方式   
                 }
                 // console.log(this.devInformationDetaiList,'devInformationDetaiList',JSON.parse(res.data.development.dutyrate))
                 //产品认证信息
@@ -785,7 +786,6 @@ export default {
                             item.name = item.fileName || item.fileuri
                         })
                      }
-                    //  console.log(mustCredentialList,recommendCredentialList,'1111111111111111')
                     this.prodevInfoDetaiList = {
                         title:this.productVos.title,//中文标题
                         description:this.productVos.description,//中文标题

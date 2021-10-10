@@ -254,7 +254,7 @@
                         </div>
                     </el-form-item>
                     <div v-if="showList(item.createdon)">
-                        <el-form-item label="SFP开发价:" prop="sfpDevelopmentPrice" v-if="(item.countrycode == 'GB' || item.countrycode == 'DE') && item.platformname == 'Amazon'">
+                        <el-form-item label="SFP开发价:" prop="sfpDevelopmentPrice" v-if="(item.countrycode == 'GB' || item.countrycode == 'DE') && item.platformname == 'Amazon' && !devInformationDetaiList.packingway">
                             <div class="inputBox"> 
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.sfpDevelopmentPrice"></el-input-number>
@@ -264,7 +264,7 @@
                                 {{contryCurry(item.countrycode)}}: {{item.sfpEndProfit? item.sfpEndProfit:item.sfpProfit}} - 利润率：{{item.sfpPEndProfitMargin ? item.sfpPEndProfitMargin * 100 : item.sfpProfitMargin * 100}}%
                             </div>
                         </el-form-item>
-                        <el-form-item label="SFP运费:" prop="sfpOceanFreight" v-if="(item.countrycode == 'GB' || item.countrycode == 'DE') && item.platformname == 'Amazon'">
+                        <el-form-item label="SFP运费:" prop="sfpOceanFreight" v-if="(item.countrycode == 'GB' || item.countrycode == 'DE') && item.platformname == 'Amazon' && !devInformationDetaiList.packingway">
                             <div class="inputBox"> 
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.sfpOceanFreight"></el-input-number>
@@ -986,7 +986,7 @@ export default {
                 });
                 return 
             }
-            if(this.devInformationDetaiList.productMarketList.find(item => (item.sfpDevelopmentPrice &&  !item.sfpOceanFreight))){
+            if( !this.devInformationDetaiList.packingway && this.devInformationDetaiList.productMarketList.find(item => (item.sfpDevelopmentPrice &&  !item.sfpOceanFreight))){
                 this.$message({
                     type:'error',
                     message:'【产品尺寸重量超过物流限制，SFP运费匹配不到】',
