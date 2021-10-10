@@ -41,7 +41,6 @@ export default {
         this.selectRow = val || []
     },
     putTableList (val){
-        console.log(this.filterList)
         this.filterList = val
     },
     putTbleList(){

@@ -6,7 +6,7 @@
             :modal='false'
             class="dialogBox"
             v-dialogDrag
-            
+            v-loading='loading'
             >
             <div class="titleText" slot="title">
                 {{this.dialogName}}
@@ -112,6 +112,7 @@ export default {
     name:'messageDialog',
     data(){
         return {
+            loading:false,
             developStateList:[],
             dailySales:[],
             type2:[],
@@ -358,7 +359,6 @@ export default {
             this.dialogVisible = true
         },
         submitList(formName){
-            console.log(this.row,'this.row')
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let toState = ''
@@ -384,7 +384,6 @@ export default {
                 toState = this.row.state + 1
             }
             let row = []
-            console.log(this.selectRow,'selectRow',this.selectRow.length)
             if((this.clickId == 2 || this.clickId == 6 || this.clickId == 20 || this.clickId == 30 )&& this.selectRow.length > 0){
                  row = this.selectRow.map(res => {
                     return res.id
@@ -394,6 +393,7 @@ export default {
                 row = this.row.id
             }
             let normalList = [1,5,7,10,11,14,15,16,25,40]
+            this.loading = true
             if(normalList.includes(this.clickId)){
                 let params = {
                     productCountryId:this.row.id,
@@ -407,12 +407,15 @@ export default {
                             message:'保存成功',
                             offset:220
                         })
+                        this.loading = false
                         this.$emit('getTableList',this.navFilterList)
                         this.$refs['ruleForm'].resetFields();
                         this.dialogVisible = false
                          
                     }
-                })
+                }).catch((err) => {
+                        this.loading = false
+                    })
             }
             if(this.clickId == 2){
                 let params = {
@@ -430,9 +433,12 @@ export default {
                         this.$emit('getTableList',this.navFilterList)
                         this.$refs['ruleForm'].resetFields();
                         this.dialogVisible = false
+                        this.loading = false
                         
                     }   
-                })
+                }).catch((err) => {
+                        this.loading = false
+                    })
             }
             if(this.clickId == 30){
                 let params = {
@@ -449,9 +455,11 @@ export default {
                         this.$emit('getTableList',this.navFilterList)
                         this.$refs['ruleForm'].resetFields();
                         this.dialogVisible = false
-                        
+                        this.loading = false
                     }   
-                })
+                }).catch((err) => {
+                        this.loading = false
+                    })
             }
             if(this.clickId == 4 ){
                 let params = {
@@ -470,9 +478,11 @@ export default {
                         this.$emit('getTableList',this.navFilterList)
                         this.$refs['ruleForm'].resetFields();
                         this.dialogVisible = false
-                        
+                        this.loading = false
                     }   
-                })
+                }).catch((err) => {
+                        this.loading = false
+                    })
             }
             if(this.clickId == 6){
                 let params = {
@@ -489,9 +499,12 @@ export default {
                         })
                         this.$emit('getTableList',this.navFilterList)
                         this.$refs['ruleForm'].resetFields();
-                        this.dialogVisible = false   
+                        this.dialogVisible = false  
+                        this.loading = false 
                     }  
-                })
+                }).catch((err) => {
+                        this.loading = false
+                    })
             }
             if(this.clickId == 20){
                 let params = {
@@ -508,9 +521,12 @@ export default {
                         })
                          this.$emit('getTableList',this.navFilterList)
                          this.$refs['ruleForm'].resetFields();
-                        this.dialogVisible = false  
+                        this.dialogVisible = false 
+                        this.loading = false 
                     }  
-                })
+                }).catch((err) => {
+                        this.loading = false
+                    })
             }
             if(this.clickId == 3){
                 let  params = {
@@ -527,8 +543,11 @@ export default {
                          this.$emit('getTableList',this.navFilterList)
                          this.$refs['ruleForm'].resetFields();
                         this.dialogVisible = false 
+                        this.loading = false
                     }
-                })
+                }).catch((err) => {
+                        this.loading = false
+                    })
             }
           }
         })

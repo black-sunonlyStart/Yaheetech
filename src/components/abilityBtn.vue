@@ -123,7 +123,6 @@
                     let url = this.GetHelpTagsUrl("/ExportTable/OutputNew").toString()
                     this.$jsonp(url,Option).then((data) => {
                         window.open(data.Url)
-                        console.log(data)
                     }).catch((err) => {
                         console.log(err)
                     })

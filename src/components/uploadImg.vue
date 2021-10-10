@@ -207,7 +207,6 @@ export default {
     //     },
     handleChange(file, fileList) {
       this.fileList = fileList;
-      console.log(fileList,'fileList')
       this.$refs.uploadRef.submit();
     },
     // 同步el-upload数据
@@ -263,7 +262,6 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             }; 
-            console.log(param,'this.param')
             loadFile(param,config).then(res => {
                 if(res.code == 200){
                    this.$emit('closeEdit')

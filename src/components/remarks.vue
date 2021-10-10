@@ -59,12 +59,8 @@ export default {
         },
     },
     created(){
-        this.init()
     },
     methods:{
-        init(){
-            console.log(this.employee,'employee')
-        },
          handleClose(done) {
             // this.$confirm('确认关闭？')
             // .then(_ => {
