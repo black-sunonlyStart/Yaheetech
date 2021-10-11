@@ -237,24 +237,33 @@ export default {
                 associatedProductId:this.ruleForm.selectRelation,
                 addSPUId:this.ruleForm.skuid,
             }
-            exploitType(params).then(res => {
-                if(res.code == 200){
-                    this.$message({
-                        type: 'success', 
-                        message:'数据保存成功',
-                        offset:220
-                    })
-                    this.$emit('closeEdit','false',res.data,this.ruleForm.scene)
-                    this.$router.push({
-                        name:'productDetails',
-                        params:{
-                            developmentId:res.data.developmentId,
-                            productId:res.data.productId,
-                            productCountryId:res.data.productCountryId,
-                        }
-                    })
-                }
-            })
+            this.$confirm('保存以后开发场景和关联场景不允许更改，请确认要继续保存？', '提示', {
+                        confirmButtonText: '确定',
+                        cancelButtonText: '取消',
+                        type: 'warning'
+                        }).then(() => {
+                            exploitType(params).then(res => {
+                                if(res.code == 200){
+                                    this.$message({
+                                        type: 'success', 
+                                        message:'数据保存成功',
+                                        offset:220
+                                    })
+                                    this.$emit('closeEdit','false',res.data,this.ruleForm.scene)
+                                    this.$router.push({
+                                        name:'productDetails',
+                                        params:{
+                                            developmentId:res.data.developmentId,
+                                            productId:res.data.productId,
+                                            productCountryId:res.data.productCountryId,
+                                        }
+                                    })
+                                }
+                        })
+                }).catch(() => {
+                return          
+            });
+            
           } else {
             console.log('error submit!!');
             return false;
