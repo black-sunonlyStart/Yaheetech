@@ -245,7 +245,7 @@ export default {
               key:5
           },
           {
-              name:'终审',
+              name:'待终审',
               label:6,
               key:6
           },

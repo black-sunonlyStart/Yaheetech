@@ -14,14 +14,14 @@
             </div>
             <div class="remarksBox">
                 <div v-for='item in remarksList' :key="item.key"  class="bubbleText">
-                    <div :class="item.backtype  ?'bubbleROutBoxCont':'bubbleLOutBox'">
-                        <div><i v-if="!item.backtype" class="el-icon-user isLeft"></i>{{item.trueName}}<i v-if="item.backtype " class="el-icon-user isRight"></i></div>
+                    <div :class="item.createdby == oemployee.Id  ?'bubbleROutBoxCont':'bubbleLOutBox'">
+                        <div><i v-if="!item.createdby == oemployee.Id " class="el-icon-user isLeft"></i>{{item.trueName}}<i v-if="item.createdby == oemployee.Id  " class="el-icon-user isRight"></i></div>
                         <div>{{$moment(item.createdon).format("YYYY-MM-DD HH:mm:ss")}}</div>
                         <!-- <div>{{item.createdon}}</div> -->
                     </div>
                     <div class="bubbleROutBox">
-                        <div :class="item.backtype ?'bubbleTailRight':'bubbleTail'"></div>
-                        <div :class="item.backtype ?'bubbleBoxRight':'bubbleBox'">
+                        <div :class="item.createdby == oemployee.Id  ?'bubbleTailRight':'bubbleTail'"></div>
+                        <div :class="item.createdby == oemployee.Id ?'bubbleBoxRight':'bubbleBox'" :style="{color:(item.backtype?'red':'')}">
                             <div class="topStatusTitle">
                                 <span >{{item.statusValue}}</span>
                                 <span class="bubbleBoxText">{{item.operation}}</span>
@@ -70,7 +70,21 @@ export default {
         },
         openHandle(){
              this.drawer = true
-        }
+        },
+        // showTitleColor(val,backtype){
+        //     if(!val)return
+        //     if(val == this.oemployee.Id  ){
+        //        if(backtype){
+        //            return 'addColor bubbleBoxRight'
+        //        }
+        //        return 'bubbleBoxRight'
+        //     }else{
+        //         if(backtype){
+        //            return 'addColor bubbleBox'
+        //        }
+        //         return 'bubbleBox'
+        //     }
+        // }
     }
 }
 </script>
@@ -169,7 +183,7 @@ export default {
                     border: 1px solid #cccccc;
                     .topStatusTitle{
                         font-weight: bold;
-                        color: red;
+                        // color: red;
                         .bubbleBoxText{
                             float: right;
                         }
@@ -195,6 +209,9 @@ export default {
     .bubbleBoxMainText{
         height: 50px;
         overflow-y: auto;
+    }
+    .addColor{
+        color: red;
     }
     
 </style>

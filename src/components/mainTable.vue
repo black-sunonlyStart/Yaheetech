@@ -548,7 +548,7 @@ export default {
           }else if(row.state == 6){
               this.operationList = [
                   {
-                    name:'提交终审',
+                    name:'终审审批',
                     id:9,
                     perkey:'ERP.Product.ProductDev.EndAudit'
                   },

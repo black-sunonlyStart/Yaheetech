@@ -394,7 +394,7 @@
                                         {{scope.row.color}}
                                     </div>
                                     <div>
-                                        {{ruleForm.productSize}}
+                                        {{scope.row.productid == pordSizeAttrInfoList.id ? ruleForm.productSize :scope.row.size}}
                                     </div>
                                 </template>
                             </el-table-column>
@@ -563,8 +563,9 @@ export default {
         }
     },
     mounted(){
-        this.getDetaiList()
         this.init()
+        this.getDetaiList()
+        
     },
     watch:{
         productColor:{
@@ -613,7 +614,8 @@ export default {
             selectid = this.boxType.filter(item => {
                 return item._id == val
             })
-            this.selectid = selectid[0]._volume
+            if(!selectid)return
+            this.selectid = selectid && selectid[0] ? selectid[0]._volume : ''
         },
         init(){
             let params = {
@@ -626,14 +628,19 @@ export default {
             })
         },
         getDetaiList(){
+            let productColor = []
             if(this.multiAttribute && this.multiAttribute[0]){
                 this.firstList = true
-                this.copeMulAttrBute =JSON.parse(JSON.stringify(this.multiAttribute[0])) 
+                let newMulBute =  this.multiAttribute.filter((item => {
+                    return item.productid == this.pordSizeAttrInfoList.id
+                }))
+                this.copeMulAttrBute =JSON.parse(JSON.stringify(newMulBute[0])) 
+                  productColor =  newMulBute.map(item => {
+                    return item.color
+                })
             } 
-            let productColor =  this.multiAttribute.map(item => {
-                return item.color
-            })
-            let proSize = this.multiAttribute &&this.multiAttribute[0] ?  this.multiAttribute[0].size : ''
+           
+            let proSize = this.copeMulAttrBute.size || ''
 
             this.ruleForm = {
                 productType:this.pordSizeAttrInfoList.producttype == 2 ? 2 : 1,
