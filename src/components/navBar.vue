@@ -35,7 +35,7 @@
           </el-form-item>
         </el-col>
         <el-col  :xs="12" :sm="12" :md="11" :lg="10" :xl="10">
-          <el-form-item label="产品负责人:" label-width="173px">
+          <el-form-item label="产品负责人:" label-width="175px">
             <el-radio-group v-model="form.productOwner">
               <el-radio v-for="item in productOwner" :label="item.value" :key="item.value" >{{item.label}}</el-radio>
             </el-radio-group>
