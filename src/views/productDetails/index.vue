@@ -1168,6 +1168,7 @@ export default {
           color: #3366cc;
           display: inline-block;
           cursor: pointer;
+          font-size: 13px;
       }
       .otherCountryTitle{
           display: inline-block;
