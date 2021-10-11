@@ -986,13 +986,6 @@ export default {
                 });
                 return 
             }
-            if( !this.devInformationDetaiList.packingway && this.devInformationDetaiList.productMarketList.find(item => (item.sfpDevelopmentPrice &&  !item.sfpOceanFreight))){
-                this.$message({
-                    type:'error',
-                    message:'【产品尺寸重量超过物流限制，SFP运费匹配不到】',
-                    offset:220,
-                });
-            }
             this.$refs['ruleForm1'].validate((valid) => {
                 if(valid){
                    if(this.$refs['ruleForm2']){

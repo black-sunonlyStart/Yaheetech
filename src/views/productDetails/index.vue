@@ -731,6 +731,13 @@ export default {
                     packingway:this.productVos.packingway,//包装方式   
                 }
                 // console.log(this.devInformationDetaiList,'devInformationDetaiList',JSON.parse(res.data.development.dutyrate))
+                if( !this.devInformationDetaiList.packingway && this.devInformationDetaiList.productMarketList.find(item => (item.sfpDevelopmentPrice &&  !item.sfpOceanFreight))){
+                    this.$message({
+                        type:'error',
+                        message:'【产品尺寸重量超过物流限制，SFP运费匹配不到】',
+                        offset:220,
+                    });
+                }
                 //产品认证信息
                 let credentialList1 = []
                 let credentialList2 = []
