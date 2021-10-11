@@ -89,7 +89,7 @@
                             <el-card>
                                 <div slot="header" class="clearfix">
                                     <div>开发类型/场景
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit = !isEdit" v-if="isEdit"><i class="icon-edit"></i>编辑</div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit = !isEdit" v-if="isEdit"><span v-if="statusOptions.includes(timeStatus)"><i class="icon-edit"></i>编辑</span></div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit">
@@ -102,7 +102,7 @@
                             <el-card style="margin-top:10px">
                                 <div slot="header" class="clearfix">
                                     <span>产品尺寸图
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit1 = !isEdit1" v-if="isEdit1"><i class="icon-edit"></i>编辑</div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit1 = !isEdit1" v-if="isEdit1"><span v-if="statusOptions.includes(timeStatus)"><i class="icon-edit"></i>编辑</span></div>
                                     </span>
                                 </div>
                                 <div v-if="isEdit1" class="imgContainer">
@@ -121,7 +121,7 @@
                             <el-card style="margin-top:10px;margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <span>销售目标
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit2 = !isEdit2" v-if="isEdit2"><i class="icon-edit"></i>编辑</div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit2 = !isEdit2" v-if="isEdit2"><span v-if="statusOptions.includes(timeStatus)"><i class="icon-edit"></i>编辑</span></div>
                                     </span>
                                 </div>
                                 <div v-if="isEdit2">
@@ -139,7 +139,7 @@
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>竞品信息
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit3 = !isEdit3" v-if="isEdit3"><i class="icon-edit"></i>编辑</div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit3 = !isEdit3" v-if="isEdit3"><span v-if="statusOptions.includes(timeStatus)"><i class="icon-edit"></i>编辑</span></div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit3">
@@ -157,7 +157,7 @@
                             <el-card>
                                 <div slot="header" class="clearfix">
                                     <div>开发信息
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit4 = !isEdit4" v-if="isEdit4"><i class="icon-edit"></i>编辑</div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit4 = !isEdit4" v-if="isEdit4"><span v-if="statusOptions.includes(timeStatus)"><i class="icon-edit"></i>编辑</span></div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit4">
@@ -176,7 +176,7 @@
                             <el-card>
                                 <div slot="header" class="clearfix">
                                     <div>产品认证信息
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit5 = !isEdit5" v-if="isEdit5"><i class="icon-edit"></i>编辑</div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit5 = !isEdit5" v-if="isEdit5"><span v-if="statusOptions.includes(timeStatus)"><i class="icon-edit"></i>编辑</span></div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit5">
@@ -192,7 +192,7 @@
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>产品标题和供应商信息
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit6 = !isEdit6" v-if="isEdit6"><i class="icon-edit"></i>编辑</div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit6 = !isEdit6" v-if="isEdit6"><span v-if="statusOptions.includes(timeStatus)"><i class="icon-edit"></i>编辑</span></div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit6">
@@ -210,7 +210,7 @@
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>产品尺寸和属性信息
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit7 = !isEdit7" v-if="isEdit7"><i class="icon-edit"></i>编辑</div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit7 = !isEdit7" v-if="isEdit7"><span v-if="statusOptions.includes(timeStatus)"><i class="icon-edit"></i>编辑</span></div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit7">
@@ -228,7 +228,7 @@
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>采购信息
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit8 = !isEdit8" v-if="isEdit8"><i class="icon-edit"></i>编辑</div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit8 = !isEdit8" v-if="isEdit8"><span v-if="statusOptions.includes(timeStatus)"><i class="icon-edit"></i>编辑</span></div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit8">
@@ -276,6 +276,7 @@ export default {
   },
   data () {
     return {
+        statusOptions : [0, 1, 2, 3, 4, 5, 6, 10, 11, 12, 13],
         showInfoTitle:false,
         scenarios:'',
         showSizeText:[],
