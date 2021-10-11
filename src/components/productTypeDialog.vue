@@ -22,7 +22,7 @@
     </div>
 </template>
 <script>
-import { queryAllCategory } from '@/api/user.js'
+let menuTree = require("@/mock/tree.json");
 export default {
     name:'productTypeDialog',
     data(){
@@ -47,9 +47,9 @@ export default {
             this.dialogVisible = false
         },
         getTreeList(){
-            queryAllCategory().then(res => {
-                this.treeData = res.data
-            })
+            // queryAllCategory().then(res => {
+                this.treeData = menuTree.data
+            // })
         },
         openDialog(){
             this.dialogVisible = true

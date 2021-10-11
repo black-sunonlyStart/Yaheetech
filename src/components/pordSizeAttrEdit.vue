@@ -723,7 +723,10 @@ export default {
                     params.productcolors = this.ruleForm.multiAttribute.map(res => {
                         return {
                             productneed:res.productneed || false,
-                            color:res.color || ''
+                            color:res.color || '',
+                            productid:res.productid,
+                            developmentid:res.developmentid,
+                            id:res.id || null
                         }
                     })
                     this.loading = true
