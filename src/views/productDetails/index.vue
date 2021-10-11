@@ -276,6 +276,7 @@ export default {
   },
   data () {
     return {
+        showInfoTitle:false,
         scenarios:'',
         showSizeText:[],
         multiAttribute:[],
@@ -479,10 +480,23 @@ export default {
             })
         },
         getNewSizeList(){
+            //  this.scenarios = ''
+            if(this.$route.query.id == 8 && this.$route.query.developmentScenarios > 5){
+                 this.scenarios = 12
+            }
+            if(this.$route.query.id == 8 && this.$route.query.developmentScenarios < 5){
+                 this.scenarios = 3
+            }
+            if(this.$route.query.id == 26 && this.$route.query.developmentScenarios > 5){
+                 this.scenarios = 11
+            }
+            if(this.$route.query.id == 26 && this.$route.query.developmentScenarios < 5){
+                 this.scenarios = 2
+            }
             let params = {
-                scenarios:this.$route.query.id == 8 ? 3 : 2,//开发场景
+                scenarios:this.scenarios,//开发场景
                 developmentType:this.$route.query.developmentType,
-                developmentScenarios:this.$route.query.id == 8 ? 3 : 2,
+                developmentScenarios:this.scenarios,
                 addDevelopmentId:this.$route.query.developmentId,
                 associatedProductId:this.$route.query.id == 8 ? '' : this.$route.query.productId,
             }
@@ -731,12 +745,14 @@ export default {
                     packingway:this.productVos.packingway,//包装方式   
                 }
                 // console.log(this.devInformationDetaiList,'devInformationDetaiList',JSON.parse(res.data.development.dutyrate))
-                if( !this.devInformationDetaiList.packingway && this.devInformationDetaiList.productMarketList.find(item => (item.sfpDevelopmentPrice &&  !item.sfpOceanFreight))){
-                    this.$message({
-                        type:'error',
-                        message:'【产品尺寸重量超过物流限制，SFP运费匹配不到】',
-                        offset:220,
-                    });
+                if(this.showInfoTitle){
+                    if( !this.devInformationDetaiList.packingway && this.devInformationDetaiList.productMarketList.find(item => (item.sfpDevelopmentPrice &&  !item.sfpOceanFreight))){
+                        this.$message({
+                            type:'error',
+                            message:'【产品尺寸重量超过物流限制，SFP运费匹配不到】',
+                            offset:220,
+                        });
+                    }
                 }
                 //产品认证信息
                 let credentialList1 = []
@@ -1002,6 +1018,7 @@ export default {
       },
       devInfoEdit(val,res){
           this.isEdit4 = val
+          this.showInfoTitle = true
           this.getAllpageList(res)
 
       },

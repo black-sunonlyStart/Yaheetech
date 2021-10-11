@@ -295,10 +295,21 @@ export default {
                             developmentType:row.developmentType,
                             developmentId:row.developmentId,
                             productId:row.productId,
+                            developmentScenarios:row.developmentScenarios,
                             id
                         }
                     });
                     window.open(routeData.href, '_blank');
+                    // this.$router.push({
+                    //     name:'productDetails',
+                    //     query:{
+                    //             developmentType:row.developmentType,
+                    //             developmentId:row.developmentId,
+                    //             productId:row.productId,
+                    //             developmentScenarios:row.developmentScenarios,
+                    //             id
+                    //         }
+                    // })
                 }).catch(() => {
                 return          
             });
@@ -331,9 +342,9 @@ export default {
              this.dialogName ='利润初审通过'
           }else if (id == 26){
               this.$confirm('确定开发此产品的新市场？', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
-                type: 'warning'
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
                 }).then(() => {
                 let routeData = this.$router.resolve({
                         name: "productDetails",
@@ -341,10 +352,21 @@ export default {
                                 developmentType:row.developmentType,
                                 developmentId:row.developmentId,
                                 productId:row.productId,
+                                developmentScenarios:row.developmentScenarios,
                                 id
                             }
                         });
                     window.open(routeData.href, '_blank');
+                // this.$router.push({
+                //         name:'productDetails',
+                //         query:{
+                //                 developmentType:row.developmentType,
+                //                 developmentId:row.developmentId,
+                //                 productId:row.productId,
+                //                 developmentScenarios:row.developmentScenarios,
+                //                 id
+                //             }
+                //     })
                 }).catch(() => {
                 return          
             });
