@@ -773,6 +773,7 @@ export default {
                     if(factoryGaveImage){
                         factoryGaveImage.forEach(item => {
                             item.showImgUrl = `${this.proImageList}upload/CompetingProduct/${item.developmentid}/${item.fileuri}`
+                            item.url = `${this.proImageList}upload/CompetingProduct/${item.developmentid}/${item.fileuri}`
                             item.name = item.fileName || item.fileuri
                         })
                      }
