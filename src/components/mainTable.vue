@@ -7,7 +7,7 @@
         style="width: 100%"
         border
         @selection-change="handleSelectionChange"
-        height="640"
+        height="595"
         :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
         @row-click="handleRowClick"
          v-loading="loading"
@@ -595,6 +595,11 @@ export default {
                   {
                     name:'开发新尺码',
                     id:8,
+                    perkey:'ERP.Product.ProductDev.ADD'
+                  },
+                  {
+                    name:'开发新市场',
+                    id:26,
                     perkey:'ERP.Product.ProductDev.ADD'
                   },
                   {

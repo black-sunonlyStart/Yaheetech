@@ -81,7 +81,7 @@ export default {
     position: relative;
     top: 246px;
     width: 98%;
-    height: 73.5%;
+    height: 71.5%;
     .el-card__body{
         padding: 5px 20px;
     }
