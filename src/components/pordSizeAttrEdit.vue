@@ -394,7 +394,7 @@
                                         {{scope.row.color}}
                                     </div>
                                     <div>
-                                        {{scope.row.productid == pordSizeAttrInfoList.id ? ruleForm.productSize :scope.row.size}}
+                                        {{scope.row.productid == pordSizeAttrInfoList.id || !scope.row.productid ? ruleForm.productSize :scope.row.size}}
                                     </div>
                                 </template>
                             </el-table-column>
@@ -630,14 +630,17 @@ export default {
         getDetaiList(){
             let productColor = []
             if(this.multiAttribute && this.multiAttribute[0]){
-                this.firstList = true
+               
                 let newMulBute =  this.multiAttribute.filter((item => {
                     return item.productid == this.pordSizeAttrInfoList.id
                 }))
-                this.copeMulAttrBute =JSON.parse(JSON.stringify(newMulBute[0])) 
-                  productColor =  newMulBute.map(item => {
-                    return item.color
-                })
+                if(newMulBute && newMulBute[0]){
+                     this.firstList = true
+                    this.copeMulAttrBute = JSON.parse(JSON.stringify(newMulBute[0])) 
+                    productColor =  newMulBute.map(item => {
+                        return item.color
+                    })
+                }
             } 
            
             let proSize = this.copeMulAttrBute.size || ''

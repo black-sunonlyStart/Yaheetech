@@ -183,8 +183,8 @@ export default {
                 orderQuantity:this.salesTargetDetaiList.xsfirstorderquantity,//预估首单订单数量
                 productMarket:this.salesTargetDetaiList.xsmarket,//产品开发市场
                 specialPackaging:this.salesTargetDetaiList.xsspecialrequirements,//产品包装尺寸特殊要求
-                samplingTime:this.salesTargetDetaiList.xstestsampletime,//产品测样时间点
-                orderTime:this.salesTargetDetaiList.xsorderoftime,//产品下单时间点
+                samplingTime:this.salesTargetDetaiList.xstestsampletime ? this.salesTargetDetaiList.xstestsampletime : '',//产品测样时间点
+                orderTime:this.salesTargetDetaiList.xsorderoftime ? this.salesTargetDetaiList.xsorderoftime : '',//产品下单时间点
                 region:this.salesTargetDetaiList.xspurchasePriceCurrency == 0 ?'1' : !this.salesTargetDetaiList.xspurchasePriceCurrency ? '1' : this.salesTargetDetaiList.xspurchasePriceCurrency,//目标采购价
                 
             }

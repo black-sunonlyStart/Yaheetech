@@ -1169,12 +1169,16 @@ export default {
           display: inline-block;
           cursor: pointer;
           font-size: 13px;
+          
       }
       .otherCountryTitle{
           display: inline-block;
           cursor: pointer;
           margin-left: 5px;
           text-decoration: underline;
+          &:hover{
+              color: #3366cc;
+          }
       }
       .haveMoneyLitte{
           display: flex;
