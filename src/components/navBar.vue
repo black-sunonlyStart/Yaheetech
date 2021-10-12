@@ -35,7 +35,7 @@
           </el-form-item>
         </el-col>
         <el-col  :xs="12" :sm="12" :md="11" :lg="10" :xl="10">
-          <el-form-item label="产品负责人:" label-width="175px">
+          <el-form-item label="产品负责人:" label-width="178px">
             <el-radio-group v-model="form.productOwner">
               <el-radio v-for="item in productOwner" :label="item.value" :key="item.value" >{{item.label}}</el-radio>
             </el-radio-group>
@@ -480,7 +480,12 @@ export default {
   ::v-deep .el-form-item__label {
     color: #3366cc !important;
     font-weight: bold;
+    
+    
   }
+  ::v-deep .el-form-item__content{
+        font-size: 12px !important;
+    }
   ::v-deep .firstCreateStyle {
     margin-bottom: 0px;
     .el-form-item__content {

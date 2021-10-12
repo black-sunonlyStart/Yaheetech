@@ -583,7 +583,7 @@ export default {
             ],
             seaFreightSign:[    
                 {
-                    label: '按照产品尺寸计算的产品体积',
+                    label: '按照产品包装尺寸计算的产品体积',
                     key: 1,
                     value: 0
                 },
