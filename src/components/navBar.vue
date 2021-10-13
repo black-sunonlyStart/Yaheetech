@@ -529,7 +529,7 @@ export default {
         margin-right: 20px;
     }
     .chengboxMoreBox1{
-        width: 1350px;
+        width: 1250px;
         display: inline-block;
     }
 }

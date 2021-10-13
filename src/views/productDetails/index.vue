@@ -626,7 +626,7 @@ export default {
                 })
                 if(this.productImgDetail.length > 0){
                     this.productImgDetail.forEach(item => {
-                        item.showImgUrl = `${this.proImageList}upload/CompetingProduct/${item.developmentid}/${item.fileuri}`
+                        item.showImgUrl = `${this.proImageList}upload/Development/File/${item.developmentid}/${item.fileuri}`
                     })
                     this.productImgDetail.forEach(item => {
                         item.name = item.fileName || item.fileuri
