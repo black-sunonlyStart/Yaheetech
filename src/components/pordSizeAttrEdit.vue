@@ -73,6 +73,7 @@
                         <el-select 
                             v-model="ruleForm.sizeRules"
                             placeholder="请选择"
+                            @change="changSizeRules"
                             >
                             <el-option 
                                 v-for="item in devSign"                        
@@ -138,7 +139,6 @@
                                       <span class="titleColor" v-else-if="ruleForm.outerBoxSizeRules == '2'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000000).toFixed(6) + 'm³' :''}}</span>
                 </el-col>
              </el-row>
-             
              <el-row>
                  <el-col :span="6">
                     <el-form-item  prop="containersNumber" label="可装货柜数量：" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">      
@@ -284,7 +284,7 @@
                                 label="包装后 - 长(cm)"
                             >
                             <template slot-scope="scope">
-                                <el-input v-model="scope.row.packedlength" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')"></el-input>      
+                                <el-input v-model="scope.row.packedlength"  oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')"></el-input>      
                             </template>
                             </el-table-column>
                             <el-table-column
@@ -444,6 +444,7 @@ export default {
     name:'pordSizeAttrEdit',
     data(){
         return {
+            isHaveNo:false,
             changFromP:false,
             loading:false,
             firstList:false,
@@ -499,7 +500,11 @@ export default {
                 tableData: [{ required: true, message: '请输入集装箱数量', trigger: 'blur' }],
                 productSize: [{ required: true, message: '请填写商品尺码', trigger: 'blur' }],
                 productColor: [{ required: true, message: '请选择产品颜色', trigger: 'blur' }],
+                productlistings: [{ required: true, message: '请输入产品尺寸', trigger: 'blur' }],
             },
+            // fromaDataRules:{
+            //     packedlength:[{ required: true, message: '请输入包装长度', trigger: 'blur' }]
+            // },
             devSign:[
                 {
                     label: '规则立方体',
@@ -559,7 +564,7 @@ export default {
             return this.ruleForm.productSize
         },
         productValue(){
-            return ((this.ruleForm.outerBoxSizeL * this.ruleForm.outerBoxSizeW * this.ruleForm.outerBoxSizeH) / 1000000).toFixed(6)
+            return ((this.ruleForm.packageSizeL * this.ruleForm.packageSizeW * this.ruleForm.packageSizeH) / 1000000).toFixed(6)
         }
     },
     mounted(){
@@ -602,6 +607,13 @@ export default {
         deep:true
     },
     methods: {
+        changSizeRules(val){
+            if(val == 1 && this.pordSizeAttrInfoList.computemode == 0){
+                this.rules.outerBoxNum[0].required = false
+            }else{
+                this.rules.outerBoxNum[0].required = true
+            }
+        },
         changPackingMethod(val){
              this.changFromP = false
             if(val == 1){
@@ -618,6 +630,11 @@ export default {
             this.selectid = selectid && selectid[0] ? selectid[0]._volume : ''
         },
         init(){
+            if(this.pordSizeAttrInfoList.computemode == 0 && (this.pordSizeAttrInfoList.packageshape == 1)){
+                this.rules.outerBoxNum[0].required = false
+            }else{
+                this.rules.outerBoxNum[0].required = true
+            }
             let params = {
                 typeId:0,
             }
@@ -684,6 +701,14 @@ export default {
             })
         },
         submitForm(formName) {
+                if((this.ruleForm.packingMethod == 1 && this.ruleForm.productlistings.length == 0) ||  (this.ruleForm.productlistings.length > 0 && this.ruleForm.productlistings.find(item => !item.packedlength || !item.packedwidth || !item.packedheight || !item.packedweight))){
+                    this.$message({
+                        type: 'error', 
+                        message:'多箱清单数据不能为空！',
+                        offset:220
+                    })
+                    return
+                }
                 this.$refs[formName].validate((valid) => {
                 if (valid) {
                     let params = {

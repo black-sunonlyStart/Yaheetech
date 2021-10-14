@@ -102,7 +102,7 @@
                             <el-card style="margin-top:10px">
                                 <div slot="header" class="clearfix">
                                     <span>产品尺寸图
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit1 = !isEdit1" v-if="isEdit1"><span v-if="statusOptions.includes(timeStatus)"><i class="icon-edit"></i>编辑</span></div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit1 = !isEdit1" v-if="isEdit1"><span v-if="statusOptions.includes(timeStatus) && $route.params.productId"><i class="icon-edit"></i>编辑</span></div>
                                     </span>
                                 </div>
                                 <div v-if="isEdit1" class="imgContainer">
@@ -121,7 +121,7 @@
                             <el-card style="margin-top:10px;margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <span>销售目标
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit2 = !isEdit2" v-if="isEdit2"><span v-if="statusOptions.includes(timeStatus)"><i class="icon-edit"></i>编辑</span></div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit2 = !isEdit2" v-if="isEdit2"><span v-if="statusOptions.includes(timeStatus) && $route.params.productId"><i class="icon-edit"></i>编辑</span></div>
                                     </span>
                                 </div>
                                 <div v-if="isEdit2">
@@ -738,7 +738,7 @@ export default {
                     businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName: '',//业务开发
                     productCountryList:this.productVos.productCountryList ? this.productVos.productCountryList[0] : [],
                     productMarketListALL:this.productVos.productMarketListALL ? this.productVos.productMarketListALL : [],
-                    computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList && this.productVos.productCountryList[0].productMarketList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],//业务开发
+                    computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList && this.productVos.productCountryList[0].productMarketList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],
                     productMarketList: this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList  && this.productVos.productCountryList[0].productMarketList[0] ?  this.productVos.productCountryList[0].productMarketList : [],//表格数据
                     // mapProfit: this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList  && this.productVos.productCountryList[0].productMarketList[0] ?  this.productVos.productCountryList[0].productMarketList : [],//表格数据
                     businessid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessid : '',   
@@ -888,6 +888,7 @@ export default {
                     containerid:this.productVos.containerid,
                     cartonShape:this.productVos.cartonShape,
                     caseQty:this.productVos.caseQty,
+                    computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList && this.productVos.productCountryList[0].productMarketList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],
                 }
                 this.changeSizeTitle(this.pordSizeAttrInfoList,this.productCountryList.countryName,this.nowStatus)
                 //采购信息
@@ -923,6 +924,7 @@ export default {
                     goodnote:this.productVos.goodnote,   
                     orderProduct:this.devInformationDetaiList.orderProduct
                 }
+                console.log(this.purchaseInfoDetaiList.productPurchaseVoList,'1111111111111')
                 //备注信息
                 this.remarksList = res.data.developmentmemoVos
                }

@@ -192,3 +192,9 @@ aside {
 .multiselect--active {
   z-index: 1000 !important;
 }
+.popperBorder{
+    border: none !important;
+    padding: 0 !important;
+    margin-left: 5px;
+    background: none;
+}

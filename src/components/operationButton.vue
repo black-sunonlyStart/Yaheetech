@@ -336,6 +336,7 @@ export default {
 </script>
 <style scoped lang="scss">
 .buttonStyle{
+    z-index: 1000;
     display: flex;
     justify-content: flex-end;
     border: 1px solid #ffffff;

@@ -11,6 +11,7 @@
         :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
         @row-click="handleRowClick"
          v-loading="loading"
+          
         >
       <el-table-column 
         type="selection"
@@ -19,7 +20,9 @@
       </el-table-column>
       <el-table-column 
         label="产品图片"
-        width="100">
+        width="100"
+        header-align='center'
+        >
         <template slot-scope="scope">
             <div :class="scope.row.developmentScenarios < 8 ?'imageTitel':'imageTitelRed'">{{showScenarios(scope.row.developmentScenarios)}}</div>
             <el-popover
@@ -52,6 +55,7 @@
             prop="name"
             label="开发市场"
             width="70"
+            align='center'
             >
         <template slot-scope="scope">
             <div class="remarksTitle">{{scope.row.countryName}}</div>
@@ -61,22 +65,29 @@
       <el-table-column 
             prop="productTypeName"
             label="产品名称"
+            header-align='center'
             >
         <template slot-scope="scope">
             <div class="remarksenTitle" @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">{{scope.row.enTitle}}</div>
             <div>{{scope.row.title || '--'}}</div>
-            <div>普通产品:{{scope.row.developmentId}}</div>
-            <div>sku:{{scope.row.skuAlias}}</div>
+            <el-tooltip placement="right" effect="light" :visible-arrow='false' popper-class='popperBorder' style="padding:0;border:none">
+                <span slot="content" class="copeTitle"  @click="copeDevelopId(scope.row.developmentId)">
+                        <i class="el-icon-document-copy" ></i>
+                    </span>
+                <div style="display:inline-block">普通产品:{{scope.row.developmentId}}</div>
+            </el-tooltip>
+            <div>sku:{{scope.row.skuAlias || '--'}}</div>
         </template>
       </el-table-column>
       <el-table-column
         label="产品利润"
         show-overflow-tooltip
+        header-align='center'
         >
         <template slot-scope="scope">
             <div v-for="item in scope.row.productMarketStrs" :key="item.platformName">
                 <div style="font-weight:bold">{{item.platformName}}:</div>
-                <div>{{item.currency}} {{item.developmentPrice ? item.developmentPrice.toFixed(2) : '--'}} /
+                <div>{{item.currency}} {{item.developmentPrice ? item.developmentPrice.toFixed(2) : '--'}} ：
                     <span v-for="rows in item.marketProfits " :key="rows.warehouseId">
                         <el-tooltip :content="rows.warehouseName" effect="dark" placement="top" :key="rows.warehouseId">
                             <span :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin ? rows.profitMargin.toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
@@ -94,6 +105,8 @@
             label="产品尺寸 / 属性"
             show-overflow-tooltip
             width="120px"
+            header-align='center'
+             align='center'
         >
         <template slot-scope="scope">
             <div>{{scope.row.size || '--'}}</div>
@@ -107,6 +120,7 @@
             show-overflow-tooltip
             width="250px"
             v-if="showOrder"
+            header-align='center'
             >
       </el-table-column>
       <el-table-column 
@@ -114,12 +128,17 @@
             label="开发状态"
             show-overflow-tooltip   
             width="120px"  
+            header-align='center'
+             align='center'
         >
       </el-table-column>
       <el-table-column 
             label="业务 / 采购"
             show-overflow-tooltip
-            width="120px" >
+            width="120px" 
+            header-align='center'
+             align='center'
+            >
             <template slot-scope="scope">
                 <div>{{scope.row.businessName}}</div>
                 <div>{{scope.row.buyerName}}</div>
@@ -129,6 +148,7 @@
         label="创建/更新时间"
         show-overflow-tooltip
         width="150px"
+        header-align='center'
         >
             <template slot-scope="scope">
                 <div>{{$moment(scope.row.createdOn).format("YYYY-MM-DD HH:mm")}}</div>
@@ -140,6 +160,8 @@
         label="操作"
         show-overflow-tooltip
         width="100px"
+        header-align='center'
+         align='center'
         >
         <template slot-scope="scope">
             <div class="operaBox">
@@ -180,7 +202,7 @@
 </template>
 <script>
 import { fetchPageTableList,unfreezing,getImagePath,checkUserIdentity } from '@/api/user.js'
-import { formatDate } from '@/utils/tools.js'
+import { formatDate,copyUrl } from '../utils/tools'
 export default {
   name: 'mainTable',
   components:{
@@ -229,6 +251,9 @@ export default {
       this.getTableList(this.navFilterList)
   },
   methods: {
+      copeDevelopId(val){
+          copyUrl(val)
+      },
       showScenarios(val){
           if(val == 1){
               return '新产品'
@@ -831,6 +856,16 @@ export default {
         display: inline-block;
     }
 }
+.copeTitle{
+    color: #3366cc;
+    cursor: pointer;
+    font-size: 15px;
+    &:hover{
+        background-color:#3366cc ;
+        color: #ffffff;
+        display: inline-block;
+    }
+}
 .pagePosition{
     float: right;
 }
@@ -870,7 +905,7 @@ export default {
 }
 .operaBox{
     display: flex;
-
+    margin-left: 10px;
     .imageBox{
         height: 18px;
         width: 18px;
@@ -902,5 +937,16 @@ export default {
 .smallPriorityStyle{
     color: #cccccc;
 }
-
+.popperBorder{
+    border: none !important;
+    padding: 0 !important;
+}
+::v-deep.el-tooltip__popper{
+     border: none !important;
+        padding: 0 !important;
+    .is-light {
+        border: none !important;
+        padding: 0 !important;
+    }
+}
 </style>

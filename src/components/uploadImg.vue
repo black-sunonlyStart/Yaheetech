@@ -207,6 +207,10 @@ export default {
     //     },
     handleChange(file, fileList) {
       this.fileList = fileList;
+    //   if(!this.$route.params.developmentId){
+    //       this.$message.error('请选择开发场景，在上传图片');
+    //       return
+    //   }
       this.$refs.uploadRef.submit();
     },
     // 同步el-upload数据
