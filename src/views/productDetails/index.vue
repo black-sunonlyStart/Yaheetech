@@ -17,7 +17,7 @@
                         开发id：<span>{{development && development.id ?development.id:'' }}</span>
                     </div>
                     <div>
-                        生成型号：<span>{{$route.params.productId}}</span>
+                        生成型号：<span>{{productVos.skuAlias}}</span>
                     </div>
                     <div>
                         开发市场：<div class="countryTitle">{{ productCountryList ? productCountryList.countryName:'' }}</div> 
@@ -605,6 +605,7 @@ export default {
                 }else {
                     this.nowStatus = 0
                 }
+                this.proessCenterShow(this.nowStatus)
                 // this.otherProductCountryList = res.data.productVos && res.data.productVos[0] && res.data.productVos[0].productCountryList ? res.data.productVos[0].productCountryList[0] : []
                 this.productVos = res.data.productVos? res.data.productVos[0] : []
                 this.productMarketStrs = res.data.productMarketStrs
@@ -1048,6 +1049,16 @@ export default {
       putImgList(val){
           this.imageList = val
       },
+      proessCenterShow(val){
+          if(!val || val < 6)return
+           let  image = document.querySelector('.step-container')
+           let  offsetVal = val - 3
+          if(image.offsetLeft < -1377){
+              return
+          }else{
+              image.style.left = image.offsetLeft - ( 100 * offsetVal) + 'px'
+          }
+      },
       leftMove(){
           let  image = document.querySelector('.step-container')
           if(image.offsetLeft > 30)return
@@ -1099,7 +1110,7 @@ export default {
         width: 44px;
         height: 39px;
         z-index: 1000;
-        border: 1px solid #3366cc;
+        // border: 1px solid #3366cc;
         border-radius: 5px;
     .remarks {
             position: fixed;
@@ -1109,6 +1120,7 @@ export default {
             width: 32px;
             z-index: 1000;
             background-image: url(../../assets/svg/shousuo.svg);
+            box-shadow: 4px 4px 5px #888888;
             &:hover{
                 background-image: url(../../assets/svg/shousuo1.svg);
                 cursor: pointer;

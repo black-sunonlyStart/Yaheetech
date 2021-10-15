@@ -76,7 +76,7 @@
                     </span>
                 <div style="display:inline-block">普通产品:{{scope.row.developmentId}}</div>
             </el-tooltip>
-            <div>sku:{{scope.row.skuAlias || '--'}}</div>
+            <div>sku别名:{{scope.row.skuAlias || '--'}}</div>
         </template>
       </el-table-column>
       <el-table-column
@@ -92,11 +92,18 @@
                         <el-tooltip :content="rows.warehouseName" effect="dark" placement="top" :key="rows.warehouseId">
                             <span :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin ? rows.profitMargin.toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
                         </el-tooltip>
-                        <span v-if="rows.sfpDevelopmentprice">
-                            <span > SFP： {{rows.sfpDevelopmentprice ? rows.sfpDevelopmentprice.toFixed(2) : '--'}} / </span>
-                            <span :class="rows.sfpProfitMargin < 0 ? 'boxColor':''">{{rows.sfpProfitMargin ? rows.profitMargin.toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
-                        </span>
                     </span>              
+                </div>
+                <div v-if="item.sfp">  
+                    <div style="font-weight:bold" >{{item.platformName}}-SFP:</div>
+                    <div>{{item.currency}} {{item.developmentPrice ? item.developmentPrice.toFixed(2) : '--'}} ： 
+                        <span v-for="rows in item.marketProfits " :key="rows.warehouseId">
+                            <span v-if="rows.sfpDevelopmentprice">
+                                <span > {{rows.sfpDevelopmentprice ? rows.sfpDevelopmentprice.toFixed(2) : '--'}} / </span>
+                                <span :class="rows.sfpProfitMargin < 0 ? 'boxColor':''">{{rows.sfpProfitMargin ? rows.sfpProfitMargin.toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
+                            </span>
+                        </span>              
+                    </div>
                 </div>
             </div>
         </template>
@@ -131,6 +138,14 @@
             header-align='center'
              align='center'
         >
+        <template slot-scope="scope">
+            <div>
+                {{scope.row.stateName}}
+            </div>
+            <div v-if="scope.row.backNum" style="color:red" @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">
+                打回次数：{{scope.row.backNum}}/{{scope.row.backTotalNum}}
+            </div>
+        </template>
       </el-table-column>
       <el-table-column 
             label="业务 / 采购"
@@ -849,6 +864,7 @@ export default {
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+    display: inline-block;
     
     &:hover{
         background-color:#3366cc ;

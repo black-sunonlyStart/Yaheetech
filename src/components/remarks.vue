@@ -15,8 +15,12 @@
             <div class="remarksBox">
                 <div v-for='item in remarksList' :key="item.key"  class="bubbleText">
                     <div :class="item.createdby == oemployee.Id  ?'bubbleROutBoxCont':'bubbleLOutBox'">
-                        <div><i v-if="!item.createdby == oemployee.Id " class="el-icon-user isLeft"></i>{{item.trueName}}<i v-if="item.createdby == oemployee.Id  " class="el-icon-user isRight"></i></div>
-                        <div>{{$moment(item.createdon).format("YYYY-MM-DD HH:mm:ss")}}</div>
+                        <div>
+                            <i v-if="item.createdby == oemployee.Id  " class="el-icon-user isRight"></i><span class="text-box">{{item.trueName}}</span>
+                            <i v-if="item.createdby != oemployee.Id " class="el-icon-user isLeft"></i>
+                            
+                        </div>
+                        <div class="moment-time">{{$moment(item.createdon).format("YYYY-MM-DD HH:mm:ss")}}</div>
                         <!-- <div>{{item.createdon}}</div> -->
                     </div>
                     <div class="bubbleROutBox">
@@ -213,5 +217,12 @@ export default {
     .addColor{
         color: red;
     }
-    
+    .text-box{
+        font-size: 14px;
+        text-decoration: underline;
+    }
+    .moment-time{
+        color: #cccccc;
+    }
+ 
 </style>
