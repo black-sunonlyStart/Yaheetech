@@ -90,7 +90,7 @@
                 <div>{{item.currency}} {{item.developmentPrice ? item.developmentPrice.toFixed(2) : '--'}} ：
                     <span v-for="rows in item.marketProfits " :key="rows.warehouseId">
                         <el-tooltip :content="rows.warehouseName" effect="dark" placement="top" :key="rows.warehouseId">
-                            <span :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin ? rows.profitMargin.toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
+                            <span :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin ? (rows.profitMargin * 100).toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
                         </el-tooltip>
                     </span>              
                 </div>
@@ -100,7 +100,7 @@
                         <span v-for="rows in item.marketProfits " :key="rows.warehouseId">
                             <span v-if="rows.sfpDevelopmentprice">
                                 <el-tooltip :content="rows.warehouseName" effect="dark" placement="top" :key="rows.warehouseId">
-                                     <span :class="rows.sfpProfitMargin < 0 ? 'boxColor':''">{{rows.sfpProfitMargin ? rows.sfpProfitMargin.toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
+                                     <span :class="rows.sfpProfitMargin < 0 ? 'boxColor':''">{{rows.sfpProfitMargin ? (rows.sfpProfitMargin * 100).toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
                                 </el-tooltip>
                             </span>
                         </span>              
