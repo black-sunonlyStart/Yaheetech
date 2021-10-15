@@ -555,6 +555,7 @@ export default {
             return (this.ruleForm.proNetWeight * 2.204).toFixed(6) || ''
         },
         proOuterBoxWeightLb(){
+            if(!this.ruleForm.proOuterBoxWeight)return
             return (this.ruleForm.proOuterBoxWeight * 2.204).toFixed(6) || ''
         },
         productColor(){

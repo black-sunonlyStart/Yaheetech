@@ -129,7 +129,7 @@
                             </div>
                             <div :class="scope.row.sfp ? (scope.row.sfpEndProfit >= 0  ? 'textColor':'noColor') : (scope.row.endprofit >= 0 ? 'textColor':'noColor' ) ">
                                 {{scope.row.sfp ?(scope.row.sfpEndProfit && scope.row.sfpEndProfit.toFixed(2))||'0.00' :  scope.row.endprofit.toFixed(2)||'0.00'}} /
-                                {{scope.row.sfp ?(scope.row.sfpPEndProfitMargin && (scope.row.sfpPEndProfitMargin * 100).toFixed(2) + '%') || '0.00%' : (item.endprofitmargin*100).toFixed(2) + '%' || '0.00%'}} 
+                                {{scope.row.sfp ?(scope.row.sfpEndProfitMargin && (scope.row.sfpEndProfitMargin * 100).toFixed(2) + '%') || '0.00%' : (item.endprofitmargin*100).toFixed(2) + '%' || '0.00%'}} 
                             </div>
                         </template>   
                     </el-table-column>

@@ -925,7 +925,6 @@ export default {
                     goodnote:this.productVos.goodnote,   
                     orderProduct:this.devInformationDetaiList.orderProduct
                 }
-                console.log(this.purchaseInfoDetaiList.productPurchaseVoList,'1111111111111')
                 //备注信息
                 this.remarksList = res.data.developmentmemoVos
                }

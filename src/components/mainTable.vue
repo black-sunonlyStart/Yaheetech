@@ -96,11 +96,12 @@
                 </div>
                 <div v-if="item.sfp">  
                     <div style="font-weight:bold" >{{item.platformName}}-SFP:</div>
-                    <div>{{item.currency}} {{item.developmentPrice ? item.developmentPrice.toFixed(2) : '--'}} ： 
+                    <div>{{item.currency}} {{item.sfpDevelopmentprice ? item.sfpDevelopmentprice.toFixed(2) : '--'}} ： 
                         <span v-for="rows in item.marketProfits " :key="rows.warehouseId">
                             <span v-if="rows.sfpDevelopmentprice">
-                                <span > {{rows.sfpDevelopmentprice ? rows.sfpDevelopmentprice.toFixed(2) : '--'}} / </span>
-                                <span :class="rows.sfpProfitMargin < 0 ? 'boxColor':''">{{rows.sfpProfitMargin ? rows.sfpProfitMargin.toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
+                                <el-tooltip :content="rows.warehouseName" effect="dark" placement="top" :key="rows.warehouseId">
+                                     <span :class="rows.sfpProfitMargin < 0 ? 'boxColor':''">{{rows.sfpProfitMargin ? rows.sfpProfitMargin.toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
+                                </el-tooltip>
                             </span>
                         </span>              
                     </div>
