@@ -38,7 +38,7 @@
             <el-col :span="14">
                 <div class="boxFlex">
                     <span class="imageMainbox">产品包装尺寸特殊要求： </span>
-                    <div class="imageMainboxText" style="width:650px;dispaly:inline-block">{{salesTargetDetaiList.xsspecialrequirements}}wo sia fha  我随机发及佛教阿斯龙卷风安居客冷风机阿斯卡纶积分卡拉但是减肥我随机发及佛教阿斯龙卷风安居客冷风机阿斯卡纶积分卡拉但是减肥我随机发及佛教阿斯龙卷风安居客冷风机阿斯卡纶积分卡拉但是减肥我随机发及佛教阿斯龙卷风安居客冷风机阿斯卡纶积分卡拉但是减肥我随机发及佛教阿斯龙卷风安居客冷风机阿斯卡纶积分卡拉但是减肥我随机发及佛教阿斯龙卷风安居客冷风机阿斯卡纶积分卡拉但是减肥</div>
+                    <div class="imageMainboxText" style="width:650px;dispaly:inline-block">{{salesTargetDetaiList.xsspecialrequirements}}</div>
                 </div>
                 
             </el-col>
