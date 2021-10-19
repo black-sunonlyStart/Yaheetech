@@ -82,7 +82,7 @@ import vuedraggable from 'vuedraggable'
 // import { getToken } from '@/utils/auth' // 获取token，
 // import { validImgUpload } from '@/utils/validate'
 // import lrz from 'lrz' // 前端图片压缩插件
-import tools from '@/utils/tools'
+import {createUniqueString} from '@/utils/tools'
 import {loadFile} from '@/api/user.js'
 export default {
   name: 'ImgUpload',
@@ -222,7 +222,7 @@ export default {
           name: 'pic' + i,
           url: v.imageList,
           status: 'success',
-          uid: tools.createUniqueString()
+          uid: createUniqueString()
         }
       })
       this.isFirstMount = false
