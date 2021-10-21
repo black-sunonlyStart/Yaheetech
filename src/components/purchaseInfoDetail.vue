@@ -120,7 +120,7 @@
                         <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.purchaseprice}}</span>
-                                <span v-if="scope.row.purchaseprice == 1">√</span> 
+                                <span v-if="scope.row.calculateprofittype == 1">√</span> 
                             </div>
                         </template>
                     </el-table-column>
@@ -129,7 +129,7 @@
                          <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.fobprice }}</span>
-                                <span v-if="scope.row.purchaseprice  == 2">√</span> 
+                                <span v-if="scope.row.calculateprofittype  == 2">√</span> 
                             </div>
                         </template>
                     </el-table-column>
@@ -138,7 +138,7 @@
                         <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.taxprice}}</span>
-                                <span v-if="scope.row.purchaseprice == 3">√</span> 
+                                <span v-if="scope.row.calculateprofittype == 3">√</span> 
                             </div>
                         </template>
                     </el-table-column>

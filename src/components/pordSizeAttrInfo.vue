@@ -294,7 +294,7 @@
                         label="关联SKU"
                     >
                     <template slot-scope="scope">
-                        <div v-if="scope.row.productdraftid && scope.row.skualias && scope.row.sku && scope.row.spu">
+                        <div v-if="scope.row.productdraftid || scope.row.skualias || scope.row.sku">
                             <div>
                                 上架ID：{{scope.row.productdraftid}}
                             </div>
