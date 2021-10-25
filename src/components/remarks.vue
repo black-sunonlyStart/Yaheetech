@@ -14,9 +14,9 @@
             </div>
             <div class="remarksBox">
                 <div v-for='item in remarksList' :key="item.key"  class="bubbleText">
-                    <div :class="item.createdby == oemployee.Id  ?'bubbleROutBoxCont':'bubbleLOutBox'">
+                    <div :class="item.createdby == oemployee.Id || item.otherType == 0 ?'bubbleROutBoxCont':'bubbleLOutBox'">
                         <div>
-                            <i v-if="item.createdby == oemployee.Id  " class="el-icon-user isRight"></i><span class="text-box">{{item.trueName}}</span>
+                            <i v-if="item.createdby == oemployee.Id || item.otherType == 0 " class="el-icon-user isRight"></i><span class="text-box">{{item.trueName}}</span>
                             <i v-if="item.createdby != oemployee.Id " class="el-icon-user isLeft"></i>
                             
                         </div>
@@ -24,10 +24,10 @@
                         <!-- <div>{{item.createdon}}</div> -->
                     </div>
                     <div class="bubbleROutBox">
-                        <div :class="item.createdby == oemployee.Id  ?'bubbleTailRight':'bubbleTail'"></div>
-                        <div :class="item.createdby == oemployee.Id ?'bubbleBoxRight':'bubbleBox'" :style="{color:(item.backtype?'red':'')}">
-                            <div class="topStatusTitle">
-                                <span >{{item.statusValue}}</span>
+                        <div :class="item.createdby == oemployee.Id || item.otherType == 0 ?'bubbleTailRight':'bubbleTail'"></div>
+                        <div :class="item.createdby == oemployee.Id || item.otherType == 0 ?'bubbleBoxRight':'bubbleBox'" >
+                            <div class="topStatusTitle" :style="{color:(item.backtype || item.otherType == 0?'red':'')}">
+                                <span >{{item.toStatusValue}}</span>
                                 <span class="bubbleBoxText">{{item.operation}}</span>
                             </div>
                             <div class="bubbleBoxMainText">
