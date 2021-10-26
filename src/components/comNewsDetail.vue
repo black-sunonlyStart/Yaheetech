@@ -9,9 +9,11 @@
                 <div class="productsImage">
                     <div class="imageBox">
                         <el-image
-                            style="width: 100px; height: 100px; dispaly:black"
+                            class="imageListBox"
                             :src="item.showImgUrl"
-                            fit="fill">
+                            fit="fill"
+                            @click="openImageUrl(item.showImgUrl)"
+                            >
                         </el-image>
                     </div>
                     <div class="imageTitle">
@@ -169,6 +171,9 @@ export default {
         this.getDetailList()
     },
     methods:{
+        openImageUrl(url){
+          window.open(url)
+      },
         showUrl(PlatformSiteId,XSIN){
             let productUrl = ''
                 switch (PlatformSiteId)
@@ -299,6 +304,12 @@ export default {
             width: 100px;
             height: 100px;
             border:1px solid #cccccc;
+            .imageListBox{
+                width: 100px; 
+                height: 100px; 
+                display: block;
+                cursor:pointer
+              }
         }
         .imageTitle{
             width: 250px;

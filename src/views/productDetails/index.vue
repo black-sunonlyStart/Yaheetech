@@ -108,9 +108,11 @@
                                 <div v-if="isEdit1" class="imgContainer">
                                     <div v-for="item in productImgDetail" :key="item.key" class="imgCon">
                                         <el-image
-                                            style="width: 100px; height: 100px; dispaly:black"
+                                            class="imageListBox"
                                             :src="item.showImgUrl"
-                                            fit="fill">
+                                            fit="fill"
+                                            @click="openImageUrl(item.showImgUrl)"
+                                            >
                                         </el-image>
                                     </div>
                                 </div>
@@ -472,6 +474,9 @@ export default {
                   this.oemployee = res.data
               }
           })
+      },
+      openImageUrl(url){
+          window.open(url)
       },
         newGetImagePath(){
             getImagePath().then(res => {
@@ -1307,6 +1312,12 @@ export default {
           min-height: 100px;
           .imgCon{
               margin: 0 10px;
+              .imageListBox{
+                width: 100px; 
+                height: 100px; 
+                display: block;
+                cursor:pointer
+              }
           }
       }  
   }
