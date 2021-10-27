@@ -5,7 +5,7 @@
                  <el-col :span="10">
                      <el-form-item label="产品类型:" prop="productType">
                         <el-radio-group v-model="ruleForm.productType">
-                            <el-radio :label="1" :disabled='changFromP'>普通/多属性产品</el-radio>
+                            <el-radio :label="1">普通/多属性产品</el-radio>
                             <el-radio :label="2">物理捆绑产品</el-radio>
                         </el-radio-group>
                     </el-form-item>
@@ -240,7 +240,6 @@
                         <el-select 
                             v-model="ruleForm.packingMethod"
                             placeholder="请选择"
-                            @change="changPackingMethod"
                             >
                             <el-option 
                                 v-for="item in packingMethodType"                        
@@ -445,7 +444,7 @@ export default {
     data(){
         return {
             isHaveNo:false,
-            changFromP:false,
+            // changFromP:false,
             loading:false,
             firstList:false,
             putColor:false,
@@ -615,13 +614,13 @@ export default {
                 this.rules.outerBoxNum[0].required = true
             }
         },
-        changPackingMethod(val){
-             this.changFromP = false
-            if(val == 1){
-                this.changFromP = true
-                this.ruleForm.productType = 2
-            }
-        },
+        // changPackingMethod(val){
+        //      this.changFromP = false
+        //     if(val == 1){
+        //         this.changFromP = true
+        //         this.ruleForm.productType = 2
+        //     }
+        // },
         selectConNumb(val){
             let selectid = []
             selectid = this.boxType.filter(item => {
