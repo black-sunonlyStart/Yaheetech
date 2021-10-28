@@ -10,6 +10,7 @@ import './styles/element-variables.scss'
 import '@/utils/directives.js'
 import { VueJsonp } from 'vue-jsonp'
 Vue.prototype.$moment = moment;
+// Object.defineProperty(Vue.prototype,'$moment',{value:moment})
 Vue.prototype.$jsonp = VueJsonp
 Vue.use(Element)
 Vue.use(VueJsonp)

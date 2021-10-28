@@ -5,7 +5,7 @@
                 <span class="textWight">分配采购开发员： </span><span style="font-weight:normal">{{pordSizeAttrInfoList.buyerName}}</span>
             </el-col>
             <el-col :span="10">
-                <span class="textWight">产品类型： </span><span style="font-weight:normal">{{pordSizeAttrInfoList.producttype== 1 ? '普通/多属性产品':pordSizeAttrInfoList.producttype== 2 ?'物理捆绑产品':''}}</span>
+                <span class="textWight">产品类型： </span><span style="font-weight:normal">{{changeProducttype(pordSizeAttrInfoList.producttype)}}</span>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
@@ -345,6 +345,18 @@ export default {
         }
     },
     methods:{
+        changeProducttype(val){
+            if(!val)return
+            if(val == 2){
+                return '物理捆绑属性'
+            }else{
+                if(this.pordSizeAttrInfoList.scenarios == 3 || this.pordSizeAttrInfoList.scenarios == 12){
+                    return '多属性产品'
+                }else {
+                    return '普通产品'
+                }
+            }
+        },
         changePorStyle(val){
             if(!val)return
             if(val == 1){

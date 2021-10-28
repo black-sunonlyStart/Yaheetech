@@ -843,6 +843,7 @@ export default {
                 const ycun = 0.3937008;
                 const ychi = 35.3147248;
                 this.pordSizeAttrInfoList = {
+                    scenarios:this.scenarios ? this.scenarios :this.productVos ? this.productVos.developmentscenarios : '',
                     buyerName:this.productVos.productCountryList && this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//分配采购开发员
                     producttype:res.data.development.producttype, //产品类型
                     productSizeL:this.productVos.length,//产品尺寸
