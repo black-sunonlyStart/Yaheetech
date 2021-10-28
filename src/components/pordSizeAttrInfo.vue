@@ -346,7 +346,7 @@ export default {
     },
     methods:{
         changeProducttype(val){
-            if(!val)return
+            if(!val || !this.pordSizeAttrInfoList.beforepackweight)return
             if(val == 2){
                 return '物理捆绑属性'
             }else{
