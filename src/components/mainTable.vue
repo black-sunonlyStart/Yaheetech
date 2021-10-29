@@ -7,7 +7,7 @@
         style="width: 100%"
         border
         @selection-change="handleSelectionChange"
-        height="595"
+        height="580"
         :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
         @row-click="handleRowClick"
          v-loading="loading"

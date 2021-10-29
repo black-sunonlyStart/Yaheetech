@@ -3,6 +3,7 @@
  * @return {string} ojgdvbvaua40
  */
  import { Message } from 'element-ui';
+ import { jsonp } from 'vue-jsonp'
 
  function createUniqueString () {
     const timestamp = +new Date() + ''
@@ -81,28 +82,29 @@ let conGetExlist = {
 
 
 function globalReportExport(option) {
-    var defaultOption = {
-        Id: 0,//导出Id
-        Param: null,//输入参数
+    let defaultOption = {
+        Id: 55,//导出Id
+        Param: [[{'Field':'ProductId','Value':15}]],//输入参数
         Type: 0, //导出类型 0:导出/1:预览/ 
         IsOpenParamWin: false,//是否打开参数选择界面 false:不打开，参数需要自己传入/true:打开，参数可选
         GetParamFun: null,
         WinTitle: null,
+        parameters:{Id: 55, Param: [{Field:'ProductId',Value:15}]},
         Callback: function (sUrl) {
             window.open(sUrl);
         }
     }
-    var _Option = Object.extend({}, defaultOption, option);
+    var _Option = Object.assign({}, defaultOption, option);
 
     if (!/^\d+$/.test(_Option.Id)) {
         this.$Message.error('导出Id格式错误，应为大于0的整数!');
         return;
     }
     _Option.Id = parseInt(_Option.Id, 10);
-    if (option.Id <= 0) {
-        this.$Message.error('导出Id错误，应为大于0的整数!');
-        return;
-    }
+    // if (option.Id <= 0) {
+    //     this.$Message.error('导出Id错误，应为大于0的整数!');
+    //     return;
+    // }
 
     //#region  参数获取
     var _Param = _Option.Param;
@@ -114,43 +116,30 @@ function globalReportExport(option) {
         //创建窗口
         // new ParamWin({ Id: _Option.Id, Param: _Param, Type: _Option.Type, WinTitle: _Option.WinTitle }, _Option.Callback).open(_Param);
     } else {
-        Output({ Id: _Option.Id, Data: _Param, Type: _Option.Type }, _Option.Callback);
+        let  Option = {
+            Id: _Option.Id, Data: _Param, Type: _Option.Type,parameters:_Option.parameters
+        }
+        Output(Option, _Option.Callback);
     }
 }
 //导出
 function Output(Option, callback) {
     if (Option.Type == 0) {
         var data = {};
-        if (typeof Option.Data == Array && Option.Data.length > 0) {
+        if ( Option.Data.length > 0) {
             for (var i = 0; i < Option.Data.length; i++) {
-                data[Option.Data[i].Field] = Option.Data[i].Value;
+                data[Option.Data[i][i].Field] = Option.Data[i][i].Value;
             }
         }
         Option.Data = JSON.stringify(data);
-        this.$jsonp({
-            url: conGetExlist.GetUrl("/ExportTable/OutputNew"),
-            data: Option,
-            dataType: 'jsonp',
-            contentType: 'application/json',
-            type: "get",
-            sync: false,
-            success: function (data) {
-                if (!data.Success) {
-                    alert(data.Message);
-                    if (callback) {
-                        callback();
-                    }
-                    return;
-                }
-                //window.open(data.Url);
-                if (callback) {
-                    callback(data.Url);
-                }
-
-            }
-        });
+        let url = conGetExlist.GetHelpTagsUrl("/ExportTable/OutputNew").toString()
+            jsonp(url,Option).then((data) => {
+                window.open(data.Url)
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
     }
-}
 // 复制功能
  function copyUrl(data) {
     // 存储传递过来的数据

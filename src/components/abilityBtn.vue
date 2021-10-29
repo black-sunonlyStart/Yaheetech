@@ -40,7 +40,7 @@
 </template>
 <script>
     import { freezing,unfreezing } from '@/api/user.js'
-    // import { globalReportExport,Output,formatDate }  from '@/utils/tools.js'
+    import { globalReportExport }  from '@/utils/tools.js'
     export default {
         name:'abilityBtn',
         components:{
@@ -61,86 +61,7 @@
         },
         methods:{
             uploadExList(){
-                this.globalReportExport()
-                // Output()
-            },
-            globalReportExport(option) {
-                let defaultOption = {
-                    Id: 55,//导出Id
-                    Param: [[{'Field':'ProductId','Value':15}]],//输入参数
-                    Type: 0, //导出类型 0:导出/1:预览/ 
-                    IsOpenParamWin: false,//是否打开参数选择界面 false:不打开，参数需要自己传入/true:打开，参数可选
-                    GetParamFun: null,
-                    WinTitle: null,
-                    parameters:{Id: 55, Param: [{Field:'ProductId',Value:15}]},
-                    Callback: function (sUrl) {
-                        window.open(sUrl);
-                    }
-                }
-                // GlobalReportExport({Id: 55, Param: [{Field:'ProductId',Value:15}]})
-                let _Option = Object.assign({}, defaultOption, option);
-
-                if (!/^\d+$/.test(_Option.Id)) {
-                    this.$Message.error('导出Id格式错误，应为大于0的整数!');
-                    return;
-                }
-                _Option.Id = parseInt(_Option.Id, 10);
-                // if (option.Id <= 0) {
-                //     this.$Message.error('导出Id错误，应为大于0的整数!');
-                //     return;
-                // }
-
-                //#region  参数获取
-                var _Param = _Option.Param;
-                if (_Option != null && typeof _Option.GetParamFun == 'function') {
-                    _Param = _Option.GetParamFun();
-                }
-                //#endregion
-                if (_Option.IsOpenParamWin) {
-                    //创建窗口
-                    // new ParamWin({ Id: _Option.Id, Param: _Param, Type: _Option.Type, WinTitle: _Option.WinTitle }, _Option.Callback).open(_Param);
-                } else {
-                    let  Option = {
-                        Id: _Option.Id, Data: _Param, Type: _Option.Type,parameters:_Option.parameters
-                    }
-                    this.Output(Option, _Option.Callback);
-                }
-            },
-            //导出
-            Output(Option) {
-                console.log(Option,'Option')
-                if (Option.Type == 0) {
-                    var data = {};
-                    if ( Option.Data.length > 0) {
-                        for (var i = 0; i < Option.Data.length; i++) {
-                            data[Option.Data[i][i].Field] = Option.Data[i][i].Value;
-                        }
-                    }
-                    // data = {
-                    //     ProductId:15
-                    // }
-                    Option.Data = JSON.stringify(data);
-                    let url = this.GetHelpTagsUrl("/ExportTable/OutputNew").toString()
-                    this.$jsonp(url,Option).then((data) => {
-                        window.open(data.Url)
-                    }).catch((err) => {
-                        console.log(err)
-                    })
-                }
-            },
-            GetHelpTagsUrl(Url) {
-                var BaseUrl = '';
-                var domain = document.domain;
-                if (domain.indexOf('localhost') >= 0) {
-                    BaseUrl = 'http://localhost:4840';
-                }
-                else if (domain.indexOf('yahee.com') >= 0) {
-                    BaseUrl = 'http://qas-newerp.yahee.com.cn:8088/PMS/Latest';
-                }
-                else {
-                    BaseUrl = 'http://newerp.yaheecloud.com/PMS/Latest'
-                }
-                return BaseUrl + Url;
+                globalReportExport()
             },
             getTableList(){
                 this.$emit('putTbleList')
@@ -152,7 +73,7 @@
             });
             window.open(routeData.href, '_blank');
             },
-            handleCommand(val){
+            handleCommand(){
                 if( !this.selectRow || this.selectRow.length == 0 || this.selectRow.length == undefined){
                     this.$message({
                         type: 'error', 
