@@ -4,7 +4,7 @@
       <navBar  @putTableList='putTableList'></navBar>
     </el-card>
     <el-card class="button-card">
-      <abilityBtn :selectRow='selectRow' @putTbleList='putTbleList'></abilityBtn>
+      <abilityBtn :selectRow='selectRow' @putTbleList='putTbleList' :navFilterList='filterList'></abilityBtn>
     </el-card>
     <el-card class="mainTable-card">
       <mainTable :navFilterList='filterList' @putTbleSelection='putTbleSelection' ref="mainTable"></mainTable>

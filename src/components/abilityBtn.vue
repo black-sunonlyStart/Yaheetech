@@ -22,17 +22,14 @@
         <el-button size="mini" type="primary" plain @click="putDataPass" perkey='ERP.Product.ProductDev.Audit'>资料初审通过</el-button>
         <el-button size="mini" type="primary" plain @click="lastPutDataPass" perkey='ERP.Product.ProductDev.EndAudit'>终审通过</el-button>
         
-        <el-dropdown trigger="hover" size='mini' >
-            <el-button type="primary" size='mini' plain style="margin-left:10px;margin-right:10px" perkey='ERP.Product.ProductDev.ExportSample' @click="uploadExList">
+        <el-dropdown trigger="click" size='mini'  @command="clickOutput">
+            <el-button type="primary" size='mini' plain style="margin-left:10px;margin-right:10px" perkey='ERP.Product.ProductDev.ExportSample'>
                  导出报表<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-                <!-- <el-dropdown-item command= 6 plain>更换采购开发</el-dropdown-item> -->
-                <el-dropdown-item command= 1 plain>导出样品采购单</el-dropdown-item>
-                <el-dropdown-item command= 2 plain>导出下单数据表</el-dropdown-item>
-                <el-dropdown-item command= 3 plain>导出开发利润表</el-dropdown-item>
-                <el-dropdown-item command= 4 plain>导出数据表</el-dropdown-item>
-                <el-dropdown-item command= 5 plain>导出需求确认清单</el-dropdown-item>
+                <el-dropdown-item command= 1 plain>需求确认清单</el-dropdown-item>
+                <el-dropdown-item command= 2 plain>新产品开发进度表</el-dropdown-item>
+                <el-dropdown-item command= 3 plain>开发利润表</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
         <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog" :selectRow="selectRow" @getTableList='getTableList'></messageDialog>
@@ -57,11 +54,48 @@
             selectRow:{
                 type:Array,
                 default:() => ([])
+            },
+            navFilterList:{
+                type:Object,
+                default:() => ({})
             }
         },
         methods:{
-            uploadExList(){
-                globalReportExport()
+            clickOutput(command){
+                let options = []
+                if(command == 1){
+                    options = 
+                    [  
+                        {
+                            'Field':'ProductId',
+                            'Value':55,
+                            // 'Value':257//正式
+                        }
+                    ]   
+                }else if (command == 2){
+                    let dateFrom = this.navFilterList.dateFrom
+                    let dateTo = this.navFilterList.dateTo
+                     options = 
+                    [
+                        {
+                            'Field':'ProductId',
+                            'Value':115,//测试
+                            // 'Value':468,//测试
+                        },
+                        { 'Field' : "dateFrom", 'Value' : dateFrom },
+                        { 'Field' : "dateTo", 'Value' : dateTo }
+                    ]
+                }else if(command == 3){
+                    options = 
+                    [
+                        {
+                            'Field':'ProductId',
+                            'Value':55,//测试
+                            // 'Value':257//正式
+                        }
+                    ]
+                }
+                globalReportExport(options)
             },
             getTableList(){
                 this.$emit('putTbleList')

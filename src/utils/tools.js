@@ -84,16 +84,20 @@ let conGetExlist = {
 function globalReportExport(option) {
     let defaultOption = {
         Id: 55,//导出Id
-        Param: [[{'Field':'ProductId','Value':15}]],//输入参数
+        Param: [],//输入参数
         Type: 0, //导出类型 0:导出/1:预览/ 
         IsOpenParamWin: false,//是否打开参数选择界面 false:不打开，参数需要自己传入/true:打开，参数可选
         GetParamFun: null,
         WinTitle: null,
-        parameters:{Id: 55, Param: [{Field:'ProductId',Value:15}]},
+        parameters:{Id: 55, Param: [{Field:'ProductId',Value:55}]},
         Callback: function (sUrl) {
             window.open(sUrl);
         }
     }
+    defaultOption.Param.push(option)
+    defaultOption.parameters.Id = option[0].Value
+    defaultOption.parameters.Param = option
+
     var _Option = Object.assign({}, defaultOption, option);
 
     if (!/^\d+$/.test(_Option.Id)) {
