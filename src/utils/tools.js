@@ -83,30 +83,29 @@ let conGetExlist = {
 
 function globalReportExport(option) {
     let defaultOption = {
-        Id: 55,//导出Id
+        Id: option[0].Value,//导出Id
         Param: [],//输入参数
         Type: 0, //导出类型 0:导出/1:预览/ 
         IsOpenParamWin: false,//是否打开参数选择界面 false:不打开，参数需要自己传入/true:打开，参数可选
         GetParamFun: null,
         WinTitle: null,
-        parameters:{Id: 55, Param: [{Field:'ProductId',Value:55}]},
-        Callback: function (sUrl) {
-            window.open(sUrl);
-        }
+        output: 'jsonp',
+        parameters:{Id: option[0].Value, Param: [{Field:'ProductId',Value:option[0].Value}]},
+        // Callback: function (sUrl) {
+        //     window.open(sUrl);
+        // }
     }
     defaultOption.Param.push(option)
-    defaultOption.parameters.Id = option[0].Value
-    defaultOption.parameters.Param = option
 
     var _Option = Object.assign({}, defaultOption, option);
 
     if (!/^\d+$/.test(_Option.Id)) {
-        this.$Message.error('导出Id格式错误，应为大于0的整数!');
+        Message.error('导出Id格式错误，应为大于0的整数!');
         return;
     }
     _Option.Id = parseInt(_Option.Id, 10);
     // if (option.Id <= 0) {
-    //     this.$Message.error('导出Id错误，应为大于0的整数!');
+    //     this.Message.error('导出Id错误，应为大于0的整数!');
     //     return;
     // }
 
@@ -121,26 +120,28 @@ function globalReportExport(option) {
         // new ParamWin({ Id: _Option.Id, Param: _Param, Type: _Option.Type, WinTitle: _Option.WinTitle }, _Option.Callback).open(_Param);
     } else {
         let  Option = {
-            Id: _Option.Id, Data: _Param, Type: _Option.Type,parameters:_Option.parameters
+            Id: _Option.Id, Data: _Param, Type: _Option.Type,parameters:_Option.parameters,
         }
         Output(Option, _Option.Callback);
     }
 }
 //导出
-function Output(Option, callback) {
+function Output(Option) {
     if (Option.Type == 0) {
         var data = {};
         if ( Option.Data.length > 0) {
-            for (var i = 0; i < Option.Data.length; i++) {
-                data[Option.Data[i][i].Field] = Option.Data[i][i].Value;
+            for (var i = 0; i < Option.Data[0].length; i++) {
+                data[Option.Data[0][i].Field] = Option.Data[0][i].Value;
             }
         }
+        Option.output = 'jsonp'
         Option.Data = JSON.stringify(data);
         let url = conGetExlist.GetHelpTagsUrl("/ExportTable/OutputNew").toString()
-            jsonp(url,Option).then((data) => {
-                window.open(data.Url)
-            }).catch((err) => {
-                console.log(err)
+            jsonp(url,Option,10000).then(res => {  
+                if(!res.Url)return
+                window.open(res.Url)
+            },err => {
+                console.log(err)   
             })
         }
     }
@@ -176,6 +177,6 @@ export {
     createUniqueString,
     toStorage,
     formatDate,
-    globalReportExport
+    globalReportExport,
 }
   

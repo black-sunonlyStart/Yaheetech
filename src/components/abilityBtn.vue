@@ -64,13 +64,32 @@
             clickOutput(command){
                 let options = []
                 if(command == 1){
+                    if(!this.selectRow || this.selectRow.length == 0 ){
+                     this.$message({
+                            type: 'error', 
+                            message:'请选择数据列表',
+                            offset:220
+                        })
+                        return
+                }
+                if(this.selectRow.length >= 2 ){
+                     this.$message({
+                            type: 'error', 
+                            message:'选择数据不能大于1',
+                            offset:220
+                        })
+                        return
+                }
                     options = 
                     [  
                         {
-                            'Field':'ProductId',
+                            'Field':'data-exportid',
                             'Value':55,
-                            // 'Value':257//正式
-                        }
+                        },
+                        {
+                            'Field':'ProductId',
+                            'Value':this.selectRow[0].productId,
+                        },     
                     ]   
                 }else if (command == 2){
                     let dateFrom = this.navFilterList.dateFrom
@@ -78,7 +97,7 @@
                      options = 
                     [
                         {
-                            'Field':'ProductId',
+                            'Field':'data-exportid',
                             'Value':115,//测试
                             // 'Value':468,//测试
                         },
@@ -86,13 +105,24 @@
                         { 'Field' : "dateTo", 'Value' : dateTo }
                     ]
                 }else if(command == 3){
+                    if(!this.navFilterList.countryCodes || this.navFilterList.countryCodes.length == 0){
+                        this.$message({
+                            type: 'error', 
+                            message:'请选择开发国家',
+                            offset:220
+                        })
+                        return
+                    }
                     options = 
                     [
                         {
                             'Field':'ProductId',
-                            'Value':55,//测试
-                            // 'Value':257//正式
-                        }
+                            'Value':116,//测试
+                        },
+                        {
+                            'Field':'countryCode',
+                            'Value':this.navFilterList.countryCodes.toString(),//测试
+                        },
                     ]
                 }
                 globalReportExport(options)

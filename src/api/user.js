@@ -282,3 +282,11 @@ export function getEmployee(data) {
       params:data
     })
   }
+  //导出模板
+export function Export(data) {
+    return request({
+      url: '/PMS/Latest/ExportTable/Export',
+      method: "post", 
+      data
+    })
+  }
