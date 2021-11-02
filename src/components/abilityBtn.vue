@@ -120,7 +120,7 @@
                             'Value':116,//测试
                         },
                         {
-                            'Field':'countryCode',
+                            'Field':'countryCodes',
                             'Value':this.navFilterList.countryCodes.toString(),//测试
                         },
                     ]
