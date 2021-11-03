@@ -794,7 +794,7 @@ export default {
         fetchPageTableList(params).then(res => {
             if(res.data && res.data.rows){
                 res.data.rows.forEach(item => {
-                    item.showImgUrl = `${this.lastImageUrl}upload/CompetingProduct/${item.developmentId}/${item.imagesUri}`
+                    item.showImgUrl = `${this.lastImageUrl}upload/CompetingProduct/Small/${item.developmentId}/${item.imagesUri}`
                    this.loading = false
                 });
               }else{

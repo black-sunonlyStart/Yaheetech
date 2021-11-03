@@ -680,10 +680,8 @@ export default {
                 }
                 if(this.comNewsDetailList && this.comNewsDetailList.competingproducts){
                     this.comNewsDetailList.competingproducts.forEach(item => {
-                        // item.url = `${process.env.VUE_APP_NEWIMAGE_API}/${item.pictureuri}`
-                        item.showImgUrl = `${this.proImageList}upload/CompetingProduct/${item.developmentid}/${item.pictureuri}`
-                        item.url = `${this.proImageList}upload/CompetingProduct/${item.developmentid}/${item.pictureuri}`
-                        // item.showImgUrl = `${process.env.VUE_APP_NEWIMAGE_API}/${item.pictureuri}`
+                        item.showImgUrl = `${this.proImageList}upload/CompetingProduct/Small/${item.developmentid}/${item.pictureuri}`
+                        item.url = `${this.proImageList}upload/CompetingProduct/Small/${item.developmentid}/${item.pictureuri}`
                         item.name = item.developmentid
 
                     })
@@ -802,8 +800,8 @@ export default {
                     })
                     if(factoryGaveImage){
                         factoryGaveImage.forEach(item => {
-                            item.showImgUrl = `${this.proImageList}upload/CompetingProduct/${item.developmentid}/${item.fileuri}`
-                            item.url = `${this.proImageList}upload/CompetingProduct/${item.developmentid}/${item.fileuri}`
+                            item.showImgUrl = `${this.proImageList}upload/CompetingProduct/Small/${item.developmentid}/${item.fileuri}`
+                            item.url = `${this.proImageList}upload/CompetingProduct/Small/${item.developmentid}/${item.fileuri}`
                             item.name = item.fileName || item.fileuri
                         })
                      }
