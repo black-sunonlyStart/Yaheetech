@@ -443,7 +443,7 @@ export default {
     name:'pordSizeAttrEdit',
     data(){
         return {
-            disableControl:false,
+            disableControl:true,
             isHaveNo:false,
             // changFromP:false,
             loading:false,
@@ -632,7 +632,7 @@ export default {
         },
         init(){
             if(this.pordSizeAttrInfoList.developmentscenarios && (this.pordSizeAttrInfoList.developmentscenarios == 1 || this.pordSizeAttrInfoList.developmentscenarios == 10)){
-                this.disableControl = true
+                this.disableControl = false
             }
             if(this.pordSizeAttrInfoList.computemode == 0 && (this.pordSizeAttrInfoList.packageshape == 1)){
                 this.rules.outerBoxNum[0].required = false
