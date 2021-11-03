@@ -18,7 +18,7 @@
         class="draggable-item"
         :style="{ width: width + 'px', height: height + 'px' }"
       >
-        <el-image :src="item.showImgUrl" :preview-src-list="[item.showImgUrl]"></el-image>
+        <el-image :src="item.showImgUrl" :preview-src-list="[item.showBigImgUrl]"></el-image>
         <div class="shadow" @click="onRemoveHandler(item,index)">
           <i class="el-icon-delete"></i>
         </div>

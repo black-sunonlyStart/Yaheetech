@@ -27,22 +27,22 @@
             <div :class="scope.row.developmentScenarios < 8 ?'imageTitel':'imageTitelRed'">{{showScenarios(scope.row.developmentScenarios)}}</div>
             <el-popover
                 placement="right"
-                title=""
-                trigger="hover">
+                trigger="hover"
+                >
                 <el-image
                     style="width: 200px; height: 200px; dispaly:black"
-                    :key="scope.row.showImgUrl" 
-                    :src="scope.row.showImgUrl" 
+                    :key="scope.row.showBigImgUrl" 
+                    :src="scope.row.showBigImgUrl" 
                     fit="fill">
                 </el-image>
                 <el-image
                     slot="reference"
-                    style="width: 80px; height: 80px; dispaly:black;margin-top:3px"
-                    :key="scope.row.showImgUrl" 
+                    style="width: 80px; height: 80px; dispaly:black;margin-top:3px;cursor:pointer;"
                     :src="scope.row.showImgUrl" 
                     lazy
                     :scroll-container="scrollContainer"
-                    fit="fill">
+                    fit="fill"
+                    >
                     <div slot="error" class="image-slot" style="margin-top:35px;margin-left:5px;color:#cccccc">
                         <i class="el-icon-picture-outline">暂无图片</i>
                     </div>
@@ -180,7 +180,7 @@
          align='center'
         >
         <template slot-scope="scope">
-            <div class="operaBox">
+            <div class="operaBox" v-show="stateList.includes(scope.row.state)">
                 <el-tooltip class="item" effect="dark" content="编辑" placement="bottom-start">
                     <div class="imageBox" @click="clickEdit(scope.row.developmentId,scope.row.productId,scope.row.id)" perkey='ERP.Product.ProductDev.SalesManEdit'></div>
                 </el-tooltip>
@@ -226,6 +226,8 @@ export default {
   },
   data () {
     return {
+      stateList:[0,1,2,3,4,5,6,10,11,12,13],
+      showImage:false,
       row:{},
       dialogName:'',
       operationList:{},
@@ -267,6 +269,12 @@ export default {
       this.getTableList(this.navFilterList)
   },
   methods: {
+    //    mouseOver(index){
+    //        this.$set(this.tableData[index],'showImage',true)
+    //    },
+    //    mouseLeave(index){
+    //      this.$set(this.tableData[index],'showImage',false)
+    //    },
       copeDevelopId(val){
           copyUrl(val)
       },
@@ -795,7 +803,8 @@ export default {
             if(res.data && res.data.rows){
                 res.data.rows.forEach(item => {
                     item.showImgUrl = `${this.lastImageUrl}upload/CompetingProduct/Small/${item.developmentId}/${item.imagesUri}`
-                   this.loading = false
+                    item.showBigImgUrl = `${this.lastImageUrl}upload/CompetingProduct/${item.developmentId}/${item.imagesUri}`
+                    this.loading = false
                 });
               }else{
                 this.loading = false  

@@ -12,7 +12,7 @@
                             class="imageListBox"
                             :src="item.showImgUrl"
                             fit="fill"
-                            @click="openImageUrl(item.showImgUrl)"
+                            @click="openImageUrl(item.showBigImgUrl)"
                             >
                         </el-image>
                     </div>

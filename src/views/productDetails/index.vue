@@ -111,7 +111,7 @@
                                             class="imageListBox"
                                             :src="item.showImgUrl"
                                             fit="fill"
-                                            @click="openImageUrl(item.showImgUrl)"
+                                            @click="openImageUrl(item.showBigImgUrl)"
                                             >
                                         </el-image>
                                     </div>
@@ -632,7 +632,8 @@ export default {
                 })
                 if(this.productImgDetail.length > 0){
                     this.productImgDetail.forEach(item => {
-                        item.showImgUrl = `${this.proImageList}upload/Development/File/${item.developmentid}/${item.fileuri}`
+                        item.showImgUrl = `${this.proImageList}upload/Development/File/Small/${item.developmentid}/${item.fileuri}`
+                        item.showBigImgUrl = `${this.proImageList}upload/Development/File/${item.developmentid}/${item.fileuri}`
                     })
                     this.productImgDetail.forEach(item => {
                         item.name = item.fileName || item.fileuri
@@ -642,6 +643,7 @@ export default {
                this.imageList = this.productImgDetail.map(item => {
                    return {
                             showImgUrl:item.showImgUrl,
+                            showBigImgUrl:item.showBigImgUrl,
                             id:item.id
                         }
                })
@@ -681,6 +683,7 @@ export default {
                 if(this.comNewsDetailList && this.comNewsDetailList.competingproducts){
                     this.comNewsDetailList.competingproducts.forEach(item => {
                         item.showImgUrl = `${this.proImageList}upload/CompetingProduct/Small/${item.developmentid}/${item.pictureuri}`
+                        item.showBigImgUrl = `${this.proImageList}upload/CompetingProduct/${item.developmentid}/${item.pictureuri}`
                         item.url = `${this.proImageList}upload/CompetingProduct/Small/${item.developmentid}/${item.pictureuri}`
                         item.name = item.developmentid
 
@@ -801,6 +804,7 @@ export default {
                     if(factoryGaveImage){
                         factoryGaveImage.forEach(item => {
                             item.showImgUrl = `${this.proImageList}upload/CompetingProduct/Small/${item.developmentid}/${item.fileuri}`
+                            item.showBigImgUrl = `${this.proImageList}upload/CompetingProduct/${item.developmentid}/${item.fileuri}`
                             item.url = `${this.proImageList}upload/CompetingProduct/Small/${item.developmentid}/${item.fileuri}`
                             item.name = item.fileName || item.fileuri
                         })
@@ -842,6 +846,7 @@ export default {
                 const ychi = 35.3147248;
                 this.pordSizeAttrInfoList = {
                     scenarios:this.scenarios ? this.scenarios :this.productVos ? this.productVos.developmentscenarios : '',
+                    developmentscenarios:this.productVos.developmentscenarios ? this.productVos.developmentscenarios : '',
                     buyerName:this.productVos.productCountryList && this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//分配采购开发员
                     producttype:res.data.development.producttype, //产品类型
                     productSizeL:this.productVos.length,//产品尺寸

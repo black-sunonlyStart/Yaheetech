@@ -4,7 +4,7 @@
              <el-row>
                  <el-col :span="10">
                      <el-form-item label="产品类型:" prop="productType">
-                        <el-radio-group v-model="ruleForm.productType">
+                        <el-radio-group v-model="ruleForm.productType" :disabled="disableControl">
                             <el-radio :label="1">普通/多属性产品</el-radio>
                             <el-radio :label="2">物理捆绑产品</el-radio>
                         </el-radio-group>
@@ -443,6 +443,7 @@ export default {
     name:'pordSizeAttrEdit',
     data(){
         return {
+            disableControl:false,
             isHaveNo:false,
             // changFromP:false,
             loading:false,
@@ -630,6 +631,9 @@ export default {
             this.selectid = selectid && selectid[0] ? selectid[0]._volume : ''
         },
         init(){
+            if(this.pordSizeAttrInfoList.developmentscenarios && (this.pordSizeAttrInfoList.developmentscenarios == 1 || this.pordSizeAttrInfoList.developmentscenarios == 10)){
+                this.disableControl = true
+            }
             if(this.pordSizeAttrInfoList.computemode == 0 && (this.pordSizeAttrInfoList.packageshape == 1)){
                 this.rules.outerBoxNum[0].required = false
             }else{
