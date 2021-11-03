@@ -69,7 +69,7 @@ export default {
  ::v-deep .button-card {
     margin: 0px 18px 10px 10px;
     position: fixed;
-    top: 215px;
+    top: 196px;
     z-index: 1000;
     width: 98%;
     .el-card__body{
@@ -79,7 +79,7 @@ export default {
   ::v-deep.mainTable-card {
     margin: 0px 18px 10px 10px;
     position: relative;
-    top: 246px;
+    top: 226px;
     width: 98%;
     height: 71.5%;
     .el-card__body{

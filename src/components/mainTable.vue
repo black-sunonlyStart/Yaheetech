@@ -66,6 +66,7 @@
             prop="productTypeName"
             label="产品名称"
             header-align='center'
+            width="250"
             >
         <template slot-scope="scope">
             <div class="remarksenTitle" @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">{{scope.row.enTitle}}</div>
@@ -83,6 +84,7 @@
         label="产品利润"
         show-overflow-tooltip
         header-align='center'
+        width="250"
         >
         <template slot-scope="scope">
             <div v-for="item in scope.row.productMarketStrs" :key="item.platformName">
@@ -126,7 +128,6 @@
             prop="categoryName"
             label="产品分类"
             show-overflow-tooltip
-            width="250px"
             v-if="showOrder"
             header-align='center'
             >
@@ -135,7 +136,6 @@
             prop="stateName"
             label="开发状态"
             show-overflow-tooltip   
-            width="120px"  
             header-align='center'
              align='center'
         >
@@ -151,7 +151,6 @@
       <el-table-column 
             label="业务 / 采购"
             show-overflow-tooltip
-            width="120px" 
             header-align='center'
              align='center'
             >
@@ -161,7 +160,7 @@
             </template>
       </el-table-column>
       <el-table-column 
-        label="创建/更新时间"
+        label="创建 / 更新时间"
         show-overflow-tooltip
         width="150px"
         header-align='center'

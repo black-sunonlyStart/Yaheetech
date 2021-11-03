@@ -3,10 +3,10 @@
     <el-form ref="form"
              :model="form"
              label-width="150px">
-      <el-row  :gutter="10">
-        <el-col :xs="24" :sm="24" :md="11" :lg="11" :xl="11">
+      <el-row>
+        <el-col :span="10" :xs="24" :sm="24" :md="24" :lg="12" :xl="11">
           <el-form-item class="firstCreateStyle"
-                        label-width="10px">
+                label-width="150px">
             <el-select v-model="form.dateType"
                        @change="typeChange"
                        size='mini'
@@ -34,14 +34,14 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col  :xs="12" :sm="12" :md="11" :lg="10" :xl="10">
-          <el-form-item label="产品负责人:" label-width="178px">
+        <el-col :span="10" :lg="9" :xl="10">
+          <el-form-item label="产品负责人:">
             <el-radio-group v-model="form.productOwner">
               <el-radio v-for="item in productOwner" :label="item.value" :key="item.value" >{{item.label}}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :xs="12" :sm="12" :md="6" :lg="4" :xl="4">
+        <el-col :xs="12" :sm="12" :md="6" :lg="3" :xl="3">
           <el-form-item label-width="10px">
             <div class="searchBox">
                 <el-input placeholder="综合搜索"
@@ -59,7 +59,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="10" :xs="24" :sm="24" :md="24" :lg="11" :xl="11">
+        <el-col :span="10" :xs="24" :sm="24" :md="24" :lg="12" :xl="11">
           <el-form-item label="开发国家:">
               <div class="checkBoxAll">
                 <el-checkbox class="checkboxAlltext" :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
@@ -88,7 +88,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="11">
+        <el-col :span="10" :xs="24" :sm="24" :md="24" :lg="12" :xl="11">
           <el-form-item label="寻找供应商:">
             <el-radio-group v-model="form.suppliers" >
               <el-radio style="width:42px" label="all">全部</el-radio>
@@ -97,7 +97,7 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="10">
+        <el-col :span="10" :lg="9" :xl="10">
           <el-form-item label="距样品到货:">
             <el-radio-group v-model="form.sample">
               <el-radio label="all">全部</el-radio>
@@ -108,7 +108,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="11">
+        <el-col :span="10" :xs="24" :sm="24" :md="24" :lg="12" :xl="11">
           <el-form-item label="是否需要认证:">
             <el-radio-group v-model="form.authentication" class="actionBox">
               <el-radio style="width:42px" label="all">全部</el-radio>
@@ -117,7 +117,7 @@
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :span="13">
+        <el-col :span="10" :lg="9" :xl="10">
            <el-form-item label="开发场景:">
             <el-checkbox-group v-model="form.developmentScenario" > 
                 <el-radio  label='all' v-model="radio" @change="showOtherCheck" class="radioStyle">全部</el-radio>
@@ -467,11 +467,11 @@ export default {
 
 <style  lang="scss" scoped>
 .navbarContainer {
-  height: 168px;
+  height: 150px;
   background-color: #ffffff;
   margin: 0 10px 10px;
   .el-row {
-    height: 30px;
+    height: 25px;
     display: flex;
   }
   .radioStyle{
