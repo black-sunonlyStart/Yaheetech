@@ -172,23 +172,24 @@
         show-overflow-tooltip
         header-align='center'
          align='center'
+         width="80px"
         >
         <template slot-scope="scope">
             <div class="operaBox" v-show="stateList.includes(scope.row.state)">
                 <el-tooltip class="item" effect="dark" content="编辑" placement="bottom-start">
                     <div class="imageBox" @click="clickEdit(scope.row.developmentId,scope.row.productId,scope.row.id)" perkey='ERP.Product.ProductDev.SalesManEdit'></div>
                 </el-tooltip>
-                <el-tooltip class="item" effect="dark" content="操作" placement="bottom-start">
-                    <el-popover
-                        placement="bottom"
-                        width="100"
-                        trigger="click">
-                        <div class="operationBox" v-for="item in operationList" :key="item.id"> 
-                            <div class="operationText" @click="putOperation(scope.row,item.id)"><div class="nameBox" :perkey='item.perkey'>{{item.name}}</div></div>
-                        </div>
-                        <div class="imageBox1" slot="reference" @click="openOperation(scope.row)"></div>
-                    </el-popover>
-                </el-tooltip>
+                <!-- <el-tooltip class="item" effect="dark" content="操作" placement="bottom-start"> -->
+                <el-popover
+                    placement="bottom"
+                    width="80"
+                    trigger="hover">
+                    <div class="operationBox" v-for="item in operationList" :key="item.id"> 
+                        <div class="operationText" @click="putOperation(scope.row,item.id)"><div class="nameBox" :perkey='item.perkey'>{{item.name}}</div></div>
+                    </div>
+                    <div class="imageBox1" slot="reference" @mouseover="openOperation(scope.row)"></div>
+                </el-popover>
+                <!-- </el-tooltip> -->
             </div>
         </template>             
       </el-table-column>
