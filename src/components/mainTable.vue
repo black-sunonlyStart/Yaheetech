@@ -15,7 +15,7 @@
         >
       <el-table-column 
         type="selection"
-        width="55"
+        width="40"
         >
       </el-table-column>
       <el-table-column 
@@ -54,12 +54,11 @@
       <el-table-column 
             prop="name"
             label="开发市场"
-            width="70"
             align='center'
             >
         <template slot-scope="scope">
             <div class="remarksTitle">{{scope.row.countryName}}</div>
-            <div v-for="item in scope.row.otherCountryNames" :key="item">{{item}}</div>
+            <div class="otherRemarks" v-for="item in scope.row.otherCountryNames" :key="item">{{item}}</div>
         </template>
       </el-table-column>
       <el-table-column 
@@ -82,9 +81,8 @@
       </el-table-column>
       <el-table-column
         label="产品利润"
-        show-overflow-tooltip
         header-align='center'
-        width="250"
+        width="350"
         >
         <template slot-scope="scope">
             <div v-for="item in scope.row.productMarketStrs" :key="item.platformName">
@@ -114,7 +112,6 @@
       <el-table-column 
             label="产品尺寸 / 属性"
             show-overflow-tooltip
-            width="120px"
             header-align='center'
              align='center'
         >
@@ -162,7 +159,6 @@
       <el-table-column 
         label="创建 / 更新时间"
         show-overflow-tooltip
-        width="150px"
         header-align='center'
         >
             <template slot-scope="scope">
@@ -174,7 +170,6 @@
       <el-table-column 
         label="操作"
         show-overflow-tooltip
-        width="100px"
         header-align='center'
          align='center'
         >
@@ -861,11 +856,14 @@ export default {
     text-align: right;
 }
 .remarksTitle{
-    color: #3366cc;
+    color: black;
     cursor: pointer;
     white-space:nowrap;
     overflow:hidden;
     text-overflow:ellipsis;
+}
+.otherRemarks{
+    color: #ccc;
 }
 .remarksenTitle{
     color: #3366cc;
