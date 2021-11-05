@@ -55,6 +55,7 @@
             prop="name"
             label="开发市场"
             align='center'
+            width="70"
             >
         <template slot-scope="scope">
             <div class="remarksTitle">{{scope.row.countryName}}</div>
@@ -864,7 +865,7 @@ export default {
     text-overflow:ellipsis;
 }
 .otherRemarks{
-    color: #ccc;
+    color: #bbb;
 }
 .remarksenTitle{
     color: #3366cc;
@@ -959,7 +960,7 @@ export default {
     color: red;
 }
 .smallPriorityStyle{
-    color: #cccccc;
+    color: #bbb;
 }
 .popperBorder{
     border: none !important;

@@ -83,7 +83,7 @@ export default {
     width: 98%;
     height: 71.5%;
     .el-card__body{
-        padding: 5px 20px;
+        padding: 5px 10px;
     }
   }
 }
