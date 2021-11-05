@@ -34,14 +34,14 @@
             </el-date-picker>
           </el-form-item>
         </el-col>
-        <el-col :span="10" :lg="9" :xl="10">
+        <el-col :span="10" :lg="8" :xl="9">
           <el-form-item label="产品负责人:">
             <el-radio-group v-model="form.productOwner">
               <el-radio v-for="item in productOwner" :label="item.value" :key="item.value" >{{item.label}}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
-        <el-col :xs="12" :sm="12" :md="6" :lg="3" :xl="3">
+        <el-col :xs="12" :sm="12" :md="6" :lg="4" :xl="4">
           <el-form-item label-width="10px">
             <div class="searchBox">
                 <el-input placeholder="综合搜索"
