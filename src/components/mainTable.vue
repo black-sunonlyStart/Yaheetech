@@ -10,12 +10,12 @@
         height="580"
         :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
         @row-click="handleRowClick"
-         v-loading="loading"
-          
+        v-loading="loading" 
         >
       <el-table-column 
         type="selection"
         width="40"
+        header-align='center'
         >
       </el-table-column>
       <el-table-column 
@@ -82,7 +82,7 @@
       <el-table-column
         label="产品利润"
         header-align='center'
-        width="350"
+        width="300"
         >
         <template slot-scope="scope">
             <div v-for="item in scope.row.productMarketStrs" :key="item.platformName">
@@ -113,7 +113,7 @@
             label="产品尺寸 / 属性"
             show-overflow-tooltip
             header-align='center'
-             align='center'
+            align='center'
         >
         <template slot-scope="scope">
             <div>{{scope.row.size || '--'}}</div>
