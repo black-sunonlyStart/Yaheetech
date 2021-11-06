@@ -524,15 +524,16 @@ export default {
             }
             this.$nextTick(() => {
                 if(this.purchaseInfoDetaiList.productPurchaseVoList && this.purchaseInfoDetaiList.productPurchaseVoList.length > 0){
+                    if(this.selectRow.length == 0){
+                        this.radio = 0
+                        this.selectRow = this.ruleForm.productPurchaseVoList[0]
+                    }
                     this.purchaseInfoDetaiList.productPurchaseVoList.forEach((item,index) => {
                         if(item.isdefault){
                             this.radio = index
                         }                       
                     })
-                    if(this.selectRow.length == 0){
-                        this.radio = 0
-                        this.selectRow = this.ruleForm.productPurchaseVoList[0]
-                    }
+                    
                 }
                 
             })
@@ -596,6 +597,9 @@ export default {
                     purchases:[//采购信息
                     ]
                 } 
+                this.ruleForm.productPurchaseVoList.forEach(item => {
+                    item.isdefault = false
+                })
                 this.ruleForm.productPurchaseVoList[this.seleindex].isdefault = true
                 let tableList = []
                 // this.selectRow.isdefault = true

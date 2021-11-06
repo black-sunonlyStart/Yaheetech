@@ -78,23 +78,30 @@
           </el-form-item>
         </el-col>
         <el-col :span="10" :lg="10" :xl="10">
-            <el-form-item label="是否需要专利:">
-            <el-radio-group v-model="form.patent">
-              <el-radio label="all">全部</el-radio>
-              <el-radio label= 1>需要</el-radio>
-              <el-radio label= 0>不需要</el-radio>
-            </el-radio-group>
-          </el-form-item>
+          <el-form-item label="寻找供应商:">
+                <el-radio-group v-model="form.suppliers" >
+                <el-radio label="all">全部</el-radio>
+                <el-radio label="1">已找过</el-radio>
+                <el-radio label="0">未找过</el-radio>
+                </el-radio-group>
+            </el-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="10" :xs="24" :sm="24" :md="24" :lg="12" :xl="11">
-          <el-form-item label="寻找供应商:">
-            <el-radio-group v-model="form.suppliers" >
-              <el-radio style="width:42px" label="all">全部</el-radio>
-              <el-radio style="width:52px" label="1">已找过</el-radio>
-              <el-radio style="width:42px" label="0">未找过</el-radio>
-            </el-radio-group>
+          <el-form-item label="开发场景:">
+            <el-checkbox-group v-model="form.developmentScenario" > 
+                <el-radio  label='all' v-model="radio" style="width:42px" @change="showOtherCheck" class="radioStyle">全部</el-radio>
+                <el-radio :label="4" v-model="radio" style="width:52px" @change="showOtherCheck" class="radioStyle">全新开发</el-radio>
+                <el-radio :label="5" v-model="radio" style="width:42px;" @change="showOtherCheck" class="radioStyle">二次开发</el-radio>
+              <el-checkbox label= '1' v-if="newProd" style="margin-left:10px;width:74px">开发新产品</el-checkbox>
+              <el-checkbox label= '2' v-if="newProd" style="width:74px" >开发新市场</el-checkbox>
+              <el-checkbox label= '3' v-if="newProd" style="width:74px" >开发新尺码</el-checkbox>
+
+              <el-checkbox label= '10' v-if="showTwoProd"  style="margin-left:10px;width:74px">二次开发产品</el-checkbox>
+              <el-checkbox label= '11' v-if="showTwoProd" style="width:74px">二次开发市场 </el-checkbox>
+              <el-checkbox label= '12' v-if="showTwoProd" style="width:74px">二次开发尺码</el-checkbox>
+            </el-checkbox-group>
           </el-form-item>
         </el-col>
         <el-col :span="10" :lg="9" :xl="10">
@@ -118,19 +125,12 @@
           </el-form-item>
         </el-col>
         <el-col :span="10" :lg="9" :xl="10">
-           <el-form-item label="开发场景:">
-            <el-checkbox-group v-model="form.developmentScenario" > 
-                <el-radio  label='all' v-model="radio" @change="showOtherCheck" class="radioStyle">全部</el-radio>
-                <el-radio :label="4" v-model="radio" @change="showOtherCheck" class="radioStyle">全新开发</el-radio>
-                <el-radio :label="5" v-model="radio" @change="showOtherCheck" class="radioStyle">二次开发</el-radio>
-              <el-checkbox label= '1' v-if="newProd" >开发新产品</el-checkbox>
-              <el-checkbox label= '2' v-if="newProd" >开发新市场</el-checkbox>
-              <el-checkbox label= '3' v-if="newProd" >开发新尺码</el-checkbox>
-
-              <el-checkbox label= '10' v-if="showTwoProd" >二次开发产品</el-checkbox>
-              <el-checkbox label= '11' v-if="showTwoProd" >二次开发市场 </el-checkbox>
-              <el-checkbox label= '12' v-if="showTwoProd" >二次开发尺码</el-checkbox>
-            </el-checkbox-group>
+            <el-form-item label="是否需要专利:">
+                <el-radio-group v-model="form.patent">
+                    <el-radio label="all">全部</el-radio>
+                    <el-radio label= 1>需要</el-radio>
+                    <el-radio label= 0>不需要</el-radio>
+                </el-radio-group>
           </el-form-item>
         </el-col>
       </el-row>
@@ -545,4 +545,9 @@ export default {
         margin-top: 6px;
     }
 }
+</style>
+<style>
+    .el-select-dropdown{
+        top: 50px !important;
+    }
 </style>

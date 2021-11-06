@@ -77,7 +77,13 @@
                     </span>
                 <div style="display:inline-block">普通产品:{{scope.row.developmentId}}</div>
             </el-tooltip>
-            <div>sku别名:{{scope.row.skuAlias || '--'}}</div>
+            <el-tooltip placement="right" effect="light" :visible-arrow='false' popper-class='popperBorder' style="padding:0;border:none">
+                <span slot="content" class="copeTitle"  @click="copeDevelopId(scope.row.skuAlias)">
+                        <i class="el-icon-document-copy" ></i>
+                    </span>
+                <div style="display:inline-block">sku别名:{{scope.row.skuAlias || '--'}}</div>
+            </el-tooltip>
+            <!-- <div>sku别名:{{scope.row.skuAlias || '--'}}</div> -->
         </template>
       </el-table-column>
       <el-table-column
@@ -902,6 +908,9 @@ export default {
                 overflow: auto;
             }
             
+        }
+        .el-table__body-wrapper {
+            height: 534px !important;
         }
     }
     

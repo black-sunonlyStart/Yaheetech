@@ -60,7 +60,7 @@ export default {
     z-index: 10001;
     margin: 0px 26px 10px 10px;
     position: fixed;
-    width: 98%;
+    width: 98.6%;
     z-index: 999;
     .el-card__body{
         padding: 10px 20px;
@@ -71,7 +71,7 @@ export default {
     position: fixed;
     top: 196px;
     z-index: 1000;
-    width: 98%;
+    width: 98.6%;
     .el-card__body{
         padding: 3px 20px;
     }
@@ -80,7 +80,7 @@ export default {
     margin: 0px 18px 10px 10px;
     position: relative;
     top: 226px;
-    width: 98%;
+    width: 98.6%;
     height: 71.5%;
     .el-card__body{
         padding: 5px 10px;
