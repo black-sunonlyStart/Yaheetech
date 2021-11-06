@@ -53,9 +53,9 @@
       </el-table-column>
       <el-table-column 
             prop="name"
-            label="开发市场"
+            label="市场"
             align='center'
-            width="70"
+            width="50"
             >
         <template slot-scope="scope">
             <div class="remarksTitle">{{scope.row.countryName}}</div>

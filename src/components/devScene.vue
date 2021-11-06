@@ -19,7 +19,9 @@
                     <el-option-group
                         v-for="group in sceneOptions"
                         :key="group.label"
-                        :label="group.label">
+                        :label="group.label"
+                        class="group-select"
+                        >
                         <el-option
                             v-for="item in group.options"
                             :key="item.value"
@@ -352,6 +354,11 @@ export default {
       }
       .el-select-dropdown__wrap {
             max-height: 100% !important;
+        }
+        ::v-deep.group-select{
+            .el-select-group__title{
+                line-height: 10px;
+            }
         }
       
 </style>
