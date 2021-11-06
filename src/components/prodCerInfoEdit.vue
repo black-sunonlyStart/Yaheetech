@@ -43,6 +43,8 @@
                                 v-model="item.data"
                                 clearable
                                 @change="changeRequirements(index,item.data)"
+                                maxlength="100"
+                                show-word-limit
                                 style="width:525px"
                                 >
                             </el-input>
@@ -63,6 +65,8 @@
                                 type="textarea"
                                 :autosize="{ minRows: 1, maxRows: 4}"
                                 v-model="item.data"
+                                show-word-limit
+                                maxlength="100"
                                 clearable
                                 @change='changeTestRequirements(index, item.data)'
                                 style="width:525px"
@@ -84,6 +88,8 @@
                             type="textarea"
                             :autosize="{ minRows: 2, maxRows: 4}"
                             placeholder="请输入内容"
+                            maxlength="100"
+                            show-word-limit
                             clearable
                             v-model="ruleForm.requirementsRemark">
                         </el-input>
@@ -150,21 +156,21 @@
             <el-row v-if="checkedUSA.length>0">
                 <el-col :span="10">
                     <el-form-item label="美国">
-                         <el-input v-model="inputUSA" type="textarea" :autosize="{ minRows: 1, maxRows: 4}" clearable></el-input>  
+                         <el-input v-model="inputUSA" type="textarea" maxlength="500" :autosize="{ minRows: 1, maxRows: 4}" clearable></el-input>  
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row v-if="checkedUK.length>0">
                 <el-col :span="10">
                     <el-form-item label="英国">
-                         <el-input v-model="inputUK" type="textarea" :autosize="{ minRows: 1, maxRows: 4}" clearable></el-input>  
+                         <el-input v-model="inputUK" type="textarea" maxlength="500" :autosize="{ minRows: 1, maxRows: 4}" clearable></el-input>  
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row v-if="checkedEU.length>0">
                 <el-col :span="10">
                     <el-form-item label="德国">
-                         <el-input v-model="inputEU" type="textarea" :autosize="{ minRows: 1, maxRows: 4}" clearable></el-input>  
+                         <el-input v-model="inputEU" type="textarea" maxlength="500" :autosize="{ minRows: 1, maxRows: 4}" clearable></el-input>  
                     </el-form-item>
                 </el-col>
             </el-row>

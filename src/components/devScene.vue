@@ -160,7 +160,7 @@ export default {
             { required: true, message: '请选择开发类型', trigger: 'change' },
           ],
           skuid: [
-            { required: true, message: '请添加skuId', trigger: 'change' },
+            { required: true, message: '请添加spuId', trigger: 'change' },
           ],
           scene: [
             { required: true, message: '请选择开发场景', trigger: 'change' },
