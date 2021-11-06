@@ -12,7 +12,7 @@
             <el-col :span="8" v-if="productVoDetail.developmentscenarios != 1">
                 <span class="boldTitle">关联产品： </span>
                 <span>({{productVoDetail.id}}){{productVoDetail.spu}}</span>
-                <div v-if="showSizeTitle">请再次确认关联产品，当前关联产品尺码为{{getAttrBute(multiAttribute)}}</div>
+                <div >请再次确认关联产品，当前关联产品尺码为{{getAttrBute(productVoDetail.id,multiAttribute)}}</div>
             </el-col>
             <el-col :span="8" v-else>
                 <span class="boldTitle">所属分类：</span>
@@ -58,11 +58,13 @@ export default {
     mounted(){
     },
     methods:{
-        getAttrBute(val){
-            let size = ''
+        getAttrBute(spu,val){
+            let sizeList = ''
             if(!val || val.length == 0 )return
-            size = val[0].size
-            return size
+            sizeList = val.filter(res => {
+               return spu == res.productid
+            })
+            return sizeList[0].size
         },
         showSign(val){
             if(val == 1){
