@@ -490,7 +490,7 @@ export default {
                 outerBoxSizeH: [{ required: true, message: '请添加外箱尺寸', trigger: 'blur' }],
                 sizeRules: [{ required: true, message: '请选择尺寸规则', trigger: 'blur' }],
                 outerBoxSizeRules: [{ required: true, message: '请选择尺寸规则', trigger: 'blur' }],
-                containersNumber: [{ required: true, message: '请选择货柜体积', trigger: 'blur' }],
+                containersNumber: [{ required: false, message: '请选择货柜体积', trigger: 'blur' }],
                 outerBoxNum: [{ required: true, message: '请输入货柜数量', trigger: 'blur' }],
                 proNetWeight: [{ required: true, message: '请输入净重', trigger: 'blur' }],
                 proGrossWeight: [{ required: true, message: '请输入毛重', trigger: 'blur' }],
@@ -636,8 +636,10 @@ export default {
             }
             if(this.pordSizeAttrInfoList.computemode == 0 && (this.pordSizeAttrInfoList.packageshape == 1)){
                 this.rules.outerBoxNum[0].required = false
+                this.rules.containersNumber[0].required = false
             }else{
                 this.rules.outerBoxNum[0].required = true
+                this.rules.containersNumber[0].required = true
             }
             let params = {
                 typeId:0,
