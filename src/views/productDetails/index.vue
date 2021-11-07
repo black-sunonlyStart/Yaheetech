@@ -17,7 +17,7 @@
                         开发id：<span>{{development && development.id ?development.id:'' }}</span>
                     </div>
                     <div>
-                        生成型号：<span>{{productVos.skuAlias}}</span>
+                        生成型号：<span>{{productVos.skuAlias || '--'}}</span>
                     </div>
                     <div>
                         开发市场：<div class="countryTitle">{{ productCountryList ? productCountryList.countryName:'' }}</div> 
@@ -25,7 +25,7 @@
                     </div>
                     <div class="haveMoneyLitte">
                         <div>
-                            开发价/最低利润：
+                            开发价/利润：
                         </div>
                         <div>
                             <div v-for="item in productMarketStrs" :key="item.platformName" class="profit">
