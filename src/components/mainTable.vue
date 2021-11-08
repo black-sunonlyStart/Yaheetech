@@ -33,6 +33,8 @@
                     style="width: 200px; height: 200px; dispaly:black"
                     :key="scope.row.showBigImgUrl" 
                     :src="scope.row.showBigImgUrl" 
+                    lazy
+                    :scroll-container="scrollContainer"
                     fit="fill">
                 </el-image>
                 <el-image

@@ -89,7 +89,7 @@
                             <el-card>
                                 <div slot="header" class="clearfix">
                                     <div>开发类型/场景
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit = !isEdit" v-if="isEdit"><span v-if="statusOptions.includes(timeStatus)"><i class="icon-edit"></i>编辑</span></div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit = !isEdit" v-if="isEdit"><span v-if="isStatusEdit"><i class="icon-edit"></i>编辑</span></div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit">
@@ -102,7 +102,7 @@
                             <el-card style="margin-top:10px">
                                 <div slot="header" class="clearfix">
                                     <span>产品尺寸图
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit1 = !isEdit1" v-if="isEdit1"><span v-if="statusOptions.includes(timeStatus) && $route.params.productId"><i class="icon-edit"></i>编辑</span></div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit1 = !isEdit1" v-if="isEdit1"><span v-if="isStatusEdit1 && $route.params.productId"><i class="icon-edit"></i>编辑</span></div>
                                     </span>
                                 </div>
                                 <div v-if="isEdit1" class="imgContainer">
@@ -123,7 +123,7 @@
                             <el-card style="margin-top:10px;margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <span>销售目标
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit2 = !isEdit2" v-if="isEdit2"><span v-if="statusOptions.includes(timeStatus) && $route.params.productId"><i class="icon-edit"></i>编辑</span></div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit2 = !isEdit2" v-if="isEdit2"><span v-if="isStatusEdit2 && $route.params.productId"><i class="icon-edit"></i>编辑</span></div>
                                     </span>
                                 </div>
                                 <div v-if="isEdit2">
@@ -141,7 +141,7 @@
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>竞品信息
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit3 = !isEdit3" v-if="isEdit3"><span v-if="statusOptions.includes(timeStatus)"><i class="icon-edit"></i>编辑</span></div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit3 = !isEdit3" v-if="isEdit3"><span v-if="isStatusEdit3"><i class="icon-edit"></i>编辑</span></div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit3">
@@ -159,7 +159,7 @@
                             <el-card>
                                 <div slot="header" class="clearfix">
                                     <div>开发信息
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit4 = !isEdit4" v-if="isEdit4"><span v-if="statusOptions.includes(timeStatus)"><i class="icon-edit"></i>编辑</span></div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit4 = !isEdit4" v-if="isEdit4"><span v-if="isStatusEdit4"><i class="icon-edit"></i>编辑</span></div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit4">
@@ -178,7 +178,7 @@
                             <el-card>
                                 <div slot="header" class="clearfix">
                                     <div>产品认证信息
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit5 = !isEdit5" v-if="isEdit5"><span v-if="statusOptions.includes(timeStatus)"><i class="icon-edit"></i>编辑</span></div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit5 = !isEdit5" v-if="isEdit5"><span v-if="isStatusEdit5"><i class="icon-edit"></i>编辑</span></div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit5">
@@ -194,7 +194,7 @@
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>产品标题和供应商信息
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit6 = !isEdit6" v-if="isEdit6"><span v-if="statusOptions.includes(timeStatus)"><i class="icon-edit"></i>编辑</span></div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit6 = !isEdit6" v-if="isEdit6"><span v-if="isStatusEdit6"><i class="icon-edit"></i>编辑</span></div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit6">
@@ -212,7 +212,7 @@
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>产品尺寸和属性信息
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit7 = !isEdit7" v-if="isEdit7"><span v-if="statusOptions.includes(timeStatus)"><i class="icon-edit"></i>编辑</span></div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit7 = !isEdit7" v-if="isEdit7"><span v-if="isStatusEdit7"><i class="icon-edit"></i>编辑</span></div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit7">
@@ -230,7 +230,7 @@
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>采购信息
-                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit8 = !isEdit8" v-if="isEdit8"><span v-if="statusOptions.includes(timeStatus)"><i class="icon-edit"></i>编辑</span></div>
+                                        <div class="edit-position" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit8 = !isEdit8" v-if="isEdit8"><span v-if="isStatusEdit8"><i class="icon-edit"></i>编辑</span></div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit8">
@@ -448,6 +448,15 @@ export default {
         isEdit6:true,
         isEdit7:true,
         isEdit8:true,
+        isStatusEdit:true,
+        isStatusEdit1:true,
+        isStatusEdit2:true,
+        isStatusEdit3:true,
+        isStatusEdit4:true,
+        isStatusEdit5:true,
+        isStatusEdit6:true,
+        isStatusEdit7:true,
+        isStatusEdit8:true,
         nowStatus:0,
         timeStatus:0,
         proImageList:'',
@@ -468,6 +477,110 @@ export default {
     this.init()
   },
   methods: {
+      controlEdit(val){
+          switch(val){
+                case 0 :
+                this.isStatusEdit5 = false;
+                this.isStatusEdit6 = false;
+                this.isStatusEdit7 = false;
+                this.isStatusEdit8 = false;
+                break;
+                case 1:
+                this.isStatusEdit5 = false;
+                this.isStatusEdit6 = false;
+                this.isStatusEdit7 = false;
+                this.isStatusEdit8 = false;
+                break;
+                case 11:
+                this.isStatusEdit = false;
+                this.isStatusEdit1 = false;
+                this.isStatusEdit2 = false;
+                this.isStatusEdit3 = false;
+                this.isStatusEdit4 = false;
+                this.isStatusEdit6 = false;
+                this.isStatusEdit7 = false;
+                this.isStatusEdit8 = false;
+                break;
+                case 2:
+                break;
+                case 13:
+                break;
+                case 12:
+                break;
+                case 3 :
+                this.isStatusEdit5 = false;
+                this.isStatusEdit6 = false;
+                this.isStatusEdit7 = false;
+                this.isStatusEdit8 = false;
+                break;
+                case 10:
+                break;
+                case 4:
+                this.isStatusEdit = false;
+                this.isStatusEdit1 = false;
+                this.isStatusEdit2 = false;
+                this.isStatusEdit3 = false;
+                this.isStatusEdit4 = false;
+                this.isStatusEdit5 = false;
+                break;
+                case 5:
+                this.isStatusEdit5 = false;
+                this.isStatusEdit6 = false;
+                this.isStatusEdit7 = false;
+                this.isStatusEdit8 = false;
+                break;
+                case 6:
+                this.isStatusEdit5 = false;
+                this.isStatusEdit6 = false;
+                this.isStatusEdit7 = false;
+                this.isStatusEdit8 = false;
+                break;
+                case 7:
+                this.isStatusEdit = false;
+                this.isStatusEdit1 = false;
+                this.isStatusEdit2 = false;
+                this.isStatusEdit3 = false;
+                this.isStatusEdit4 = false;
+                this.isStatusEdit5 = false;
+                this.isStatusEdit6 = false;
+                this.isStatusEdit7 = false;
+                this.isStatusEdit8 = false;
+                break;
+                case 8:
+                this.isStatusEdit = false;
+                this.isStatusEdit1 = false;
+                this.isStatusEdit2 = false;
+                this.isStatusEdit3 = false;
+                this.isStatusEdit4 = false;
+                this.isStatusEdit5 = false;
+                this.isStatusEdit6 = false;
+                this.isStatusEdit7 = false;
+                this.isStatusEdit8 = false;
+                break;
+                case 9:
+                this.isStatusEdit = false;
+                this.isStatusEdit1 = false;
+                this.isStatusEdit2 = false;
+                this.isStatusEdit3 = false;
+                this.isStatusEdit4 = false;
+                this.isStatusEdit5 = false;
+                this.isStatusEdit6 = false;
+                this.isStatusEdit7 = false;
+                this.isStatusEdit8 = false;
+                break;
+                case 14:
+                this.isStatusEdit = false;
+                this.isStatusEdit1 = false;
+                this.isStatusEdit2 = false;
+                this.isStatusEdit3 = false;
+                this.isStatusEdit4 = false;
+                this.isStatusEdit5 = false;
+                this.isStatusEdit6 = false;
+                this.isStatusEdit7 = false;
+                this.isStatusEdit8 = false;
+                break;
+            }
+      },
       init(){
           getEmployee().then(res => {
               if(res.data){
@@ -611,6 +724,7 @@ export default {
                     this.nowStatus = 0
                 }
                 this.proessCenterShow(this.nowStatus)
+                this.controlEdit(this.timeStatus)
                 // this.otherProductCountryList = res.data.productVos && res.data.productVos[0] && res.data.productVos[0].productCountryList ? res.data.productVos[0].productCountryList[0] : []
                 this.productVos = res.data.productVos? res.data.productVos[0] : []
                 this.productMarketStrs = res.data.productMarketStrs
