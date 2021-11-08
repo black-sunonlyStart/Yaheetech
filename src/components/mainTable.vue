@@ -186,7 +186,7 @@
         <template slot-scope="scope">
             <div class="operaBox" v-show="stateList.includes(scope.row.state)">
                 <el-tooltip class="item" effect="dark" content="编辑" placement="bottom-start">
-                    <div class="imageBox" @click="clickEdit(scope.row.developmentId,scope.row.productId,scope.row.id)" perkey='ERP.Product.ProductDev.SalesManEdit'></div>
+                    <div class="imageBox" @click="clickEdit(scope.row.developmentId,scope.row.productId,scope.row.id)" v-permission="'ERP.Product.ProductDev.SalesManEdit'" perkey='ERP.Product.ProductDev.SalesManEdit'></div>
                 </el-tooltip>
                 <!-- <el-tooltip class="item" effect="dark" content="操作" placement="bottom-start"> -->
                 <el-popover
@@ -194,7 +194,7 @@
                     width="80"
                     trigger="hover">
                     <div class="operationBox" v-for="item in operationList" :key="item.id"> 
-                        <div class="operationText" @click="putOperation(scope.row,item.id)"><div class="nameBox" :perkey='item.perkey'>{{item.name}}</div></div>
+                        <div class="operationText" @click="putOperation(scope.row,item.id)"><div class="nameBox" v-permission:[item.perkey] :perkey='item.perkey'>{{item.name}}</div></div>
                     </div>
                     <div class="imageBox1" slot="reference" @mouseover="openOperation(scope.row)"></div>
                 </el-popover>
@@ -570,7 +570,7 @@ export default {
                   {
                     name:'审批通过',
                     id:40,
-                    perkey:'ERP.Product.ProductDev.ManagerAudit'
+                    perkey:'ERP.Product.ProductDev.SalesManEdit'
                   },
                   {
                     name:'开发新尺码',
@@ -585,7 +585,7 @@ export default {
                   {
                     name:'取消开发',
                     id:3,
-                    perkey:'ERP.Product.ProductDev.ManagerCancel'
+                    perkey:'ERP.Product.ProductDev.Cancel'
                   },
                   {
                     name:'更改采购开发员',
@@ -689,7 +689,7 @@ export default {
                   {
                     name:'打回',
                     id:4,
-                    perkey:'ERP.Product.ProductDev.SalesManBack'
+                    perkey:'ERP.Product.ProductDev.AuditAuth'
                   },
                   {
                     name:'开发新市场',
@@ -707,7 +707,7 @@ export default {
                   {
                     name:'审批通过',
                     id:25,
-                    perkey:'ERP.Product.ProductDev.ManagerAudit'
+                    perkey:'ERP.Product.ProductDev.PurchasingSupervisorAudit'
                   },
                   {
                     name:'打回',
@@ -745,7 +745,7 @@ export default {
                   {
                     name:'审批通过',
                     id:25,
-                    perkey:'ERP.Product.ProductDev.ManagerAudit'
+                    perkey:'ERP.Product.ProductDev.SamplePurchaseAudit'
                   },
                   {
                     name:'开发新市场',

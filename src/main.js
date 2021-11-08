@@ -8,6 +8,7 @@ import VueLazyload from 'vue-lazyload'
 import moment from "moment";
 import './styles/element-variables.scss'
 import '@/utils/directives.js'
+import '@/utils/jurisdiction.js'
 import { VueJsonp } from 'vue-jsonp'
 Vue.prototype.$moment = moment;
 // Object.defineProperty(Vue.prototype,'$moment',{value:moment})

@@ -17,14 +17,14 @@
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">认证要求</div> <div><div class="colBoxContent" style="width:1200px" v-for="item in prodCerInfoDetailList.credentialList2" :key="item.id">{{item.data}}</div></div>
+                    <div class="colBoxTitle">认证要求：</div> <div><div class="colBoxContent" style="width:1200px" v-for="item in prodCerInfoDetailList.credentialList2" :key="item.id">{{item.data}}</div></div>
                 </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">推荐认证：</div> <div><div class="colBoxContent" style="width:1200px" v-for="item in prodCerInfoDetailList.credentialList3" :key="item.id">{{item.data}}</div></div>
+                    <div class="colBoxTitle">确认测试要求：</div> <div><div class="colBoxContent" style="width:1200px" v-for="item in prodCerInfoDetailList.credentialList3" :key="item.id">{{item.data}}</div></div>
                 </div>
             </el-col>
         </el-row>

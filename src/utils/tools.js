@@ -138,8 +138,17 @@ function Output(Option) {
         Option.Data = JSON.stringify(data);
         let url = conGetExlist.GetHelpTagsUrl("/ExportTable/OutputNew").toString()
             jsonp(url,Option,10000).then(res => {  
-                if(!res.Url)return
-                window.open(res.Url)
+                if(!res.Url){
+                    if(res.Success){
+                        Message({
+                            type: 'error', 
+                            message:res.Message,
+                            offset:220
+                        })
+                    }
+                }else{
+                    window.open(res.Url)
+                }     
             },err => {
                 console.log(err)   
             })

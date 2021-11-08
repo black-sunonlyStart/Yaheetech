@@ -282,6 +282,14 @@ export function getEmployee(data) {
       params:data
     })
   }
+  //权限码判断
+export function hasPermission(data) {
+    return request({
+      url: '/common/hasPermission',
+      method: "get", 
+      params:data
+    })
+  }
   //导出模板
 export function Export(data) {
     return request({

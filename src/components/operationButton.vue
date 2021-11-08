@@ -1,6 +1,6 @@
 <template>
-    <div class="buttonStyle">
-        <el-button v-for="item in operationList" :key="item.id" size="mini" type="primary" @click="putOperation(item.id)">{{item.name}}</el-button>
+    <div class="buttonStyle" >
+        <el-button v-permission:[item.perkey] v-for="item in operationList" :key="item.id" size="mini" type="primary" @click="putOperation(item.id)" :perkey='item.perkey'>{{item.name}}</el-button>
         <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog"  @getTableList='getTableList' :row='row' :showOrder='showOrder'></messageDialog>
     </div>
     
@@ -150,111 +150,113 @@ export default {
         openOperation(state){
           if(state == 0){
               this.operationList = [
-                  {
+                   {
                     name:'提交审批',
-                    id:1
+                    id:1,
+                    perkey:'ERP.Product.ProductDev.Audit'
                   },
                   {
                     name:'取消开发',
-                    id:3
+                    id:3,
+                    perkey:'ERP.Product.ProductDev.Cancel'
                   },
               ]
           }else if(state == 1){
-              this.operationList = [
+              this.operationList = [  //1  13 12 3 10 5 6 
                   {
                     name:'审批通过',
-                    id:2
+                    id:2,
+                    perkey:'ERP.Product.ProductDev.ManagerAudit'
                   },
                   {
                     name:'打回',
-                    id:4
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
                   {
                     name:'取消开发',
-                    id:3
+                    id:3,
+                    perkey:'ERP.Product.ProductDev.ManagerCancel'
                   },
               ]
           }else if(state == 2){
               this.operationList = [
                   {
                     name:'提交采购主管审核',
-                    id:5
-                  },
-                  {
-                    name:'更改采购开发员',
-                    id:6
+                    id:5,
+                    perkey:'ERP.Product.ProductDev.BuyerEdit'
                   },
                   {
                     name:'打回',
-                    id:4
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.BuyerBack'
                   },
               ]
           }else if(state == 3){
               this.operationList = [
                   {
                     name:'审核通过',
-                    id:14
-                  },
-                  {
-                    name:'打回',
-                    id:4
+                    id:14,
+                    perkey:'ERP.Product.ProductDev.ManagerAudit'
                   },
                   {
                     name:'取消开发',
-                    id:3
+                    id:3,
+                    perkey:'ERP.Product.ProductDev.Cancel'
+                  },
+                  {
+                    name:'打回',
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.SalesBack'
                   },
               ]
           }else if(state == 4){ //1 4 5 6 7 9 10
               this.operationList = [
                   {
                     name:'提交利润复核',
-                    id:15
+                    id:15,
+                    perkey:'ERP.Product.ProductDev.BuyerEdit'
                   },
                   {
                     name:'打回',
-                    id:4
-                  },
-                  {
-                    name:'更改采购开发员',
-                    id:6
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.SalesBack'
                   },
               ]
           }else if(state == 5){
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:40
+                    id:40,
+                    perkey:'ERP.Product.ProductDev.SalesManEdit'
                   },
                   {
                     name:'打回',
-                    id:4
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
                   {
                     name:'取消开发',
-                    id:3
-                  },
-                  {
-                    name:'更改采购开发员',
-                    id:6
+                    id:3,
+                    perkey:'ERP.Product.ProductDev.Cancel'
                   },
               ]
           }else if(state == 6){
               this.operationList = [
                   {
                     name:'终审审批',
-                    id:9
+                    id:9,
+                    perkey:'ERP.Product.ProductDev.EndAudit'
                   },
                   {
                     name:'打回',
-                    id:4
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
                   {
                     name:'取消开发',
-                    id:3
-                  },
-                  {
-                    name:'更改采购开发员',
-                    id:6
+                    id:3,
+                    perkey:'ERP.Product.ProductDev.ManagerCancel'
                   },
               ]
           }else if (state == 7){
@@ -263,59 +265,65 @@ export default {
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:7
+                    id:25,
+                    perkey:'ERP.Product.ProductDev.ManagerAudit'
                   },
                   {
                     name:'打回',
-                    id:4
-                  },
-                  {
-                    name:'更改采购开发员',
-                    id:6
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
               ]
           }else if(state == 11){
               this.operationList = [
                     {
                         name:'提交寻找供应商',
-                        id:10
+                        id:10,
+                        perkey:'ERP.Product.ProductDev.EditAuth'
                     },
                   {
                     name:'打回',
-                    id:4
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
               ]
           }else if(state == 12){
               this.operationList = [
                   {
                     name:'提交利润初审',
-                    id:11
+                    id:11,
+                    perkey:'ERP.Product.ProductDev.AuditAuth'
                   },
                   {
                     name:'打回',
-                    id:4
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.AuditAuth'
                   },
               ]
           }else if(state == 13){
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:25
+                    id:25,
+                    perkey:'ERP.Product.ProductDev.PurchasingSupervisorAudit'
                   },
                   {
                     name:'打回',
-                    id:4
+                    id:4,
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
                   {
                     name:'取消开发',
-                    id:3
+                    id:3,
+                    perkey:'ERP.Product.ProductDev.ManagerCancel'
                   },
               ]
           }else if(state == 14){
               this.operationList = [
                   {
                     name:'返回冻结前状态',
-                    id:13
+                    id:13,
+                    perkey:'ERP.Product.ProductDev.BackToFreezingOff'
                   },
               ]
           }else if (state == 9){
@@ -324,7 +332,8 @@ export default {
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:25
+                    id:25,
+                    perkey:'ERP.Product.ProductDev.SamplePurchaseAudit'
                   },
                 ]
           }else {

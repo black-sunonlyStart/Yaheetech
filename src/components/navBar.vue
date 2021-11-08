@@ -546,8 +546,3 @@ export default {
     }
 }
 </style>
-<style>
-    .el-select-dropdown{
-        top: 50px !important;
-    }
-</style>

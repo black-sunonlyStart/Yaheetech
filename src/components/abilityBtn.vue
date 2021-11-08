@@ -1,29 +1,29 @@
 <template>
     <span class="navButton">
-        <el-button size="mini" @click="addProctList" type="primary" plain  icon="el-icon-circle-plus-outline" perkey="ERP.Product.ProductDev.ADD">开发产品</el-button>
+        <el-button size="mini" @click="addProctList" type="primary" plain  icon="el-icon-circle-plus-outline" v-permission="'ERP.Product.ProductDev.ADD'" perkey="ERP.Product.ProductDev.ADD">开发产品</el-button>
         <!-- <el-button size="mini" >更换业务开发</el-button> -->
         <el-dropdown trigger="hover"  @command="changeOrderPer" size='mini' >
-            <el-button type="primary" size='mini' plain style="margin-left:10px" porkey='ERP.Product.ProductDev.EditGroup' @click="handleCommand">
+            <el-button type="primary" size='mini' plain style="margin-left:10px" v-permission="'ERP.Product.ProductDev.EditGroup'" porkey='ERP.Product.ProductDev.EditGroup' @click="handleCommand">
                  更换业务开发<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
                 <!-- <el-dropdown-item command= 6 plain>更换采购开发</el-dropdown-item> -->
-                <el-dropdown-item command= 20 plain>更换采购开发</el-dropdown-item>
+                <el-dropdown-item command= 20 plain  v-permission="'ERP.Product.ProductDev.DistributionProcurement'" perkey='ERP.Product.ProductDev.DistributionProcurement'>更换采购开发</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
         <el-dropdown trigger="hover" @command="frozenCommand" size='mini' >
-            <el-button type="primary" size='mini' plain style="margin-left:10px;margin-right:10px" @click="freezelist" perkey='ERP.Product.ProductDev.FreezingOff'>
+            <el-button type="primary" size='mini' plain style="margin-left:10px;margin-right:10px" @click="freezelist" v-permission="'ERP.Product.ProductDev.FreezingOff'" perkey='ERP.Product.ProductDev.FreezingOff'>
                 冻结数据<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
-            <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command= 6 plain>取消冻结数据</el-dropdown-item>
+            <el-dropdown-menu slot="dropdown" >
+                <el-dropdown-item command= 6 plain v-permission="'ERP.Product.ProductDev.BackToFreezingOff'" perkey='ERP.Product.ProductDev.BackToFreezingOff'>取消冻结数据</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
-        <el-button size="mini" type="primary" plain @click="putDataPass" perkey='ERP.Product.ProductDev.Audit'>资料初审通过</el-button>
-        <el-button size="mini" type="primary" plain @click="lastPutDataPass" perkey='ERP.Product.ProductDev.EndAudit'>终审通过</el-button>
+        <el-button size="mini" type="primary" plain @click="putDataPass" v-permission="'ERP.Product.ProductDev.Audit'" perkey='ERP.Product.ProductDev.Audit'>资料初审通过</el-button>
+        <el-button size="mini" type="primary" plain @click="lastPutDataPass" v-permission="'ERP.Product.ProductDev.EndAudit'" perkey='ERP.Product.ProductDev.EndAudit'>终审通过</el-button>
         
-        <el-dropdown trigger="click" size='mini'  @command="clickOutput">
-            <el-button type="primary" size='mini' plain style="margin-left:10px;margin-right:10px" perkey='ERP.Product.ProductDev.ExportSample'>
+        <el-dropdown trigger="hover" size='mini'  @command="clickOutput">
+            <el-button type="primary" size='mini' plain style="margin-left:10px;margin-right:10px" v-permission="'ERP.Product.ProductDev.ExportSample'" perkey='ERP.Product.ProductDev.ExportSample'>
                  导出报表<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
@@ -84,7 +84,8 @@
                     [  
                         {
                             'Field':'data-exportid',
-                            'Value':55,
+                            'Value':55,//测试
+                            // 'Value':257,//正式
                         },
                         {
                             'Field':'ProductId',
@@ -99,7 +100,7 @@
                         {
                             'Field':'data-exportid',
                             'Value':115,//测试
-                            // 'Value':468,//测试
+                            // 'Value':468,//正式
                         },
                         { 'Field' : "dateFrom", 'Value' : dateFrom },
                         { 'Field' : "dateTo", 'Value' : dateTo }
@@ -118,6 +119,7 @@
                         {
                             'Field':'ProductId',
                             'Value':116,//测试
+                            // 'Value':483,//正式
                         },
                         {
                             'Field':'countryCodes',
