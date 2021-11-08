@@ -15,7 +15,7 @@
             </el-select>
             </el-form-item>
             <el-form-item label="开发场景" prop="scene">
-                <el-select v-model="ruleForm.scene " placeholder="请选择" @change="selectScene" :disabled='closeComponent'>
+                <el-select v-model="ruleForm.scene" class="option-input" placeholder="请选择" @change="selectScene" :disabled='closeComponent'>
                     <el-option-group
                         v-for="group in sceneOptions"
                         :key="group.label"
@@ -26,7 +26,8 @@
                             v-for="item in group.options"
                             :key="item.value"
                             :label="item.label"
-                            :value="item.value">
+                            :value="item.value"
+                            >
                         </el-option>
                     </el-option-group>
                 </el-select>
@@ -360,5 +361,7 @@ export default {
                 line-height: 10px;
             }
         }
-      
+      .option-input{
+          width: 420px;
+      }
 </style>
