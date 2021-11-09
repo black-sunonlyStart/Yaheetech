@@ -514,9 +514,12 @@ export default {
                 this.isStatusEdit8 = false;
                 break;
                 case 2:
-                    this.isStatusEdit6 = true;
-                    this.isStatusEdit7 = true;
-                    this.isStatusEdit8 = true;
+                    this.isStatusEdit = false;
+                    this.isStatusEdit1 = false;
+                    this.isStatusEdit2 = false;
+                    this.isStatusEdit3 = false;
+                    this.isStatusEdit4 = false;
+                    this.isStatusEdit5 = false;
                 break;
                 case 13:
                     this.isStatusEdit = false;
