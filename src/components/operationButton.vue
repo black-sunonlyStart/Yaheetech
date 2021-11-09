@@ -189,7 +189,7 @@ export default {
                   {
                     name:'打回',
                     id:4,
-                    perkey:'ERP.Product.ProductDev.BuyerBack'
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
               ]
           }else if(state == 3){
@@ -202,12 +202,12 @@ export default {
                   {
                     name:'取消开发',
                     id:3,
-                    perkey:'ERP.Product.ProductDev.Cancel'
+                    perkey:'ERP.Product.ProductDev.ManagerCancel'
                   },
                   {
                     name:'打回',
                     id:4,
-                    perkey:'ERP.Product.ProductDev.SalesBack'
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
               ]
           }else if(state == 4){ //1 4 5 6 7 9 10
@@ -220,7 +220,7 @@ export default {
                   {
                     name:'打回',
                     id:4,
-                    perkey:'ERP.Product.ProductDev.SalesBack'
+                    perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
               ]
           }else if(state == 5){

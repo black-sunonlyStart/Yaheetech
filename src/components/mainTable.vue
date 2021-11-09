@@ -31,16 +31,14 @@
                 >
                 <el-image
                     style="width: 200px; height: 200px; dispaly:black"
-                    :key="scope.row.showBigImgUrl" 
                     :src="scope.row.showBigImgUrl" 
-                    lazy
                     :scroll-container="scrollContainer"
                     fit="fill">
                 </el-image>
                 <el-image
                     slot="reference"
                     style="width: 80px; height: 80px; dispaly:black;margin-top:3px;cursor:pointer;"
-                    :src="scope.row.showImgUrl" 
+                    :src="scope.row.showBigImgUrl" 
                     lazy
                     :scroll-container="scrollContainer"
                     fit="fill"
@@ -186,7 +184,7 @@
         <template slot-scope="scope">
             <div class="operaBox" v-show="stateList.includes(scope.row.state)">
                 <el-tooltip class="item" effect="dark" content="编辑" placement="bottom-start">
-                    <div class="imageBox" @click="clickEdit(scope.row.developmentId,scope.row.productId,scope.row.id)" v-permission="'ERP.Product.ProductDev.SalesManEdit'" perkey='ERP.Product.ProductDev.SalesManEdit'></div>
+                    <div class="imageBox" @click="clickEdit(scope.row.developmentId,scope.row.productId,scope.row.id)" v-permission="'ERP.Product.ProductDev.Select'" perkey='ERP.Product.ProductDev.SalesManEdit'></div>
                 </el-tooltip>
                 <!-- <el-tooltip class="item" effect="dark" content="操作" placement="bottom-start"> -->
                 <el-popover
