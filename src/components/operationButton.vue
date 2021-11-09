@@ -1,6 +1,6 @@
 <template>
     <div class="buttonStyle" >
-        <el-button v-permission:[item.perkey] v-for="item in operationList" :key="item.id" size="mini" type="primary" @click="putOperation(item.id)" :perkey='item.perkey'>{{item.name}}</el-button>
+        <el-button v-permission:[item.perkey]  v-for="item in operationList" :key="item.id*Math.random()" size="mini" type="primary" @click="putOperation(item.id)">{{item.name}}</el-button>
         <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog"  @getTableList='getTableList' :row='row' :showOrder='showOrder'></messageDialog>
     </div>
     
@@ -307,16 +307,17 @@ export default {
                     id:25,
                     perkey:'ERP.Product.ProductDev.PurchasingSupervisorAudit'
                   },
+                   {
+                    name:'取消开发',
+                    id:3,
+                    perkey:'ERP.Product.ProductDev.ManagerCancel'
+                  },
                   {
                     name:'打回',
                     id:4,
                     perkey:'ERP.Product.ProductDev.SalesManBack'
                   },
-                  {
-                    name:'取消开发',
-                    id:3,
-                    perkey:'ERP.Product.ProductDev.ManagerCancel'
-                  },
+                 
               ]
           }else if(state == 14){
               this.operationList = [
