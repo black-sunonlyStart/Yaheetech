@@ -178,7 +178,7 @@
                             <el-card>
                                 <div slot="header" class="clearfix">
                                     <div>产品认证信息
-                                       <div v-if="isStatusEdit5"><div class="edit-position" v-permission="'ERP.Product.ProductDev.EditAuth'" perkey='ERP.Product.ProductDev.EditAuth' @click="isEdit5 = !isEdit5" v-if="isEdit5"><span ><i class="icon-edit"></i>编辑</span></div></div>
+                                       <div v-if="isStatusEdit5"><div class="edit-position" perkey='ERP.Product.ProductDev.EditAuth' @click="isEdit5 = !isEdit5" v-if="isEdit5"><span ><i class="icon-edit"></i>编辑</span></div></div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit5">
@@ -481,6 +481,15 @@ export default {
           location.reload()
       },
       controlEdit(val){
+        this.isStatusEdit=true
+        this.isStatusEdit1=true
+        this.isStatusEdit2=true
+        this.isStatusEdit3=true
+        this.isStatusEdit4=true
+        this.isStatusEdit5=true
+        this.isStatusEdit6=true
+        this.isStatusEdit7=true
+        this.isStatusEdit8=true
           switch(val){
                 case 0 :
                 this.isStatusEdit5 = false;
@@ -526,7 +535,6 @@ export default {
                     this.isStatusEdit2 = false;
                     this.isStatusEdit3 = false;
                     this.isStatusEdit4 = false;
-                    this.isStatusEdit5 = false;
                     this.isStatusEdit6 = false;
                     this.isStatusEdit7 = false;
                     this.isStatusEdit8 = false;

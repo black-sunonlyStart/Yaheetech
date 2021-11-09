@@ -489,7 +489,7 @@ export default {
                   {
                     name:'打回',
                     id:4,
-                    perkey:'ERP.Product.ProductDev.SalesManBack'
+                    perkey:'ERP.Product.ProductDev.BuyerBack'
                   },
                   {
                     name:'开发新市场',
@@ -507,7 +507,7 @@ export default {
                   {
                     name:'审批通过',
                     id:14,
-                    perkey:'ERP.Product.ProductDev.ManagerAudit'
+                    perkey:'ERP.Product.ProductDev.ProfitsFirstTrial'
                   },
                   {
                     name:'开发新尺码',
@@ -527,7 +527,7 @@ export default {
                   {
                     name:'打回',
                     id:4,
-                    perkey:'ERP.Product.ProductDev.SalesManBack'
+                    perkey:'ERP.Product.ProductDev.SalesBack'
                   },
                   {
                     name:'开发新市场',
@@ -550,7 +550,7 @@ export default {
                   {
                     name:'打回',
                     id:4,
-                    perkey:'ERP.Product.ProductDev.SalesManBack'
+                    perkey:'ERP.Product.ProductDev.BuyerBack'
                   },
                   {
                     name:'更改采购开发员',
@@ -578,7 +578,7 @@ export default {
                   {
                     name:'打回',
                     id:4,
-                    perkey:'ERP.Product.ProductDev.SalesManBack'
+                    perkey:'ERP.Product.ProductDev.SalesBack'
                   },
                   {
                     name:'取消开发',

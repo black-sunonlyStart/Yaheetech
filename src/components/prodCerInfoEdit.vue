@@ -13,7 +13,7 @@
             </el-row>
             <el-row>
                 <el-col :span="21">
-                    <el-form-item label="必要认证:" prop="usaNessCertification" >
+                    <el-form-item label="认证标准:" prop="usaNessCertification" >
                         <el-checkbox-group v-model="ruleForm.usaNessCertification">
                             <div class="contrayText">
                                 美国 : <el-checkbox :label="item.authId" v-for="item in isUsa" :key="item.authId">{{item.authName}}</el-checkbox>
@@ -302,7 +302,7 @@ export default {
                 },
                 {
                     authId:22,
-                    authName: 'food grade'
+                    authName: 'FOOD GRADE'
                 },
                 {
                     authId:23,
@@ -333,10 +333,6 @@ export default {
                 {
                     authId:40,
                     authName: 'RCM'
-                },
-                {
-                    authId:41,
-                    authName: 'EU Food grade'
                 },
                 {
                     authId:42,
