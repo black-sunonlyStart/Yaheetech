@@ -290,6 +290,14 @@ export function hasPermission(data) {
       params:data
     })
   }
+  //权限码判断
+export function getDevelopmentScenarios(data) {
+    return request({
+      url: '/productManage/getDevelopmentScenarios',
+      method: "get", 
+      params:data
+    })
+  }
   //导出模板
 export function Export(data) {
     return request({

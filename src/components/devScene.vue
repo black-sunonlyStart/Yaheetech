@@ -86,7 +86,7 @@
     </div>
 </template>
 <script>
-import { findProductByDevId,exploitType } from '@/api/user.js'
+import { findProductByDevId,exploitType,getDevelopmentScenarios } from '@/api/user.js'
 import productTypeDialog from '@/components/productTypeDialog'
 export default {
     name:'devScene',
@@ -95,6 +95,7 @@ export default {
     },
     data() {
       return {
+          twoSecence:'',
           relationId:false,
           spuChange:false,
           showRelation:true,
@@ -123,14 +124,14 @@ export default {
                     value: 10,
                     label: '二次开发(存在PDC的老产品，重新打样/改善包装/找新供应商)'
                 }, 
-                {
-                    value: 11,
-                    label: '二次开发 - 市场(已有二次开发产品，开发其他市场)'
-                }, 
-                {
-                    value: 12,
-                    label: '二次开发 - 尺码(已有二次开发产品，开发其他尺码)'
-                }, 
+                // {
+                //     value: 11,
+                //     label: '二次开发 - 市场(已有二次开发产品，开发其他市场)'
+                // }, 
+                // {
+                //     value: 12,
+                //     label: '二次开发 - 尺码(已有二次开发产品，开发其他尺码)'
+                // }, 
             ]
         }],
         devSign:[    
@@ -229,13 +230,12 @@ export default {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let params = {
-                scenarios:this.ruleForm.scene,
                 developmentId:this.$route.params.developmentId,
                 productId:this.$route.params.productId,
                 productCountryId:this.$route.params.productCountryId,
                 categoryId:this.ruleForm.treeId,
                 developmentType:this.ruleForm.region,
-                developmentScenarios:this.ruleForm.scene,
+                developmentScenarios:this.twoSecence,
                 addDevelopmentId:this.ruleForm.inputRelation,
                 associatedProductId:this.ruleForm.selectRelation,
                 addSPUId:this.ruleForm.skuid,
@@ -288,9 +288,41 @@ export default {
             this.ruleForm.relation = '1'
             this.spuChange = true
             this.selectId = true
+            let  params = {
+                developmentScenarios:val,
+                addDevelopmentId:this.ruleForm.inputRelation,
+                associatedProductId:this.ruleForm.selectRelation
+            }
+            getDevelopmentScenarios(params).then(res => {
+                if(res.data == 11 || res.data == 12){
+                    this.$message({
+                                    type: 'success', 
+                                    message:'当前输入的关联产品为【二次开发】类型',
+                                    offset:220
+                                })
+
+                    this.twoSecence = res.data
+                }
+            })
           } else if (val == 3){
                this.ruleForm.relation = '1'
             this.spuChange = true
+            let  params = {
+                developmentScenarios:val,
+                addDevelopmentId:this.ruleForm.inputRelation,
+                associatedProductId:this.ruleForm.selectRelation
+            }
+            getDevelopmentScenarios(params).then(res => {
+                if(res.data == 11 || res.data == 12){
+                    this.$message({
+                                    type: 'success', 
+                                    message:'当前输入的关联产品为【二次开发】类型',
+                                    offset:220
+                                })
+
+                    this.twoSecence = res.data
+                }
+            })
           } else if (val == 10){
               this.ruleForm.relation = '2'
               this.relationId = true

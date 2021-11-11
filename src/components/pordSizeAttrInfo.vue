@@ -56,7 +56,7 @@
                 </div>
             </el-col>
         </el-row>
-        <el-row class="textSpeaing">
+        <!-- <el-row class="textSpeaing">
             <el-col :span="10" class="moreText">
                 <div class="textWight">
                     外箱尺寸(装柜用)： 
@@ -81,16 +81,19 @@
                     <div>{{pordSizeAttrInfoList.outerBoxVolumeYcun ? pordSizeAttrInfoList.outerBoxVolumeYcun +  ' cu ft '  : ''}}</div>
                 </div>
             </el-col>
-        </el-row>
+        </el-row> -->
         <el-row class="textSpeaing">
-            <el-col :span="10" class="moreText"> 
-                <div class="textWight">
+            <!-- <el-col :span="10" class="moreText">  -->
+                <!-- <div class="textWight">
                     外箱重量(装柜用)： 
                 </div>
                 <div class="textBox">
                     <div>{{pordSizeAttrInfoList.cartonWeight ?pordSizeAttrInfoList.cartonWeight.toFixed(6) +  ' kg ' :'' }}</div>
                     <div>{{pordSizeAttrInfoList.cartonWeightLB ? pordSizeAttrInfoList.cartonWeightLB.toFixed(6) +  ' LB '  : ''}}</div>
-                </div>
+                </div> -->
+            <!-- </el-col> -->
+            <el-col :span="10">
+                <span class="textWight">包装方式： </span><span style="font-weight:normal">{{pordSizeAttrInfoList.packingway == 0 ? '单箱包装' : pordSizeAttrInfoList.packingway == 1 ? '多箱包装' : ''  }}</span>
             </el-col>
             <el-col :span="10" class="moreText">
                 <div class="textWight">
@@ -150,11 +153,11 @@
                 <span class="textWight">可装货柜数量： </span><span style="font-weight:normal">{{pordSizeAttrInfoList.transportqty}}</span>
             </el-col>
         </el-row>
-        <el-row class="textSpeaing" >
+        <!-- <el-row class="textSpeaing" >
             <el-col :span="10">
                 <span class="textWight">包装方式： </span><span style="font-weight:normal">{{pordSizeAttrInfoList.packingway == 0 ? '单箱包装' : pordSizeAttrInfoList.packingway == 1 ? '多箱包装' : ''  }}</span>
             </el-col>
-        </el-row>
+        </el-row> -->
         <el-row class="tableTextSpeaing" >
             <el-col :span="2">
                 <span class="textWight">体积重： </span>

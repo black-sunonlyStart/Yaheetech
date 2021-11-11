@@ -477,6 +477,9 @@ export default {
     this.init()
   },
   methods: {
+      scrollPostion(){
+          document.body.scrollTop = 0
+      },
       updateGetAllpageList(){
           location.reload()
       },
@@ -688,6 +691,7 @@ export default {
         },
    async getAllpageList(val){
            await this.newGetImagePath()
+           this.scrollPostion()
           let params = {
                 developmentId:this.$route.params.developmentId?this.$route.params.developmentId:'',
                 productId:this.$route.params.productId?this.$route.params.productId:'',

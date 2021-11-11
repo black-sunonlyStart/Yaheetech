@@ -7,8 +7,8 @@
         style="width: 100%"
         border
         @selection-change="handleSelectionChange"
-        height="580"
         :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
+        height="60%"
         @row-click="handleRowClick"
         v-loading="loading" 
         >
@@ -33,12 +33,14 @@
                     style="width: 200px; height: 200px; dispaly:black"
                     :src="scope.row.showBigImgUrl" 
                     :scroll-container="scrollContainer"
+                    :key="scope.row.showBigImgUrl * Math.random()"
+                    lazy
                     fit="fill">
                 </el-image>
                 <el-image
                     slot="reference"
                     style="width: 80px; height: 80px; dispaly:black;margin-top:3px;cursor:pointer;"
-                    :src="scope.row.showBigImgUrl" 
+                    :src="scope.row.showImgUrl" 
                     lazy
                     :scroll-container="scrollContainer"
                     fit="fill"
@@ -201,7 +203,7 @@
         </template>             
       </el-table-column>
     </el-table>
-    <div>
+    <div class="pageInation-box">
         <el-pagination 
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -898,7 +900,8 @@ export default {
     }
 }
 .pagePosition{
-    float: right;
+    position: absolute;
+    right: 0px;
 }
 ::v-deep.tableMain{
     overflow: auto;
@@ -906,11 +909,10 @@ export default {
         .el-table__body-wrapper .is-scrolling-none .scroll-container{
             .el-table__body{
                 overflow: auto;
-            }
-            
+            }    
         }
         .el-table__body-wrapper {
-            height: 534px !important;
+            height:534px !important;
         }
     }
     
@@ -982,5 +984,11 @@ export default {
         border: none !important;
         padding: 0 !important;
     }
+}
+.pageInation-box{
+   height: 58px;
+    background-color: #fff;
+    z-index: 1111;
+    position: relative;
 }
 </style>

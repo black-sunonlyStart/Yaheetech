@@ -90,7 +90,7 @@
                                       <span class="titleColor" v-else-if="ruleForm.sizeRules == '2'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000000).toFixed(6)+ 'm³' :''}}</span>
                 </el-col>
              </el-row>
-             <el-row>
+             <!-- <el-row>
                  <el-col :span="6">
                     <el-form-item label="外箱尺寸(装柜用):" prop="outerBoxSizeL">
                         <div class="productSizeW">
@@ -138,7 +138,7 @@
                     <span class="vacanBox ">体积：</span><span class="titleColor" v-if="ruleForm.outerBoxSizeRules == '1'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000000).toFixed(6)+ 'm³' :''}}</span>
                                       <span class="titleColor" v-else-if="ruleForm.outerBoxSizeRules == '2'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000000).toFixed(6) + 'm³' :''}}</span>
                 </el-col>
-             </el-row>
+             </el-row> -->
              <el-row>
                  <el-col :span="6">
                     <el-form-item  prop="containersNumber" label="可装货柜数量：" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">      
@@ -214,7 +214,7 @@
                      <span class="vacanBox" v-if="ruleForm.packingMethod == '1'">体积重:<span>{{ruleForm.proNetWeight + ruleForm.proGrossWeight}}kg/{{((ruleForm.proNetWeight + ruleForm.proGrossWeight) * 2.20).toFixed(2)}}LB</span></span>       
                 </el-col> -->
              </el-row>
-             <el-row>
+             <!-- <el-row>
                  <el-col :span="6">
                     <el-form-item  prop="proOuterBoxWeight" label="外箱重量:">      
                         <div class="productSizeW">
@@ -233,7 +233,7 @@
                         </div>
                     </el-form-item>
                 </el-col>
-             </el-row>
+             </el-row> -->
              <el-row>
                  <el-col :span="5">
                     <el-form-item  prop="packingMethod" label="包装方式:">      
