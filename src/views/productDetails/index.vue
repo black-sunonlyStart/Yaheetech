@@ -50,15 +50,15 @@
                 <div class="stepBox">
                     <span class="leftButton" @click="leftMove"><i class="el-icon-d-arrow-left"></i></span>
                         <span class="step-container">
-                            <el-steps :active="nowStatus + 1" space='150' align-center  finish-status="success" process-status='wait'>
-                                <el-step v-for="item in developmentProgresses" :title="item.toStatusValue" :key="item.status" :description="item.createOn">
+                            <el-steps :active="nowStatus" space='150' align-center  finish-status="success" process-status="finish">
+                                <el-step v-for="item in developmentProgresses" :title="item.statusValue" :key="item.status" :description="item.createOn">
                                         <template slot="icon">
                                             <div class="imageBox"></div>
                                         </template>
                                         <template slot="title">
                                             <el-tooltip class="item" effect="dark" :content="item.createBy" placement="top">
                                                 <div class="stepTitle">
-                                                    {{item.toStatusValue}}
+                                                    {{item.statusValue}}
                                                 </div>
                                             </el-tooltip>
                                         </template>
@@ -1104,11 +1104,11 @@ export default {
       changeSizeTitle(pordSizeAttrInfoList,countryName,nowStatus){
           this.showSizeText = []
             if(nowStatus != 9)return
-            let sizeList = [pordSizeAttrInfoList.productSizeYcunL,pordSizeAttrInfoList.productSizeYcunW,pordSizeAttrInfoList.productSizeYcunH]
+            let sizeList = [pordSizeAttrInfoList.packageSizeL,pordSizeAttrInfoList.packageSizeW,pordSizeAttrInfoList.packageSizeH]
                 sizeList.sort()
                 sizeList.map(Number)
             let sizePerimeter = (Number(sizeList[0]) + Number(sizeList[1]) + Number(sizeList[2]) ) * 2
-            let numLogisticsPerimeter = Number(pordSizeAttrInfoList.logisticsPerimeter)
+            let numLogisticsPerimeter = Number(pordSizeAttrInfoList.logisticsPerimeterYcun)
             if(countryName == '德国'){ 
                 // 产品【最长边】超过175cm，请审核人员重新计算利润!（长+（宽+高）*2大于300cm、重量超过31.5KG）
                 if(sizeList[2] > 175){
@@ -1157,13 +1157,13 @@ export default {
         if(!val)return
         this.developmentProgresses.forEach(item => {  
             val.forEach(val => {
-                if( item.statusValue == val.toStatusValue){
+                if( item.statusValue == val.statusValue){
                     item.createBy = val.createBy
                     item.createOn = this.$moment(val.createOn).format("YYYY-MM-DD HH:mm:ss")
                     // item.statusValue = val.statusValue
                     // item.status = val.status 
                     // item.toStatus = val.toStatus
-                    item.toStatusValue = val.toStatusValue
+                    // item.statusValue = val.statusValue
                 }
             })
         })
@@ -1408,6 +1408,10 @@ export default {
         .is-success{
             color: green !important;
             border-color: green !important;
+            .el-step__line-inner{
+                border-width: 1px !important;
+                width: 100% !important;;
+            }
         }
         .stepTitle{ 
             font-size: 12px;

@@ -27,7 +27,7 @@
                         <div :class="item.createdby == oemployee.Id || item.otherType == 0 ?'bubbleTailRight':'bubbleTail'"></div>
                         <div :class="item.createdby == oemployee.Id || item.otherType == 0 ?'bubbleBoxRight':'bubbleBox'" >
                             <div class="topStatusTitle" :style="{color:(item.backtype || item.otherType == 0?'red':'')}">
-                                <span >{{item.toStatusValue}}</span>
+                                <span >{{item.statusValue}}</span>
                                 <span class="bubbleBoxText">{{item.operation}}</span>
                             </div>
                             <div class="bubbleBoxMainText">
