@@ -98,31 +98,31 @@
                     <el-row :gutter="150">
                         <el-col :span="10">
                             <el-form-item label="产品的尺寸:" prop="jpsize">
-                                <el-input type="textarea" autosize v-model="ruleForm.jpsize"></el-input>
+                                <el-input type="textarea" autosize v-model="ruleForm.jpsize" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
                             <el-form-item label="产品的净重:" prop="jpweight">
-                                <el-input type="textarea" autosize v-model="ruleForm.jpweight"></el-input>
+                                <el-input type="textarea" autosize v-model="ruleForm.jpweight" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row :gutter="150">
                         <el-col :span="10">
                             <el-form-item label="产品的材质:" prop="jpmaterial">
-                                <el-input type="textarea" autosize  v-model="ruleForm.jpmaterial"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.jpmaterial" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
                             <el-form-item label="产品的颜色:" prop="jpcolor">
-                                <el-input type="textarea" autosize  v-model="ruleForm.jpcolor"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.jpcolor" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row :gutter="150">
                         <el-col :span="10">
                             <el-form-item label="产品的工艺:" prop="jpprocess">
-                                <el-input type="textarea" autosize  v-model="ruleForm.jpprocess"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.jpprocess" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
@@ -137,43 +137,43 @@
                     <el-row :gutter="150">
                         <el-col :span="10">
                             <el-form-item label="竞品优势功能:" prop="advantagefunction">
-                                <el-input type="textarea" autosize  v-model="ruleForm.advantagefunction"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.advantagefunction" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
                             <el-form-item label="竞品缺陷功能:" prop="defectfeature">
-                                <el-input type="textarea" autosize  v-model="ruleForm.defectfeature"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.defectfeature" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row :gutter="150">
                         <el-col :span="10">
                             <el-form-item label="产品使用场景:" prop="usagescenarios">
-                                <el-input type="textarea" autosize  v-model="ruleForm.usagescenarios"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.usagescenarios" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
                             <el-form-item label="产品目标人群:" prop="usecrowd">
-                                <el-input type="textarea" autosize  v-model="ruleForm.usecrowd"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.usecrowd" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row :gutter="150">
                         <el-col :span="10">
                             <el-form-item label="产品定位:" prop="jppositioning">
-                                <el-input type="textarea" autosize  v-model="ruleForm.jppositioning"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.jppositioning" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
                             <el-form-item label="产品排名:" prop="jpranking">
-                                <el-input type="textarea" autosize  v-model="ruleForm.jpranking"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.jpranking" maxlength="255" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row :gutter="150">
                         <el-col :span="10">
                             <el-form-item label="产品开发调整点:" prop="jpadjustmentpoint">
-                                <el-input type="textarea" autosize  v-model="ruleForm.jpadjustmentpoint"></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.jpadjustmentpoint" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">

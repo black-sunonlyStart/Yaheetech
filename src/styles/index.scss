@@ -13,7 +13,7 @@ body {
   font-family: Verdana, arial,'Open Sans', Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
   font-size: 12px;
   margin: 0px;
-
+  color: #333;
 }
 
 label {
@@ -197,4 +197,13 @@ aside {
     padding: 0 !important;
     margin-left: 5px;
     background: none;
+}
+.el-table{
+    color: #333 !important;
+}
+.el-radio__label{
+    color: #333 !important;
+}
+.el-checkbox__label{
+    color: #333 !important;
 }
