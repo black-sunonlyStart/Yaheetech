@@ -290,11 +290,11 @@ export default {
           }else if(val == 3){
               return '新尺码'
           }else if(val == 10){
-              return '二次开发  新产品'
+              return '二次开发'
           }else if(val == 11){
-              return '二次开发  新市场'
+              return '二次开发'
           }else if(val == 12){
-              return '二次开发  新尺寸'
+              return '二次开发'
           }
       },
       handleRowClick(row){
