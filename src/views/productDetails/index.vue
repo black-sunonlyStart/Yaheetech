@@ -135,24 +135,7 @@
                             </el-card>
                         </div>                   
                     </el-tab-pane>
-                    <el-tab-pane label="竞品信息" name="fourth">
-                        <div class="backgoundCon"></div>
-                        <div class='tabContainer'>
-                            <el-card style="margin-bottom:30px">
-                                <div slot="header" class="clearfix">
-                                    <div>竞品信息
-                                        <div v-if="isStatusEdit3"><div class="edit-position" v-permission="'ERP.Product.ProductDev.SalesManEdit'" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit3 = !isEdit3" v-if="isEdit3"><span ><i class="icon-edit"></i>编辑</span></div></div>
-                                    </div>   
-                                </div>
-                                <div v-if="isEdit3">
-                                    <comNewsDetail :comNewsDetailList='comNewsDetailList'></comNewsDetail>
-                                </div>
-                                <div v-else>
-                                    <comNewsEdit @closeEdit='comNewsEdit' :comNewsDetailList='comNewsDetailList'></comNewsEdit>
-                                </div>
-                            </el-card>
-                        </div>
-                    </el-tab-pane>
+                   
                     <el-tab-pane label="开发信息" name="fifth" style="margin-bottom:30px">
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
@@ -167,6 +150,24 @@
                                 </div>
                                 <div v-else>
                                     <devInformationEdit @closeEdit='devInfoEdit' :devInformationDetaiList='devInformationDetaiList'></devInformationEdit>
+                                </div>
+                            </el-card>
+                        </div>
+                    </el-tab-pane>
+                     <el-tab-pane label="竞品信息" name="fourth">
+                        <div class="backgoundCon"></div>
+                        <div class='tabContainer'>
+                            <el-card style="margin-bottom:30px">
+                                <div slot="header" class="clearfix">
+                                    <div>竞品信息
+                                        <div v-if="isStatusEdit3"><div class="edit-position" v-permission="'ERP.Product.ProductDev.SalesManEdit'" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit3 = !isEdit3" v-if="isEdit3"><span ><i class="icon-edit"></i>编辑</span></div></div>
+                                    </div>   
+                                </div>
+                                <div v-if="isEdit3">
+                                    <comNewsDetail :comNewsDetailList='comNewsDetailList'></comNewsDetail>
+                                </div>
+                                <div v-else>
+                                    <comNewsEdit @closeEdit='comNewsEdit' :comNewsDetailList='comNewsDetailList'></comNewsEdit>
                                 </div>
                             </el-card>
                         </div>

@@ -27,6 +27,7 @@
                             :key="item.value"
                             :label="item.label"
                             :value="item.value"
+                            v-show="!item.shwOption"
                             >
                         </el-option>
                     </el-option-group>
@@ -41,13 +42,14 @@
             <el-form-item  prop="inputRelation" v-if="showRelation && ruleForm.relation =='1'">
                 <div class="relationBox">
                     <div class="inputLength" >
-                        <el-input  v-model="ruleForm.inputRelation" @change="changeInputRelation" :disabled='closeComponent' ></el-input>
+                        <el-input  v-model="ruleForm.inputRelation" @input="changeInputRelation" :disabled='closeComponent' ></el-input>
                     </div>
                     <div v-if="selectId" class="litterBox">
                         <div style="margin-right:10px">-</div>
                         <el-select 
                             v-model="ruleForm.selectRelation"
                             :disabled='showSelect'
+                            @change="changeSelectRelation"
                             >
                             <el-option 
                                 v-for="item in spuSign"                        
@@ -124,13 +126,14 @@ export default {
                     value: 10,
                     label: '二次开发(存在PDC的老产品，重新打样/改善包装/找新供应商)'
                 }, 
-                // {
-                //     value: 11,
-                //     label: '二次开发 - 市场(已有二次开发产品，开发其他市场)'
-                // }, 
+                {
+                    value: 11,
+                    label: '二次开发',
+                    shwOption:true,
+                }, 
                 // {
                 //     value: 12,
-                //     label: '二次开发 - 尺码(已有二次开发产品，开发其他尺码)'
+                //     label: '二次开发'
                 // }, 
             ]
         }],
@@ -211,7 +214,7 @@ export default {
       getDetailPage(){
           this.ruleForm = {
               region : this.productVoDetail.developmenttype,
-              scene:this.productVoDetail.developmentscenarios,
+              scene:this.productVoDetail.developmentscenarios == '11' || this.productVoDetail.developmentscenarios == '12' ? 11 : this.productVoDetail.developmentscenarios,
               classiFication:this.productVoDetail.categoryname,
               relation:this.productVoDetail.id ? '1':'2',
               inputRelation:this.productVoDetail.spuid,
@@ -246,8 +249,7 @@ export default {
             })
          }
       },
-     async submitForm(formName) {
-         await this.twoGetScene()
+    submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let params = {
@@ -274,7 +276,7 @@ export default {
                                         message:'数据保存成功',
                                         offset:220
                                     })
-                                    this.$emit('closeEdit','false',res.data,this.ruleForm.scene)
+                                    this.$emit('closeEdit','false',res.data,params.developmentScenarios)
                                     this.$router.push({
                                         name:'productDetails',
                                         params:{
@@ -310,22 +312,6 @@ export default {
             this.ruleForm.relation = '1'
             this.spuChange = true
             this.selectId = true
-            let  params = {
-                developmentScenarios:val,
-                addDevelopmentId:this.ruleForm.inputRelation,
-                associatedProductId:this.ruleForm.selectRelation
-            }
-            getDevelopmentScenarios(params).then(res => {
-                if(res.data == 11 || res.data == 12){
-                    this.$message({
-                                    type: 'success', 
-                                    message:'当前输入的关联产品为【二次开发】类型',
-                                    offset:220
-                                })
-
-                    this.twoSecence = res.data
-                }
-            })
           } else if (val == 3){
                this.ruleForm.relation = '1'
             this.spuChange = true
@@ -344,9 +330,18 @@ export default {
       },
       changeInputRelation(val){
           if(!val)return
+          if(this.ruleForm.scene == 3){
+              this.twoGetScene()
+          }
           findProductByDevId({devId:val}).then(res => {
               this.spuSign = res.data
           })
+      },
+      changeSelectRelation(val){
+          if(!val)return 
+          if(this.ruleForm.scene == 2){
+              this.twoGetScene()
+          }
       }
     }
 }
