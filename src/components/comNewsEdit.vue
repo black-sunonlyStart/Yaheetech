@@ -166,7 +166,7 @@
                         </el-col>
                         <el-col :span="10">
                             <el-form-item label="产品排名:" prop="jpranking">
-                                <el-input type="textarea" autosize  v-model="ruleForm.jpranking" maxlength="255" show-word-limit></el-input>
+                                <el-input type="textarea" autosize  v-model="ruleForm.jpranking" maxlength="127" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>

@@ -303,7 +303,7 @@
                 <el-col :span="11">
                     <el-form-item label="返样品费详情备注:" prop="feeForOrdering">
                         <div class="feeForOrderText">
-                            <el-input type="textarea" autosize v-model="ruleForm.backpurchasepricenote"></el-input>
+                            <el-input type="textarea" autosize v-model="ruleForm.backpurchasepricenote" maxlength="200" show-word-limit>></el-input>
                         </div>  
                      </el-form-item>
                 </el-col>
@@ -373,7 +373,7 @@
                 <el-col :span="11">
                     <el-form-item label="货好时间详情备注:" v-if="statusList.includes(nowStatus)"> 
                         <div class="feeForOrderText">
-                            <el-input type="textarea" autosize v-model="ruleForm.feeForOrdering"></el-input>
+                            <el-input type="textarea" autosize v-model="ruleForm.feeForOrdering" maxlength="200" show-word-limit></el-input>
                         </div>      
                      </el-form-item>
                 </el-col>

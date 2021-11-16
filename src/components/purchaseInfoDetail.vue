@@ -203,21 +203,22 @@
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">返样品费详情备注： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.backpurchasepricenote}}</div>
+                    <div class="colBoxTitle">返样品费详情备注： </div> <div class="colBoxContent" style="width:540px">{{purchaseInfoDetaiList.backpurchasepricenote}}</div>
                 </div>
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">品牌费： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.bandprice? purchaseInfoDetaiList.bandprice + '(RMB)' : ''}}</div>
+                    <div class="colBoxTitle">货好时间详情备注： </div> <div class="colBoxContent" style="width:540px">{{purchaseInfoDetaiList.goodnote}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
-            <el-col :span="10">
+             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">样品交期： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.sampledeliverydays ? purchaseInfoDetaiList.sampledeliverydays + '(天)' : purchaseInfoDetaiList.sampledeliverydays == 0 ? 0 + '(天)' :"" }}</div>
+                    <div class="colBoxTitle">FOB头程费： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.fobPrice ? (purchaseInfoDetaiList.fobPrice ).toFixed(2) + "(RMB)" : 0}}</div>
                 </div>
             </el-col>
+            
             <el-col :span="10">
                 <div class="colbox">
                     <div class="colBoxTitle">FOB报价品牌费： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.fobbandprice ? purchaseInfoDetaiList.fobbandprice + '($)' : ''}}</div>
@@ -225,9 +226,14 @@
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
+           <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">样品交期： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.sampledeliverydays ? purchaseInfoDetaiList.sampledeliverydays + '(天)' : purchaseInfoDetaiList.sampledeliverydays == 0 ? 0 + '(天)' :"" }}</div>
+                </div>
+            </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">FOB头程费： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.fobPrice ? (purchaseInfoDetaiList.fobPrice ).toFixed(2) + "(RMB)" : 0}}</div>
+                    <div class="colBoxTitle">品牌费： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.bandprice? purchaseInfoDetaiList.bandprice + '(RMB)' : ''}}</div>
                 </div>
             </el-col>
         </el-row>

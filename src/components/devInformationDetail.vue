@@ -3,7 +3,7 @@
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">产品中文概述： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.description}}</div>
+                    <div class="colBoxTitle">产品中文概述： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.description}}</div>
                 </div>
             </el-col>
             <el-col :span="10">
@@ -27,7 +27,7 @@
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">德文标题： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.titleDe }}</div>
+                    <div class="colBoxTitle">德文标题： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.titleDe }}</div>
                 </div>
             </el-col>
             <el-col :span="10">
@@ -39,7 +39,7 @@
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">日文标题： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.titleJp}}</div>
+                    <div class="colBoxTitle">日文标题： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.titleJp}}</div>
                 </div>
             </el-col>
             <el-col :span="10">
@@ -51,7 +51,7 @@
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">英文关键词： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.keys}}</div>
+                    <div class="colBoxTitle">英文关键词： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.keys}}</div>
                 </div>
             </el-col>
             <el-col :span="10">

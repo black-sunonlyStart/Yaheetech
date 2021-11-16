@@ -29,8 +29,8 @@
                         <div class="imageMainbox">
                             <span class="textPostion">日销量：</span><span class="imageMainboxText">{{item.recentsalesvolume}}</span>
                         </div> 
-                        <div class="imageMainbox">
-                            <span class="textPostion">备注：</span><span class="imageMainboxText">{{item.note}}</span>
+                        <div class="imageMainbox" style="display:flex">
+                            <div class="textPostion">备注：</div><div class="imageMainboxText noteBox " style="display:inline-block;width:710px">{{item.note}}</div>
                         </div> 
                     </div>
                 </div>
@@ -312,8 +312,8 @@ export default {
               }
         }
         .imageTitle{
-            width: 250px;
-            height: 100px;
+            // width: 250px;
+            // height: 100px;
             display: flex;
             // align-items: center;
             flex-direction: column;

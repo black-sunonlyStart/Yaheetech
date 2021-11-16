@@ -75,4 +75,7 @@ export default {
         overflow-y: auto;
     }
 }
+.el-tree-node .is-current .is-focusable{
+    background-color: rgb(64, 158, 255);
+}
 </style>

@@ -32,15 +32,16 @@
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
-                <span class="imageMainbox">产品开发市场： </span>
-                <span class="imageMainboxText">{{salesTargetDetaiList.xsmarket}}</span>
+                <div class="boxFlex">
+                    <span class="imageMainbox">产品开发市场： </span>
+                    <div class="imageMainboxText" style="width:520px;dispaly:inline-block">{{salesTargetDetaiList.xsmarket}}</div>
+                </div>
             </el-col>
             <el-col :span="14">
                 <div class="boxFlex">
                     <span class="imageMainbox">产品包装尺寸特殊要求： </span>
                     <div class="imageMainboxText" style="width:650px;dispaly:inline-block">{{salesTargetDetaiList.xsspecialrequirements}}</div>
-                </div>
-                
+                </div>       
             </el-col>
         </el-row>
         <el-row class="textSpeaing">

@@ -61,9 +61,18 @@
             <el-row :gutter="150">
                 <el-col :span="10">
                     <el-form-item label="产品开发市场:" prop="productMarket">
-                        <el-input v-model="ruleForm.productMarket"></el-input>
+                        <el-input v-model="ruleForm.productMarket" type="textarea" maxlength="200" show-word-limit></el-input>
                     </el-form-item>
-                    <el-form-item label="产品测样时间点:" prop="samplingTime">
+                </el-col>
+                <el-col :span="10">
+                    <el-form-item label="产品包装尺寸特殊要求:" prop="specialPackaging">
+                        <el-input type="textarea" v-model="ruleForm.specialPackaging"  maxlength="200" show-word-limit></el-input>
+                    </el-form-item>
+                </el-col>
+            </el-row>     
+            <el-row :gutter="150">
+                <el-col :span="10">
+                     <el-form-item label="产品测样时间点:" prop="samplingTime">
                         <el-date-picker
                             v-model="ruleForm.samplingTime"
                             type="date"
@@ -71,18 +80,15 @@
                             >
                         </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="产品下单时间点:" prop="orderTime">
+                </el-col>
+                <el-col :span="10">
+                     <el-form-item label="产品下单时间点:" prop="orderTime">
                         <el-date-picker
                             v-model="ruleForm.orderTime"
                             type="date"
                             placeholder="选择日期"
                             >
                         </el-date-picker>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="10">
-                    <el-form-item label="产品包装尺寸特殊要求:" prop="specialPackaging">
-                        <el-input type="textarea" v-model="ruleForm.specialPackaging"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
