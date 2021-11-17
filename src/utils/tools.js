@@ -81,7 +81,7 @@ let conGetExlist = {
 }
 
 
-function globalReportExport(option) {
+async function globalReportExport(option) {
     let defaultOption = {
         Id: option[0].Value,//导出Id
         Param: [],//输入参数
@@ -122,7 +122,7 @@ function globalReportExport(option) {
         let  Option = {
             Id: _Option.Id, Data: _Param, Type: _Option.Type,parameters:_Option.parameters,
         }
-        Output(Option, _Option.Callback);
+        await Output(Option, _Option.Callback);
     }
 }
 //导出

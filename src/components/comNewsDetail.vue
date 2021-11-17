@@ -30,7 +30,7 @@
                             <span class="textPostion">日销量：</span><span class="imageMainboxText">{{item.recentsalesvolume}}</span>
                         </div> 
                         <div class="imageMainbox" style="display:flex">
-                            <div class="textPostion">备注：</div><div class="imageMainboxText noteBox " style="display:inline-block;width:710px">{{item.note}}</div>
+                            <div class="textPostion">备注：</div><div class="imageMainboxText noteBox " style="display:inline-block;width:500px">{{item.note}}</div>
                         </div> 
                     </div>
                 </div>

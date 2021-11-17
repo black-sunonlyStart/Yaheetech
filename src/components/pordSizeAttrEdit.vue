@@ -609,10 +609,12 @@ export default {
     },
     methods: {
         changSizeRules(val){
-            if(val == 1 && this.pordSizeAttrInfoList.computemode == 0){
-                this.rules.outerBoxNum[0].required = false
-            }else{
+            if(val == 2 && this.pordSizeAttrInfoList.computemode == 0){
                 this.rules.outerBoxNum[0].required = true
+                 this.rules.containersNumber[0].required = true
+            }else{
+                this.rules.outerBoxNum[0].required = false
+                 this.rules.containersNumber[0].required = false
             }
         },
         // changPackingMethod(val){
@@ -634,12 +636,12 @@ export default {
             if(this.pordSizeAttrInfoList.developmentscenarios && (this.pordSizeAttrInfoList.developmentscenarios == 1 || this.pordSizeAttrInfoList.developmentscenarios == 10)){
                 this.disableControl = false
             }
-            if(this.pordSizeAttrInfoList.computemode == 0 && (this.pordSizeAttrInfoList.packageshape == 1)){
-                this.rules.outerBoxNum[0].required = false
-                this.rules.containersNumber[0].required = false
-            }else{
+            if(this.pordSizeAttrInfoList.computemode == 1){
                 this.rules.outerBoxNum[0].required = true
                 this.rules.containersNumber[0].required = true
+            }else{
+                this.rules.outerBoxNum[0].required = false
+                this.rules.containersNumber[0].required = false
             }
             let params = {
                 typeId:0,
