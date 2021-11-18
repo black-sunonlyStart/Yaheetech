@@ -32,6 +32,7 @@
                 <el-dropdown-item command= 3 plain>开发利润表</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
+        <span v-if="optionPutExcle" class="reportTitle">导出中。。。</span>
         <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog" :selectRow="selectRow" @getTableList='getTableList'></messageDialog>
     </span>
 </template>
@@ -48,6 +49,7 @@
                 clickId:0,
                 dialogName:'',
                 row:[],
+                optionPutExcle:false
             }
         },
         props:{
@@ -61,7 +63,7 @@
             }
         },
         methods:{
-            clickOutput(command){
+           async clickOutput(command){
                 let options = []
                 if(command == 1){
                     if(!this.selectRow || this.selectRow.length == 0 ){
@@ -93,6 +95,23 @@
                         },     
                     ]   
                 }else if (command == 2){
+                    
+                    if(!this.navFilterList.dateFrom || !this.navFilterList.dateTo){
+                        this.$message({
+                            type: 'error', 
+                            message:'请选择开始时间和结束时间',
+                            offset:220
+                        })
+                        return
+                    }
+                    if(this.navFilterList.timeType != 0){
+                        this.$message({
+                            type: 'error', 
+                            message:'请选择创建时间',
+                            offset:220
+                        })
+                        return
+                    }
                     let dateFrom = this.navFilterList.dateFrom
                     let dateTo = this.navFilterList.dateTo
                      options = 
@@ -119,7 +138,7 @@
                         {
                             'Field':'ProductId',
                             'Value':116,//测试
-                            // 'Value':483,//正式
+                            // 'Value':483,//正式改
                         },
                         {
                             'Field':'countryCodes',
@@ -127,7 +146,9 @@
                         },
                     ]
                 }
-                globalReportExport(options)
+                this.optionPutExcle = true
+                await globalReportExport(options)
+                this.optionPutExcle = false
             },
             getTableList(){
                 this.$emit('putTbleList')
@@ -281,5 +302,8 @@
        .is-plain{
            background: #3366cc;
        }
+    }
+    .reportTitle{
+        color: rgb(4, 80, 27);
     }
 </style>

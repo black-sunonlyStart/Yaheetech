@@ -149,7 +149,7 @@
                                     <devInformationDetail :devInformationDetaiList='devInformationDetaiList'></devInformationDetail>
                                 </div>
                                 <div v-else>
-                                    <devInformationEdit @closeEdit='devInfoEdit' :devInformationDetaiList='devInformationDetaiList'></devInformationEdit>
+                                    <devInformationEdit @closeEdit='devInfoEdit' :devInformationDetaiList='devInformationDetaiList' :nowStatus='timeStatus'></devInformationEdit>
                                 </div>
                             </el-card>
                         </div>

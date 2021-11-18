@@ -609,13 +609,19 @@ export default {
     },
     methods: {
         changSizeRules(val){
-            if(val == 2 && this.pordSizeAttrInfoList.computemode == 0){
+            if(val == 2){
                 this.rules.outerBoxNum[0].required = true
                  this.rules.containersNumber[0].required = true
             }else{
-                this.rules.outerBoxNum[0].required = false
-                 this.rules.containersNumber[0].required = false
+                if(this.pordSizeAttrInfoList.computemode == 1){
+                    this.rules.outerBoxNum[0].required = true
+                    this.rules.containersNumber[0].required = true
+                }else{
+                    this.rules.outerBoxNum[0].required = false
+                    this.rules.containersNumber[0].required = false
+                }
             }
+             
         },
         // changPackingMethod(val){
         //      this.changFromP = false

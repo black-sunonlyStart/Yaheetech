@@ -65,7 +65,7 @@
             <el-form-item  prop="skuid" v-else-if="showRelation && ruleForm.relation =='2'">
                 <div class="relationBox">
                     <div class="inputLength" >
-                        <el-input  v-model="ruleForm.skuid"></el-input>
+                        <el-input  v-model="ruleForm.skuid" :disabled='closeComponent'></el-input>
                     </div>
                 </div>
             </el-form-item>
@@ -219,6 +219,7 @@ export default {
               relation:this.productVoDetail.id ? '1':'2',
               inputRelation:this.productVoDetail.spuid,
               selectRelation:this.productVoDetail.id,
+              skuid:this.productVoDetail.spu
           }
           if(this.productVoDetail.developmentscenarios == 1){
               this.showRelation = false
