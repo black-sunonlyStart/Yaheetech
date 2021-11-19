@@ -80,8 +80,7 @@ let conGetExlist = {
     }
 }
 
-
-async function globalReportExport(option) {
+  function globalReportExport(option,that) {
     let defaultOption = {
         Id: option[0].Value,//导出Id
         Param: [],//输入参数
@@ -122,11 +121,11 @@ async function globalReportExport(option) {
         let  Option = {
             Id: _Option.Id, Data: _Param, Type: _Option.Type,parameters:_Option.parameters,
         }
-        await Output(Option, _Option.Callback);
+        Output(Option, _Option.Callback,that);
     }
 }
 //导出
-function Output(Option) {
+function Output(Option,Callback,that) {
     if (Option.Type == 0) {
         var data = {};
         if ( Option.Data.length > 0) {
@@ -148,6 +147,7 @@ function Output(Option) {
                     }
                 }else{
                     window.open(res.Url)
+                    that.optionPutExcle = false
                 }     
             },err => {
                 console.log(err)   

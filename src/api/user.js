@@ -291,6 +291,14 @@ export function hasPermission(data) {
     })
   }
   //权限码判断
+export function hasPermissions(data) {
+    return request({
+      url: '/common/hasPermissions',
+      method: "post", 
+      data
+    })
+  }
+  //获取场景
 export function getDevelopmentScenarios(data) {
     return request({
       url: '/productManage/getDevelopmentScenarios',

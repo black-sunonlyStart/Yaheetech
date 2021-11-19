@@ -649,6 +649,10 @@ export default {
                 this.rules.outerBoxNum[0].required = false
                 this.rules.containersNumber[0].required = false
             }
+            if(this.pordSizeAttrInfoList.packageshape == 2){
+                this.rules.outerBoxNum[0].required = true
+                 this.rules.containersNumber[0].required = true
+            }
             let params = {
                 typeId:0,
             }

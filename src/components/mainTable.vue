@@ -1,5 +1,5 @@
 <template>
-  <div class="tableMain">
+  <div class="tableMain" v-if="renderDom">
     <el-table 
         ref="multipleTable"
         :data="tableData"
@@ -221,7 +221,7 @@
 
 </template>
 <script>
-import { fetchPageTableList,unfreezing,getImagePath,checkUserIdentity } from '@/api/user.js'
+import { fetchPageTableList,unfreezing,getImagePath,checkUserIdentity,hasPermissions } from '@/api/user.js'
 import { formatDate,copyUrl } from '../utils/tools'
 export default {
   name: 'mainTable',
@@ -245,7 +245,8 @@ export default {
       clickId:0,
       lastImageUrl:'',
       loading:true,
-      showOrder:false
+      showOrder:false,
+      renderDom:false,
     }
   },
   props:{
@@ -268,6 +269,37 @@ export default {
       scrollContainer(){
           return document.querySelector('.el-table__body-wrapper')
       }
+  },
+  created(){
+      let  params = [
+          'ERP.Product.ProductDev.SalesManEdit',
+          'ERP.Product.ProductDev.EditAuth',
+          'ERP.Product.ProductDev.BuyerEdit',
+          'ERP.Product.ProductDev.ADD',
+          'ERP.Product.ProductDev.ManagerCancel',
+          'ERP.Product.ProductDev.ManagerAudit',
+          'ERP.Product.ProductDev.EditGroup',
+          'ERP.Product.ProductDev.SalesManBack',
+          'ERP.Product.ProductDev.BuyerBack',
+          'ERP.Product.ProductDev.SalesBack',
+          'ERP.Product.ProductDev.Cancel',
+          'ERP.Product.ProductDev.EndAudit',
+          'ERP.Product.ProductDev.AuditAuth',
+          'ERP.Product.ProductDev.PurchasingSupervisorAudit',
+          'ERP.Product.ProductDev.BackToFreezingOff',
+          'ERP.Product.ProductDev.SamplePurchaseAudit',
+          'ERP.Product.ProductDev.Select',
+          'ERP.Product.ProductDev.DistributionProcurement',
+          'ERP.Product.ProductDev.FreezingOff',
+          'ERP.Product.ProductDev.Audit',
+          'ERP.Product.ProductDev.EndAudit',
+          'ERP.Product.ProductDev.ExportSample',
+      ]
+        hasPermissions(params).then(res => {
+           let data = JSON.stringify( res.data);
+            sessionStorage.setItem("permissions", data);
+            this.renderDom = true
+        })
   },
   mounted(){
       this.getTableList(this.navFilterList)
