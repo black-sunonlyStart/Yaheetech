@@ -466,7 +466,29 @@ export default {
     }
   },
   created () {
-      let  params = [
+      this.getPermissions()
+      if(this.$route.params.productId){
+          this.getAllpageList()
+      }
+  },
+  mounted () {
+    //   this.getAllpageList()
+    if(this.$route.query.id == 8 || this.$route.query.id == 26){
+        this.getNewSizeList()
+        this.showSizeTitle = true
+    }
+    if(!this.$route.query.developmentId){
+        this.isStatusEdit = true;
+        this.isStatusEdit1 = true;
+        this.isStatusEdit2 = true;
+        this.isStatusEdit3 = true;
+        this.isStatusEdit4 = true;
+    }
+    this.init()
+  },
+  methods: {
+      getPermissions(){
+          let  params = [
           'ERP.Product.ProductDev.SalesManEdit',
           'ERP.Product.ProductDev.EditAuth',
           'ERP.Product.ProductDev.BuyerEdit',
@@ -496,26 +518,7 @@ export default {
             sessionStorage.setItem("permissions", data);
             this.renderDom = true
         })
-      if(this.$route.params.productId){
-          this.getAllpageList()
-      }
-  },
-  mounted () {
-    //   this.getAllpageList()
-    if(this.$route.query.id == 8 || this.$route.query.id == 26){
-        this.getNewSizeList()
-        this.showSizeTitle = true
-    }
-    if(!this.$route.query.developmentId){
-        this.isStatusEdit = true;
-        this.isStatusEdit1 = true;
-        this.isStatusEdit2 = true;
-        this.isStatusEdit3 = true;
-        this.isStatusEdit4 = true;
-    }
-    this.init()
-  },
-  methods: {
+      },
       scrollPostion(){
           document.body.scrollTop = 0
       },
