@@ -294,6 +294,7 @@ export default {
           'ERP.Product.ProductDev.Audit',
           'ERP.Product.ProductDev.EndAudit',
           'ERP.Product.ProductDev.ExportSample',
+          'ERP.Product.ProductDev.ProfitsFirstTrial',
       ]
         hasPermissions(params).then(res => {
            let data = JSON.stringify( res.data);

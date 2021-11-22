@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-container">
+  <div class="nav-container" v-if="renderDom">
       <div class="navTitle">
         <el-row :gutter="5">
         <el-col :span="12">
@@ -246,14 +246,14 @@
                     <el-tab-pane label="备注" name="tenth">
                     </el-tab-pane>
                 </el-tabs>
-                <operationButton :nowStatus='timeStatus' @getTableList='updateGetAllpageList'></operationButton>   
+                <operationButton :nowStatus='timeStatus' @getTableList='updateGetAllpageList' v-if="renderDom"></operationButton>   
             </div>
         <!-- </el-card> -->
     </div>
   </div>
 </template>
 <script>
- import { getProductDevDetail,getProductMultipleAttribute,exploitType,getImagePath,getEmployee } from '@/api/user.js'
+ import { getProductDevDetail,getProductMultipleAttribute,exploitType,getImagePath,getEmployee,hasPermissions } from '@/api/user.js'
 export default {
   name: 'productDetails',
   components:{
@@ -449,22 +449,53 @@ export default {
         isEdit6:true,
         isEdit7:true,
         isEdit8:true,
-        isStatusEdit:true,
-        isStatusEdit1:true,
-        isStatusEdit2:true,
-        isStatusEdit3:true,
-        isStatusEdit4:true,
-        isStatusEdit5:true,
-        isStatusEdit6:true,
-        isStatusEdit7:true,
-        isStatusEdit8:true,
+        isStatusEdit:false,
+        isStatusEdit1:false,
+        isStatusEdit2:false,
+        isStatusEdit3:false,
+        isStatusEdit4:false,
+        isStatusEdit5:false,
+        isStatusEdit6:false,
+        isStatusEdit7:false,
+        isStatusEdit8:false,
         nowStatus:0,
         timeStatus:0,
         proImageList:'',
         showSizeTitle:false,
+        renderDom:false,
     }
   },
   created () {
+      let  params = [
+          'ERP.Product.ProductDev.SalesManEdit',
+          'ERP.Product.ProductDev.EditAuth',
+          'ERP.Product.ProductDev.BuyerEdit',
+          'ERP.Product.ProductDev.ADD',
+          'ERP.Product.ProductDev.ManagerCancel',
+          'ERP.Product.ProductDev.ManagerAudit',
+          'ERP.Product.ProductDev.EditGroup',
+          'ERP.Product.ProductDev.SalesManBack',
+          'ERP.Product.ProductDev.BuyerBack',
+          'ERP.Product.ProductDev.SalesBack',
+          'ERP.Product.ProductDev.Cancel',
+          'ERP.Product.ProductDev.EndAudit',
+          'ERP.Product.ProductDev.AuditAuth',
+          'ERP.Product.ProductDev.PurchasingSupervisorAudit',
+          'ERP.Product.ProductDev.BackToFreezingOff',
+          'ERP.Product.ProductDev.SamplePurchaseAudit',
+          'ERP.Product.ProductDev.Select',
+          'ERP.Product.ProductDev.DistributionProcurement',
+          'ERP.Product.ProductDev.FreezingOff',
+          'ERP.Product.ProductDev.Audit',
+          'ERP.Product.ProductDev.EndAudit',
+          'ERP.Product.ProductDev.ExportSample',
+          'ERP.Product.ProductDev.ProfitsFirstTrial'
+      ]
+        hasPermissions(params).then(res => {
+           let data = JSON.stringify( res.data);
+            sessionStorage.setItem("permissions", data);
+            this.renderDom = true
+        })
       if(this.$route.params.productId){
           this.getAllpageList()
       }
@@ -474,6 +505,13 @@ export default {
     if(this.$route.query.id == 8 || this.$route.query.id == 26){
         this.getNewSizeList()
         this.showSizeTitle = true
+    }
+    if(!this.$route.query.developmentId){
+        this.isStatusEdit = true;
+        this.isStatusEdit1 = true;
+        this.isStatusEdit2 = true;
+        this.isStatusEdit3 = true;
+        this.isStatusEdit4 = true;
     }
     this.init()
   },
@@ -485,147 +523,99 @@ export default {
           location.reload()
       },
       controlEdit(val){
-        this.isStatusEdit=true
-        this.isStatusEdit1=true
-        this.isStatusEdit2=true
-        this.isStatusEdit3=true
-        this.isStatusEdit4=true
-        this.isStatusEdit5=true
-        this.isStatusEdit6=true
-        this.isStatusEdit7=true
-        this.isStatusEdit8=true
+        this.isStatusEdit=false
+        this.isStatusEdit1=false
+        this.isStatusEdit2=false
+        this.isStatusEdit3=false
+        this.isStatusEdit4=false
+        this.isStatusEdit5=false
+        this.isStatusEdit6=false
+        this.isStatusEdit7=false
+        this.isStatusEdit8=false
           switch(val){
                 case 0 :
-                this.isStatusEdit5 = false;
-                this.isStatusEdit6 = false;
-                this.isStatusEdit7 = false;
-                this.isStatusEdit8 = false;
+                this.isStatusEdit = true;
+                this.isStatusEdit1 = true;
+                this.isStatusEdit2 = true;
+                this.isStatusEdit3 = true;
+                this.isStatusEdit4 = true;
                 break;
                 case 1:
-                this.isStatusEdit5 = false;
-                this.isStatusEdit6 = false;
-                this.isStatusEdit7 = false;
-                this.isStatusEdit8 = false;
+                this.isStatusEdit = true;
+                this.isStatusEdit1 = true;
+                this.isStatusEdit2 = true;
+                this.isStatusEdit3 = true;
+                this.isStatusEdit4 = true;
                 break;
                 case 11:
-                this.isStatusEdit = false;
-                this.isStatusEdit1 = false;
-                this.isStatusEdit2 = false;
-                this.isStatusEdit3 = false;
-                this.isStatusEdit4 = false;
-                this.isStatusEdit6 = false;
-                this.isStatusEdit7 = false;
-                this.isStatusEdit8 = false;
+                this.isStatusEdit5 = true;
                 break;
                 case 2:
-                    this.isStatusEdit = false;
-                    this.isStatusEdit1 = false;
-                    this.isStatusEdit2 = false;
-                    this.isStatusEdit3 = false;
-                    this.isStatusEdit4 = false;
-                    this.isStatusEdit5 = false;
+                    //  if(this.employee.Id ==  this.devInformationDetaiList.businessid){
+                    //     this.isStatusEdit = true;
+                    //     this.isStatusEdit1 = true;
+                    //     this.isStatusEdit2 = true;
+                    //     this.isStatusEdit3 = true;
+                    //     this.isStatusEdit4 = true;
+                    //  }else if(this.employee.Id ==  this.devInformationDetaiList.buyerid){
+                    //     this.isStatusEdit6 = true;
+                    //     this.isStatusEdit7 = true;
+                    //     this.isStatusEdit8 = true;
+                    //  } 
+                    //   if (this.employee.Id ==  this.devInformationDetaiList.buyerid && this.employee.Id ==  this.devInformationDetaiList.businessid){
+                        this.isStatusEdit = true;
+                        this.isStatusEdit1 = true;
+                        this.isStatusEdit2 = true;
+                        this.isStatusEdit3 = true;
+                        this.isStatusEdit4 = true;
+                        // this.isStatusEdit5 = true;
+                        this.isStatusEdit6 = true;
+                        this.isStatusEdit7 = true;
+                        this.isStatusEdit8 = true;
+                    //  }
+                    
                 break;
                 case 13:
-                    this.isStatusEdit = false;
-                    this.isStatusEdit1 = false;
-                    this.isStatusEdit2 = false;
-                    this.isStatusEdit3 = false;
-                    this.isStatusEdit4 = false;
-                    this.isStatusEdit5 = false;
-                    this.isStatusEdit6 = false;
-                    this.isStatusEdit7 = false;
-                    this.isStatusEdit8 = false;
+                    
                 break;
                 case 12:
-                    this.isStatusEdit = false;
-                    this.isStatusEdit1 = false;
-                    this.isStatusEdit2 = false;
-                    this.isStatusEdit3 = false;
-                    this.isStatusEdit4 = false;
-                    this.isStatusEdit6 = false;
-                    this.isStatusEdit7 = false;
-                    this.isStatusEdit8 = false;
+                    this.isStatusEdit5 = true;
                 break;
                 case 3 :
-                this.isStatusEdit5 = false;
-                this.isStatusEdit6 = false;
-                this.isStatusEdit7 = false;
-                this.isStatusEdit8 = false;
+                    this.isStatusEdit = true;
+                    this.isStatusEdit1 = true;
+                    this.isStatusEdit2 = true;
+                    this.isStatusEdit3 = true;
+                    this.isStatusEdit4 = true;
                 break;
                 case 10:
-                    this.isStatusEdit = false;
-                    this.isStatusEdit1 = false;
-                    this.isStatusEdit2 = false;
-                    this.isStatusEdit3 = false;
-                    this.isStatusEdit4 = false;
-                    this.isStatusEdit5 = false;
-                    this.isStatusEdit6 = false;
-                    this.isStatusEdit7 = false;
-                    this.isStatusEdit8 = false;
                 break;
                 case 4:
-                this.isStatusEdit = false;
-                this.isStatusEdit1 = false;
-                this.isStatusEdit2 = false;
-                this.isStatusEdit3 = false;
-                this.isStatusEdit4 = false;
-                this.isStatusEdit5 = false;
+                    this.isStatusEdit6 = true;
+                    this.isStatusEdit7 = true;
+                    this.isStatusEdit8 = true;
                 break;
                 case 5:
-                this.isStatusEdit5 = false;
-                this.isStatusEdit6 = false;
-                this.isStatusEdit7 = false;
-                this.isStatusEdit8 = false;
+                this.isStatusEdit = true;
+                    this.isStatusEdit1 = true;
+                    this.isStatusEdit2 = true;
+                    this.isStatusEdit3 = true;
+                    this.isStatusEdit4 = true;
                 break;
                 case 6:
-                this.isStatusEdit5 = false;
-                this.isStatusEdit6 = false;
-                this.isStatusEdit7 = false;
-                this.isStatusEdit8 = false;
+                this.isStatusEdit = true;
+                    this.isStatusEdit1 = true;
+                    this.isStatusEdit2 = true;
+                    this.isStatusEdit3 = true;
+                    this.isStatusEdit4 = true;
                 break;
                 case 7:
-                this.isStatusEdit = false;
-                this.isStatusEdit1 = false;
-                this.isStatusEdit2 = false;
-                this.isStatusEdit3 = false;
-                this.isStatusEdit4 = false;
-                this.isStatusEdit5 = false;
-                this.isStatusEdit6 = false;
-                this.isStatusEdit7 = false;
-                this.isStatusEdit8 = false;
                 break;
                 case 8:
-                this.isStatusEdit = false;
-                this.isStatusEdit1 = false;
-                this.isStatusEdit2 = false;
-                this.isStatusEdit3 = false;
-                this.isStatusEdit4 = false;
-                this.isStatusEdit5 = false;
-                this.isStatusEdit6 = false;
-                this.isStatusEdit7 = false;
-                this.isStatusEdit8 = false;
                 break;
                 case 9:
-                this.isStatusEdit = false;
-                this.isStatusEdit1 = false;
-                this.isStatusEdit2 = false;
-                this.isStatusEdit3 = false;
-                this.isStatusEdit4 = false;
-                this.isStatusEdit5 = false;
-                this.isStatusEdit6 = false;
-                this.isStatusEdit7 = false;
-                this.isStatusEdit8 = false;
                 break;
                 case 14:
-                this.isStatusEdit = false;
-                this.isStatusEdit1 = false;
-                this.isStatusEdit2 = false;
-                this.isStatusEdit3 = false;
-                this.isStatusEdit4 = false;
-                this.isStatusEdit5 = false;
-                this.isStatusEdit6 = false;
-                this.isStatusEdit7 = false;
-                this.isStatusEdit8 = false;
                 break;
             }
       },
@@ -773,13 +763,13 @@ export default {
                     this.nowStatus = 0
                 }
                 this.proessCenterShow(this.nowStatus)
-                this.controlEdit(this.timeStatus)
                 // this.otherProductCountryList = res.data.productVos && res.data.productVos[0] && res.data.productVos[0].productCountryList ? res.data.productVos[0].productCountryList[0] : []
                 this.productVos = res.data.productVos? res.data.productVos[0] : []
                 this.productMarketStrs = res.data.productMarketStrs
                 this.employee = res.data.employee
                 // this.competingproducts = res.data.competingproducts[0]
                 this.getDevProgresses(res.data.developmentProgresses)
+                
                 //开发类型、详情数据
                 this.productVoDetail = {
                     developmenttype:this.productVos ? this.productVos.developmenttype :'',//开发类型
@@ -1064,6 +1054,7 @@ export default {
                     computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList && this.productVos.productCountryList[0].productMarketList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],
                 }
                 this.changeSizeTitle(this.pordSizeAttrInfoList,this.productCountryList.countryName,this.nowStatus)
+                this.controlEdit(this.timeStatus)
                 //采购信息
                 let productPurchaseVoList = []
                 let lastProductPurchaseVoList  = []
