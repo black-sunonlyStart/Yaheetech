@@ -465,8 +465,7 @@ export default {
         renderDom:false,
     }
   },
-  created () {
-      this.getPermissions()
+  created () {   
       if(this.$route.params.productId){
           this.getAllpageList()
       }
@@ -539,7 +538,7 @@ export default {
             roIds:'42,43,1,199,772'
         }
         getRoleTrue(params).then(res =>{
-            if(!res.data){
+            if(res.data){
                     switch(val){
                     case 0 :
                     this.isStatusEdit = true;
@@ -626,6 +625,7 @@ export default {
                     case 14:
                     break;
                 }
+                this.getPermissions()
             }else {
                 return
             }

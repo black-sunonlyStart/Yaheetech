@@ -220,6 +220,9 @@ export default {
     .text-box{
         font-size: 14px;
         text-decoration: underline;
+        max-width: 53px;
+        display: inline-block;
+        overflow: auto;
     }
     .moment-time{
         color: #cccccc;
