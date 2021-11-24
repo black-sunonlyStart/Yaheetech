@@ -92,8 +92,8 @@
           <el-form-item label="开发场景:">
             <el-checkbox-group v-model="form.developmentScenario" > 
                 <el-radio  label='all' v-model="radio" style="width:42px" @change="showOtherCheck" class="radioStyle">全部</el-radio>
-                <el-radio :label="4" v-model="radio" style="width:52px" @change="showOtherCheck" class="radioStyle">全新开发</el-radio>
-                <el-radio :label="5" v-model="radio" style="width:42px;" @change="showOtherCheck" class="radioStyle">二次开发</el-radio>
+                <el-radio :label="5" v-model="radio" style="width:52px;" @change="showOtherCheck" class="radioStyle">二次开发</el-radio>
+                <el-radio :label="4" v-model="radio" style="width:42px" @change="showOtherCheck" class="radioStyle">全新开发</el-radio> 
               <el-checkbox label= '1' v-if="newProd" style="margin-left:10px;width:74px">开发新产品</el-checkbox>
               <el-checkbox label= '2' v-if="newProd" style="width:74px" >开发新市场</el-checkbox>
               <el-checkbox label= '3' v-if="newProd" style="width:74px" >开发新尺码</el-checkbox>
@@ -135,7 +135,7 @@
         </el-col>
       </el-row>
       <el-row>
-        <el-col :span="20">
+        <el-col :span="21">
           <el-form-item label="开发状态:" class="statusBox">
             <div class="checkBoxAll1">
                 <el-checkbox class="checkboxAlltext1" :indeterminate="isIndeterminate1" v-model="checkStatusAll" @change="handleStatusAllChange">全选</el-checkbox>

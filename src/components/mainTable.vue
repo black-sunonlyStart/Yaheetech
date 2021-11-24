@@ -1,14 +1,15 @@
 <template>
-  <div class="tableMain" v-if="renderDom">
+  <div class="tableMain" :style="{maxHeight:changeMaxHeight()}"  v-if="renderDom">
     <el-table 
         ref="multipleTable"
         :data="tableData"
         tooltip-effect="dark"
         style="width: 100%"
         border
+        :height='changeMaxHeight()'
         @selection-change="handleSelectionChange"
         :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
-        height="60%"
+        class="tableBox"
         @row-click="handleRowClick"
         v-loading="loading" 
         >
@@ -203,7 +204,7 @@
         </template>             
       </el-table-column>
     </el-table>
-    <div class="pageInation-box">
+    <!-- <div class="pageInation-box"> -->
         <el-pagination 
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
@@ -215,7 +216,7 @@
             class="pagePosition"
             >
         </el-pagination>
-    </div>
+    <!-- </div> -->
     <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog" @getTableList='getTableList' :row='row' :navFilterList='navFilterList' :showOrder='showOrder'></messageDialog>
   </div>
 
@@ -259,6 +260,7 @@ export default {
       navFilterList:{
           handler:function(val){
               if(val){
+                this.pageNum = 1
                 this.getTableList(val)
               }
           },
@@ -270,7 +272,7 @@ export default {
           return document.querySelector('.el-table__body-wrapper')
       }
   },
-  created(){
+  created(){ 
       let  params = [
           'ERP.Product.ProductDev.SalesManEdit',
           'ERP.Product.ProductDev.EditAuth',
@@ -306,6 +308,9 @@ export default {
       this.getTableList(this.navFilterList)
   },
   methods: {
+       changeMaxHeight(){
+            return window.outerHeight * 0.56 + 'px'
+        },
     //    mouseOver(index){
     //        this.$set(this.tableData[index],'showImage',true)
     //    },
@@ -819,6 +824,7 @@ export default {
       },
    async getTableList(val){
        await this.newGetImagePath()
+      
         let params = {
             pageNum :this.pageNum,
             pageSize:this.pageSize,
@@ -828,13 +834,17 @@ export default {
             countryCodes:val.countryCodes,
             seekEnd:val.seekEnd,
             auth:val.auth,
-            state:val.state ? val.state:[0,1,2,3,4,5,6,10,11,12,13],
+            state:val.state && val.state.length > 0 ? val.state:[0,1,2,3,4,5,6,10,11,12,13],
             productOwner:val.productOwner,
             scenariosParentIds:val.scenariosParentIds,
             sampleDelivery:val.sampleDelivery,
             patentProduct:val.patentProduct,
             search:val.search
         }
+         if(val.search){
+             params.pageNum =1
+             params.state = val.state && val.state.length > 0 ? val.state:null
+       }
         this.loading = true
         fetchPageTableList(params).then(res => {
             if(res.data && res.data.rows){
@@ -850,7 +860,7 @@ export default {
             this.tableData = res.data && res.data.rows ? res.data.rows : []
             this.total = res.data && res.data.rows ? res.data.records : 0
         
-        })
+        }).catch(err => { this.loading = false })
         
     },
     handleSelectionChange (val) {
@@ -933,11 +943,16 @@ export default {
     }
 }
 .pagePosition{
-    position: absolute;
-    right: 0px;
+    position: fixed;
+    bottom: 28px;
+    right: 30px;
 }
 ::v-deep.tableMain{
     overflow: auto;
+    // .tableBox{
+        max-height: 534px;
+        overflow-y: auto;
+    // }
     .el-table{
         .el-table__body-wrapper .is-scrolling-none .scroll-container{
             .el-table__body{
@@ -945,7 +960,7 @@ export default {
             }    
         }
         .el-table__body-wrapper {
-            height:534px !important;
+            // height:500px !important;
         }
     }
     
@@ -1018,10 +1033,10 @@ export default {
         padding: 0 !important;
     }
 }
-.pageInation-box{
-   height: 58px;
-    background-color: #fff;
-    z-index: 1111;
-    position: relative;
-}
+// .pageInation-box{
+//    height: 58px;
+//     background-color: #fff;
+//     z-index: 1111;
+//     // position: relative;
+// }
 </style>
