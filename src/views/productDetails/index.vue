@@ -253,7 +253,7 @@
   </div>
 </template>
 <script>
- import { getProductDevDetail,getProductMultipleAttribute,exploitType,getImagePath,getEmployee,hasPermissions } from '@/api/user.js'
+ import { getProductDevDetail,getProductMultipleAttribute,exploitType,getImagePath,getEmployee,hasPermissions,getRoleTrue } from '@/api/user.js'
 export default {
   name: 'productDetails',
   components:{
@@ -535,92 +535,105 @@ export default {
         this.isStatusEdit6=false
         this.isStatusEdit7=false
         this.isStatusEdit8=false
-          switch(val){
-                case 0 :
-                this.isStatusEdit = true;
-                this.isStatusEdit1 = true;
-                this.isStatusEdit2 = true;
-                this.isStatusEdit3 = true;
-                this.isStatusEdit4 = true;
-                break;
-                case 1:
-                this.isStatusEdit = true;
-                this.isStatusEdit1 = true;
-                this.isStatusEdit2 = true;
-                this.isStatusEdit3 = true;
-                this.isStatusEdit4 = true;
-                break;
-                case 11:
-                this.isStatusEdit5 = true;
-                break;
-                case 2:
-                    //  if(this.employee.Id ==  this.devInformationDetaiList.businessid){
-                    //     this.isStatusEdit = true;
-                    //     this.isStatusEdit1 = true;
-                    //     this.isStatusEdit2 = true;
-                    //     this.isStatusEdit3 = true;
-                    //     this.isStatusEdit4 = true;
-                    //  }else if(this.employee.Id ==  this.devInformationDetaiList.buyerid){
-                    //     this.isStatusEdit6 = true;
-                    //     this.isStatusEdit7 = true;
-                    //     this.isStatusEdit8 = true;
-                    //  } 
-                    //   if (this.employee.Id ==  this.devInformationDetaiList.buyerid && this.employee.Id ==  this.devInformationDetaiList.businessid){
-                        this.isStatusEdit = true;
-                        this.isStatusEdit1 = true;
-                        this.isStatusEdit2 = true;
-                        this.isStatusEdit3 = true;
-                        this.isStatusEdit4 = true;
-                        // this.isStatusEdit5 = true;
-                        this.isStatusEdit6 = true;
-                        this.isStatusEdit7 = true;
-                        this.isStatusEdit8 = true;
-                    //  }
-                    
-                break;
-                case 13:
-                    
-                break;
-                case 12:
-                    this.isStatusEdit5 = true;
-                break;
-                case 3 :
+        let params = {
+            roIds:'42,43,1,199,772'
+        }
+        getRoleTrue(params).then(res =>{
+            if(!res.data){
+                    switch(val){
+                    case 0 :
                     this.isStatusEdit = true;
                     this.isStatusEdit1 = true;
                     this.isStatusEdit2 = true;
                     this.isStatusEdit3 = true;
                     this.isStatusEdit4 = true;
-                break;
-                case 10:
-                break;
-                case 4:
-                    this.isStatusEdit6 = true;
-                    this.isStatusEdit7 = true;
-                    this.isStatusEdit8 = true;
-                break;
-                case 5:
-                this.isStatusEdit = true;
+                    break;
+                    case 1:
+                    this.isStatusEdit = true;
                     this.isStatusEdit1 = true;
                     this.isStatusEdit2 = true;
                     this.isStatusEdit3 = true;
                     this.isStatusEdit4 = true;
-                break;
-                case 6:
-                this.isStatusEdit = true;
-                    this.isStatusEdit1 = true;
-                    this.isStatusEdit2 = true;
-                    this.isStatusEdit3 = true;
-                    this.isStatusEdit4 = true;
-                break;
-                case 7:
-                break;
-                case 8:
-                break;
-                case 9:
-                break;
-                case 14:
-                break;
+                    break;
+                    case 11:
+                    this.isStatusEdit5 = true;
+                    break;
+                    case 2:
+                        //  if(this.employee.Id ==  this.devInformationDetaiList.businessid){
+                        //     this.isStatusEdit = true;
+                        //     this.isStatusEdit1 = true;
+                        //     this.isStatusEdit2 = true;
+                        //     this.isStatusEdit3 = true;
+                        //     this.isStatusEdit4 = true;
+                        //  }else if(this.employee.Id ==  this.devInformationDetaiList.buyerid){
+                        //     this.isStatusEdit6 = true;
+                        //     this.isStatusEdit7 = true;
+                        //     this.isStatusEdit8 = true;
+                        //  } 
+                        //   if (this.employee.Id ==  this.devInformationDetaiList.buyerid && this.employee.Id ==  this.devInformationDetaiList.businessid){
+                            this.isStatusEdit = true;
+                            this.isStatusEdit1 = true;
+                            this.isStatusEdit2 = true;
+                            this.isStatusEdit3 = true;
+                            this.isStatusEdit4 = true;
+                            // this.isStatusEdit5 = true;
+                            this.isStatusEdit6 = true;
+                            this.isStatusEdit7 = true;
+                            this.isStatusEdit8 = true;
+                        //  }
+                        
+                    break;
+                    case 13:
+                        
+                    break;
+                    case 12:
+                        this.isStatusEdit5 = true;
+                    break;
+                    case 3 :
+                        this.isStatusEdit = true;
+                        this.isStatusEdit1 = true;
+                        this.isStatusEdit2 = true;
+                        this.isStatusEdit3 = true;
+                        this.isStatusEdit4 = true;
+                    break;
+                    case 10:
+                    break;
+                    case 4:
+                        this.isStatusEdit6 = true;
+                        this.isStatusEdit7 = true;
+                        this.isStatusEdit8 = true;
+                    break;
+                    case 5:
+                    this.isStatusEdit = true;
+                        this.isStatusEdit1 = true;
+                        this.isStatusEdit2 = true;
+                        this.isStatusEdit3 = true;
+                        this.isStatusEdit4 = true;
+                    break;
+                    case 6:
+                    this.isStatusEdit = true;
+                        this.isStatusEdit1 = true;
+                        this.isStatusEdit2 = true;
+                        this.isStatusEdit3 = true;
+                        this.isStatusEdit4 = true;
+                    break;
+                    case 7:
+                    break;
+                    case 8:
+                    break;
+                    case 9:
+                    break;
+                    case 14:
+                    break;
+                }
+            }else {
+                return
             }
+        })
+        // if(this.employee.Id !=  this.devInformationDetaiList.businessid || this.employee.Id !=  this.devInformationDetaiList.buyerid){
+        //     return 
+        // }
+          
       },
       init(){
           getEmployee().then(res => {

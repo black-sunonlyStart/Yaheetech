@@ -309,14 +309,8 @@ export default {
   },
   methods: {
        changeMaxHeight(){
-            return window.outerHeight * 0.56 + 'px'
+            return document.body.clientHeight - 300 + 'px'
         },
-    //    mouseOver(index){
-    //        this.$set(this.tableData[index],'showImage',true)
-    //    },
-    //    mouseLeave(index){
-    //      this.$set(this.tableData[index],'showImage',false)
-    //    },
       copeDevelopId(val){
           copyUrl(val)
       },
@@ -935,7 +929,8 @@ export default {
 .copeTitle{
     color: #3366cc;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 20px;
+    margin-left: 0px;
     &:hover{
         background-color:#3366cc ;
         color: #ffffff;
@@ -944,7 +939,7 @@ export default {
 }
 .pagePosition{
     position: fixed;
-    bottom: 28px;
+    bottom: 13px;
     right: 30px;
 }
 ::v-deep.tableMain{
@@ -1028,9 +1023,11 @@ export default {
 ::v-deep.el-tooltip__popper{
      border: none !important;
         padding: 0 !important;
+        margin-left: 2px !important;
     .is-light {
         border: none !important;
         padding: 0 !important;
+        margin-left: 2px !important;
     }
 }
 // .pageInation-box{
@@ -1039,4 +1036,9 @@ export default {
 //     z-index: 1111;
 //     // position: relative;
 // }
+</style>
+<style>
+.el-tooltip__popper{
+    margin-left: 2px !important;
+}
 </style>

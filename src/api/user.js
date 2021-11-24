@@ -306,6 +306,14 @@ export function getDevelopmentScenarios(data) {
       params:data
     })
   }
+  //获取角色权限
+export function getRoleTrue(data) {
+    return request({
+      url: '/productManage/getRoleTrue',
+      method: "get", 
+      params:data
+    })
+  }
   //导出模板
 export function Export(data) {
     return request({
