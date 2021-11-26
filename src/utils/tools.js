@@ -136,7 +136,7 @@ function Output(Option,Callback,that) {
         Option.output = 'jsonp'
         Option.Data = JSON.stringify(data);
         let url = conGetExlist.GetHelpTagsUrl("/ExportTable/OutputNew").toString()
-            jsonp(url,Option,10000).then(res => {  
+            jsonp(url,Option,2000000).then(res => {  
                 if(!res.Url){
                     if(res.Success){
                         Message({
@@ -145,11 +145,13 @@ function Output(Option,Callback,that) {
                             offset:220
                         })
                     }
+                    that.optionPutExcle = false
                 }else{
                     window.open(res.Url)
                     that.optionPutExcle = false
                 }     
             },err => {
+                that.optionPutExcle = false
                 console.log(err)   
             })
         }

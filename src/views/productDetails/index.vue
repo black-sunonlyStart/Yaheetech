@@ -179,7 +179,7 @@
                             <el-card>
                                 <div slot="header" class="clearfix">
                                     <div>产品认证信息
-                                       <div v-if="isStatusEdit5"><div class="edit-position" perkey='ERP.Product.ProductDev.EditAuth' @click="isEdit5 = !isEdit5" v-if="isEdit5"><span ><i class="icon-edit"></i>编辑</span></div></div>
+                                       <div v-if="isStatusEdit5"><div class="edit-position" v-permission="'ERP.Product.ProductDev.EditAuth'" perkey='ERP.Product.ProductDev.EditAuth' @click="isEdit5 = !isEdit5" v-if="isEdit5"><span ><i class="icon-edit"></i>编辑</span></div></div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit5">
@@ -465,7 +465,8 @@ export default {
         renderDom:false,
     }
   },
-  created () {   
+  created () {
+      this.getPermissions()   
       if(this.$route.params.productId){
           this.getAllpageList()
       }
@@ -524,22 +525,38 @@ export default {
       updateGetAllpageList(){
           location.reload()
       },
+        initState(){
+            this.isStatusEdit=false
+            this.isStatusEdit1=false
+            this.isStatusEdit2=false
+            this.isStatusEdit3=false
+            this.isStatusEdit4=false
+            this.isStatusEdit5=false
+            this.isStatusEdit6=false
+            this.isStatusEdit7=false
+            this.isStatusEdit8=false
+        },
       controlEdit(val){
-        this.isStatusEdit=false
-        this.isStatusEdit1=false
-        this.isStatusEdit2=false
-        this.isStatusEdit3=false
-        this.isStatusEdit4=false
-        this.isStatusEdit5=false
-        this.isStatusEdit6=false
-        this.isStatusEdit7=false
-        this.isStatusEdit8=false
-        let params = {
-            roIds:'42,43,1,199,772'
+       let params = {
+            roIds:'42'
         }
-        getRoleTrue(params).then(res =>{
+         getRoleTrue(params).then(res =>{
             if(res.data){
-                    switch(val){
+                this.isStatusEdit=true
+                this.isStatusEdit1=true
+                this.isStatusEdit2=true
+                this.isStatusEdit3=true
+                this.isStatusEdit4=true
+                this.isStatusEdit5=true          
+                this.isStatusEdit6=true
+                this.isStatusEdit7=true
+                this.isStatusEdit8=true
+                this.getStateRole(val)
+            }
+        })    
+      },
+      getStateRole(val){
+           switch(val){
                     case 0 :
                     this.isStatusEdit = true;
                     this.isStatusEdit1 = true;
@@ -558,6 +575,11 @@ export default {
                     this.isStatusEdit5 = true;
                     break;
                     case 2:
+                        if(this.employee.Id ==  this.devInformationDetaiList.buyerid){
+                            this.isStatusEdit6 = true;
+                            this.isStatusEdit7 = true;
+                            this.isStatusEdit8 = true;
+                         }
                         //  if(this.employee.Id ==  this.devInformationDetaiList.businessid){
                         //     this.isStatusEdit = true;
                         //     this.isStatusEdit1 = true;
@@ -575,10 +597,10 @@ export default {
                             this.isStatusEdit2 = true;
                             this.isStatusEdit3 = true;
                             this.isStatusEdit4 = true;
-                            // this.isStatusEdit5 = true;
-                            this.isStatusEdit6 = true;
-                            this.isStatusEdit7 = true;
-                            this.isStatusEdit8 = true;
+                            this.isStatusEdit5 = true;
+                            // this.isStatusEdit6 = true;
+                            // this.isStatusEdit7 = true;
+                            // this.isStatusEdit8 = true;
                         //  }
                         
                     break;
@@ -598,9 +620,11 @@ export default {
                     case 10:
                     break;
                     case 4:
-                        this.isStatusEdit6 = true;
-                        this.isStatusEdit7 = true;
-                        this.isStatusEdit8 = true;
+                        if(this.employee.Id ==  this.devInformationDetaiList.buyerid){
+                            this.isStatusEdit6 = true;
+                            this.isStatusEdit7 = true;
+                            this.isStatusEdit8 = true;
+                         }
                     break;
                     case 5:
                     this.isStatusEdit = true;
@@ -625,15 +649,6 @@ export default {
                     case 14:
                     break;
                 }
-                this.getPermissions()
-            }else {
-                return
-            }
-        })
-        // if(this.employee.Id !=  this.devInformationDetaiList.businessid || this.employee.Id !=  this.devInformationDetaiList.buyerid){
-        //     return 
-        // }
-          
       },
       init(){
           getEmployee().then(res => {
@@ -1070,6 +1085,8 @@ export default {
                     computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList && this.productVos.productCountryList[0].productMarketList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],
                 }
                 this.changeSizeTitle(this.pordSizeAttrInfoList,this.productCountryList.countryName,this.nowStatus)
+                this.initState()
+                this.getStateRole(this.timeStatus)
                 this.controlEdit(this.timeStatus)
                 //采购信息
                 let productPurchaseVoList = []
