@@ -1130,8 +1130,9 @@ export default {
           this.showSizeText = []
             if(nowStatus != 9)return
             let sizeList = [pordSizeAttrInfoList.packageSizeL,pordSizeAttrInfoList.packageSizeW,pordSizeAttrInfoList.packageSizeH]
-                sizeList.sort()
                 sizeList.map(Number)
+                sizeList.sort((a,b) => a-b)
+                
             let sizePerimeter = (Number(sizeList[0]) + Number(sizeList[1]) + Number(sizeList[2]) ) * 2
             let numLogisticsPerimeter = Number(pordSizeAttrInfoList.logisticsPerimeterYcun)
             if(countryName == '德国'){ 
