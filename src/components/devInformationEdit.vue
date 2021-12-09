@@ -204,9 +204,9 @@
                             >
                             <el-option 
                                 v-for="item in dailySales3"                        
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id"
+                                :key="item.Id"
+                                :label="item.Name"
+                                :value="item.Id"
                                 >
                             </el-option>
                         </el-select>
@@ -787,7 +787,7 @@ export default {
             }
             
             let dailySales3 = this.dailySales3.filter(item => {
-                return item.id == this.ruleForm.marksContry3
+                return item.Id == this.ruleForm.marksContry3
             })
             let wareHouseList = [
                     {
@@ -817,7 +817,7 @@ export default {
             this.devInformationDetaiList.productMarketList.push({
                     platformname:this.ruleForm.marksContry2,
                     countrycode:this.ruleForm.marksContry1,
-                    warehouseName:dailySales3[0].name,
+                    warehouseName:dailySales3[0].Name,
                     warehouseid:this.ruleForm.marksContry3,
                     developmentprice:this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] ? this.devInformationDetaiList.productMarketList[0].developmentprice : 0
                 })
@@ -898,14 +898,14 @@ export default {
         },
         getTypeList(){
             let params = {
-                rid:document.URL.includes('yaheecloud') ? 170 : 41  //测试
+                rid:document.URL.includes('yaheecloud') ?  41 : 170  //测试170
                 // rid:41//采购开发41
             }
             selectRoleEmployeeForRoleId(params).then(res => {
                 this.dailySales = res.data
             })
             let itemList = {
-                rid:document.URL.includes('yaheecloud') ? 171 : 40
+                rid:document.URL.includes('yaheecloud') ? 40 : 171
                 // rid:40//业务开发40
             }
             selectRoleEmployeeForRoleId(itemList).then(res => {

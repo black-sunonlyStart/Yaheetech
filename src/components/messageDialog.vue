@@ -332,7 +332,7 @@ export default {
         getTypeList(){
             if(this.clickId == 6){
                 let params = {
-                     rid:document.URL.includes('yaheecloud') ? 170 : 41
+                     rid:document.URL.includes('yaheecloud') ? 41 : 170
                     // rid:41//采购开发正式41
                 }
                 selectRoleEmployeeForRoleId(params).then(res => {
@@ -340,7 +340,7 @@ export default {
                 })
             }else if(this.clickId == 20){
                 let itemList = {
-                    rid:document.URL.includes('yaheecloud') ? 171 : 40
+                    rid:document.URL.includes('yaheecloud') ? 40 : 171
                     // rid:40//业务开发正式40
                 }
                 selectRoleEmployeeForRoleId(itemList).then(res => {
