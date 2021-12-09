@@ -34,13 +34,13 @@
             <el-col :span="10">
                 <div class="boxFlex">
                     <span class="imageMainbox">产品开发市场： </span>
-                    <div class="imageMainboxText" style="width:520px;dispaly:inline-block">{{salesTargetDetaiList.xsmarket}}</div>
+                    <div class="imageMainboxText" style="width:520px;dispaly:inline-block;white-space: pre-wrap;">{{salesTargetDetaiList.xsmarket}}</div>
                 </div>
             </el-col>
             <el-col :span="14">
                 <div class="boxFlex">
                     <span class="imageMainbox">产品包装尺寸特殊要求： </span>
-                    <div class="imageMainboxText" style="width:650px;dispaly:inline-block">{{salesTargetDetaiList.xsspecialrequirements}}</div>
+                    <div class="imageMainboxText" style="width:650px;dispaly:inline-block;white-space: pre-wrap;">{{salesTargetDetaiList.xsspecialrequirements}}</div>
                 </div>       
             </el-col>
         </el-row>

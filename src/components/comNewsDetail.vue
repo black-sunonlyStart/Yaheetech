@@ -290,6 +290,7 @@ export default {
     .mianInfoTitle{
         font-weight: normal;
         width: 660px;
+        white-space: pre-wrap;
     }
 }
 .productsMain{

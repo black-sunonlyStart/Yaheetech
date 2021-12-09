@@ -816,7 +816,7 @@ export default {
               }
           })
       },
-   async getTableList(val){
+   async getTableList(val,pageSize = false){
        await this.newGetImagePath()
       
         let params = {
@@ -836,7 +836,10 @@ export default {
             search:val.search
         }
          if(val.search){
-             params.pageNum =1
+             if(!pageSize){
+                 params.pageNum =1
+             }
+             
              params.state = val.state && val.state.length > 0 ? val.state:null
        }
         this.loading = true
@@ -863,11 +866,11 @@ export default {
     },
     handleSizeChange (val) {
         this.pageSize = val
-        this.getTableList(this.navFilterList)
+        this.getTableList(this.navFilterList,true)
     },
     handleCurrentChange (val) {
         this.pageNum = val
-        this.getTableList(this.navFilterList)
+        this.getTableList(this.navFilterList,true)
     },
     getFormatDate(data){
         let newTime = formatDate(data)

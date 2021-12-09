@@ -1,5 +1,5 @@
 <template>
-    <span class="navButton">
+    <span class="navButton" v-if="renderDom">
         <el-button size="mini" @click="addProctList" type="primary" plain  icon="el-icon-circle-plus-outline" v-permission="'ERP.Product.ProductDev.ADD'" perkey="ERP.Product.ProductDev.ADD">开发产品</el-button>
         <!-- <el-button size="mini" >更换业务开发</el-button> -->
         <el-dropdown trigger="hover"  @command="changeOrderPer" size='mini' >
@@ -32,12 +32,12 @@
                 <el-dropdown-item command= 3 plain>开发利润表</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
-        <span v-if="optionPutExcle" class="reportTitle">导出中。。。</span>
+        <span v-if="optionPutExcle" class="reportTitle"><i class="el-icon-loading" style="margin-right:5px"></i>报表导出中</span>
         <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog" :selectRow="selectRow" @getTableList='getTableList'></messageDialog>
     </span>
 </template>
 <script>
-    import { freezing,unfreezing } from '@/api/user.js'
+    import { freezing,unfreezing,hasPermissions } from '@/api/user.js'
     import { globalReportExport }  from '@/utils/tools.js'
     export default {
         name:'abilityBtn',
@@ -49,7 +49,8 @@
                 clickId:0,
                 dialogName:'',
                 row:[],
-                optionPutExcle:false
+                optionPutExcle:false,
+                renderDom:false
             }
         },
         props:{
@@ -62,8 +63,41 @@
                 default:() => ({})
             }
         },
+        created(){
+            let  params = [
+                'ERP.Product.ProductDev.SalesManEdit',
+                'ERP.Product.ProductDev.EditAuth',
+                'ERP.Product.ProductDev.BuyerEdit',
+                'ERP.Product.ProductDev.ADD',
+                'ERP.Product.ProductDev.ManagerCancel',
+                'ERP.Product.ProductDev.ManagerAudit',
+                'ERP.Product.ProductDev.EditGroup',
+                'ERP.Product.ProductDev.SalesManBack',
+                'ERP.Product.ProductDev.BuyerBack',
+                'ERP.Product.ProductDev.SalesBack',
+                'ERP.Product.ProductDev.Cancel',
+                'ERP.Product.ProductDev.EndAudit',
+                'ERP.Product.ProductDev.AuditAuth',
+                'ERP.Product.ProductDev.PurchasingSupervisorAudit',
+                'ERP.Product.ProductDev.BackToFreezingOff',
+                'ERP.Product.ProductDev.SamplePurchaseAudit',
+                'ERP.Product.ProductDev.Select',
+                'ERP.Product.ProductDev.DistributionProcurement',
+                'ERP.Product.ProductDev.FreezingOff',
+                'ERP.Product.ProductDev.Audit',
+                'ERP.Product.ProductDev.EndAudit',
+                'ERP.Product.ProductDev.ExportSample',
+                'ERP.Product.ProductDev.ProfitsFirstTrial',
+                
+      ]
+        hasPermissions(params).then(res => {
+           let data = JSON.stringify( res.data);
+            sessionStorage.setItem("permissions", data);
+            this.renderDom = true
+        })
+        },
         methods:{
-           async clickOutput(command){
+            clickOutput(command){
                 let options = []
                 if(command == 1){
                     if(!this.selectRow || this.selectRow.length == 0 ){
@@ -86,8 +120,7 @@
                     [  
                         {
                             'Field':'data-exportid',
-                            'Value':55,//测试
-                            // 'Value':257,//正式
+                            'Value':document.URL.includes('yaheecloud') ? 257 : 55,//55测试
                         },
                         {
                             'Field':'ProductId',
@@ -96,10 +129,10 @@
                     ]   
                 }else if (command == 2){
                     
-                    if(!this.navFilterList.dateFrom || !this.navFilterList.dateTo){
+                    if(!this.navFilterList.dateFrom || !this.navFilterList.dateTo || !this.navFilterList.countryCodes || this.navFilterList.countryCodes.length == 0 || this.navFilterList.timeType != 0){
                         this.$message({
                             type: 'error', 
-                            message:'请选择开始时间和结束时间',
+                            message:'请选择创建产品的起止时间及开发国家',
                             offset:220
                         })
                         return
@@ -118,37 +151,39 @@
                     [
                         {
                             'Field':'data-exportid',
-                            'Value':115,//测试
-                            // 'Value':468,//正式
+                            'Value':document.URL.includes('yaheecloud') ? 468 : 115,//115测试
                         },
                         { 'Field' : "dateFrom", 'Value' : dateFrom },
-                        { 'Field' : "dateTo", 'Value' : dateTo }
+                        { 'Field' : "dateTo", 'Value' : dateTo },
+                        { 'Field' : "countryCode", 'Value' : this.navFilterList.countryCodes.toString() }
                     ]
                 }else if(command == 3){
-                    if(!this.navFilterList.countryCodes || this.navFilterList.countryCodes.length == 0){
+                    if(!this.navFilterList.dateFrom || !this.navFilterList.dateTo || !this.navFilterList.countryCodes || this.navFilterList.countryCodes.length == 0 || this.navFilterList.timeType != 0){
                         this.$message({
                             type: 'error', 
-                            message:'请选择开发国家',
+                            message:'请选择创建产品的起止时间及开发国家',
                             offset:220
                         })
                         return
                     }
+                    let dateFrom = this.navFilterList.dateFrom
+                    let dateTo = this.navFilterList.dateTo
                     options = 
                     [
                         {
                             'Field':'ProductId',
-                            'Value':116,//测试
-                            // 'Value':483,//正式改
+                            'Value':document.URL.includes('yaheecloud') ?483:116,//测试
                         },
                         {
-                            'Field':'countryCodes',
+                            'Field':'countryCode',
                             'Value':this.navFilterList.countryCodes.toString(),//测试
                         },
+                         { 'Field' : "dateFrom", 'Value' : dateFrom },
+                        { 'Field' : "dateTo", 'Value' : dateTo },
                     ]
                 }
                 this.optionPutExcle = true
-                await globalReportExport(options)
-                this.optionPutExcle = false
+                globalReportExport(options,this)
             },
             getTableList(){
                 this.$emit('putTbleList')

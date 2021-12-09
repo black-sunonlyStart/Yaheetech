@@ -527,6 +527,7 @@ export default {
     .checkboxAlltext1{
         display: inline-block;
         margin-right: 20px;
+        height: 23px;
     }
     .chengboxMoreBox1{
         width: 1250px;

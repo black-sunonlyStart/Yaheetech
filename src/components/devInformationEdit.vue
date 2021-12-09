@@ -4,7 +4,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="英文标题:" prop="staRating">
-                        <el-input type="textarea" maxlength="200" show-word-limit  autosize v-model="ruleForm.staRating"></el-input>
+                        <el-input type="textarea" maxlength="100" show-word-limit  autosize v-model="ruleForm.staRating"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -16,9 +16,9 @@
                             >
                             <el-option 
                                 v-for="item in targetPrice"                        
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id"
+                                :key="item.Id"
+                                :label="item.TrueName"
+                                :value="item.Id"
                                 >
                             </el-option>
                         </el-select>        
@@ -40,9 +40,9 @@
                             >
                             <el-option 
                                 v-for="item in dailySales"                        
-                                :key="item.id"
-                                :label="item.name"
-                                :value="item.id"
+                                :key="item.Id"
+                                :label="item.TrueName"
+                                :value="item.Id"
                                 >
                             </el-option>
                         </el-select>
@@ -52,7 +52,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="中文概述:" prop="rateRequirements">
-                        <el-input type="textarea" autosize v-model="ruleForm.rateRequirements"></el-input>
+                        <el-input type="textarea" maxlength="500" autosize show-word-limit v-model="ruleForm.rateRequirements"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -68,7 +68,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="德文标题:" >
-                        <el-input type="textarea" autosize v-model="ruleForm.titleDe"></el-input>
+                        <el-input type="textarea" maxlength="200" show-word-limit autosize v-model="ruleForm.titleDe"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -83,7 +83,7 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="日文标题:" >
-                        <el-input type="textarea" autosize v-model="ruleForm.titleJp"></el-input>
+                        <el-input type="textarea" maxlength="200" show-word-limit autosize v-model="ruleForm.titleJp"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
@@ -245,7 +245,7 @@
                             <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                             <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.developmentprice" @change="changeDevelopmentprice(item.developmentprice,item.platformname)"></el-input-number>  
                         </div>
-                        <el-button  v-if="showList(item.createdon)" @click="getMoeny(item,index)">计算利润</el-button>
+                        <el-button  v-if="showList(item.createdon) && statusValue" @click="getMoeny(item,index)">计算利润</el-button>
                         <div :class="item.profit > 0 ? 'titleText' :'noTitleText'" v-show="item.showProfit && item.freight">
                             {{contryCurry(item.countrycode)}}: {{item.endprofit? item.endprofit:item.profit}} - 利润率：{{item.endprofitmargin ? item.endprofitmargin * 100 : item.profitmargin * 100}}%
                         </div>
@@ -253,7 +253,7 @@
                             【产品尺寸重量超过物流限制，SFP运费匹配不到】
                         </div>
                     </el-form-item>
-                    <div v-if="showList(item.createdon)">
+                    <div v-if="showList(item.createdon) && nowStatus > 1">
                         <el-form-item label="SFP开发价:" prop="sfpDevelopmentPrice" v-if="(item.countrycode == 'GB' || item.countrycode == 'DE') && item.platformname == 'Amazon' && !devInformationDetaiList.packingway">
                             <div class="inputBox"> 
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
@@ -261,7 +261,7 @@
                             </div>
                             <el-button  v-if="showList(item.createdon)" @click="getMoeny(item,index)">计算利润</el-button>
                             <div :class="item.sfpProfit > 0 ? 'titleText' :'noTitleText'" v-show="item.showSfpProfit && item.freight">
-                                {{contryCurry(item.countrycode)}}: {{item.sfpEndProfit? item.sfpEndProfit:item.sfpProfit}} - 利润率：{{item.sfpPEndProfitMargin ? item.sfpPEndProfitMargin * 100 : item.sfpProfitMargin * 100}}%
+                                {{contryCurry(item.countrycode)}}: {{item.sfpEndProfit? item.sfpEndProfit:item.sfpProfit}} - 利润率：{{item.sfpEndProfitMargin ? item.sfpEndProfitMargin * 100 : item.sfpProfitMargin * 100}}%
                             </div>
                         </el-form-item>
                         <el-form-item label="SFP运费:" prop="sfpOceanFreight" v-if="(item.countrycode == 'GB' || item.countrycode == 'DE') && item.platformname == 'Amazon' && !devInformationDetaiList.packingway">
@@ -699,7 +699,11 @@ export default {
         devInformationDetaiList:{
             type:Object,
             default:() => ({})
-        }
+        },
+         nowStatus:{
+            type:Number,
+            default:() => (0)
+        }   
     },
     mounted(){
         this.getDetailPage()
@@ -894,13 +898,15 @@ export default {
         },
         getTypeList(){
             let params = {
-                rid:170//采购开发
+                rid:document.URL.includes('yaheecloud') ? 170 : 41  //测试
+                // rid:41//采购开发41
             }
             selectRoleEmployeeForRoleId(params).then(res => {
                 this.dailySales = res.data
             })
             let itemList = {
-                rid:171//业务开发
+                rid:document.URL.includes('yaheecloud') ? 171 : 40
+                // rid:40//业务开发40
             }
             selectRoleEmployeeForRoleId(itemList).then(res => {
                 this.targetPrice = res.data

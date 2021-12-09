@@ -40,13 +40,14 @@
                <el-form-item label="打回状态" prop="status" v-if="clickId == 4">
                     <el-select 
                         v-model="ruleForm.status"
+                         @change='changeStatus'
                         >
                         <el-option 
                             v-for="item in status"                        
                             :key="item.status"
                             :label="item.statusValue"
                             :value="item.status"
-                            
+                           
                             >
                         </el-option>
                     </el-select> 
@@ -65,7 +66,7 @@
                     </el-select> 
                 </el-form-item>
                 <el-form-item :label="label" prop="remark" v-if="clickId != 6 && clickId != 20">
-                    <el-input v-model="ruleForm.remark" type="textarea" ></el-input>
+                    <el-input v-model="ruleForm.remark" type="textarea" maxlength="500" show-word-limit></el-input>
                 </el-form-item>
                 <el-form-item label="更改采购开发员" prop="dailySales" v-if="clickId == 6">
                     <el-select 
@@ -74,9 +75,9 @@
                         >
                         <el-option 
                             v-for="item in dailySales"                        
-                            :key="item.id"
-                            :label="item.name"
-                            :value="item.id"
+                            :key="item.Id"
+                            :label="item.TrueName"
+                            :value="item.Id"
                             >
                         </el-option>
                     </el-select>
@@ -88,9 +89,9 @@
                         >
                         <el-option 
                             v-for="item in dailySales"                        
-                            :key="item.id"
-                            :label="item.name"
-                            :value="item.id"
+                            :key="item.Id"
+                            :label="item.TrueName"
+                            :value="item.Id"
                             >
                         </el-option>
                     </el-select>
@@ -100,8 +101,8 @@
                 </div>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="resetForm('ruleForm')" size="mini">取 消</el-button>
                 <el-button type="primary" @click="submitList('ruleForm')" size="mini">确 定</el-button>
+                <el-button @click="resetForm('ruleForm')" size="mini">取 消</el-button>
             </span>
         </el-dialog>
     </div>
@@ -118,8 +119,10 @@ export default {
             type2:[],
             label:'',
             ruleForm:{
-
+                platformid:0,
             },
+            orderListStatus:[2,4,11,12,13],
+            dailyListStatus:[0,1,3,5,10],
             platformid:0,
             dialogVisible: false,
             remark:'',
@@ -263,6 +266,7 @@ export default {
               if(val.id){
                 this.getDevelopStatesList()
               }
+              this.changeLabel()
           },
             deep:true
         }
@@ -318,17 +322,26 @@ export default {
             this.$refs[formName].resetFields();
              this.dialogVisible = false      
       },
+      changeStatus(val){
+          if(this.orderListStatus.includes(val)){
+                this.type2 = this.type1
+            }else{
+              this.type2 = this.type 
+            }
+      },
         getTypeList(){
             if(this.clickId == 6){
                 let params = {
-                    rid:170//采购开发
+                     rid:document.URL.includes('yaheecloud') ? 170 : 41
+                    // rid:41//采购开发正式41
                 }
                 selectRoleEmployeeForRoleId(params).then(res => {
                     this.dailySales = res.data
                 })
             }else if(this.clickId == 20){
                 let itemList = {
-                    rid:171//业务开发
+                    rid:document.URL.includes('yaheecloud') ? 171 : 40
+                    // rid:40//业务开发正式40
                 }
                 selectRoleEmployeeForRoleId(itemList).then(res => {
                     this.dailySales = res.data
@@ -343,11 +356,6 @@ export default {
         //     }
         // },
         changeLabel(){
-            if(this.showOrder){
-                this.type2 = this.type
-            }else{
-              this.type2 = this.type1  
-            }
             this.label = '备注:'
             if(this.clickId == 3){
                 this.label = '取消原因:'
