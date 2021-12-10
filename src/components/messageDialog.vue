@@ -206,7 +206,7 @@ export default {
                  {
                      key:12,
                      label:'不可控制力因素(如市场变化导致开发需求的变更)',
-                     value:11,
+                     value:12,
                  },
                  {
                      key:13,

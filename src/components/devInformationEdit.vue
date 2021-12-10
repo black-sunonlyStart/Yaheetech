@@ -245,7 +245,7 @@
                             <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                             <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.developmentprice" @change="changeDevelopmentprice(item.developmentprice,item.platformname)"></el-input-number>  
                         </div>
-                        <el-button  v-if="showList(item.createdon) && statusValue" @click="getMoeny(item,index)">计算利润</el-button>
+                        <el-button  v-if="showList(item.createdon)" @click="getMoeny(item,index)">计算利润</el-button>
                         <div :class="item.profit > 0 ? 'titleText' :'noTitleText'" v-show="item.showProfit && item.freight">
                             {{contryCurry(item.countrycode)}}: {{item.endprofit? item.endprofit:item.profit}} - 利润率：{{item.endprofitmargin ? item.endprofitmargin * 100 : item.profitmargin * 100}}%
                         </div>
@@ -356,13 +356,13 @@
                         <el-form-item label="PayPal Fee:" prop="paypalprice">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
-                                <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.paypalprice"></el-input-number>
+                                <el-input-number :controls='false' disabled :precision="2" :step="0.1" v-model="item.paypalprice"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="刊登Fee:" prop="listingfee">
                             <div class="inputBox">
                             <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
-                                <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.listingfee"></el-input-number>
+                                <el-input-number :controls='false' disabled :precision="2" :step="0.1" v-model="item.listingfee"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="退回进口VAT费:" prop="vatfee">
@@ -921,6 +921,8 @@ export default {
                     item.shippingname2 = shippingname[1]
                     item.shippingname3 = shippingname[2]
                  }
+                 if(!item.paypalprice)item.paypalprice = 0
+                 if(!item.listingfee)item.listingfee = 0
             })
             this.ruleForm = {
                 staRating: this.devInformationDetaiList.title,
@@ -1047,8 +1049,8 @@ export default {
                                 handlingfee:item.handlingfee,
                                 freight:item.freight,
                                 platformfee:item.platformfee,
-                                paypalprice:item.paypalprice,
-                                listingfee:item.listingfee,
+                                paypalprice:item.paypalprice || 0,
+                                listingfee:item.listingfee || 0,
                                 packagingfee:item.packagingfee,
                                 localizationfee:item.localizationfee,
                                 localshippingfeevat:item.localshippingfeevat,
@@ -1136,8 +1138,8 @@ export default {
                                 handlingfee:item.handlingfee,
                                 freight:item.freight,
                                 platformfee:item.platformfee,
-                                paypalprice:item.paypalprice,
-                                listingfee:item.listingfee,
+                                paypalprice:item.paypalprice || 0,
+                                listingfee:item.listingfee || 0,
                                 packagingfee:item.packagingfee,
                                 localizationfee:item.localizationfee,
                                 localshippingfeevat:item.localshippingfeevat,
