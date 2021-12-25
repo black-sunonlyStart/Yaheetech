@@ -182,12 +182,61 @@ function Output(Option,Callback,that) {
         offset:220
     })
   }
-
+/**
+ * 函数防抖 (只执行最后一次点击)
+ */
+function debounce (func, wait,immediate){
+    var timeout
+    return function (){
+        var context = this;
+        var args = arguments;
+        if(timeout) {
+            clearTimeout(timeout)
+        }
+        if(immediate){
+            var callNow = !timeout;
+            timeout = setTimeout(function (){
+                timeout = null;
+                func.apply(context,args)
+            },wait)
+            if(callNow) func.apply(context,args)
+        }
+        else {
+            timeout = setTimeout(function () {
+                func.apply(context,args)
+            },wait);
+        }
+    }
+  }
+  /*
+   * 函数节流
+   */
+    function throttle (fn, t){
+    let last;
+    let timer;
+    let interval = t || 500;
+    return function () {
+      let args = arguments;
+      let now = +new Date();
+      if (last && now - last < interval) {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          last = now;
+          fn.apply(this, args);
+        }, interval);
+      } else {
+        last = now;
+        fn.apply(this, args);
+      }
+    }
+  }
 export {
     copyUrl,
     createUniqueString,
     toStorage,
     formatDate,
     globalReportExport,
+    debounce,
+    throttle
 }
   

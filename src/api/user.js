@@ -322,3 +322,46 @@ export function Export(data) {
       data
     })
   }
+  //产品进度信息
+export function getDevelopmentProgresses(data) {
+    return request({
+      url: '/productManage/getDevelopmentProgresses',
+      method: "get", 
+      params:data
+    })
+  }
+export function getDevelopment(data) {
+    return request({
+      url: '/productManage/getDevelopment',
+      method: "get", 
+      params:data
+    })
+  }
+export function getDevelopmentMemo(data) {
+    return request({
+      url: 'productManage/getDevelopmentMemo',
+      method: "get", 
+      params:data
+    })
+  }
+export function getProductVo(data) {
+    return request({
+      url: '/productManage/getProductVo',
+      method: "get", 
+      params:data
+    })
+  }
+export function getProductPurchase(data) {
+    return request({
+      url: '/productManage/getProductPurchase',
+      method: "get", 
+      params:data
+    })
+  }
+export function getProductCountry(data) {
+    return request({
+      url: '/productManage/getProductCountry',
+      method: "get", 
+      params:data
+    })
+  }

@@ -265,13 +265,13 @@ export default {
         },
         getPersonName(val){
            let personName =  this.devSign.filter(res => {
-               return res.value = val
+               return res.value == val
            })
            return personName[0].label
         },
         getLevel(val){
            let personName =  this.riskLevel.filter(res => {
-               return res.value = val
+               return res.value == val
            })
            return personName[0].label
         },

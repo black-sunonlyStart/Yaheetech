@@ -520,7 +520,7 @@ export default {
         })
       },
       scrollPostion(){
-          document.body.scrollTop = 0
+          document.body.scrollTop = document.documentElement.scrollTop = 0
       },
       updateGetAllpageList(){
           location.reload()
