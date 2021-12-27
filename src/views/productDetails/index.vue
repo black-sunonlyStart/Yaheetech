@@ -878,6 +878,7 @@ export default {
                  let dutyrate1 = []
                  let dutyrate2 = []
                  let dutyrate3 = []
+                 let dutyrate4 = []
                  if(res.data.development &&  res.data.development.dutyrate && JSON.parse(res.data.development.dutyrate) && JSON.parse(res.data.development.dutyrate).LocalStrings){
                      dutyrate1 = JSON.parse(res.data.development.dutyrate).LocalStrings.filter(res => {
                          return res.LanguageCode == 'en-US'
@@ -888,11 +889,15 @@ export default {
                      dutyrate3 = JSON.parse(res.data.development.dutyrate).LocalStrings.filter(res => {
                          return res.LanguageCode == 'de'
                      })
+                     dutyrate4 = JSON.parse(res.data.development.dutyrate).LocalStrings.filter(res => {
+                         return res.LanguageCode == 'ja-JP'
+                     })
                  }
                  let usCountryBand = []
                  let enCountryBand = []
                  let deCountryBand = []
                  let auCountryBand = []
+                 let jpCountryBand = []
                  if(res.data.development &&  res.data.development.countryband && JSON.parse(res.data.development.countryband) && JSON.parse(res.data.development.countryband).LocalStrings){
                      usCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
                          return res.LanguageCode == 'en-US'
@@ -906,6 +911,9 @@ export default {
                      auCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
                          return res.LanguageCode == 'en-AU'
                      })
+                     jpCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
+                         return res.LanguageCode == 'ja-JP'
+                     })
                  }
                 //开发信息
                 this.devInformationDetaiList = {
@@ -914,6 +922,7 @@ export default {
                     enCountryBand:enCountryBand && enCountryBand[0] ? enCountryBand[0].Value : '',
                     deCountryBand:deCountryBand && deCountryBand[0] ? deCountryBand[0].Value : '',
                     auCountryBand:auCountryBand && auCountryBand[0] ? auCountryBand[0].Value : '',
+                    jpCountryBand:jpCountryBand && jpCountryBand[0] ? jpCountryBand[0].Value : '',
                     description:res.data.development.description,//产品中文概述
                     title:res.data.development.title,//英文标题
                     titleDe:res.data.development.titleDe,//德文标题
@@ -925,6 +934,7 @@ export default {
                     dutyrate1:dutyrate1 && dutyrate1[0] ? dutyrate1[0].Value * 100 : '',//是否需要专利确认
                     dutyrate2:dutyrate2  && dutyrate2[0]? dutyrate2[0].Value * 100: '',
                     dutyrate3:dutyrate3 && dutyrate3[0]? dutyrate3[0].Value * 100: '',
+                    dutyrate4:dutyrate4 && dutyrate4[0]? dutyrate4[0].Value * 100: '',
                     orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//采购开发
                     businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName: '',//业务开发
                     productCountryList:this.productVos.productCountryList ? this.productVos.productCountryList[0] : [],

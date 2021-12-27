@@ -150,6 +150,19 @@
                                 >
                             </el-option>
                         </el-select>
+                        日：
+                        <el-select 
+                        style="width:80px"
+                            v-model="ruleForm.brandJP"
+                            >
+                            <el-option 
+                                v-for="item in isBrandSign"                        
+                                :key="item.key"
+                                :label="item.label"
+                                :value="item.value"
+                                >
+                            </el-option>
+                        </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
@@ -162,6 +175,9 @@
                                 <template slot="append">%</template>
                             </el-input>
                             DE:<el-input v-model="ruleForm.productMarketDE">
+                                <template slot="append">%</template>
+                            </el-input>
+                            JPY:<el-input v-model="ruleForm.productMarketJP">
                                 <template slot="append">%</template>
                             </el-input>
                         </div>
@@ -471,10 +487,12 @@ export default {
                 productMarketUS: '',
                 productMarketGB: '',
                 productMarketDE:'',
+                productMarketJP:'',
                 brandEu:0,
                 brandUs:0,
                 brandDe:0,
                 brandAo:0,
+                brandJP:0,
                 marksContry1:'',
                 marksContry2:'',
                 marksContry3:'',
@@ -489,13 +507,17 @@ export default {
                     label:'英国',
                 },
                 {
-                    value:'AU',
-                    label:'澳洲',
-                },
-                {
                     value:'DE',
                     label:'德国',
                 },
+                 {
+                    value:'JP',
+                    label:'日本',
+                },
+                {
+                    value:'AU',
+                    label:'澳洲',
+                },  
             ],
             rules: {
                 staRating: [
@@ -520,8 +542,8 @@ export default {
                     {
                         required: true,
                         validator: (rules, value, cb) => {
-                        let { productMarketGB,productMarketDE } = this.ruleForm;
-                        if (!value || !productMarketGB || !productMarketDE) {
+                        let { productMarketGB,productMarketDE,productMarketJP } = this.ruleForm;
+                        if (!value || !productMarketGB || !productMarketDE || !productMarketJP) {
                             return cb(new Error("请填写税率!"));
                         }
 
@@ -741,6 +763,10 @@ export default {
                 return 'EUR'
             }else if(val == 'AU'){
                 return 'AUD'
+            }else if(val =='JP'){
+                return 'JPY'
+            }else {
+                return '$'
             }
         },
         delProductMarketList(i){
@@ -934,6 +960,7 @@ export default {
                 productMarketUS: this.devInformationDetaiList.dutyrate1,
                 productMarketGB: this.devInformationDetaiList.dutyrate2 ? this.devInformationDetaiList.dutyrate2 : '3.26',
                 productMarketDE: this.devInformationDetaiList.dutyrate3 ? this.devInformationDetaiList.dutyrate3 : '3.91',
+                productMarketJP: this.devInformationDetaiList.dutyrate4 ? this.devInformationDetaiList.dutyrate4 : '0',
                 isanji:this.devInformationDetaiList.isanji,
                 isbrand:this.devInformationDetaiList.ispatentproduct,
                 titleDe:this.devInformationDetaiList.titleDe,
@@ -944,6 +971,7 @@ export default {
                 brandUs:this.devInformationDetaiList.usCountryBand || '0',
                 brandDe:this.devInformationDetaiList.deCountryBand || '0',
                 brandAo:this.devInformationDetaiList.auCountryBand || '0',  
+                brandJP:this.devInformationDetaiList.jpCountryBand || '0',  
             }
         },
         seleContry(val){
@@ -1010,9 +1038,11 @@ export default {
                             enCountryBand:this.ruleForm.brandEu,
                             deCountryBand:this.ruleForm.brandDe,
                             auCountryBand:this.ruleForm.brandAo,
+                            jpCountryBand:this.ruleForm.brandJP,
                             usDutyRate:Number(this.ruleForm.productMarketUS),
                             gbDutyRate:Number(this.ruleForm.productMarketGB),
                             deDutyRate:Number(this.ruleForm.productMarketDE),
+                            jpDutyRate:Number(this.ruleForm.productMarketJP),
                             computemode:this.ruleForm.seaFreight,
                             development:{
                                 description:this.ruleForm.rateRequirements,
@@ -1099,9 +1129,11 @@ export default {
                             enCountryBand:this.ruleForm.brandEu,
                             deCountryBand:this.ruleForm.brandDe,
                             auCountryBand:this.ruleForm.brandAo,
+                            jpCountryBand:this.ruleForm.brandJP,
                             usDutyRate:this.ruleForm.productMarketUS,
                             gbDutyRate:this.ruleForm.productMarketGB,
                             deDutyRate:this.ruleForm.productMarketDE,
+                            jpDutyRate:this.ruleForm.productMarketJP,
                             computemode:this.ruleForm.seaFreight,
                             development:{
                                 description:this.ruleForm.rateRequirements,
@@ -1197,8 +1229,13 @@ export default {
             margin-right: 10px;
         }
     }
-    .taxRate{
+    ::v-deep.taxRate{
         display: flex;
+        .el-input{
+            .el-input-group__append{
+                padding: 0 10px !important;
+            }
+        }
     }
      
     .inputUnit{
