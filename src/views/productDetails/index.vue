@@ -807,8 +807,8 @@ export default {
                     developmentscenarios:this.scenarios ? this.scenarios :this.productVos ? this.productVos.developmentscenarios : '',//开发场景
                     categoryname:res.data.development ? res.data.development.categoryname : '',//所属分类
                     spu:res.data.development ? res.data.development.spu : '',//关联spu
-                    id:this.productVos ? this.productVos.id : '',//关联spu id
-                    spuid:res.data.development ? res.data.development.id : '',//关联spu id
+                    id:this.productVos ? this.productVos.id : '',
+                    spuid:res.data.development ? res.data.development.id : '',
                 }
                 //图片信息数据
                 this.productImgDetail =  res.data.developmentAttachmentList.filter(item => {
