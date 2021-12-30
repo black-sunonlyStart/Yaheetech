@@ -29,6 +29,11 @@
                                 英国 : <el-checkbox :label="item.authId" v-for="item in isEu" :key="item.authId">{{item.authName}}</el-checkbox>
                             </div>
                         </el-checkbox-group>
+                        <el-checkbox-group v-model="ruleForm.jpNessCertification">
+                            <div class="contrayText">
+                                日本 : <el-checkbox :label="item.authId" v-for="item in isjp" :key="item.authId">{{item.authName}}</el-checkbox>
+                            </div>
+                        </el-checkbox-group>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -150,6 +155,7 @@
                          <el-checkbox v-model="checkedUSA" label='en-US'>美国</el-checkbox>
                          <el-checkbox v-model="checkedUK" label="EN_GB">英国</el-checkbox>
                          <el-checkbox v-model="checkedEU" label="DE">德国</el-checkbox>
+                         <el-checkbox v-model="checkedJP" label="JP">日本</el-checkbox>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -174,6 +180,13 @@
                     </el-form-item>
                 </el-col>
             </el-row>
+            <el-row v-if="checkedJP.length>0">
+                <el-col :span="10">
+                    <el-form-item label="日本">
+                         <el-input v-model="inputJP" type="textarea" maxlength="500" :autosize="{ minRows: 1, maxRows: 4}" clearable></el-input>  
+                    </el-form-item>
+                </el-col>
+            </el-row>
         </el-form>
         <div class="bottomButton">
             <el-button type="primary" @click="submitForm('ruleForm')" size="mini" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
@@ -190,14 +203,17 @@ export default {
             inputUSA:'',
             inputUK:'',
             inputEU:'',
+            inputJP:'',
             checkedUSA:[],
             checkedUK:[],
             checkedEU:[],
+            checkedJP:[],
             ruleForm:{
                 isCertificationReq:3,
                 usaNessCertification:[],
                 ukNessCertification:[],
                 euNessCertification:[],
+                jpNessCertification:[],
                 requirements:[],
                 testRequirements:[],
                 requirementsRemark:'',
@@ -379,6 +395,16 @@ export default {
                     authName: 'BS5852'
                 },
             ],
+            isjp:[
+                {
+                    authId:110,
+                    authName:'PSE'
+                },
+                {
+                    authId:111,
+                    authName:'家庭产品质量标签'
+                },
+            ],
             devSign:[
                 {
                     label: '成人',
@@ -464,6 +490,7 @@ export default {
                 usaNessCertification:this.getAuthId(this.isUsa,credentialList1),
                 ukNessCertification:this.getAuthId(this.isUk,credentialList1),
                 euNessCertification:this.getAuthId(this.isEu,credentialList1),
+                jpNessCertification:this.getAuthId(this.isjp,credentialList1),
                 requirements:this.prodCerInfoDetailList.credentialList2,
                 testRequirements:this.prodCerInfoDetailList.credentialList3,
                 requirementsRemark:this.prodCerInfoDetailList.authnote,
@@ -479,17 +506,21 @@ export default {
             }
             if(this.prodCerInfoDetailList.patentInfo && this.prodCerInfoDetailList.patentInfo.length > 0){
                 this.prodCerInfoDetailList.patentInfo.forEach(item => {
-                    if(item.LanguageCode == 'en-US'){
-                        this.checkedUSA =['en-US']
-                        this.inputUSA = item.Value
-                    }else if(item.LanguageCode == 'en-GB'){
-                        this.checkedUK = ['EN_GB']
-                        this.inputUK = item.Value
-                    }else if (item.LanguageCode == 'de'){
-                        this.checkedEU = ['DE']
-                        this.inputEU = item.Value
-                    }
-                    
+                    if(item.Value){
+                        if(item.LanguageCode == 'en-US'){
+                            this.checkedUSA =['en-US']
+                            this.inputUSA = item.Value
+                        }else if(item.LanguageCode == 'en-GB'){
+                            this.checkedUK = ['EN_GB']
+                            this.inputUK = item.Value
+                        }else if (item.LanguageCode == 'de'){
+                            this.checkedEU = ['DE']
+                            this.inputEU = item.Value
+                        }else if (item.LanguageCode == 'ja-JP'){
+                            this.checkedJP = ['JP']
+                            this.inputJP = item.Value
+                        }
+                     } 
                 })
             }
         },
@@ -511,6 +542,24 @@ export default {
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
             if (valid) {
+                let patentInfo = [
+                    {
+                        countryCode:"US",
+                        patentInfo:this.checkedUSA.length > 0 ? this.inputUSA : '',
+                    },
+                    {
+                        countryCode:"GB",
+                        patentInfo:this.checkedUK.length > 0 ?this.inputUK : '',
+                    },
+                    {
+                        countryCode:"DE",
+                        patentInfo:this.checkedEU.length > 0 ?this.inputEU : '',
+                    },
+                    {
+                        countryCode:"JP",
+                        patentInfo:this.checkedJP.length > 0 ?this.inputJP : '',
+                    },
+                ]
                 let params = {
                     developmentId:this.$route.params.developmentId,
                     productId:this.$route.params.productId,
@@ -520,11 +569,13 @@ export default {
                     applicableAge:this.ruleForm.productAgeGroup,
                     applicableAgeNote:this.ruleForm.ageGroupRemarks,
                     riskLevel:this.ruleForm.patentRiskLevel,
-                    usPatentInfo:this.checkedUSA.length > 0 ? this.inputUSA : '',
-                    gbPatentInfo:this.checkedUK.length > 0 ?this.inputUK : '',
-                    dePatentInfo:this.checkedEU.length > 0 ?this.inputEU : '',
+                    // usPatentInfo:this.checkedUSA.length > 0 ? this.inputUSA : '',
+                    // gbPatentInfo:this.checkedUK.length > 0 ?this.inputUK : '',
+                    // dePatentInfo:this.checkedEU.length > 0 ?this.inputEU : '',
+                    // jpPatentInfo:this.checkedJP.length > 0 ?this.inputJP : '',
+                    patentInfo:JSON.stringify(patentInfo)
                 }
-                let dataList = this.ruleForm.usaNessCertification.concat(this.ruleForm.ukNessCertification).concat(this.ruleForm.euNessCertification)
+                let dataList = this.ruleForm.usaNessCertification.concat(this.ruleForm.ukNessCertification).concat(this.ruleForm.euNessCertification).concat(this.ruleForm.jpNessCertification)
                 let mustRequire = {
                     id:this.prodCerInfoDetailList && this.prodCerInfoDetailList.credentialList1 && this.prodCerInfoDetailList.credentialList1[0] ? this.prodCerInfoDetailList.credentialList1[0].id : '',
                     developmentid:this.$route.params.developmentId,

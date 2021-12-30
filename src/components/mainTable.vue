@@ -223,7 +223,9 @@
 </template>
 <script>
 import { fetchPageTableList,unfreezing,getImagePath,checkUserIdentity,hasPermissions } from '@/api/user.js'
-import { formatDate,copyUrl } from '../utils/tools'
+import { formatDate,copyUrl, } from '../utils/tools'
+import throttle from 'lodash.throttle'
+import debounce from 'lodash.debounce'
 export default {
   name: 'mainTable',
   components:{
@@ -232,7 +234,6 @@ export default {
   data () {
     return {
       stateList:[0,1,2,3,4,5,6,10,11,12,13],
-      showImage:false,
       row:{},
       dialogName:'',
       operationList:{},
@@ -242,7 +243,6 @@ export default {
       pageSize:50,
       pageNum:1,
       total:50,
-      dialogVisible: false,
       clickId:0,
       lastImageUrl:'',
       loading:true,
@@ -273,6 +273,7 @@ export default {
       }
   },
   created(){ 
+      this.newGetImagePath()
       let  params = [
           'ERP.Product.ProductDev.SalesManEdit',
           'ERP.Product.ProductDev.EditAuth',
@@ -306,6 +307,7 @@ export default {
   },
   mounted(){
       this.getTableList(this.navFilterList)
+
   },
   methods: {
        changeMaxHeight(){
@@ -804,9 +806,9 @@ export default {
             window.open(routeData.href, '_blank');
       },
       newGetImagePath(){
-          getImagePath().then(res => {
-              this.lastImageUrl = res.data
-          })
+        //   getImagePath().then(res => {
+              this.lastImageUrl = document.URL.includes('yaheecloud') ? 'http://fileservice.yaheecloud.com/' : 'http://192.168.168.6:8988/FMSService/'
+        //   })
           let params = {
               type : 0
           }
@@ -816,9 +818,7 @@ export default {
               }
           })
       },
-   async getTableList(val,pageSize = false){
-       await this.newGetImagePath()
-      
+     getTableList:debounce (function(val,pageSize = false){
         let params = {
             pageNum :this.pageNum,
             pageSize:this.pageSize,
@@ -859,7 +859,7 @@ export default {
         
         }).catch(err => { this.loading = false })
         
-    },
+    },300),
     handleSelectionChange (val) {
       this.multipleSelection = val;
       this.$emit('putTbleSelection',val)

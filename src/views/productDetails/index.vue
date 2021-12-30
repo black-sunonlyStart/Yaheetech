@@ -253,7 +253,7 @@
   </div>
 </template>
 <script>
- import { getProductDevDetail,getProductMultipleAttribute,exploitType,getImagePath,getEmployee,hasPermissions,getRoleTrue } from '@/api/user.js'
+ import { getProductDevDetail,getProductMultipleAttribute,exploitType,getImagePath,getEmployee,hasPermissions,getRoleTrue,getCountry } from '@/api/user.js'
 export default {
   name: 'productDetails',
   components:{
@@ -463,6 +463,8 @@ export default {
         proImageList:'',
         showSizeTitle:false,
         renderDom:false,
+        buyerName:'',
+        buyerid:''
     }
   },
   created () {
@@ -555,7 +557,7 @@ export default {
             }
         })    
       },
-      getStateRole(val){
+      getStateRole(val){debugger
            switch(val){
                     case 0 :
                     this.isStatusEdit = true;
@@ -575,7 +577,7 @@ export default {
                     this.isStatusEdit5 = true;
                     break;
                     case 2:
-                        if(this.employee.Id ==  this.devInformationDetaiList.buyerid){
+                        if(this.employee.Id ==  this.buyerid){
                             this.isStatusEdit6 = true;
                             this.isStatusEdit7 = true;
                             this.isStatusEdit8 = true;
@@ -620,7 +622,7 @@ export default {
                     case 10:
                     break;
                     case 4:
-                        if(this.employee.Id ==  this.devInformationDetaiList.buyerid){
+                        if(this.employee.Id ==  this.buyerid){
                             this.isStatusEdit6 = true;
                             this.isStatusEdit7 = true;
                             this.isStatusEdit8 = true;
@@ -738,6 +740,7 @@ export default {
                     this.productCountryList = []
                 }
                 this.otherCountryList = res.data.productVos && res.data.productVos[0] ? res.data.productVos[0].otherCountryMaps : []
+                
                 if(res.data.developmentProgresses && res.data.developmentProgresses.length > 0){
                     let index = res.data.developmentProgresses.length - 1
                     let status = res.data.developmentProgresses[index].toStatus
@@ -799,6 +802,8 @@ export default {
                 this.productMarketStrs = res.data.productMarketStrs
                 this.employee = res.data.employee
                 // this.competingproducts = res.data.competingproducts[0]
+                this.buyerName =  this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName :''
+                this.buyerid =  this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerid :''
                 this.getDevProgresses(res.data.developmentProgresses)
                 
                 //开发类型、详情数据
@@ -873,89 +878,124 @@ export default {
 
                     })
                 }
+                let countryCodeList = []
+                this.titleImgSrc = this.comNewsDetailList.competingproducts && this.comNewsDetailList.competingproducts[0]? this.comNewsDetailList.competingproducts[0].showImgUrl : ''
                 
-                 this.titleImgSrc = this.comNewsDetailList.competingproducts && this.comNewsDetailList.competingproducts[0]? this.comNewsDetailList.competingproducts[0].showImgUrl : ''
-                 let dutyrate1 = []
-                 let dutyrate2 = []
-                 let dutyrate3 = []
-                 let dutyrate4 = []
-                 if(res.data.development &&  res.data.development.dutyrate && JSON.parse(res.data.development.dutyrate) && JSON.parse(res.data.development.dutyrate).LocalStrings){
-                     dutyrate1 = JSON.parse(res.data.development.dutyrate).LocalStrings.filter(res => {
-                         return res.LanguageCode == 'en-US'
-                     })
-                     dutyrate2 = JSON.parse(res.data.development.dutyrate).LocalStrings.filter(res => {
-                         return res.LanguageCode == 'en-GB'
-                     })
-                     dutyrate3 = JSON.parse(res.data.development.dutyrate).LocalStrings.filter(res => {
-                         return res.LanguageCode == 'de'
-                     })
-                     dutyrate4 = JSON.parse(res.data.development.dutyrate).LocalStrings.filter(res => {
-                         return res.LanguageCode == 'ja-JP'
-                     })
-                 }
-                 let usCountryBand = []
-                 let enCountryBand = []
-                 let deCountryBand = []
-                 let auCountryBand = []
-                 let jpCountryBand = []
-                 if(res.data.development &&  res.data.development.countryband && JSON.parse(res.data.development.countryband) && JSON.parse(res.data.development.countryband).LocalStrings){
-                     usCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
-                         return res.LanguageCode == 'en-US'
-                     })
-                     enCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
-                         return res.LanguageCode == 'en'
-                     })
-                     deCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
-                         return res.LanguageCode == 'de'
-                     })
-                     auCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
-                         return res.LanguageCode == 'en-AU'
-                     })
-                     jpCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
-                         return res.LanguageCode == 'ja-JP'
-                     })
-                 }
-                //开发信息
-                this.devInformationDetaiList = {
-                    scenarios:this.scenarios ? this.scenarios :this.productVos ? this.productVos.developmentscenarios : '',
-                    usCountryBand:usCountryBand && usCountryBand[0] ? usCountryBand[0].Value : '',
-                    enCountryBand:enCountryBand && enCountryBand[0] ? enCountryBand[0].Value : '',
-                    deCountryBand:deCountryBand && deCountryBand[0] ? deCountryBand[0].Value : '',
-                    auCountryBand:auCountryBand && auCountryBand[0] ? auCountryBand[0].Value : '',
-                    jpCountryBand:jpCountryBand && jpCountryBand[0] ? jpCountryBand[0].Value : '',
-                    description:res.data.development.description,//产品中文概述
-                    title:res.data.development.title,//英文标题
-                    titleDe:res.data.development.titleDe,//德文标题
-                    titleJp:res.data.development.titleJp,//日文标题
-                    keys:res.data.development.keys,//英文关键词
-                    priority :res.data.development.priority,//开发优先级
-                    isanji:res.data.development.isanji,//是否安吉产品
-                    ispatentproduct:res.data.development.ispatentproduct,//是否需要专利确认
-                    dutyrate1:dutyrate1 && dutyrate1[0] ? dutyrate1[0].Value * 100 : '',//是否需要专利确认
-                    dutyrate2:dutyrate2  && dutyrate2[0]? dutyrate2[0].Value * 100: '',
-                    dutyrate3:dutyrate3 && dutyrate3[0]? dutyrate3[0].Value * 100: '',
-                    dutyrate4:dutyrate4 && dutyrate4[0]? dutyrate4[0].Value * 100: '',
-                    orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//采购开发
-                    businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName: '',//业务开发
-                    productCountryList:this.productVos.productCountryList ? this.productVos.productCountryList[0] : [],
-                    productMarketListALL:this.productVos.productMarketListALL ? this.productVos.productMarketListALL : [],
-                    computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList && this.productVos.productCountryList[0].productMarketList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],
-                    productMarketList: this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList  && this.productVos.productCountryList[0].productMarketList[0] ?  this.productVos.productCountryList[0].productMarketList : [],//表格数据
-                    // mapProfit: this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList  && this.productVos.productCountryList[0].productMarketList[0] ?  this.productVos.productCountryList[0].productMarketList : [],//表格数据
-                    businessid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessid : '',   
-                    buyerid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerid : '',
-                    packingway:this.productVos.packingway,//包装方式   
-                }
-                // console.log(this.devInformationDetaiList,'devInformationDetaiList',JSON.parse(res.data.development.dutyrate))
-                if(this.showInfoTitle){
-                    if( !this.devInformationDetaiList.packingway && this.devInformationDetaiList.productMarketList.find(item => (item.sfpDevelopmentPrice &&  !item.sfpOceanFreight))){
-                        this.$message({
-                            type:'error',
-                            message:'【产品尺寸重量超过物流限制，SFP运费匹配不到】',
-                            offset:220,
-                        });
+                getCountry().then(data => {
+                    countryCodeList = data.data
+                    // let dutyrate1 = []
+                    // let dutyrate2 = []
+                    // let dutyrate3 = []
+                    // let dutyrate4 = []
+                    if(res.data.development &&  res.data.development.dutyrate && JSON.parse(res.data.development.dutyrate) && JSON.parse(res.data.development.dutyrate).LocalStrings){
+                        //  dutyrate1 = JSON.parse(res.data.development.dutyrate).LocalStrings.filter(res => {
+                        //      return res.LanguageCode == 'en-US'
+                        //  })
+                        //  dutyrate2 = JSON.parse(res.data.development.dutyrate).LocalStrings.filter(res => {
+                        //      return res.LanguageCode == 'en-GB'
+                        //  })
+                        //  dutyrate3 = JSON.parse(res.data.development.dutyrate).LocalStrings.filter(res => {
+                        //      return res.LanguageCode == 'de'
+                        //  })
+                        //  dutyrate4 = JSON.parse(res.data.development.dutyrate).LocalStrings.filter(res => {
+                        //      return res.LanguageCode == 'ja-JP'
+                        //  })
+                        JSON.parse(res.data.development.dutyrate).LocalStrings.forEach(res => {
+                            countryCodeList.forEach(item => {
+                                if(item.countryLanguage  == res.LanguageCode ){
+                                   item.dutyrate = res.Value * 100
+                                }
+                            })
+                        })
+                       
                     }
-                }
+                    // let usCountryBand = []
+                    // let enCountryBand = []
+                    // let deCountryBand = []
+                    // let auCountryBand = []
+                    // let jpCountryBand = []
+                    if(res.data.development &&  res.data.development.countryband && JSON.parse(res.data.development.countryband) && JSON.parse(res.data.development.countryband).LocalStrings){
+                        //  usCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
+                        //      return res.LanguageCode == 'en-US'
+                        //  })
+                        //  enCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
+                        //      return res.LanguageCode == 'en'
+                        //  })
+                        //  deCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
+                        //      return res.LanguageCode == 'de'
+                        //  })
+                        //  auCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
+                        //      return res.LanguageCode == 'en-AU'
+                        //  })
+                        //  jpCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
+                        //      return res.LanguageCode == 'ja-JP'
+                        //  })
+                        JSON.parse(res.data.development.countryband).LocalStrings.forEach(res => {
+                            countryCodeList.forEach(item => {
+                                if(item.countryLanguageBand == res.LanguageCode ){
+                                    item.countryBand = res.Value
+                                }
+                            })
+                        })
+                         
+                    }
+                    countryCodeList.forEach(item => {
+                                if(item.countryLanguage == 'en-GB' && !item.dutyrate){
+                                 item.dutyrate = 3.26
+                                }else if (item.countryLanguage == 'de' && !item.dutyrate){
+                                    item.dutyrate = 3.91
+                                }
+                                if(!item.dutyrate){
+                                    item.dutyrate = 0
+                                }
+                                if(!item.countryBand){
+                                    item.countryBand = '0'
+                                }
+                            })
+                    //开发信息
+                    this.devInformationDetaiList = {
+                        scenarios:this.scenarios ? this.scenarios :this.productVos ? this.productVos.developmentscenarios : '',
+                        // usCountryBand:usCountryBand && usCountryBand[0] ? usCountryBand[0].Value : '',
+                        // enCountryBand:enCountryBand && enCountryBand[0] ? enCountryBand[0].Value : '',
+                        // deCountryBand:deCountryBand && deCountryBand[0] ? deCountryBand[0].Value : '',
+                        // auCountryBand:auCountryBand && auCountryBand[0] ? auCountryBand[0].Value : '',
+                        // jpCountryBand:jpCountryBand && jpCountryBand[0] ? jpCountryBand[0].Value : '',
+                        countryCodeList,
+                        description:res.data.development.description,//产品中文概述
+                        title:res.data.development.title,//英文标题
+                        titleDe:res.data.development.titleDe,//德文标题
+                        titleJp:res.data.development.titleJp,//日文标题
+                        keys:res.data.development.keys,//英文关键词
+                        priority :res.data.development.priority,//开发优先级
+                        isanji:res.data.development.isanji,//是否安吉产品
+                        ispatentproduct:res.data.development.ispatentproduct,//是否需要专利确认
+                        fbaWarehouseIds:res.data.fbaWarehouseIds.map(Number),//是否需要专利确认
+                        // dutyrate1:dutyrate1 && dutyrate1[0] ? dutyrate1[0].Value * 100 : '',
+                        // dutyrate2:dutyrate2  && dutyrate2[0]? dutyrate2[0].Value * 100: '',
+                        // dutyrate3:dutyrate3 && dutyrate3[0]? dutyrate3[0].Value * 100: '',
+                        // dutyrate4:dutyrate4 && dutyrate4[0]? dutyrate4[0].Value * 100: '',
+                        orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//采购开发
+                        businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName: '',//业务开发
+                        productCountryList:this.productVos.productCountryList ? this.productVos.productCountryList[0] : [],
+                        productMarketListALL:this.productVos.productMarketListALL ? this.productVos.productMarketListALL : [],
+                        computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList && this.productVos.productCountryList[0].productMarketList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],
+                        productMarketList: this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList  && this.productVos.productCountryList[0].productMarketList[0] ?  this.productVos.productCountryList[0].productMarketList : [],//表格数据
+                        // mapProfit: this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList  && this.productVos.productCountryList[0].productMarketList[0] ?  this.productVos.productCountryList[0].productMarketList : [],//表格数据
+                        businessid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessid : '',   
+                        buyerid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerid : '',
+                        packingway:this.productVos.packingway,//包装方式   
+                    }
+                    // console.log(this.devInformationDetaiList,'devInformationDetaiList',JSON.parse(res.data.development.dutyrate))
+                    if(this.showInfoTitle){
+                        if( !this.devInformationDetaiList.packingway && this.devInformationDetaiList.productMarketList.find(item => (item.sfpDevelopmentPrice &&  !item.sfpOceanFreight))){
+                            this.$message({
+                                type:'error',
+                                message:'【产品尺寸重量超过物流限制，SFP运费匹配不到】',
+                                offset:220,
+                            });
+                        }
+                    } 
+                 })
                 //产品认证信息
                 let credentialList1 = []
                 let credentialList2 = []
@@ -1129,7 +1169,7 @@ export default {
                     exchangeRate:res.data.exchangeRate, //汇率
                     gooddate:this.productVos.gooddate,
                     goodnote:this.productVos.goodnote,   
-                    orderProduct:this.devInformationDetaiList.orderProduct
+                    orderProduct:this.buyerName
                 }
                 //备注信息
                 this.remarksList = res.data.developmentmemoVos

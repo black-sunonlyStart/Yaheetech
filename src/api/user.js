@@ -365,3 +365,10 @@ export function getProductCountry(data) {
       params:data
     })
   }
+export function getCountry(data) {
+    return request({
+      url: '/productManage/getCountry',
+      method: "get", 
+      params:data
+    })
+  }

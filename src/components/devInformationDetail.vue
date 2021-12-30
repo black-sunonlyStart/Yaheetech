@@ -32,7 +32,7 @@
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">US Duty税率： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.dutyrate1}}%</div>
+                    <div class="colBoxTitle">US Duty税率： </div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('en-US') }}%</div>
                 </div>
             </el-col>
         </el-row>
@@ -44,7 +44,7 @@
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">GB Duty税率： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.dutyrate2 || 3.26}}%</div>
+                    <div class="colBoxTitle">GB Duty税率： </div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('en-GB')  || 3.26}}%</div>
                 </div>
             </el-col>
         </el-row>
@@ -56,7 +56,7 @@
             </el-col>
             <el-col :span="10">
                  <div class="colbox">
-                    <div class="colBoxTitle">DE Duty税率：</div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.dutyrate3 || 3.91}}%</div>
+                    <div class="colBoxTitle">DE Duty税率：</div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('de') || 3.91}}%</div>
                 </div>
             </el-col>
         </el-row>
@@ -68,7 +68,7 @@
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">JP Duty税率： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.dutyrate4 }}%</div>
+                    <div class="colBoxTitle">JP Duty税率： </div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('ja-JP') }}%</div>
                 </div>
             </el-col>
         </el-row>
@@ -248,6 +248,23 @@
                            <span  v-else>{{item.localshippingfeevat  ? item.localshippingfeevat .toFixed(2) :' 0 '}} </span>  
                         </template>
                     </el-table-column>
+                    
+                    <el-table-column
+                        prop="developmentprice"
+                        label="FBA仓成本"
+                        header-align='center'
+                        align="center"
+                        v-if="devInformationDetaiList.fbaWarehouseIds && devInformationDetaiList.fbaWarehouseIds.includes(item.warehouseid)"
+                        >
+                        <template slot="header" >
+                            <div>FBA仓成本 {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div>仓租费+称重处理费 </div>
+                        </template>
+                        <template>
+                           {{item.storageCharges ? item.storageCharges.toFixed(2) + "+" : '0 + '}}
+                           <span>{{item.weighingFee  ? item.weighingFee .toFixed(2) :' 0 '}} </span>  
+                        </template>
+                    </el-table-column>
                 </el-table>
                 <div class="tableBottomTitle">运输方式(自有/SFP): <span v-if="item.shippingname">{{item.shippingname}} </span><span v-if="item.sfpLogisticsCode"> {{'/' + item.sfpLogisticsCode }}</span><span class="showText" v-if="!item.shippingname && !item.sfpLogisticsCode">运输方式暂无匹配</span>   汇率: {{item.exchangerate}}</div>
             </el-col>
@@ -259,6 +276,7 @@
 export default {
     data(){
         return {
+             aaaList:[27, 21, 22, 30 ,28, 20],
              unit:'',
              devSign:[
                  {
@@ -288,6 +306,23 @@ export default {
     mounted(){
     },
     methods:{
+        showCountryDuty(val){
+            let filterList = []
+            if(this.devInformationDetaiList && this.devInformationDetaiList.countryCodeList){
+                filterList =  this.devInformationDetaiList.countryCodeList.filter(res => {
+                    // if(res.countryLanguage == val){
+                        return res.countryLanguage == val
+                    // }
+                })
+                
+            }
+            if(filterList.length > 0){
+                return filterList[0].dutyrate
+            }else {
+                return ''
+            }
+            
+        },
          objectSpanMethod({ row, column, rowIndex, columnIndex }) {
             if (columnIndex > 3) {
                 if (rowIndex % 2 === 0) {
@@ -312,6 +347,10 @@ export default {
                 return 'EUR'
             }else if(val == 'AU'){
                 return 'AUD'
+            }else if(val =='JP'){
+                return 'JPY'
+            }else {
+                return '$'
             }
         },
         changPriority(val){

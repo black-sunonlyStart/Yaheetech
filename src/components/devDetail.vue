@@ -11,7 +11,7 @@
             </el-col>
             <el-col :span="8" v-if="productVoDetail.developmentscenarios != 1">
                 <span class="boldTitle">关联产品： </span>
-                <span>{{productVoDetail.spu || productVoDetail.spuid }}({{productVoDetail.id}})</span>
+                <span>{{ productVoDetail.developmentscenarios == 10 || productVoDetail.developmentscenarios == 11 || productVoDetail.developmentscenarios == 12 ? productVoDetail.spu : productVoDetail.spuid}}({{productVoDetail.id}})</span>
                 <div >请再次确认关联产品，当前关联产品尺码为{{getAttrBute(productVoDetail.id,multiAttribute)}}</div>
             </el-col>
             <el-col :span="8" v-else>

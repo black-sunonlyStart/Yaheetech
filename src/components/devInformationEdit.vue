@@ -98,7 +98,22 @@
             <el-row>
                 <el-col :span="12">
                     <el-form-item label="是否品牌:" prop="specialPackaging">
-                        美：
+                        <span v-for="item in ruleForm.countryCodeList" :key="item.countryCode">
+                            {{item.countrySimName}}：
+                            <el-select 
+                                style="width:80px"
+                                v-model="item.countryBand"
+                                >
+                                <el-option 
+                                    v-for="item in isBrandSign"                        
+                                    :key="item.key"
+                                    :label="item.label"
+                                    :value="item.value"
+                                    >
+                                </el-option>
+                            </el-select>
+                        </span>
+                        <!-- 美：
                         <el-select 
                             style="width:80px"
                             v-model="ruleForm.brandUs"
@@ -162,24 +177,28 @@
                                 :value="item.value"
                                 >
                             </el-option>
-                        </el-select>
+                        </el-select> -->
                     </el-form-item>
                 </el-col>
                 <el-col :span="10">
                      <el-form-item label="Duty税率:" prop="productMarketUS">
                         <div class="taxRate">
-                            US:<el-input v-model="ruleForm.productMarketUS">
-                                <template slot="append">%</template>
-                            </el-input>
-                            GB:<el-input v-model="ruleForm.productMarketGB">
+                                <span v-for="item in ruleForm.countryCodeList" :key="item.countryCode" >
+                                    <span v-if="item.judgeDuty" style="display:flex">
+                                        {{item.countryCode}}:<el-input v-model="item.dutyrate">
+                                            <template slot="append">%</template>
+                                        </el-input>
+                                    </span>
+                                </span>
+                            <!-- GB:<el-input v-model="ruleForm.productMarketGB">
                                 <template slot="append">%</template>
                             </el-input>
                             DE:<el-input v-model="ruleForm.productMarketDE">
                                 <template slot="append">%</template>
                             </el-input>
-                            JPY:<el-input v-model="ruleForm.productMarketJP">
+                            JP:<el-input v-model="ruleForm.productMarketJP">
                                 <template slot="append">%</template>
-                            </el-input>
+                            </el-input> -->
                         </div>
                     </el-form-item>
                 </el-col>
@@ -337,6 +356,18 @@
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.duty"></el-input-number>
+                            </div>
+                        </el-form-item>
+                        <el-form-item label="仓租费:" prop="storageCharges"  v-if="devInformationDetaiList.fbaWarehouseIds && devInformationDetaiList.fbaWarehouseIds.includes(item.warehouseid)">
+                            <div class="inputBox">
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
+                                <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.storageCharges"></el-input-number>
+                            </div>
+                        </el-form-item>
+                        <el-form-item label="称重处理费:" prop="weighingFee"  v-if="devInformationDetaiList.fbaWarehouseIds && devInformationDetaiList.fbaWarehouseIds.includes(item.warehouseid)">
+                            <div class="inputBox">
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
+                                <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.weighingFee"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="VAT费:" prop="vatfee">
@@ -542,10 +573,13 @@ export default {
                     {
                         required: true,
                         validator: (rules, value, cb) => {
-                        let { productMarketGB,productMarketDE,productMarketJP } = this.ruleForm;
-                        if (!value || !productMarketGB || !productMarketDE || !productMarketJP) {
+                        let { countryCodeList } = this.ruleForm;
+                        if(countryCodeList.find(item => item.dutyrate === '' )){
                             return cb(new Error("请填写税率!"));
                         }
+                        // if (!value || !productMarketGB || !productMarketDE || !productMarketJP) {
+                        //     return cb(new Error("请填写税率!"));
+                        // }
 
                         return cb();
                         },
@@ -957,21 +991,23 @@ export default {
                 dailySales: this.devInformationDetaiList.buyerid,
                 rateRequirements:this.devInformationDetaiList.description,
                 orderQuantity: this.devInformationDetaiList.priority,
-                productMarketUS: this.devInformationDetaiList.dutyrate1,
-                productMarketGB: this.devInformationDetaiList.dutyrate2 ? this.devInformationDetaiList.dutyrate2 : '3.26',
-                productMarketDE: this.devInformationDetaiList.dutyrate3 ? this.devInformationDetaiList.dutyrate3 : '3.91',
-                productMarketJP: this.devInformationDetaiList.dutyrate4 ? this.devInformationDetaiList.dutyrate4 : '0',
+                // productMarketUS: this.devInformationDetaiList.dutyrate1,
+                // productMarketGB: this.devInformationDetaiList.dutyrate2 ? this.devInformationDetaiList.dutyrate2 : '3.26',
+                // productMarketDE: this.devInformationDetaiList.dutyrate3 ? this.devInformationDetaiList.dutyrate3 : '3.91',
+                // productMarketJP: this.devInformationDetaiList.dutyrate4 ? this.devInformationDetaiList.dutyrate4 : '0',
                 isanji:this.devInformationDetaiList.isanji,
                 isbrand:this.devInformationDetaiList.ispatentproduct,
                 titleDe:this.devInformationDetaiList.titleDe,
                 titleJp:this.devInformationDetaiList.titleJp,
                 ispatentproduct:this.devInformationDetaiList.ispatentproduct,
                 seaFreight:this.devInformationDetaiList.computemode == 0 ||  this.devInformationDetaiList.computemode == '' ?0:1,
-                brandEu:this.devInformationDetaiList.enCountryBand || '0',
-                brandUs:this.devInformationDetaiList.usCountryBand || '0',
-                brandDe:this.devInformationDetaiList.deCountryBand || '0',
-                brandAo:this.devInformationDetaiList.auCountryBand || '0',  
-                brandJP:this.devInformationDetaiList.jpCountryBand || '0',  
+                // brandEu:this.devInformationDetaiList.enCountryBand || '0',
+                // brandUs:this.devInformationDetaiList.usCountryBand || '0',
+                // brandDe:this.devInformationDetaiList.deCountryBand || '0',
+                // brandAo:this.devInformationDetaiList.auCountryBand || '0',  
+                // brandJP:this.devInformationDetaiList.jpCountryBand || '0',  
+                countryCodeList:this.devInformationDetaiList.countryCodeList,
+
             }
         },
         seleContry(val){
@@ -1027,6 +1063,13 @@ export default {
                    if(this.$refs['ruleForm2']){
                     this.$refs['ruleForm2'][0].validate((valid) => {
                     if (valid) {
+                        let LocalStrings = this.ruleForm.countryCodeList.map(res => {
+                            return {
+                                countryCode:res.countryCode,
+                                duty:Number(res.dutyrate),
+                                band:res.countryBand || '0'
+                            }
+                        })
                         let params = {
                             scenarios:this.devInformationDetaiList.scenarios,
                             developmentId:this.$route.params.developmentId,
@@ -1034,15 +1077,7 @@ export default {
                             productCountryId:this.$route.params.productCountryId,
                             businessId:this.ruleForm.targetPrice,
                             buyerId:this.ruleForm.dailySales,
-                            usCountryBand:this.ruleForm.brandUs,
-                            enCountryBand:this.ruleForm.brandEu,
-                            deCountryBand:this.ruleForm.brandDe,
-                            auCountryBand:this.ruleForm.brandAo,
-                            jpCountryBand:this.ruleForm.brandJP,
-                            usDutyRate:Number(this.ruleForm.productMarketUS),
-                            gbDutyRate:Number(this.ruleForm.productMarketGB),
-                            deDutyRate:Number(this.ruleForm.productMarketDE),
-                            jpDutyRate:Number(this.ruleForm.productMarketJP),
+                            bandAndRate:JSON.stringify(LocalStrings),
                             computemode:this.ruleForm.seaFreight,
                             development:{
                                 description:this.ruleForm.rateRequirements,
@@ -1073,6 +1108,8 @@ export default {
                                 freightway:item.freightway,
                                 inlandportcosts:item.inlandportcosts,
                                 outlandportcosts:item.outlandportcosts,
+                                storageCharges:item.storageCharges,
+                                weighingFee:item.weighingFee,
                                 duty:item.duty,
                                 vatfee:item.vatfee,
                                 salesvat:item.salesvat,
@@ -1164,6 +1201,8 @@ export default {
                                 freightway:item.freightway,
                                 inlandportcosts:item.inlandportcosts,
                                 outlandportcosts:item.outlandportcosts,
+                                storageCharges:item.storageCharges,
+                                weighingFee:item.weighingFee,
                                 duty:item.duty,
                                 vatfee:item.vatfee,
                                 salesvat:item.salesvat,
