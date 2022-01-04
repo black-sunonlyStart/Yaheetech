@@ -548,6 +548,8 @@ export default {
                 return 'AUD'
             }else if(val == 65){
                 return 'NZD'
+            }else if(val == 183) {
+                return 'JPY'
             }else {
                 return 'USD'
             }

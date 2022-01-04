@@ -203,7 +203,7 @@ export default {
                             productUrl = "http://www.trademe.co.nz/Browse/Listing.aspx?archive=1&id=" + XSIN;
                             break;
                         case 183://日本
-                            productUrl = "https://www.amazon.co.jp/dp/" + XSIN + "?psc=1";
+                            productUrl = "https://www.amazon.co.jp/gp/product/" + XSIN;
                             break;
                         case 63://美国
                             productUrl = "https://www.walmart.com/ip/" + XSIN + "?findingMethod=hliab";
@@ -254,6 +254,8 @@ export default {
                 return 'AUD'
             }else if(val == 65){
                 return 'NZD'
+            }else if(val == 183) {
+                return 'JPY'
             }else {
                 return 'USD'
             }

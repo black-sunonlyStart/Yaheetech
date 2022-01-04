@@ -1027,7 +1027,10 @@ export default {
                 this.ruleForm.marksContry3 = ''
             }
             getWarehouseByCountry(this.countryParams).then(res => {
-                 this.dailySales3 =  res.data
+                 let filterList = res.data.filter(item => {
+                     return item.Id != 8 && item.Id != 11
+                 })
+                 this.dailySales3 = filterList
             })
         },
         selectBox(val){
