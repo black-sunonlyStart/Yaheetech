@@ -86,7 +86,7 @@
                         <el-input type="textarea" maxlength="200" show-word-limit autosize v-model="ruleForm.titleJp"></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="12">
+                <el-col :span="12" :xs="24" :sm="24" :md="24" :lg="20" :xl="12">
                     <el-form-item label="是否需要专利确认:" prop="ispatentproduct">
                         <el-radio-group v-model="ruleForm.ispatentproduct">
                             <el-radio :label="1">是</el-radio>
@@ -96,7 +96,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="12">
+                <el-col :span="12" :xs="24" :sm="24" :md="24" :lg="20" :xl="12">
                     <el-form-item label="是否品牌:" prop="specialPackaging">
                         <span v-for="item in ruleForm.countryCodeList" :key="item.countryCode">
                             {{item.countrySimName}}：
@@ -180,7 +180,7 @@
                         </el-select> -->
                     </el-form-item>
                 </el-col>
-                <el-col :span="10">
+                <el-col :span="10"  :xs="24" :sm="24" :md="24" :lg="20" :xl="10">
                      <el-form-item label="Duty税率:" prop="productMarketUS">
                         <div class="taxRate">
                                 <span v-for="item in ruleForm.countryCodeList" :key="item.countryCode" >
@@ -1314,7 +1314,6 @@ export default {
         margin:0px 20px 10px 0px;
         background-color: #F5F7FA;
         border-radius: 4px;
-        width: 730px;
         .delButton{
             
             // margin-right:20px;

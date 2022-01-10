@@ -246,7 +246,7 @@
             </el-col>
         </el-row>
         <el-row class="tableTextSpeaing" >
-            <el-col :span="2">
+            <el-col :span="2"  :lg="3" :xl="2">
                 
                 <span class="textWight">销售（多）属性： </span>
             </el-col>

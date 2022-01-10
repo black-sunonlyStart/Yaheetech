@@ -31,7 +31,7 @@
                                 <el-table-column
                                     label="最小起订量">
                                     <template slot-scope="scope">
-                                        <el-input-number style="width:80px" :controls='false' :disabled='canTableEdit' v-model="scope.row.minbuynum" :min="1"></el-input-number>      
+                                        <el-input-number style="width:100%" :controls='false' :disabled='canTableEdit' v-model="scope.row.minbuynum" :min="1"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
@@ -39,25 +39,25 @@
                                     width="110px"
                                     >
                                     <template slot-scope="scope">
-                                        <el-input-number style="width:80px" :controls='false' :disabled='canTableEdit' v-model="scope.row.firstorderqty" :min="1"></el-input-number >      
+                                        <el-input-number style="width:100%" :controls='false' :disabled='canTableEdit' v-model="scope.row.firstorderqty" :min="1"></el-input-number >      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
                                     label="出厂价(¥)">
                                     <template slot-scope="scope">
-                                        <el-input-number  style="width:80px" :controls='false' :disabled='canTableEdit' v-model="scope.row.purchaseprice"></el-input-number >      
+                                        <el-input-number  style="width:100%" :controls='false' :disabled='canTableEdit' v-model="scope.row.purchaseprice"></el-input-number >      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
                                     label="FOB价($)">
                                     <template slot-scope="scope">
-                                        <el-input-number  style="width:80px" :controls='false' :disabled='canTableEdit' v-model="scope.row.fobprice"></el-input-number>      
+                                        <el-input-number  style="width:100%" :controls='false' :disabled='canTableEdit' v-model="scope.row.fobprice"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
                                     label="含税价(¥)">
                                     <template slot-scope="scope">
-                                        <el-input-number style="width:80px" :controls='false' :disabled='canTableEdit' v-model="scope.row.taxprice"></el-input-number>      
+                                        <el-input-number style="width:100%" :controls='false' :disabled='canTableEdit' v-model="scope.row.taxprice"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
@@ -79,7 +79,7 @@
                                 <el-table-column
                                     label="杂费(¥)">
                                     <template slot-scope="scope">
-                                        <el-input-number style="width:80px" :controls='false' v-model="scope.row.miscprice" :disabled='canTableEdit'></el-input-number>      
+                                        <el-input-number style="width:100%" :controls='false' v-model="scope.row.miscprice" :disabled='canTableEdit'></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
@@ -87,7 +87,7 @@
                                     width="110px"
                                     >
                                     <template slot-scope="scope">
-                                        <el-input-number style="width:80px" :controls='false' v-model="scope.row.warpperfee" :disabled='canTableEdit'></el-input-number>      
+                                        <el-input-number style="width:100%" :controls='false' v-model="scope.row.warpperfee" :disabled='canTableEdit'></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
@@ -106,7 +106,7 @@
                                     width='80px'
                                     >
                                     <template slot-scope="scope">
-                                        <el-input-number style="width:60px" :controls='false' v-model="scope.row.deliverydays" :disabled='canTableEdit' :min="1"></el-input-number>      
+                                        <el-input-number style="width:100%" :controls='false' v-model="scope.row.deliverydays" :disabled='canTableEdit' :min="1"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                        
@@ -114,7 +114,7 @@
                                     width="110px"
                                     >
                                     <template slot-scope="scope">
-                                        <el-input-number style="width:80px" :controls='false' v-model="scope.row.packingquantity" :disabled='canTableEdit'></el-input-number>      
+                                        <el-input-number style="width:100%" :controls='false' v-model="scope.row.packingquantity" :disabled='canTableEdit'></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                        
@@ -155,37 +155,37 @@
                                     label="采购开发"
                                     >
                                     <template slot-scope="scope">
-                                        <el-input style="width:80px"  v-model="scope.row.createdName" disabled></el-input>      
+                                        <el-input style="width:100%"  v-model="scope.row.createdName" disabled></el-input>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                        
                                     label="最小起订量">
                                     <template slot-scope="scope">
-                                        <el-input-number style="width:80px" :controls='false' v-model="scope.row.minbuynum" :disabled='canEdit' :min="1"></el-input-number>      
+                                        <el-input-number style="width:100%" :controls='false' v-model="scope.row.minbuynum" :disabled='canEdit' :min="1"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                           
                                     label="首单下单数量">
                                     <template slot-scope="scope">
-                                        <el-input-number style="width:80px" :controls='false' v-model="scope.row.firstorderqty" :disabled='canEdit' :min="1"></el-input-number>      
+                                        <el-input-number style="width:100%" :controls='false' v-model="scope.row.firstorderqty" :disabled='canEdit' :min="1"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                      
                                     label="出厂价(¥)">
                                     <template slot-scope="scope">
-                                        <el-input-number style="width:80px" :controls='false' v-model="scope.row.purchaseprice" :disabled='canEdit'></el-input-number>      
+                                        <el-input-number style="width:100%" :controls='false' v-model="scope.row.purchaseprice" :disabled='canEdit'></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                            
                                     label="FOB价($)">
                                     <template slot-scope="scope">
-                                        <el-input-number style="width:80px" :controls='false' v-model="scope.row.fobprice" :disabled='canEdit'></el-input-number>      
+                                        <el-input-number style="width:100%" :controls='false' v-model="scope.row.fobprice" :disabled='canEdit'></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                            
                                     label="含税价(¥)">
                                     <template slot-scope="scope">
-                                        <el-input-number  style="width:80px" :controls='false' v-model="scope.row.taxprice" :disabled='canEdit'></el-input-number>      
+                                        <el-input-number  style="width:100%" :controls='false' v-model="scope.row.taxprice" :disabled='canEdit'></el-input-number>      
                                     </template>
                                 </el-table-column>
                                  <el-table-column
@@ -209,13 +209,13 @@
                                 <el-table-column                         
                                     label="杂费(¥)">
                                     <template slot-scope="scope">
-                                        <el-input-number style="width:80px" :controls='false' v-model="scope.row.miscprice" :disabled='canEdit'></el-input-number>      
+                                        <el-input-number style="width:100%" :controls='false' v-model="scope.row.miscprice" :disabled='canEdit'></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                            
                                     label="产品包装费(¥)">
                                     <template slot-scope="scope">
-                                        <el-input-number style="width:80px" :controls='false' v-model="scope.row.warpperfee" :disabled='canEdit'></el-input-number>      
+                                        <el-input-number style="width:100%" :controls='false' v-model="scope.row.warpperfee" :disabled='canEdit'></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
@@ -234,13 +234,13 @@
                                     width='80px'
                                     >
                                     <template slot-scope="scope">
-                                        <el-input-number style="width:60px" :controls='false' v-model="scope.row.deliverydays" :disabled='canEdit' :min="1"></el-input-number>      
+                                        <el-input-number style="width:100%" :controls='false' v-model="scope.row.deliverydays" :disabled='canEdit' :min="1"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                         
                                     label="装箱数量(/箱)">
                                     <template slot-scope="scope">
-                                        <el-input-number style="width:80px" :controls='false' v-model="scope.row.packingquantity" :disabled='canEdit'></el-input-number>      
+                                        <el-input-number style="width:100%" :controls='false' v-model="scope.row.packingquantity" :disabled='canEdit'></el-input-number>      
                                     </template>
                                 </el-table-column>
                             </el-table>
@@ -248,7 +248,7 @@
                  </el-col>
              </el-row>
              <el-row>
-                 <el-col :span="7">
+                 <el-col :span="7" :xs="24" :sm="24" :md="11" :lg="10" :xl="7">
                     <el-form-item label="样品购买价:" prop="productprice">
                         <div class="inputBox">
                             <el-input-number :controls='false' v-model="ruleForm.productprice"></el-input-number>

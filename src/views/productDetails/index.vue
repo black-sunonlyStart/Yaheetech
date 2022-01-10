@@ -557,7 +557,7 @@ export default {
             }
         })    
       },
-      getStateRole(val){debugger
+      getStateRole(val){
            switch(val){
                     case 0 :
                     this.isStatusEdit = true;

@@ -110,6 +110,7 @@ export default {
 .colbox{
     display: flex;
     .colBoxTitle{
+        flex-shrink: 0;
         font-weight: bold;
         width: 120px;
         text-align: right;

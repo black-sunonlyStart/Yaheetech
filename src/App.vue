@@ -12,7 +12,7 @@ export default {
 <style>
 ::-webkit-scrollbar {
   width: 10px;
-  height: 1px;
+  height: 10px;
 }
 ::-webkit-scrollbar-thumb { 
   border-radius: 5px;

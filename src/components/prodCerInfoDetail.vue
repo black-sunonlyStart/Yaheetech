@@ -317,6 +317,7 @@ export default {
         width: 120px;
         text-align: right;
         display: inline-block;
+        flex-shrink: 0;
         .colBoxContent{
             width: 1200px;
             font-weight: normal !important;

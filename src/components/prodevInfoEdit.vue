@@ -26,7 +26,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="15">
+                <el-col :span="17">
                     <el-form-item label="供应商所在地:" prop="supplierLocation">
                         <el-select 
                             v-model="ruleForm.supplierLocation"
@@ -70,7 +70,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="10">
+                <el-col :span="17">
                     <el-form-item label="必要认证附件:">
                         <el-upload
                             class="upload-demo"
@@ -103,7 +103,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="10">
+                <el-col :span="17">
                     <el-form-item label="推荐认证附件:">
                         <el-upload
                             class="upload-demo"
@@ -135,7 +135,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="11">
+                <el-col :span="17">
                     <el-form-item label="认证备注:">
                         <el-input type="textarea" 
                             autosize 

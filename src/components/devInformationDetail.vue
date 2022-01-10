@@ -95,7 +95,7 @@
                     >
                     <el-table-column
                         label="类型"
-                        width="100px"
+                     
                         header-align='center'
                         align="center"
                         >
@@ -168,6 +168,7 @@
                         label="海运费成本"
                         header-align='center'
                         align="center"
+                        width="160px"
                         >
                         <template slot="header" >
                             <div>海运费成本 {{'(' + contryCurry(item.countrycode) + ")"}}</div>
@@ -181,7 +182,7 @@
                     </el-table-column>
                     <el-table-column
                         label="税费"
-                        width="250px"
+                        width="230px"
                         header-align='center'
                         align="center"
                         >
@@ -201,6 +202,7 @@
                         label="平台费"
                         header-align='center'
                         align="center"
+                        width="180px"
                         >
                         <template slot="header" >
                             <div>平台费  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
@@ -218,6 +220,7 @@
                         label="海外仓成本"
                         header-align='center'
                         align="center"
+                        width="200px"
                         >
                         <template slot="header" >
                             <div>海外仓成本  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
@@ -237,6 +240,7 @@
                         label="可抵扣税费"
                         header-align='center'
                         align="center"
+                        width="150px"
                         >
                         <template slot="header" >
                             <div>可抵扣税费  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
@@ -254,6 +258,7 @@
                         label="FBA仓成本"
                         header-align='center'
                         align="center"
+                        width="130px"
                         v-if="devInformationDetaiList.fbaWarehouseIds && devInformationDetaiList.fbaWarehouseIds.includes(item.warehouseid)"
                         >
                         <template slot="header" >
@@ -401,6 +406,7 @@ export default {
         font-weight: bold;
         width: 130px;
         text-align: right;
+        flex-shrink: 0;
         .colBoxContent{
             font-weight: normal !important;
             width: 600px;

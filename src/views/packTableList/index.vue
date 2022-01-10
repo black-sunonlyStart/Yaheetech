@@ -36,7 +36,17 @@ export default {
   created () {
 
   },
+  mounted(){
+      this.changeInnterWidth()
+  },
   methods: {
+      changeInnterWidth(){
+          if(window.innerWidth < 1450){
+              document.querySelector('.nav-card > .el-card__body').style.paddingBottom = 5 + 'px'
+              document.querySelector('.nav-card > .el-card__body').style.overflowX =  'scroll'
+              document.querySelector('.nav-card > .el-card__body').style.overflowY = 'hidden'
+          }
+      },
     putTbleSelection(val){
         this.selectRow = val || []
     },
@@ -64,7 +74,9 @@ export default {
     height: 183px;
     // overflow-y: auto;
     .el-card__body{
-        padding: 10px 20px;
+        padding: 5px 20px;
+        // overflow-x: scroll;
+        // overflow-y: hidden;
     }
   }
  ::v-deep .button-card {

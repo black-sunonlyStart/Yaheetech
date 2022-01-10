@@ -2,7 +2,7 @@
     <div>
          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm" size="mini" v-loading='loading'>
              <el-row>
-                 <el-col :span="10">
+                 <el-col :span="10" :xs="24" :sm="24" :md="20" :lg="20" :xl="20">
                      <el-form-item label="产品类型:" prop="productType">
                         <el-radio-group v-model="ruleForm.productType" :disabled="disableControl">
                             <el-radio :label="1">普通/多属性产品</el-radio>
@@ -12,7 +12,7 @@
                  </el-col>
              </el-row>
              <el-row>
-                 <el-col :span="6">
+                 <el-col :span="6" :xs="24" :sm="24" :md="10" :lg="9" :xl="6">
                     <el-form-item label="产品尺寸:" prop="productSizeL">
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="ruleForm.productSizeL"  oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
@@ -21,7 +21,7 @@
                         </div>
                     </el-form-item>
                 </el-col>
-                 <el-col :span="3">
+                 <el-col :span="3" :xs="24" :sm="24" :md="10" :lg="4" :xl="3">
                     <el-form-item  prop="productSizeW" label-width="15px">      
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="ruleForm.productSizeW" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
@@ -30,7 +30,7 @@
                         </div>
                     </el-form-item>
                 </el-col>
-                 <el-col :span="3">
+                 <el-col :span="3" :xs="24" :sm="24" :md="10" :lg="4" :xl="3">
                     <el-form-item  prop="productSizeH" label-width="15px">      
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="ruleForm.productSizeH" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
@@ -41,7 +41,7 @@
                 </el-col>
              </el-row>
              <el-row>
-                 <el-col :span="6">
+                 <el-col :span="6" :xs="24" :sm="24" :md="10" :lg="9" :xl="6">
                     <el-form-item label="包装尺寸(发货用):" prop="packageSizeL">
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="ruleForm.packageSizeL" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
@@ -50,7 +50,7 @@
                         </div>
                     </el-form-item>
                 </el-col>
-                 <el-col :span="3">
+                 <el-col :span="3" :xs="24" :sm="24" :md="10" :lg="4" :xl="3">
                     <el-form-item  prop="packageSizeW" label-width="15px">      
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="ruleForm.packageSizeW" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
@@ -59,7 +59,7 @@
                         </div>
                     </el-form-item>
                 </el-col>
-                 <el-col :span="3">
+                 <el-col :span="3" :xs="24" :sm="24" :md="10" :lg="4" :xl="3">
                     <el-form-item  prop="packageSizeH" label-width="15px">      
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="ruleForm.packageSizeH" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
@@ -68,7 +68,7 @@
                         </div>
                     </el-form-item>
                 </el-col>
-                 <el-col :span="2">
+                 <el-col :span="3" >
                     <el-form-item  prop="packageSizeH" label-width="15px">      
                         <el-select 
                             v-model="ruleForm.sizeRules"
@@ -140,7 +140,7 @@
                 </el-col>
              </el-row> -->
              <el-row>
-                 <el-col :span="6">
+                 <el-col :span="6"  :xs="24" :sm="24" :md="10" :lg="8" :xl="6">
                     <el-form-item  prop="containersNumber" label="可装货柜数量：" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">      
                         <el-select 
                             v-model="ruleForm.containersNumber"
@@ -157,7 +157,7 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                <el-col :span="3">
+                <el-col :span="3"  :xs="24" :sm="24" :md="10" :lg="5" :xl="3">
                     <el-form-item  prop="outerBoxNum" label-width="15px">      
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="ruleForm.outerBoxNum" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
@@ -171,7 +171,7 @@
                 </el-col>
              </el-row>
              <el-row>
-                 <el-col :span="6">
+                 <el-col :span="6"  :xs="24" :sm="24" :md="10" :lg="8" :xl="6">
                     <el-form-item  prop="proNetWeight" label="净重:">      
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="ruleForm.proNetWeight" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
@@ -180,7 +180,7 @@
                         </div>
                     </el-form-item>
                 </el-col>
-                <el-col :span="3">
+                <el-col :span="3"  :xs="24" :sm="24" :md="10" :lg="5" :xl="3">
                     <el-form-item  label-width="15px">      
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="proNetWeightLb" disabled>
@@ -191,7 +191,7 @@
                 </el-col>
              </el-row>
              <el-row>
-                 <el-col :span="6">
+                 <el-col :span="6"  :xs="24" :sm="24" :md="10" :lg="8" :xl="6">
                     <el-form-item  prop="proGrossWeight" label="毛重:">      
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="ruleForm.proGrossWeight" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
@@ -200,7 +200,7 @@
                         </div>
                     </el-form-item>
                 </el-col>
-                <el-col :span="3">
+                <el-col :span="3"  :xs="24" :sm="24" :md="10" :lg="5" :xl="3">
                     <el-form-item label-width="15px">      
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="proGrossWeightLb" disabled>
@@ -235,7 +235,7 @@
                 </el-col>
              </el-row> -->
              <el-row>
-                 <el-col :span="5">
+                 <el-col :span="6"  :xs="24" :sm="24" :md="10" :lg="8" :xl="6">
                     <el-form-item  prop="packingMethod" label="包装方式:">      
                         <el-select 
                             v-model="ruleForm.packingMethod"
@@ -253,7 +253,7 @@
                 </el-col>
              </el-row>
              <el-row>
-                 <el-col :span="6">
+                 <el-col :span="6"  :xs="24" :sm="24" :md="10" :lg="8" :xl="6">
                     <el-form-item  prop="casesNumber" label="装箱数:">      
                         <div class="productSizeW">
                             <el-input placeholder="请输入内容" v-model="ruleForm.casesNumber" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')" >

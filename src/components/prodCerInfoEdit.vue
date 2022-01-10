@@ -102,7 +102,7 @@
                 </el-col>
             </el-row>
             <el-row :gutter="10">
-                <el-col :span="5">
+                <el-col :span="5" :lg="8" :xl="5">
                     <el-form-item label="产品年龄段:" prop="productAgeGroup">
                         <el-select 
                             v-model="ruleForm.productAgeGroup"
@@ -133,7 +133,7 @@
                 </el-col>
             </el-row>
             <el-row :gutter="10">
-                <el-col :span="5">
+                <el-col :span="5" :lg="8" :xl="5">
                     <el-form-item label="专利风险等级:" prop="patentRiskLevel">
                         <el-select 
                             v-model="ruleForm.patentRiskLevel"

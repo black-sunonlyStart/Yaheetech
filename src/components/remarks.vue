@@ -4,7 +4,7 @@
             :visible.sync="drawer"
             :direction="direction"
             :modal='false'
-            size="20%"
+            :size="computedRemarkDilog"
             style="height:80%;margin-top:197px;"
             :before-close="handleClose"
             :withHeader='false'
@@ -63,6 +63,15 @@ export default {
         },
     },
     created(){
+    },
+    computed:{
+        computedRemarkDilog(){
+            if(window.innerWidth > 1450){
+                return  '20%'
+            }else {
+                 return '29%'
+            }
+        }
     },
     methods:{
          handleClose(done) {

@@ -7,7 +7,7 @@
             <div class="mainImage">
                 <el-row >
                     <div v-for="(item, index) in comNewsDetailList.competingproducts" :key="item.key" >
-                        <el-col  class="imgDetail" :xs="24" :sm="24" :md="24" :lg="10" :xl="8">
+                        <el-col  class="imgDetail" :xs="24" :sm="24" :md="24" :lg="13" :xl="8">
                             <div class="productTitle">竞品{{index + 1}}</div>
                             <div class="imgbox">
                                 <div class="uploadBox">
@@ -592,6 +592,9 @@ export default {
         text-align: center;
         border-bottom: 1px solid #aaaaaa;
         font-weight: bold;
+    }
+    .el-textarea{
+        width: 85%;
     }
     ::v-deep.imgDetail{
         border: 1px solid #aaaaaa !important;
