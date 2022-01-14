@@ -332,6 +332,7 @@ export default {
         font-weight: bold;
         width: 130px;
         text-align: right;
+        flex-shrink: 0;
         .colBoxContent{
             width: 600px;
             font-weight: normal !important;

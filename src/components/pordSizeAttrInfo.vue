@@ -159,7 +159,7 @@
             </el-col>
         </el-row> -->
         <el-row class="tableTextSpeaing" >
-            <el-col :span="2">
+            <el-col :span="2"  :xs="4" :sm="4" :md="3" :lg="4" :xl="2" >
                 <span class="textWight">体积重： </span>
             </el-col>
             <el-col :span="15">
@@ -206,7 +206,7 @@
             </el-col>
         </el-row>
         <el-row class="tableTextSpeaing" v-if="pordSizeAttrInfoList.packingway == '1'">
-            <el-col :span="2">
+            <el-col :span="2" :lg="4" :xl="2">
                 
                 <span class="textWight">多箱清单： </span>
             </el-col>
@@ -246,7 +246,7 @@
             </el-col>
         </el-row>
         <el-row class="tableTextSpeaing" >
-            <el-col :span="2"  :lg="3" :xl="2">
+            <el-col :span="2"  :lg="4" :xl="2">
                 
                 <span class="textWight">销售（多）属性： </span>
             </el-col>

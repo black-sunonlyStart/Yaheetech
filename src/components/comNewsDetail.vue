@@ -10,6 +10,7 @@
                     <div class="imageBox">
                         <el-image
                             class="imageListBox"
+                             style="width: 97px; height: 97px; dispaly:black"
                             :src="item.showImgUrl"
                             fit="fill"
                             @click="openImageUrl(item.showBigImgUrl)"

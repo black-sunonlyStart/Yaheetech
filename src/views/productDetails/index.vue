@@ -7,7 +7,7 @@
             <div class="out-container">
                 <div class="image-container">
                     <el-image
-                        style="width: 100px; height: 100px; dispaly:black"
+                        style="width: 97px; height: 97px; dispaly:black"
                         :src="titleImgSrc"
                         fit="fill">
                     </el-image>

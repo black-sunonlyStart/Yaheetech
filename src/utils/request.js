@@ -41,8 +41,8 @@ service.interceptors.response.use(
   },
   error => {
     if(error.response.status == 401) {
-        let login_url = 'http://portal.yaheecloud.com';//正式
-        // let login_url = 'http://qas-portal.yahee.com.cn:8088';//测试
+        // let login_url = 'http://portal.yaheecloud.com';//正式
+        let login_url = 'http://qas-portal.yahee.com.cn:8088';//测试111
         var localhref = location.href;
           window.location.href = login_url+'/Latest/Account/LogOn?returnUrl='+localhref;
       
