@@ -268,7 +268,15 @@ export default {
             let rUsaid = usaid.map(item => {
                 return item.authName
             })
-
+            
+            if(rUsaid.includes('CFR 1303')){
+                let index = rUsaid.indexOf('CFR 1303')
+                if(!rUsaid.includes('16 CFR 1303')){
+                    rUsaid.splice(index,1,'16 CFR 1303')
+                }else {
+                   rUsaid.splice(index,1)
+                }
+            }
             return rUsaid.toString()
         },
         getPersonName(val){

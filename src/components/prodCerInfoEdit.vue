@@ -270,10 +270,10 @@ export default {
                     authId:2,
                     authName: 'CPSIA'
                 },
-                {
-                    authId:3,
-                    authName: 'CFR 1303'
-                },
+                // {
+                //     authId:3,
+                //     authName: 'CFR 1303'
+                // },
                 {
                     authId:4,
                     authName: 'FDA'
@@ -527,6 +527,14 @@ export default {
         getAuthId(isUsa,credentialList1){
             let newCredentialList1 = credentialList1.split(',')
             let usaid = []
+            if(newCredentialList1.includes('3')){
+                let index = newCredentialList1.indexOf('3')
+                if(!newCredentialList1.includes('10')){
+                    newCredentialList1.splice(index,1,10)
+                }else {
+                   newCredentialList1.splice(index,1)
+                }
+            }
              isUsa.forEach(item => {
                  newCredentialList1.forEach(res => {
                      if(res == item.authId){

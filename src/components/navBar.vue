@@ -144,7 +144,7 @@
                         v-for="item in statusList"
                         :label="item.label"
                         :key="item.key">
-                        {{item.name}}
+                        {{item.name}} ({{item.num}})
                     </el-checkbox>
                 </el-checkbox-group>
             </div>
@@ -158,6 +158,7 @@
 <script>
 const cityOptions = ['GB','US','DE','AU','NZ','JP'];
 const statusOptions = [0, 1, 2, 3, 4, 5, 6, 10, 11, 12, 13];
+import { getDevelopStatesNum } from '@/api/user.js'
 export default {
   name: 'navBar',  
   data () {
@@ -197,77 +198,92 @@ export default {
           {
               name:'未提交审批',
               label:0,
-              key:0
+              key:0,
+              num:0,
           },
           {
               name:'待审批',
               label:1,
-              key:1
+              key:1,
+              num:0,
           },
           {
               name:'认证确认',
               label:11,
-              key:11
+              key:11,
+              num:0,
           },
           {
               name:'寻找供应商',
               label:2,
-              key:2
+              key:2,
+              num:0,
           },
           {
               name:'采购主管审核',
               label:13,
-              key:13
+              key:13,
+              num:0,
           },
           {
               name:'认证审核',
               label:12,
-              key:12
+              key:12,
+              num:0,
           },
           {
               name:'利润初审',
               label:3,
-              key:3
+              key:3,
+              num:0,
           },
           {
               name:'样品采购审核',
               label:10,
-              key:10
+              key:10,
+              num:0,
           },
           {
               name:'确认样品',
               label:4,
-              key:4
+              key:4,
+              num:0,
           },
           {
               name:'利润复审',
               label:5,
-              key:5
+              key:5,
+              num:0,
           },
           {
               name:'待终审',
               label:6,
-              key:6
+              key:6,
+              num:0,
           },
           {
               name:'开发完未上架',
               label:7,
-              key:7
+              key:7,
+              num:0,
           },
           {
               name:'开发完已上架',
               label:8,
-              key:8
+              key:8,
+              num:0,
           },
           {
               name:'已取消',
               label:9,
-              key:9
+              key:9,
+              num:0,
           },
           {
               name:'已冻结',
               label:14,
-              key:14
+              key:14,
+              num:0,
           },
       ],
       isIndeterminate: true,
@@ -395,6 +411,18 @@ export default {
           if(window.innerWidth < 1450){
               document.querySelector('.navbarContainer').style.width = 1470 + 'px'
           }
+          getDevelopStatesNum().then(res => {
+              if(res.data){
+                  this.statusList.forEach(item => {
+                      res.data.forEach(itemNum => {
+                          if(item.key == itemNum.state){
+                              item.num = itemNum.num
+                          }
+                      })
+                  })
+              } 
+          })
+          
       },
     changeMath(val){
         if(val.length == 1 && val.includes('15')){
