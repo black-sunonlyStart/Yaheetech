@@ -230,6 +230,26 @@ function debounce (func, wait,immediate){
       }
     }
   }
+  //判断是否是生产环境
+function judgePorduction(){
+    if(document.URL.includes('yaheecloud')){
+        return true
+    }else {
+        return false
+    }
+}
+//生产汉语匹配的hash值
+function gethashCode(hashCodeStr){
+    var str = hashCodeStr;
+      var hash = 0, i, chr, len;
+      if (str.length === 0) return hash;
+      for (i = 0, len = str.length; i < len; i++) {
+          chr = str.charCodeAt(i);
+          hash = ((hash << 5) - hash) + chr;
+          hash |= 0; // Convert to 32bit integer
+      }
+      return hash
+  }
 export {
     copyUrl,
     createUniqueString,
@@ -237,6 +257,8 @@ export {
     formatDate,
     globalReportExport,
     debounce,
-    throttle
+    throttle,
+    judgePorduction,
+    gethashCode
 }
   

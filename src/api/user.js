@@ -375,7 +375,7 @@ export function getCountry(data) {
   export function getDevelopStatesNum(data) {
     return request({
       url: '/productManage/getDevelopStatesNum',
-      method: "get", 
-      params:data
+      method: "post", 
+      data
     })
   }

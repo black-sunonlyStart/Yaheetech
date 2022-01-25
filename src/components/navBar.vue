@@ -138,7 +138,7 @@
         <el-col :span="21">
           <el-form-item label="开发状态:" class="statusBox">
             <div class="checkBoxAll1">
-                <el-checkbox class="checkboxAlltext1" :indeterminate="isIndeterminate1" v-model="checkStatusAll" @change="handleStatusAllChange">全选</el-checkbox>
+                <el-checkbox class="checkboxAlltext1" :indeterminate="isIndeterminate1" v-model="checkStatusAll" @change="handleStatusAllChange">全选 ({{totalNum}})</el-checkbox>
                 <el-checkbox-group class="chengboxMoreBox1" v-model="form.status" @change="handleCheckedStatusChange">
                     <el-checkbox 
                         v-for="item in statusList"
@@ -195,6 +195,98 @@ export default {
             country:'日本'
         }],
       statusList:[
+          {
+              name:'未提交审批',
+              label:0,
+              key:0,
+              num:0,
+          },
+          {
+              name:'待审批',
+              label:1,
+              key:1,
+              num:0,
+          },
+          {
+              name:'认证确认',
+              label:11,
+              key:11,
+              num:0,
+          },
+          {
+              name:'寻找供应商',
+              label:2,
+              key:2,
+              num:0,
+          },
+          {
+              name:'采购主管审核',
+              label:13,
+              key:13,
+              num:0,
+          },
+          {
+              name:'认证审核',
+              label:12,
+              key:12,
+              num:0,
+          },
+          {
+              name:'利润初审',
+              label:3,
+              key:3,
+              num:0,
+          },
+          {
+              name:'样品采购审核',
+              label:10,
+              key:10,
+              num:0,
+          },
+          {
+              name:'确认样品',
+              label:4,
+              key:4,
+              num:0,
+          },
+          {
+              name:'利润复审',
+              label:5,
+              key:5,
+              num:0,
+          },
+          {
+              name:'待终审',
+              label:6,
+              key:6,
+              num:0,
+          },
+          {
+              name:'开发完未上架',
+              label:7,
+              key:7,
+              num:0,
+          },
+          {
+              name:'开发完已上架',
+              label:8,
+              key:8,
+              num:0,
+          },
+          {
+              name:'已取消',
+              label:9,
+              key:9,
+              num:0,
+          },
+          {
+              name:'已冻结',
+              label:14,
+              key:14,
+              num:0,
+          },
+      ],
+      copeStatusList:[
           {
               name:'未提交审批',
               label:0,
@@ -377,6 +469,15 @@ export default {
       tableParams:{}
     }
   },
+  computed:{
+    totalNum(){
+        let totalNumber = 0
+        this.statusList.forEach(item => {
+             totalNumber += item.num
+        })
+        return totalNumber
+    }
+  },
   props: {
     msg: String
   },
@@ -399,21 +500,22 @@ export default {
                     almorlist:val.almorlist
                 }
                 this.$emit('putTableList',this.tableParams)
+                this.getDevelopStutsNumber()
           },
           deep:true
       }
   },
   mounted () {
       this.changeInnterWeith()
+      this.getDevelopStutsNumber()
   },
   methods: {
-      changeInnterWeith(){
-          if(window.innerWidth < 1450){
-              document.querySelector('.navbarContainer').style.width = 1470 + 'px'
-          }
-          getDevelopStatesNum().then(res => {
+      getDevelopStutsNumber(){
+          let params = this.tableParams
+          getDevelopStatesNum(params).then(res => {
               if(res.data){
                   this.statusList.forEach(item => {
+                      item.num = 0
                       res.data.forEach(itemNum => {
                           if(item.key == itemNum.state){
                               item.num = itemNum.num
@@ -422,7 +524,11 @@ export default {
                   })
               } 
           })
-          
+      },
+      changeInnterWeith(){
+          if(window.innerWidth < 1450){
+              document.querySelector('.navbarContainer').style.width = 1470 + 'px'
+          }
       },
     changeMath(val){
         if(val.length == 1 && val.includes('15')){

@@ -947,6 +947,14 @@ export default {
                         developmentprice:this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] ? this.devInformationDetaiList.productMarketList[0].developmentprice : 0
                     })
                 }
+                this.devInformationDetaiList.productMarketList.forEach(item => {
+                    item.nameId = item.warehouseid + item.platformname
+                })
+               let obj = []
+               this.devInformationDetaiList.productMarketList = this.devInformationDetaiList.productMarketList.reduce((item, next) => {
+                    obj[next.nameId] ? '' : obj[next.nameId] = true && item.push(next)
+                    return item
+                }, [])
         },
         changeDevelopmentprice(val,platformname){
             this.devInformationDetaiList.productMarketList.forEach(item => {
@@ -1028,7 +1036,7 @@ export default {
             }
             getWarehouseByCountry(this.countryParams).then(res => {
                  let filterList = res.data.filter(item => {
-                     return item.Id != 8 && item.Id != 11
+                     return item.Id != 104 && item.Id != 11
                  })
                  this.dailySales3 = filterList
             })

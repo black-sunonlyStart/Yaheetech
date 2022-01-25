@@ -29,10 +29,15 @@
                         </div>
                         <div>
                             <div v-for="item in productMarketStrs" :key="item.platformName" class="profit">
-                                {{item.platformName}}-{{item.marketProfits[0].warehouseName}}-{{item.currency}}<span :class="item.developmentPrice <= 0 ? 'showColor':''"> {{item.developmentPrice}}</span> /
-                                <span :class="item.marketProfits && item.marketProfits[0] && item.marketProfits[0].profitMargin <= 0 ? 'showColor':'redColor'" > {{item.marketProfits[0].profitMargin ? (item.marketProfits[0].profitMargin * 100).toFixed(2) + '%' : '' }}</span>
-                                <span v-if="item.marketProfits[0].sfpDevelopmentprice"> SFP：{{item.marketProfits[0].sfpDevelopmentprice}} / </span>
-                                <span :class="item.marketProfits && item.marketProfits[0] && item.marketProfits[0].sfpProfitMargin <= 0 ? 'showColor':'redColor'" v-if="item.marketProfits[0].sfpDevelopmentprice">{{(item.marketProfits[0].sfpProfitMargin * 100).toFixed(2) + '%' }}</span>
+                                <span v-for="name in item.marketProfits" :key="name.warehouseName">
+                                    <span v-if="(item.currency == 'USD'&& name.warehouseId == 8) || item.currency != 'USD'">
+                                        {{item.platformName}}-{{name.warehouseName}}-{{item.currency}}
+                                        <span :class="item.developmentPrice <= 0 ? 'showColor':''"> {{item.developmentPrice}}</span> /
+                                        <span :class="item.marketProfits && name && name.profitMargin <= 0 ? 'showColor':'redColor'" > {{name.profitMargin ? (name.profitMargin * 100).toFixed(2) + '%' : '' }}</span>
+                                        <span v-if="name.sfpDevelopmentprice"> SFP：{{name.sfpDevelopmentprice}} / </span>
+                                        <span :class="item.marketProfits && name && name.sfpProfitMargin <= 0 ? 'showColor':'redColor'" v-if="name.sfpDevelopmentprice">{{(name.sfpProfitMargin * 100).toFixed(2) + '%' }}</span>
+                                    </span>
+                                </span>
                             </div>
                         </div>
                     </div>
