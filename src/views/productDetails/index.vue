@@ -9,7 +9,14 @@
                     <el-image
                         style="width: 97px; height: 97px; dispaly:black"
                         :src="titleImgSrc"
-                        fit="fill">
+                        fit="fill"
+                        >
+                         <div slot="placeholder" class="image-slot">
+                            加载中<span class="dot">...</span>
+                        </div>
+                         <div slot="error" class="image-slot">
+                            <i class="el-icon-picture-outline"></i>
+                        </div>
                     </el-image>
                 </div>
                 <div class="detailsText">
@@ -516,7 +523,6 @@ export default {
           'ERP.Product.ProductDev.DistributionProcurement',
           'ERP.Product.ProductDev.FreezingOff',
           'ERP.Product.ProductDev.Audit',
-          'ERP.Product.ProductDev.EndAudit',
           'ERP.Product.ProductDev.ExportSample',
           'ERP.Product.ProductDev.ProfitsFirstTrial'
       ]
@@ -587,29 +593,12 @@ export default {
                             this.isStatusEdit7 = true;
                             this.isStatusEdit8 = true;
                          }
-                        //  if(this.employee.Id ==  this.devInformationDetaiList.businessid){
-                        //     this.isStatusEdit = true;
-                        //     this.isStatusEdit1 = true;
-                        //     this.isStatusEdit2 = true;
-                        //     this.isStatusEdit3 = true;
-                        //     this.isStatusEdit4 = true;
-                        //  }else if(this.employee.Id ==  this.devInformationDetaiList.buyerid){
-                        //     this.isStatusEdit6 = true;
-                        //     this.isStatusEdit7 = true;
-                        //     this.isStatusEdit8 = true;
-                        //  } 
-                        //   if (this.employee.Id ==  this.devInformationDetaiList.buyerid && this.employee.Id ==  this.devInformationDetaiList.businessid){
                             this.isStatusEdit = true;
                             this.isStatusEdit1 = true;
                             this.isStatusEdit2 = true;
                             this.isStatusEdit3 = true;
                             this.isStatusEdit4 = true;
-                            this.isStatusEdit5 = true;
-                            // this.isStatusEdit6 = true;
-                            // this.isStatusEdit7 = true;
-                            // this.isStatusEdit8 = true;
-                        //  }
-                        
+                            this.isStatusEdit5 = true;   
                     break;
                     case 13:
                         
@@ -888,61 +877,23 @@ export default {
                 
                 getCountry().then(data => {
                     countryCodeList = data.data
-                    // let dutyrate1 = []
-                    // let dutyrate2 = []
-                    // let dutyrate3 = []
-                    // let dutyrate4 = []
                     if(res.data.development &&  res.data.development.dutyrate && JSON.parse(res.data.development.dutyrate) && JSON.parse(res.data.development.dutyrate).LocalStrings){
-                        //  dutyrate1 = JSON.parse(res.data.development.dutyrate).LocalStrings.filter(res => {
-                        //      return res.LanguageCode == 'en-US'
-                        //  })
-                        //  dutyrate2 = JSON.parse(res.data.development.dutyrate).LocalStrings.filter(res => {
-                        //      return res.LanguageCode == 'en-GB'
-                        //  })
-                        //  dutyrate3 = JSON.parse(res.data.development.dutyrate).LocalStrings.filter(res => {
-                        //      return res.LanguageCode == 'de'
-                        //  })
-                        //  dutyrate4 = JSON.parse(res.data.development.dutyrate).LocalStrings.filter(res => {
-                        //      return res.LanguageCode == 'ja-JP'
-                        //  })
                         JSON.parse(res.data.development.dutyrate).LocalStrings.forEach(res => {
                             countryCodeList.forEach(item => {
                                 if(item.countryLanguage  == res.LanguageCode ){
                                    item.dutyrate = res.Value * 100
                                 }
                             })
-                        })
-                       
+                        })   
                     }
-                    // let usCountryBand = []
-                    // let enCountryBand = []
-                    // let deCountryBand = []
-                    // let auCountryBand = []
-                    // let jpCountryBand = []
                     if(res.data.development &&  res.data.development.countryband && JSON.parse(res.data.development.countryband) && JSON.parse(res.data.development.countryband).LocalStrings){
-                        //  usCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
-                        //      return res.LanguageCode == 'en-US'
-                        //  })
-                        //  enCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
-                        //      return res.LanguageCode == 'en'
-                        //  })
-                        //  deCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
-                        //      return res.LanguageCode == 'de'
-                        //  })
-                        //  auCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
-                        //      return res.LanguageCode == 'en-AU'
-                        //  })
-                        //  jpCountryBand = JSON.parse(res.data.development.countryband).LocalStrings.filter(res => {
-                        //      return res.LanguageCode == 'ja-JP'
-                        //  })
                         JSON.parse(res.data.development.countryband).LocalStrings.forEach(res => {
                             countryCodeList.forEach(item => {
                                 if(item.countryLanguageBand == res.LanguageCode ){
                                     item.countryBand = res.Value
                                 }
                             })
-                        })
-                         
+                        })   
                     }
                     countryCodeList.forEach(item => {
                                 if(item.countryLanguage == 'en-GB' && !item.dutyrate){
@@ -960,11 +911,6 @@ export default {
                     //开发信息
                     this.devInformationDetaiList = {
                         scenarios:this.scenarios ? this.scenarios :this.productVos ? this.productVos.developmentscenarios : '',
-                        // usCountryBand:usCountryBand && usCountryBand[0] ? usCountryBand[0].Value : '',
-                        // enCountryBand:enCountryBand && enCountryBand[0] ? enCountryBand[0].Value : '',
-                        // deCountryBand:deCountryBand && deCountryBand[0] ? deCountryBand[0].Value : '',
-                        // auCountryBand:auCountryBand && auCountryBand[0] ? auCountryBand[0].Value : '',
-                        // jpCountryBand:jpCountryBand && jpCountryBand[0] ? jpCountryBand[0].Value : '',
                         countryCodeList,
                         description:res.data.development.description,//产品中文概述
                         title:res.data.development.title,//英文标题
@@ -975,10 +921,6 @@ export default {
                         isanji:res.data.development.isanji,//是否安吉产品
                         ispatentproduct:res.data.development.ispatentproduct,//是否需要专利确认
                         fbaWarehouseIds:res.data.fbaWarehouseIds.map(Number),//是否需要专利确认
-                        // dutyrate1:dutyrate1 && dutyrate1[0] ? dutyrate1[0].Value * 100 : '',
-                        // dutyrate2:dutyrate2  && dutyrate2[0]? dutyrate2[0].Value * 100: '',
-                        // dutyrate3:dutyrate3 && dutyrate3[0]? dutyrate3[0].Value * 100: '',
-                        // dutyrate4:dutyrate4 && dutyrate4[0]? dutyrate4[0].Value * 100: '',
                         orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//采购开发
                         businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName: '',//业务开发
                         productCountryList:this.productVos.productCountryList ? this.productVos.productCountryList[0] : [],
@@ -990,7 +932,6 @@ export default {
                         buyerid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerid : '',
                         packingway:this.productVos.packingway,//包装方式   
                     }
-                    // console.log(this.devInformationDetaiList,'devInformationDetaiList',JSON.parse(res.data.development.dutyrate))
                     if(this.showInfoTitle){
                         if( !this.devInformationDetaiList.packingway && this.devInformationDetaiList.productMarketList.find(item => (item.sfpDevelopmentPrice &&  !item.sfpOceanFreight))){
                             this.$message({
@@ -1241,10 +1182,6 @@ export default {
                 if( item.statusValue == val.statusValue){
                     item.createBy = val.createBy
                     item.createOn = this.$moment(val.createOn).format("YYYY-MM-DD HH:mm:ss")
-                    // item.statusValue = val.statusValue
-                    // item.status = val.status 
-                    // item.toStatus = val.toStatus
-                    // item.statusValue = val.statusValue
                 }
             })
         })

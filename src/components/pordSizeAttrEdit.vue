@@ -542,8 +542,6 @@ export default {
             default:() => ([])
         }
     },
-    watch:{
-    },
     computed:{
         productlistings(){
             return this.ruleForm.productlistings

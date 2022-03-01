@@ -138,7 +138,7 @@
         <el-col :span="21">
           <el-form-item label="开发状态:" class="statusBox">
             <div class="checkBoxAll1">
-                <el-checkbox class="checkboxAlltext1" :indeterminate="isIndeterminate1" v-model="checkStatusAll" @change="handleStatusAllChange">全选 ({{totalNum}})</el-checkbox>
+                <el-checkbox class="checkboxAlltext1" :indeterminate="isIndeterminate1" v-model="checkStatusAll" @change="handleStatusAllChange">全选 ({{total}})</el-checkbox>
                 <el-checkbox-group class="chengboxMoreBox1" v-model="form.status" @change="handleCheckedStatusChange">
                     <el-checkbox 
                         v-for="item in statusList"
@@ -466,20 +466,23 @@ export default {
         status: ['15'],
         checkedCities:[],
       },
-      tableParams:{}
+      tableParams:{},
+    //   bleanStatus:true
     }
   },
   computed:{
     totalNum(){
         let totalNumber = 0
         this.statusList.forEach(item => {
+            if(item.key != 7 && item.key != 8 && item.key != 9 && item.key != 14)
              totalNumber += item.num
         })
         return totalNumber
-    }
+    },
   },
   props: {
-    msg: String
+    msg: String,
+    total:String,
   },
   watch:{
       form:{
@@ -499,19 +502,33 @@ export default {
                     search:val.search,
                     almorlist:val.almorlist
                 }
-                this.$emit('putTableList',this.tableParams)
-                this.getDevelopStutsNumber()
+                // if(this.bleanStatus){
+                    this.getDevelopStutsNumber()
+                // }
+                this.$emit('putTableList',this.tableParams)      
           },
           deep:true
-      }
+      } 
   },
   mounted () {
-      this.changeInnterWeith()
-      this.getDevelopStutsNumber()
+      this.changeInnterWeith() 
+      this.getDevelopStutsNumber() 
+      this.filterStatusNavbar()
   },
   methods: {
+      filterStatusNavbar(){
+          if(this.$route.query.status){
+            this.form.status = []
+            this.form.status.push(Number(this.$route.query.status))
+          }
+      },
       getDevelopStutsNumber(){
-          let params = this.tableParams
+        let params = this.tableParams
+        if (this.tableParams.state && [0,1,2,3,4,5,6,10,11,12,13].toString() == this.tableParams.state.toString()){
+            let copeParams = JSON.parse(JSON.stringify(this.tableParams))
+            copeParams.state = []
+            params = copeParams
+        } 
           getDevelopStatesNum(params).then(res => {
               if(res.data){
                   this.statusList.forEach(item => {

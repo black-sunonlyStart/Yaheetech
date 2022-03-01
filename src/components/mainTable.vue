@@ -311,7 +311,19 @@ export default {
   },
   methods: {
        changeMaxHeight(){
-            return document.body.clientHeight - 300 + 'px'
+            let firefox = ''
+            let opera = ''
+            let addNarHeight = 45
+            if (navigator.userAgent.indexOf('Firefox') >= 0) firefox = true
+            if (navigator.userAgent.indexOf('Opera') >= 0) opera = true
+            if (window.self === window.top) {
+            　　 addNarHeight = 0
+            }
+            if(firefox){
+                return window.outerHeight- 455 - addNarHeight + 'px'
+            }else {
+                return window.outerHeight- 405 - addNarHeight + 'px'
+            }
         },
       copeDevelopId(val){
           copyUrl(val)
@@ -856,6 +868,7 @@ export default {
             this.currentPage4 = res.data && res.data.pageNum ? res.data.pageNum : 0
             this.tableData = res.data && res.data.rows ? res.data.rows : []
             this.total = res.data && res.data.rows ? res.data.records : 0
+            this.$emit('getTotal',this.total)
         
         }).catch(err => { this.loading = false })
         
@@ -942,7 +955,6 @@ export default {
 }
 .pagePosition{
     position: fixed;
-    bottom: 13px;
     right: 30px;
 }
 ::v-deep.tableMain{
