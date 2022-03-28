@@ -176,9 +176,9 @@
                         },
                         {
                             'Field':'countryCode',
-                            'Value':this.navFilterList.countryCodes.toString(),//测试
+                            'Value':123,//测试
                         },
-                         { 'Field' : "dateFrom", 'Value' : dateFrom },
+                        { 'Field' : "dateFrom", 'Value' : dateFrom },
                         { 'Field' : "dateTo", 'Value' : dateTo },
                     ]
                 }

@@ -265,7 +265,7 @@
   </div>
 </template>
 <script>
- import { getProductDevDetail,getProductMultipleAttribute,exploitType,getImagePath,getEmployee,hasPermissions,getRoleTrue,getCountry } from '@/api/user.js'
+ import { getProductDevDetail,getProductMultipleAttribute,exploitType,getImagePath,getEmployee,hasPermissions,getRoleTrue,getCountry,getUsExchangeRate } from '@/api/user.js'
 export default {
   name: 'productDetails',
   components:{
@@ -708,7 +708,11 @@ export default {
             this.$refs.remarks.openHandle()
         },
    async getAllpageList(val){
+            let exchangeRate = ''
            await this.newGetImagePath()
+           await getUsExchangeRate().then(res => {
+                     exchangeRate = res.data
+                })
            this.scrollPostion()
           let params = {
                 developmentId:this.$route.params.developmentId?this.$route.params.developmentId:'',
@@ -1084,6 +1088,7 @@ export default {
                 this.initState()
                 this.getStateRole(this.timeStatus)
                 this.controlEdit(this.timeStatus)
+                
                 //采购信息
                 let productPurchaseVoList = []
                 let lastProductPurchaseVoList  = []
@@ -1112,7 +1117,7 @@ export default {
                     fobbandprice:res.data.development.fobbandprice, //FOB报价品牌费
                     packedvolume:this.productVos.packedvolume, //FOB头程费
                     fobPrice:this.productVos.fobPrice, //FOB头程费
-                    exchangeRate:res.data.exchangeRate, //汇率
+                    exchangeRate:res.data.exchangeRate || exchangeRate, //汇率
                     gooddate:this.productVos.gooddate,
                     goodnote:this.productVos.goodnote,   
                     orderProduct:this.buyerName

@@ -173,8 +173,8 @@
                         label="美国 FEDEX & UPS = 长*宽*高 / 9935"
                         >
                         <template slot-scope="scope">
-                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /9935).toFixed(2) + 'Kg /' : ''}} </span>
-                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /9935 * 2.20).toFixed(2)+ 'LB' : ''}}</span>
+                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /9935).toFixed(2) + ' Kg /' : ''}} </span>
+                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /9935 * 2.20).toFixed(2)+ ' LB' : ''}}</span>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -182,8 +182,8 @@
                         label="美国 JD UPS = 长*宽*高 / 8128"
                         >
                         <template slot-scope="scope">
-                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /8182).toFixed(2) + 'Kg /' : ''}} </span>
-                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /8182 * 2.20).toFixed(2)+ 'LB' : ''}}</span>
+                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /8182).toFixed(2) + ' Kg /' : ''}} </span>
+                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /8182 * 2.20).toFixed(2)+ ' LB' : ''}}</span>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -191,15 +191,15 @@
                         label="英国 XDP = 长*宽*高 / 5000">
                         <template slot-scope="scope">
                             <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /5000).toFixed(2)+ 'Kg /' : ''}} </span>
-                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /5000 * 2.20).toFixed(2)+ 'LB' : ''}}</span>
+                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /5000 * 2.20).toFixed(2)+ ' LB' : ''}}</span>
                         </template>
                     </el-table-column>
                     <el-table-column
                         prop="address"
                         label="英国 Tuffnell = 长*宽*高 / 4000">
                         <template slot-scope="scope">
-                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /4000).toFixed(2)+ 'Kg /' : ''}}</span>
-                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /4000 * 2.20).toFixed(2)+ 'LB' : ''}}</span>
+                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /4000).toFixed(2)+ ' Kg /' : ''}}</span>
+                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /4000 * 2.20).toFixed(2)+ ' LB' : ''}}</span>
                         </template>
                     </el-table-column>
                 </el-table>
@@ -230,7 +230,7 @@
                         >
                         <template slot-scope="scope">
                             <div>
-                                {{scope.row.packedlength}} × {{scope.row.packedwidth}} × {{scope.row.packedheight}}
+                                {{scope.row.packedlength}} × {{scope.row.packedwidth}} × {{scope.row.packedheight}} cm
                             </div>
                         </template>
                     </el-table-column>
@@ -238,7 +238,29 @@
                         label="毛重">
                         <template slot-scope="scope">
                             <div>
-                                {{scope.row.packedweight}}Kg / {{scope.row.packedweight ? (scope.row.packedweight * 2.204).toFixed(2) : ''}}LB
+                                {{scope.row.packedweight}}Kg / {{scope.row.packedweight ? (scope.row.packedweight * 2.204).toFixed(2) : ''}} LB
+                            </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                        label="物流周长加长(美国)">
+                        <template slot-scope="scope">
+                            <div>
+                                {{(Math.ceil(scope.row.packedlength) + (Math.ceil(scope.row.packedwidth) + Math.ceil(scope.row.packedheight)) * 2).toFixed(2) || ''}} cm
+                            </div>
+                            <div>
+                                 {{(Math.ceil(scope.row.packedlength  * ycun) + (Math.ceil(scope.row.packedwidth  * ycun) + Math.ceil(scope.row.packedheight  * ycun)) * 2).toFixed(2)}} inch
+                            </div>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                        label="物流周长加长(非美国)">
+                        <template slot-scope="scope">
+                           <div>
+                                {{(Number(scope.row.packedlength) + (Number(scope.row.packedwidth) + Number(scope.row.packedheight)) * 2).toFixed(2)}} cm
+                            </div>
+                            <div>
+                                {{(Number(scope.row.packedlength * ycun) + (Number(scope.row.packedwidth * ycun) + Number(scope.row.packedheight * ycun)) * 2).toFixed(2) }} inch
                             </div>
                         </template>
                     </el-table-column>
@@ -333,6 +355,7 @@
 export default {
     data(){
         return {
+             ycun:0.3937008
         }
     },
     props:{

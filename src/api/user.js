@@ -379,3 +379,10 @@ export function getCountry(data) {
       data
     })
   }
+  export function getUsExchangeRate(data) {
+    return request({
+      url: '/productManage/getUsExchangeRate',
+      method: "get", 
+      params:data
+    })
+  }
