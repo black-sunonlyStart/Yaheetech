@@ -228,7 +228,7 @@ export default {
             ],
             action:jupload_file,
             fileType:{
-                fileType:103
+                fileType:105
             },
             pageImageIndex:'',
             ruleForm:{
