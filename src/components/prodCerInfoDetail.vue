@@ -256,7 +256,7 @@ export default {
     methods:{
         getAuthId(credentialList1){
 
-            let newCredentialList1 = credentialList1.split(',')
+            let newCredentialList1 = credentialList1 ? credentialList1.split(',') : []
             let usaid = []
              this.isUsa.forEach(item => {
                  newCredentialList1.forEach(res => {

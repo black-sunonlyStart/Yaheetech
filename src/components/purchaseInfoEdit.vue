@@ -289,7 +289,7 @@
                      </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                    <el-form-item label="海关退税率:" prop="tax">
+                    <el-form-item label="出口退税率:" prop="tax">
                         <div class="feeForOrderText">
                             <div class="inputBox">
                                 <el-input-number :controls='false' v-model="ruleForm.tax"></el-input-number>

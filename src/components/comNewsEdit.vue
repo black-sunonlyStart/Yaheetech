@@ -336,6 +336,12 @@ export default {
         this.getDetailPage()
     },
     methods:{
+        // changeFilePhoto(file,fileList){
+        // if(fileList.length > 1){
+        //     fileList = fileList.splice(0,1)
+        // }
+            
+        // },
        async selectPlatformid(val,index){
             this.comNewsDetailList.competingproducts[index].platformsiteid = ''
             let countryList = this.devSign.filter(item => {

@@ -6,7 +6,7 @@
     <el-card class="button-card">
       <abilityBtn :selectRow='selectRow' @putTbleList='putTbleList' :navFilterList='filterList'></abilityBtn>
     </el-card>
-    <el-card class="mainTable-card">
+    <el-card class="mainTable-card" >
       <mainTable :navFilterList='filterList' @putTbleSelection='putTbleSelection' ref="mainTable" @getTotal='getTotal'></mainTable>
     </el-card>
   </div>
@@ -50,16 +50,16 @@ export default {
               document.querySelector('.nav-card > .el-card__body').style.overflowX =  'scroll'
               document.querySelector('.nav-card > .el-card__body').style.overflowY = 'hidden'
           }
-            let firefox = ''
-            let opera = ''
-            if (navigator.userAgent.indexOf('Firefox') >= 0) firefox = true
-            if (navigator.userAgent.indexOf('Opera') >= 0) opera = true
-            if(firefox){
-                document.querySelector('.mainTable-card').style.height = 72.5 + '%'
-            }
-            if(opera){
-                document.querySelector('.mainTable-card').style.height = 73.5 + '%'
-            }
+            // let firefox = ''
+            // let opera = ''
+            // if (navigator.userAgent.indexOf('Firefox') >= 0) firefox = true
+            // if (navigator.userAgent.indexOf('Opera') >= 0) opera = true
+            // if(firefox){
+            //     document.querySelector('.mainTable-card').style.height = 72.5 + '%'
+            // }
+            // if(opera){
+            //     document.querySelector('.mainTable-card').style.height = 73.5 + '%'
+            // }
       },
     putTbleSelection(val){
         this.selectRow = val || []
@@ -108,9 +108,9 @@ export default {
     position: relative;
     top: 226px;
     width: 98.6%;
-    height: 72.5%;
+    // height: 72.5%;
     .el-card__body{
-        padding: 5px 10px;
+        padding: 5px 10px 35px;
     }
   }
 }

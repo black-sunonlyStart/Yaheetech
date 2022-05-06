@@ -13,16 +13,16 @@
             </div>
             <span v-if="clickId == 1" class="dialogText">说明:确定要把选择的产品提交给业务主管(经理)进行审批?</span>
             <span v-if="clickId == 40" class="dialogText">说明:确定选择的产品有利润空间且产品资料正确,提交业务主管(经理)进行终审?</span>
-            <span v-if="clickId == 2" class="dialogText">说明:确定要把选择的产品审批通过,让认证专员去完善认证需求?</span>
+            <!-- <span v-if="clickId == 2" class="dialogText">说明:确定要把选择的产品审批通过,让认证专员去完善认证需求?</span> -->
             <span v-if="clickId == 30" class="dialogText">说明:确定选择产品的利润和资料均复核公司开发要求,审核通过进入上架流程?</span>
-            <span v-if="clickId == 25" class="dialogText">说明:确定要把选择的产品审批通过,让认证专员去完善认证需求?</span>
+            <span v-if="clickId == 25 || clickId == 2" class="dialogText">说明:确定要把选择的产品审批通过,让认证专员去完善认证需求?</span>
             <span v-if="clickId == 15" class="dialogText">说明:确定选择的产品样品资料已经正确,让业务开发员复核利润率?</span>
             <span v-if="clickId == 5" class="dialogText">说明:确定选择的产品资料已经正确,让采购主管审核?</span>
             <span v-if="clickId == 7" class="dialogText">说明:确定选择的产品有利润空间后,让采购开发员去购买样品?</span>
             <span v-if="clickId == 14" class="dialogText">说明:确定选择的产品有利润空间,让采购开发员确定样品资料?</span>
             <span v-if="clickId == 10" class="dialogText">说明:确定选择的产品认证需求信息完善,让采购去寻找供应商?</span>
-            <span v-if="clickId == 11" class="dialogText">说明:确定选择的产品资料已经正确,让业务开发员初步审核利润率?</span>
-            <span v-if="clickId == 21" class="dialogText">说明:确定选择的产品资料已经正确,让业务开发员初步审核利润率?</span>
+            <!-- <span v-if="clickId == 11" class="dialogText">说明:确定选择的产品资料已经正确,让业务开发员初步审核利润率?</span> -->
+            <span v-if="clickId == 21 || clickId == 11" class="dialogText">说明:确定选择的产品资料已经正确,让业务开发员初步审核利润率?</span>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm" size='mini'>
                <el-form-item label="开发优先级" prop="platformid" v-if="clickId == 2">
                     <el-select 
@@ -120,6 +120,11 @@ export default {
             label:'',
             ruleForm:{
                 platformid:0,
+                status:'',
+                type:'',
+                remark:'',
+                dailySales:'',
+
             },
             orderListStatus:[2,4,11,12,13],
             dailyListStatus:[0,1,3,5,10],

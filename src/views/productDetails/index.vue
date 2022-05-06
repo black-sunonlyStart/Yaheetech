@@ -533,6 +533,7 @@ export default {
         })
       },
       scrollPostion(){
+          if(document.body.scrollTop == 0) return
           document.body.scrollTop = document.documentElement.scrollTop = 0
       },
       updateGetAllpageList(){
@@ -1290,7 +1291,8 @@ export default {
 <style lang="scss" scoped>
 .nav-container {
   width: 100%;
-  min-height: 980px;
+  height: 100%;
+//   min-height: 980px;
   background-color: rgba(230, 230, 230, 1);
   .cardBox{
     position: relative;
@@ -1321,7 +1323,7 @@ export default {
         }
     }
     .cardBoxMain{
-        margin: 10px;
+        margin:0 10px;
         ::v-deep .el-tabs__nav{
                 .is-active{
                 font-weight: bold !important;

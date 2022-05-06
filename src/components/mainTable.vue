@@ -98,19 +98,21 @@
             <div v-for="item in scope.row.productMarketStrs" :key="item.platformName">
                 <div style="font-weight:bold">{{item.platformName}}:</div>
                 <div>{{item.currency}} {{item.developmentPrice ? item.developmentPrice.toFixed(2) : '--'}} ：
-                    <span v-for="rows in item.marketProfits " :key="rows.warehouseId">
+                    <span v-for="(rows,index) in item.marketProfits " :key="rows.warehouseId">
                         <el-tooltip :content="rows.warehouseName" effect="dark" placement="top" :key="rows.warehouseId">
-                            <span :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin ? (rows.profitMargin * 100).toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
+                            <span v-if="index == item.marketProfits.length - 1" :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin ? (rows.profitMargin * 100).toFixed(2) + '%' + ' ' : '--'}}</span>
+                            <span v-else :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin ? (rows.profitMargin * 100).toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
                         </el-tooltip>
                     </span>              
                 </div>
                 <div v-if="item.sfp">  
                     <div style="font-weight:bold" >{{item.platformName}}-SFP:</div>
                     <div>{{item.currency}} {{item.sfpDevelopmentprice ? item.sfpDevelopmentprice.toFixed(2) : '--'}} ： 
-                        <span v-for="rows in item.marketProfits " :key="rows.warehouseId">
+                        <span v-for="(rows,index) in item.marketProfits " :key="rows.warehouseId">
                             <span v-if="rows.sfpDevelopmentprice">
                                 <el-tooltip :content="rows.warehouseName" effect="dark" placement="top" :key="rows.warehouseId">
-                                     <span :class="rows.sfpProfitMargin < 0 ? 'boxColor':''">{{rows.sfpProfitMargin ? (rows.sfpProfitMargin * 100).toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
+                                     <span v-if="index == item.marketProfits.length - 1" :class="rows.sfpProfitMargin < 0 ? 'boxColor':''">{{rows.sfpProfitMargin ? (rows.sfpProfitMargin * 100).toFixed(2) + '%' + ' ' : '--'}}</span>
+                                     <span v-else :class="rows.sfpProfitMargin < 0 ? 'boxColor':''">{{rows.sfpProfitMargin ? (rows.sfpProfitMargin * 100).toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
                                 </el-tooltip>
                             </span>
                         </span>              
@@ -311,19 +313,20 @@ export default {
   },
   methods: {
        changeMaxHeight(){
-            let firefox = ''
-            let opera = ''
-            let addNarHeight = 45
-            if (navigator.userAgent.indexOf('Firefox') >= 0) firefox = true
-            if (navigator.userAgent.indexOf('Opera') >= 0) opera = true
-            if (window.self === window.top) {
-            　　 addNarHeight = 0
-            }
-            if(firefox){
-                return window.outerHeight- 455 - addNarHeight + 'px'
-            }else {
-                return window.outerHeight- 405 - addNarHeight + 'px'
-            }
+            // let firefox = ''
+            // let opera = ''
+            // let addNarHeight = 45
+            // if (navigator.userAgent.indexOf('Firefox') >= 0) firefox = true
+            // if (navigator.userAgent.indexOf('Opera') >= 0) opera = true
+            // if (window.self === window.top) {
+            // 　　 addNarHeight = 0
+            // }
+            // if(firefox){
+            //     return window.outerHeight- 455 - addNarHeight + 'px'
+            // }else {
+            //     return window.outerHeight- 405 - addNarHeight + 'px'
+            // }
+            return window.innerHeight - 281 + 'px'
         },
       copeDevelopId(val){
           copyUrl(val)
