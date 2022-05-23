@@ -613,8 +613,8 @@ export default {
     handleCheckAllChange(val) {
         this.form.checkedCities = val ? cityOptions : [];
         this.isIndeterminate = false;
-      },
-      handleStatusAllChange(val){
+    },
+    handleStatusAllChange(val){
         this.form.status = val ? statusOptions : [];
         this.isIndeterminate1 = false;
       }

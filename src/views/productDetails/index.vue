@@ -258,7 +258,7 @@
                     <el-tab-pane label="备注" name="tenth">
                     </el-tab-pane>
                 </el-tabs>
-                <operationButton :nowStatus='timeStatus' @getTableList='updateGetAllpageList' v-if="renderDom"></operationButton>   
+                <operationButton :nowStatus='timeStatus' :isanji='isanji' :employee='employee' @getTableList='updateGetAllpageList' v-if="renderDom"></operationButton>   
             </div>
         <!-- </el-card> -->
     </div>
@@ -476,7 +476,8 @@ export default {
         showSizeTitle:false,
         renderDom:false,
         buyerName:'',
-        buyerid:''
+        buyerid:'',
+        isanji:[],
     }
   },
   created () {
@@ -739,7 +740,7 @@ export default {
                     this.productCountryList = []
                 }
                 this.otherCountryList = res.data.productVos && res.data.productVos[0] ? res.data.productVos[0].otherCountryMaps : []
-                
+                this.isanji = res.data.excludeAuditor || []
                 if(res.data.developmentProgresses && res.data.developmentProgresses.length > 0){
                     let index = res.data.developmentProgresses.length - 1
                     let status = res.data.developmentProgresses[index].toStatus

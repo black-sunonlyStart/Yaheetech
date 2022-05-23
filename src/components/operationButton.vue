@@ -1,6 +1,9 @@
 <template>
     <div class="buttonStyle" >
-        <el-button v-permission:[item.perkey]  v-for="item in operationList" :key="item.id*Math.random()" size="mini" type="primary" @click="putOperation(item.id)">{{item.name}}</el-button>
+        <div v-permission:[item.perkey]  v-for="item in operationList" :key="item.id*Math.random()"  @click="putOperation(item.id)">
+            <el-button size="mini" v-if="showDev(item.id)" type="primary" style="margin-right:5px">{{item.name}}</el-button>
+        </div>
+        
         <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog"  @getTableList='getTableList' :row='row' :showOrder='showOrder'></messageDialog>
     </div>
     
@@ -25,6 +28,14 @@ export default {
         nowStatus:{
             type:Number,
             default:() => {0}
+        },
+        isanji:{
+            type:Array,
+            default:() => []
+        },
+        employee:{
+            type:Object,
+            default:() => { }
         }
     },
     watch:{
@@ -53,6 +64,13 @@ export default {
         this.init()
     },
     methods:{
+        showDev(id){
+          if(  this.isanji.includes(this.employee.Id) && (this.nowStatus == 6 && id == 9 || this.nowStatus == 10 && id == 25)){
+              return false 
+          } else {
+              return true
+          }
+      },
         init(){
             let params = {
               type : 0

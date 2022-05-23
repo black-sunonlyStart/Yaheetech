@@ -197,7 +197,7 @@
                     width="80"
                     trigger="hover">
                     <div class="operationBox" v-for="item in operationList" :key="item.id"> 
-                        <div class="operationText" @click="putOperation(scope.row,item.id)"><div class="nameBox" v-permission:[item.perkey] :perkey='item.perkey'>{{item.name}}</div></div>
+                        <div class="operationText"  @click="putOperation(scope.row,item.id)"><div class="nameBox" v-if="showDev(scope.row,item.id)"  v-permission:[item.perkey] :perkey='item.perkey'>{{item.name}}</div></div>
                     </div>
                     <div class="imageBox1" slot="reference" @mouseover="openOperation(scope.row)"></div>
                 </el-popover>
@@ -224,7 +224,7 @@
 
 </template>
 <script>
-import { fetchPageTableList,unfreezing,getImagePath,checkUserIdentity,hasPermissions } from '@/api/user.js'
+import { fetchPageTableList,unfreezing,getImagePath,checkUserIdentity,hasPermissions,getEmployee } from '@/api/user.js'
 import { formatDate,copyUrl, } from '../utils/tools'
 import throttle from 'lodash.throttle'
 import debounce from 'lodash.debounce'
@@ -250,6 +250,7 @@ export default {
       loading:true,
       showOrder:false,
       renderDom:false,
+      IsAdminRoleId:'',
     }
   },
   props:{
@@ -305,6 +306,7 @@ export default {
            let data = JSON.stringify( res.data);
             sessionStorage.setItem("permissions", data);
             this.renderDom = true
+            this.getEmployee()
         })
   },
   mounted(){
@@ -312,6 +314,18 @@ export default {
 
   },
   methods: {
+      showDev(row,id){
+          if( row.excludeAuditor.includes(this.IsAdminRoleId) && (row.state == 6 && id == 9 || row.state == 10 && id == 25)){
+              return false 
+          } else {
+              return true
+          }
+      },
+      getEmployee(){
+          getEmployee().then(res => {
+              this.IsAdminRoleId  = res.data.Id
+          })
+      },
        changeMaxHeight(){
             // let firefox = ''
             // let opera = ''

@@ -4,9 +4,8 @@
             :visible.sync="drawer"
             :direction="direction"
             :modal='false'
-            :size="computedRemarkDilog"
+            :size="360"
             style="height:80%;margin-top:197px;"
-            :before-close="handleClose"
             :withHeader='false'
             >
             <div scope="title" class="titleRemarks">
@@ -64,39 +63,11 @@ export default {
     created(){
     },
     computed:{
-        computedRemarkDilog(){
-            if(window.innerWidth > 1450){
-                return  '20%'
-            }else {
-                 return '29%'
-            }
-        }
     },
     methods:{
-         handleClose(done) {
-            // this.$confirm('确认关闭？')
-            // .then(_ => {
-                done();
-            // })
-            // .catch(_ => {});
-        },
         openHandle(){
              this.drawer = true
         },
-        // showTitleColor(val,backtype){
-        //     if(!val)return
-        //     if(val == this.oemployee.Id  ){
-        //        if(backtype){
-        //            return 'addColor bubbleBoxRight'
-        //        }
-        //        return 'bubbleBoxRight'
-        //     }else{
-        //         if(backtype){
-        //            return 'addColor bubbleBox'
-        //        }
-        //         return 'bubbleBox'
-        //     }
-        // }
     }
 }
 </script>
@@ -155,7 +126,7 @@ export default {
                 }
                 .bubbleTailRight{
                     position:relative;
-                    right: -252px;
+                    right: -213px;
                     top:10px;
                     width:0;
                     height:0;
@@ -187,7 +158,7 @@ export default {
                     padding: 5px;
                     border-radius: 5px;
                     position:relative;
-                    right: -90px;
+                    right: -50px;
                     top: 0px;
                     width: 140px;
                     // height: 40px;

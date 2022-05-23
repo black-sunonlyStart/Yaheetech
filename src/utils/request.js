@@ -54,6 +54,14 @@ service.interceptors.response.use(
         var localhref = location.href;
           window.location.href = login_url+'/Latest/Account/LogOn?returnUrl='+localhref;
       
+    }else if(error.response.status == 403){
+        Message({
+            message: '你没有当前页面的权限！',
+            type: 'error',
+            duration: 5 * 1000,
+            offset:500,
+            })
+            return Promise.reject(error)
     }else{
         console.log('err' + error) // for debug
         Message({
