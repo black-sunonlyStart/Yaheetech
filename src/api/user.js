@@ -379,6 +379,14 @@ export function getCountry(data) {
       data
     })
   }
+  //记录员工行为
+  export function LogEmployeeTracking(data) {
+    return request({
+      url: 'http://qas-portal.yahee.com.cn:8088/Latest/WcfRedirect/Tracking/LogEmployeeTracking',
+      method: "post", 
+      data
+    })
+  }
   export function getUsExchangeRate(data) {
     return request({
       url: '/productManage/getUsExchangeRate',

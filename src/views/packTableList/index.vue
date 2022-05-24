@@ -29,7 +29,7 @@ export default {
       faCoRemarks: false,
       filterList:{},
       selectRow:[],
-      total:''
+      total:50
     }
   },
   computed: {
@@ -76,14 +76,14 @@ export default {
 
 <style lang="scss" scoped>
 .nav-container {
-  padding-top: 10px;
+  padding-top: 5px;
   width: 100%;
   height: 100%;
   background-color: rgba(230, 230, 230, 1);
   ::v-deep .nav-card {
-    margin: 0px 26px 10px 10px;
+    // margin: 0px 26px 10px 10px;
     position: fixed;
-    width: 98.6%;
+    width: 99.6%;
     z-index: 999;
     height: 183px;
     // overflow-y: auto;
@@ -94,20 +94,21 @@ export default {
     }
   }
  ::v-deep .button-card {
-    margin: 0px 18px 10px 10px;
+    // margin: 0px 18px 10px 10px;
     position: fixed;
-    top: 196px;
+    top: 191px;
     z-index: 1000;
-    width: 98.6%;
+    width: 99.6%;
+    height: 37px;
     .el-card__body{
         padding: 3px 20px;
     }
   }
   ::v-deep.mainTable-card {
-    margin: 0px 18px 10px 10px;
+    // margin: 0px 18px 10px 10px;
     position: relative;
     top: 226px;
-    width: 98.6%;
+    width: 99.6%;
     // height: 72.5%;
     .el-card__body{
         padding: 5px 10px 35px;

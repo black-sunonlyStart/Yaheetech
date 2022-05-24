@@ -9,6 +9,7 @@ import moment from "moment";
 import './styles/element-variables.scss'
 import '@/utils/directives.js'
 import '@/utils/jurisdiction.js'
+import '@/utils/track.js'
 import 'element-ui/lib/theme-chalk/icon.css'
 import { VueJsonp } from 'vue-jsonp'
 Vue.prototype.$moment = moment;

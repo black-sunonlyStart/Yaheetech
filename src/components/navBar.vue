@@ -53,7 +53,12 @@
                         @keyup.enter.native="searchSomething"
                         >
                 </el-input>
-                <el-button type="primary" size="mini" @click="searchSomething">搜索</el-button>
+                <el-button 
+                type="primary" 
+                size="mini" 
+                @click="searchSomething"
+                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'综合搜索按钮',businessCode: 19,actionType:'xxx-view'}"
+                >搜索</el-button>
             </div>
           </el-form-item>
         </el-col>
@@ -482,7 +487,7 @@ export default {
   },
   props: {
     msg: String,
-    total:String,
+    total:Number,
   },
   watch:{
       form:{

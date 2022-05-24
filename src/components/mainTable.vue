@@ -340,7 +340,7 @@ export default {
             // }else {
             //     return window.outerHeight- 405 - addNarHeight + 'px'
             // }
-            return window.innerHeight - 281 + 'px'
+            return window.innerHeight - 276 + 'px'
         },
       copeDevelopId(val){
           copyUrl(val)
