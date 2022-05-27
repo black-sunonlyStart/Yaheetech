@@ -1,6 +1,6 @@
 <template>
   <div class="nav-container" v-if="renderDom">
-      <div class="navTitle">
+      <div class="navTitle" v-track="{triggerType:'browse',currentUrl: $route.path,behavior:'进入产品详情页'}">
         <el-row :gutter="5">
         <el-col :span="12">
             <el-card class="card">
@@ -89,7 +89,7 @@
     <div class="cardBox">
         <remarks ref="remarks" :remarksList='remarksList' :employee='employee' :oemployee='oemployee'></remarks>
         <el-tooltip class="item" effect="dark" content="展开" placement="bottom">
-            <div class="iconRemarks"><i class="remarks" @click="openRemarks"></i></div>
+            <div class="iconRemarks" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'备注',businessCode:'备注'}"><i class="remarks" @click="openRemarks"></i></div>
         </el-tooltip>
         <!-- <el-card class="card"> -->
             <div class="cardBoxMain">
@@ -101,7 +101,16 @@
                             <el-card>
                                 <div slot="header" class="clearfix">
                                     <div>开发类型/场景
-                                        <div v-if="isStatusEdit"><div class="edit-position" v-permission="'ERP.Product.ProductDev.SalesManEdit'" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit = !isEdit" v-if="isEdit"><span><i class="icon-edit"></i>编辑</span></div></div>
+                                        <div v-if="isStatusEdit">
+                                            <div class="edit-position" 
+                                                v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
+                                                perkey='ERP.Product.ProductDev.SalesManEdit' 
+                                                @click="isEdit = !isEdit" 
+                                                v-if="isEdit"
+                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'开发类型/场景'}"
+                                                ><span><i class="icon-edit"></i>编辑</span>
+                                            </div>
+                                        </div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit">
@@ -114,7 +123,16 @@
                             <el-card style="margin-top:10px">
                                 <div slot="header" class="clearfix">
                                     <span>产品尺寸图
-                                        <div v-if="isStatusEdit1 && $route.params.productId"><div class="edit-position" v-permission="'ERP.Product.ProductDev.SalesManEdit'" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit1 = !isEdit1" v-if="isEdit1"><span ><i class="icon-edit"></i>编辑</span></div></div>
+                                        <div v-if="isStatusEdit1 && $route.params.productId">
+                                            <div class="edit-position" 
+                                                v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
+                                                perkey='ERP.Product.ProductDev.SalesManEdit' 
+                                                @click="isEdit1 = !isEdit1" 
+                                                v-if="isEdit1"
+                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品尺寸图'}"
+                                                >
+                                                <span ><i class="icon-edit"></i>编辑</span></div>
+                                            </div>
                                     </span>
                                 </div>
                                 <div v-if="isEdit1" class="imgContainer">
@@ -135,7 +153,17 @@
                             <el-card style="margin-top:10px;margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <span>销售目标
-                                        <div v-if="isStatusEdit2 && $route.params.productId"><div class="edit-position" v-permission="'ERP.Product.ProductDev.SalesManEdit'" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit2 = !isEdit2" v-if="isEdit2"><span><i class="icon-edit"></i>编辑</span></div></div>
+                                        <div v-if="isStatusEdit2 && $route.params.productId">
+                                            <div class="edit-position" 
+                                                v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
+                                                perkey='ERP.Product.ProductDev.SalesManEdit' 
+                                                @click="isEdit2 = !isEdit2" 
+                                                v-if="isEdit2"
+                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'销售目标'}"
+                                                >
+                                                <span><i class="icon-edit"></i>编辑</span>
+                                            </div>
+                                        </div>
                                     </span>
                                 </div>
                                 <div v-if="isEdit2">
@@ -154,7 +182,17 @@
                             <el-card>
                                 <div slot="header" class="clearfix">
                                     <div>开发信息
-                                        <div v-if="isStatusEdit4"><div class="edit-position" v-permission="'ERP.Product.ProductDev.SalesManEdit'" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit4 = !isEdit4" v-if="isEdit4"><span ><i class="icon-edit"></i>编辑</span></div></div>
+                                        <div v-if="isStatusEdit4">
+                                            <div class="edit-position" 
+                                                v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
+                                                perkey='ERP.Product.ProductDev.SalesManEdit' 
+                                                @click="isEdit4 = !isEdit4" 
+                                                v-if="isEdit4"
+                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'开发信息'}"
+                                                ><span >
+                                                    <i class="icon-edit"></i>编辑</span>
+                                            </div>
+                                        </div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit4">
@@ -172,7 +210,17 @@
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>竞品信息
-                                        <div v-if="isStatusEdit3"><div class="edit-position" v-permission="'ERP.Product.ProductDev.SalesManEdit'" perkey='ERP.Product.ProductDev.SalesManEdit' @click="isEdit3 = !isEdit3" v-if="isEdit3"><span ><i class="icon-edit"></i>编辑</span></div></div>
+                                        <div v-if="isStatusEdit3">
+                                            <div class="edit-position" 
+                                                v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
+                                                perkey='ERP.Product.ProductDev.SalesManEdit' 
+                                                @click="isEdit3 = !isEdit3" 
+                                                v-if="isEdit3"
+                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'竞品信息'}"
+                                                >
+                                                <span ><i class="icon-edit"></i>编辑</span>
+                                            </div>
+                                        </div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit3">
@@ -191,7 +239,16 @@
                             <el-card>
                                 <div slot="header" class="clearfix">
                                     <div>产品认证信息
-                                       <div v-if="isStatusEdit5"><div class="edit-position" v-permission="'ERP.Product.ProductDev.EditAuth'" perkey='ERP.Product.ProductDev.EditAuth' @click="isEdit5 = !isEdit5" v-if="isEdit5"><span ><i class="icon-edit"></i>编辑</span></div></div>
+                                       <div v-if="isStatusEdit5">
+                                           <div class="edit-position" 
+                                                v-permission="'ERP.Product.ProductDev.EditAuth'" 
+                                                perkey='ERP.Product.ProductDev.EditAuth' 
+                                                @click="isEdit5 = !isEdit5" 
+                                                v-if="isEdit5"
+                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品认证信息'}"
+                                                ><span ><i class="icon-edit"></i>编辑</span>
+                                           </div>
+                                        </div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit5">
@@ -207,7 +264,16 @@
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>产品标题和供应商信息
-                                        <div v-if="isStatusEdit6"><div class="edit-position" v-permission="'ERP.Product.ProductDev.BuyerEdit'" perkey='ERP.Product.ProductDev.BuyerEdit' @click="isEdit6 = !isEdit6" v-if="isEdit6"><span><i class="icon-edit"></i>编辑</span></div></div>
+                                        <div v-if="isStatusEdit6">
+                                            <div class="edit-position" 
+                                                 v-permission="'ERP.Product.ProductDev.BuyerEdit'" 
+                                                 perkey='ERP.Product.ProductDev.BuyerEdit' 
+                                                 @click="isEdit6 = !isEdit6" 
+                                                 v-if="isEdit6"
+                                                 v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品标题和供应商信息'}"
+                                                 ><span><i class="icon-edit"></i>编辑</span>
+                                            </div>
+                                        </div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit6">
@@ -225,7 +291,16 @@
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>产品尺寸和属性信息
-                                        <div v-if="isStatusEdit7"><div class="edit-position" v-permission="'ERP.Product.ProductDev.BuyerEdit'" perkey='ERP.Product.ProductDev.BuyerEdit' @click="isEdit7 = !isEdit7" v-if="isEdit7"><span ><i class="icon-edit"></i>编辑</span></div></div>
+                                        <div v-if="isStatusEdit7">
+                                            <div class="edit-position" 
+                                                v-permission="'ERP.Product.ProductDev.BuyerEdit'" 
+                                                perkey='ERP.Product.ProductDev.BuyerEdit' 
+                                                @click="isEdit7 = !isEdit7" 
+                                                v-if="isEdit7"
+                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品尺寸和属性信息'}"
+                                                ><span ><i class="icon-edit"></i>编辑</span>
+                                            </div>
+                                        </div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit7">
@@ -243,7 +318,16 @@
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>采购信息
-                                        <div v-if="isStatusEdit8"><div class="edit-position" v-permission="'ERP.Product.ProductDev.BuyerEdit'" perkey='ERP.Product.ProductDev.BuyerEdit' @click="isEdit8 = !isEdit8" v-if="isEdit8"><span ><i class="icon-edit"></i>编辑</span></div></div>
+                                        <div v-if="isStatusEdit8">
+                                            <div class="edit-position" 
+                                                v-permission="'ERP.Product.ProductDev.BuyerEdit'" 
+                                                perkey='ERP.Product.ProductDev.BuyerEdit' 
+                                                @click="isEdit8 = !isEdit8" 
+                                                v-if="isEdit8"
+                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'采购信息'}"
+                                                ><span ><i class="icon-edit"></i>编辑</span>
+                                            </div>
+                                        </div>
                                     </div>   
                                 </div>
                                 <div v-if="isEdit8">
