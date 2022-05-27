@@ -382,7 +382,7 @@ export function getCountry(data) {
   //记录员工行为
   export function LogEmployeeTracking(data) {
     return request({
-      url: 'http://qas-portal.yahee.com.cn:8088/Latest/WcfRedirect/Tracking/LogEmployeeTracking',
+      url: 'http://qas-portal.yahee.com.cn:8088/Latest/WcfRedirect/TrackingController/LogEmployeeTracking',
       method: "post", 
       data
     })

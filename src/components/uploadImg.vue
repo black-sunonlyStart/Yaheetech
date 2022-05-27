@@ -68,8 +68,8 @@
   <el-row v-if="showButton">
       <el-col :span="24">
           <div class="bottomButton">
-            <el-button type="primary"  size="mini" @click="saveImgList" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
-            <el-button size="mini" @click="updeEditPage">取消</el-button>
+            <el-button type="primary" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'产品尺寸图'}" size="mini" @click="saveImgList" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
+            <el-button size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'产品尺寸图'}" @click="updeEditPage">取消</el-button>
         </div>
       </el-col> 
   </el-row>

@@ -480,8 +480,8 @@
             </el-col>
         </el-row>
         <div class="bottomButton">
-            <el-button type="primary" @click="submitForm('ruleForm')" size="mini" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
-            <el-button @click="resetForm('ruleForm')" size="mini">取消</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')" size="mini" perkey='ERP.Product.ProductDev.SalesManEdit' v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'开发信息'}">保存</el-button>
+            <el-button @click="resetForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'开发信息'}">取消</el-button>
         </div>
     </div>
 </template>

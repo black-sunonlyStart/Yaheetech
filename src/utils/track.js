@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import { jsonp } from 'vue-jsonp'
-
-import { LogEmployeeTracking } from '@/api/user.js'
+let EmployeeId = 0
+let behavior = ''
+let canUpdata = false
 let conGetExlist = {
     GetHelpTagsUrl: function(Url) {
         var BaseUrl = '';
@@ -10,10 +11,10 @@ let conGetExlist = {
             BaseUrl = 'http://localhost:4840';
         }
         else if (domain.indexOf('yahee.com') >= 0) {
-            BaseUrl = 'http://qas-newerp.yahee.com.cn:8088/Latest';
+            BaseUrl = 'http://qas-portal.yahee.com.cn:8088/Latest';
         }
         else {
-            BaseUrl = 'http://newerp.yaheecloud.com/Latest'
+            BaseUrl = 'http://portal.yaheecloud.com/Latest'
         }
         return BaseUrl + Url;
     }
@@ -31,56 +32,80 @@ Vue.directive('track', {
     if (binding.value) {
         //这里参数是根据自己业务可以自己定义
         //如果是浏览类型，直接保存
-        let params = {
-                output:'jsonp',
-                type: "POST",
-                Data:[
-                {
-                    DomId: binding.value.businessCode,
-                    DomText: binding.value.behavior,
-                    CurrentPage: binding.value.currentUrl,
-                    InputContext: "",
-                    EmployeeId: 111111,
-                    CreatedOnTimeStamp: new Date().getTime()
-                }
-                ]
-            }
-        if (binding.value.triggerType == 'browse'){
-            //调用后台接口保存数据
-            
-        } else if (binding.value.triggerType == 'click'){
-                //如果是click类型，监听click事件
-                el.addEventListener('click', (event) => {
-                    //调用后台接口保存数据
-                    sendLogApi(params)
+        
+            if (binding.value.triggerType == 'browse'){
+                //调用后台接口保存数据
+                sendLogApi(binding.value)
+            } else if (binding.value.triggerType == 'click'){
+                    //如果是click类型，监听click事件
+                    el.addEventListener('click', (event) => {
+                        if(!event.detail)return 
+                        //调用后台接口保存数据
+                        if(!binding.value.businessCode){
+                            binding.value.businessCode = event.target.innerText
+                        }
+                        if(canUpdata &&  binding.value.shouldUpdate){
+                            binding.value.behavior = behavior
+                        }
+                        sendLogApi(binding.value)
+                        }, false)
+            } else if(binding.value.triggerType == 'blur'){
+                if (el.tagName.toLocaleLowerCase() == 'input') {
+                    el.addEventListener('blur', (event) => {
+                        //调用后台接口保存数据
+                            binding.value.InputContext = event.target.value
+                        sendLogApi(binding.value)
                     }, false)
-        } else if(binding.value.triggerType == 'blur'){
-                el.addEventListener('blur', (event) => {
-                    //调用后台接口保存数据
-                    
-                }, false)
+                } else {
+                    if (el.getElementsByTagName('input')) {
+                        el.getElementsByTagName('input')[0].addEventListener('blur', (event) => {
+                            //调用后台接口保存数据
+                            binding.value.InputContext = event.target.value
+                            sendLogApi(binding.value)
+                        }, false)
+                    }
+                }
+                
             }
         }
-    }
+    },
+    update:(el,binding) => {
+        //如果要传变量多加一个更新属性
+        if(binding.value && binding.value.shouldUpdate == '1'){
+            canUpdata = true
+            behavior = binding.value.behavior
+        }
+    },
 })
 
-// function sendLogApi (params) {
-//     params.Data = JSON.stringify(params.Data);
-    
-//     let url = conGetExlist.GetHelpTagsUrl("/Tracking/LogEmployeeTracking").toString()
-
-//     jsonp(url,params,2000000).then(res => {  
-//         if(res.data){
-//             console.log(res.data)
-//         }    
-//     },err => {
-//         console.log(err)   
-//     })
-// }
-function sendLogApi (params) {
-    LogEmployeeTracking(params.Data).then(res => {
-        if(res.data){
-            console.log(res.data)
+function sendLogApi (value) {
+    let  params = []
+    params = {
+            output:'jsonp',
+            items:[
+                {
+                    DomId: value.behavior,
+                    DomText:value.businessCode,
+                    CurrentPage: value.currentUrl,
+                    InputContext: value.InputContext, 
+                    CreatedOnTimeStamp: new Date().getTime(),
+                }
+            ]
         }
+    if(EmployeeId){
+        params.items.forEach(res => {
+            res.EmployeeId = EmployeeId
+        })
+    }
+    params.items = JSON.stringify(params.items);
+    let url = conGetExlist.GetHelpTagsUrl("/Tracking/LogEmployeeTracking").toString()
+    jsonp(url,params,2000000).then(res => {  
+        if(res){
+            EmployeeId = res.EmployeeId
+            canUpdata = false
+        }    
+    },err => {
+        console.log(err)   
+        canUpdata = false
     })
 }

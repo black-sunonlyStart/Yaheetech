@@ -454,8 +454,8 @@
              </el-row>
          </el-form>
          <div class="bottomButton">
-            <el-button type="primary" @click="submitForm('ruleForm')" size="mini" perkey='ERP.Product.ProductDev.SalesManEdit' >保存</el-button>
-            <el-button @click="resetForm('ruleForm')" size="mini">取消</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'产品尺寸和属性信息'}" perkey='ERP.Product.ProductDev.SalesManEdit' >保存</el-button>
+            <el-button @click="resetForm('ruleForm')" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'产品尺寸和属性信息'}" size="mini">取消</el-button>
         </div>
     </div>
 </template>

@@ -81,8 +81,8 @@
             </el-form-item>   
         </el-form>
         <div class="bottomButton">
-            <el-button type="primary" @click="submitForm('ruleForm')" size="mini" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
-            <el-button @click="resetForm('ruleForm')" size="mini">取消</el-button>
+            <el-button v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'开发类型/场景'}" type="primary" @click="submitForm('ruleForm')" size="mini" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
+            <el-button v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'开发类型/场景'}" @click="resetForm('ruleForm')" size="mini">取消</el-button>
         </div>
         <productTypeDialog ref='productTypeDialog' @putTreeDialogList='putTreeDialogList'></productTypeDialog>
     </div>

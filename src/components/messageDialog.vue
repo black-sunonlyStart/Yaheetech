@@ -2,7 +2,7 @@
     <div>
         <el-dialog
             :visible.sync="dialogVisible"
-            width="30%"
+            width='570px'
             :modal='false'
             class="dialogBox"
             v-dialogDrag
@@ -101,8 +101,17 @@
                 </div>
             </el-form>
             <span slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="submitList('ruleForm')" size="mini">确 定</el-button>
-                <el-button @click="resetForm('ruleForm')" size="mini">取 消</el-button>
+                <el-button 
+                    type="primary" 
+                    @click="submitList('ruleForm')" 
+                    size="mini" 
+                    v-track="{triggerType:'click',currentUrl: $route.path,behavior:'确定',behavior:dialogName,shouldUpdate:'1'}"
+                >确 定</el-button>
+                <el-button 
+                    @click="resetForm('ruleForm')" 
+                    size="mini" 
+                    v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',behavior:dialogName,shouldUpdate:'1'}"
+                >取 消</el-button>
             </span>
         </el-dialog>
     </div>

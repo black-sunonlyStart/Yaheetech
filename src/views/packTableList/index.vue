@@ -1,7 +1,7 @@
 <template>
   <div class="nav-container">
     <el-card class="nav-card">
-      <navBar  @putTableList='putTableList' :total='total'></navBar>
+      <navBar  @putTableList='putTableList' :total='total' :employeeId='employeeId'></navBar>
     </el-card>
     <el-card class="button-card">
       <abilityBtn :selectRow='selectRow' @putTbleList='putTbleList' :navFilterList='filterList'></abilityBtn>
@@ -29,7 +29,8 @@ export default {
       faCoRemarks: false,
       filterList:{},
       selectRow:[],
-      total:50
+      total:50,
+      employeeId:0,
     }
   },
   computed: {
@@ -69,7 +70,7 @@ export default {
     },
     putTbleList(){
         this.$refs.mainTable.getTableList(this.filterList)
-    }
+    },
   }
 }
 </script>

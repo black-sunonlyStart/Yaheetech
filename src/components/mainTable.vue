@@ -72,7 +72,7 @@
             width="250"
             >
         <template slot-scope="scope">
-            <div class="remarksenTitle" @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">{{scope.row.enTitle}}</div>
+            <div class="remarksenTitle" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'跳转产品详情页链接',businessCode:'/productDetails'}"  @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">{{scope.row.enTitle}}</div>
             <div>{{scope.row.title || '--'}}</div>
             <el-tooltip placement="right" effect="light" :visible-arrow='false' popper-class='popperBorder' style="padding:0;border:none">
                 <span slot="content" class="copeTitle"  @click="copeDevelopId(scope.row.developmentId)">
@@ -189,7 +189,12 @@
         <template slot-scope="scope">
             <div class="operaBox" v-show="stateList.includes(scope.row.state)">
                 <el-tooltip class="item" effect="dark" content="编辑" placement="bottom-start">
-                    <div class="imageBox" @click="clickEdit(scope.row.developmentId,scope.row.productId,scope.row.id)" v-permission="'ERP.Product.ProductDev.Select'" perkey='ERP.Product.ProductDev.SalesManEdit'></div>
+                    <div class="imageBox" 
+                    @click="clickEdit(scope.row.developmentId,scope.row.productId,scope.row.id)" 
+                    v-permission="'ERP.Product.ProductDev.Select'" 
+                    perkey='ERP.Product.ProductDev.SalesManEdit'
+                    v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑开发产品',businessCode: '编辑',}"
+                    ></div>
                 </el-tooltip>
                 <!-- <el-tooltip class="item" effect="dark" content="操作" placement="bottom-start"> -->
                 <el-popover
@@ -197,7 +202,14 @@
                     width="80"
                     trigger="hover">
                     <div class="operationBox" v-for="item in operationList" :key="item.id"> 
-                        <div class="operationText"  @click="putOperation(scope.row,item.id)"><div class="nameBox" v-if="showDev(scope.row,item.id)"  v-permission:[item.perkey] :perkey='item.perkey'>{{item.name}}</div></div>
+                        <div class="operationText"  
+                        @click="putOperation(scope.row,item.id)"
+                        >
+                        <div class="nameBox" 
+                        v-if="showDev(scope.row,item.id)"   
+                        v-permission:[item.perkey] :perkey='item.perkey'
+                        v-track="{triggerType:'click',currentUrl: $route.path,behavior:item.name}"
+                        >{{item.name}}</div></div>
                     </div>
                     <div class="imageBox1" slot="reference" @mouseover="openOperation(scope.row)"></div>
                 </el-popover>

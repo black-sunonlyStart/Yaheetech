@@ -1,7 +1,7 @@
 <template>
     <div class="buttonStyle" >
         <div v-permission:[item.perkey]  v-for="item in operationList" :key="item.id*Math.random()"  @click="putOperation(item.id)">
-            <el-button size="mini" v-if="showDev(item.id)" type="primary" style="margin-right:5px">{{item.name}}</el-button>
+            <el-button size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:item.name + '按钮',businessCode: item.name,}" v-if="showDev(item.id)" type="primary" style="margin-right:5px">{{item.name}}</el-button>
         </div>
         
         <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog"  @getTableList='getTableList' :row='row' :showOrder='showOrder'></messageDialog>

@@ -1,5 +1,5 @@
 <template>
-  <div class="navbarContainer">
+  <div class="navbarContainer" v-track="{triggerType:'browse',currentUrl: $route.path,behavior:'进入列表页',}">
     <el-form ref="form"
              :model="form"
              label-width="150px">
@@ -10,12 +10,14 @@
             <el-select v-model="form.dateType"
                        @change="typeChange"
                        size='mini'
-                    class="timeBox"
+                       class="timeBox"        
                        >
               <el-option v-for="item in dataOptions"
                          :key="item.value"
                          :label="item.label"
-                         :value="item.value">
+                         :value="item.value"
+                          v-track="{triggerType:'click',currentUrl: $route.path,behavior:'筛选时间',businessCode: item.label}"   
+                         >
               </el-option>
             </el-select>
             <span class="editMstyle">:</span>
@@ -30,14 +32,23 @@
                 :picker-options="pickerOptions"
                 format="yyyy-MM-dd"
                 value-format="yyyy-MM-dd"
-                size='mini'>
+                size='mini'
+                 v-track="{triggerType:'blur',currentUrl: $route.path,behavior:'输入日期查询',InputContext:form.timeValue2,}"
+                >
             </el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="10" :md="9" :lg="8" :xl="9">
           <el-form-item label="产品负责人:">
-            <el-radio-group v-model="form.productOwner">
-              <el-radio v-for="item in productOwner" :label="item.value" :key="item.value" >{{item.label}}</el-radio>
+            <el-radio-group v-model="form.productOwner"
+           
+            >
+              <el-radio 
+              v-for="item in productOwner" 
+              :label="item.value" 
+              :key="item.value" 
+               v-track="{triggerType:'click',currentUrl: $route.path,behavior:'产品负责人筛选',businessCode:item.label,}"
+              >{{item.label}}</el-radio>
             </el-radio-group>
           </el-form-item>
         </el-col>
@@ -51,13 +62,14 @@
                         clearable
                         @change="searchSomething"
                         @keyup.enter.native="searchSomething"
+                        v-track="{triggerType:'blur',currentUrl: $route.path,behavior:'综合搜索输入框',InputContext:putSearch}"
                         >
                 </el-input>
                 <el-button 
                 type="primary" 
                 size="mini" 
                 @click="searchSomething"
-                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'综合搜索按钮',businessCode: 19,actionType:'xxx-view'}"
+                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'综合搜索按钮'}"
                 >搜索</el-button>
             </div>
           </el-form-item>
@@ -67,16 +79,25 @@
         <el-col :span="10" :xs="24" :sm="24" :md="11" :lg="12" :xl="11">
           <el-form-item label="开发国家:">
               <div class="checkBoxAll">
-                <el-checkbox class="checkboxAlltext" :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+                <el-checkbox 
+                    class="checkboxAlltext" 
+                    :indeterminate="isIndeterminate" 
+                    v-model="checkAll" 
+                    @change="handleCheckAllChange"
+                    >全选</el-checkbox>
                 <el-checkbox-group 
-                class="chengboxMoreBox"
+                    class="chengboxMoreBox"
                     v-model="form.checkedCities"
-                    @change="handleCheckedCitiesChange">
+                    @change="handleCheckedCitiesChange"
+                     
+                    >
                     <el-checkbox 
                         v-for="item in cities"
                         :label="item.countryCodes"
-                        :key="item.countryCodes">
-                        {{item.country}}
+                        :key="item.countryCodes"
+                        v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发国家筛选'}"
+                        >
+                        {{item.country}}                      
                     </el-checkbox>
                 </el-checkbox-group>
               </div>
@@ -84,7 +105,7 @@
         </el-col>
         <el-col :span="10" :md="10" :lg="10" :xl="10">
           <el-form-item label="寻找供应商:">
-                <el-radio-group v-model="form.suppliers" >
+                <el-radio-group v-model="form.suppliers" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'寻找供应商筛选'}">
                 <el-radio label="all">全部</el-radio>
                 <el-radio label="1">已找过</el-radio>
                 <el-radio label="0">未找过</el-radio>
@@ -95,7 +116,7 @@
       <el-row>
         <el-col :span="10" :xs="24" :sm="24" :md="11" :lg="12" :xl="11">
           <el-form-item label="开发场景:">
-            <el-checkbox-group v-model="form.developmentScenario" > 
+            <el-checkbox-group v-model="form.developmentScenario" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发场景筛选'}"> 
                 <el-radio  label='all' v-model="radio" style="width:42px" @change="showOtherCheck" class="radioStyle">全部</el-radio>
                 <el-radio :label="5" v-model="radio" style="width:52px;" @change="showOtherCheck" class="radioStyle">二次开发</el-radio>
                 <el-radio :label="4" v-model="radio" style="width:42px" @change="showOtherCheck" class="radioStyle">全新开发</el-radio> 
@@ -111,7 +132,7 @@
         </el-col>
         <el-col :span="10" :md="10" :lg="9" :xl="10">
           <el-form-item label="距样品到货:">
-            <el-radio-group v-model="form.sample">
+            <el-radio-group v-model="form.sample" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'距样品到货筛选'}">
               <el-radio label="all">全部</el-radio>
               <el-radio label="0">未超交期</el-radio>
               <el-radio label="1">已逾期</el-radio>
@@ -122,7 +143,7 @@
       <el-row>
         <el-col :span="10" :xs="24" :sm="24" :md="11" :lg="12" :xl="11">
           <el-form-item label="是否需要认证:">
-            <el-radio-group v-model="form.authentication" class="actionBox">
+            <el-radio-group v-model="form.authentication" class="actionBox" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'是否需要认证筛选'}">
               <el-radio style="width:42px" label="all">全部</el-radio>
               <el-radio style="width:52px" label= 1>是</el-radio>
               <el-radio style="width:42px" label= 0>否</el-radio>
@@ -131,7 +152,7 @@
         </el-col>
         <el-col :span="10" :md="10" :lg="9" :xl="10">
             <el-form-item label="是否需要专利:">
-                <el-radio-group v-model="form.patent">
+                <el-radio-group v-model="form.patent" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'是否需要专利筛选'}">
                     <el-radio label="all">全部</el-radio>
                     <el-radio label= 1>需要</el-radio>
                     <el-radio label= 0>不需要</el-radio>
@@ -143,8 +164,18 @@
         <el-col :span="21">
           <el-form-item label="开发状态:" class="statusBox">
             <div class="checkBoxAll1">
-                <el-checkbox class="checkboxAlltext1" :indeterminate="isIndeterminate1" v-model="checkStatusAll" @change="handleStatusAllChange">全选 ({{total}})</el-checkbox>
-                <el-checkbox-group class="chengboxMoreBox1" v-model="form.status" @change="handleCheckedStatusChange">
+                <el-checkbox class="checkboxAlltext1" 
+                :indeterminate="isIndeterminate1" 
+                v-model="checkStatusAll" 
+                @change="handleStatusAllChange"
+                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发状态筛选'}"
+                >全选 ({{total}})</el-checkbox>
+                <el-checkbox-group 
+                class="chengboxMoreBox1" 
+                v-model="form.status" 
+                @change="handleCheckedStatusChange"
+                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发状态筛选'}"
+                >
                     <el-checkbox 
                         v-for="item in statusList"
                         :label="item.label"
