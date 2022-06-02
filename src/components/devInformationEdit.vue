@@ -933,8 +933,8 @@ export default {
                      this.devInformationDetaiList.productMarketList.push({
                         platformname:item.name,
                         countrycode:this.ruleForm.marksContry1,
-                        warehouseName:'德国仓',
-                        warehouseid:11,
+                        warehouseName:'德国yahee仓',
+                        warehouseid:47,
                         developmentprice:this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] ? this.devInformationDetaiList.productMarketList[0].developmentprice : 0
                     })
                 })
@@ -942,8 +942,8 @@ export default {
                 this.devInformationDetaiList.productMarketList.push({
                         platformname:this.ruleForm.marksContry2,
                         countrycode:this.ruleForm.marksContry1,
-                        warehouseName:'德国仓',
-                        warehouseid:11,
+                        warehouseName:'德国yahee仓',
+                        warehouseid:47,
                         developmentprice:this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] ? this.devInformationDetaiList.productMarketList[0].developmentprice : 0
                     })
                 }

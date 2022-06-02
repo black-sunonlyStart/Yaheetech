@@ -7,7 +7,7 @@ import { judgePorduction } from './tools.js'
 axios.defaults.withCredentials = true;
 const service = axios.create({
   baseURL:process.env.VUE_APP_DEVSERVER, // url = base url + request url
-  timeout: 30000// request timeout
+  timeout: 90000// request timeout
 })
 
 

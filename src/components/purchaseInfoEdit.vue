@@ -400,7 +400,7 @@ export default {
                 createdName:'',
                 taxleviedpoint:'',
                 backpurchaseprice:'',
-                tax:'',
+                tax:0,
                 backpurchasepricenote:'',
                 bandprice:'',
                 sampledeliverydays:'',
