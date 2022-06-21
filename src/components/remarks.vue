@@ -19,7 +19,6 @@
                             <i v-if="item.createdby != oemployee.Id " class="el-icon-user isLeft"></i>
                         </div>
                         <div class="moment-time">{{$moment(item.createdon).format("YYYY-MM-DD HH:mm:ss")}}</div>
-                        <!-- <div>{{item.createdon}}</div> -->
                     </div>
                     <div class="bubbleROutBox">
                         <div :class="item.createdby == oemployee.Id || item.otherType == 0 ?'bubbleTailRight':'bubbleTail'"></div>
@@ -73,7 +72,6 @@ export default {
 </script>
 <style lang="scss" scoped>
     .remarksBox{
-        // margin-left: 20px;
         height: 100%;
         width: 100%;
         .el-icon-user{
@@ -88,8 +86,6 @@ export default {
             margin-left: 15px;
             margin-top: 15px;
             position:relative;
-            // overflow-y: auto;
-            // overflow: hidden;
             .isLeft{
                 margin-right: 5px;
             }
@@ -144,9 +140,7 @@ export default {
                     right: -4px;
                     top: 0px;
                     min-width: 140px;
-                    // height: 40px;
                     background-color:#eeeeee; 
-                    // border: 1px solid #cccccc;
                     .topStatusTitle{
                         font-weight: bold;
                         .bubbleBoxText{
@@ -161,12 +155,10 @@ export default {
                     right: -50px;
                     top: 0px;
                     width: 140px;
-                    // height: 40px;
                     background-color:#eeeeee; 
                     border: 1px solid #cccccc;
                     .topStatusTitle{
                         font-weight: bold;
-                        // color: red;
                         .bubbleBoxText{
                             float: right;
                         }
@@ -178,7 +170,6 @@ export default {
     }
     .titleRemarks{
         font-weight: bold;
-        // margin: 15px 0 15px 15px;
         font-size: 16px;
         border-bottom: 1px solid #cccccc;
         padding: 15px
@@ -192,7 +183,6 @@ export default {
     .bubbleBoxMainText{
         min-height: 50px;
         width: 123px
-        // overflow-y: auto;
     }
     .addColor{
         color: red;

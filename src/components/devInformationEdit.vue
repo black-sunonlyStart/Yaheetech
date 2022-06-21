@@ -113,71 +113,6 @@
                                 </el-option>
                             </el-select>
                         </span>
-                        <!-- 美：
-                        <el-select 
-                            style="width:80px"
-                            v-model="ruleForm.brandUs"
-                            >
-                            <el-option 
-                                v-for="item in isBrandSign"                        
-                                :key="item.key"
-                                :label="item.label"
-                                :value="item.value"
-                                >
-                            </el-option>
-                        </el-select>
-                        英：
-                        <el-select 
-                        style="width:80px"
-                            v-model="ruleForm.brandEu"
-                            >
-                            <el-option 
-                                v-for="item in isBrandSign"                        
-                                :key="item.key"
-                                :label="item.label"
-                                :value="item.value"
-                                >
-                            </el-option>
-                        </el-select>
-                        德：
-                        <el-select
-                        style="width:80px" 
-                            v-model="ruleForm.brandDe"
-                            >
-                            <el-option 
-                                v-for="item in isBrandSign"                        
-                                :key="item.key"
-                                :label="item.label"
-                                :value="item.value"
-                                >
-                            </el-option>
-                        </el-select>
-                        澳：
-                        <el-select 
-                        style="width:80px"
-                            v-model="ruleForm.brandAo"
-                            >
-                            <el-option 
-                                v-for="item in isBrandSign"                        
-                                :key="item.key"
-                                :label="item.label"
-                                :value="item.value"
-                                >
-                            </el-option>
-                        </el-select>
-                        日：
-                        <el-select 
-                        style="width:80px"
-                            v-model="ruleForm.brandJP"
-                            >
-                            <el-option 
-                                v-for="item in isBrandSign"                        
-                                :key="item.key"
-                                :label="item.label"
-                                :value="item.value"
-                                >
-                            </el-option>
-                        </el-select> -->
                     </el-form-item>
                 </el-col>
                 <el-col :span="10"  :xs="24" :sm="24" :md="24" :lg="20" :xl="10">
@@ -190,15 +125,6 @@
                                         </el-input>
                                     </span>
                                 </span>
-                            <!-- GB:<el-input v-model="ruleForm.productMarketGB">
-                                <template slot="append">%</template>
-                            </el-input>
-                            DE:<el-input v-model="ruleForm.productMarketDE">
-                                <template slot="append">%</template>
-                            </el-input>
-                            JP:<el-input v-model="ruleForm.productMarketJP">
-                                <template slot="append">%</template>
-                            </el-input> -->
                         </div>
                     </el-form-item>
                 </el-col>
@@ -577,10 +503,6 @@ export default {
                         if(countryCodeList.find(item => item.dutyrate === '' )){
                             return cb(new Error("请填写税率!"));
                         }
-                        // if (!value || !productMarketGB || !productMarketDE || !productMarketJP) {
-                        //     return cb(new Error("请填写税率!"));
-                        // }
-
                         return cb();
                         },
                         trigger: "change"
@@ -999,21 +921,12 @@ export default {
                 dailySales: this.devInformationDetaiList.buyerid,
                 rateRequirements:this.devInformationDetaiList.description,
                 orderQuantity: this.devInformationDetaiList.priority,
-                // productMarketUS: this.devInformationDetaiList.dutyrate1,
-                // productMarketGB: this.devInformationDetaiList.dutyrate2 ? this.devInformationDetaiList.dutyrate2 : '3.26',
-                // productMarketDE: this.devInformationDetaiList.dutyrate3 ? this.devInformationDetaiList.dutyrate3 : '3.91',
-                // productMarketJP: this.devInformationDetaiList.dutyrate4 ? this.devInformationDetaiList.dutyrate4 : '0',
                 isanji:this.devInformationDetaiList.isanji,
                 isbrand:this.devInformationDetaiList.ispatentproduct,
                 titleDe:this.devInformationDetaiList.titleDe,
                 titleJp:this.devInformationDetaiList.titleJp,
                 ispatentproduct:this.devInformationDetaiList.ispatentproduct,
                 seaFreight:this.devInformationDetaiList.computemode == 0 ||  this.devInformationDetaiList.computemode == '' ?0:1,
-                // brandEu:this.devInformationDetaiList.enCountryBand || '0',
-                // brandUs:this.devInformationDetaiList.usCountryBand || '0',
-                // brandDe:this.devInformationDetaiList.deCountryBand || '0',
-                // brandAo:this.devInformationDetaiList.auCountryBand || '0',  
-                // brandJP:this.devInformationDetaiList.jpCountryBand || '0',  
                 countryCodeList:this.devInformationDetaiList.countryCodeList,
 
             }
@@ -1287,7 +1200,6 @@ export default {
             }
         }
     }
-     
     .inputUnit{
         text-align: center;
         line-height: 28px;
@@ -1306,7 +1218,6 @@ export default {
     ::v-deep.inputBox{
         width: 200px;
         display: inline-block;
-        // display: flex;
         .el-input-number {
             .el-input__inner{
                 color: black !important;
@@ -1322,10 +1233,6 @@ export default {
         margin:0px 20px 10px 0px;
         background-color: #F5F7FA;
         border-radius: 4px;
-        .delButton{
-            
-            // margin-right:20px;
-        }
         .mainTitle{
             font-weight: bold;
         }

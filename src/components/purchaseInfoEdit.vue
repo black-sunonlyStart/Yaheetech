@@ -485,7 +485,6 @@ export default {
             }else {
                 return (purchaseprice + miscprice + warpperfee).toFixed(2)
             }
-            // == 2 ? scope.row.fobprice * purchaseInfoDetaiList.exchangeRate : (scope.row.calculateprofittype == 3 ? scope.row.taxprice : scope.row.purchaseprice)  + scope.row.miscprice  + scope.row.warpperfee || 0
         },
         deleteRow(index, rows) {
             rows.splice(index, 1);
@@ -602,8 +601,6 @@ export default {
                 })
                 this.ruleForm.productPurchaseVoList[this.seleindex].isdefault = true
                 let tableList = []
-                // this.selectRow.isdefault = true
-                // this.selectRow.type = 0
                 tableList.push( this.ruleForm.productPurchaseVoList)
                 if(this.ruleForm.lastProductPurchaseVoList.length != 0){
                         this.ruleForm.lastProductPurchaseVoList.type = 1
@@ -670,7 +667,6 @@ export default {
 ::v-deep.inputBox{
         width: 300px;
         display: inline-block;
-        // display: flex;
         .el-input-number {
             width: 150px;
             .el-input__inner{

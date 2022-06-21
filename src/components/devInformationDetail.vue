@@ -315,9 +315,7 @@ export default {
             let filterList = []
             if(this.devInformationDetaiList && this.devInformationDetaiList.countryCodeList){
                 filterList =  this.devInformationDetaiList.countryCodeList.filter(res => {
-                    // if(res.countryLanguage == val){
-                        return res.countryLanguage == val
-                    // }
+                    return res.countryLanguage == val
                 })
                 
             }

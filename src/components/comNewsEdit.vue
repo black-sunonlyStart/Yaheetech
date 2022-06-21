@@ -336,12 +336,6 @@ export default {
         this.getDetailPage()
     },
     methods:{
-        // changeFilePhoto(file,fileList){
-        // if(fileList.length > 1){
-        //     fileList = fileList.splice(0,1)
-        // }
-            
-        // },
        async selectPlatformid(val,index){
             this.comNewsDetailList.competingproducts[index].platformsiteid = ''
             let countryList = this.devSign.filter(item => {
@@ -409,15 +403,9 @@ export default {
                 jpranking:this.comNewsDetailList.jpranking,
                 jpadjustmentpoint:this.comNewsDetailList.jpadjustmentpoint,
                 note:this.comNewsDetailList.note,
-            }
-            // if(!this.comNewsDetailList.competingproducts ){
-            //     this.comNewsDetailList.competingproducts = []
-            //     // this.addPageList()
-            // }
-            
+            } 
         },
       resetForm() {
-            // this.$refs[formName].resetFields();
             this.$emit('closeEdit','false')
         },
       submitForm(formName) {
@@ -572,7 +560,6 @@ export default {
 }
 .mainImage{
     margin-left: 55px;
-    // border: 1px solid #EBEEF5;
     margin-top: 8px;
     border-top: none;
     ::v-deep .el-form-item{
@@ -582,7 +569,6 @@ export default {
         display: inline-block;
         margin-top: 15px;
         .el-icon-remove-outline{
-            // margin-top: 30px;
             color: red;
             font-size: 15px;
         }
@@ -607,23 +593,17 @@ export default {
         height: 250px;
         margin-bottom: 45px;
         margin-right: 15px;
-        // position:absolute;
         .imgbox{
             display: flex;
             .uploadBox{
                 margin: 15px 0px 0px 15px
             }
         }
-        .uploadImage{
-            // margin-top: 15px;
-        }
         .el-upload--picture-card {
             display: block !important;
             border: 1px solid #c0ccda;
             width: 148px !important;
             height: 20px !important;
-            // position: relative;
-            // top: 1px;
         }
         .imgText{
             position: relative;
@@ -665,7 +645,6 @@ export default {
 ::v-deep.inputBox{
         width: 290px;
         display: inline-block;
-        // display: flex;
         .el-input-number {
             width: 210px;
             .el-input__inner{

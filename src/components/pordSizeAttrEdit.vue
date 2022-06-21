@@ -467,11 +467,8 @@ export default {
         return {
             ycun:0.3937008,
             disableControl:true,
-            isHaveNo:false,
-            // changFromP:false,
             loading:false,
             firstList:false,
-            putColor:false,
             copeMulAttrBute:{},
             selectid:'',
             boxType:[],
@@ -525,9 +522,6 @@ export default {
                 productColor: [{ required: true, message: '请选择产品颜色', trigger: 'blur' }],
                 productlistings: [{ required: true, message: '请输入产品尺寸', trigger: 'blur' }],
             },
-            // fromaDataRules:{
-            //     packedlength:[{ required: true, message: '请输入包装长度', trigger: 'blur' }]
-            // },
             devSign:[
                 {
                     label: '规则立方体',
@@ -644,13 +638,6 @@ export default {
             }
              
         },
-        // changPackingMethod(val){
-        //      this.changFromP = false
-        //     if(val == 1){
-        //         this.changFromP = true
-        //         this.ruleForm.productType = 2
-        //     }
-        // },
         selectConNumb(val){
             let selectid = []
             selectid = this.boxType.filter(item => {
@@ -822,7 +809,6 @@ export default {
                 });
             },
             resetForm() {
-                // this.$refs[formName].resetFields();
                 this.$emit('closeEdit','false')
             }
     },
@@ -834,10 +820,6 @@ export default {
     height: 30px;   
     display: flex;
     justify-content: flex-end;
-}
-.productSizeW{
-        // width: 200px;
-        // margin-right: 20px;
 }
 .productSizeText{
     display: flex;
@@ -855,7 +837,6 @@ export default {
     display: inline-block;
     height: 30px;
     line-height: 30px;
-    // width: 500px;
     color: #cccccc;
 }
 .titleColor {

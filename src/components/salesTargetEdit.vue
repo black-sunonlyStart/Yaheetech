@@ -261,7 +261,6 @@ export default {
     ::v-deep.inputBox{
         width: 300px;
         display: inline-block;
-        // display: flex;
         .el-input-number {
             width: 150px;
             .el-input__inner{

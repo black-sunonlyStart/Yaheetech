@@ -23,22 +23,6 @@
           <i class="el-icon-delete"></i>
         </div>
       </li>
-      <!-- 上传按钮 -->
-      <!-- <el-upload
-        slot="footer"
-        ref="uploadRef"
-        class="uploadBox"
-        :style="{ width: width + 'px', height: height + 'px' }"
-        :auto-upload="false"
-        :action="action"
-        accept=".jpg,.jpeg,.png,.gif"
-        :show-file-list="false"
-        :before-upload="beforeUpload"
-        :data="fileType"
-        :on-change="handleChange"
-        :http-request='httprequest' 
-        :with-credentials="true"
-      > -->
       <el-upload
         slot="footer"
         ref="uploadRef"
@@ -79,9 +63,6 @@
 
 <script>
 import vuedraggable from 'vuedraggable'
-// import { getToken } from '@/utils/auth' // 获取token，
-// import { validImgUpload } from '@/utils/validate'
-// import lrz from 'lrz' // 前端图片压缩插件
 import {createUniqueString} from '@/utils/tools'
 import {loadFile} from '@/api/user.js'
 export default {
@@ -191,26 +172,8 @@ export default {
   },
 
   methods: {
-    //   removeMustFile(file, fileList){
-    //         console.log(file, fileList);
-    //         let params = {
-    //             fileType:1,
-    //             developmentId:this.$route.params.developmentId,
-    //             datta:file.id,
-    //         }
-    //         loadFile(params).then(res => {
-    //             if(res.code == 200){
-    //                this.$emit('closeEdit')
-    //             }
-    //         })
-
-    //     },
     handleChange(file, fileList) {
       this.fileList = fileList;
-    //   if(!this.$route.params.developmentId){
-    //       this.$message.error('请选择开发场景，在上传图片');
-    //       return
-    //   }
       this.$refs.uploadRef.submit();
     },
     // 同步el-upload数据
@@ -346,15 +309,13 @@ export default {
 .vue-draggable {
   display: flex;
   flex-wrap: wrap;
-
-  .draggable-item {
+.draggable-item {
     margin-right: 5px;
     margin-bottom: 5px;
     border: 1px solid #ddd;
     border-radius: 6px;
     position: relative;
     overflow: hidden;
-
     .el-image {
       width: 100%;
       height: 100%;
@@ -400,7 +361,6 @@ export default {
     }
   }
 }
-// el-image
 .el-image-viewer__wrapper {
   .el-image-viewer__mask {
     opacity: .8;

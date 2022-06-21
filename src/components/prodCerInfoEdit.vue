@@ -142,7 +142,7 @@
                                 v-for="item in riskLevel"                        
                                 :key="item.key"
                                 :label="item.label"
-                                :value="item.value"
+                                :value="item.key"
                                 >
                             </el-option>
                         </el-select>
@@ -223,42 +223,6 @@ export default {
             },
             rules:{
                 isCertificationReq: [{ required: true, message: '请选择', trigger: 'blur' }],
-                // usaNessCertification: [{
-                //         required: true,
-                //         validator: (rules, value, cb) => {
-                //         let { ukNessCertification,euNessCertification } = this.ruleForm;
-                //         if (value.length == 0 && ukNessCertification.length == 0 && euNessCertification.length == 0) {
-                //             return cb(new Error("请选择!"));
-                //         }
-
-                //         return cb();
-                //         },
-                //         trigger: "change"
-                //     }],
-                // requirements: [{ required: true,
-                //                 // message: '请填写认证要求',
-                //                 validator: (rules, value, cb) => {
-                //                     if (value.find(item => item.data == null || !item.data)) {
-                //                         return cb(new Error("请填写认证要求!"));
-                //                     }
-
-                //                     return cb();
-                //                     },
-                //                 trigger: 'blur' 
-                //                 }],
-                // testRequirements: [{ required: true,
-                //                 // message: '请填写认证要求',
-                //                 validator: (rules, value, cb) => {
-                //                     if (value.find(item => item.data == null || !item.data)) {
-                //                         return cb(new Error("请填写测试要求!"));
-                //                     }
-
-                //                     return cb();
-                //                     },
-                //                 trigger: 'blur' 
-                //                 }],
-                // requirementsRemark: [{ required: true, message: '请填写认证备注', trigger: 'blur' }],
-                // productAgeGroup: [{ required: true, message: '请选择适用年龄段', trigger: 'blur' }],
                 patentRiskLevel: [{ required: true, message: '请选择风险等级', trigger: 'blur' }],
             },
             isUsa:[
@@ -270,10 +234,6 @@ export default {
                     authId:2,
                     authName: 'CPSIA'
                 },
-                // {
-                //     authId:3,
-                //     authName: 'CFR 1303'
-                // },
                 {
                     authId:4,
                     authName: 'FDA'
@@ -451,9 +411,6 @@ export default {
         this.getDetailPage()
     },
     methods:{
-        // changUSAinput(e){
-        //     this.$forceUpdate()
-        // },
         changeTestRequirements(i,val){
             this.ruleForm.testRequirements[i].data = val
         },
@@ -462,7 +419,6 @@ export default {
                 authtype:2,
                 developmentid:this.$route.params.developmentId,
                 productid:this.$route.params.productId
-                // data:data
             })
         },
         delTestRement(index){
@@ -612,7 +568,6 @@ export default {
             });
         },
         resetForm() {
-                // this.$refs[formName].resetFields();
                 this.$emit('closeEdit','false')
             }
         }

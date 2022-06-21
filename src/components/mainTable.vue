@@ -339,19 +339,6 @@ export default {
           })
       },
        changeMaxHeight(){
-            // let firefox = ''
-            // let opera = ''
-            // let addNarHeight = 45
-            // if (navigator.userAgent.indexOf('Firefox') >= 0) firefox = true
-            // if (navigator.userAgent.indexOf('Opera') >= 0) opera = true
-            // if (window.self === window.top) {
-            // 　　 addNarHeight = 0
-            // }
-            // if(firefox){
-            //     return window.outerHeight- 455 - addNarHeight + 'px'
-            // }else {
-            //     return window.outerHeight- 405 - addNarHeight + 'px'
-            // }
             return window.innerHeight - 276 + 'px'
         },
       copeDevelopId(val){
@@ -428,16 +415,6 @@ export default {
                         }
                     });
                     window.open(routeData.href, '_blank');
-                    // this.$router.push({
-                    //     name:'productDetails',
-                    //     query:{
-                    //             developmentType:row.developmentType,
-                    //             developmentId:row.developmentId,
-                    //             productId:row.productId,
-                    //             developmentScenarios:row.developmentScenarios,
-                    //             id
-                    //         }
-                    // })
                 }).catch(() => {
                 return          
             });
@@ -485,16 +462,6 @@ export default {
                             }
                         });
                     window.open(routeData.href, '_blank');
-                // this.$router.push({
-                //         name:'productDetails',
-                //         query:{
-                //                 developmentType:row.developmentType,
-                //                 developmentId:row.developmentId,
-                //                 productId:row.productId,
-                //                 developmentScenarios:row.developmentScenarios,
-                //                 id
-                //             }
-                //     })
                 }).catch(() => {
                 return          
             });
@@ -712,7 +679,7 @@ export default {
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:25,
+                    id:7,
                     perkey:'ERP.Product.ProductDev.ManagerAudit'
                   },
                   {
@@ -815,24 +782,6 @@ export default {
               ]
           }else if (row.state == 9){
               console.log(row)
-          }else if (row.state == 10){ //0 2 3 8
-              this.operationList = [
-                  {
-                    name:'审批通过',
-                    id:25,
-                    perkey:'ERP.Product.ProductDev.SamplePurchaseAudit'
-                  },
-                  {
-                    name:'开发新市场',
-                    id:26,
-                    perkey:'ERP.Product.ProductDev.ADD'
-                  },
-                  {
-                    name:'开发新尺码',
-                    id:8,
-                    perkey:'ERP.Product.ProductDev.ADD'
-                  },
-                ]
           }
       },
       routerMove(devId,proId,procountryId){
@@ -847,9 +796,7 @@ export default {
             window.open(routeData.href, '_blank');
       },
       newGetImagePath(){
-        //   getImagePath().then(res => {
-              this.lastImageUrl = document.URL.includes('yaheecloud') ? 'http://fileservice.yaheecloud.com/' : 'http://192.168.168.6:8988/FMSService/'
-        //   })
+          this.lastImageUrl = document.URL.includes('yaheecloud') ? 'http://fileservice.yaheecloud.com/' : 'http://192.168.168.6:8988/FMSService/'
           let params = {
               type : 0
           }
@@ -925,7 +872,6 @@ export default {
 .imageTitel {
     display: inline-block;
     font-size: 12px;
-    // font-weight: bold;
     z-index: 990;
     position: absolute;
     right: 0px;
@@ -937,7 +883,6 @@ export default {
     display: inline-block;
     line-height: 12px;
     font-size: 12px;
-    // font-weight: bold;
     z-index: 990;
     position: absolute;
     right: 0px;
@@ -987,22 +932,16 @@ export default {
     right: 30px;
 }
 ::v-deep.tableMain{
-    overflow: auto;
-    // .tableBox{
+        overflow: auto;
         max-height: 534px;
         overflow-y: auto;
-    // }
     .el-table{
         .el-table__body-wrapper .is-scrolling-none .scroll-container{
             .el-table__body{
                 overflow: auto;
             }    
         }
-        .el-table__body-wrapper {
-            // height:500px !important;
-        }
     }
-    
 }
 .boxColor{
     color: red;
@@ -1016,7 +955,6 @@ export default {
             line-height: 12px;
             font-size: 12px;
             border-bottom: 1px solid #cccccc;
-            // margin-top: 5px;
             padding: 10px 0px;
             &:hover{
                 background-color: #3366cc;
@@ -1032,7 +970,6 @@ export default {
     .imageBox{
         height: 18px;
         width: 18px;
-        // float: left;
         background-image: url(../assets/bianji.png);
         cursor: pointer;
     }
@@ -1040,7 +977,6 @@ export default {
         margin-left: 10px;
         height: 22px;
         width: 22px;
-        // float: left;
         background-image: url(../assets/shenhe.png);
         cursor: pointer;
     }
@@ -1074,12 +1010,6 @@ export default {
         margin-left: 2px !important;
     }
 }
-// .pageInation-box{
-//    height: 58px;
-//     background-color: #fff;
-//     z-index: 1111;
-//     // position: relative;
-// }
 </style>
 <style>
 .el-tooltip__popper{

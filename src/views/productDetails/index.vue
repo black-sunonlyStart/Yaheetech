@@ -971,7 +971,7 @@ export default {
                         JSON.parse(res.data.development.dutyrate).LocalStrings.forEach(res => {
                             countryCodeList.forEach(item => {
                                 if(item.countryLanguage  == res.LanguageCode ){
-                                   item.dutyrate = res.Value * 100
+                                   item.dutyrate = (res.Value * 100).toFixed(2)
                                 }
                             })
                         })   
@@ -1057,7 +1057,7 @@ export default {
                         authnote:this.productVos.authnote,//认证备注
                         applicableAge:this.productVos.applicableAge ,//产品年龄段
                         applicableAgeNote:this.productVos.applicableAgeNote ,//备注
-                        riskllevel:this.productVos.riskllevel,//专利风险等级
+                        riskllevel:this.productVos.riskllevel == 0 ? 1 : this.productVos.riskllevel,//专利风险等级
                         patentInfo:patentInfo.LocalStrings,//专利确认
                     }
                 // })
@@ -1198,7 +1198,7 @@ export default {
                     sampleDeliveryOn:this.productVos.sampleDeliveryOn, //样品交期
                     sampledeliverydays:this.productVos.sampledeliverydays, //样品交期
                     taxleviedpoint:res.data.development.taxleviedpoint, //含税价税点
-                    tax:res.data.development.tax ? res.data.development.tax * 100 : '', //海关退税率
+                    tax:res.data.development.tax ? (res.data.development.tax * 100).toFixed(2) : '', //海关退税率
                     bandprice:res.data.development.bandprice, //品牌费
                     fobbandprice:res.data.development.fobbandprice, //FOB报价品牌费
                     packedvolume:this.productVos.packedvolume, //FOB头程费
@@ -1345,7 +1345,6 @@ export default {
       },
       rightMove(){
           let image = document.querySelector('.step-container')
-        //   let parentBox = document.querySelector('.stepBox')
           if(image.offsetLeft < -1377){
               return
           }else{
@@ -1377,7 +1376,6 @@ export default {
 .nav-container {
   width: 100%;
   height: 100%;
-//   min-height: 980px;
   background-color: rgba(230, 230, 230, 1);
   .cardBox{
     position: relative;
@@ -1390,7 +1388,6 @@ export default {
         width: 44px;
         height: 39px;
         z-index: 1000;
-        // border: 1px solid #3366cc;
         border-radius: 5px;
     .remarks {
             position: fixed;
@@ -1438,7 +1435,6 @@ export default {
       margin: 10px 10px 10px 10px;
       .el-card__body{
           padding-top: 10px !important;
-        //   margin-left: 200px;
     }
   }
   .out-container {
@@ -1525,7 +1521,6 @@ export default {
         }
         .stepTitle{ 
             font-size: 12px;
-            // margin-right: 15px;
             width: 120px;
         }
     }
@@ -1611,7 +1606,6 @@ export default {
         color: red;
         font-weight: normal;
         display: inline-block;
-        // margin-right: 5px;
     }
  }
  

@@ -316,10 +316,7 @@ export default {
               }
         }
         .imageTitle{
-            // width: 250px;
-            // height: 100px;
             display: flex;
-            // align-items: center;
             flex-direction: column;
             justify-content: space-between;
             margin-left: 10px;

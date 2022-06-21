@@ -131,10 +131,6 @@ export default {
                     label: '二次开发',
                     shwOption:true,
                 }, 
-                // {
-                //     value: 12,
-                //     label: '二次开发'
-                // }, 
             ]
         }],
         devSign:[    
@@ -369,13 +365,9 @@ export default {
       }
       .signClass{
           display: flex;
-          .signInput{
-            //   width: 300px;
-          }
           .signText{
               color: #3366cc ;
               margin-left: 10px;
-            //   width: 300px;
             &:hover{
                 cursor: pointer;
             }

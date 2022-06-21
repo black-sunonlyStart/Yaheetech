@@ -164,8 +164,6 @@
                             :data="{fileType:1,developmentId:$route.params.developmentId}"
                             :file-list="ruleForm.factoryGaveImage">
                             <i class="el-icon-plus"></i>
-                                <!-- <el-button size="small" type="primary" style="margin-right:15px">选择本地图片</el-button>
-                                <el-button size="small" type="primary" style="margin-right:15px">清空图片</el-button> -->
                             </el-upload>
                     </el-form-item>
                 </el-col>
@@ -407,7 +405,6 @@ export default {
             });
         },
         resetForm() {
-                // this.$refs[formName].resetFields();
                 this.$emit('closeEdit','false')
             }
     }

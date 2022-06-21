@@ -257,11 +257,8 @@
                     return
                 }
                 this.row = this.selectRow
-                //  if(val == '20'){
-                    this.dialogName = '更换业务开发'
-                    this.clickId = 20
-                // }
-                
+                this.dialogName = '更换业务开发'
+                this.clickId = 20
                 this.$refs.messageDialog.openDialog()
             },
             changeOrderPer(){

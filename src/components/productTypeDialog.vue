@@ -21,7 +21,6 @@
     </div>
 </template>
 <script>
-// let menuTree = require("@/mock/tree.json");
 import { queryAllCategory } from '@/api/user.js'
 export default {
     name:'productTypeDialog',

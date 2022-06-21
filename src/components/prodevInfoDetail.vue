@@ -97,10 +97,6 @@ export default {
 .produInfo{
     display: flex;
     margin: 15px 0px 0px 50px;
-    // font-weight: bold;
-    span {
-        // font-weight: normal;
-    }
 }
 .produInfoImage{
     margin: 15px 0px 0px 50px;

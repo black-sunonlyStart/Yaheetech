@@ -303,10 +303,6 @@ export default {
 <style lang="scss" scoped>
 .textSpeaing{
     margin-top: 15px;
-    // font-weight: bold;
-    span {
-        // font-weight: normal;
-    }
 }
 .tableTitle{
     border: 1px solid #EBEEF5;

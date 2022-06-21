@@ -3,7 +3,6 @@
         <div v-permission:[item.perkey]  v-for="item in operationList" :key="item.id*Math.random()"  @click="putOperation(item.id)">
             <el-button size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:item.name + '按钮',businessCode: item.name,}" v-if="showDev(item.id)" type="primary" style="margin-right:5px">{{item.name}}</el-button>
         </div>
-        
         <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog"  @getTableList='getTableList' :row='row' :showOrder='showOrder'></messageDialog>
     </div>
     
@@ -138,7 +137,6 @@ export default {
                         message:'解冻成功',
                         offset:220
                     })
-                    //   this.getTableList(this.navFilterList)
                   }
               }) 
           }else if(id == 14){
@@ -283,7 +281,7 @@ export default {
               this.operationList = [
                   {
                     name:'审批通过',
-                    id:25,
+                    id:7,
                     perkey:'ERP.Product.ProductDev.ManagerAudit'
                   },
                   {
@@ -347,14 +345,6 @@ export default {
               ]
           }else if (state == 9){
                this.operationList=[]
-          }else if (state == 10){ //0 2 3 8
-              this.operationList = [
-                  {
-                    name:'审批通过',
-                    id:25,
-                    perkey:'ERP.Product.ProductDev.SamplePurchaseAudit'
-                  },
-                ]
           }else {
               this.operationList = []
           }
