@@ -4,7 +4,7 @@
             :visible.sync="drawer"
             :direction="direction"
             :modal='false'
-            :size="360"
+            :size="750"
             style="height:80%;margin-top:197px;"
             :withHeader='false'
             >
@@ -34,15 +34,25 @@
                     </div>
                 </div>
             </div>
-        </el-drawer>
+          <div contenteditable="true" class="content-div" ref="contentDiv">
+
+          </div>
+          <div class="buttonQuill">
+              <el-button type="primary" size="mini">上传图片</el-button> <el-button  type="primary" size="mini" @click="sendEditQuill()">发送(send)</el-button>
+          </div>  
+        </el-drawer> 
     </div>
 </template>
 <script>
+import { saveDevelopmentmemo } from '@/api/user.js'
 export default {
+    components:{
+    },
     data(){
         return {
             drawer: false,
             direction: 'ltr',
+            content: `11111<br>11111111<br>11111111<br>11111111<br>11111111<br>11111111<br>11111111<br>11111111`,
         }
     },
     props:{
@@ -59,11 +69,36 @@ export default {
             default:() => ({})
         },
     },
+    watch:{
+    //   content:{
+    //       handler:function(val){debugger
+    //           if(val){
+    //             this.pageNum = 1
+    //             this.getTableList(val)
+    //           }
+    //       },
+    //       deep:true
+    //   }
+  },
     created(){
     },
     computed:{
     },
     methods:{
+        sendEditQuill(){
+            let params = {
+                developmentid:this.$route.params.developmentId?this.$route.params.developmentId:'',
+                productid:this.$route.params.productId?this.$route.params.productId:'',
+                productcountryid:this.$route.params.productCountryId?Number(this.$route.params.productCountryId):'',
+                note:this.content,
+                otherType:1,
+          }
+          saveDevelopmentmemo(params).then(res => {
+              if(res.code == 200){
+                  this.$emit('getAllpageList')
+              }
+          })
+        },
         openHandle(){
              this.drawer = true
         },
@@ -71,9 +106,17 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.content-div {
+    width: 750px;
+    height: 184px;
+    border: 1px solid #ccc;
+    padding: 10px;
+}
     .remarksBox{
-        height: 100%;
         width: 100%;
+        max-height: 476px;
+        overflow-y: auto;
+        padding-bottom: 30px;
         .el-icon-user{
             border-radius: 50%;
             background-color: #cccccc;
@@ -122,7 +165,7 @@ export default {
                 }
                 .bubbleTailRight{
                     position:relative;
-                    right: -213px;
+                    right: -600px;
                     top:10px;
                     width:0;
                     height:0;
@@ -152,7 +195,7 @@ export default {
                     padding: 5px;
                     border-radius: 5px;
                     position:relative;
-                    right: -50px;
+                    right: -434px;
                     top: 0px;
                     width: 140px;
                     background-color:#eeeeee; 
@@ -197,5 +240,16 @@ export default {
     .moment-time{
         color: #cccccc;
     }
- 
+   ::v-deep .el-drawer__body {
+        position: relative;
+         .buttonQuill {
+            position: absolute;
+            bottom: 16px;
+            right: 10px;
+        }
+    }
+    ::v-deep .ql-container {
+        max-height: 138px;
+        overflow-y: auto;
+    }
 </style>

@@ -2,7 +2,7 @@
  * 创建唯一的字符串
  * @return {string} ojgdvbvaua40
  */
- import { Message } from 'element-ui';
+ import { Message, TimeSelect } from 'element-ui';
  import { jsonp } from 'vue-jsonp'
 
  function createUniqueString () {
@@ -38,7 +38,6 @@
       }
     }
   }
-
   function formatDate(date, fmt) {
 	date = new Date(date);
 	if (typeof(fmt) === "undefined") {
@@ -250,6 +249,107 @@ function gethashCode(hashCodeStr){
       }
       return hash
   }
+    function GetFileServiceUrl (Url) {
+        let  BaseUrl = '';
+        let  domain = document.domain;
+        if (domain.indexOf('localhost') >= 0 || domain.indexOf('127.0.0.1') >= 0) {
+            BaseUrl = 'http://qas-service.yahee.com.cn:8088/FMSService/Latest/';
+        } else if (domain.indexOf('yahee.com') >= 0) {
+            BaseUrl = 'http://qas-service.yahee.com.cn:8088/FMSService/Latest/';
+        } else {
+            BaseUrl = 'http://fileservice.yaheecloud.com'
+        }
+        return BaseUrl + Url;
+    }
+  function getLogMessage(param,that,trueOne){
+        let filter = {}
+        filter.output = 'jsonp'
+        filter.OnlyHandleLastRequest = false
+        let data = {
+            // BusinessKey:param.developmentId,
+            // PageIndex:param.pageNum,
+            // BusinessName:param.productCountryId,
+        //    BusinessKey:"QA-2206210001",
+        //    BusinessName:"PMS.QualityTest",
+           BusinessKey:param.productCountryId,
+           BusinessName:param.noteBussinessName,
+           PageIndex:param.PageIndex,
+           StartOn:param.StartOn ? param.StartOn : '',
+           EndOn:param.EndOn ? param.EndOn : '',
+           UserIds: param.UserIds && param.UserIds[0] != null ? param.UserIds : [],
+           Notes:param.Notes,
+           Mark:param.Mark,
+        }
+        filter.filter = JSON.stringify(data);
+        let url = conGetExlist.GetHelpTagsUrl("/Common/FindGlobalNotes").toString()
+        jsonp(url,filter,2000000).then(res => { 
+            that.dataList.LoginId = res.LoginId
+            if(res.List.length > 0){
+                if(trueOne){
+                    that.dataList.List = res.List
+                }else {
+                    that.dataList.List.push(...res.List)
+                }
+                that.moreData = false
+            }else if(res.List.length == 0) {
+                if(trueOne){
+                    that.dataList.List = res.List
+                    
+                }else {
+                    that.dataList.List.push(...res.List) 
+                }
+                that.moreData = true
+            }
+            that.loading = false 
+        },err => {
+            that.loading = false
+        }) 
+    }
+
+    async function sendLogMessage(param,that){
+        let filter = {}
+        filter.output = 'jsonp'
+        filter.OnlyHandleLastRequest = false
+        let data = {
+            // BusinessKey:param.developmentId,
+            // PageIndex:param.pageNum,
+            // BusinessName:param.productCountryId,
+           BusinessKey:param.productCountryId,
+           BusinessName:param.noteBussinessName,
+           notes:param.notes,
+           ViewTitle:'备注',
+        }
+        let url = conGetExlist.GetHelpTagsUrl("/Common/Insertglobalnotes").toString()
+        
+        jsonp(url,data,2000000).then(res => { 
+            
+        })
+        that.$message({
+            type: 'success', 
+            message:'添加备注成功！',
+            offset:220
+        })
+        await getLogMessage(param,that,true)
+    }
+    function GetGlobalNotesUsers(param,that){
+        let filter = {}
+        filter.output = 'jsonp'
+        filter.OnlyHandleLastRequest = false
+        let data = {
+            // BusinessKey:param.developmentId,
+            // PageIndex:param.pageNum,
+            // BusinessName:param.productCountryId,
+           BusinessKey:param.productCountryId,
+           BusinessName:param.noteBussinessName,
+        }
+        let url = conGetExlist.GetHelpTagsUrl("/Common/GetGlobalNotesUsers").toString()
+        filter.filter = JSON.stringify(data);
+        jsonp(url,filter,2000000).then(res => { 
+            that.dataOptions = res
+        })
+     
+    }
+
 export {
     copyUrl,
     createUniqueString,
@@ -259,6 +359,10 @@ export {
     debounce,
     throttle,
     judgePorduction,
-    gethashCode
+    gethashCode,
+    getLogMessage,
+    sendLogMessage,
+    GetGlobalNotesUsers,
+    GetFileServiceUrl,
 }
   

@@ -387,10 +387,32 @@ export function getCountry(data) {
       data
     })
   }
+  //自定义备注
+  export function saveDevelopmentmemo(data) {
+    return request({
+      url: '/productManage/saveDevelopmentmemo',
+      method: "post", 
+      data
+    })
+  }
   export function getUsExchangeRate(data) {
     return request({
       url: '/productManage/getUsExchangeRate',
       method: "get", 
       params:data
+    })
+  }
+  export function getFilePath(data) {
+    return request({  
+      url: 'http://api-tools-test.yahee.com.cn:8090/common/getFilePath',
+      method: "get", 
+      params:data
+    })
+  }
+  export function commonUploadFile(data) {
+    return request({  
+      url: 'http://api-tools-test.yahee.com.cn:8090/common/uploadFile',
+      method: "post", 
+      data
     })
   }

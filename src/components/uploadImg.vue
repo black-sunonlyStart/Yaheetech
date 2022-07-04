@@ -117,7 +117,7 @@ export default {
 
   data () {
     return {
-        param:[],
+      param:[],
     //   headers: { token: getToken() },
       isUploading: false, // 正在上传状态
       isFirstMount: true ,// 控制防止重复回显

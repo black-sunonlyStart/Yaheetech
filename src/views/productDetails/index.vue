@@ -87,10 +87,10 @@
         </el-row>
     </div>
     <div class="cardBox">
-        <remarks ref="remarks" :remarksList='remarksList' :employee='employee' :oemployee='oemployee'></remarks>
-        <el-tooltip class="item" effect="dark" content="展开" placement="bottom">
+        <!-- <remarks ref="remarks" :remarksList='remarksList' :employee='employee' :oemployee='oemployee' @getAllpageList='getAllpageList'></remarks> -->
+        <!-- <el-tooltip class="item" effect="dark" content="展开" placement="bottom">
             <div class="iconRemarks" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'备注',businessCode:'备注'}"><i class="remarks" @click="openRemarks"></i></div>
-        </el-tooltip>
+        </el-tooltip> -->
         <!-- <el-card class="card"> -->
             <div class="cardBoxMain">
                 <el-tabs v-model="activeName" :before-leave="handleClick">
@@ -340,6 +340,18 @@
                         </div>
                     </el-tab-pane>
                     <el-tab-pane label="备注" name="tenth">
+                        <div class="backgoundCon"></div>
+                        <div class='tabContainer1'>
+                            <el-card style="margin-bottom:30px">
+                                <div slot="header" class="clearfix">
+                                    <div>备注
+                                        
+                                    </div>   
+                                </div>
+                                <remarks :remarksParam='remarksParam' v-if="showTenth" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'备注',businessCode:'备注'}"></remarks>
+                            </el-card>
+                        </div>
+                        
                     </el-tab-pane>
                 </el-tabs>
                 <operationButton :nowStatus='timeStatus' :isanji='isanji' :employee='employee' @getTableList='updateGetAllpageList' v-if="renderDom"></operationButton>   
@@ -349,7 +361,8 @@
   </div>
 </template>
 <script>
- import { getProductDevDetail,getProductMultipleAttribute,exploitType,getImagePath,getEmployee,hasPermissions,getRoleTrue,getCountry,getUsExchangeRate } from '@/api/user.js'
+ import { getProductDevDetail,getProductMultipleAttribute,exploitType,getImagePath,getFilePath,getEmployee,hasPermissions,getRoleTrue,getCountry,getUsExchangeRate } from '@/api/user.js'
+
 export default {
   name: 'productDetails',
   components:{
@@ -370,11 +383,13 @@ export default {
       pordSizeAttrEdit:() => import('@/components/pordSizeAttrEdit'),
       purchaseInfoDetail:() => import('@/components/purchaseInfoDetail'),
       purchaseInfoEdit:() => import('@/components/purchaseInfoEdit'),
-      remarks:() => import('@/components/remarks'),
+      remarks:() => import('@/components/remarksNew'),
       operationButton:() => import('@/components/operationButton')
   },
   data () {
     return {
+        showTenth:false,
+        remarksParam:{},
         statusOptions : [0, 1, 2, 3, 4, 5, 6, 10, 11, 12, 13],
         showInfoTitle:false,
         scenarios:'',
@@ -557,6 +572,7 @@ export default {
         nowStatus:0,
         timeStatus:0,
         proImageList:'',
+        proFileList:'',
         showSizeTitle:false,
         renderDom:false,
         buyerName:'',
@@ -748,6 +764,11 @@ export default {
                      this.proImageList = res.data
                 }
             })
+            getFilePath().then(res => {
+                if(res.data){
+                     this.proFileList = res.data
+                }
+            })
         },
         getNewSizeList(){
             //  this.scenarios = ''
@@ -791,7 +812,15 @@ export default {
             })
         },
         openRemarks () {
-            this.$refs.remarks.openHandle()
+            let param = {
+                developmentId:this.$route.params.developmentId?this.$route.params.developmentId:'',
+                productId:this.$route.params.productId?this.$route.params.productId:'',
+                productCountryId:this.$route.params.productCountryId?this.$route.params.productCountryId:'',
+                employee:this.employee,
+                pageNum:0,
+                PageIndex:-1,
+            }
+            this.$refs.remarks.openHandle(param)
         },
    async getAllpageList(val){
             let exchangeRate = ''
@@ -1354,9 +1383,25 @@ export default {
       },
       handleClick(activeName){
           if(activeName == 'tenth'){
-              this.$refs.remarks.openHandle()
-              return false
+              this.remarksParam = {
+                developmentId:this.$route.params.developmentId?this.$route.params.developmentId:'',
+                productId:this.$route.params.productId?this.$route.params.productId:'',
+                productCountryId:this.$route.params.productCountryId?this.$route.params.productCountryId:'',
+                noteBussinessName:'PRODUCTDEV',
+                employee:this.employee,
+                pageNum:0,
+                PageIndex:-1,
+                proImageList:this.proFileList,
+                mainBtn:true,
+                Mark:'Check',
+                showAllbutton:true,
+            }
+              
+            this.showTenth = true
+          }else {
+              this.showTenth = false
           }
+        
       },
       changeCountry(developmentId,productId,productCountryId){
         let routeData = this.$router.resolve({
@@ -1544,6 +1589,16 @@ export default {
       width: 100%;
       height: 10px;
       background-color: rgba(230, 230, 230, 1);
+  }
+  .tabContainer1{
+      height: 100%;
+      width: 100%;
+      background-color: rgba(230, 230, 230, 1);
+      ::v-deep .el-card__header{
+          padding: 10px !important;
+          font-size: 16px;
+          font-weight: bold;
+      }
   }
   .tabContainer{
       height: 100%;

@@ -796,7 +796,12 @@ export default {
             window.open(routeData.href, '_blank');
       },
       newGetImagePath(){
-          this.lastImageUrl = document.URL.includes('yaheecloud') ? 'http://fileservice.yaheecloud.com/' : 'http://192.168.168.6:8988/FMSService/'
+          getImagePath().then(res => {
+                if(res.data){
+                     this.lastImageUrl = res.data
+                }
+            })
+        //   this.lastImageUrl = document.URL.includes('yaheecloud') ? 'http://fileservice.yaheecloud.com/' : 'http://192.168.168.6:8988/FMSService/'
           let params = {
               type : 0
           }
