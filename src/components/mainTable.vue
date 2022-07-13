@@ -37,6 +37,9 @@
                     :key="scope.row.showBigImgUrl * Math.random()"
                     lazy
                     fit="fill">
+                    <div slot="placeholder" class="image-slot">
+                        <i class="el-icon-loading"></i>
+                    </div>
                 </el-image>
                 <el-image
                     slot="reference"
@@ -46,6 +49,9 @@
                     :scroll-container="scrollContainer"
                     fit="fill"
                     >
+                    <div slot="placeholder" class="image-slot icon-loading">
+                        <i class="el-icon-loading" ></i>
+                    </div>
                     <div slot="error" class="image-slot" style="margin-top:35px;margin-left:5px;color:#cccccc">
                         <i class="el-icon-picture-outline">暂无图片</i>
                     </div>
@@ -874,6 +880,15 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.icon-loading {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size:25px
+    
+}
 .imageTitel {
     display: inline-block;
     font-size: 12px;

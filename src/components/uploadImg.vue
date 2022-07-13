@@ -18,7 +18,14 @@
         class="draggable-item"
         :style="{ width: width + 'px', height: height + 'px' }"
       >
-        <el-image :src="item.showImgUrl" :preview-src-list="[item.showBigImgUrl]"></el-image>
+        <el-image :src="item.showImgUrl" :preview-src-list="[item.showBigImgUrl]">
+            <div slot="placeholder" class="image-slot icon-loading">
+                <i class="el-icon-loading" ></i>
+            </div>
+            <div slot="error" class="image-slot icon-loading" style="font-size:14px">
+                <i class="el-icon-picture-outline">暂无图片</i>
+            </div>
+        </el-image>
         <div class="shadow" @click="onRemoveHandler(item,index)">
           <i class="el-icon-delete"></i>
         </div>
@@ -268,6 +275,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.icon-loading {
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size:25px
+    
+}
 .bottomButton{
     width: 100%;
     height: 30px;

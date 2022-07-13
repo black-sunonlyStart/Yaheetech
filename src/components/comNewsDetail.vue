@@ -15,6 +15,12 @@
                             fit="fill"
                             @click="openImageUrl(item.showBigImgUrl)"
                             >
+                            <div slot="placeholder" class="image-slot icon-loading">
+                                <i class="el-icon-loading" ></i>
+                            </div>
+                            <div slot="error" class="image-slot icon-loading" style="font-size:14px">
+                                <i class="el-icon-picture-outline">暂无图片</i>
+                            </div>
                         </el-image>
                     </div>
                     <div class="imageTitle">
@@ -265,6 +271,15 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.icon-loading {
+        width: 100px;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size:25px
+        
+    }
 .productsTitle{
     color: #3366cc;
     font-weight: bold;

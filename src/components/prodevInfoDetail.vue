@@ -46,6 +46,12 @@
                             style="width: 100px; height: 100px; dispaly:black;margin-right:10px"
                             :src="item.showImgUrl"
                             fit="fill">
+                            <div slot="placeholder" class="image-slot icon-loading">
+                                <i class="el-icon-loading" ></i>
+                            </div>
+                            <div slot="error" class="image-slot icon-loading" style="font-size:14px">
+                                <i class="el-icon-picture-outline">暂无图片</i>
+                            </div>
                         </el-image>
                     </div>
             </el-col>

@@ -1,12 +1,10 @@
 <template>
     <div class="remarkContent">
-        <div scope="title" class="titleRemarks">
-            备注
-        </div>
         <div style="float:right;padding:5px;">
              <el-form ref="form"
                 :model="form"
-                label-width="150px">
+                label-width="150px"
+                >
                  <el-date-picker 
                     v-model="form.timeValue2"
                     type="daterange"
@@ -36,7 +34,7 @@
                     </el-option>
                 </el-select>
                 <el-input placeholder="综合搜索"
-                        v-model="putSearch"
+                        v-model.trim="putSearch"
                         size='mini'
                         class="input-with-select"
                         clearable
@@ -67,11 +65,13 @@
                     >审核节点备注</el-button>
              </el-form>
         </div>
-        <div class="infinite-list-wrapper" style="overflow:auto">
+        <div class="infinite-list-wrapper">
             <div
                 class="list"
                 v-infinite-scroll="load"
-                infinite-scroll-disabled="disabled">
+                infinite-scroll-disabled="disabled"
+                infinite-scroll-distance="10"
+                >
                 <div v-for="(item) in dataList.List" class="span-backG" :key="item.id">
                     <!-- 添加一个if判断当前人在左侧，其他在右侧 -->
                     <div v-if="dataList.LoginId == item.CreatedBy" class="content-main">
@@ -84,6 +84,12 @@
                                     <el-image :src="showImage(item.Notes)" @click="openBlankImg(item.Notes)" style="width:220px;cursor:pointer">
                                         <div slot="error" class="image-slot">
                                             <img src="../assets/errorimg.png" alt="">
+                                        </div>
+                                        <div slot="placeholder" class="image-slot icon-loading">
+                                            <i class="el-icon-loading" ></i>
+                                        </div>
+                                        <div slot="error" class="image-slot icon-loading" style="font-size:14px">
+                                            <i class="el-icon-picture-outline">暂无图片</i>
                                         </div>
                                     </el-image>
                                 </div>
@@ -149,6 +155,12 @@
                                             <div slot="error" class="image-slot">
                                                 <img src="../assets/errorimg.png" alt="">
                                             </div>
+                                            <div slot="placeholder" class="image-slot icon-loading">
+                                                <i class="el-icon-loading" ></i>
+                                            </div>
+                                            <div slot="error" class="image-slot icon-loading" style="font-size:14px">
+                                                <i class="el-icon-picture-outline">暂无图片</i>
+                                            </div>
                                         </el-image>
                                     </div>
                                      <div v-else-if="item.Notes.includes('{{Word}}')" style="cursor:pointer">
@@ -206,7 +218,7 @@
                 <p v-if="noMore" class="nomore-text">没有更多了！</p>
             </div> 
         </div>
-        <textarea class="content-div" v-model="textareaText" ref="contentDiv" placeholder="可通过 Ctrl+V 直接上传图片/文件"></textarea>
+        <textarea class="content-div" v-model="textareaText" ref="contentDiv" placeholder="可通过 Ctrl+V 直接上传图片/文件" contenteditable='true'></textarea>
         <div class="buttonQuill">
             <el-upload
                 class="upload-demo"
@@ -220,6 +232,7 @@
                 :multiple="true"
                 :disabled="canUnpload"
                 ref="uploadRef"
+                :on-error="errorUploadFile"
             >
                 <el-button size="mini" :loading="canUnpload" :disabled="canUnpload">上传文件</el-button>
             </el-upload>
@@ -229,10 +242,16 @@
             title="上传预览"
             :visible.sync="dialogVisible"
             width="60%"
+             z-index="1000"
             >
-            <div class="imgBox">
-                <div v-for="(item,index) in imgList" :key="index" style="margin-right:10px;margin-bottom:10px;">
-                    <img :src="showImage(item.imgUrl)" v-if="item.imgUrl.includes('{{Img}}')" alt="" style="height:200px;margin-bottom:10px;max-width:1100px;display:flex;flex-wrap:wrap;border:1px solid #ccc;cursor:pointer">
+            <div class="imgBox"
+                v-loading="dialogLoading"
+            >
+                <div v-for="(item,index) in imgList" :key="index" style="margin-right:10px;margin-bottom:10px;width:100%">
+                    <div v-if="item.imgUrl.includes('{{Img}}')" style="display:flex;flex-wrap:wrap;width: 100%;justify-content: center;">
+                        <img :src="showImage(item.imgUrl)"  alt="" style="height:200px;margin-bottom:10px;max-width:1100px;display:flex;flex-wrap:wrap;border:1px solid #ccc;cursor:pointer">
+                    </div>
+                    
                     <div v-else class="bg-link">
                         {{showFiles(item.filesName)}}
                     </div>
@@ -256,6 +275,7 @@ import { commonUploadFile } from '@/api/user.js'
         },
     data () {
       return {
+        dialogLoading:true,
         canUnpload:false,
         textareaText:'',
         imgList:[],
@@ -365,12 +385,25 @@ import { commonUploadFile } from '@/api/user.js'
       this.openHandle()
     },
     methods: {
+        errorUploadFile(err){
+            this.canUnpload = false
+             this.$message({
+                        type: 'error', 
+                        message:'文件上传失败！',
+                        offset:220
+                    })
+        },
         beforeUpload(file){
             const isLt2M = file.size / 1024 / 1024 < 100;
-            if (!isLt2M) {
-                this.$message.error('上传文件大小不能超过 100MB!');
-            }
             this.canUnpload = true
+            if (!isLt2M) {
+                this.$message({
+                        type: 'error', 
+                        message:'上传文件大小不能超过 100MB!',
+                        offset:220
+                    })
+                this.canUnpload = false
+            }
             return  isLt2M;  
         },
         openBlankImg(notes){
@@ -461,11 +494,12 @@ import { commonUploadFile } from '@/api/user.js'
             } 
         },
         openDialog(){
+            this.dialogLoading = true
             this.dialogVisible = true
             this.canUnpload = true
-           
         },
         closeUploadDialog(){
+            this.dialogLoading = true
             this.dialogVisible = false
             this.canUnpload = false
         },
@@ -531,7 +565,11 @@ import { commonUploadFile } from '@/api/user.js'
         },
         sendEditQuill(){
             if(!this.textareaText){
-                this.$message.error('备注不能为空！')
+                this.$message({
+                        type: 'error', 
+                        message:'备注不能为空！',
+                        offset:220
+                    })
                 return
             }
             this.paramData.PageIndex = 0
@@ -550,11 +588,25 @@ import { commonUploadFile } from '@/api/user.js'
             this.$refs.contentDiv.addEventListener('paste', function (e) {//拦截粘贴事件
                 if (e.clipboardData || e.originalEvent) {
                     that.imgList = []
+                    if (e.clipboardData.items.length == 0)  {
+                         that.$message({
+                                type: 'error', 
+                                message:'复制文件到剪切板失败，请点击按钮上传！',
+                                offset:220
+                            })
+                        return 
+                    }
                     if(e.clipboardData.files.length>0){
+                        that.openDialog()
                         e.clipboardData.files.forEach(item => {
+                            
                             let isLt2M = item.size / 1024 / 1024 < 100;
                             if (!isLt2M) {
-                                this.$message.error('上传文件大小不能超过 100MB!');
+                                that.$message({
+                                    type: 'error', 
+                                    message:'上传文件大小不能超过 100MB!',
+                                    offset:200,
+                                })
                                 return
                             }
                             let param = new FormData();
@@ -565,16 +617,21 @@ import { commonUploadFile } from '@/api/user.js'
                                     'Content-Type': 'multipart/form-data'
                                 }
                             }; 
-                          commonUploadFile(param,config).then(res => {
+                          let url = document.URL.includes('yaheecloud') ? 'http://erptools.yaheecloud.com/api/common/uploadFile':'http://api-tools-test.yahee.com.cn:8090/common/uploadFile'
+                          commonUploadFile(url,param,config).then(res => {
                                 if(res.data && !res.data.includes(null)){
                                     let data = {}
                                     data = that.changeImgUrlParams(item,res.data[0]) 
                                     that.imgList.push(data)
+                                    that.dialogLoading = false                                  
                                 }else {
-                                    this.$message.error('上传失败请重新上传！')
+                                     that.$message({
+                                        type: 'error', 
+                                        message:'上传失败请重新上传！',
+                                        offset:200
+                                    })
                                 }
                             })
-                            that.openDialog()
                         })
                     }    
                 }
@@ -585,6 +642,7 @@ import { commonUploadFile } from '@/api/user.js'
 }
 </script>
 <style scoped lang="scss">
+
 .bg-link {
     color: #3366cc;
     cursor: pointer;
@@ -624,6 +682,7 @@ import { commonUploadFile } from '@/api/user.js'
     width: 100%;
     padding: 0 100px;
     margin-bottom: 30px;
+    overflow-y: auto;
 }
  .remarkContent {
         position: relative;
@@ -694,6 +753,7 @@ import { commonUploadFile } from '@/api/user.js'
         border-radius: 2px;
         padding: 4px;
         word-break: break-all;
+        text-align: right;
     }
     .l-text {
         margin-left: 100px;
@@ -753,5 +813,4 @@ import { commonUploadFile } from '@/api/user.js'
         align-items: center;
         margin-bottom: 36px;
     }
-   
 </style>

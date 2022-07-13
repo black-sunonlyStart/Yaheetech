@@ -11,11 +11,11 @@
                         :src="titleImgSrc"
                         fit="fill"
                         >
-                         <div slot="placeholder" class="image-slot">
-                            加载中<span class="dot">...</span>
+                         <div slot="placeholder" class="image-slot icon-loading">
+                            <i class="el-icon-loading" ></i>
                         </div>
-                         <div slot="error" class="image-slot">
-                            <i class="el-icon-picture-outline"></i>
+                        <div slot="error" class="image-slot icon-loading" style="font-size:14px">
+                            <i class="el-icon-picture-outline">暂无图片</i>
                         </div>
                     </el-image>
                 </div>
@@ -143,6 +143,12 @@
                                             fit="fill"
                                             @click="openImageUrl(item.showBigImgUrl)"
                                             >
+                                            <div slot="placeholder" class="image-slot icon-loading">
+                                                <i class="el-icon-loading" ></i>
+                                            </div>
+                                            <div slot="error" class="image-slot icon-loading" style="font-size:14px">
+                                                <i class="el-icon-picture-outline">暂无图片</i>
+                                            </div>
                                         </el-image>
                                     </div>
                                 </div>
@@ -572,7 +578,7 @@ export default {
         nowStatus:0,
         timeStatus:0,
         proImageList:'',
-        proFileList:'',
+        // proFileList:'',
         showSizeTitle:false,
         renderDom:false,
         buyerName:'',
@@ -707,6 +713,7 @@ export default {
                     break;
                     case 12:
                         this.isStatusEdit5 = true;
+                        this.isStatusEdit6 = true
                     break;
                     case 3 :
                         this.isStatusEdit = true;
@@ -764,11 +771,12 @@ export default {
                      this.proImageList = res.data
                 }
             })
-            getFilePath().then(res => {
-                if(res.data){
-                     this.proFileList = res.data
-                }
-            })
+            // let url = document.URL.includes('yaheecloud') ? 'http://erptools.yaheecloud.com/api/common/getFilePath':'http://api-tools-test.yahee.com.cn:8090/common/getFilePath'
+            // getFilePath(url).then(res => {
+            //     if(res.data){
+            //          this.proFileList = res.data
+            //     }
+            // })
         },
         getNewSizeList(){
             //  this.scenarios = ''
@@ -1391,9 +1399,9 @@ export default {
                 employee:this.employee,
                 pageNum:0,
                 PageIndex:-1,
-                proImageList:this.proFileList,
+                // proImageList:this.proFileList,
                 mainBtn:true,
-                Mark:'Check',
+                Mark:null,
                 showAllbutton:true,
             }
               
@@ -1637,7 +1645,7 @@ export default {
               background-image: url(../../assets/svg/edit.svg);
           }
       }
-      .imgContainer{
+    .imgContainer{
           display: flex;
           min-height: 100px;
           .imgCon{
@@ -1647,10 +1655,18 @@ export default {
                 height: 100px; 
                 display: block;
                 cursor:pointer
-              }
+              }         
           }
       }  
   }
+  .icon-loading {
+        width: 100px;
+        height: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size:25px;    
+    }
  .showColor{
      color: red;
      font-weight: normal;

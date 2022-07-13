@@ -402,16 +402,16 @@ export function getCountry(data) {
       params:data
     })
   }
-  export function getFilePath(data) {
+  export function getFilePath(url,data) {
     return request({  
-      url: 'http://api-tools-test.yahee.com.cn:8090/common/getFilePath',
+      url: url,
       method: "get", 
       params:data
     })
   }
-  export function commonUploadFile(data) {
+  export function commonUploadFile(url,data) {
     return request({  
-      url: 'http://api-tools-test.yahee.com.cn:8090/common/uploadFile',
+      url:url,
       method: "post", 
       data
     })

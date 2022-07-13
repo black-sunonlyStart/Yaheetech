@@ -257,7 +257,7 @@ function gethashCode(hashCodeStr){
         } else if (domain.indexOf('yahee.com') >= 0) {
             BaseUrl = 'http://qas-service.yahee.com.cn:8088/FMSService/Latest/';
         } else {
-            BaseUrl = 'http://fileservice.yaheecloud.com'
+            BaseUrl = 'http://fileservice.yaheecloud.com/'
         }
         return BaseUrl + Url;
     }
