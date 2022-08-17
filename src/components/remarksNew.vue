@@ -89,12 +89,12 @@
                                             <i class="el-icon-loading" ></i>
                                         </div>
                                         <div slot="error" class="image-slot icon-loading" style="font-size:14px">
-                                            <i class="el-icon-picture-outline">暂无图片</i>
+                                            <i class="el-icon-picture-outline">加载失败</i>
                                         </div>
                                     </el-image>
                                 </div>
                                 <div v-else-if="item.Notes.includes('{{Word}}')">
-                                     <div @click="uploadFilers(item.Notes)"  class="bg-link">
+                                     <div  class="bg-link">
                                         <img src="../assets/file-word.png" @click="uploadFilers(item.Notes)" style="cursor:pointer">
                                         <div>
                                             {{showFilesName(item.Notes)}}
@@ -102,7 +102,7 @@
                                     </div>
                                 </div>
                                 <div v-else-if="item.Notes.includes('{{PDF}}')">
-                                    <div @click="uploadFilers(item.Notes)"  class="bg-link">
+                                    <div  class="bg-link">
                                         <img src="../assets/pdf.png" @click="uploadFilers(item.Notes)" style="cursor:pointer">
                                         <div>
                                             {{showFilesName(item.Notes)}}
@@ -110,15 +110,15 @@
                                     </div>
                                 </div>
                                  <div v-else-if="item.Notes.includes('{{PPT}}')" style="cursor:pointer">
-                                        <div @click="uploadFilers(item.Notes)"  class="bg-link">
-                                            <img src="../assets/ppt.png" >
+                                        <div class="bg-link">
+                                            <img src="../assets/ppt.png" @click="uploadFilers(item.Notes)">
                                             <div>
                                                 {{showFilesName(item.Notes)}}
                                             </div>
                                         </div>
                                     </div>
                                 <div v-else-if="item.Notes.includes('{{Excel}}')">
-                                    <div @click="uploadFilers(item.Notes)"  class="bg-link">
+                                    <div class="bg-link">
                                         <img src="../assets/excel.png" @click="uploadFilers(item.Notes)" style="cursor:pointer">
                                         <div>
                                             {{showFilesName(item.Notes)}}
@@ -126,7 +126,7 @@
                                     </div>
                                 </div>
                                 <div style="color:#3366cc;cursor:pointer" v-else-if="item.Notes.includes('{{Other}}')">
-                                    <div @click="uploadFilers(item.Notes)"  class="bg-link">
+                                    <div  class="bg-link">
                                         <i class="el-icon-document" style="font-size:48px" @click="uploadFilers(item.Notes)"></i>
                                         <div>
                                             {{showFilesName(item.Notes)}}
@@ -159,21 +159,21 @@
                                                 <i class="el-icon-loading" ></i>
                                             </div>
                                             <div slot="error" class="image-slot icon-loading" style="font-size:14px">
-                                                <i class="el-icon-picture-outline">暂无图片</i>
+                                                <i class="el-icon-picture-outline">加载失败</i>
                                             </div>
                                         </el-image>
                                     </div>
                                      <div v-else-if="item.Notes.includes('{{Word}}')" style="cursor:pointer">
-                                        <div @click="uploadFilers(item.Notes)"  class="bg-link">
-                                            <img src="../assets/file-word.png">
+                                        <div   class="bg-link">
+                                            <img src="../assets/file-word.png" @click="uploadFilers(item.Notes)">
                                             <div>
                                                 {{showFilesName(item.Notes)}}
                                             </div>
                                         </div>
                                     </div>
                                     <div v-else-if="item.Notes.includes('{{PDF}}')" style="cursor:pointer">
-                                        <div @click="uploadFilers(item.Notes)"  class="bg-link">
-                                            <img src="../assets/pdf.png" >
+                                        <div   class="bg-link">
+                                            <img src="../assets/pdf.png" @click="uploadFilers(item.Notes)">
                                             <div>
                                                 {{showFilesName(item.Notes)}}
                                             </div>
@@ -181,24 +181,24 @@
                                         
                                     </div>
                                     <div v-else-if="item.Notes.includes('{{PPT}}')" style="cursor:pointer">
-                                        <div @click="uploadFilers(item.Notes)"  class="bg-link">
-                                            <img src="../assets/ppt.png" >
+                                        <div   class="bg-link">
+                                            <img src="../assets/ppt.png" @click="uploadFilers(item.Notes)">
                                             <div>
                                                 {{showFilesName(item.Notes)}}
                                             </div>
                                         </div>
                                     </div>
                                     <div v-else-if="item.Notes.includes('{{Excel}}')" style="cursor:pointer">
-                                         <div @click="uploadFilers(item.Notes)"  class="bg-link">
-                                            <img src="../assets/excel.png">
+                                         <div   class="bg-link">
+                                            <img src="../assets/excel.png" @click="uploadFilers(item.Notes)">
                                             <div>
                                                 {{showFilesName(item.Notes)}}
                                             </div>
                                         </div>
                                     </div>
                                     <div style="color:#3366cc;cursor:pointer" v-else-if="item.Notes.includes('{{Other}}')">
-                                         <div @click="uploadFilers(item.Notes)" class="bg-link">
-                                            <i class="el-icon-document" style="font-size:48px"></i>
+                                         <div  class="bg-link">
+                                            <i class="el-icon-document" style="font-size:48px" @click="uploadFilers(item.Notes)"></i>
                                             <div>
                                                 {{showFilesName(item.Notes)}}
                                             </div>
@@ -416,7 +416,7 @@ import { commonUploadFile } from '@/api/user.js'
             }else if(notes.includes('{{Excel}}')) {
                 fileuri = notes.split('{{Excel}}')[1].split('{{Name}}')[0]
             }else if(notes.includes('{{PDF}}')) {
-                fileuri = notes.split('{{PDF}}')[1].split('{{Name}}')[0]
+                fileuri = notes.split('{{PDF}}')[1].split('{{Name}}')[0] + '?dispositionType=attachment'
             }else if(notes.includes('{{PPT}}')) {
                 fileuri = notes.split('{{PPT}}')[1].split('{{Name}}')[0]
             }else if(notes.includes('{{Other}}')) {

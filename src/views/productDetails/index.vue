@@ -15,7 +15,7 @@
                             <i class="el-icon-loading" ></i>
                         </div>
                         <div slot="error" class="image-slot icon-loading" style="font-size:14px">
-                            <i class="el-icon-picture-outline">暂无图片</i>
+                            <i class="el-icon-picture-outline">加载失败</i>
                         </div>
                     </el-image>
                 </div>
@@ -147,7 +147,7 @@
                                                 <i class="el-icon-loading" ></i>
                                             </div>
                                             <div slot="error" class="image-slot icon-loading" style="font-size:14px">
-                                                <i class="el-icon-picture-outline">暂无图片</i>
+                                                <i class="el-icon-picture-outline">加载失败</i>
                                             </div>
                                         </el-image>
                                     </div>
@@ -1293,7 +1293,7 @@ export default {
                     this.showSizeText.push('第三长边超过60，')
                 } if(pordSizeAttrInfoList.afterpackweight > 30){
                     this.showSizeText.push('重量超过30KG，')
-                } if(pordSizeAttrInfoList.productVolume > 0.23){
+                } if(pordSizeAttrInfoList.packedvolume > 0.23){
                     this.showSizeText.push('体积超过0.23方，')
                 }
             }
@@ -1401,7 +1401,7 @@ export default {
                 PageIndex:-1,
                 // proImageList:this.proFileList,
                 mainBtn:true,
-                Mark:null,
+                Mark:'Check',
                 showAllbutton:true,
             }
               

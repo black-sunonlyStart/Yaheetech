@@ -53,7 +53,7 @@
                         <i class="el-icon-loading" ></i>
                     </div>
                     <div slot="error" class="image-slot" style="margin-top:35px;margin-left:5px;color:#cccccc">
-                        <i class="el-icon-picture-outline">暂无图片</i>
+                        <i class="el-icon-picture-outline">加载失败</i>
                     </div>
                 </el-image>
          </el-popover>
