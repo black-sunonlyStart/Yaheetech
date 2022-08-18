@@ -95,10 +95,10 @@
             <div class="cardBoxMain">
                 <el-tabs v-model="activeName" :before-leave="handleClick">
                     <el-tab-pane name="first" >
-                    <span slot="label"><span style="margin-right:30px">开发类型/场景</span><span style="margin-right:30px">产品尺寸图</span><span>销售目标</span></span>
+                    <span slot="label"><span style="margin-right:30px">开发类型/场景</span><span style="margin-right:30px">产品图片</span><span>销售目标</span></span>
                         <div class="backgoundCon"></div>
-                        <div class='tabContainer'>
-                            <el-card>
+                        <div class='tabContainer' >
+                            <el-card style="min-height:170px">
                                 <div slot="header" class="clearfix">
                                     <div>开发类型/场景
                                         <div v-if="isStatusEdit">
@@ -122,39 +122,88 @@
                             </el-card>
                             <el-card style="margin-top:10px">
                                 <div slot="header" class="clearfix">
-                                    <span>产品尺寸图
+                                    <span>产品图片
                                         <div v-if="isStatusEdit1 && $route.params.productId">
                                             <div class="edit-position" 
                                                 v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
                                                 perkey='ERP.Product.ProductDev.SalesManEdit' 
                                                 @click="isEdit1 = !isEdit1" 
                                                 v-if="isEdit1"
-                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品尺寸图'}"
+                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品图片'}"
                                                 >
                                                 <span ><i class="icon-edit"></i>编辑</span></div>
                                             </div>
                                     </span>
                                 </div>
-                                <div v-if="isEdit1" class="imgContainer">
-                                    <div v-for="item in productImgDetail" :key="item.key" class="imgCon">
-                                        <el-image
-                                            class="imageListBox"
-                                            :src="item.showImgUrl"
-                                            fit="fill"
-                                            @click="openImageUrl(item.showBigImgUrl)"
-                                            >
-                                            <div slot="placeholder" class="image-slot icon-loading">
-                                                <i class="el-icon-loading" ></i>
+                                <div v-if="isEdit1" class="imgContainer" >
+                                    <div  class="w-50">
+                                        <div style="flex-shrink: 0">
+                                             产品尺寸图
+                                        </div>
+                                        <div class="imgContainer" style="margin:12px 0px">
+                                            <div v-for="item in productImgDetail" :key="item.key" class="imgCon ">
+                                                <el-image
+                                                    class="imageListBox"
+                                                    :src="item.showImgUrl"
+                                                    fit="fill"
+                                                    @click="openImageUrl(item.showBigImgUrl)"
+                                                    >
+                                                    <div slot="placeholder" class="image-slot icon-loading">
+                                                        <i class="el-icon-loading" ></i>
+                                                    </div>
+                                                    <div slot="error" class="image-slot icon-loading" style="font-size:14px">
+                                                        <i class="el-icon-picture-outline">加载失败</i>
+                                                    </div>
+                                                </el-image>
                                             </div>
-                                            <div slot="error" class="image-slot icon-loading" style="font-size:14px">
-                                                <i class="el-icon-picture-outline">加载失败</i>
+                                        </div>
+                                    </div>
+                                    <div  class="w-50">
+                                        <div style="flex-shrink: 0">
+                                             产品细节图
+                                        </div>
+                                        <div class="imgContainer" style="margin:12px 0px">
+                                            <div v-for="item in productImgDetails" :key="item.key" class="imgCon">
+                                                <el-image
+                                                    class="imageListBox"
+                                                    :src="item.showImgUrl"
+                                                    fit="fill"
+                                                    @click="openImageUrl(item.showBigImgUrl)"
+                                                    >
+                                                    <div slot="placeholder" class="image-slot icon-loading">
+                                                        <i class="el-icon-loading" ></i>
+                                                    </div>
+                                                    <div slot="error" class="image-slot icon-loading" style="font-size:14px">
+                                                        <i class="el-icon-picture-outline">加载失败</i>
+                                                    </div>
+                                                </el-image>
                                             </div>
-                                        </el-image>
+                                        </div>
                                     </div>
                                 </div>
                                 <div v-else>
-                                    <imgUpload @inputImg='putImgList' :value='imageList' @closeEdit='updeEditPage' :limit="10"></imgUpload> 
+                                    <div class="imgContainer">
+                                        <div class="w-50">
+                                            <div style="flex-shrink: 0">
+                                                产品尺寸图
+                                            </div>
+                                            <imgUpload @inputImg='putImgList' :imgFileType='4' :showButton="false" :value='imageList' @closeEdit='updeEditPage' :limit="10"></imgUpload> 
+                                        </div>
+                                        <div class="w-50">
+                                            <div style="flex-shrink: 0">
+                                                产品细节图
+                                            </div>
+                                            <imgUpload @inputImg='putdetailsImgList' :imgFileType='5' :showButton="false" :value='detailsImageList' @closeEdit='updeEditPage' :limit="10"></imgUpload> 
+                                        </div>
+                                    </div>
+                                     <el-col :span="24">
+                                        <div class="bottomButton">
+                                            <el-button type="primary" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'产品尺寸图'}" size="mini" @click="updeEditPage" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
+                                            <el-button size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'产品尺寸图'}" @click="updeEditPage">取消</el-button>
+                                        </div>
+                                    </el-col> 
                                 </div>
+
                             </el-card>
                             <el-card style="margin-top:10px;margin-bottom:30px">
                                 <div slot="header" class="clearfix">
@@ -414,6 +463,7 @@ export default {
         productVos:{},
         productVoDetail:{},//开发类型详情数据
         productImgDetail:{},//开发产品尺寸图
+        productImgDetails:{},//开发产品尺寸图
         comNewsDetailList:{},//竞品信息数据
         devInformationDetaiList:{},//开发信息
         prodCerInfoDetailList:{},//产品认证信息
@@ -556,6 +606,7 @@ export default {
             },
         ],//进度条数据
         imageList:[],
+        detailsImageList:[],
         activeName: 'first',
         isEdit:true,
         isEdit1:true,
@@ -608,6 +659,9 @@ export default {
     this.init()
   },
   methods: {
+    saveImgList(){
+
+    },
       getPermissions(){
           let  params = [
           'ERP.Product.ProductDev.SalesManEdit',
@@ -940,6 +994,10 @@ export default {
                 this.productImgDetail =  res.data.developmentAttachmentList.filter(item => {
                     return item.filetype == 4
                 })
+                this.productImgDetails =  res.data.developmentAttachmentList.filter(item => {
+                    return item.filetype == 5
+                })
+              
                 if(this.productImgDetail.length > 0){
                     this.productImgDetail.forEach(item => {
                         item.showImgUrl = `${this.proImageList}upload/Development/File/Small/${item.developmentid}/${item.fileuri}`
@@ -948,9 +1006,27 @@ export default {
                     this.productImgDetail.forEach(item => {
                         item.name = item.fileName || item.fileuri
                     })
+                 
+                }
+                if(this.productImgDetails.length > 0){
+                       this.productImgDetails.forEach(item => {
+                        item.showImgUrl = `${this.proImageList}upload/Development/File/Small/${item.developmentid}/${item.fileuri}`
+                        item.showBigImgUrl = `${this.proImageList}upload/Development/File/${item.developmentid}/${item.fileuri}`
+                    })
+                    this.productImgDetails.forEach(item => {
+                        item.name = item.fileName || item.fileuri
+                    })
+                 
                 }
                 
                this.imageList = this.productImgDetail.map(item => {
+                   return {
+                            showImgUrl:item.showImgUrl,
+                            showBigImgUrl:item.showBigImgUrl,
+                            id:item.id
+                        }
+               })
+               this.detailsImageList = this.productImgDetails.map(item => {
                    return {
                             showImgUrl:item.showImgUrl,
                             showBigImgUrl:item.showBigImgUrl,
@@ -1365,6 +1441,9 @@ export default {
       putImgList(val){
           this.imageList = val
       },
+      putdetailsImgList(val){
+          this.detailsImageList = val
+      },
       proessCenterShow(val){
           if(!val || val < 6)return
            let  image = document.querySelector('.step-container')
@@ -1426,6 +1505,15 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.clearfix {
+    height: 42px;
+}
+.w-50 {
+    width: 50%;
+    display: flex;
+    // flex-wrap: wrap;
+    font-weight: bold;
+}
 .nav-container {
   width: 100%;
   height: 100%;
@@ -1606,6 +1694,7 @@ export default {
           padding: 10px !important;
           font-size: 16px;
           font-weight: bold;
+        //   height: 62px;
       }
   }
   .tabContainer{
@@ -1648,13 +1737,18 @@ export default {
     .imgContainer{
           display: flex;
           min-height: 100px;
+          flex-wrap: wrap;
+          height: max-content;
           .imgCon{
-              margin: 0 10px;
+            width: 100px; 
+                height: 100px; 
+              margin: 3px;
               .imageListBox{
                 width: 100px; 
                 height: 100px; 
                 display: block;
-                cursor:pointer
+                cursor:pointer;
+                border-radius: 3px;
               }         
           }
       }  
@@ -1689,5 +1783,9 @@ export default {
         background-image: url(../../assets/shixiyuan.png);
         cursor: pointer;
     }
+}
+.bottomButton {
+    float: right;
+    margin-bottom: 10px;
 }
 </style>

@@ -14,7 +14,7 @@
       <!-- 拖拽元素 -->
       <li
         v-for="(item, index) in imgList"
-        :key="item + index"
+        :key="item.id"
         class="draggable-item"
         :style="{ width: width + 'px', height: height + 'px' }"
       >
@@ -43,6 +43,7 @@
         :on-success="onSuccessUpload"
         :on-exceed="onExceed"
         :data="fileType"
+        :before-upload="beforeUpload"
         :with-credentials='true'
       >
         <i class="el-icon-plus uploadIcon">
@@ -86,6 +87,10 @@ export default {
     limit: {
       type: Number,
       default: 99
+    },
+    imgFileType: {
+      type: Number,
+      default: 4
     },
     // 限制上传图片的文件大小(kb)
     size: {
@@ -170,7 +175,7 @@ export default {
 
   mounted () {
     this.fileType = {
-          fileType:4,
+          fileType:this.imgFileType,
           developmentId:this.$route.params.developmentId
       }
     if (this.value.length > 0) {
@@ -200,6 +205,7 @@ export default {
     // 上传图片之前
     beforeUpload (file) {
         this.isFirstMount = false
+        this.isUploading = true
     },
     // 上传完单张图片
     onSuccessUpload (res, file, fileList) {
@@ -325,6 +331,7 @@ export default {
 .vue-draggable {
   display: flex;
   flex-wrap: wrap;
+  padding-left: 10px;
 .draggable-item {
     margin-right: 5px;
     margin-bottom: 5px;
