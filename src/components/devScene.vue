@@ -183,7 +183,7 @@ export default {
     },
     computed:{
         showSelect(){
-            if(this.$route.params.productCountryId){
+            if(this.$route.query.productCountryId){
                 return true
             }else {
                 return false
@@ -250,9 +250,9 @@ export default {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let params = {
-                developmentId:this.$route.params.developmentId,
-                productId:this.$route.params.productId,
-                productCountryId:this.$route.params.productCountryId,
+                developmentId:this.$route.query.developmentId ? this.$route.query.developmentId:this.$route.query.developmentId  ,
+                productId:this.$route.query.productId  ? this.$route.query.productId:this.$route.query.productId ,
+                productCountryId:this.$route.query.productCountryId  ? this.$route.query.productCountryId:this.$route.query.productCountryId ,
                 categoryId:this.ruleForm.treeId,
                 developmentType:this.ruleForm.region,
                 developmentScenarios:this.twoSecence ? this.twoSecence : this.ruleForm.scene,
@@ -276,7 +276,7 @@ export default {
                                     this.$emit('closeEdit','false',res.data,params.developmentScenarios)
                                     this.$router.push({
                                         name:'productDetails',
-                                        params:{
+                                        query:{
                                             developmentId:res.data.developmentId,
                                             productId:res.data.productId,
                                             productCountryId:res.data.productCountryId,

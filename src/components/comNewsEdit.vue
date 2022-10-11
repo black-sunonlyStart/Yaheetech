@@ -409,7 +409,7 @@ export default {
             this.$emit('closeEdit','false')
         },
       submitForm(formName) {
-          if(!this.$route.params.productId){
+          if(!this.$route.query.productId){
                this.$message({
                   type:'error',
                   message:'请先完善产品【开发类型/场景】信息',
@@ -439,11 +439,11 @@ export default {
                     this.$refs[formName].validate((valid) => {
                     if (valid) {
                         let params = {
-                            developmentId:this.$route.params.developmentId,
-                            productId:this.$route.params.productId,
-                            productCountryId:this.$route.params.productCountryId,
+                            developmentId:this.$route.query.developmentId,
+                            productId:this.$route.query.productId,
+                            productCountryId:this.$route.query.productCountryId,
                             development:{
-                                id:this.$route.params.developmentId,//开发id
+                                id:this.$route.query.developmentId,//开发id
                                 jpsize:this.ruleForm.jpsize,//产品的尺寸
                                 jpweight:this.ruleForm.jpweight,//产品的净重
                                 basicinformation:this.ruleForm.basicinformation,//产品的规格参数

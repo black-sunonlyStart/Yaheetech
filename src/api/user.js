@@ -9,8 +9,8 @@ export function fetchPageTableList(data) {
 export function getProductDevDetail(data) {
     return request({
       url: '/productManage/getProductDevDetail',
-      method: "get",
-      params:data 
+      method: "post",
+      data 
     })
   }
 export function getProdCerInfoDetailList() {

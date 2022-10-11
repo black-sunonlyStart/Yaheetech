@@ -758,7 +758,7 @@ export default {
                 }
             }
             if(this.devInformationDetaiList.productMarketListALL && this.devInformationDetaiList.productMarketListALL[0]){
-                if(this.devInformationDetaiList.productMarketListALL.find(item =>  (item.countrycode == this.ruleForm.marksContry1 && item.productcountryid != this.$route.params.productCountryId))){
+                if(this.devInformationDetaiList.productMarketListALL.find(item =>  (item.countrycode == this.ruleForm.marksContry1 && item.productcountryid != this.$route.query.productCountryId))){
                     this.$message({
                                 type:'warning',
                                 message:'你选择的国家+平台+仓库已存在',
@@ -958,7 +958,7 @@ export default {
             this.ruleForm.marksContry3 = val
         },
         submitForm() {
-            if(!this.$route.params.productId){
+            if(!this.$route.query.productId){
                 this.$message({
                     type:'error',
                     message:'请先完善产品【开发类型/场景】信息',
@@ -996,9 +996,9 @@ export default {
                         })
                         let params = {
                             scenarios:this.devInformationDetaiList.scenarios,
-                            developmentId:this.$route.params.developmentId,
-                            productId:this.$route.params.productId,
-                            productCountryId:this.$route.params.productCountryId,
+                            developmentId:this.$route.query.developmentId,
+                            productId:this.$route.query.productId,
+                            productCountryId:this.$route.query.productCountryId,
                             businessId:this.ruleForm.targetPrice,
                             buyerId:this.ruleForm.dailySales,
                             bandAndRate:JSON.stringify(LocalStrings),
@@ -1063,7 +1063,7 @@ export default {
                                 })
                                 this.$router.push({
                                     name:'productDetails',
-                                    params:{
+                                    query:{
                                         developmentId:res.data.developmentId,
                                         productId:res.data.productId,
                                         productCountryId:res.data.productCountryId,
@@ -1081,9 +1081,9 @@ export default {
                     });
                    } else {
                        let params = {
-                            developmentId:this.$route.params.developmentId,
-                            productId:this.$route.params.productId,
-                            productCountryId:this.$route.params.productCountryId,
+                            developmentId:this.$route.query.developmentId,
+                            productId:this.$route.query.productId,
+                            productCountryId:this.$route.query.productCountryId,
                             businessId:this.ruleForm.targetPrice,
                             buyerId:this.ruleForm.dailySales,
                             usCountryBand:this.ruleForm.brandUs,
@@ -1152,10 +1152,10 @@ export default {
                                     message:'数据保存成功',
                                     offset:220
                                 })
-                                if(this.$route.params.productCountryId != res.data.productCountryId ){
+                                if(this.$route.query.productCountryId != res.data.productCountryId ){
                                     this.$router.push({
                                         name:'productDetails',
-                                        params:{
+                                        query:{
                                             developmentId:res.data.developmentId,
                                             productId:res.data.productId,
                                             productCountryId:res.data.productCountryId,

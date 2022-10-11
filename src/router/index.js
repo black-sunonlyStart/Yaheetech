@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
 Vue.use(Router)
 
 export const constantRoutes = [
@@ -17,7 +16,7 @@ export const constantRoutes = [
   },
   {
     name:'productDetails',
-    path: '/productDetails/:developmentId?/:productId?/:productCountryId?/:developmentScenarios?/:id?',
+    path: '/productDetails',
     component: () => import('@/views/productDetails/index'),
     hidden: true
   },

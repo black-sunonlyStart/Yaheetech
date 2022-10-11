@@ -380,7 +380,7 @@ export default {
       clickEdit(devId,proId,procountryId){
           let routeData = this.$router.resolve({
             name: "productDetails",
-            params:{
+            query:{
                     developmentId:devId,
                     productId:proId,
                     productCountryId:procountryId,
@@ -791,15 +791,16 @@ export default {
           }
       },
       routerMove(devId,proId,procountryId){
-          let routeData = this.$router.resolve({
-            name: "productDetails",
-            params:{
-                    developmentId:devId,
-                    productId:proId,
-                    productCountryId:procountryId,
-                }
-            });
-            window.open(routeData.href, '_blank');
+        let routeData = this.$router.resolve({
+                        name: "productDetails",
+                        query:{
+                                developmentId:devId,
+                                productId:proId,
+                                productCountryId:procountryId,
+                            }
+                        
+                        });
+                    window.open(routeData.href, '_blank');
       },
       newGetImagePath(){
           getImagePath().then(res => {

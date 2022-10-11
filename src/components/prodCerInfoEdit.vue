@@ -417,8 +417,8 @@ export default {
         addRequireMent(){
             this.ruleForm.testRequirements.push({
                 authtype:2,
-                developmentid:this.$route.params.developmentId,
-                productid:this.$route.params.productId
+                developmentid:this.$route.query.developmentId,
+                productid:this.$route.query.productId
             })
         },
         delTestRement(index){
@@ -427,8 +427,8 @@ export default {
         addMustRequire(){
             this.ruleForm.requirements.push({
                 authtype:1,
-                developmentid:this.$route.params.developmentId,
-                productid:this.$route.params.productId
+                developmentid:this.$route.query.developmentId,
+                productid:this.$route.query.productId
             })
         },
         delRements(i){
@@ -525,9 +525,9 @@ export default {
                     },
                 ]
                 let params = {
-                    developmentId:this.$route.params.developmentId,
-                    productId:this.$route.params.productId,
-                    productCountryId:this.$route.params.productCountryId,
+                    developmentId:this.$route.query.developmentId,
+                    productId:this.$route.query.productId,
+                    productCountryId:this.$route.query.productCountryId,
                     auth:this.ruleForm.isCertificationReq,
                     authNote:this.ruleForm.requirementsRemark,
                     applicableAge:this.ruleForm.productAgeGroup,
@@ -542,8 +542,8 @@ export default {
                 let dataList = this.ruleForm.usaNessCertification.concat(this.ruleForm.ukNessCertification).concat(this.ruleForm.euNessCertification).concat(this.ruleForm.jpNessCertification)
                 let mustRequire = {
                     id:this.prodCerInfoDetailList && this.prodCerInfoDetailList.credentialList1 && this.prodCerInfoDetailList.credentialList1[0] ? this.prodCerInfoDetailList.credentialList1[0].id : '',
-                    developmentid:this.$route.params.developmentId,
-                    productid:this.$route.params.productId,
+                    developmentid:this.$route.query.developmentId,
+                    productid:this.$route.query.productId,
                     authtype:0,
                     data:dataList.toString()
                 }

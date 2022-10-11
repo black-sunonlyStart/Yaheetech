@@ -87,9 +87,9 @@ export default {
     methods:{
         sendEditQuill(){
             let params = {
-                developmentid:this.$route.params.developmentId?this.$route.params.developmentId:'',
-                productid:this.$route.params.productId?this.$route.params.productId:'',
-                productcountryid:this.$route.params.productCountryId?Number(this.$route.params.productCountryId):'',
+                developmentid:this.$route.query.developmentId?this.$route.query.developmentId:'',
+                productid:this.$route.query.productId?this.$route.query.productId:'',
+                productcountryid:this.$route.query.productCountryId?Number(this.$route.query.productCountryId):'',
                 note:this.content,
                 otherType:1,
           }

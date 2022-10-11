@@ -1,5 +1,5 @@
 <template>
-    <div class="buttonStyle" >
+    <div class="buttonStyle" v-if="$route.query.edit !== 'false'">
         <div v-permission:[item.perkey]  v-for="item in operationList" :key="item.id*Math.random()"  @click="putOperation(item.id)">
             <el-button size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:item.name + '按钮',businessCode: item.name,}" v-if="showDev(item.id)" type="primary" style="margin-right:5px">{{item.name}}</el-button>
         </div>
@@ -51,7 +51,7 @@ export default {
     },
     computed:{
         showButton(){
-            if(!this.$route.params.productId || !this.$route.params.productCountryId){
+            if(!this.$route.query.productId || !this.$route.query.productCountryId){
                 return true
             }else {
                 return false
@@ -86,9 +86,9 @@ export default {
         },
         putOperation(id){
           let row = {
-            developmentId:this.$route.params.developmentId,
-            productId:this.$route.params.productId,
-            id:this.$route.params.productCountryId || '',
+            developmentId:this.$route.query.developmentId,
+            productId:this.$route.query.productId,
+            id:this.$route.query.productCountryId || '',
             state:this.nowStatus
           }
           this.clickId = id

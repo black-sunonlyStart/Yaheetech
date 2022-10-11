@@ -176,7 +176,7 @@ export default {
   mounted () {
     this.fileType = {
           fileType:this.imgFileType,
-          developmentId:this.$route.params.developmentId
+          developmentId:this.$route.query.developmentId
       }
     if (this.value.length > 0) {
       this.syncElUpload()
@@ -234,7 +234,7 @@ export default {
       })
         .then(() => {
             let param = new FormData();
-            param.append('developmentId', this.$route.params.developmentId);
+            param.append('developmentId', this.$route.query.developmentId);
             param.append('fileType', 1);
             param.append('datta', item.id);
             let config = {

@@ -574,11 +574,11 @@ export default {
             this.$refs[formName].validate((valid) => {
             if (valid) {
                 let params = {
-                    developmentId: this.$route.params.developmentId,
-                    productId: this.$route.params.productId,
-                    productCountryId: this.$route.params.productCountryId,
+                    developmentId: this.$route.query.developmentId,
+                    productId: this.$route.query.productId,
+                    productCountryId: this.$route.query.productCountryId,
                     development:{//开发信息
-                        id:this.$route.params.developmentId,//开发id
+                        id:this.$route.query.developmentId,//开发id
                         productprice:this.ruleForm.productprice,//样品购买价
                         freight:this.ruleForm.freight,//运费
                         backpurchaseprice:this.ruleForm.backpurchaseprice,//下单返样品费

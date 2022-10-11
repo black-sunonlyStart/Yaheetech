@@ -738,12 +738,12 @@ export default {
                 this.$refs[formName].validate((valid) => {
                 if (valid) {
                     let params = {
-                        developmentId: this.$route.params.developmentId,
-                        productId: this.$route.params.productId,
-                        productCountryId: this.$route.params.productCountryId,
+                        developmentId: this.$route.query.developmentId,
+                        productId: this.$route.query.productId,
+                        productCountryId: this.$route.query.productCountryId,
                         productType:this.ruleForm.productType,//0普通产品  1多属性产品 2物理捆绑产品
                         product:{//产品信息
-                            id:this.$route.params.productId,
+                            id:this.$route.query.productId,
                             length:Number(this.ruleForm.productSizeL),//产品尺寸
                             width:Number(this.ruleForm.productSizeW),
                             height:Number(this.ruleForm.productSizeH),

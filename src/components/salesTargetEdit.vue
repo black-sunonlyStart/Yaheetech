@@ -199,9 +199,9 @@ export default {
             this.$refs[formName].validate((valid) => {
             if (valid) {
                 let params = {
-                    developmentId:this.$route.params.developmentId,
-                    productId:this.$route.params.productId,
-                    productCountryId:this.$route.params.productCountryId,
+                    developmentId:this.$route.query.developmentId,
+                    productId:this.$route.query.productId,
+                    productCountryId:this.$route.query.productCountryId,
                     xsstarRating:this.ruleForm.staRating,
                     xsTargetStarRating:this.ruleForm.westaRating,
                     xsRepairRateRequirement:this.ruleForm.rateRequirements,

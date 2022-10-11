@@ -70,7 +70,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="17">
+                <el-col :span="11" :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
                     <el-form-item label="必要认证附件:">
                         <el-upload
                             class="upload-demo"
@@ -81,7 +81,7 @@
                             multiple
                             :on-exceed="handleExceed"
                             :file-list="ruleForm.fileList"
-                            :data="{fileType:3,developmentId:$route.params.developmentId,countryCode:ruleForm.productMustMarket}"
+                            :data="{fileType:3,developmentId:$route.query.developmentId,countryCode:ruleForm.productMustMarket}"
                             :with-credentials='true'
                             :on-remove='removeMustFile'
                             >
@@ -100,6 +100,21 @@
                             <el-button size="small" type="primary" style="margin-left:15px">选择文件</el-button>
                         </el-upload>
                     </el-form-item>
+                    
+                </el-col>
+                <el-col :span="11" :xs="24" :sm="24" :md="24" :lg="9" :xl="6">
+                    <el-form-item label="附件后补时间:" prop="noticeTime">
+                        <div class="feeForOrderText">
+                            <el-date-picker
+                                v-model="ruleForm.noticeTime"
+                                type="date"
+                                placeholder="选择日期"
+                                :picker-options="setDisabled"
+                                style="width:150px"
+                                >
+                            </el-date-picker>
+                        </div>   
+                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
@@ -114,7 +129,7 @@
                             :on-success="successUploadFile"
                             multiple
                             :on-exceed="handleExceed"
-                            :data="{fileType:2,developmentId:$route.params.developmentId,countryCode:ruleForm.productMarket}"
+                            :data="{fileType:2,developmentId:$route.query.developmentId,countryCode:ruleForm.productMarket}"
                             :with-credentials='true'
                             :file-list="ruleForm.recommendFileList">
                                 <el-select 
@@ -161,7 +176,7 @@
                             list-type="picture-card"
                             accept=".jpg,.jpeg,.png,.gif"
                             :with-credentials='true'
-                            :data="{fileType:1,developmentId:$route.params.developmentId}"
+                            :data="{fileType:1,developmentId:$route.query.developmentId}"
                             :file-list="ruleForm.factoryGaveImage">
                             <i class="el-icon-plus"></i>
                             </el-upload>
@@ -189,6 +204,14 @@ export default {
             provinceList:[],
             cityList:[],
             districtList:[],
+            setDisabled: {
+                disabledDate(time) {
+                // return time.getTime() > Date.now();  // 可选历史天、可选当前天、不可选未来天
+                // return time.getTime() > Date.now() - 8.64e7;  // 可选历史天、不可选当前天、不可选未来天
+                // return time.getTime() < Date.now() - 8.64e7;  // 不可选历史天、可选当前天、可选未来天
+                return time.getTime() < Date.now(); // 不可选历史天、不可选当前天、可选未来天
+                },
+            },
             ruleForm:{
                 chineseTitle:'',
                 chineseDescription:'',
@@ -197,6 +220,7 @@ export default {
                 supplierLocation2:'',
                 productMarket:0,
                 certificationRemarks:'',
+                noticeTime:'',
                 productMustMarket:0,
                 fileList:[
                     ],
@@ -311,13 +335,14 @@ export default {
                     fileList:this.prodevInfoDetaiList.mustCredentialList,
                     factoryGaveImage:this.prodevInfoDetaiList.factoryGaveImage,
                     recommendFileList:this.prodevInfoDetaiList.recommendCredentialList,//推荐认证附件
+                    noticeTime:this.prodevInfoDetaiList.noticeTime,
                     productMustMarket:0,
                     productMarket:0
             }
         },
         handleRemove(file) {
             let param = new FormData();
-            param.append('developmentId', this.$route.params.developmentId);
+            param.append('developmentId', this.$route.query.developmentId);
             param.append('fileType', 2);
             param.append('datta', file.id);
             let config = {
@@ -333,7 +358,7 @@ export default {
         },
         imageHandleRemove(file) {
             let param = new FormData();
-            param.append('developmentId', this.$route.params.developmentId);
+            param.append('developmentId', this.$route.query.developmentId);
             param.append('fileType', 1);
             param.append('datta', file.id);
             let config = {
@@ -349,7 +374,7 @@ export default {
         },
         removeMustFile(file){
             let param = new FormData();
-            param.append('developmentId', this.$route.params.developmentId);
+            param.append('developmentId', this.$route.query.developmentId);
             param.append('fileType', 2);
             param.append('datta', file.id);
             let config = {
@@ -366,7 +391,7 @@ export default {
         },
         handlePreview(file) {
             //文件点击事件
-            window.open(`${this.proImageList}Development/downloadFile?developmentId=${this.$route.params.developmentId}&fileName=${file.fileuri}`)
+            window.open(`${this.proImageList}Development/downloadFile?developmentId=${this.$route.query.developmentId}&fileName=${file.fileuri}`)
         },
         handleExceed(files, fileList) {
             this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
@@ -378,10 +403,11 @@ export default {
             this.$refs[formName].validate((valid) => {
             if (valid) {
                 let params = {
-                    developmentId: this.$route.params.developmentId,
-                    productId: this.$route.params.productId,
-                    productCountryId: this.$route.params.productCountryId,
+                    developmentId: this.$route.query.developmentId,
+                    productId: this.$route.query.productId,
+                    productCountryId: this.$route.query.productCountryId,
                     title:this.ruleForm.chineseTitle,//中文标题
+                    noticeTime: this.$moment(this.ruleForm.noticeTime).format("YYYY-MM-DD"),
                     description:this.ruleForm.chineseDescription,//中文描述
                     certificationnote:this.ruleForm.certificationRemarks,//认证备注
                     provinceCode: this.ruleForm.supplierLocation,//供应商所在地--省

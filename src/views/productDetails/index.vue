@@ -123,7 +123,7 @@
                             <el-card style="margin-top:10px">
                                 <div slot="header" class="clearfix">
                                     <span>产品图片
-                                        <div v-if="isStatusEdit1 && $route.params.productId">
+                                        <div v-if="isStatusEdit1 && $route.query.productId">
                                             <div class="edit-position" 
                                                 v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
                                                 perkey='ERP.Product.ProductDev.SalesManEdit' 
@@ -208,7 +208,7 @@
                             <el-card style="margin-top:10px;margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <span>销售目标
-                                        <div v-if="isStatusEdit2 && $route.params.productId">
+                                        <div v-if="isStatusEdit2 && $route.query.productId">
                                             <div class="edit-position" 
                                                 v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
                                                 perkey='ERP.Product.ProductDev.SalesManEdit' 
@@ -459,7 +459,7 @@ export default {
         development:{},
         productCountryList:{},
         otherCountryList:{},
-        otherProductCountryList:{},
+        // otherProductCountryList:{},
         productVos:{},
         productVoDetail:{},//开发类型详情数据
         productImgDetail:{},//开发产品尺寸图
@@ -470,7 +470,6 @@ export default {
         prodevInfoDetaiList:{},//产品供应商信息
         pordSizeAttrInfoList:{},//产品尺寸和属性
         purchaseInfoDetaiList:{},//采购信息
-        remarksList:[],
         salesTargetDetaiList:{
             xsstarrating : null,//产品星级评分
             xstargetstarrating:null, //我司目标星级评分
@@ -635,21 +634,24 @@ export default {
         buyerName:'',
         buyerid:'',
         isanji:[],
+        routePageList:{},
     }
   },
   created () {
-      this.getPermissions()   
-      if(this.$route.params.productId){
-          this.getAllpageList()
-      }
+        this.getPermissions()   
+        this.getRoutePageAll()
+        if( this.routePageList.developmentId || this.routePageList.productCountryId || this.routePageList.productId) {
+             this.getAllpageList()
+        }    
   },
   mounted () {
-    //   this.getAllpageList()
-    if(this.$route.query.id == 8 || this.$route.query.id == 26){
+    
+    console.log(this.routePageList,'routePageList')
+    if(this.routePageList.id == 8 || this.routePageList.id == 26){
         this.getNewSizeList()
         this.showSizeTitle = true
     }
-    if(!this.$route.query.developmentId){
+    if(!this.routePageList.developmentId || !this.routePageList.developmentId){
         this.isStatusEdit = true;
         this.isStatusEdit1 = true;
         this.isStatusEdit2 = true;
@@ -659,9 +661,18 @@ export default {
     this.init()
   },
   methods: {
-    saveImgList(){
-
-    },
+      getRoutePageAll (){
+        this.routePageList = {
+            developmentType: this.$route.query.developmentType ? this.$route.query.developmentType : '',
+            developmentId:this.$route.query.developmentId ? this.$route.query.developmentId : '',
+            productId: this.$route.query.productId ? this.$route.query.productId : '',
+            developmentScenarios: this.$route.query.developmentScenarios ? this.$route.query.developmentScenarios : '',
+            id: this.$route.query.id ? this.$route.query.id : '',
+            edit:this.$route.query.edit === 'false'? this.$route.query.edit : '',
+            productCountryId:this.$route.query.productCountryId ? this.$route.query.productCountryId : '',
+        }
+      },
+    //权限判断
       getPermissions(){
           let  params = [
           'ERP.Product.ProductDev.SalesManEdit',
@@ -727,6 +738,9 @@ export default {
                 this.isStatusEdit7=true
                 this.isStatusEdit8=true
                 this.getStateRole(val)
+                if(this.routePageList.edit === 'false') {
+                    this.initState()
+                }
             }
         })    
       },
@@ -819,45 +833,40 @@ export default {
       openImageUrl(url){
           window.open(url)
       },
+      //拼接图片地址
         newGetImagePath(){
             getImagePath().then(res => {
                 if(res.data){
                      this.proImageList = res.data
                 }
             })
-            // let url = document.URL.includes('yaheecloud') ? 'http://erptools.yaheecloud.com/api/common/getFilePath':'http://api-tools-test.yahee.com.cn:8090/common/getFilePath'
-            // getFilePath(url).then(res => {
-            //     if(res.data){
-            //          this.proFileList = res.data
-            //     }
-            // })
         },
         getNewSizeList(){
             //  this.scenarios = ''
-            if(this.$route.query.id == 8 && this.$route.query.developmentScenarios > 5){
+            if(this.routePageList.id == 8 && this.routePageList.developmentScenarios > 5){
                  this.scenarios = 12
             }
-            if(this.$route.query.id == 8 && this.$route.query.developmentScenarios < 5){
+            if(this.routePageList.id == 8 && this.routePageList.developmentScenarios < 5){
                  this.scenarios = 3
             }
-            if(this.$route.query.id == 26 && this.$route.query.developmentScenarios > 5){
+            if(this.routePageList.id == 26 && this.routePageList.developmentScenarios > 5){
                  this.scenarios = 11
             }
-            if(this.$route.query.id == 26 && this.$route.query.developmentScenarios < 5){
+            if(this.routePageList.id == 26 && this.routePageList.developmentScenarios < 5){
                  this.scenarios = 2
             }
             let params = {
                 scenarios:this.scenarios,//开发场景
-                developmentType:this.$route.query.developmentType,
+                developmentType:this.routePageList.developmentType,
                 developmentScenarios:this.scenarios,
-                addDevelopmentId:this.$route.query.developmentId,
-                associatedProductId:this.$route.query.id == 8 ? '' : this.$route.query.productId,
+                addDevelopmentId:this.routePageList.developmentId,
+                associatedProductId:this.routePageList.id == 8 ? '' : this.routePageList.productId,
             }
             exploitType(params).then(res => {
                 if(res.data){
                     this.$router.push({
                         name:'productDetails',
-                        params:{
+                        query:{
                             developmentId:res.data.developmentId,
                             productId:res.data.productId,
                             productCountryId:res.data.productCountryId,
@@ -873,35 +882,40 @@ export default {
                 }
             })
         },
-        openRemarks () {
-            let param = {
-                developmentId:this.$route.params.developmentId?this.$route.params.developmentId:'',
-                productId:this.$route.params.productId?this.$route.params.productId:'',
-                productCountryId:this.$route.params.productCountryId?this.$route.params.productCountryId:'',
-                employee:this.employee,
-                pageNum:0,
-                PageIndex:-1,
+        //如果路由的数据没有获取到就从接口中获取
+        getRouterDate(val) {
+            if (!val) return
+            if(!this.routePageList.productCountryId) {
+                this.routePageList.productCountryId  =  val.productCountryId
             }
-            this.$refs.remarks.openHandle(param)
+            if(!this.routePageList.productId) {
+                this.routePageList.productId  =  val.productId
+            }
+            if(!this.routePageList.developmentId) {
+                this.routePageList.developmentId  =  val.developmentId
+            }
         },
+        //获得所有数据接口
    async getAllpageList(val){
-            let exchangeRate = ''
+           this.getRoutePageAll()
+           let exchangeRate = ''
            await this.newGetImagePath()
            await getUsExchangeRate().then(res => {
                      exchangeRate = res.data
                 })
            this.scrollPostion()
           let params = {
-                developmentId:this.$route.params.developmentId?this.$route.params.developmentId:'',
-                productId:this.$route.params.productId?this.$route.params.productId:'',
-                productCountryId:this.$route.params.productCountryId?this.$route.params.productCountryId:'',
+                developmentId:this.routePageList.developmentId || '',
+                productId:this.routePageList.productId || '',
+                productCountryId:this.routePageList.productCountryId || '',
+                edit:this.routePageList.edit === 'false' ?  false :true,
           }
           if(val){
                 params = {
-                developmentId:val.developmentId?val.developmentId:'',
-                productId:val.productId?val.productId:'',
-                productCountryId:val.productCountryId?val.productCountryId:'',
-          }
+                    developmentId:val.developmentId?val.developmentId:'',
+                    productId:val.productId?val.productId:'',
+                    productCountryId:val.productCountryId?val.productCountryId:'',
+                }
            }
            getProductDevDetail(params).then(res => {
                if(res.data){
@@ -980,7 +994,7 @@ export default {
                 this.buyerName =  this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName :''
                 this.buyerid =  this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerid :''
                 this.getDevProgresses(res.data.developmentProgresses)
-                
+                this.getRouterDate(res.data.country)
                 //开发类型、详情数据
                 this.productVoDetail = {
                     developmenttype:this.productVos ? this.productVos.developmenttype :'',//开发类型
@@ -1211,6 +1225,7 @@ export default {
                         provinceStr:this.productVos.provinceStr,
                         cityStr:this.productVos.cityStr,
                         areaStr:this.productVos.areaStr,
+                        noticeTime:res.data.noticeTime,
                         mustCredentialList,//必要认证附件
                         recommendCredentialList,//推荐认证附件
                         certificationnote:res.data.development.certificationnote, //备注
@@ -1218,8 +1233,8 @@ export default {
                     }
                 //产品尺寸和属性
                     let devParams = {
-                        developmentId:this.$route.params.developmentId,
-                        productId:this.$route.params.productId,
+                        developmentId:this.routePageList.developmentId,
+                        productId:this.routePageList.productId,
                     }
                     getProductMultipleAttribute(devParams).then(res => {
                         this.multiAttribute = res.data
@@ -1287,7 +1302,10 @@ export default {
                 this.initState()
                 this.getStateRole(this.timeStatus)
                 this.controlEdit(this.timeStatus)
-                
+            
+                // if(this.routePageList.edit === 'false') {
+                //     this.initState()
+                // }
                 //采购信息
                 let productPurchaseVoList = []
                 let lastProductPurchaseVoList  = []
@@ -1322,7 +1340,7 @@ export default {
                     orderProduct:this.buyerName
                 }
                 //备注信息
-                this.remarksList = res.data.developmentmemoVos
+                // this.remarksList = res.data.developmentmemoVos
                }
         })
       },
@@ -1471,9 +1489,9 @@ export default {
       handleClick(activeName){
           if(activeName == 'tenth'){
               this.remarksParam = {
-                developmentId:this.$route.params.developmentId?this.$route.params.developmentId:'',
-                productId:this.$route.params.productId?this.$route.params.productId:'',
-                productCountryId:this.$route.params.productCountryId?this.$route.params.productCountryId:'',
+                developmentId:this.routePageList.developmentId?this.routePageList.developmentId:'',
+                productId:this.routePageList.productId?this.routePageList.productId:'',
+                productCountryId:this.routePageList.productCountryId?this.routePageList.productCountryId:'',
                 noteBussinessName:'PRODUCTDEV',
                 employee:this.employee,
                 pageNum:0,
@@ -1493,7 +1511,8 @@ export default {
       changeCountry(developmentId,productId,productCountryId){
         let routeData = this.$router.resolve({
             name: "productDetails",
-            params:{
+            query:{
+                    edit:this.routePageList.edit,
                     developmentId:developmentId,
                     productId:productId,
                     productCountryId:productCountryId,

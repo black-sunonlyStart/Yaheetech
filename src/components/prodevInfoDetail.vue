@@ -28,6 +28,11 @@
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
+                <div class="postionBox">附件后补时间： </div> <div class="mustListStyle">{{prodevInfoDetaiList.noticeTime?$moment(prodevInfoDetaiList.noticeTime).format("YYYY-MM-DD") :''}}</div>
+            </el-col>
+        </el-row>
+        <el-row>
+            <el-col :span="24" class="produInfo">
                 <span class="postionBox">推荐认证附件：</span><div class="mustListStyle"><div v-for="item in prodevInfoDetaiList.recommendCredentialList" :key="item.id"><span class="countryList">{{changCountry(item.countryCode)}}</span>：<span class="filesStyl" @click='uploadFiles(item.fileuri)'>[{{item.name}}]</span></div></div>
             </el-col>
         </el-row>
@@ -94,7 +99,7 @@ export default {
         },
         uploadFiles(fileuri){
             //文件点击事件
-            window.open(`${this.proImageList}Development/downloadFile?developmentId=${this.$route.params.developmentId}&fileName=${fileuri}`)
+            window.open(`${this.proImageList}Development/downloadFile?developmentId=${this.$route.query.developmentId}&fileName=${fileuri}`)
         }
     }
 }
