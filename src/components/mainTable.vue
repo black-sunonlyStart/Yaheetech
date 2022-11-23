@@ -858,7 +858,13 @@ export default {
             this.total = res.data && res.data.rows ? res.data.records : 0
             this.$emit('getTotal',this.total)
         
-        }).catch(err => { this.loading = false })
+        }).catch((err) => {
+                if(err == 1){
+                    this.loading = true     
+                }else {
+                    this.loading = false     
+                }     
+            }); 
         
     },300),
     handleSelectionChange (val) {

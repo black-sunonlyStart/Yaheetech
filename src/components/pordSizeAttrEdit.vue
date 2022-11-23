@@ -497,6 +497,7 @@ export default {
                 productlistings:[],
                 multiAttribute:[]  //多属性
             },
+            number:1,
             rules:{
                 productType: [{ required: true, message: '请选择产品类型', trigger: 'blur' }],
                 productSizeL: [{ required: true, message: '请添加产品尺寸', trigger: 'blur' }],
@@ -591,7 +592,11 @@ export default {
     watch:{
         productColor:{
             handler(val,oldVal){
-                if(val == oldVal  || (oldVal.length == 0 && this.firstList))return  
+                
+                // if(val == oldVal  || (oldVal.length == 0 && this.firstList))return  
+               this.number++ 
+               console.log(this.number,'number')
+               if(this.number < 3) return
                 if(val.length > oldVal.length){
                     let newVal = val.filter(item => {
                         return !oldVal.includes(item)
@@ -607,6 +612,7 @@ export default {
                         sku:this.copeMulAttrBute.sku,
                         spu:this.pordSizeAttrInfoList.spu,
                     })
+                    
                 }else{
                     let newVal = oldVal.filter(item => {
                         return !val.includes(item)
@@ -618,15 +624,20 @@ export default {
                         }
                     }) 
                 } 
+            //    this.ruleForm.multiAttribute = this.uniqueFunc(this.ruleForm.multiAttribute,'color')
             }
         },
         deep:true
     },
     methods: {
+        // uniqueFunc(arr, uniId){
+        //     const res = new Map();
+        //     return arr.filter((item) => (!res.has(item[uniId]) && res.set(item[uniId], 1) && (item.productid == this.pordSizeAttrInfoList.id || !item.productid)) || (item.productid != this.pordSizeAttrInfoList.id));
+        // },
         changSizeRules(val){
             if(val == 2){
                 this.rules.outerBoxNum[0].required = true
-                 this.rules.containersNumber[0].required = true
+                this.rules.containersNumber[0].required = true
             }else{
                 if(this.pordSizeAttrInfoList.computemode == 1){
                     this.rules.outerBoxNum[0].required = true

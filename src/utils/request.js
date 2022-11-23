@@ -12,10 +12,28 @@ const service = axios.create({
 })
 
 
-// request interceptor
+let cancelListApi = ['queryProductManage']
+let pending = {
+    queryProductManage:[]
+}; //声明一个数组用于存储每个请求的取消函数和axios标识
+let cancelToken = axios.CancelToken;
+let removePending = (config) => {
+    console.log('pending',pending);
+    for(let p in pending[config.url.split('/')[2]]){
+        //当当前请求在数组中存在时执行函数体
+            pending[config.url.split('/')[2]][p].f(); //执行取消操作
+            pending[config.url.split('/')[2]] = [] //数组移除当前请求
+    }
+}
 service.interceptors.request.use(
   config => {
-    // do something before request is sent
+    if(cancelListApi.includes(config.url.split('/')[2])){
+        removePending(config); //在一个axios发送前执行一下取消操作
+        config.cancelToken = new cancelToken((c)=>{
+            // pending存放每一次请求的标识，一般是url + 参数名 + 请求方法，当然你可以自己定义
+            pending[config.url.split('/')[2]].push({ u: config.url.split('/')[2] +'&' + Math.random(), f: c});//config.data为请求参数
+        });
+    }
     return config
   },
   error => {
@@ -23,6 +41,18 @@ service.interceptors.request.use(
     return Promise.reject(error)
   }
 )
+
+// // request interceptor
+// service.interceptors.request.use(
+//   config => {
+//     // do something before request is sent
+//     return config
+//   },
+//   error => {
+//     console.log(error) // for debug
+//     return Promise.reject(error)
+//   }
+// )
 
 // response interceptor
 service.interceptors.response.use(
@@ -42,6 +72,9 @@ service.interceptors.response.use(
     }
   },
   error => {
+    if(error['__CANCEL__']) {
+        return Promise.reject(1)
+    }
     if(error.response.status == 401) {
         // let login_url = 'http://portal.yaheecloud.com';//正式
         // let login_url = 'http://qas-portal.yahee.com.cn:8088';//测试111
