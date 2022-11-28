@@ -35,9 +35,9 @@
                             >
                             <el-option 
                                 v-for="item in provinceList"                        
-                                :key="item[0]"
-                                :label="item[1]"
-                                :value="item[0]"
+                                :key="item.Id"
+                                :label="item.FullName"
+                                :value="item.Id"
                                 >
                             </el-option>
                         </el-select>
@@ -48,9 +48,9 @@
                             >
                             <el-option 
                                 v-for="item in cityList"                        
-                                :key="item[0]"
-                                :label="item[1]"
-                                :value="item[0]"
+                                :key="item.Id"
+                                :label="item.Name"
+                                :value="item.Id"
                                 >
                             </el-option>
                         </el-select>
@@ -60,9 +60,9 @@
                             >
                             <el-option 
                                 v-for="item in districtList"                        
-                                :key="item[0]"
-                                :label="item[1]"
-                                :value="item[0]"
+                                :key="item.Id"
+                                :label="item.Name"
+                                :value="item.Id"
                                 >
                             </el-option>
                         </el-select>
@@ -268,9 +268,12 @@ export default {
             default:() => ('')
         }
     },
+    created(){
+        this.getContryList()
+    },
     mounted(){
         this.getDetaiList()
-        this.getContryList()
+        
     },
     methods:{
         getContryList(){
@@ -279,19 +282,18 @@ export default {
             }
             getAdministrativeRegion(params).then(res => {
                 this.provinceList = res.data
-                this.ruleForm.supplierLocation = this.prodevInfoDetaiList.provincecode ? this.prodevInfoDetaiList.provincecode.toString() :''
+                this.ruleForm.supplierLocation = this.prodevInfoDetaiList.provincecode ? this.prodevInfoDetaiList.provincecode :''
             })
             if(this.prodevInfoDetaiList.provincecode){
                 getAdministrativeRegion({parentId:this.prodevInfoDetaiList.provincecode}).then(res => {
                     this.cityList = res.data
-                     this.ruleForm.supplierLocation1=this.prodevInfoDetaiList.citycode.toString()
+                    this.ruleForm.supplierLocation1=this.prodevInfoDetaiList.citycode
                 })
             }
             if(this.prodevInfoDetaiList.areacode){
                 getAdministrativeRegion({parentId:this.prodevInfoDetaiList.citycode}).then(res => {
                     this.districtList = res.data
-                    this.ruleForm.supplierLocation2 = this.prodevInfoDetaiList.areacode.toString()
-                    
+                    this.ruleForm.supplierLocation2 = this.prodevInfoDetaiList.areacode
                 })
             }
         },

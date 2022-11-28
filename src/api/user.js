@@ -372,6 +372,7 @@ export function getCountry(data) {
       params:data
     })
   }
+  //获取产品状态数量
   export function getDevelopStatesNum(data) {
     return request({
       url: '/productManage/getDevelopStatesNum',
