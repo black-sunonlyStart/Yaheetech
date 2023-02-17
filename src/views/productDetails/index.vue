@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-container" v-if="renderDom">
+<div class="nav-container" style="z-index:111" v-if="renderDom"  v-permission="'Yahee.ERP.Product.ProductDev'">
       <div class="navTitle" v-track="{triggerType:'browse',currentUrl: $route.path,behavior:'进入产品详情页'}">
         <el-row :gutter="5">
         <el-col :span="12">
@@ -244,8 +244,8 @@
                                                 @click="isEdit4 = !isEdit4" 
                                                 v-if="isEdit4"
                                                 v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'开发信息'}"
-                                                ><span >
-                                                    <i class="icon-edit"></i>编辑</span>
+                                                >
+                                                <span><i class="icon-edit"></i>编辑</span>
                                             </div>
                                         </div>
                                     </div>   
@@ -413,10 +413,10 @@
             </div>
         <!-- </el-card> -->
     </div>
-  </div>
+</div>  
 </template>
 <script>
- import { getProductDevDetail,getProductMultipleAttribute,exploitType,getImagePath,getFilePath,getEmployee,hasPermissions,getRoleTrue,getCountry,getUsExchangeRate } from '@/api/user.js'
+ import { getProductDevDetail,getProductMultipleAttribute,exploitType,getImagePath,getEmployee,hasPermissions,getRoleTrue,getCountry,getUsExchangeRate } from '@/api/user.js'
 
 export default {
   name: 'productDetails',
@@ -691,7 +691,7 @@ export default {
           'ERP.Product.ProductDev.PurchasingSupervisorAudit',
           'ERP.Product.ProductDev.BackToFreezingOff',
           'ERP.Product.ProductDev.SamplePurchaseAudit',
-          'ERP.Product.ProductDev.Select',
+          'Yahee.ERP.Product.ProductDev',
           'ERP.Product.ProductDev.DistributionProcurement',
           'ERP.Product.ProductDev.FreezingOff',
           'ERP.Product.ProductDev.Audit',
@@ -701,6 +701,17 @@ export default {
         hasPermissions(params).then(res => {
            let data = JSON.stringify( res.data);
             sessionStorage.setItem("permissions", data);
+              res.data.forEach(item => {
+                if(item.PermissionCode == 'Yahee.ERP.Product.ProductDev' && !item.HasPermission){
+                    this.$message({
+                        message: `对不起您没有权限（Yahee.ERP.Product.ProductDev）进行当前操作！`,
+                        type: 'error',
+                        duration:0,
+                        showClose:true,
+                        offset:300,
+                    })
+                }
+              })
             this.renderDom = true
         })
       },
@@ -843,18 +854,21 @@ export default {
         },
         getNewSizeList(){
             //  this.scenarios = ''
-            if(this.routePageList.id == 8 && this.routePageList.developmentScenarios > 5){
-                 this.scenarios = 12
+            if(!this.scenarios){
+                if(this.routePageList.id == 8 && this.routePageList.developmentScenarios > 5){
+                    this.scenarios = 12
+                }
+                if(this.routePageList.id == 8 && this.routePageList.developmentScenarios < 5){
+                    this.scenarios = 3
+                }
+                if(this.routePageList.id == 26 && this.routePageList.developmentScenarios > 5){
+                    this.scenarios = 11
+                }
+                if(this.routePageList.id == 26 && this.routePageList.developmentScenarios < 5){
+                    this.scenarios = 2
+                }
             }
-            if(this.routePageList.id == 8 && this.routePageList.developmentScenarios < 5){
-                 this.scenarios = 3
-            }
-            if(this.routePageList.id == 26 && this.routePageList.developmentScenarios > 5){
-                 this.scenarios = 11
-            }
-            if(this.routePageList.id == 26 && this.routePageList.developmentScenarios < 5){
-                 this.scenarios = 2
-            }
+            
             let params = {
                 scenarios:this.scenarios,//开发场景
                 developmentType:this.routePageList.developmentType,

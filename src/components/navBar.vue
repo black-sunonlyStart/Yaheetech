@@ -157,6 +157,17 @@
         </el-col>
       </el-row>
       <el-row>
+        <el-col :span="10" :xs="24" :sm="24" :md="11" :lg="12" :xl="11">
+          <el-form-item label="包装方式:">
+            <el-radio-group v-model="form.packingWay" class="actionBox" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'包装方式筛选'}">
+              <el-radio style="width:42px" :label="null">全部</el-radio>
+              <el-radio style="width:52px" :label="1" >多箱</el-radio>
+              <el-radio style="width:42px" :label="0">单箱</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="21">
           <el-form-item label="开发状态:" class="statusBox">
             <div class="checkBoxAll1">
@@ -495,6 +506,7 @@ export default {
         sample: 'all',
         authentication: 'all',
         patent: 'all',
+        packingWay:null,
         status: ['15'],
         checkedCities:[],
       },
@@ -531,6 +543,7 @@ export default {
                     scenariosParentIds:val.developmentScenario.includes('all')? [] : val.developmentScenario,
                     sampleDelivery:val.sample == 'all'? '':Number(val.sample),
                     patentProduct:val.patent.includes('all')? null:val.patent,
+                    packingWay:val.packingWay,
                     search:val.search,
                     almorlist:val.almorlist
                 }
@@ -656,7 +669,7 @@ export default {
 
 <style  lang="scss" scoped>
 .navbarContainer {
-  height: 150px;
+  height: 173px;
   background-color: #ffffff;
   margin: 0 10px 10px;
   .el-row {

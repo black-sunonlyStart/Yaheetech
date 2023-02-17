@@ -345,7 +345,7 @@ export default {
           })
       },
        changeMaxHeight(){
-            return window.innerHeight - 276 + 'px'
+            return window.innerHeight - 300 + 'px'
         },
       copeDevelopId(val){
           copyUrl(val)
@@ -833,7 +833,8 @@ export default {
             scenariosParentIds:val.scenariosParentIds,
             sampleDelivery:val.sampleDelivery,
             patentProduct:val.patentProduct,
-            search:val.search
+            search:val.search,
+            packingWay:val.packingWay,
         }
          if(val.search){
              if(!pageSize){

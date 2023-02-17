@@ -133,7 +133,6 @@
                 'ERP.Product.ProductDev.PurchasingSupervisorAudit',
                 'ERP.Product.ProductDev.BackToFreezingOff',
                 'ERP.Product.ProductDev.SamplePurchaseAudit',
-                'ERP.Product.ProductDev.Select',
                 'ERP.Product.ProductDev.DistributionProcurement',
                 'ERP.Product.ProductDev.FreezingOff',
                 'ERP.Product.ProductDev.Audit',
@@ -228,7 +227,7 @@
                         },
                         {
                             'Field':'countryCode',
-                            'Value':123,//测试
+                            'Value':this.navFilterList.countryCodes.toString(),
                         },
                         { 'Field' : "dateFrom", 'Value' : dateFrom },
                         { 'Field' : "dateTo", 'Value' : dateTo },

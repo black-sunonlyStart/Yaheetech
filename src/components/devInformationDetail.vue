@@ -217,13 +217,13 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="海外仓成本"
+                        label="管理费分摊"
                         header-align='center'
                         align="center"
                         width="200px"
                         >
                         <template slot="header" >
-                            <div>海外仓成本  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div>管理费分摊  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
                             <div>
                                 操作费 + 发货包装 + 本地化费
                             </div>
@@ -233,6 +233,22 @@
                             <span  v-else>{{item.handlingfee  ? item.handlingfee .toFixed(2) + " + " :' 0  + '}} </span>                     
                             {{item.packagingfee ? item.packagingfee.toFixed(2)  + " + " : '0 + '}}
                             {{item.localizationfee ? item.localizationfee.toFixed(2)  : '0'}}  
+                        </template>
+                    </el-table-column>
+                     <el-table-column
+                        prop="developmentprice"
+                        label="仓库成本"
+                        header-align='center'
+                        align="center"
+                        width="130px"
+                        >
+                        <template slot="header" >
+                            <div>仓库成本 {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div>仓租费+发货处理费 </div>
+                        </template>
+                        <template>
+                           {{item.storageCharges ? item.storageCharges.toFixed(2) + "+" : '0 + '}}
+                           <span>{{item.packFee  ? item.packFee .toFixed(2) :' 0 '}} </span>  
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -270,6 +286,7 @@
                            <span>{{item.weighingFee  ? item.weighingFee .toFixed(2) :' 0 '}} </span>  
                         </template>
                     </el-table-column>
+                   
                 </el-table>
                 <div class="tableBottomTitle">运输方式(自有/SFP): <span v-if="item.shippingname">{{item.shippingname}} </span><span v-if="item.sfpLogisticsCode"> {{'/' + item.sfpLogisticsCode }}</span><span class="showText" v-if="!item.shippingname && !item.sfpLogisticsCode">运输方式暂无匹配</span>   汇率: {{item.exchangerate}}</div>
             </el-col>

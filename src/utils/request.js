@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
-import { judgePorduction } from './tools.js'
+import { judgePorduction,addMask } from './tools.js'
 
 // create an axios instance
 
@@ -89,11 +89,14 @@ service.interceptors.response.use(
           window.location.href = login_url+'/Latest/Account/LogOn?returnUrl='+localhref;
       
     }else if(error.response.status == 403){
+        addMask()
+        let permission = error.response.headers.sc_forbidden_code || ''
         Message({
-            message: '你没有当前页面的权限！',
+            message: `对不起您没有权限（${permission}）进行当前操作！`,
             type: 'error',
-            duration: 5 * 1000,
-            offset:500,
+            duration:0,
+            showClose:true,
+            offset:300,
             })
             return Promise.reject(error)
     }else{

@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-container">
+  <div class="nav-container" v-if="renderDom"  v-permission="'ERP.Product.ProductDev.Select'" >
     <el-card class="nav-card">
       <navBar  @putTableList='putTableList' :total='total' :employeeId='employeeId'></navBar>
     </el-card>
@@ -16,6 +16,7 @@
 import navBar from '@/components/navBar.vue'
 import abilityBtn from '@/components/abilityBtn.vue'
 import mainTable from '@/components/mainTable.vue'
+ import {hasPermissions } from '@/api/user.js'
 export default {
   name: 'packTableList',
   components: {
@@ -25,23 +26,33 @@ export default {
   },
   data () {
     return {
-      currentRole: 'adminDashboard',
-      faCoRemarks: false,
       filterList:{},
       selectRow:[],
       total:50,
       employeeId:0,
+      renderDom:false,
     }
   },
   computed: {
   },
   created () {
-
+    this.getPermissions()
   },
   mounted(){
       this.changeInnterWidth()
   },
   methods: {
+     //权限判断
+      getPermissions(){
+          let  params = [
+          'ERP.Product.ProductDev.Select',
+      ]
+        hasPermissions(params).then(res => {
+           let data = JSON.stringify( res.data);
+            sessionStorage.setItem("permissions", data);
+            this.renderDom = true
+        })
+      },
       getTotal(total){
           this.total = total
       },
@@ -51,16 +62,6 @@ export default {
               document.querySelector('.nav-card > .el-card__body').style.overflowX =  'scroll'
               document.querySelector('.nav-card > .el-card__body').style.overflowY = 'hidden'
           }
-            // let firefox = ''
-            // let opera = ''
-            // if (navigator.userAgent.indexOf('Firefox') >= 0) firefox = true
-            // if (navigator.userAgent.indexOf('Opera') >= 0) opera = true
-            // if(firefox){
-            //     document.querySelector('.mainTable-card').style.height = 72.5 + '%'
-            // }
-            // if(opera){
-            //     document.querySelector('.mainTable-card').style.height = 73.5 + '%'
-            // }
       },
     putTbleSelection(val){
         this.selectRow = val || []
@@ -82,17 +83,18 @@ export default {
   height: 100%;
   background-color: rgba(230, 230, 230, 1);
   ::v-deep .nav-card {
-    position: fixed;
+    // position: fixed;
     width: 99.6%;
     z-index: 999;
-    height: 183px;
+    height: 205px;
+    overflow-x: auto;
     .el-card__body{
         padding: 5px 20px;
     }
   }
  ::v-deep .button-card {
-    position: fixed;
-    top: 191px;
+    // position: fixed;
+    // top: 191px;
     z-index: 1000;
     width: 99.6%;
     height: 37px;
@@ -101,8 +103,8 @@ export default {
     }
   }
   ::v-deep.mainTable-card {
-    position: relative;
-    top: 226px;
+    // position: relative;
+    // top: 226px;
     width: 99.6%;
     .el-card__body{
         padding: 5px 10px 35px;

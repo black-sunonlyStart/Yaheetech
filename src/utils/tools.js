@@ -137,7 +137,7 @@ function Output(Option,Callback,that) {
         let url = conGetExlist.GetHelpTagsUrl("/ExportTable/OutputNew").toString()
             jsonp(url,Option,2000000).then(res => {  
                 if(!res.Url){
-                    if(res.Success){
+                    if(res.Success == false){
                         Message({
                             type: 'error', 
                             message:res.Message,
@@ -349,7 +349,20 @@ function gethashCode(hashCodeStr){
         })
      
     }
-
+    function addMask() {
+        if(!document.getElementById('mask')) {
+            let mask = document.createElement('div')
+            mask.id='mask'
+            mask.style.position = 'fixed'
+            mask.style.background = '#fff'
+            mask.style.top = 0
+            mask.style.bottom = 0
+            mask.style.left = 0
+            mask.style.right = 0
+            mask.style.zIndex = 1111
+            document.body.appendChild(mask)
+        }
+    }
 export {
     copyUrl,
     createUniqueString,
@@ -364,5 +377,6 @@ export {
     sendLogMessage,
     GetGlobalNotesUsers,
     GetFileServiceUrl,
+    addMask,
 }
   

@@ -280,6 +280,7 @@ export default {
                                             developmentId:res.data.developmentId,
                                             productId:res.data.productId,
                                             productCountryId:res.data.productCountryId,
+                                            developmentScenarios:params.developmentScenarios,
                                         }
                                     })
                                 }

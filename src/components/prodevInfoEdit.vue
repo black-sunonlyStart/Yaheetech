@@ -409,7 +409,7 @@ export default {
                     productId: this.$route.query.productId,
                     productCountryId: this.$route.query.productCountryId,
                     title:this.ruleForm.chineseTitle,//中文标题
-                    noticeTime: this.$moment(this.ruleForm.noticeTime).format("YYYY-MM-DD"),
+                    noticeTime:this.ruleForm.noticeTime ? this.$moment(this.ruleForm.noticeTime).format("YYYY-MM-DD") : this.ruleForm.noticeTime,
                     description:this.ruleForm.chineseDescription,//中文描述
                     certificationnote:this.ruleForm.certificationRemarks,//认证备注
                     provinceCode: this.ruleForm.supplierLocation,//供应商所在地--省
