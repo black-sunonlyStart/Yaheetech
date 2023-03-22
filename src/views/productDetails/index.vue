@@ -936,7 +936,7 @@ export default {
                 this.allDetailPageDate = res.data
                 this.development = res.data.development //产品数据
                 this.copeDevProgress = res.data.developmentProgresses
-                if(res.data.productVos && res.data.productVos[0]  && res.data.productVos[0].productCountryList && res.data.productVos[0].productCountryList[0] ){
+                if(res.data.productVos && res.data.productVos[0] && res.data.productVos[0].countryMap  && res.data.productVos[0].productCountryList && res.data.productVos[0].productCountryList[0] ){
                      this.productCountryList =  res.data.productVos[0].countryMap
                      this.otherCountryList =  res.data.productVos[0].otherCountryMaps
                 }else {
@@ -1254,7 +1254,7 @@ export default {
                         this.multiAttribute = res.data
                     })
 
-                const ycun = 0.3937008;
+                const ycun = 2.54;
                 const ychi = 35.3147248;
                 this.pordSizeAttrInfoList = {
                     scenarios:this.scenarios ? this.scenarios :this.productVos ? this.productVos.developmentscenarios : '',
@@ -1264,25 +1264,25 @@ export default {
                     productSizeL:this.productVos.length,//产品尺寸
                     productSizeW:this.productVos.width,//产品尺寸
                     productSizeH:this.productVos.height,//产品尺寸
-                    productSizeYcunL:this.productVos.length ? (this.productVos.length * ycun).toFixed(2) : '',//产品尺寸ycun
-                    productSizeYcunW:this.productVos.width ? (this.productVos.width * ycun).toFixed(2):'' ,//产品尺寸ycun
-                    productSizeYcunH:this.productVos.height ? (this.productVos.height * ycun).toFixed(2) :'',//产品尺寸ycun
+                    productSizeYcunL:this.productVos.length ? (this.productVos.length / ycun).toFixed(2) : '',//产品尺寸ycun
+                    productSizeYcunW:this.productVos.width ? (this.productVos.width / ycun).toFixed(2):'' ,//产品尺寸ycun
+                    productSizeYcunH:this.productVos.height ? (this.productVos.height / ycun).toFixed(2) :'',//产品尺寸ycun
                     productVolume:this.productVos.length ? ((this.productVos.length / 100) * (this.productVos.width / 100) * (this.productVos.height / 100)).toFixed(6) : '', //产品体积
                     productVolumeYchi:this.productVos.length  ? (((this.productVos.length / 100) * (this.productVos.width / 100) * (this.productVos.height / 100)) * ychi).toFixed(6) :'', //产品体积
                     packageSizeL:this.productVos.packedlength,//包装尺寸发货用
                     packageSizeW:this.productVos.packedwidth,//包装尺寸发货用
                     packageSizeH:this.productVos.packedheight,//包装尺寸发货用
-                    packageSizeYcunL:this.productVos.packedlength ? ((this.productVos.packedlength) * ycun).toFixed(2) :'',//包装尺寸发货用
-                    packageSizeYcunW:this.productVos.packedwidth? ((this.productVos.packedwidth) * ycun).toFixed(2) :'',//包装尺寸发货用
-                    packageSizeYcunH:this.productVos.packedheight ? ((this.productVos.packedheight) * ycun).toFixed(2):'',//包装尺寸发货用
+                    packageSizeYcunL:this.productVos.packedlength ? ((this.productVos.packedlength) / ycun).toFixed(2) :'',//包装尺寸发货用
+                    packageSizeYcunW:this.productVos.packedwidth? ((this.productVos.packedwidth) / ycun).toFixed(2) :'',//包装尺寸发货用
+                    packageSizeYcunH:this.productVos.packedheight ? ((this.productVos.packedheight) / ycun).toFixed(2):'',//包装尺寸发货用
                     packedvolume:this.productVos.packedvolume,//包装体积(发货用)
                     packedvolumeYchi:this.productVos.packedvolume? (this.productVos.packedvolume * ychi).toFixed(6) :'',//包装体积(发货用)
                     outerBoxSizeL:this.productVos.cartonLength,//外箱尺寸(装柜用
                     outerBoxSizeW:this.productVos.cartonWidth,//外箱尺寸(装柜用
                     outerBoxSizeH:this.productVos.cartonHeight,//外箱尺寸(装柜用
-                    outerBoxSizeYcunL:this.productVos.cartonLength? ((this.productVos.cartonLength) * ycun).toFixed(2):'',//外箱尺寸(装柜用
-                    outerBoxSizeYcunW: this.productVos.cartonWidth ? (this.productVos.cartonWidth  * ycun).toFixed(2) :'',//外箱尺寸(装柜用
-                    outerBoxSizeYcunH:this.productVos.cartonHeight ? ((this.productVos.cartonHeight) * ycun).toFixed(2) :'',//外箱尺寸(装柜用
+                    outerBoxSizeYcunL:this.productVos.cartonLength? ((this.productVos.cartonLength) / ycun).toFixed(2):'',//外箱尺寸(装柜用
+                    outerBoxSizeYcunW: this.productVos.cartonWidth ? (this.productVos.cartonWidth  / ycun).toFixed(2) :'',//外箱尺寸(装柜用
+                    outerBoxSizeYcunH:this.productVos.cartonHeight ? ((this.productVos.cartonHeight) / ycun).toFixed(2) :'',//外箱尺寸(装柜用
                     outerBoxVolume:this.productVos.cartonLength  ? ((this.productVos.cartonLength  / 100) * (this.productVos.cartonWidth  / 100) * (this.productVos.cartonHeight  / 100)).toFixed(6) :'', //外箱体积(装柜用
                     outerBoxVolumeYcun:this.productVos.cartonLength  ? (((this.productVos.cartonLength  / 100) * (this.productVos.cartonWidth  / 100) * (this.productVos.cartonHeight  / 100)) * ychi).toFixed(6) : '', //外箱体积(装柜用
                     cartonWeight:this.productVos.cartonWeight,//外箱重量(装柜用)
@@ -1292,9 +1292,9 @@ export default {
                     afterpackweight:this.productVos.afterpackweight, //毛重(发货用)
                     abroadafterpackweight:this.productVos.afterpackweight ? (this.productVos.afterpackweight * 2.204).toFixed(4) : '', //毛重(发货用)
                     logisticsPerimeter:this.productVos.packedlength ? (Math.ceil(this.productVos.packedlength) + (Math.ceil(this.productVos.packedwidth) + Math.ceil(this.productVos.packedheight)) * 2).toFixed(2) : '', //物流周长加长(美国)
-                    logisticsPerimeterYcun:this.productVos.packedlength ? (Math.ceil(this.productVos.packedlength  * ycun) + (Math.ceil(this.productVos.packedwidth  * ycun) + Math.ceil(this.productVos.packedheight  * ycun)) * 2).toFixed(2) : '', //物流周长加长(美国)
+                    logisticsPerimeterYcun:this.productVos.packedlength ? (Math.ceil(this.productVos.packedlength  / ycun) + (Math.ceil(this.productVos.packedwidth  / ycun) + Math.ceil(this.productVos.packedheight  / ycun)) * 2).toFixed(2) : '', //物流周长加长(美国)
                     logisticsPerimeterNoUsa:this.productVos.packedlength ? (this.productVos.packedlength + (this.productVos.packedwidth + this.productVos.packedheight) * 2).toFixed(2) : '', //物流周长加长(非美国)
-                    logisticsPerimeterNoUsaYcun:this.productVos.packedlength ? (this.productVos.packedlength * ycun + ((this.productVos.packedwidth * ycun) + (this.productVos.packedheight * ycun)) * 2).toFixed(2) : '', //物流周长加长(非美国)
+                    logisticsPerimeterNoUsaYcun:this.productVos.packedlength ? (this.productVos.packedlength / ycun + ((this.productVos.packedwidth / ycun) + (this.productVos.packedheight / ycun)) * 2).toFixed(2) : '', //物流周长加长(非美国)
                     transportqty:this.productVos.transportqty,//可装货柜数量
                     packingway:this.productVos.packingway,//包装方式
                     productlistings:this.productVos.productlistings,//多箱清单
@@ -1314,6 +1314,7 @@ export default {
                 }
                 this.changeSizeTitle(this.pordSizeAttrInfoList,this.productCountryList.countryName,this.nowStatus)
                 this.initState()
+                
                 this.getStateRole(this.timeStatus)
                 this.controlEdit(this.timeStatus)
             
@@ -1359,13 +1360,14 @@ export default {
         })
       },
       changeSizeTitle(pordSizeAttrInfoList,countryName,nowStatus){
+        if (!countryName) return
           this.showSizeText = []
             if(nowStatus != 9)return
             let sizeList = [pordSizeAttrInfoList.packageSizeL,pordSizeAttrInfoList.packageSizeW,pordSizeAttrInfoList.packageSizeH]
                 sizeList.map(Number)
                 sizeList.sort((a,b) => a-b)
                 
-            let sizePerimeter = (Number(sizeList[0]) + Number(sizeList[1]) + Number(sizeList[2]) ) * 2
+            let sizePerimeter = Number(pordSizeAttrInfoList.packageSizeL) + (Number(pordSizeAttrInfoList.packageSizeW) + Number(pordSizeAttrInfoList.packageSizeH) ) * 2
             let numLogisticsPerimeter = Number(pordSizeAttrInfoList.logisticsPerimeterYcun)
             if(countryName == '德国'){ 
                 // 产品【最长边】超过175cm，请审核人员重新计算利润!（长+（宽+高）*2大于300cm、重量超过31.5KG）
@@ -1513,6 +1515,7 @@ export default {
                 // proImageList:this.proFileList,
                 mainBtn:true,
                 Mark:'Check',
+                customButtonName:'审核节点备注',
                 showAllbutton:true,
             }
               

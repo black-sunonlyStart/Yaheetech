@@ -170,14 +170,14 @@
                     options = 
                     [  
                         {
-                            'Field':'data-exportid',
-                            'Value':document.URL.includes('yaheecloud') ? 257 : 55,//55测试
+                            "Field":'data-exportid',
+                            'Value':document.URL.includes('yaheecloud') ? 257 : '55',//55测试
                         },
                         {
-                            'Field':'ProductId',
+                            "Field":'ProductId',
                             'Value':this.selectRow[0].productId,
                         },     
-                    ]   
+                    ]
                 }else if (command == 2){
                     
                     if(!this.navFilterList.dateFrom || !this.navFilterList.dateTo || !this.navFilterList.countryCodes || this.navFilterList.countryCodes.length == 0 || this.navFilterList.timeType != 0){
@@ -201,12 +201,12 @@
                      options = 
                     [
                         {
-                            'Field':'data-exportid',
+                            "Field":'data-exportid',
                             'Value':document.URL.includes('yaheecloud') ? 468 : 115,//115测试
                         },
-                        { 'Field' : "dateFrom", 'Value' : dateFrom },
-                        { 'Field' : "dateTo", 'Value' : dateTo },
-                        { 'Field' : "countryCode", 'Value' : this.navFilterList.countryCodes.toString() }
+                        { "Field" : "dateFrom", 'Value' : dateFrom },
+                        { "Field" : "dateTo", 'Value' : dateTo },
+                        { "Field" : "countryCode", 'Value' : this.navFilterList.countryCodes.toString() }
                     ]
                 }else if(command == 3){
                     if(!this.navFilterList.dateFrom || !this.navFilterList.dateTo || !this.navFilterList.countryCodes || this.navFilterList.countryCodes.length == 0 || this.navFilterList.timeType != 0){
@@ -222,15 +222,15 @@
                     options = 
                     [
                         {
-                            'Field':'ProductId',
+                            "Field":'ProductId',
                             'Value':document.URL.includes('yaheecloud') ?483:116,//测试
                         },
                         {
-                            'Field':'countryCode',
+                            "Field":'countryCode',
                             'Value':this.navFilterList.countryCodes.toString(),
                         },
-                        { 'Field' : "dateFrom", 'Value' : dateFrom },
-                        { 'Field' : "dateTo", 'Value' : dateTo },
+                        { "Field" : "dateFrom", 'Value' : dateFrom },
+                        { "Field" : "dateTo", 'Value' : dateTo },
                     ]
                 }
                 this.optionPutExcle = true

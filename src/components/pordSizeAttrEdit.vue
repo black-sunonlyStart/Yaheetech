@@ -315,7 +315,7 @@
                                         {{(Math.ceil(scope.row.packedlength) + (Math.ceil(scope.row.packedwidth) + Math.ceil(scope.row.packedheight)) * 2).toFixed(2) || ''}} cm
                                     </div>
                                     <div>
-                                        {{(Math.ceil(scope.row.packedlength  * ycun) + (Math.ceil(scope.row.packedwidth  * ycun) + Math.ceil(scope.row.packedheight  * ycun)) * 2).toFixed(2)}} inch
+                                        {{(Math.ceil(scope.row.packedlength  / ycun) + (Math.ceil(scope.row.packedwidth  / ycun) + Math.ceil(scope.row.packedheight  / ycun)) * 2).toFixed(2)}} inch
                                     </div>
                                 </template>
                             </el-table-column>
@@ -326,7 +326,7 @@
                                         {{(Number(scope.row.packedlength) + (Number(scope.row.packedwidth) + Number(scope.row.packedheight)) * 2).toFixed(2)}} cm
                                     </div>
                                     <div>
-                                        {{(Number(scope.row.packedlength * ycun) + (Number(scope.row.packedwidth * ycun) + Number(scope.row.packedheight * ycun)) * 2).toFixed(2) }} inch
+                                        {{(Number(scope.row.packedlength / ycun) + (Number(scope.row.packedwidth / ycun) + Number(scope.row.packedheight / ycun)) * 2).toFixed(2) }} inch
                                     </div>
                                 </template>
                             </el-table-column>
@@ -465,7 +465,7 @@ export default {
     name:'pordSizeAttrEdit',
     data(){
         return {
-            ycun:0.3937008,
+            ycun:2.54,
             disableControl:true,
             loading:false,
             firstList:false,

@@ -417,3 +417,39 @@ export function getCountry(data) {
       data
     })
   }
+  
+  export function sendReq(data) {
+    return request({  
+      url:'/common/sendReq',
+      method: "post", 
+      data
+    })
+  }
+  export function FindGlobalNotes(url,data) {
+    return request({  
+      url:url,
+      method: "post", 
+      data,
+    })
+  }
+  export function Insertglobalnotes(url,data) {
+    return request({  
+      url:url,
+      method: "post", 
+      data,
+    })
+  }
+  export function GetGlobalNotesUsers1(url,data) {
+    return request({  
+      url:url,
+      method: "post", 
+      data,
+    })
+  }
+  export function OutputNew(url,data) {
+    return request({  
+      url:url,
+      method: "post", 
+      data,
+    })
+  }

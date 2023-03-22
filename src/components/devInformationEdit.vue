@@ -215,13 +215,13 @@
                         </div>
                     </el-form-item>
                     <div v-if="showList(item.createdon) && nowStatus > 1">
-                        <el-form-item label="SFP开发价:" prop="sfpDevelopmentPrice" v-if="(item.countrycode == 'GB' || item.countrycode == 'DE') && item.platformname == 'Amazon' && !devInformationDetaiList.packingway">
+                        <el-form-item label="SFP开发价:" prop="sfpDevelopmentPrice" class="sfpDevelopmentPrice-content" v-if="(item.countrycode == 'GB' || item.countrycode == 'DE') && item.platformname == 'Amazon' && !devInformationDetaiList.packingway">
                             <div class="inputBox"> 
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.sfpDevelopmentPrice"></el-input-number>
                             </div>
                             <el-button  v-if="showList(item.createdon)" @click="getMoeny(item,index)">计算利润</el-button>
-                            <div :class="item.sfpProfit > 0 ? 'titleText' :'noTitleText'" v-show="item.showSfpProfit && item.freight">
+                            <div :class="item.sfpProfit > 0 ? 'titleText' :'noTitleText'" v-show="item.showSfpProfit && item.freight" >
                                 {{contryCurry(item.countrycode)}}: {{item.sfpEndProfit? item.sfpEndProfit:item.sfpProfit}} - 利润率：{{item.sfpEndProfitMargin ? item.sfpEndProfitMargin * 100 : item.sfpProfitMargin * 100}}%
                             </div>
                         </el-form-item>
@@ -577,11 +577,11 @@ export default {
                     key: 1,
                     value: 0
                 },
-                {
-                    label: '人工录入运费',
-                    key: 2,
-                    value: 1
-                },       
+                // {
+                //     label: '人工录入运费',
+                //     key: 2,
+                //     value: 1
+                // },       
             ],
             wareHouseDetail:
             [
@@ -702,9 +702,18 @@ export default {
                     let newList = res.data
                     // this.devInformationDetaiList.productMarketList[index].showProfit = true
                     this.$nextTick(res => {
+                        if(newList.shippingname){
+                            let shippingname=  newList.shippingname.split('|')
+                            newList.shippingname1 = shippingname[0]
+                            newList.shippingname2 = shippingname[1]
+                            newList.shippingname3 = shippingname[2]
+                        }
+                        if(!newList.paypalprice)newList.paypalprice = 0
+                        if(!newList.listingfee)newList.listingfee = 0
+               
                         this.$set(this.devInformationDetaiList.productMarketList, index, newList)
-                            this.$set(this.devInformationDetaiList.productMarketList[index],'showProfit' ,true)
-                            this.$set(this.devInformationDetaiList.productMarketList[index],'showSfpProfit' ,true)
+                        this.$set(this.devInformationDetaiList.productMarketList[index],'showProfit' ,true)
+                        this.$set(this.devInformationDetaiList.productMarketList[index],'showSfpProfit' ,true)
                     })
                    
                 }
@@ -1245,6 +1254,8 @@ export default {
         color: green;
         margin-left: 10px;
         font-size: 12px;
+        position: absolute;
+        word-break: break-all;
     }
     .noTitleText{
         display: inline-block;

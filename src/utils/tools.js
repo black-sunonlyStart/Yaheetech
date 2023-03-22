@@ -2,9 +2,8 @@
  * 创建唯一的字符串
  * @return {string} ojgdvbvaua40
  */
- import { Message, TimeSelect } from 'element-ui';
- import { jsonp } from 'vue-jsonp'
-
+ import { Message } from 'element-ui';
+ import { FindGlobalNotes,Insertglobalnotes,GetGlobalNotesUsers1,OutputNew } from '@/api/user.js'
  function createUniqueString () {
     const timestamp = +new Date() + ''
     const randomNum = parseInt((1 + Math.random()) * 65536) + ''
@@ -88,10 +87,6 @@ let conGetExlist = {
         GetParamFun: null,
         WinTitle: null,
         output: 'jsonp',
-        parameters:{Id: option[0].Value, Param: [{Field:'ProductId',Value:option[0].Value}]},
-        // Callback: function (sUrl) {
-        //     window.open(sUrl);
-        // }
     }
     defaultOption.Param.push(option)
 
@@ -126,16 +121,20 @@ let conGetExlist = {
 //导出
 function Output(Option,Callback,that) {
     if (Option.Type == 0) {
-        var data = {};
-        if ( Option.Data.length > 0) {
-            for (var i = 0; i < Option.Data[0].length; i++) {
-                data[Option.Data[0][i].Field] = Option.Data[0][i].Value;
-            }
-        }
-        Option.output = 'jsonp'
-        Option.Data = JSON.stringify(data);
+        var datas = new FormData();
+        var _Option = {}
+        let paramObjet = {}
+        Option.Data[0].forEach(item => {
+            let addP = {}
+            addP[item.Field] = item.Value
+             _Option =  Object.assign(paramObjet,addP);
+        })
+        
+        datas.append('Data', JSON.stringify(_Option) )
+        datas.append('Id',Option.Id)
+        datas.append('Type',0)
         let url = conGetExlist.GetHelpTagsUrl("/ExportTable/OutputNew").toString()
-            jsonp(url,Option,2000000).then(res => {  
+        OutputNew(url,datas,2000000).then(res => {  
                 if(!res.Url){
                     if(res.Success == false){
                         Message({
@@ -263,40 +262,37 @@ function gethashCode(hashCodeStr){
     }
   function getLogMessage(param,that,trueOne){
         let filter = {}
-        filter.output = 'jsonp'
         filter.OnlyHandleLastRequest = false
         let data = {
-            // BusinessKey:param.developmentId,
-            // PageIndex:param.pageNum,
-            // BusinessName:param.productCountryId,
-        //    BusinessKey:"QA-2206210001",
-        //    BusinessName:"PMS.QualityTest",
            BusinessKey:param.productCountryId,
            BusinessName:param.noteBussinessName,
            PageIndex:param.PageIndex,
            StartOn:param.StartOn ? param.StartOn : '',
            EndOn:param.EndOn ? param.EndOn : '',
            UserIds: param.UserIds && param.UserIds[0] != null ? param.UserIds : [],
-           Notes:param.Notes,
-           Mark:param.Mark,
+           Notes:param.Notes ? param.Notes : '',
+           Mark:param.Mark ? param.Mark : null,
         }
-        filter.filter = JSON.stringify(data);
+        var datas = new FormData();
+        datas.append('filter', JSON.stringify(data) )
+
         let url = conGetExlist.GetHelpTagsUrl("/Common/FindGlobalNotes").toString()
-        jsonp(url,filter,2000000).then(res => { 
-            that.dataList.LoginId = res.LoginId
-            if(res.List.length > 0){
+        FindGlobalNotes(url,datas).then(function(response) { 
+            console.log(response,'res')
+            that.dataList.LoginId = response.LoginId
+            if(response.List.length > 0){
                 if(trueOne){
-                    that.dataList.List = res.List
+                    that.dataList.List = response.List
                 }else {
-                    that.dataList.List.push(...res.List)
+                    that.dataList.List.push(...response.List)
                 }
                 that.moreData = false
-            }else if(res.List.length == 0) {
+            }else if(response.List.length == 0) {
                 if(trueOne){
-                    that.dataList.List = res.List
+                    that.dataList.List = response.List
                     
                 }else {
-                    that.dataList.List.push(...res.List) 
+                    that.dataList.List.push(...response.List) 
                 }
                 that.moreData = true
             }
@@ -307,23 +303,13 @@ function gethashCode(hashCodeStr){
     }
 
     async function sendLogMessage(param,that){
-        let filter = {}
-        filter.output = 'jsonp'
-        filter.OnlyHandleLastRequest = false
-        let data = {
-            // BusinessKey:param.developmentId,
-            // PageIndex:param.pageNum,
-            // BusinessName:param.productCountryId,
-           BusinessKey:param.productCountryId,
-           BusinessName:param.noteBussinessName,
-           notes:param.notes,
-           ViewTitle:'备注',
-        }
         let url = conGetExlist.GetHelpTagsUrl("/Common/Insertglobalnotes").toString()
-        
-        jsonp(url,data,2000000).then(res => { 
-            
-        })
+        var sdata = new FormData();
+        sdata.append('BusinessKey',param.productCountryId)
+        sdata.append('BusinessName',param.noteBussinessName)
+        sdata.append('notes',param.notes)
+        sdata.append('ViewTitle','备注')
+        Insertglobalnotes(url,sdata,2000000).then(res => {})
         that.$message({
             type: 'success', 
             message:'添加备注成功！',
@@ -332,19 +318,15 @@ function gethashCode(hashCodeStr){
         await getLogMessage(param,that,true)
     }
     function GetGlobalNotesUsers(param,that){
-        let filter = {}
-        filter.output = 'jsonp'
-        filter.OnlyHandleLastRequest = false
-        let data = {
-            // BusinessKey:param.developmentId,
-            // PageIndex:param.pageNum,
-            // BusinessName:param.productCountryId,
-           BusinessKey:param.productCountryId,
-           BusinessName:param.noteBussinessName,
-        }
+        let sdata = 
+         {
+            "BusinessKey":param.productCountryId,
+            "BusinessName":param.noteBussinessName}
+    
+        var datas = new FormData();
+        datas.append('filter', JSON.stringify(sdata) )
         let url = conGetExlist.GetHelpTagsUrl("/Common/GetGlobalNotesUsers").toString()
-        filter.filter = JSON.stringify(data);
-        jsonp(url,filter,2000000).then(res => { 
+        GetGlobalNotesUsers1(url,datas,2000000).then(res => { 
             that.dataOptions = res
         })
      

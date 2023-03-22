@@ -62,7 +62,7 @@
                         @click="searchMainSomething"
                         v-track="{triggerType:'click',currentUrl: $route.path,behavior:'备注审核节点备注按钮'}"
                         v-if="remarksParam.mainBtn"
-                    >审核节点备注</el-button>
+                    >{{remarksParam.customButtonName}}</el-button>
              </el-form>
         </div>
         <div class="infinite-list-wrapper">

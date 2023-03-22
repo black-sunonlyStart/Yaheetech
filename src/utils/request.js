@@ -5,20 +5,16 @@ import { judgePorduction,addMask } from './tools.js'
 // create an axios instance
 
 axios.defaults.withCredentials = true;
-
 const service = axios.create({
   baseURL:process.env.VUE_APP_DEVSERVER, // url = base url + request url
   timeout: 90000// request timeout
 })
-
-
 let cancelListApi = ['queryProductManage']
 let pending = {
     queryProductManage:[]
 }; //声明一个数组用于存储每个请求的取消函数和axios标识
 let cancelToken = axios.CancelToken;
 let removePending = (config) => {
-    console.log('pending',pending);
     for(let p in pending[config.url.split('/')[2]]){
         //当当前请求在数组中存在时执行函数体
             pending[config.url.split('/')[2]][p].f(); //执行取消操作
@@ -58,7 +54,7 @@ service.interceptors.request.use(
 service.interceptors.response.use(
   response => {
     const res = response.data
-    if (res.code !== 200) {
+    if (res.code !== 200 && response.status != 200) {
       Message({
         message: res.msg || 'Error',
         type: 'error',
