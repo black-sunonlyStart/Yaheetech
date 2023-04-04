@@ -12,6 +12,7 @@ import '@/utils/jurisdiction.js'
 import '@/utils/track.js'
 import 'element-ui/lib/theme-chalk/icon.css'
 import { VueJsonp } from 'vue-jsonp'
+import store from '@/store/store.js'
 Vue.prototype.$moment = moment;
 // Object.defineProperty(Vue.prototype,'$moment',{value:moment})
 Vue.prototype.$jsonp = VueJsonp
@@ -35,5 +36,6 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 })

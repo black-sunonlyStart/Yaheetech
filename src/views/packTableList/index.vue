@@ -13,9 +13,9 @@
 </template>
 
 <script>
-import navBar from '@/components/navBar.vue'
-import abilityBtn from '@/components/abilityBtn.vue'
-import mainTable from '@/components/mainTable.vue'
+import navBar from '@/components/productDetail/navBar.vue'
+import abilityBtn from '@/components/productDetail/abilityBtn.vue'
+import mainTable from '@/components/productDetail/mainTable.vue'
  import {hasPermissions } from '@/api/user.js'
 export default {
   name: 'packTableList',

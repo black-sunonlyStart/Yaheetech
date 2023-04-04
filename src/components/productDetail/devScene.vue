@@ -89,7 +89,7 @@
 </template>
 <script>
 import { findProductByDevId,exploitType,getDevelopmentScenarios } from '@/api/user.js'
-import productTypeDialog from '@/components/productTypeDialog'
+import productTypeDialog from '@/components/productDetail/productTypeDialog'
 export default {
     name:'devScene',
     components:{

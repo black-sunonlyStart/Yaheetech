@@ -17,7 +17,13 @@ export const constantRoutes = [
   {
     name:'productDetails',
     path: '/productDetails',
-    component: () => import('@/views/productDetails/index'),
+    component: () => import('@/views/packTableList/productDetails'),
+    hidden: true
+  },
+  {
+    name:'productDevelopAt',
+    path: '/productDevelopAt',
+    component: () => import('@/views/newProductPage/index'),
     hidden: true
   },
 ]

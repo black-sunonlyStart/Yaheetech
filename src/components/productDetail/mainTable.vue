@@ -243,7 +243,7 @@
 </template>
 <script>
 import { fetchPageTableList,unfreezing,getImagePath,checkUserIdentity,hasPermissions,getEmployee } from '@/api/user.js'
-import { formatDate,copyUrl, } from '../utils/tools'
+import { formatDate,copyUrl, } from '@/utils/tools'
 import throttle from 'lodash.throttle'
 import debounce from 'lodash.debounce'
 export default {
@@ -998,14 +998,14 @@ export default {
     .imageBox{
         height: 18px;
         width: 18px;
-        background-image: url(../assets/bianji.png);
+        background-image: url(~@/assets/bianji.png);
         cursor: pointer;
     }
     .imageBox1{
         margin-left: 10px;
         height: 22px;
         width: 22px;
-        background-image: url(../assets/shenhe.png);
+        background-image: url(~@/assets/shenhe.png);
         cursor: pointer;
     }
     

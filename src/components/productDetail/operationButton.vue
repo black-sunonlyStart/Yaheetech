@@ -12,7 +12,7 @@ import { unfreezing,checkUserIdentity } from '@/api/user.js'
 export default {
     name:'operationButton',
     components:{
-        messageDialog:() => import('@/components/messageDialog')
+        messageDialog:() => import('@/components/productDetail/messageDialog')
     },
     data(){
         return {
