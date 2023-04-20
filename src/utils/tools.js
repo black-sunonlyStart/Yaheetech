@@ -345,6 +345,17 @@ function gethashCode(hashCodeStr){
             document.body.appendChild(mask)
         }
     }
+    function trim(str){ //删除左右两端的空格
+        return str.replace(/(^\s*)|(\s*$)/g, ""); 
+    }
+    function uploadFilesUrl(){
+        let url = judgePorduction()
+        if(url){
+            return 'http://erptools.yaheecloud.com/api/common/uploadFile'
+        }else {
+            return 'http://api-tools-test.yahee.com.cn:8090/common/uploadFile' 
+        }
+    }
 export {
     copyUrl,
     createUniqueString,
@@ -360,5 +371,7 @@ export {
     GetGlobalNotesUsers,
     GetFileServiceUrl,
     addMask,
+    trim,
+    uploadFilesUrl,
 }
   

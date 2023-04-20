@@ -19,15 +19,32 @@ const actions = {
 const mutations = {
     // state: 存储的数据；    value: 发送的数据
     changeCommit(state, value) {
-        console.log("mutations", state, value);
         // 修改 state 中存储的数据
-        state.name = value;
+        // debugger
+        // state = {
+        //     developmentId:value.query.developmentId,
+        //     productId:value.query.productId,
+        //     productCountryId:value.query.productCountryId,
+        // }
+        state.developmentId = value.query.developmentId
+        state.productId = value.query.productId
+        state.productCountryId = value.query.productCountryId
+        console.log("mutations", state, value);
         // 修改后，页面会重新渲染
     },
 };
 
 // State: 用于存储数据
-const state = { name: "superman" };
+const state = { 
+    name: "superman",
+    developmentType:null,
+    developmentId:null,
+    productId: null,
+    developmentScenarios: null,
+    id:null,
+    edit:false,
+    productCountryId:null,
+};
 
 // 创建并导出 store
 export default new Vuex.Store({

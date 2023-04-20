@@ -215,3 +215,25 @@ aside {
 .el-checkbox__label{
     color: #333 !important;
 }
+
+.popperBorder{
+    border: none !important;
+    padding: 0 !important;
+    text-align: center !important;
+    min-width: 30px !important;
+    
+} 
+.copeTitle{
+    color: #3366cc;
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 0px;
+    width: 30px;
+    border: none;
+    // text-align: center;
+    &:hover{
+        // background-color:#ffff ;
+        // color: #3366cc;
+        display: inline-block;
+    }
+}

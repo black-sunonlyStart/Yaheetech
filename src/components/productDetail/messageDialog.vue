@@ -131,14 +131,13 @@ export default {
                 type:'',
                 remark:'',
                 dailySales:'',
-
             },
             orderListStatus:[2,4,11,12,13],
             dailyListStatus:[0,1,3,5,10],
             platformid:0,
             dialogVisible: false,
             remark:'',
-             rules: {
+            rules: {
                 remark: [
                     { required: true, message: '请输入备注', trigger: 'blur' },
                 ],
@@ -154,8 +153,8 @@ export default {
                 platformid: [
                     { required: true, message: '请选择开发优先级', trigger: 'blur' },
                 ],
-             },
-             devSign:[
+            },
+            devSign:[
                  {
                      key:1,
                      label:'低',
@@ -171,8 +170,8 @@ export default {
                      label:'高',
                      value:2,
                  },
-             ],
-             status:[
+            ],
+            status:[
                  {
                      key:1,
                      statusValue:'未提交审批',
@@ -434,8 +433,8 @@ export default {
                          
                     }
                 }).catch((err) => {
-                        this.loading = false
-                    })
+                    this.loading = false
+                })
             }
             if(this.clickId == 2){
                 let params = {
@@ -457,8 +456,8 @@ export default {
                         
                     }   
                 }).catch((err) => {
-                        this.loading = false
-                    })
+                    this.loading = false
+                })
             }
             if(this.clickId == 30){
                 let params = {
@@ -478,8 +477,8 @@ export default {
                         this.loading = false
                     }   
                 }).catch((err) => {
-                        this.loading = false
-                    })
+                    this.loading = false
+                })
             }
             if(this.clickId == 4 ){
                 let params = {
@@ -501,8 +500,8 @@ export default {
                         this.loading = false
                     }   
                 }).catch((err) => {
-                        this.loading = false
-                    })
+                    this.loading = false
+                })
             }
             if(this.clickId == 6){
                 let params = {
@@ -523,8 +522,8 @@ export default {
                         this.loading = false 
                     }  
                 }).catch((err) => {
-                        this.loading = false
-                    })
+                    this.loading = false
+                })
             }
             if(this.clickId == 20){
                 let params = {
@@ -539,14 +538,14 @@ export default {
                             message:'保存成功',
                             offset:220
                         })
-                         this.$emit('getTableList',this.navFilterList)
-                         this.$refs['ruleForm'].resetFields();
+                        this.$emit('getTableList',this.navFilterList)
+                        this.$refs['ruleForm'].resetFields();
                         this.dialogVisible = false 
                         this.loading = false 
                     }  
                 }).catch((err) => {
-                        this.loading = false
-                    })
+                    this.loading = false
+                })
             }
             if(this.clickId == 3){
                 let  params = {
@@ -560,16 +559,16 @@ export default {
                             message:'保存成功',
                             offset:220
                         })
-                         this.$emit('getTableList',this.navFilterList)
-                         this.$refs['ruleForm'].resetFields();
+                        this.$emit('getTableList',this.navFilterList)
+                        this.$refs['ruleForm'].resetFields();
                         this.dialogVisible = false 
                         this.loading = false
                     }
                 }).catch((err) => {
                         this.loading = false
                     })
+                }
             }
-          }
         })
     }
 }

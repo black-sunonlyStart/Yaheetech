@@ -790,7 +790,7 @@ export default {
               console.log(row)
           }
       },
-      routerMove(devId,proId,procountryId){
+    routerMove(devId,proId,procountryId){
         let routeData = this.$router.resolve({
                         name: "productDetails",
                         query:{
@@ -802,7 +802,7 @@ export default {
                         });
                     window.open(routeData.href, '_blank');
       },
-      newGetImagePath(){
+    newGetImagePath(){
           getImagePath().then(res => {
                 if(res.data){
                      this.lastImageUrl = res.data
