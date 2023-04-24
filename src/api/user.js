@@ -453,3 +453,116 @@ export function getCountry(data) {
       data,
     })
   }
+//新品开发任务 start
+//大组长
+export function getBigDepartmentLeaders(data) {
+    return request({  
+      url:'/progressDevelopment/getBigDepartmentLeaders',
+      method: "get", 
+      params:data
+    })
+  }
+//状态列表
+export function getStateTime(data) {
+    return request({  
+      url:'/progressDevelopment/getStateTime',
+      method: "get", 
+      params:data
+    })
+  }
+//预计结束时间
+export function getExpectEndTime(data) {
+    return request({  
+      url:'/progressDevelopment/getExpectEndTime',
+      method: "get", 
+      params:data
+    })
+  }
+//分页查询
+export function getProgressDevelopment(data) {
+    return request({  
+      url:'/progressDevelopment/getProgressDevelopment',
+      method: "post", 
+      data
+    })
+  }
+//打回
+export function approvalMemo(data) {
+    return request({  
+      url:'/progressDevelopment/approvalMemo',
+      method: "post", 
+      data
+    })
+  }
+//分页查询
+export function saveProgressDevelopment(data) {
+    return request({  
+      url:'/progressDevelopment/saveProgressDevelopment',
+      method: "post", 
+      data
+    })
+  }
+//时间节点
+export function getTimeEnums(data) {
+    return request({  
+      url:'/progressDevelopment/getTimeEnums',
+      method: "get", 
+      params:data
+    })
+  }
+//时间节点
+export function getSeriesCategoryDef(data) {
+    return request({  
+      url:'/progressDevelopment/getSeriesCategoryDef',
+      method: "get", 
+      params:data
+    })
+  }
+//进度清单
+export function getProgressDevelopmentMemo(data) {
+    return request({  
+      url:`/progressDevelopment/getProgressDevelopmentMemo/${data}`,
+      method: "get", 
+    })
+  }
+//进度清单
+export function getRemain(data) {
+    return request({  
+      url:`/progressDevelopment/getRemain/${data.progressDevelopmentId}/${data.operation}`,
+      method: "get", 
+    })
+  }
+//进度取消冻结数据
+export function progressUnfreezing(data) {
+    return request({  
+      url:'/progressDevelopment/unfreezing',
+      method: "post", 
+      data,
+    })
+  }
+//进度取消冻结数据
+export function saveMemo(data) {
+    return request({  
+      url:'/progressDevelopment/saveMemo',
+      method: "post", 
+      data,
+    })
+  }
+//进度冻结数据
+export function progressfreezing(data) {
+    return request({  
+      url:'/progressDevelopment/freezing',
+      method: "post", 
+      data,
+    })
+  }
+//保存进度清单
+export function saveStateTime(data) {
+    return request({  
+      url:'/progressDevelopment/saveStateTime',
+      method: "post", 
+      data
+    })
+  }
+
+//新品开发任务 end

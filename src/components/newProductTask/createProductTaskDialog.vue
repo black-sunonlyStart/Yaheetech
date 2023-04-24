@@ -7,6 +7,7 @@
         class="dialog-main"
         width="800px"
         top="100px"
+        v-dialogDrag
     >
         <el-form class="edit-form" :model="form" :rules="rules" :inline-message="false" ref="form">
             <el-row>
@@ -41,33 +42,42 @@
             </el-row>
             <el-row>
                 <el-col :span="10" :xs="22" :sm="22" :md="22" :lg="22" :xl="22">
-                    <el-form-item  prop="country" :label-width="formLabelWidth" >
+                    <el-form-item  prop="classCategoryIdArray" :label-width="formLabelWidth" >
                         <template slot="label">
                                 产品系列：
                         </template>
-                        <el-select v-model="form.country" value-key="code" placeholder="请选择" style="width:220px" class="project-select" size="mini" >
-                            <el-option v-for="item in patentCountry" :key="item.key" :label="item.value" :value="item.key"></el-option>
-                        </el-select>
+                        <el-cascader
+                             v-model="form.classCategoryIdArray"
+                            :options="patentCountry"
+                            size="mini"
+                            separator='-'
+                            :props="{ 
+                                value:'seriesCategoryId',
+                                label:'seriesCategoryName',
+                                children:'classifyDefs'
+                                }"
+                            clearable>
+                        </el-cascader>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="10" :xs="22" :sm="22" :md="22" :lg="22" :xl="22">
-                    <el-form-item  prop="productUrl" :label-width="formLabelWidth" >
+                    <el-form-item  prop="title" :label-width="formLabelWidth" >
                         <template slot="label">
                             中文简称：
                         </template>
-                        <el-input type="textarea" autosize v-model="form.jpsize" maxlength="50" show-word-limit></el-input>
+                        <el-input type="textarea" autosize v-model="form.title" maxlength="50" show-word-limit></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12" :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
-                    <el-form-item  prop="productUrl" :label-width="formLabelWidth" >
+                    <el-form-item  prop="design" :label-width="formLabelWidth" >
                         <template slot="label">
                             是否设计款：
                         </template>
-                        <el-radio-group v-model="form.categorySeries">
+                        <el-radio-group v-model="form.design">
                             <el-radio  :label="1">是</el-radio>
                             <el-radio  :label="2">否</el-radio>
                         </el-radio-group>
@@ -76,41 +86,53 @@
             </el-row>
             <el-row>
                 <el-col :span="10" :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
-                    <el-form-item  prop="country" :label-width="formLabelWidth" >
+                    <el-form-item  prop="businessId" :label-width="formLabelWidth" >
                         <template slot="label">
                                 业务开发：
                         </template>
-                        <el-select v-model="form.country" value-key="code" placeholder="请选择" style="width:220px" class="project-select" size="mini" >
-                            <el-option v-for="item in patentCountry" :key="item.key" :label="item.value" :value="item.key"></el-option>
+                        <el-select v-model="form.businessId" value-key="code" placeholder="请选择" style="width:220px" class="project-select" size="mini" >
+                             <el-option 
+                                v-for="item in targetPrice"                        
+                                :key="item.Id"
+                                :label="item.TrueName"
+                                :value="item.Id"
+                                >
+                            </el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10" :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
-                    <el-form-item  prop="country" :label-width="formLabelWidth">
+                    <el-form-item  prop="buyerId" :label-width="formLabelWidth">
                         <template slot="label">
                                 采购开发：
                         </template>
-                        <el-select v-model="form.country" value-key="code" placeholder="请选择" style="width:220px" class="project-select" size="mini" >
-                            <el-option v-for="item in patentCountry" :key="item.key" :label="item.value" :value="item.key"></el-option>
+                        <el-select v-model="form.buyerId" value-key="code" placeholder="请选择" style="width:220px" class="project-select" size="mini" >
+                            <el-option 
+                                v-for="item in dailySales"                        
+                                :key="item.Id"
+                                :label="item.TrueName"
+                                :value="item.Id"
+                                >
+                            </el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="10" :xs="22" :sm="22" :md="22" :lg="22" :xl="22">
-                    <el-form-item  prop="country" :label-width="formLabelWidth" >
+                    <el-form-item  prop="leader" :label-width="formLabelWidth" >
                         <template slot="label">
                                 品类经理：
                         </template>
-                        <el-select v-model="form.country" value-key="code" placeholder="请选择" style="width:220px" class="project-select" size="mini" >
-                            <el-option v-for="item in patentCountry" :key="item.key" :label="item.value" :value="item.key"></el-option>
+                        <el-select v-model="form.leader" value-key="code" placeholder="请选择" style="width:220px" class="project-select" size="mini" >
+                            <el-option v-for="item in categoryManagerList" :key="item.leader" :label="item.leaderName" :value="item.leader"></el-option>
                         </el-select>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="10" :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
-                    <el-form-item  prop="checkDate" :label-width="formLabelWidth" >
+                    <el-form-item  prop="expectStartTime" :label-width="formLabelWidth" >
                         <template slot="label">
                             预计开始日期：
                         </template>
@@ -118,14 +140,15 @@
                             format="yyyy-MM-dd"
                             value-format="yyyy-MM-dd"
                             size="mini"
-                            v-model="form.checkDate"
+                            v-model="form.expectStartTime"
                             type="date"
+                            @change="changeExpectSatrtTime"
                             placeholder="选择日期">
                         </el-date-picker>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10" :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
-                    <el-form-item  prop="checkDate" :label-width="formLabelWidth" >
+                    <el-form-item  prop="expectEndTime" :label-width="formLabelWidth" >
                         <template slot="label">
                             预计结束日期：
                         </template>
@@ -133,7 +156,8 @@
                             format="yyyy-MM-dd"
                             value-format="yyyy-MM-dd"
                             size="mini"
-                            v-model="form.checkDate"
+                            :disabled="true"
+                            v-model="form.expectEndTime"
                             type="date"
                             placeholder="选择日期">
                         </el-date-picker>
@@ -142,21 +166,21 @@
             </el-row>
             <el-row>
                 <el-col :span="12" :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
-                    <el-form-item  prop="productUrl" :label-width="formLabelWidth" >
+                    <el-form-item  prop="supplier" :label-width="formLabelWidth" >
                         <template slot="label">
                                 供应商名称：
                         </template>
-                        <el-input  v-model="form.productUrl" style="width:220px" size="mini"></el-input>
+                        <el-input  v-model="form.supplier" style="width:220px" size="mini"></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="10" :xs="22" :sm="22" :md="22" :lg="22" :xl="22">
-                    <el-form-item  prop="productUrl" :label-width="formLabelWidth" >
+                    <el-form-item  prop="developmentId" :label-width="formLabelWidth" >
                         <template slot="label">
                                 关联开发ID:
                         </template>
-                        <el-input  v-model="form.productUrl" size="mini"></el-input>
+                        <el-input  v-model="form.developmentId" size="mini"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10" :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
@@ -165,11 +189,11 @@
             </el-row>
             <el-row>
                 <el-col :span="10" :xs="22" :sm="22" :md="22" :lg="22" :xl="22">
-                    <el-form-item  prop="productUrl" :label-width="formLabelWidth" >
+                    <el-form-item  prop="skuAlias" :label-width="formLabelWidth" >
                         <template slot="label">
                                 sku别名:
                         </template>
-                        <el-input  v-model="form.productUrl"  size="mini"></el-input>
+                        <el-input  v-model="form.skuAlias"  size="mini"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10" :xs="2" :sm="2" :md="2" :lg="2" :xl="2">
@@ -185,7 +209,8 @@
 </template>
 
 <script>
-import {uploadFilesUrl} from '@/utils/tools'
+import {uploadFilesUrl,GetFileServiceUrl} from '@/utils/tools'
+import { saveProgressDevelopment,selectRoleEmployeeForRoleId,getBigDepartmentLeaders,getExpectEndTime,getSeriesCategoryDef } from '@/api/user.js'
 export default {
   name:"createProductTaskDialog",
   data() {
@@ -198,51 +223,70 @@ export default {
             skuY:false,
             skuN:false,
         },
+        dailySales:[],
+        targetPrice:[],
+        categoryManagerList:[],
         dialogFormVisible: false,
         clickLoading:false,
         imgLoading:false,
         imgUrl:'',
         form: {
-            country: '',
-            productUrl: '',
-            checkDate: '',
-            reply: '',
-            note: '',
-            imgUrl:''
+            id: null,//(编辑时)id
+            pictureUri:null,//立项图片
+            classCategoryIdArray:null,//产品系列
+            title: null,//中文简称
+            design:null,//是否设计款   1 设计款、 2 非设计款
+            businessId:null,//业务开发--接口获取 /productManage/selectRoleEmployeeForRoleId
+            buyerId:null,//采购开发--接口获取 /productManage/selectRoleEmployeeForRoleId
+            leader:null,//品类经理--接口获取 /getBigDepartmentLeaders
+            expectStartTime:null,//预计开始时间 
+            expectEndTime:null,//预计结束时间--接口获取  getExpectEndTime
+            supplier:null,//供应商
+            developmentId:null,//关联开发ID
+            skuAlias:null//sku别名
         },
-        formLabelWidth: "100px",
+        formLabelWidth: "120px",
         suppliers:[],
         rules:{
             imgUrl : [
                 { required: true, message:'请上传图片', trigger:['blur', 'change'] }
             ],
-            country : [
-                { required: true, message:'请选择查询国家', trigger:['blur', 'change'] }
+            classCategoryIdArray : [
+                { required: true, message:'请选择产品系列', trigger:['blur', 'change'] }
+            ],
+            title : [
+                { required: true, message:'请填写中文简称', trigger:['blur', 'change'] }
+            ],
+            design : [
+                { required: true, message:'请选择设计款', trigger:['blur', 'change'] }
+            ],
+            businessId : [
+                { required: true, message:'请选择业务开发', trigger:['blur', 'change'] }
+            ],
+            buyerId : [
+                { required: true, message:'请选择采购开发', trigger:['blur', 'change'] }
+            ],
+            leader : [
+                { required: true, message:'请选择品类经理', trigger:['blur', 'change'] }
+            ],
+            expectStartTime : [
+                { required: true, message:'请选择开始时间', trigger:['blur', 'change'] }
+            ],
+            expectEndTime : [
+                { required: true, message:'请选择结束时间', trigger:['blur', 'change'] }
             ],
         },
-        patentCountry:[],
-        legalType:[
-            {
-                key:1,
-                name:'可以开发-低风险'
-            },
-            {
-                key:2,
-                name:'可以开发-中风险'
-            },
-            {
-                key:3,
-                name:'产品改进'
-            },
-            {
-                key:4,
-                name:'不可开发'
-            },
-        ],   
+        patentCountry:[],  
     };
 },
 created() {
 
+},
+props:{
+    navFilterList:{
+        type:Object,
+        default:() => {}
+    }
 },
 computed:{
     action(){
@@ -250,13 +294,81 @@ computed:{
     },
 },
 methods: {
-    openDialog(){
+    openDialog(row,id){
         this.dialogFormVisible = true
+        if(id) {
+           this.form = {
+                id: row.id,//(编辑时)id
+                imgUrl:row.pictureUri,//立项图片
+                categoryId:row.categoryId,//产品系列
+                title: row.title,//中文简称
+                design:row.design,//是否设计款   1 设计款、 2 非设计款
+                businessId:row.businessId,//业务开发--接口获取 /productManage/selectRoleEmployeeForRoleId
+                buyerId:row.buyerId,//采购开发--接口获取 /productManage/selectRoleEmployeeForRoleId
+                leader:row.leader,//品类经理--接口获取 /getBigDepartmentLeaders
+                expectStartTime:row.expectStartTime,//预计开始时间 
+                expectEndTime:row.expectEndTime,//预计结束时间--接口获取  getExpectEndTime
+                supplier:row.supplier,//供应商
+                developmentId:row.developmentId,//关联开发ID
+                skuAlias:row.skuAlias,//sku别名
+                classCategoryIdArray:[row.seriesCategoryId,row.classifyDefId],
+                pictureUri:row.pictureUri,
+           }
+           console.log( this.form)
+           this.imgUrl = GetFileServiceUrl(row.pictureUri) 
+
+        }else {
+            this.form = {}
+            this.imgUrl = ''
+            if(this.$refs['form'])this.$refs['form'].resetFields()
+          
+        } 
+        this.getTypeList()
+    },
+     getTypeList(){
+            let params = {
+                rid:document.URL.includes('yaheecloud') ?  41 : 170  //测试170
+                // rid:41//采购开发41
+            }
+            selectRoleEmployeeForRoleId(params).then(res => {
+                this.dailySales = res.data
+            })
+            let itemList = {
+                rid:document.URL.includes('yaheecloud') ? 40 : 171
+                // rid:40//业务开发40
+            }
+            selectRoleEmployeeForRoleId(itemList).then(res => {
+                this.targetPrice = res.data
+            })
+            getBigDepartmentLeaders().then(response => {
+                if(response.data){
+                    this.categoryManagerList = response.data
+                }
+            });
+            getSeriesCategoryDef().then(res => {
+                res.data.forEach(item => {
+                    item.classifyDefs.forEach(list => {
+                        list.seriesCategoryName = list.classifyDefName
+                        list.seriesCategoryId = list.classifyDefId
+                    })
+                })
+                this.patentCountry = res.data
+
+            })
+        },
+    changeExpectSatrtTime(val) {
+        let param = {
+            expectStartTime :val
+        }
+        getExpectEndTime(param).then(res => {
+            this.$set(this.form,'expectEndTime',res.data)
+
+        })
     },
     handleAvatarSuccess(res, file) {
-        this.imgUrl = URL.createObjectURL(file.raw);
-        this.form.imgUrl = res.data[0]
+        this.imgUrl = this.form.imgUrl = GetFileServiceUrl(res.data[0])
         this.imgLoading = false
+        this.form.pictureUri = res.data[0]
     },
     beforeAvatarUpload(file) {
         const isJPG = file.type.includes('image');
@@ -272,16 +384,25 @@ methods: {
         this.$refs[formName].validate((valid) => {
             if (valid) {
                 let params = {
-                    id: this.id,//新增时不用传
-                    imgUrl:this.form.imgUrl,
-                    country: this.form.country,
-                    productUrl: this.form.productUrl,
-                    checkDate: this.form.checkDate,
-                    reply: this.form.reply,
-                    note: this.form.note,
+                    id: this.form.id,//(编辑时)id
+                    pictureUri:this.form.pictureUri,//立项图片
+                    categoryId: this.form.classCategoryIdArray[1],//产品系列
+
+                    title:  this.form.title,//中文简称
+                    design: this.form.design,//是否设计款   1 设计款、 2 非设计款
+                    businessId: this.form.businessId,//业务开发--接口获取 /productManage/selectRoleEmployeeForRoleId
+                    buyerId: this.form.buyerId,//采购开发--接口获取 /productManage/selectRoleEmployeeForRoleId
+                    leader: this.form.leader,//品类经理--接口获取 /getBigDepartmentLeaders
+                    expectStartTime: this.form.expectStartTime,//预计开始时间 
+                    expectEndTime: this.form.expectEndTime,//预计结束时间--接口获取  getExpectEndTime
+                    supplier: this.form.supplier,//供应商
+                    developmentId: this.form.developmentId,//关联开发ID
+                    skuAlias: this.form.skuAlias,//sku别名
+                    seriesCategoryId:  this.form.classCategoryIdArray[0],//类目系列
+                    classifyDefId: this.form.classCategoryIdArray[1],
                 }
 
-                savePatentCheck(params).then((res) => {
+                saveProgressDevelopment(params).then((res) => {
                     if(res.code == 200){
                         this.$message({
                             type: 'success', 
@@ -289,8 +410,8 @@ methods: {
                             offset:220
                         })
                         this.clickLoading = false
-                       this.dialogFormVisible = false
-                       this.$emit('mainListList')
+                        this.dialogFormVisible = false
+                        this.$emit('mainListList',this.navFilterList)
                     }
                 }).catch(() => {
                     this.clickLoading = false         
@@ -361,7 +482,7 @@ methods: {
    ::v-deep.dialog-main{
     .el-dialog__header{
         border-bottom: 1px solid #ccc;
-        padding: 10px !important;
+        padding: 10px 0 10px 20px;
         .el-dialog__title{
             font-weight: bold;
         }

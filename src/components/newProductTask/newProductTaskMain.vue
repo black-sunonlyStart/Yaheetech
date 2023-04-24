@@ -4,24 +4,24 @@
             <el-col :span="24">
                 <div class="flot-left">
                     <el-button type="primary" class="button-put" @click="createTask()">创建任务</el-button>
-                    <el-dropdown  size="mini" style="margin-left:10px">
-                        <el-button type="primary"  class="button-put">
+                    <el-dropdown  size="mini" style="margin-left:10px" @command="changeFreezing">
+                        <el-button type="primary"  class="button-put" @click="freezing(3)">
                             取消开发<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item>恢复开发</el-dropdown-item>  
+                            <el-dropdown-item :command="6">恢复开发</el-dropdown-item>  
                         </el-dropdown-menu>
                     </el-dropdown>
-                    <el-dropdown  size="mini" style="margin-left:10px">
-                        <el-button type="primary" class="button-put">
+                    <el-dropdown  size="mini" style="margin-left:10px" @command="changeFreezing">
+                        <el-button type="primary" class="button-put" @click="freezing(4)">
                             冻结数据<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item>取消冻结</el-dropdown-item>  
+                            <el-dropdown-item :command="5">取消冻结</el-dropdown-item>  
                         </el-dropdown-menu>
                     </el-dropdown>
 
-                    <el-button type="primary" style="margin-left:10px" class="button-put" @click="submitTask()">提交</el-button>
+                    <el-button type="primary" style="margin-left:10px" class="button-put" @click="putOperation(null,1)">提交</el-button>
                     <el-button type="primary" class="button-put" @click="setTask()">设置</el-button>
                 </div>
             </el-col>
@@ -43,11 +43,11 @@
                     </template>
                     <template slot-scope="scope">
                         <div >
-                            <span v-if="scope.row.picturePath">
+                            <span v-if="scope.row.pictureUri">
                                 <el-image 
-                                    :src="imgRul(scope.row.picturePath)" 
+                                    :src="GetFileServiceUrl(scope.row.pictureUri)" 
                                     style="width:80px;height:80px" 
-                                    :key="scope.row.picturePath" 
+                                    :key="GetFileServiceUrl(scope.row.pictureUri)" 
                                     lazy
                                     :scroll-container="scrollContainer"
                                 >
@@ -64,8 +64,8 @@
                                     <i class="el-icon-picture-outline">暂无图片</i>
                                 </div>
                             </div>
-                            <div class="rightBottom-title" v-if="scope.row.accountType == 'YT'" :style="{'color':scope.row.accountType == 'YT'?'red' :''}">
-                                {{'有logo'}}
+                            <div class="rightBottom-title" v-if="scope.row.design == 1" :style="{'color':scope.row.design == '1'?'red' :''}">
+                                {{'设计款'}}
                             </div>
                         </div>
                     </template>
@@ -79,23 +79,22 @@
                     </template>
                     <template slot-scope="scope">
                         <div>
-                            <span  class="fileHoverShow">
-                                {{scope.row.headline}}  
+                            <span>
+                                {{scope.row.categoryName}}  
                             </span>
                         </div>
                         <div>
-                             {{scope.row.category}} 
+                             {{scope.row.id}} 
                         </div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="skuAlias" width="170"  align="center">
+                <el-table-column width="170"  align="center">
                     <template slot="header">                      
                        名称
                     </template>
                     <template slot-scope="scope">
-                        <div  v-if="scope.row.sku" class="fileHoverShow">
-                          
-                         
+                        <div style="text-align:left">
+                            {{scope.row.title}}  
                         </div>
                     </template>
                 </el-table-column>
@@ -104,9 +103,10 @@
                         状态/耗时
                     </template>
                     <template slot-scope="scope">
-                        <span>
-                           <div>{{scope.row.bigDepartmentLeaderName ? scope.row.bigDepartmentLeaderName : '--'}}</div>
-                        </span>
+                        <div v-for="(item,index) in scope.row.pdStatuses" :key="index">
+                            <div class="blue-button">{{item.statusValue}}</div>
+                            <div >{{item.sjDay != null ? item.sjDay + '天' : ''}}</div>
+                        </div>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" width="120">
@@ -114,8 +114,8 @@
                        当前经办人
                     </template>
                     <template slot-scope="scope">
-                        <div v-if="scope.row.market">
-                            {{scope.row.market}}
+                        <div v-for="(item,index) in scope.row.pdStatuses" :key="index">
+                            <div>{{item.assigneeName}}</div>
                         </div>
                     </template>
                 </el-table-column>
@@ -124,7 +124,7 @@
                         品类经理
                     </template>
                     <template slot-scope="scope">
-                        
+                        {{scope.row.leaderName}}
                     </template>
                 </el-table-column>
                 <el-table-column prop="applyEr"  width="120" align="center">
@@ -132,7 +132,7 @@
                         业务开发
                     </template>
                     <template slot-scope="scope">
-                       
+                       {{scope.row.businessName}}
                     </template>
                 </el-table-column>
                 <el-table-column prop="operatorName"  width="120" align="center">
@@ -140,7 +140,7 @@
                         采购开发
                     </template>
                     <template slot-scope="scope">
-                        {{scope.row.operatorName ? scope.row.operatorName : '--'}}
+                        {{scope.row.buyerName ? scope.row.buyerName : '--'}}
                     </template>
                 </el-table-column>
                 <el-table-column prop="status" width="120" align="center">
@@ -148,7 +148,7 @@
                         供应商
                     </template>
                     <template slot-scope="scope">
-                     
+                        {{scope.row.supplier ? scope.row.supplier : '--'}}
                     </template>
                 </el-table-column>
                 <el-table-column  width="120" align="center">
@@ -156,7 +156,9 @@
                         预计起止时间
                     </template>
                     <template slot-scope="scope">
-                        {{scope.row.planCompletionOn ? $moment(scope.row.planCompletionOn).format("YYYY-MM-DD") : '--'}}
+                        <div>{{scope.row.expectStartTime ? $moment(scope.row.expectStartTime).format("YYYY-MM-DD") : '--'}}</div>
+                        <div>-</div>
+                        <div>{{scope.row.expectEndTime ? $moment(scope.row.expectEndTime).format("YYYY-MM-DD") : '--'}}</div>
                     </template>
                 </el-table-column>
                 <el-table-column prop="renewalDate"  width="100" align="center">
@@ -164,7 +166,9 @@
                         实际起止时间
                     </template>
                     <template slot-scope="scope">
-                     
+                        <div>{{scope.row.actualStartTime ? $moment(scope.row.actualStartTime).format("YYYY-MM-DD") : '--'}}</div>
+                        <div>-</div>
+                        <div>{{scope.row.actualEndTime ? $moment(scope.row.actualEndTime).format("YYYY-MM-DD") : '--'}}</div>
                     </template>
                 </el-table-column>
                 <el-table-column prop="priority"  align="center">
@@ -172,17 +176,20 @@
                         累计工期（天）
                     </template>
                      <template slot-scope="scope">
-                     
+                        <div>
+                            <div>{{scope.row.ljDay}}</div>
+                            <div style="color:green">剩余{{  scope.row.syDay }}天</div>
+                        </div>
                     </template>
                 </el-table-column>
                 <el-table-column prop="created"  width="100" align="center" sortable label="创建人">
                     <template slot-scope="scope">
-                     
+                          {{scope.row.createName ? scope.row.createName : '--'}}
                     </template>
                 </el-table-column>
                 <el-table-column prop="createdOn"  width="100" align="center" sortable label="创建时间">
                     <template slot-scope="scope">
-                     
+                          <div>{{scope.row.createdOn ? $moment(scope.row.createdOn).format("YYYY-MM-DD HH:mm:ss") : '--'}}</div>
                     </template>
                 </el-table-column>
                 <el-table-column prop="id" label="操作 / 记录" width="120"  align="center" fixed="right">
@@ -193,33 +200,31 @@
                         <div style="display:flex;justify-content: space-around;">
                             <el-popover
                                 placement="bottom"
-                                width="80"
-                                trigger="hover">
+                                trigger="hover"
+                                popper-class='popperBorder' style="border:none"
+                                >
                                 <div class="operationBox" v-for="item in operationList" :key="item.id"> 
                                     <div class="operationText"  
-                                        @click="putOperation(scope.row,item.id)"
+                                        @click="putOperation(scope.row,item.id,1)"
                                     >
-                                    <div class="nameBox" 
-                                        v-permission:[item.perkey] 
-                                        v-track="{triggerType:'click',currentUrl: $route.path,behavior:item.name}"
+                                    <div class="nameBox"  
                                     >{{item.name}}</div></div>
                                 </div>
-                                <div class="imageHistoryBox" slot="reference" @mouseover="openOperation(scope.row)"></div>
+                                <div class="imageHistoryBox" slot="reference"></div>
                             </el-popover>
                             <el-popover
                                 placement="bottom"
-                                width="80"
-                                trigger="hover">
+                                trigger="hover"
+                                popper-class='popperBorder' style="border:none"
+                                >
                                 <div class="operationBox" v-for="item in edidOperationList" :key="item.id"> 
                                     <div class="operationText"  
                                         @click="editOperation(scope.row,item.id)"
                                     >
                                     <div class="nameBox" 
-                                        v-permission:[item.perkey] 
-                                        v-track="{triggerType:'click',currentUrl: $route.path,behavior:item.name}"
                                     >{{item.name}}</div></div>
                                 </div>
-                                <div class="imageBox" slot="reference" @mouseover="openOperation(scope.row)"></div>
+                                <div class="imageBox" slot="reference"></div>
                             </el-popover>
                         </div>
                     </template>
@@ -251,15 +256,16 @@
                 <el-button @click="closeUploadDialog()" size="mini">关 闭</el-button>
             </span>
         </el-dialog>
-        <createTaskDialog ref="createTaskDialog"></createTaskDialog>
-        <checkStatusDialog ref="checkStatusDialog"></checkStatusDialog>
+        <createTaskDialog ref="createTaskDialog" :navFilterList='uploadFilterList' @mainListList='mainListList'></createTaskDialog>
+        <checkStatusDialog ref="checkStatusDialog" :navFilterList='uploadFilterList' @mainListList='mainListList'></checkStatusDialog>
         <developProductPssDialog ref="developProductPssDialog"></developProductPssDialog>
         <setProductProgressDialog ref="setProductProgressDialog"></setProductProgressDialog>
     </div>
 </template>
 <script>
 
-import { copyUrl } from '@/utils/tools.js'
+import { copyUr,GetFileServiceUrl} from '@/utils/tools.js'
+import { getProgressDevelopment,getEmployee,progressfreezing,progressUnfreezing } from '@/api/user.js'
 import remarksNew from '@/components/remarksNew.vue'
 import debounce from 'lodash.debounce';
 
@@ -298,9 +304,7 @@ export default {
                 },
                 
             ],
-            uploadFilterList:{
-                
-            },
+            uploadFilterList:{},
             dialogVisible:false,
             showTenth:false,
             remarksParam:{},
@@ -312,7 +316,7 @@ export default {
             mainTaskList:[{}],
             multipleSelection: [],
             renderDom :true,
-       
+            employee:{}
         }
     },
     props:{
@@ -320,16 +324,16 @@ export default {
             default:() => ({})
         }
     },
+    
     created: function() {
-        // this.mainListList()
-        // this.controlPromiss()
+        this.init()
     },
     watch:{
         filterList:{
             handler:function(val){
-                    this.pageNum = 1
-                    this.mainListList(val)
-                    this.uploadFilterList = val
+                this.pageNum = 1
+                this.mainListList(val)
+                this.uploadFilterList = val
             },
             deep:true
         },
@@ -339,50 +343,139 @@ export default {
             return document.querySelector('.el-table__body-wrapper')
         },
     },
-    methods:{ 
+    methods:{     
+        freezing(val) {
+            if(this.multipleSelection.length == 0) {
+                this.error('请至少选择一条数据！')
+                return
+            }
+            let stringT = '冻结'
+             let id = this.multipleSelection.map(res => {
+                return res.id
+            }).toString()
+            if(val == 3) {
+                stringT = '取消'
+                this.$refs.checkStatusDialog.cancelStatusDialog(val,id)
+                 this.$refs.checkStatusDialog.showType = 3
+            }else {
+                this.$confirm(`确定${stringT}该数据？`, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                    }).then(() => {
+                       
+                        let param = {
+                            progressDevelopmentIds:id,
+                            operation:val,
+                        }
+                        progressfreezing(param).then(res => {
+                            if(res.code == 200) {
+                                this.success('操作成功')
+                                this.mainListList(this.uploadFilterList)
+                            }
+                        })
+                    }).catch(() => {
+                        return          
+                });   
+            }
+
+          
+        },
+        changeFreezing(command) {
+            if(this.multipleSelection.length == 0) {
+                this.error('请至少选择一条数据！')
+                return
+            }
+             let stringT = '取消冻结'
+            if(command == 6) stringT = '恢复开发'
+            if(command) {
+                this.$confirm(`确定${stringT}该数据？`, '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    let id = this.multipleSelection.map(res => {
+                        return res.id
+                    }).toString()
+                    let param = {
+                        progressDevelopmentIds:id,
+                        operation:command,
+                    }
+                        progressUnfreezing(param).then(res => {
+                            if(res.code == 200) {
+                                this.success('操作成功')
+                                this.mainListList(this.uploadFilterList)
+                            }
+                        })
+                    }).catch(() => {
+                        return          
+                }); 
+            }
+        },
+        init() {
+            this.mainListList()
+            // this.controlPromiss()
+            getEmployee().then(res => {
+                this.employee = res.data
+            })
+        },
+        GetFileServiceUrl(url) {
+            return GetFileServiceUrl(url)
+        },
         //创建任务
         createTask() {
             this.$refs.createTaskDialog.openDialog()
         },
-        //提交任务
-        submitTask() {
-            this.$refs.checkStatusDialog.openDialog()
-        },
         //设置任务
         setTask() {
-            this.$refs.setProductProgressDialog.openDialog()
+            this.$refs.setProductProgressDialog.openDialog(this.multipleSelection)
         },
         editOperation(row,id) {
             switch (id) {
                 case 1 :
-                     this.$refs.createTaskDialog.openDialog()
+                    this.$refs.createTaskDialog.openDialog(row,id)
                 break;
                 case 2 :
-                    this.$refs.developProductPssDialog.openDialog()
+                    this.$refs.developProductPssDialog.openDialog(row)
                 break;
                 case 3 :
-                    this.openRecordDialog()
+                    this.openRecordDialog(row)
             }
-           
-
         },
-        putOperation(row,id) {
+        putOperation(row,id,val) {
             let detailDialog = this.$refs.checkStatusDialog
+            let rowList = []
+            if(val == 1) {
+                rowList.push(row)
+            }else {
+                if(this.multipleSelection.length == 0) {
+                    this.error('请选择一条数据！')
+                    return
+                }
+                rowList = this.multipleSelection
+            }
+
+            // if(!this.employee.IsAdminRole || rowList.some(item => item.assigneeId != this.employee.Id)) {
+            //     this.error('您不能操作当前数据！')
+            //     return
+            // }
+
+            if(!rowList.every(item => item.state == rowList[0].state)) {
+                this.error('操作状态请保持一致！')
+                return
+            }
             switch (id) {
                 case 1 :
-                     detailDialog.openDialog()
-                     detailDialog.type = true
-                     detailDialog.dialogName = '审批'
+                    detailDialog.openDialog(rowList,id)
+                    detailDialog.type = 1
+                    detailDialog.dialogName = '审批'
                 break;
                 case 2 :
-                    detailDialog.openDialog()
-                    detailDialog.type = false
+                    detailDialog.openDialog(rowList,id)
+                    detailDialog.type = 2
                     detailDialog.dialogName = '打回'
                 break;
             }
-        },
-        openOperation() {
-
         },
         closeUploadDialog(){
             this.showTenth = false
@@ -390,15 +483,14 @@ export default {
         },
         openRecordDialog(val){
             this.remarksParam = {
-                productCountryId:`${val.sku}_${val.accountType}_${val.taskType}`,
-                noteBussinessName:'CameraTask',
+                productCountryId:val.id,
+                noteBussinessName:'PRODUCTDEV_PROGRESS',
                 pageNum:0,
                 PageIndex:-1,
-                // proImageList:GetFileServiceUrl(),
+                proImageList:GetFileServiceUrl(),
                 mainBtn:false,
                 Mark:null,
                 showAllbutton:false,
-                BusinessName:'CameraTask',
             }
             this.showTenth = true
             this.dialogVisible = true
@@ -408,70 +500,64 @@ export default {
         },
        
         controlPromiss(){
-        let params = [
-            "ERP.PDC.Product.CameraTask.View",
-            "ERP.PDC.Product.CameraTask.SaveCameraTask1",
-            "ERP.PDC.Product.CameraTask.SaveCameraTask2",
-            "ERP.PDC.Product.CameraTask.SaveCameraTask3",
-            "ERP.PDC.Product.CameraTask.SaveCameraTask4",
-            "ERP.PDC.Product.CameraTask.SaveCameraTask",
-            "ERP.PDC.Product.CameraTask.SaveCameraTask5",
-            "ERP.PDC.Product.CameraTask.SaveCameraTask6",
-        ]
-        let url = document.URL.includes('yaheecloud') ? 'http://erptools.yaheecloud.com/api/common/hasPermissions':'http://api-tools-test.yahee.com.cn:84/tool-api/common/hasPermissions'
-        hasPermissions(url,params).then(response => {
+            let params = [
+                "ERP.PDC.Product.CameraTask.View",
+                "ERP.PDC.Product.CameraTask.SaveCameraTask1",
+                "ERP.PDC.Product.CameraTask.SaveCameraTask2",
+                "ERP.PDC.Product.CameraTask.SaveCameraTask3",
+                "ERP.PDC.Product.CameraTask.SaveCameraTask4",
+                "ERP.PDC.Product.CameraTask.SaveCameraTask",
+                "ERP.PDC.Product.CameraTask.SaveCameraTask5",
+                "ERP.PDC.Product.CameraTask.SaveCameraTask6",
+            ]
+            let url = document.URL.includes('yaheecloud') ? 'http://erptools.yaheecloud.com/api/common/hasPermissions':'http://api-tools-test.yahee.com.cn:84/tool-api/common/hasPermissions'
+            hasPermissions(url,params).then(response => {
                 if(response.data){
                     let data = JSON.stringify( response.data);
                     sessionStorage.setItem("permissions", data);
                     this.renderDom = true
                 }
             });
-            getEmployee().then(res => {
-                this.employee = res.data
-            })
         },
         changeMaxHeight(){
-            return window.innerHeight - 230 + 'px'
+            return window.innerHeight - 240 + 'px'
         },
       
         mainListList:debounce (function(val){
             if(!val) val = this.uploadFilterList
             this.loading = true
           
-               let params = {
+                let params = {
                     pageNum:this.pageNum,
                     pageSize:this.pageSize,
                     search: val ? val.search : '',//综合搜索  sku/sku别名/申请号
                     dateFrom:val && val.timeValue2 ? val.timeValue2[0]: '',//申请日期 开始时间
                     dateTo: val && val.timeValue2 ?val.timeValue2[1]: '',//申请日期 截至时间
 
-                    taskType:val ? val.taskType : null,//任务类型 4.场景视频  5.安装视频
-                    accountType:val ? val.accountType : 'YT',//账号类型   YT  TP
-                    status:status,//状态  1:未拍摄  2：待分配   3：待拍摄   4：拍摄种   5：已完成
-                    priority:val ? val.priority : null,//任务优先级  10 ： 低    20：中     30：高
-                    operator:val ? val.operator : null,//摄像人员
-                    bigDepartmentLeader:val ? val.bigDepartmentLeader :null,//品类经理
-                    bigDepartmentLeaderName:val ? val.bigDepartmentLeaderName :null,//品类经理
-                    dateType:val ? val.dateType :1,
-                    // parametersType:val ? val.parametersType :null,
-                    // parameters:val ? val.parameters :null,
+                    categoryId: val && val.categoryId ?val.categoryId : null,//类目系列
+                    seriesCategoryId: val && val.seriesCategoryId ?val.seriesCategoryId : null,//类目系列
+                    classifyDefId: val && val.classifyDefId ?val.classifyDefId : null,//类目系列
+                    leader: val && val.leader ?val.leader : null,//品类经理
+                    curBusiness:  val && val.curBusiness ?val.curBusiness : null,//业务开发   true：自己  false：其他
+                    curBuyer:  val && val.curBuyer ?val.curBuyer : null,//采购开发   true：自己  false：其他
+                    state: val && val.state ?val.state : null,//状态 -- /getStateTime   接口，另外补充  50   已冻结、51   已取消
+                    design: val && val.design ?val.design : null,//设计款
+                    timeEnum:val && val.timeEnum ? val.timeEnum : null,
                 }
-            
-
-            // getCameraTasks(params).then(res => {
-            //     if(res.data){
-            //         this.loading = false
-            //         this.mainTaskList = res.data.rows
-            //         this.total = res.data.records;
-            //         this.currentPage4 = res.data && res.data.pageNum ? res.data.pageNum : 1
-            //     }
-            // }).catch(err => {
-            //     if(err == 1){
-            //         this.loading = true     
-            //     }else {
-            //         this.loading = false     
-            //     }
-            // })
+            getProgressDevelopment(params).then(res => {
+                if(res.data){
+                    this.loading = false
+                    this.mainTaskList = res.data.rows
+                    this.total = res.data.records;
+                    this.currentPage4 = res.data && res.data.pageNum ? res.data.pageNum : 1
+                }
+            }).catch(err => {
+                if(err == 1){
+                    this.loading = true     
+                }else {
+                    this.loading = false     
+                }
+            })
         },500),
         
         handleSizeChange(val) {
@@ -489,7 +575,8 @@ export default {
         success() {
             this.$message({
                 showClose: true,
-                message: this.M2('操作成功'),
+                message: '操作成功',
+                 offset:220,
                 duration: 2000,
                 type: 'success'
             });
@@ -501,6 +588,14 @@ export default {
                 offset:220,
                 type: 'warning'
             });
+        },
+        error(msg) {
+            this.$message({
+                showClose: true,
+                message: msg,
+                offset:220,
+                type: 'error'
+            });
         }
     }
 }
@@ -508,6 +603,12 @@ export default {
 <style scoped lang="scss">
     .rightBottom-title {
         position:absolute;bottom:2px;right:2px;border:1px dashed #ccc;width: 45px;height: 17px;line-height: 17px;
+    }
+    .blue-button {
+        background-color: #3366cc;
+        padding: 0px;
+        color: #ffffff;
+        border-radius: 4px;
     }
     .fileHoverShow{
         color: #3366cc;
@@ -521,7 +622,6 @@ export default {
     .imageBox{
         height: 18px;
         width: 18px;
-        // float: left;
         background-image: url(~@/assets/bianji.png);
         cursor: pointer !important;
         margin: 0px 10px;
@@ -529,12 +629,10 @@ export default {
     .imageHistoryBox{
         height: 23px;
         width: 23px;
-        // float: left;
         background-image: url(~@/assets/shenhe.png);
         cursor: pointer !important;
     }
     .button-put{
-            // width: 100px;
         padding: 5px 10px;
         font-size: 12px;
     }
@@ -559,20 +657,20 @@ export default {
             border: solid 2px #3089dc !important;
         }
     .page-box{
-        // float: right;
         position: fixed;
         bottom: 10px;
         right: 30px;
     }
     .operationBox{
-        width: 120px;
+  
     .operationText{
         .nameBox{
-            width: 120px;
             line-height: 7px;
             font-size: 12px;
             border-bottom: 1px solid #cccccc;
-            padding: 10px 0px;
+            padding: 10px 5px;
+            text-align: left;
+            margin: 5px;
             &:hover{
                 background-color: #3366cc;
                 color: #ffffff;
@@ -580,5 +678,13 @@ export default {
             }
         }
     }
+}
+</style>
+<style>
+.popperBorder {
+    min-width: 80px;
+    width: 80px;
+    padding: 5px;
+    text-align: left;
 }
 </style>

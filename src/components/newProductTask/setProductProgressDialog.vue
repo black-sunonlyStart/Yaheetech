@@ -5,36 +5,36 @@
             :visible.sync="dialogVisible"
             width="800px"
             :modal="false"
-            top="200px"
+            top="100px"
             class="dialog-main"
             v-dialogDrag
             >
             <el-table
                 :data="tableData"
                 style="width: 100%;margin-top:10px"
-                height="350"
+                height="550"
                 border
                 :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                 >
                 <el-table-column
-                    prop="recodeType"
+                    prop="statusValue"
                     label="环节"
                     align="center"
                     width="150">
                 </el-table-column>
                 <el-table-column
                     align="center"
-                    prop="items"
                     label="预定耗时（天）"
                     width="600"
                     show-overflow-tooltip
                     >
                     <template slot-scope="scope">
-                       <el-input type="text"></el-input>
+                       <el-input type="text" v-model="scope.row.stateTime" size="mini"></el-input>
                     </template>
                 </el-table-column>
             </el-table>
             <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="saveSetProgerss()" class="button-style" size="mini">保 存</el-button>
                 <el-button type="primary" @click="dialogVisible = false" class="button-style" size="mini">关 闭</el-button>
             </span>
         </el-dialog>
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-// import { getWeekViewDetails } from '@/api/user.js'
+import { getStateTime,saveStateTime } from '@/api/user.js'
 export default {
     name:'setProductProgressDialog',
     data() {
@@ -64,12 +64,19 @@ export default {
         },
         openDialog(params){
             this.dialogVisible = true
-            
-            // getWeekViewDetails(params).then(res => {
-            //     if(res.data){
-            //         this.tableData = res.data
-            //     }
-            // })
+            getStateTime().then(res => {
+                if(res.code == 200){
+                    this.tableData = res.data
+                }
+            })
+        },
+        saveSetProgerss() {
+            saveStateTime(this.tableData).then(res => {
+                if(res.code == 200) {
+                    this.$message.success('保存成功！')
+                    this.dialogVisible = false
+                }
+            })
         }
     }
 }
@@ -79,15 +86,15 @@ export default {
 ::v-deep.dialog-main{
     .el-dialog__header{
         border-bottom: 1px solid #ccc;
+         padding: 10px 0 10px 20px;
         .el-dialog__title{
             font-weight: bold;
         }
     }
     .el-dialog__body{
         padding: 0 20px 20px !important;
-        max-height: 450px;
+        max-height: 600px;
         overflow-y: auto;
-       
     }
 }
 

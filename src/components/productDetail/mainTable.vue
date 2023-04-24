@@ -789,7 +789,7 @@ export default {
           }else if (row.state == 9){
               console.log(row)
           }
-      },
+    },
     routerMove(devId,proId,procountryId){
         let routeData = this.$router.resolve({
                         name: "productDetails",
@@ -801,24 +801,24 @@ export default {
                         
                         });
                     window.open(routeData.href, '_blank');
-      },
+    },
     newGetImagePath(){
-          getImagePath().then(res => {
-                if(res.data){
-                     this.lastImageUrl = res.data
-                }
-            })
+        getImagePath().then(res => {
+            if(res.data){
+                this.lastImageUrl = res.data
+            }
+        })
         //   this.lastImageUrl = document.URL.includes('yaheecloud') ? 'http://fileservice.yaheecloud.com/' : 'http://192.168.168.6:8988/FMSService/'
-          let params = {
-              type : 0
-          }
-          checkUserIdentity(params).then(res => {
-              if(res.data){
-                  this.showOrder = res.data
-              }
-          })
-      },
-     getTableList:debounce (function(val,pageSize = false){
+        let params = {
+            type : 0
+        }
+        checkUserIdentity(params).then(res => {
+            if(res.data){
+                this.showOrder = res.data
+            }
+        })
+    },
+    getTableList:debounce (function(val,pageSize = false){
         let params = {
             pageNum :this.pageNum,
             pageSize:this.pageSize,
@@ -860,12 +860,12 @@ export default {
             this.$emit('getTotal',this.total)
         
         }).catch((err) => {
-                if(err == 1){
-                    this.loading = true     
-                }else {
-                    this.loading = false     
-                }     
-            }); 
+            if(err == 1){
+                this.loading = true     
+            }else {
+                this.loading = false     
+            }     
+        }); 
         
     },300),
     handleSelectionChange (val) {

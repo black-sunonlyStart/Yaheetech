@@ -93,16 +93,16 @@ export default {
             }
         }
         .up-text-c {
-            top: 122px;
+            top: 133px;
         }
     }
  
     .naverCard {
         position: relative;
-        height: 136px;
+        height: 147px;
         overflow: hidden;
         background: #fff;
-        z-index: 1111;
+        z-index: 11;
         opacity: 0.9;
         flex-shrink: 0;
     }

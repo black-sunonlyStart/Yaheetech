@@ -9,10 +9,10 @@
         <el-col :span="10" :xs="24" :sm="24" :md="24" :lg="20" :xl="20">
             <el-form-item>
                 <template slot="label">
-                    查询日期:
+                   创建日期:
                 </template>
-                <el-radio-group v-model="form.dataTime">
-                    <el-radio  @click.native="clickRadioSearch('dataTime',item.label)" v-for="item in timeList" :key="item.key" :label="item.label">{{ item.name }}</el-radio>
+                <el-radio-group size="mini"  v-model="form.timeEnum">
+                    <el-radio-button   @click.native="clickRadioSearch('timeEnum',item.timeEnum)" v-for="item in timeList" :key="item.key" :label="item.timeEnum">{{ item.timeEnumValue }}</el-radio-button>
                 </el-radio-group>
                 <el-date-picker 
                     style="margin-left:10px"
@@ -35,16 +35,16 @@
           <el-form-item label-width="10px">
             <div class="searchBox">
                 <el-input placeholder="创建人/备注信息"
-                        v-model="putSearch"
-                        size='mini'
-                        class="input-with-select"
-                        clearable
-                        @change="searchSomething"
-                        @keyup.enter.native="searchSomething"
-              
-                        >
+                    v-model="putSearch"
+                    size='mini'
+                    class="input-with-select"
+                    clearable
+                    @change="searchSomething"
+                    @keyup.enter.native="searchSomething"
+            
+                    >
                 </el-input>
-                <el-button type="primary" size="mini" @click="searchSomething">搜索</el-button>
+                <el-button type="primary"  @click="searchSomething">搜索</el-button>
             </div>
           </el-form-item>
         </el-col>
@@ -54,16 +54,27 @@
         <template slot="label">
             类目系列:
         </template>
-        <el-radio-group v-model="form.categorySeries">
-            <el-radio  @click.native="clickRadioSearch('certificateType',item.label)" v-for="item in seriesList" :key="item.key" :label="item.label">{{ item.name }}</el-radio>
+        <el-radio-group size="mini" v-model="form.seriesCategoryId">
+             <el-radio-button :label="null" @click.native="clickRadioSearch('seriesCategoryId',null)">全部</el-radio-button>
+            <el-radio-button  @click.native="clickRadioSearch('seriesCategoryId',item.seriesCategoryId),changeRadioSearch(index)" v-for="(item,index) in seriesList" :key="item.seriesCategoryId" :label="item.seriesCategoryId">{{ item.seriesCategoryName }}</el-radio-button>
+        </el-radio-group>
+    </el-form-item>
+    <el-form-item>
+        <template slot="label">
+            
+        </template>
+        <el-radio-group size="mini" v-model="form.classifyDefId" v-if="form.seriesCategoryId ">
+            <el-radio-button :label="null" @click.native="clickRadioSearch('classifyDefId',null)">全部</el-radio-button>
+            <el-radio-button @click.native="clickRadioSearch('classifyDefId',item.classifyDefId)" v-for="item in seriesListChilds" :key="item.classifyDefId" :label="item.classifyDefId">{{ item.classifyDefName }}</el-radio-button>
         </el-radio-group>
     </el-form-item>
     <el-form-item>
         <template slot="label">
             品类经理:
         </template>
-        <el-radio-group v-model="form.categoryManager">
-            <el-radio  @click.native="clickRadioSearch('certificateType',item.label)" v-for="item in categoryManagerList" :key="item.key" :label="item.label">{{ item.name }}</el-radio>
+        <el-radio-group size="mini" v-model="form.leader">
+            <el-radio-button   :label="null" @click.native="clickRadioSearch('leader',null)">全部</el-radio-button>
+            <el-radio-button   @click.native="clickRadioSearch('leader',item.leader)" v-for="item in categoryManagerList" :key="item.leader" :label="item.leader">{{ item.leaderName }}</el-radio-button>
         </el-radio-group>
     </el-form-item>
      
@@ -73,8 +84,8 @@
                 <template slot="label">
                     业务开发:
                 </template>
-                  <el-radio-group v-model="form.develop">
-                    <el-radio  @click.native="clickRadioSearch('certificateType',item.label)" v-for="item in developNameList" :key="item.key" :label="item.label">{{ item.name }}</el-radio>
+                  <el-radio-group size="mini" v-model="form.curBusiness">
+                    <el-radio-button   @click.native="clickRadioSearch('curBusiness',item.label)" v-for="item in developNameList" :key="item.key" :label="item.label">{{ item.name }}</el-radio-button>
                 </el-radio-group>
             </el-form-item>
         </el-col>
@@ -83,8 +94,8 @@
                 <template slot="label">
                     采购开发:
                 </template>
-                  <el-radio-group v-model="form.orderName">
-                    <el-radio  @click.native="clickRadioSearch('certificateType',item.label)" v-for="item in developNameList" :key="item.key" :label="item.label">{{ item.name }}</el-radio>
+                <el-radio-group size="mini" v-model="form.curBuyer">
+                    <el-radio-button   @click.native="clickRadioSearch('curBuyer',item.label)" v-for="item in developNameList" :key="item.key" :label="item.label">{{ item.name }}</el-radio-button>
                 </el-radio-group>
             </el-form-item>
         </el-col>
@@ -93,16 +104,20 @@
             <template slot="label">
                 设计款:
             </template>
-            <el-radio-group v-model="form.categorySeries">
-                <el-radio  @click.native="clickRadioSearch('certificateType',item.label)" v-for="item in designList" :key="item.key" :label="item.label">{{ item.name }}</el-radio>
+            <el-radio-group size="mini" v-model="form.design">
+                <el-radio-button  @click.native="clickRadioSearch('certificateType',item.label),changeSesign(item.label)" v-for="item in designList"  :key="item.key" :label="item.label">{{ item.name }}</el-radio-button>
             </el-radio-group>
         </el-form-item>
         <el-form-item>
             <template slot="label">
                 状   态:
             </template>
-            <el-radio-group v-model="form.categorySeries">
-                <el-radio  @click.native="clickRadioSearch('certificateType',item.label)" v-for="item in statusList" :key="item.key" :label="item.label">{{ item.name }}</el-radio>
+            <el-radio-group size="mini" v-model="form.state">
+                <el-radio-button   :label="null" @click.native="clickRadioSearch('state',null)">全部</el-radio-button>
+                <el-radio-button   @click.native="clickRadioSearch('state',item.state)" v-for="item in statusList" :disabled="item.candisable" :key="item.id" :label="item.state">{{ item.statusValue }}</el-radio-button>
+                <div class="success-radio"><el-radio :label="30"  @click.native="clickRadioSearch('state',30)">已下单</el-radio></div>
+                <div class="success-radio"><el-radio :label="50"  @click.native="clickRadioSearch('state',50)">已冻结</el-radio></div>
+                <div class="success-radio"><el-radio :label="51"  @click.native="clickRadioSearch('state',51)">已取消</el-radio></div>
             </el-radio-group>
         </el-form-item>
     </el-form>
@@ -111,121 +126,60 @@
 </template>
 <script>
 import { trim } from '@/utils/tools.js';
+import { getBigDepartmentLeaders,getStateTime,getTimeEnums,getSeriesCategoryDef } from '@/api/user.js'
 export default {
     name: 'newProductNaver',
     data () {
     return {
-        timeList:[
-            {
-                name:'全部',
-                key:1,
-                lable:1,
-            },
-            {
-                name:'今天',
-                key:6,
-                lable:6,
-            },
-            {
-                name:'3天内',
-                key:2,
-                lable:2,
-            },
-            {
-                name:'5天内',
-                key:3,
-                lable:3,
-            },
-            {
-                name:'7天内',
-                key:4,
-                lable:4,
-            },
-            {
-                name:'30天内',
-                key:5,
-                lable:5,
-            },
-            
-        ],
-        seriesList:[
-             {
-                name:'全部',
-                key:1,
-                lable:null,
-            },
-             {
-                name:'庭院',
-                key:2,
-                lable:2,
-            },
-             {
-                name:'宠物',
-                key:3,
-                lable:3,
-            },
-             {
-                name:'家具',
-                key:4,
-                lable:4,
-            },
-             {
-                name:'健康&美容',
-                key:5,
-                lable:5,
-            },
-             {
-                name:'虚拟类目',
-                key:6,
-                lable:6,
-            },
-        ],
+        timeList:[],
+        seriesListChilds:[],
+        seriesList:[],
         developNameList:[
             {
                 name:'全部',
                 key:1,
-                lable:null,
+                label:null,
             },
             {
                 name:'自己',
                 key:2,
-                lable:2,
+                label:true,
             },
             {
                 name:'其他',
                 key:3,
-                lable:3,
+                label:false,
             },
         ],
         designList:[
             {
                 name:'全部',
                 key:1,
-                lable:null,
+                label:null,
             },
             {
                 name:'是',
                 key:2,
-                lable:2,
+                label:1,
             },
             {
                 name:'否',
                 key:3,
-                lable:3,
+                label:2,
             },
         ],
         statusList:[
             {
                 name:'全部',
                 key:1,
-                lable:null,
+                label:null,
             },
         ],
         categoryManagerList:[
             {
                 name:'全部',
                 key:1,
-                lable:null,
+                label:null,
             },
         ],
         pickerOptions: {
@@ -268,44 +222,85 @@ export default {
             }]
         },
         putSearch:'',
-        tableParams:{},
-
+        tableParams:{}, 
         form: {
-            search: null,//综合搜索  sku/sku别名/申请号
-            dateFrom: '',//申请日期 开始时间
-            dateTo: "",//申请日期 截至时间 复杂新领域探索
-            categorySeries:null,
-            dataTime:null,
+            timeValue2:[],
+            timeEnum:500, //时间类型   全部(500)、今天(501)、三天内(502)、7天内(503)、15天内(504)、30天内(505)
+            dateFrom:null,//开始时间
+            dateTo:null,//截至时间
+            // categoryId: null,//类目系列
+            leader:null,//品类经理
+            curBusiness: null,//业务开发   true：自己  false：其他
+            curBuyer: null,//采购开发   true：自己  false：其他
+            state:null,//状态 -- /getStateTime   接口，另外补充  50   已冻结、51   已取消
+            design:null,//设计款
+            // categoryIdChird:null,//设计款
+            seriesCategoryId: null,//一级(类目id)
+            classifyDefId:null,
         }
     }
 },
-watch:{
-    form:{
-        handler:function(val){
-            this.tableParams = val
-            this.$emit('putTableList',this.tableParams)
-        },
-        deep:true
-    }
-},
+    watch:{
+        form:{
+            handler:function(val){
+                this.tableParams = val
+                this.$emit('putTableList',this.tableParams)
+            },
+            deep:true
+        }
+    },
+    created() {
+        this.init()
+    },
     methods: {
-        
+        init() {
+            getBigDepartmentLeaders().then(response => {
+                if(response.data){
+                    this.categoryManagerList = response.data
+                }
+            });
+            getStateTime().then(response => {
+                if(response.data) {
+                    this.statusList = response.data
+                }
+            })
+            getTimeEnums().then(response => {
+                if(response.data) {
+                    this.timeList = response.data
+                }
+            })
+            getSeriesCategoryDef().then(res => {
+                this.seriesList = res.data
+            })
+            
+        },
+        //P图、图片评审、P图方案调整
+        changeSesign(value) {
+            if(!value) {
+                this.statusList.forEach(item => {
+                    item.candisable = false
+                })
+                return
+            }else{
+                let disabledList = value == 1 ?  [6,7,8] : [9,10,11,12,13,15]
+                 this.statusList.forEach(item => {
+                    if(disabledList.includes(item.state) ){
+                        item.candisable = true
+                    }else {
+                        item.candisable = false
+                    }
+                    
+                })
+                return
+            }
+         
+        },
+        changeRadioSearch(index) {
+            this.seriesListChilds = this.seriesList[index].classifyDefs
+        },
         clickRadioSearch(name,value) {
             this.$set(this.form,name,value)
             this.$set(this.form,'almorlist',Math.random())
-        },
-        clearAll(){
-            this.putSearch = '';
-            this.tableParams = {};
-            this.form = {
-                search: null,//综合搜索  sku/sku别名/申请号
-                dateFrom: '',//申请日期 开始时间
-                dateTo: "",//申请日期 截至时间
-                patentType: '',//专利类型
-                countryYear: null,//申请国家
-                legalStatus: '',//法律状态
-                timeValue2:[],
-            }
         },
         searchSomething(){
             this.$set(this.form,'search',trim(this.putSearch))
@@ -317,40 +312,56 @@ watch:{
 
 <style  lang="scss" scoped>
 .navbarContainer {
-  padding-top: 5px;
-  background-color: #ffffff;
-//   margin: 0 10px 10px;
-  .el-row {
-    height: 30px;
-    display: flex;
-  }
-  ::v-deep .el-form-item__label {
-    color: #3366cc !important;
-    font-weight: bold; 
-    line-height: 30px; 
-  }
-  ::v-deep .el-form-item__content{
+    padding-top: 5px;
+    background-color: #ffffff;
+    .el-row {
+        height: 30px;
+        display: flex;
+    }
+    ::v-deep .el-form-item__label {
+        color: #3366cc !important;
+        font-weight: bold; 
+        line-height: 30px; 
+    }
+    ::v-deep .el-form-item__content{
         font-size: 12px !important;
         line-height: 30px;
     }
-   ::v-deep  .el-form-item {
+    ::v-deep .el-form-item {
         margin-bottom: 0px;
-        // height: 30px;
     }
-    // ::v-deep .el-radio-group  {
-    //     // line-height: inherit;
-    // }
-    .el-radio {
+    ::v-deep .el-radio-button{
         line-height: 2;
+        margin: 3px 4px;
+        .el-radio-button__inner {
+            padding: 5px 10px;
+            border-left: 1px solid #DCDFE6 !important;
+            border-radius: 0px;
+        } 
+        
+    }
+    ::v-deep .success-radio {
+        border: 1px solid #ccc;
+        display: inline-block;
+        margin-right: 10px;
+        height: 25px;
+        line-height: 25px;
+        position: relative;
+        top: 5px;
+        padding-right: 10px;
+        // background: #e8f0f7;
+        .el-radio__input {
+            border-right:1px solid #ccc;
+            line-height: 23px;
+        }
     }
 }
-
 .searchBox{
     display: flex;
     .el-button{
-        height: 27px;
+        height: 28px;
         margin-top: 1px;
+        line-height: 3px;
     }
 }
-
 </style>

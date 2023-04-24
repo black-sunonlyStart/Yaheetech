@@ -12,45 +12,54 @@
                 {{this.dialogName}}
             </div>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px" class="demo-ruleForm" size='mini'>
-                <div v-if="type">
+                <div v-if="showType ==1">
                     <el-form-item label="提交至：" prop="status">
                         <el-select 
                             v-model="ruleForm.status"
                             >
                             <el-option 
                                 v-for="item in status"                        
-                                :key="item.status"
+                                :key="item.state"
                                 :label="item.statusValue"
-                                :value="item.status"
+                                :value="item.state"
                                 >
                             </el-option>
                         </el-select> 
                     </el-form-item>
-                    <el-form-item label="当前状态累计耗时：" prop="remark">
-                        {{ }} <span class="link-type" @click="checkProdetail()">查看详情</span>
+                    <!-- <el-form-item label="当前状态累计耗时：">
+                        {{ruleForm.pdStatuses ? ruleForm.pdStatuses.sjDay : '--' }}天 <span class="link-type" @click="checkProdetail()">查看详情</span>
                     </el-form-item>
-                    <el-form-item label="延期对比：" prop="remark">
-                        
-                    </el-form-item>
-                    <el-form-item label="延期必要说明：" prop="remark">
+                    <el-form-item label="预期对比：" prop="sjDay">
+                          <span v-if="ruleForm.pdStatuses" :style="{color:showSjDay(ruleForm.pdStatuses.sjDay,ruleForm.pdStatuses.yjDay,1)}">{{ showSjDay(ruleForm.pdStatuses.sjDay,ruleForm.pdStatuses.yjDay)}}</span>  
+                          <span v-else> -- </span>
+                    </el-form-item> -->
+                    <el-form-item label="延期必要说明：" prop="remark" v-if="showRemark">
                         <el-input v-model="ruleForm.remark" type="textarea" maxlength="500" show-word-limit></el-input>
+                        <div>
+                            所选数据中（<span>{{this.delayList}}</span>）已经延期，需填写延期说明
+                        </div>
                     </el-form-item>
                 </div>
-                <div v-else>
+                <div v-if="showType == 2">
                     <el-form-item label="打回至：" prop="status">
                         <el-select 
                             v-model="ruleForm.status"
                             >
                             <el-option 
                                 v-for="item in status"                        
-                                :key="item.status"
+                                :key="item.state"
                                 :label="item.statusValue"
-                                :value="item.status"
+                                :value="item.state"
                                 >
                             </el-option>
                         </el-select> 
                     </el-form-item>
                     <el-form-item label="打回原因：" prop="remark">
+                        <el-input v-model="ruleForm.remark" type="textarea" maxlength="500" show-word-limit></el-input>
+                    </el-form-item>
+                </div>
+                <div v-if="showType == 3">
+                    <el-form-item label="取消原因：" prop="remark" >
                         <el-input v-model="ruleForm.remark" type="textarea" maxlength="500" show-word-limit></el-input>
                     </el-form-item>
                 </div>
@@ -86,28 +95,33 @@
                 style="width: 100%;"
                 border
                 :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
+                :summary-method="getSummaries"
+                show-summary
                 >
                 <el-table-column
                     prop="recodeType"
                     label="序号"
                     align="center"
                     width="60">
+                    <template slot-scope="scope">
+                        <div>{{scope.$index + 1}}</div>
+                    </template>
                 </el-table-column>
                 <el-table-column
-                    prop="developName"
+                    prop="beginTime"
                     label="开始时间"
                     align="center"
                     width="150">
                 </el-table-column>
                 <el-table-column
-                    prop="quantity"
+                    prop="endTime"
                     label="结束时间"
                     align="center"
                     width="150"
                     >
                 </el-table-column>
                 <el-table-column
-                    prop="recodeTime"
+                    prop="sjDay"
                     label="耗时（天）"
                     align="center"
                     >
@@ -120,19 +134,22 @@
     </div>
 </template>
 <script>
-import { cancelExploit } from '@/api/user.js'
+import { approvalMemo,progressfreezing,getRemain} from '@/api/user.js'
 export default {
     name:'checkStatusDialog',
     data(){
         return {
-            type:true,
+            showType:1,
             loading:false,
             ruleForm:{
-                platformid:0,
                 status:'',
-                type:'',
                 remark:'',
-                dailySales:'',
+                pdStatuses:[
+                    {
+                       yjDay:0,
+                       sjDay:0
+                    }
+                ]
             },
             tableData:[],
             dialogName:'审批',
@@ -140,48 +157,80 @@ export default {
             dialogVisibleDetail: false,
             rules: {
                 remark: [
-                    { required: true, message: '请输入备注', trigger: 'blur' },
+                    { required: true, message: '请输入延期说明', trigger: 'blur' },
                 ],
                 status: [
                     { required: true, message: '请选择状态', trigger: 'blur' },
                 ],
-                type: [
-                    { required: true, message: '请选择类型', trigger: 'blur' },
-                ],
-                dailySales: [
-                    { required: true, message: '请选择采购开发', trigger: 'blur' },
-                ],
-                platformid: [
-                    { required: true, message: '请选择开发优先级', trigger: 'blur' },
-                ],
             },
             status:[
-                 {
-                     key:1,
-                     statusValue:'未提交审批',
-                     status:1,
-                 },
-                 {
-                     key:2,
-                     statusValue:'待审批',
-                     status:2,
-                 },
-                 {
-                     key:3,
-                     statusValue:'采购数据不完整/错填',
-                     status:3,
-                 },
+                
             ],
+            rowList:[],
+            delayList:[],
+            id:1,
+            showRemark:false,
+            cancelParams:{},
+        }
+    },
+    props:{
+        navFilterList:{
+            type:Object,
+            default:() => {}
         }
     },
     mounted(){
 
     },
     methods:{
+        showSjDay(sjDay,yjDay,val) {
+             if(sjDay - yjDay == 0){
+                 if(val == 1) {
+                    return ''
+                }
+                return '-'
+             }else if(  sjDay - yjDay > 0) {
+                if(val == 1) {
+                    return '#0F7535'
+                }
+                return `提前${sjDay - yjDay}天`
+             }else if(sjDay - yjDay < 0) {
+                if(val == 1) {
+                    return '#D00606'
+                }
+                 return `延期${yjDay - sjDay}天`
+             }
+        },
         checkProdetail() {
             this.dialogVisibleDetail = true
         },
-        openDialog(){
+        openDialog(rowList,id){
+            let param = {
+                progressDevelopmentId:rowList[0].id, //为列表id字段
+                operation:id - 1
+            }
+            this.rowList = rowList
+            this.id = id
+            getRemain(param).then(res => {
+                if(res.code == 200) {
+                    this.status = res.data
+                    this.dialogVisible = true
+                   
+                    if(this.rowList.some(item => item.statusDelay == true)) {
+                        this.showRemark = true
+                        this.delayList = this.rowList.map(item => {
+                            return item.id
+                        }).toString()
+                    }
+                    
+                }
+            })
+        },
+        cancelStatusDialog(operation,ids) {
+            this.cancelParams = {
+                operation,
+                ids
+            }
             this.dialogVisible = true
         },
         resetForm() {
@@ -191,27 +240,73 @@ export default {
         submitList(formName){
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    let  params = {
-                        productCountryId:this.row.id,
-                        whyNote:this.ruleForm.remark
-                    }
-                    cancelExploit(params).then(res => {
-                        if(res.code == 200){
-                            this.$message({
-                                type: 'success', 
-                                message:'保存成功',
-                                offset:220
-                            })
-                            this.$emit('getTableList',this.navFilterList)
-                            this.$refs['ruleForm'].resetFields();
-                            this.dialogVisible = false 
-                            this.loading = false
+                    if(this.showType == 3) {
+                         let param = {
+                            progressDevelopmentIds:this.cancelParams.ids,
+                            operation:this.cancelParams.operation,
                         }
-                    }).catch((err) => {
-                        this.loading = false
-                    })
+                        progressfreezing(param).then(res => {
+                            if(res.code == 200) {
+                                this.successSaveDialog()
+                            }
+                        })
+                    }else {
+                        let params = this.rowList.map(item => {
+                            return {
+                                progressDevelopmentId:item.id,//列表id
+                                operation:this.id -1,//0：提交  1：打回//0：提交  1：打回
+                                toState:this.ruleForm.status,
+                                whyNote:this.ruleForm.remark,
+                            }
+                        })
+                        approvalMemo(params).then(res => {
+                            if(res.code == 200){
+                                this.successSaveDialog()
+                            }
+                        }).catch((err) => {
+                            this.loading = false
+                        })
+                    }
+                    
                 }
             })
+        },
+        successSaveDialog() {
+            this.$message({
+                        type: 'success', 
+                        message:'保存成功',
+                        offset:220
+                    })
+            this.$emit('mainListList',this.navFilterList)
+            this.$refs['ruleForm'].resetFields();
+            this.dialogVisible = false 
+            this.loading = false
+        },
+        getSummaries(param) {
+            const { columns, data } = param;
+            const sums = [];
+            columns.forEach((column, index) => {
+            if (index === 0) {
+                sums[index] = '合计';
+                return;
+            }
+            const values = data.map(item => Number(item[column.property]));
+            if (!values.every(value => isNaN(value))) {
+                sums[index] = values.reduce((prev, curr) => {
+                const value = Number(curr);
+                if (!isNaN(value)) {
+                    return prev + curr;
+                } else {
+                    return prev;
+                }
+                }, 0);
+                sums[index] += '';
+            } else {
+                sums[index] = '';
+            }
+            });
+
+            return sums;
         }
     }  
 }
