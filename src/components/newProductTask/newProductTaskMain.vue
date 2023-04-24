@@ -271,11 +271,11 @@ import debounce from 'lodash.debounce';
 
 export default {
     components:{
-     remarksNew,
-     createTaskDialog:() => import('@/components/newProductTask/createProductTaskDialog.vue'),
-     checkStatusDialog:() => import('@/components/newProductTask/checkStatusDialog.vue'),
-     developProductPssDialog:() => import('@/components/newProductTask/developProductPssDialog.vue'),/*  */
-     setProductProgressDialog:() => import('@/components/newProductTask/setProductProgressDialog.vue'),/*  */
+        remarksNew,
+        createTaskDialog:() => import('@/components/newProductTask/createProductTaskDialog.vue'),
+        checkStatusDialog:() => import('@/components/newProductTask/checkStatusDialog.vue'),
+        developProductPssDialog:() => import('@/components/newProductTask/developProductPssDialog.vue'),/*  */
+        setProductProgressDialog:() => import('@/components/newProductTask/setProductProgressDialog.vue'),/*  */
     },
     data(){
         return {
@@ -378,8 +378,6 @@ export default {
                         return          
                 });   
             }
-
-          
         },
         changeFreezing(command) {
             if(this.multipleSelection.length == 0) {

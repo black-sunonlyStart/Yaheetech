@@ -212,120 +212,117 @@
 import {uploadFilesUrl,GetFileServiceUrl} from '@/utils/tools'
 import { saveProgressDevelopment,selectRoleEmployeeForRoleId,getBigDepartmentLeaders,getExpectEndTime,getSeriesCategoryDef } from '@/api/user.js'
 export default {
-  name:"createProductTaskDialog",
-  data() {
-    return {
-    //   fileType:117,
-        title: '新品开发任务',
-        iconShowL:{
-            idY:false,
-            idN:false,
-            skuY:false,
-            skuN:false,
-        },
-        dailySales:[],
-        targetPrice:[],
-        categoryManagerList:[],
-        dialogFormVisible: false,
-        clickLoading:false,
-        imgLoading:false,
-        imgUrl:'',
-        form: {
-            id: null,//(编辑时)id
-            pictureUri:null,//立项图片
-            classCategoryIdArray:null,//产品系列
-            title: null,//中文简称
-            design:null,//是否设计款   1 设计款、 2 非设计款
-            businessId:null,//业务开发--接口获取 /productManage/selectRoleEmployeeForRoleId
-            buyerId:null,//采购开发--接口获取 /productManage/selectRoleEmployeeForRoleId
-            leader:null,//品类经理--接口获取 /getBigDepartmentLeaders
-            expectStartTime:null,//预计开始时间 
-            expectEndTime:null,//预计结束时间--接口获取  getExpectEndTime
-            supplier:null,//供应商
-            developmentId:null,//关联开发ID
-            skuAlias:null//sku别名
-        },
-        formLabelWidth: "120px",
-        suppliers:[],
-        rules:{
-            imgUrl : [
-                { required: true, message:'请上传图片', trigger:['blur', 'change'] }
-            ],
-            classCategoryIdArray : [
-                { required: true, message:'请选择产品系列', trigger:['blur', 'change'] }
-            ],
-            title : [
-                { required: true, message:'请填写中文简称', trigger:['blur', 'change'] }
-            ],
-            design : [
-                { required: true, message:'请选择设计款', trigger:['blur', 'change'] }
-            ],
-            businessId : [
-                { required: true, message:'请选择业务开发', trigger:['blur', 'change'] }
-            ],
-            buyerId : [
-                { required: true, message:'请选择采购开发', trigger:['blur', 'change'] }
-            ],
-            leader : [
-                { required: true, message:'请选择品类经理', trigger:['blur', 'change'] }
-            ],
-            expectStartTime : [
-                { required: true, message:'请选择开始时间', trigger:['blur', 'change'] }
-            ],
-            expectEndTime : [
-                { required: true, message:'请选择结束时间', trigger:['blur', 'change'] }
-            ],
-        },
-        patentCountry:[],  
-    };
-},
-created() {
-
-},
-props:{
-    navFilterList:{
-        type:Object,
-        default:() => {}
-    }
-},
-computed:{
-    action(){
-        return uploadFilesUrl()
+name:"createProductTaskDialog",
+    data() {
+        return {
+        //   fileType:117,
+            title: '新品开发任务',
+            iconShowL:{
+                idY:false,
+                idN:false,
+                skuY:false,
+                skuN:false,
+            },
+            dailySales:[],
+            targetPrice:[],
+            categoryManagerList:[],
+            dialogFormVisible: false,
+            clickLoading:false,
+            imgLoading:false,
+            imgUrl:'',
+            form: {
+                id: null,//(编辑时)id
+                pictureUri:null,//立项图片
+                classCategoryIdArray:null,//产品系列
+                title: null,//中文简称
+                design:null,//是否设计款   1 设计款、 2 非设计款
+                businessId:null,//业务开发--接口获取 /productManage/selectRoleEmployeeForRoleId
+                buyerId:null,//采购开发--接口获取 /productManage/selectRoleEmployeeForRoleId
+                leader:null,//品类经理--接口获取 /getBigDepartmentLeaders
+                expectStartTime:null,//预计开始时间 
+                expectEndTime:null,//预计结束时间--接口获取  getExpectEndTime
+                supplier:null,//供应商
+                developmentId:null,//关联开发ID
+                skuAlias:null//sku别名
+            },
+            formLabelWidth: "120px",
+            suppliers:[],
+            rules:{
+                imgUrl : [
+                    { required: true, message:'请上传图片', trigger:['blur', 'change'] }
+                ],
+                classCategoryIdArray : [
+                    { required: true, message:'请选择产品系列', trigger:['blur', 'change'] }
+                ],
+                title : [
+                    { required: true, message:'请填写中文简称', trigger:['blur', 'change'] }
+                ],
+                design : [
+                    { required: true, message:'请选择设计款', trigger:['blur', 'change'] }
+                ],
+                businessId : [
+                    { required: true, message:'请选择业务开发', trigger:['blur', 'change'] }
+                ],
+                buyerId : [
+                    { required: true, message:'请选择采购开发', trigger:['blur', 'change'] }
+                ],
+                leader : [
+                    { required: true, message:'请选择品类经理', trigger:['blur', 'change'] }
+                ],
+                expectStartTime : [
+                    { required: true, message:'请选择开始时间', trigger:['blur', 'change'] }
+                ],
+                expectEndTime : [
+                    { required: true, message:'请选择结束时间', trigger:['blur', 'change'] }
+                ],
+            },
+            patentCountry:[],  
+        };
     },
-},
-methods: {
-    openDialog(row,id){
-        this.dialogFormVisible = true
-        if(id) {
-           this.form = {
-                id: row.id,//(编辑时)id
-                imgUrl:row.pictureUri,//立项图片
-                categoryId:row.categoryId,//产品系列
-                title: row.title,//中文简称
-                design:row.design,//是否设计款   1 设计款、 2 非设计款
-                businessId:row.businessId,//业务开发--接口获取 /productManage/selectRoleEmployeeForRoleId
-                buyerId:row.buyerId,//采购开发--接口获取 /productManage/selectRoleEmployeeForRoleId
-                leader:row.leader,//品类经理--接口获取 /getBigDepartmentLeaders
-                expectStartTime:row.expectStartTime,//预计开始时间 
-                expectEndTime:row.expectEndTime,//预计结束时间--接口获取  getExpectEndTime
-                supplier:row.supplier,//供应商
-                developmentId:row.developmentId,//关联开发ID
-                skuAlias:row.skuAlias,//sku别名
-                classCategoryIdArray:[row.seriesCategoryId,row.classifyDefId],
-                pictureUri:row.pictureUri,
-           }
-           console.log( this.form)
-           this.imgUrl = GetFileServiceUrl(row.pictureUri) 
+    created() {
 
-        }else {
-            this.form = {}
-            this.imgUrl = ''
-            if(this.$refs['form'])this.$refs['form'].resetFields()
-          
-        } 
-        this.getTypeList()
     },
-     getTypeList(){
+    props:{
+        navFilterList:{
+            type:Object,
+            default:() => {}
+        }
+    },
+    computed:{
+        action(){
+            return uploadFilesUrl()
+        },
+    },
+    methods: {
+        openDialog(row,id){
+            this.dialogFormVisible = true
+            if(id) {
+            this.form = {
+                    id: row.id,//(编辑时)id
+                    imgUrl:row.pictureUri,//立项图片
+                    categoryId:row.categoryId,//产品系列
+                    title: row.title,//中文简称
+                    design:row.design,//是否设计款   1 设计款、 2 非设计款
+                    businessId:row.businessId,//业务开发--接口获取 /productManage/selectRoleEmployeeForRoleId
+                    buyerId:row.buyerId,//采购开发--接口获取 /productManage/selectRoleEmployeeForRoleId
+                    leader:row.leader,//品类经理--接口获取 /getBigDepartmentLeaders
+                    expectStartTime:row.expectStartTime,//预计开始时间 
+                    expectEndTime:row.expectEndTime,//预计结束时间--接口获取  getExpectEndTime
+                    supplier:row.supplier,//供应商
+                    developmentId:row.developmentId,//关联开发ID
+                    skuAlias:row.skuAlias,//sku别名
+                    classCategoryIdArray:[row.seriesCategoryId,row.classifyDefId],
+                    pictureUri:row.pictureUri,
+            }
+            this.imgUrl = GetFileServiceUrl(row.pictureUri) 
+            }else {
+                this.form = {}
+                this.imgUrl = ''
+                if(this.$refs['form'])this.$refs['form'].resetFields()
+            } 
+            this.getTypeList()
+        },
+        getTypeList(){
             let params = {
                 rid:document.URL.includes('yaheecloud') ?  41 : 170  //测试170
                 // rid:41//采购开发41
@@ -353,106 +350,103 @@ methods: {
                     })
                 })
                 this.patentCountry = res.data
+            })
+        },
+        changeExpectSatrtTime(val) {
+            let param = {
+                expectStartTime :val
+            }
+            getExpectEndTime(param).then(res => {
+                this.$set(this.form,'expectEndTime',res.data)
 
             })
         },
-    changeExpectSatrtTime(val) {
-        let param = {
-            expectStartTime :val
-        }
-        getExpectEndTime(param).then(res => {
-            this.$set(this.form,'expectEndTime',res.data)
-
-        })
-    },
-    handleAvatarSuccess(res, file) {
-        this.imgUrl = this.form.imgUrl = GetFileServiceUrl(res.data[0])
-        this.imgLoading = false
-        this.form.pictureUri = res.data[0]
-    },
-    beforeAvatarUpload(file) {
-        const isJPG = file.type.includes('image');
-        this.imgLoading = true
-        if (!isJPG) {
-            this.$message.error('上传类型只能是 图片!');
+        handleAvatarSuccess(res, file) {
+            this.imgUrl = this.form.imgUrl = GetFileServiceUrl(res.data[0])
             this.imgLoading = false
-        }
-        return isJPG ;
-    },
-    onSubmit(formName) {
-        this.clickLoading = true
-        this.$refs[formName].validate((valid) => {
-            if (valid) {
-                let params = {
-                    id: this.form.id,//(编辑时)id
-                    pictureUri:this.form.pictureUri,//立项图片
-                    categoryId: this.form.classCategoryIdArray[1],//产品系列
-
-                    title:  this.form.title,//中文简称
-                    design: this.form.design,//是否设计款   1 设计款、 2 非设计款
-                    businessId: this.form.businessId,//业务开发--接口获取 /productManage/selectRoleEmployeeForRoleId
-                    buyerId: this.form.buyerId,//采购开发--接口获取 /productManage/selectRoleEmployeeForRoleId
-                    leader: this.form.leader,//品类经理--接口获取 /getBigDepartmentLeaders
-                    expectStartTime: this.form.expectStartTime,//预计开始时间 
-                    expectEndTime: this.form.expectEndTime,//预计结束时间--接口获取  getExpectEndTime
-                    supplier: this.form.supplier,//供应商
-                    developmentId: this.form.developmentId,//关联开发ID
-                    skuAlias: this.form.skuAlias,//sku别名
-                    seriesCategoryId:  this.form.classCategoryIdArray[0],//类目系列
-                    classifyDefId: this.form.classCategoryIdArray[1],
-                }
-
-                saveProgressDevelopment(params).then((res) => {
-                    if(res.code == 200){
-                        this.$message({
-                            type: 'success', 
-                            message:'保存成功',
-                            offset:220
-                        })
-                        this.clickLoading = false
-                        this.dialogFormVisible = false
-                        this.$emit('mainListList',this.navFilterList)
-                    }
-                }).catch(() => {
-                    this.clickLoading = false         
-                });
-            } else {
-                this.clickLoading = false
-                console.log('error submit!!');
-                return false;
+            this.form.pictureUri = res.data[0]
+        },
+        beforeAvatarUpload(file) {
+            const isJPG = file.type.includes('image');
+            this.imgLoading = true
+            if (!isJPG) {
+                this.$message.error('上传类型只能是 图片!');
+                this.imgLoading = false
             }
-        });
-    },
-    
-    success() {
-        this.$message({
-            showClose: true,
-            message: '操作成功',
-            duration: 2000,
-            type: 'success'
-        });
-    },
-    
-    warning(msg) {
-        this.$message({
-            showClose: true,
-            message: msg,
-            type: 'warning'
-        });
+            return isJPG ;
+        },
+        onSubmit(formName) {
+            this.clickLoading = true
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    let params = {
+                        id: this.form.id,//(编辑时)id
+                        pictureUri:this.form.pictureUri,//立项图片
+                        categoryId: this.form.classCategoryIdArray[1],//产品系列
+
+                        title:  this.form.title,//中文简称
+                        design: this.form.design,//是否设计款   1 设计款、 2 非设计款
+                        businessId: this.form.businessId,//业务开发--接口获取 /productManage/selectRoleEmployeeForRoleId
+                        buyerId: this.form.buyerId,//采购开发--接口获取 /productManage/selectRoleEmployeeForRoleId
+                        leader: this.form.leader,//品类经理--接口获取 /getBigDepartmentLeaders
+                        expectStartTime: this.form.expectStartTime,//预计开始时间 
+                        expectEndTime: this.form.expectEndTime,//预计结束时间--接口获取  getExpectEndTime
+                        supplier: this.form.supplier,//供应商
+                        developmentId: this.form.developmentId,//关联开发ID
+                        skuAlias: this.form.skuAlias,//sku别名
+                        seriesCategoryId:  this.form.classCategoryIdArray[0],//类目系列
+                        classifyDefId: this.form.classCategoryIdArray[1],
+                    }
+
+                    saveProgressDevelopment(params).then((res) => {
+                        if(res.code == 200){
+                            this.$message({
+                                type: 'success', 
+                                message:'保存成功',
+                                offset:220
+                            })
+                            this.clickLoading = false
+                            this.dialogFormVisible = false
+                            this.$emit('mainListList',this.navFilterList)
+                        }
+                    }).catch(() => {
+                        this.clickLoading = false         
+                    });
+                } else {
+                    this.clickLoading = false
+                    console.log('error submit!!');
+                    return false;
+                }
+            });
+        },
+        success() {
+            this.$message({
+                showClose: true,
+                message: '操作成功',
+                duration: 2000,
+                type: 'success'
+            });
+        },
+        warning(msg) {
+            this.$message({
+                showClose: true,
+                message: msg,
+                type: 'warning'
+            });
+        }
     }
-  }
 };
 </script>
 <style scoped lang="scss">
-.loading-sty {
+    .loading-sty {
 
-    width: 150px;
-    height: 150px;
-    display: block;
-}
-  .edit-form .edit-form-item{
-    display: none;
-  }
+        width: 150px;
+        height: 150px;
+        display: block;
+    }
+    .edit-form .edit-form-item{
+        display: none;
+    }
    ::v-deep.avatar-uploader .el-upload {
         border: 1px dashed #d9d9d9;
         border-radius: 6px;
@@ -462,30 +456,30 @@ methods: {
         &:hover{
             border-color: #409EFF;
         }
-  }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 150px;
-    height: 150px;
-    line-height: 150px;
-    text-align: center;
-  }
-  .avatar {
-    width: 150px;
-    height: 150px;
-    display: block;
-  }
-   ::v-deep.dialog-main{
-    .el-dialog__header{
-        border-bottom: 1px solid #ccc;
-        padding: 10px 0 10px 20px;
-        .el-dialog__title{
-            font-weight: bold;
-        }
+    }
+    .avatar-uploader .el-upload:hover {
+        border-color: #409EFF;
+    }
+    .avatar-uploader-icon {
+        font-size: 28px;
+        color: #8c939d;
+        width: 150px;
+        height: 150px;
+        line-height: 150px;
+        text-align: center;
+    }
+    .avatar {
+        width: 150px;
+        height: 150px;
+        display: block;
+    }
+    ::v-deep.dialog-main{
+        .el-dialog__header{
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0 10px 20px;
+            .el-dialog__title{
+                font-weight: bold;
+            }
     }
     .el-dialog__body{
         padding: 10px 20px 20px !important;
@@ -511,7 +505,6 @@ methods: {
             margin-top: 10px;
         }
     }
-    
 }
 .el-form-item {
     margin-bottom: 10px;
