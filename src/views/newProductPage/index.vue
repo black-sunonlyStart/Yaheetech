@@ -102,7 +102,7 @@ export default {
         height: 147px;
         overflow: hidden;
         background: #fff;
-        z-index: 11;
+        z-index: 2000;
         opacity: 0.9;
         flex-shrink: 0;
     }

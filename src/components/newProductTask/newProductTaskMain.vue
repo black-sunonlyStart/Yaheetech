@@ -34,6 +34,8 @@
                 style="width: 100%"
                 @selection-change="handleSelectionChange" :height='changeMaxHeight()'
                 :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
+                @row-click="handleRowClick"
+                ref="multipleTable"
              >
                 <el-table-column type="selection" width="40" header-align='center'></el-table-column>
                 
@@ -44,20 +46,40 @@
                     <template slot-scope="scope">
                         <div >
                             <span v-if="scope.row.pictureUri">
-                                <el-image 
-                                    :src="GetFileServiceUrl(scope.row.pictureUri)" 
-                                    style="width:80px;height:80px" 
-                                    :key="GetFileServiceUrl(scope.row.pictureUri)" 
-                                    lazy
-                                    :scroll-container="scrollContainer"
-                                >
-                                    <div slot="placeholder" class="image-slot icon-loading">
-                                        <i class="el-icon-loading" ></i>
-                                    </div>
-                                    <div slot="error" class="image-slot" style="margin-top:35px;margin-left:5px;color:#cccccc">
-                                        <i class="el-icon-picture-outline">暂无图片</i>
-                                    </div>
-                                </el-image>
+                                <el-popover
+                                    placement="right"
+                                    trigger="hover"
+                                    >
+                                    <el-image 
+                                        :src="GetFileServiceUrl(scope.row.pictureUri)" 
+                                        style="width:200px;height:200px" 
+                                        :key="GetFileServiceUrl(scope.row.pictureUri)* Math.random()" 
+                                        lazy
+                                        :scroll-container="scrollContainer"
+                                    >
+                                        <div slot="placeholder" class="image-slot icon-loading">
+                                            <i class="el-icon-loading" ></i>
+                                        </div>
+                                        <div slot="error" class="image-slot" style="margin-top:35px;margin-left:5px;color:#cccccc">
+                                            <i class="el-icon-picture-outline">暂无图片</i>
+                                        </div>
+                                    </el-image>
+                                    <el-image
+                                        slot="reference"
+                                        style="width: 80px; height: 80px; dispaly:black;margin-top:3px;cursor:pointer;"
+                                        :src="GetFileServiceUrl(scope.row.pictureUri)" 
+                                        lazy
+                                        :scroll-container="scrollContainer"
+                                        fit="fill"
+                                        >
+                                        <div slot="placeholder" class="image-slot icon-loading">
+                                            <i class="el-icon-loading" ></i>
+                                        </div>
+                                        <div slot="error" class="image-slot" style="margin-top:35px;margin-left:5px;color:#cccccc">
+                                            <i class="el-icon-picture-outline">加载失败</i>
+                                        </div>
+                                    </el-image>
+                                </el-popover>
                             </span>
                             <div v-else>
                                 <div  class="image-slot" style="height: 80px;display: flex;justify-content: center;align-items: center;color:#cccccc">
@@ -83,9 +105,15 @@
                                 {{scope.row.categoryName}}  
                             </span>
                         </div>
-                        <div>
-                             {{scope.row.id}} 
-                        </div>
+
+                        <el-tooltip placement="right" effect="light" :visible-arrow='false' popper-class='popperBorder' style="padding:0;border:none">
+                            <span slot="content" class="copeTitle"  @click="copeDevelopId(scope.row.id)">
+                                <i class="el-icon-document-copy" ></i>
+                            </span>
+                            <div>
+                                {{scope.row.id}} 
+                            </div>
+                        </el-tooltip>
                     </template>
                 </el-table-column>
                 <el-table-column width="170"  align="center">
@@ -100,12 +128,22 @@
                 </el-table-column>
                 <el-table-column width="100" align="center">
                     <template slot="header">
-                        状态/耗时
+                        状态
                     </template>
                     <template slot-scope="scope">
-                        <div v-for="(item,index) in scope.row.pdStatuses" :key="index">
-                            <div class="blue-button">{{item.statusValue}}</div>
-                            <div >{{item.sjDay != null ? item.sjDay + '天' : ''}}</div>
+                        <div v-for="(item,index) in scope.row.pdStatuses" :key="index" style="height：30px;line-height:30px">
+                            <div class="blue-button" :style="{background:changeBgColor(item.state)}">{{item.statusValue}}</div>
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column width="100" align="center">
+                    <template slot="header">
+                        耗时/超时
+                    </template>
+                    <template slot-scope="scope">
+                        <div v-for="(item,index) in scope.row.pdStatuses" :key="index" style="height：30px;line-height:30px">
+                            <div :style="{color:item.syDay < 0 ? 'red':''}">{{item.sjDay != null ? item.sjDay + '天' : ''}}<span v-if="item.syDay < 0">({{'超' + -item.syDay + '天'}})</span></div>
+                            
                         </div>
                     </template>
                 </el-table-column>
@@ -153,7 +191,7 @@
                 </el-table-column>
                 <el-table-column  width="120" align="center">
                     <template slot="header">
-                        预计起止时间
+                        预计起止日期
                     </template>
                     <template slot-scope="scope">
                         <div>{{scope.row.expectStartTime ? $moment(scope.row.expectStartTime).format("YYYY-MM-DD") : '--'}}</div>
@@ -163,7 +201,7 @@
                 </el-table-column>
                 <el-table-column prop="renewalDate"  width="100" align="center">
                     <template slot="header">
-                        实际起止时间
+                        实际起止日期
                     </template>
                     <template slot-scope="scope">
                         <div>{{scope.row.actualStartTime ? $moment(scope.row.actualStartTime).format("YYYY-MM-DD") : '--'}}</div>
@@ -171,7 +209,7 @@
                         <div>{{scope.row.actualEndTime ? $moment(scope.row.actualEndTime).format("YYYY-MM-DD") : '--'}}</div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="priority"  align="center">
+                <el-table-column prop="priority"  align="center"  width="120">
                     <template slot="header">
                         累计工期（天）
                     </template>
@@ -198,10 +236,12 @@
                     </template>
                     <template slot-scope="scope">
                         <div style="display:flex;justify-content: space-around;">
+          
                             <el-popover
                                 placement="bottom"
                                 trigger="hover"
-                                popper-class='popperBorder' style="border:none"
+                                popper-class='popperBorder1' style="border:none"
+                                v-if="scope.row.state != 50 && scope.row.state != 51"
                                 >
                                 <div class="operationBox" v-for="item in operationList" :key="item.id"> 
                                     <div class="operationText"  
@@ -210,12 +250,13 @@
                                     <div class="nameBox"  
                                     >{{item.name}}</div></div>
                                 </div>
-                                <div class="imageHistoryBox" slot="reference"></div>
+                                <div class="imageHistoryBox" slot="reference" ></div>
                             </el-popover>
+              
                             <el-popover
                                 placement="bottom"
                                 trigger="hover"
-                                popper-class='popperBorder' style="border:none"
+                                popper-class='popperBorder1' style="border:none"
                                 >
                                 <div class="operationBox" v-for="item in edidOperationList" :key="item.id"> 
                                     <div class="operationText"  
@@ -249,7 +290,7 @@
             :modal="false"
             top="100px"
             class="dialog-main"
-            z-index="999"
+            z-index="9999"
             >
             <remarksNew :remarksParam='remarksParam' ref="remarksNew" v-if="showTenth"></remarksNew>
             <span slot="footer" class="dialog-footer">
@@ -264,7 +305,7 @@
 </template>
 <script>
 
-import { copyUr,GetFileServiceUrl} from '@/utils/tools.js'
+import { copyUr,GetFileServiceUrl,copyUrl} from '@/utils/tools.js'
 import { getProgressDevelopment,getEmployee,progressfreezing,progressUnfreezing } from '@/api/user.js'
 import remarksNew from '@/components/remarksNew.vue'
 import debounce from 'lodash.debounce';
@@ -336,28 +377,54 @@ export default {
                 this.uploadFilterList = val
             },
             deep:true
-        },
+        }, 
     },
     computed:{
         scrollContainer(){
             return document.querySelector('.el-table__body-wrapper')
         },
     },
-    methods:{     
+    methods:{
+        changeBgColor(val) {
+            let stateList1 = [1,4,5,7,10,16,19,20,22,27,29]
+            let stateList2 = [18,21,23]
+            let stateList3 = [2,8,28,11,1]
+            let stateList4 = [3,15,24,25,26]
+            let stateList5 = [6,9,12,16]
+            if(stateList1.includes(val)) {
+                return '#3366cc'
+            }else if(stateList2.includes (val)) {
+                 return '#975fe4'
+            }else if(stateList3.includes (val)) {
+                 return '#e6a23c'
+            }else if(stateList4.includes (val)) {
+                 return '#67c23a'
+            }else if(stateList5.includes (val)) {
+                 return '#f56c6c'
+            }else {
+                 return '#3366cc'
+            }
+           
+        },
+        //点击行触发，选中或不选中复选框
+        handleRowClick(row, column, event){
+            this.$refs.multipleTable.toggleRowSelection(row);
+        },     
         freezing(val) {
             if(this.multipleSelection.length == 0) {
                 this.error('请至少选择一条数据！')
                 return
             }
             let stringT = '冻结'
-             let id = this.multipleSelection.map(res => {
+            let id = this.multipleSelection.map(res => {
                 return res.id
             }).toString()
             if(val == 3) {
                 stringT = '取消'
                 this.$refs.checkStatusDialog.cancelStatusDialog(val,id)
-                 this.$refs.checkStatusDialog.showType = 3
+                this.$refs.checkStatusDialog.showType = 3
             }else {
+                
                 this.$confirm(`确定${stringT}该数据？`, '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
@@ -384,8 +451,19 @@ export default {
                 this.error('请至少选择一条数据！')
                 return
             }
-             let stringT = '取消冻结'
-            if(command == 6) stringT = '恢复开发'
+            let stringT = '取消冻结'
+            if(command == 6) {
+                if(!this.multipleSelection.every(item => item.state == 51)) {
+                    this.error('请选择状态为取消的数据！')
+                    return
+                }
+                stringT = '恢复开发'
+            }else {
+                if(!this.multipleSelection.every(item => item.state == 50)) {
+                    this.error('请选择状态为冻结的数据！')
+                    return
+                }
+            }
             if(command) {
                 this.$confirm(`确定${stringT}该数据？`, '提示', {
                     confirmButtonText: '确定',
@@ -447,7 +525,7 @@ export default {
                 rowList.push(row)
             }else {
                 if(this.multipleSelection.length == 0) {
-                    this.error('请选择一条数据！')
+                    this.error('请至少选择一条数据！')
                     return
                 }
                 rowList = this.multipleSelection
@@ -465,12 +543,12 @@ export default {
             switch (id) {
                 case 1 :
                     detailDialog.openDialog(rowList,id)
-                    detailDialog.type = 1
+                    detailDialog.showType = 1
                     detailDialog.dialogName = '审批'
                 break;
                 case 2 :
                     detailDialog.openDialog(rowList,id)
-                    detailDialog.type = 2
+                    detailDialog.showType = 2
                     detailDialog.dialogName = '打回'
                 break;
             }
@@ -536,8 +614,8 @@ export default {
                     seriesCategoryId: val && val.seriesCategoryId ?val.seriesCategoryId : null,//类目系列
                     classifyDefId: val && val.classifyDefId ?val.classifyDefId : null,//类目系列
                     leader: val && val.leader ?val.leader : null,//品类经理
-                    curBusiness:  val && val.curBusiness ?val.curBusiness : null,//业务开发   true：自己  false：其他
-                    curBuyer:  val && val.curBuyer ?val.curBuyer : null,//采购开发   true：自己  false：其他
+                    curBusiness:  val.curBusiness,//业务开发   true：自己  false：其他
+                    curBuyer:  val.curBuyer,//采购开发   true：自己  false：其他
                     state: val && val.state ?val.state : null,//状态 -- /getStateTime   接口，另外补充  50   已冻结、51   已取消
                     design: val && val.design ?val.design : null,//设计款
                     timeEnum:val && val.timeEnum ? val.timeEnum : null,
@@ -594,11 +672,29 @@ export default {
                 offset:220,
                 type: 'error'
             });
-        }
+        },
+        copeDevelopId(val){
+          copyUrl(val)
+        },
     }
 }
 </script>
 <style scoped lang="scss">
+    .popperBorder{
+        border: none !important;
+        padding: 0 !important;
+        .copeTitle{
+            color: #3366cc;
+            cursor: pointer;
+            font-size: 20px;
+            margin-left: 0px;
+            &:hover{
+                background-color:#3366cc ;
+                color: #ffffff;
+                display: inline-block;
+            }
+        }
+    }
     .rightBottom-title {
         position:absolute;bottom:2px;right:2px;border:1px dashed #ccc;width: 45px;height: 17px;line-height: 17px;
     }
@@ -607,6 +703,8 @@ export default {
         padding: 0px;
         color: #ffffff;
         border-radius: 4px;
+        margin-bottom: 3px;
+        height:25px;line-height:25px
     }
     .fileHoverShow{
         color: #3366cc;
@@ -677,9 +775,17 @@ export default {
         }
     }
 }
+::v-deep.el-table {
+    td {
+        padding: 2px 0 2px 0 !important;
+    }
+    .cell{
+            line-height: 18px !important;
+        }
+}
 </style>
 <style>
-.popperBorder {
+.popperBorder1 {
     min-width: 80px;
     width: 80px;
     padding: 5px;

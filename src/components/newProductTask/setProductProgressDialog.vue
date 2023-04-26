@@ -8,6 +8,7 @@
             top="100px"
             class="dialog-main"
             v-dialogDrag
+            zIndex="3000"
             >
             <el-table
                 :data="tableData"
@@ -29,13 +30,13 @@
                     show-overflow-tooltip
                     >
                     <template slot-scope="scope">
-                       <el-input type="text" v-model="scope.row.stateTime" size="mini"></el-input>
+                       <el-input type="text" v-model="scope.row.stateTime" size="mini" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')"></el-input>
                     </template>
                 </el-table-column>
             </el-table>
             <span slot="footer" class="dialog-footer">
                 <el-button type="primary" @click="saveSetProgerss()" class="button-style" size="mini">保 存</el-button>
-                <el-button type="primary" @click="dialogVisible = false" class="button-style" size="mini">关 闭</el-button>
+                <el-button  @click="dialogVisible = false" class="button-style" size="mini">关 闭</el-button>
             </span>
         </el-dialog>
     </div>
@@ -73,7 +74,11 @@ export default {
         saveSetProgerss() {
             saveStateTime(this.tableData).then(res => {
                 if(res.code == 200) {
-                    this.$message.success('保存成功！')
+                    this.$message({
+                        type: 'success', 
+                        message:'保存成功',
+                        offset:220
+                    })
                     this.dialogVisible = false
                 }
             })

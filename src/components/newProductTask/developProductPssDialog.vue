@@ -8,6 +8,7 @@
             top="200px"
             class="dialog-main"
             v-dialogDrag
+            zIndex="3000"
             >
             <el-table
                 :data="tableData"
@@ -54,7 +55,7 @@
                     width="200"
                     >
                      <template slot-scope="scope">
-                         <div v-for="(item,index) in scope.row.statusTimesDetail" :key="index" >{{item.beginTime + '/' + item.endTime}}</div>
+                         <div v-for="(item,index) in scope.row.statusTimesDetail" :key="index" >{{item.beginTime + '~' + item.endTime}}</div>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -109,7 +110,7 @@ export default {
         };
     },
     methods: {
-        showSjDay(sjDay,yjDay,val) {
+        showSjDay(yjDay,sjDay,val) {
              if(!sjDay || !yjDay ||  sjDay - yjDay == 0){
                  if(val == 1) {
                     return ''
@@ -124,7 +125,7 @@ export default {
                 if(val == 1) {
                     return '#D00606'
                 }
-                 return `延期${sjDay - yjDay}天`
+                 return `延期${-(sjDay - yjDay)}天`
              }
         },
         saveClickBotton(row,index) {
@@ -136,7 +137,11 @@ export default {
             ]
             saveMemo(param).then(res => {
                 if(res.code == 200 ) {
-                    this.$message.success('保存成功！')
+                    this.$message({
+                        type: 'success', 
+                        message:'保存成功',
+                        offset:220
+                    })
                     this.$set(this.tableData[index],'canEditDevelopName',false)
                 }
             })
@@ -158,26 +163,29 @@ export default {
             const { columns, data } = param;
             const sums = [];
             columns.forEach((column, index) => {
-            if (index === 0) {
-                sums[index] = '合计';
-                return;
-            }
-            const values = data.map(item => Number(item[column.property]));
-            if (!values.every(value => isNaN(value))) {
-                sums[index] = values.reduce((prev, curr) => {
-                const value = Number(curr);
-                if (!isNaN(value)) {
-                    return prev + curr;
-                } else {
-                    return prev;
+                if (index === 0) {
+                    sums[index] = '合计';
+                    return;
                 }
-                }, 0);
-                sums[index] += '';
-            } else {
-                sums[index] = '';
-            }
+                if (index !== 2) {
+                    sums[index] = '';
+                    return
+                }
+                const values = data.map(item => Number(item[column.property]));
+                if (!values.every(value => isNaN(value))) {
+                    sums[index] = values.reduce((prev, curr) => {
+                    const value = Number(curr);
+                    if (!isNaN(value)) {
+                        return prev + curr;
+                    } else {
+                        return prev;
+                    }
+                    }, 0);
+                    sums[index] += '';
+                } else {
+                    sums[index] = '';
+                }
             });
-
             return sums;
         }
     }

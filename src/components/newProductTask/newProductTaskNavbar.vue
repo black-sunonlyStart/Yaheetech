@@ -34,7 +34,7 @@
                 <el-col :xs="12" :sm="12" :md="6" :lg="5" :xl="5">
                     <el-form-item label-width="10px">
                         <div class="searchBox">
-                            <el-input placeholder="创建人/备注信息"
+                            <el-input placeholder="请输入编号/名称"
                                 v-model="putSearch"
                                 size='mini'
                                 class="input-with-select"
@@ -101,7 +101,7 @@
                     设计款:
                 </template>
                 <el-radio-group size="mini" v-model="form.design">
-                    <el-radio-button @click.native="clickRadioSearch('certificateType',item.label),changeSesign(item.label)" v-for="item in designList" :key="item.key" :label="item.label">{{ item.name }}</el-radio-button>
+                    <el-radio-button @click.native="clickRadioSearch('design',item.label),changeSesign(item.label)" v-for="item in designList" :key="item.key" :label="item.label">{{ item.name }}</el-radio-button>
                 </el-radio-group>
             </el-form-item>
             <el-form-item>
@@ -327,9 +327,20 @@ export default {
         margin: 3px 4px;
         .el-radio-button__inner {
             padding: 5px 10px;
-            border-left: 1px solid #DCDFE6 !important;
-            border-radius: 0px;
+            color: #333 ;
+            border-radius: 2px;
+            border: 1px solid #DCDFE6;
+            border-left: 1px solid #DCDFE6;
+          
+            &:hover {
+                border: 1px solid #3366cc;
+                border-left: 1px solid #3366cc;
+                color: #3366cc;
+            }
         }  
+    }
+     ::v-deep .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+        box-shadow: 0px 0 0 0 #3366cc;
     }
     ::v-deep .success-radio {
         border: 1px solid #ccc;
@@ -353,6 +364,9 @@ export default {
         height: 28px;
         margin-top: 1px;
         line-height: 3px;
+        padding: 12px 12px;
+        font-size: 12px;
+        margin-right: 10px;
     }
 }
 </style>

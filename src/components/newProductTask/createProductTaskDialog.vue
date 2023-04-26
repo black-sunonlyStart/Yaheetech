@@ -7,6 +7,7 @@
         class="dialog-main"
         width="800px"
         top="100px"
+        zIndex="3000"
         v-dialogDrag
     >
         <el-form class="edit-form" :model="form" :rules="rules" :inline-message="false" ref="form">
@@ -47,6 +48,7 @@
                                 产品系列：
                         </template>
                         <el-cascader
+                            style="width:220px"
                              v-model="form.classCategoryIdArray"
                             :options="patentCountry"
                             size="mini"
@@ -62,7 +64,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="10" :xs="22" :sm="22" :md="22" :lg="22" :xl="22">
+                <el-col :span="10" :xs="23" :sm="23" :md="23" :lg="23" :xl="23">
                     <el-form-item  prop="title" :label-width="formLabelWidth" >
                         <template slot="label">
                             中文简称：
@@ -175,7 +177,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="10" :xs="22" :sm="22" :md="22" :lg="22" :xl="22">
+                <el-col :span="10" :xs="23" :sm="23" :md="23" :lg="23" :xl="23">
                     <el-form-item  prop="developmentId" :label-width="formLabelWidth" >
                         <template slot="label">
                                 关联开发ID:
@@ -188,7 +190,7 @@
                 </el-col>
             </el-row>
             <el-row>
-                <el-col :span="10" :xs="22" :sm="22" :md="22" :lg="22" :xl="22">
+                <el-col :span="10" :xs="23" :sm="23" :md="23" :lg="23" :xl="23">
                     <el-form-item  prop="skuAlias" :label-width="formLabelWidth" >
                         <template slot="label">
                                 sku别名:
@@ -235,7 +237,7 @@ name:"createProductTaskDialog",
                 pictureUri:null,//立项图片
                 classCategoryIdArray:null,//产品系列
                 title: null,//中文简称
-                design:null,//是否设计款   1 设计款、 2 非设计款
+                design:2,//是否设计款   1 设计款、 2 非设计款
                 businessId:null,//业务开发--接口获取 /productManage/selectRoleEmployeeForRoleId
                 buyerId:null,//采购开发--接口获取 /productManage/selectRoleEmployeeForRoleId
                 leader:null,//品类经理--接口获取 /getBigDepartmentLeaders
@@ -243,7 +245,8 @@ name:"createProductTaskDialog",
                 expectEndTime:null,//预计结束时间--接口获取  getExpectEndTime
                 supplier:null,//供应商
                 developmentId:null,//关联开发ID
-                skuAlias:null//sku别名
+                skuAlias:null,//sku别名
+                imgUrl:null,
             },
             formLabelWidth: "120px",
             suppliers:[],
@@ -296,6 +299,7 @@ name:"createProductTaskDialog",
     methods: {
         openDialog(row,id){
             this.dialogFormVisible = true
+              if(this.$refs['form'])this.$refs['form'].resetFields()
             if(id) {
             this.form = {
                     id: row.id,//(编辑时)id
@@ -317,9 +321,10 @@ name:"createProductTaskDialog",
             this.imgUrl = GetFileServiceUrl(row.pictureUri) 
             }else {
                 this.form = {}
-                this.imgUrl = ''
-                if(this.$refs['form'])this.$refs['form'].resetFields()
+                this.form.design = 2
+                this.imgUrl = '' 
             } 
+          
             this.getTypeList()
         },
         getTypeList(){
@@ -362,18 +367,27 @@ name:"createProductTaskDialog",
             })
         },
         handleAvatarSuccess(res, file) {
-            this.imgUrl = this.form.imgUrl = GetFileServiceUrl(res.data[0])
+            this.imgUrl =  GetFileServiceUrl(res.data[0])
             this.imgLoading = false
+            this.$set(this.form,'imgUrl',res.data[0])
             this.form.pictureUri = res.data[0]
         },
         beforeAvatarUpload(file) {
             const isJPG = file.type.includes('image');
+            const isLt2M = file.size / 1024 / 1024 < 20;
             this.imgLoading = true
             if (!isJPG) {
                 this.$message.error('上传类型只能是 图片!');
                 this.imgLoading = false
             }
-            return isJPG ;
+             if (!isLt2M) {
+                this.$message({
+                    type: 'error', 
+                    message:'上传文件大小不能超过 20MB!',
+                    offset:220
+                })
+            }
+            return isJPG && isLt2M;
         },
         onSubmit(formName) {
             this.clickLoading = true

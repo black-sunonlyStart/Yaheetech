@@ -6,7 +6,7 @@
             :modal='false'
             class="dialogBox"
             v-dialogDrag
-            v-loading='loading'
+            zIndex="3000"
             >
             <div class="titleText" slot="title">
                 {{this.dialogName}}
@@ -70,6 +70,7 @@
                     @click="submitList('ruleForm')" 
                     size="mini" 
                     v-track="{triggerType:'click',currentUrl: $route.path,behavior:'确定',behavior:dialogName,shouldUpdate:'1'}"
+                    :loading="clickLoading"
                 >确 定</el-button>
                 <el-button 
                     @click="resetForm('ruleForm')" 
@@ -140,7 +141,7 @@ export default {
     data(){
         return {
             showType:1,
-            loading:false,
+            clickLoading:false,
             ruleForm:{
                 status:'',
                 remark:'',
@@ -205,6 +206,7 @@ export default {
             this.dialogVisibleDetail = true
         },
         openDialog(rowList,id){
+           
             let param = {
                 progressDevelopmentId:rowList[0].id, //为列表id字段
                 operation:id - 1
@@ -215,7 +217,7 @@ export default {
                 if(res.code == 200) {
                     this.status = res.data
                     this.dialogVisible = true
-                   
+                    this.clickLoading = false
                     if(this.rowList.some(item => item.statusDelay == true)) {
                         this.showRemark = true
                         this.delayList = this.rowList.map(item => {
@@ -238,12 +240,15 @@ export default {
             this.dialogVisible = false
         },
         submitList(formName){
+
             this.$refs[formName].validate((valid) => {
                 if (valid) {
+                    this.clickLoading = true
                     if(this.showType == 3) {
                          let param = {
                             progressDevelopmentIds:this.cancelParams.ids,
                             operation:this.cancelParams.operation,
+                            whyNote:this.ruleForm.remark,
                         }
                         progressfreezing(param).then(res => {
                             if(res.code == 200) {
@@ -264,23 +269,22 @@ export default {
                                 this.successSaveDialog()
                             }
                         }).catch((err) => {
-                            this.loading = false
+                          
                         })
-                    }
-                    
+                    } 
                 }
             })
         },
         successSaveDialog() {
             this.$message({
-                        type: 'success', 
-                        message:'保存成功',
-                        offset:220
-                    })
+                type: 'success', 
+                message:'保存成功',
+                offset:220
+            })
             this.$emit('mainListList',this.navFilterList)
             this.$refs['ruleForm'].resetFields();
             this.dialogVisible = false 
-            this.loading = false
+            this.clickLoading = false
         },
         getSummaries(param) {
             const { columns, data } = param;
@@ -305,7 +309,6 @@ export default {
                 sums[index] = '';
             }
             });
-
             return sums;
         }
     }  
