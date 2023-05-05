@@ -85,7 +85,7 @@
             </el-col>
         </el-row>
         <el-row v-for="item in devInformationDetaiList.productMarketList" :key="item.id">
-            <el-col :span="22">
+            <el-col :span="item.countrycode == 'DE'? 24 : 22">
                 <div class="tableTitle">{{item.platformname}}- {{item.countrycode}} :  {{item.warehouseName}}</div>
                 <el-table
                      border
@@ -95,13 +95,13 @@
                     >
                     <el-table-column
                         label="类型"
-                     
+                        width="60px"
                         header-align='center'
                         align="center"
                         >
                         <template slot-scope="scope">
                             <div v-if="scope.row.sfp">SFP</div>
-                             <div v-else>普通</div>
+                            <div v-else>普通</div>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -139,9 +139,9 @@
                         </template>   
                     </el-table-column>
                     <el-table-column
-                     width="100px"
-                     header-align='center'
-                     align="center"
+                        width="100px"
+                        header-align='center'
+                        align="center"
                     >
                         <template slot="header" >
                             <div>运费  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
@@ -153,9 +153,9 @@
                     <el-table-column
                         prop="piprice"
                         label="PI"
-                         width="100px"
-                         header-align='center'
-                         align="center"
+                        width="95px"
+                        header-align='center'
+                        align="center"
                         >
                         <template slot="header" >
                             <div>PI  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
@@ -164,6 +164,23 @@
                             <div> {{item.piprice}}</div>
                         </template>
                     </el-table-column>
+
+                    <el-table-column
+                        prop="包材费"
+                        label="packingMaterialFee"
+                        width="110px"
+                        header-align='center'
+                        align="center"
+                        v-if="item.countrycode == 'DE'"
+                        >
+                        <template slot="header" >
+                            <div>包材费  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                        </template>
+                        <template >
+                            <div> {{item.packingMaterialFee}}</div>
+                        </template>
+                    </el-table-column>
+                    
                     <el-table-column
                         label="海运费成本"
                         header-align='center'
@@ -193,8 +210,8 @@
                         <template slot-scope="scope" >
                             {{item.duty ? item.duty.toFixed(2)+  " + " :' 0 + '}}
                             {{item.vatfee ? item.vatfee.toFixed(2) +  " + " :' 0 + '}}
-                            <span  v-if="scope.row.sfp">{{item.sfpSalesvat ? item.sfpSalesvat.toFixed(2) :' 0 '}} </span>
-                            <span  v-else>{{item.salesvat  ? item.salesvat .toFixed(2) :' 0 '}} </span>
+                            <span v-if="scope.row.sfp">{{item.sfpSalesvat ? item.sfpSalesvat.toFixed(2) :' 0 '}} </span>
+                            <span v-else>{{item.salesvat  ? item.salesvat .toFixed(2) :' 0 '}} </span>
                             
                         </template>
                     </el-table-column>
@@ -228,9 +245,9 @@
                                 操作费 + 发货包装 + 本地化费
                             </div>
                         </template>
-                        <template  slot-scope="scope" >     
-                            <span  v-if="scope.row.sfp">{{item.sfpHandlingfee  ? item.sfpHandlingfee .toFixed(2) + " + " :' 0 +  '}} </span>
-                            <span  v-else>{{item.handlingfee  ? item.handlingfee .toFixed(2) + " + " :' 0  + '}} </span>                     
+                        <template slot-scope="scope" >     
+                            <span v-if="scope.row.sfp">{{item.sfpHandlingfee  ? item.sfpHandlingfee .toFixed(2) + " + " :' 0 +  '}} </span>
+                            <span v-else>{{item.handlingfee  ? item.handlingfee .toFixed(2) + " + " :' 0  + '}} </span>                     
                             {{item.packagingfee ? item.packagingfee.toFixed(2)  + " + " : '0 + '}}
                             {{item.localizationfee ? item.localizationfee.toFixed(2)  : '0'}}  
                         </template>
@@ -256,16 +273,17 @@
                         label="可抵扣税费"
                         header-align='center'
                         align="center"
-                        width="150px"
+                        width="220px"
                         >
                         <template slot="header" >
                             <div>可抵扣税费  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
-                            <div>进口VAT + 快递VAT </div>
+                            <div>进口VAT + 快递VAT <span v-if="item.countrycode == 'DE'"> + 包材VAT </span>  </div>
                         </template>
-                        <template   slot-scope="scope">
+                        <template slot-scope="scope">
                            {{item.vatfee ? item.vatfee.toFixed(2) + "+" : '0 + '}}
-                           <span  v-if="scope.row.sfp">{{item.sfpLocalshippingfeevat   ? item.sfpLocalshippingfeevat  .toFixed(2) :' 0 '}} </span>
-                           <span  v-else>{{item.localshippingfeevat  ? item.localshippingfeevat .toFixed(2) :' 0 '}} </span>  
+                           <span v-if="scope.row.sfp">{{item.sfpLocalshippingfeevat   ? item.sfpLocalshippingfeevat  .toFixed(2) :' 0 '}} </span>
+                           <span v-else>{{item.localshippingfeevat  ? item.localshippingfeevat .toFixed(2) :' 0 '}} </span>  
+                           <span v-if="item.countrycode == 'DE'">{{item.packingMaterialFeeVAT  ? '+' + item.packingMaterialFeeVAT .toFixed(2) :' + 0 '}}</span>
                         </template>
                     </el-table-column>
                     
@@ -298,25 +316,23 @@
 export default {
     data(){
         return {
-             aaaList:[27, 21, 22, 30 ,28, 20],
-             unit:'',
-             devSign:[
-                 {
-                     key:1,
-                     label:'低',
-                     value:0,
-                 },
-                 {
-                     key:2,
-                     label:'中',
-                     value:1,
-                 },
-                 {
-                     key:3,
-                     label:'高',
-                     value:2,
-                 },
-             ],
+            devSign:[
+                {
+                    key:1,
+                    label:'低',
+                    value:0,
+                },
+                {
+                    key:2,
+                    label:'中',
+                    value:1,
+                },
+                {
+                    key:3,
+                    label:'高',
+                    value:2,
+                },
+            ],
         }
     },
     props:{
@@ -343,7 +359,7 @@ export default {
             }
             
         },
-         objectSpanMethod({ row, column, rowIndex, columnIndex }) {
+        objectSpanMethod({ row, column, rowIndex, columnIndex }) {
             if (columnIndex > 3) {
                 if (rowIndex % 2 === 0) {
                     return {

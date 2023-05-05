@@ -204,7 +204,6 @@ aside {
     border: none !important;
     padding: 0 !important;
     margin-left: 5px;
-    background: none;
 }
 .el-table{
     color: #333 !important;
@@ -221,7 +220,8 @@ aside {
     padding: 0 !important;
     text-align: center !important;
     min-width: 30px !important;
-    
+    background: none !important;
+    margin-left: 0px !important;
 } 
 .copeTitle{
     color: #3366cc;

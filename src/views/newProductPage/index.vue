@@ -1,5 +1,5 @@
 <template>
-    <div class="nav-container">
+    <div class="nav-container" v-if="renderDom"  v-permission="'ERP.Product.ProgressDevelopment'" >
         <el-card class="nav-card naverCard">
             <navBar  @putTableList='putTableList' ref="navBar"></navBar>
             <div title="点击加载更多" class="up-text up-text-c" v-if="upDownshow" @click="clickMoreFilter">∨</div>
@@ -14,6 +14,7 @@
   <script>
     import navBar from '@/components/newProductTask/newProductTaskNavbar.vue'
     import mainPageList from '@/components/newProductTask/newProductTaskMain.vue'
+    import {hasPermissions } from '@/api/user.js'
 export default {
     components: {
         navBar,
@@ -22,18 +23,35 @@ export default {
     data () {
         return {
             upDownshow:true,
-            filterList:{}
+            filterList:{},
+            renderDom:false,
         }
     },
     computed: {
     },
     created () {
-        
+         this.getPermissions()   
     },
     mounted(){
     
     },
     methods: {
+        getPermissions(){
+          let  params = [
+            'ERP.Product.ProgressDevelopment',
+            'ERP.Product.AddProgressDevelopment',
+            'ERP.Product.EditProgressDevelopment',
+            'ERP.Product.ProgressDevelopment.FreezingOff',
+            'ERP.Product.ProgressDevelopment.FreezingOn',
+            'ERP.Product.ProgressDevelopment.SaveStateTime',
+            'ERP.Product.ProgressDevelopment.ApprovalMemo',
+            ]
+            hasPermissions(params).then(res => {
+            let data = JSON.stringify( res.data);
+                sessionStorage.setItem("permissions", data);
+                this.renderDom = true
+            })
+        },
         clickMoreFilter (id) {
             let naverCard = document.querySelector('.naverCard')
             if( id == 1) {
@@ -50,7 +68,7 @@ export default {
             this.filterList = val
         },
         putClearList(){
-            this.$refs.navBar.clearAll()
+            this.$refs.navBar.getStautList()
         }
     }
 }

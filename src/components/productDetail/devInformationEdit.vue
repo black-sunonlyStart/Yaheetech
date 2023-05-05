@@ -249,6 +249,12 @@
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.piprice"></el-input-number>
                             </div>
                         </el-form-item>
+                        <el-form-item label="包材费:" prop="packingMaterialFee" v-if="item.countrycode == 'DE'">
+                            <div class="inputBox"> 
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
+                                <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.packingMaterialFee"></el-input-number>
+                            </div>
+                        </el-form-item>
                         <el-form-item label="空/海运费:" >
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
@@ -348,6 +354,12 @@
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.localshippingfeevat"></el-input-number>
+                            </div>
+                        </el-form-item>
+                        <el-form-item label="退回包材VAT:" prop="packingMaterialFeeVAT" v-if="item.countrycode == 'DE'">
+                            <div class="inputBox">
+                                <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
+                                <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.packingMaterialFeeVAT"></el-input-number>
                             </div>
                         </el-form-item>
                         <el-form-item label="本土运输方式:" prop="shippingname ">
@@ -610,6 +622,9 @@ export default {
                 piprice: [
                     {  required: true, message: '请添加价格', trigger: 'blur' }
                 ],
+                // packingMaterialFee: [
+                //     {  required: true, message: '请添加价格', trigger: 'blur' }
+                // ],
                 inlandportcosts: [
                     {  required: true, message: '请添加价格', trigger: 'blur' }
                 ],
@@ -643,6 +658,9 @@ export default {
                 localshippingfeevat: [
                     {  required: true, message: '请添加价格', trigger: 'blur' }
                 ],
+                // packingMaterialFeeVAT: [
+                //     {  required: true, message: '请添加价格', trigger: 'blur' }
+                // ],
                 shippingname: [
                     {  required: true, message: '请输入运输方式', trigger: 'blur' }
                 ],
@@ -869,7 +887,7 @@ export default {
                         developmentprice:this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] ? this.devInformationDetaiList.productMarketList[0].developmentprice : 0
                     })
                 })
-            }else if(this.ruleForm.marksContry1 == 'GB' && this.ruleForm.marksContry2 && !this.ruleForm.marksContry3){
+            }else if(this.ruleForm.marksContry1 == 'DE' && this.ruleForm.marksContry2 && !this.ruleForm.marksContry3){
                 this.devInformationDetaiList.productMarketList.push({
                         platformname:this.ruleForm.marksContry2,
                         countrycode:this.ruleForm.marksContry1,
@@ -1037,6 +1055,7 @@ export default {
                                 sfpDevelopmentPrice:item.sfpDevelopmentPrice,
                                 sfpOceanFreight:item.sfpOceanFreight,
                                 piprice:item.piprice,
+                                packingMaterialFee:item.packingMaterialFee,
                                 oceanfreight:item.oceanfreight,
                                 freightway:item.freightway,
                                 inlandportcosts:item.inlandportcosts,
@@ -1054,6 +1073,7 @@ export default {
                                 packagingfee:item.packagingfee,
                                 localizationfee:item.localizationfee,
                                 localshippingfeevat:item.localshippingfeevat,
+                                packingMaterialFeeVAT:item.packingMaterialFeeVAT,
                                 shippingname:item.shippingname,
                                 exchangerate:item.exchangerate,
                                 vatrate:item.vatrate,
@@ -1130,6 +1150,7 @@ export default {
                                 sfpDevelopmentPrice:item.sfpDevelopmentPrice,
                                 sfpOceanFreight:item.sfpOceanFreight,
                                 piprice:item.piprice,
+                                packingMaterialFee:item.packingMaterialFee,
                                 oceanfreight:item.oceanfreight,
                                 freightway:item.freightway,
                                 inlandportcosts:item.inlandportcosts,
@@ -1147,6 +1168,7 @@ export default {
                                 packagingfee:item.packagingfee,
                                 localizationfee:item.localizationfee,
                                 localshippingfeevat:item.localshippingfeevat,
+                                packingMaterialFeeVAT:item.packingMaterialFeeVAT,
                                 shippingname:item.shippingname,
                                 exchangerate:item.exchangerate,
                                 vatrate:item.vatrate,

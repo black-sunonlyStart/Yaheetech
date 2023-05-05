@@ -109,14 +109,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                 <div v-else-if="item.Notes.includes('{{PPT}}')" style="cursor:pointer">
+                                <div v-else-if="item.Notes.includes('{{PPT}}')" style="cursor:pointer">
                                         <div class="bg-link">
                                             <img src="../assets/ppt.png" @click="uploadFilers(item.Notes)">
                                             <div>
                                                 {{showFilesName(item.Notes)}}
                                             </div>
                                         </div>
-                                    </div>
+                                </div>
                                 <div v-else-if="item.Notes.includes('{{Excel}}')">
                                     <div class="bg-link">
                                         <img src="../assets/excel.png" @click="uploadFilers(item.Notes)" style="cursor:pointer">
@@ -133,7 +133,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div v-else>
+                                <div v-else style="text-align:left;white-space: pre-line;">
                                     {{item.Notes}}
                                 </div>
                             </div>
@@ -204,7 +204,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div v-else>
+                                    <div v-else style="white-space: pre-line;">
                                         {{item.Notes}}
                                     </div>
                                 </div>
@@ -353,6 +353,25 @@ import { commonUploadFile } from '@/api/user.js'
                        developmentId:this.remarksParam.developmentId,
                        productCountryId:this.remarksParam.productCountryId,
                        noteBussinessName:this.remarksParam.noteBussinessName,
+                       PageIndex:0,
+                       StartOn:val.timeValue2 ? val.timeValue2[0] : '',
+                       EndOn:val.timeValue2 ? val.timeValue2[1] : '',
+                       UserIds:val.CreatedBy ? [val.CreatedBy] : [],
+                       Notes:val.search,
+                       Mark:val.Check
+                  }
+                 getLogMessage(this.paramData,this,true)
+              }
+          },
+          deep:true
+      },
+      remarksParam:{
+          handler:function(val){
+              if(val){
+                  this.paramData = {
+                       developmentId:val.developmentId,
+                       productCountryId:val.productCountryId,
+                       noteBussinessName:val.noteBussinessName,
                        PageIndex:0,
                        StartOn:val.timeValue2 ? val.timeValue2[0] : '',
                        EndOn:val.timeValue2 ? val.timeValue2[1] : '',
@@ -552,15 +571,16 @@ import { commonUploadFile } from '@/api/user.js'
             this.$set(this.form,'Check','Check')
             this.$set(this.form,'almorlist',Math.random())
         },
-        load () {
+        load (remarksParam) {
             this.loading = true
+            // if (remarksParam) this.paramData = remarksParam
             if (this.paramData.PageIndex == null) this.paramData.PageIndex = -1
             this.paramData.PageIndex += 1
             getLogMessage(this.paramData,this)
         },
         openHandle(){
             this.paramData = this.remarksParam
-            this.load()
+            // this.load()
             GetGlobalNotesUsers(this.paramData,this)
         },
         sendEditQuill(){
@@ -813,4 +833,5 @@ import { commonUploadFile } from '@/api/user.js'
         align-items: center;
         margin-bottom: 36px;
     }
+
 </style>

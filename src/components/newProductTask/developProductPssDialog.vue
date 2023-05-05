@@ -111,22 +111,22 @@ export default {
     },
     methods: {
         showSjDay(yjDay,sjDay,val) {
-             if(!sjDay || !yjDay ||  sjDay - yjDay == 0){
-                 if(val == 1) {
+            if(sjDay - yjDay == 0){
+                if(val == 1) {
                     return ''
                 }
                 return '-'
-             }else if(  sjDay - yjDay > 0) {
+            }else if(  sjDay - yjDay > 0) {
                 if(val == 1) {
                     return '#0F7535'
                 }
                 return `提前${sjDay - yjDay}天`
-             }else if(sjDay - yjDay < 0) {
+            }else if(sjDay - yjDay < 0) {
                 if(val == 1) {
                     return '#D00606'
                 }
-                 return `延期${-(sjDay - yjDay)}天`
-             }
+                return `延期${-(sjDay - yjDay)}天`
+            }
         },
         saveClickBotton(row,index) {
             let param = [

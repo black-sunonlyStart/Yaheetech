@@ -79,9 +79,20 @@
                         <template slot="label">
                             是否设计款：
                         </template>
-                        <el-radio-group v-model="form.design">
+                        <el-radio-group v-model="form.design"  @change="changeExpectSatrtTime">
                             <el-radio  :label="1">是</el-radio>
                             <el-radio  :label="2">否</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12" :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
+                    <el-form-item prop="supplierType" :label-width="formLabelWidth" >
+                        <template slot="label">
+                            供应商：
+                        </template>
+                        <el-radio-group v-model="form.supplierType" @change="changeExpectSatrtTime">
+                            <el-radio  :label="0">已有</el-radio>
+                            <el-radio  :label="1">全新</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -238,6 +249,7 @@ name:"createProductTaskDialog",
                 classCategoryIdArray:null,//产品系列
                 title: null,//中文简称
                 design:2,//是否设计款   1 设计款、 2 非设计款
+                supplierType:0,//是否设计款   1 设计款、 2 非设计款
                 businessId:null,//业务开发--接口获取 /productManage/selectRoleEmployeeForRoleId
                 buyerId:null,//采购开发--接口获取 /productManage/selectRoleEmployeeForRoleId
                 leader:null,//品类经理--接口获取 /getBigDepartmentLeaders
@@ -262,6 +274,9 @@ name:"createProductTaskDialog",
                 ],
                 design : [
                     { required: true, message:'请选择设计款', trigger:['blur', 'change'] }
+                ],
+                supplierType : [
+                    { required: true, message:'请选择是否有供应商', trigger:['blur', 'change'] }
                 ],
                 businessId : [
                     { required: true, message:'请选择业务开发', trigger:['blur', 'change'] }
@@ -299,14 +314,15 @@ name:"createProductTaskDialog",
     methods: {
         openDialog(row,id){
             this.dialogFormVisible = true
-              if(this.$refs['form'])this.$refs['form'].resetFields()
+            if(this.$refs['form']) this.$refs['form'].resetFields()
             if(id) {
-            this.form = {
+                this.form = {
                     id: row.id,//(编辑时)id
                     imgUrl:row.pictureUri,//立项图片
                     categoryId:row.categoryId,//产品系列
                     title: row.title,//中文简称
                     design:row.design,//是否设计款   1 设计款、 2 非设计款
+                    supplierType:row.supplierType,//是否设计款   1 设计款、 2 非设计款
                     businessId:row.businessId,//业务开发--接口获取 /productManage/selectRoleEmployeeForRoleId
                     buyerId:row.buyerId,//采购开发--接口获取 /productManage/selectRoleEmployeeForRoleId
                     leader:row.leader,//品类经理--接口获取 /getBigDepartmentLeaders
@@ -317,11 +333,12 @@ name:"createProductTaskDialog",
                     skuAlias:row.skuAlias,//sku别名
                     classCategoryIdArray:[row.seriesCategoryId,row.classifyDefId],
                     pictureUri:row.pictureUri,
-            }
-            this.imgUrl = GetFileServiceUrl(row.pictureUri) 
+                }
+                this.imgUrl = GetFileServiceUrl(row.pictureUri) 
             }else {
                 this.form = {}
-                this.form.design = 2
+                this.$set(this.form,'design',2)
+                this.$set(this.form,'supplierType',0)
                 this.imgUrl = '' 
             } 
           
@@ -358,13 +375,21 @@ name:"createProductTaskDialog",
             })
         },
         changeExpectSatrtTime(val) {
-            let param = {
-                expectStartTime :val
-            }
-            getExpectEndTime(param).then(res => {
-                this.$set(this.form,'expectEndTime',res.data)
+            if(this.form.expectStartTime) {
+                let param = {
+                    expectStartTime :this.form.expectStartTime,
+                    design:this.form.design,
+                    supplierType:this.form.supplierType,
+                }
+                getExpectEndTime(param).then(res => {
+                    this.$set(this.form,'expectEndTime',res.data)
 
-            })
+                })
+            }
+            
+        },
+        changeExpectSatrtTime1() {
+
         },
         handleAvatarSuccess(res, file) {
             this.imgUrl =  GetFileServiceUrl(res.data[0])
@@ -380,7 +405,7 @@ name:"createProductTaskDialog",
                 this.$message.error('上传类型只能是 图片!');
                 this.imgLoading = false
             }
-             if (!isLt2M) {
+            if (!isLt2M) {
                 this.$message({
                     type: 'error', 
                     message:'上传文件大小不能超过 20MB!',
@@ -400,6 +425,7 @@ name:"createProductTaskDialog",
 
                         title:  this.form.title,//中文简称
                         design: this.form.design,//是否设计款   1 设计款、 2 非设计款
+                        supplierType: this.form.supplierType,//是否设计款   1 设计款、 2 非设计款
                         businessId: this.form.businessId,//业务开发--接口获取 /productManage/selectRoleEmployeeForRoleId
                         buyerId: this.form.buyerId,//采购开发--接口获取 /productManage/selectRoleEmployeeForRoleId
                         leader: this.form.leader,//品类经理--接口获取 /getBigDepartmentLeaders

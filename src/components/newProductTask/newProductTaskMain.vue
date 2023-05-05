@@ -1,10 +1,10 @@
 <template>
-    <div v-if="renderDom">
-        <el-row class="maina-tab-title" v-track="{triggerType:'browse',currentUrl: $route.path,behavior:'进入摄像页面'}">
+    <div>
+        <el-row class="maina-tab-title" v-track="{triggerType:'browse',currentUrl: $route.path,behavior:'进入竞品页面'}">
             <el-col :span="24">
                 <div class="flot-left">
-                    <el-button type="primary" class="button-put" @click="createTask()">创建任务</el-button>
-                    <el-dropdown  size="mini" style="margin-left:10px" @command="changeFreezing">
+                    <el-button type="primary" class="button-put" @click="createTask()" v-permission="'ERP.Product.AddProgressDevelopment'">创建任务</el-button>
+                    <el-dropdown  size="mini" style="margin-left:10px" @command="changeFreezing" v-permission="'ERP.Product.ProgressDevelopment.FreezingOn'">
                         <el-button type="primary"  class="button-put" @click="freezing(3)">
                             取消开发<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
@@ -12,7 +12,7 @@
                             <el-dropdown-item :command="6">恢复开发</el-dropdown-item>  
                         </el-dropdown-menu>
                     </el-dropdown>
-                    <el-dropdown  size="mini" style="margin-left:10px" @command="changeFreezing">
+                    <el-dropdown  size="mini" style="margin-left:10px" @command="changeFreezing" v-permission="'ERP.Product.ProgressDevelopment.FreezingOff'">
                         <el-button type="primary" class="button-put" @click="freezing(4)">
                             冻结数据<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
@@ -21,8 +21,8 @@
                         </el-dropdown-menu>
                     </el-dropdown>
 
-                    <el-button type="primary" style="margin-left:10px" class="button-put" @click="putOperation(null,1)">提交</el-button>
-                    <el-button type="primary" class="button-put" @click="setTask()">设置</el-button>
+                    <el-button type="primary" style="margin-left:10px" class="button-put" @click="putOperation(null,1)" v-permission="'ERP.Product.ProgressDevelopment.ApprovalMemo'">提交</el-button>
+                    <el-button type="primary" class="button-put" @click="setTask()" v-permission="'ERP.Product.ProgressDevelopment.SaveStateTime'">设置</el-button>
                 </div>
             </el-col>
         </el-row>
@@ -36,6 +36,8 @@
                 :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                 @row-click="handleRowClick"
                 ref="multipleTable"
+                :row-class-name="tableRowClassName"
+                :row-style="selectedHighlight"
              >
                 <el-table-column type="selection" width="40" header-align='center'></el-table-column>
                 
@@ -138,7 +140,7 @@
                 </el-table-column>
                 <el-table-column width="100" align="center">
                     <template slot="header">
-                        耗时/超时
+                        耗时/延期
                     </template>
                     <template slot-scope="scope">
                         <div v-for="(item,index) in scope.row.pdStatuses" :key="index" style="height：30px;line-height:30px">
@@ -241,13 +243,15 @@
                                 placement="bottom"
                                 trigger="hover"
                                 popper-class='popperBorder1' style="border:none"
-                                v-if="scope.row.state != 50 && scope.row.state != 51"
+                                v-if="scope.row.state != 50 && scope.row.state != 51 && (scope.row.commitStatus || scope.row.backStatus)"
+                                v-permission="'ERP.Product.ProgressDevelopment.ApprovalMemo'"
                                 >
                                 <div class="operationBox" v-for="item in operationList" :key="item.id"> 
                                     <div class="operationText"  
-                                        @click="putOperation(scope.row,item.id,1)"
+                                        @click="putOperation(scope.row,item.id,1)"                                     
                                     >
                                     <div class="nameBox"  
+                                    v-if="(scope.row.commitStatus && item.id == 1) || (scope.row.backStatus && item.id == 2)"
                                     >{{item.name}}</div></div>
                                 </div>
                                 <div class="imageHistoryBox" slot="reference" ></div>
@@ -258,12 +262,12 @@
                                 trigger="hover"
                                 popper-class='popperBorder1' style="border:none"
                                 >
-                                <div class="operationBox" v-for="item in edidOperationList" :key="item.id"> 
+                                <div class="operationBox" v-for="item in edidOperationList" :key="item.id" v-permission:[item.permission]> 
                                     <div class="operationText"  
                                         @click="editOperation(scope.row,item.id)"
                                     >
-                                    <div class="nameBox" 
-                                    >{{item.name}}</div></div>
+                                        <div class="nameBox" >{{item.name}}</div>
+                                    </div>
                                 </div>
                                 <div class="imageBox" slot="reference"></div>
                             </el-popover>
@@ -305,7 +309,7 @@
 </template>
 <script>
 
-import { copyUr,GetFileServiceUrl,copyUrl} from '@/utils/tools.js'
+import { GetFileServiceUrl,copyUrl} from '@/utils/tools.js'
 import { getProgressDevelopment,getEmployee,progressfreezing,progressUnfreezing } from '@/api/user.js'
 import remarksNew from '@/components/remarksNew.vue'
 import debounce from 'lodash.debounce';
@@ -324,6 +328,7 @@ export default {
                 {
                     name:'编辑',
                     id:1,
+                    permission:'ERP.Product.EditProgressDevelopment'
                 },
                 {
                     name:'进度详情',
@@ -350,6 +355,7 @@ export default {
             showTenth:false,
             remarksParam:{},
             total:0,
+            getIndex:[],
             currentPage4:0,
             pageSize:50,
             pageNum:1,
@@ -385,6 +391,17 @@ export default {
         },
     },
     methods:{
+        tableRowClassName({ row, rowIndex }) {
+            //把每一行的索引放进row
+            row.index = rowIndex;
+        },
+        selectedHighlight({ row, rowIndex }) {
+            if (this.getIndex.includes(rowIndex) ) {
+                return {
+                    'background-color': '#F0F5FF !important'
+                };
+            }
+        },
         changeBgColor(val) {
             let stateList1 = [1,4,5,7,10,16,19,20,22,27,29]
             let stateList2 = [18,21,23]
@@ -407,8 +424,13 @@ export default {
            
         },
         //点击行触发，选中或不选中复选框
-        handleRowClick(row, column, event){
+        handleRowClick(row){
             this.$refs.multipleTable.toggleRowSelection(row);
+            if(this.getIndex.includes(row.index)) {
+                this.getIndex.splice(this.getIndex.findIndex(item => item == row.index),1)
+            }else {
+                this.getIndex.push(row.index);
+            }   
         },     
         freezing(val) {
             if(this.multipleSelection.length == 0) {
@@ -423,12 +445,14 @@ export default {
                 stringT = '取消'
                 this.$refs.checkStatusDialog.cancelStatusDialog(val,id)
                 this.$refs.checkStatusDialog.showType = 3
+                this.$refs.checkStatusDialog.dialogName = stringT
             }else {
                 
                 this.$confirm(`确定${stringT}该数据？`, '提示', {
-                    confirmButtonText: '确定',
                     cancelButtonText: '取消',
-                    type: 'warning'
+                    confirmButtonText: '确定',
+                    type: 'warning',
+                    cancelButtonClass: 'btn-custom-cancel',
                     }).then(() => {
                        
                         let param = {
@@ -468,7 +492,8 @@ export default {
                 this.$confirm(`确定${stringT}该数据？`, '提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
-                    type: 'warning'
+                    type: 'warning',
+                    cancelButtonClass: 'btn-custom-cancel',
                 }).then(() => {
                     let id = this.multipleSelection.map(res => {
                         return res.id
@@ -537,7 +562,7 @@ export default {
             // }
 
             if(!rowList.every(item => item.state == rowList[0].state)) {
-                this.error('操作状态请保持一致！')
+                this.error('所选数据的状态不一致！')
                 return
             }
             switch (id) {
@@ -570,30 +595,9 @@ export default {
             }
             this.showTenth = true
             this.dialogVisible = true
-            if(this.$refs.remarksNew){
-                this.$refs.remarksNew.load(this.remarksParam,true) 
-            } 
-        },
-       
-        controlPromiss(){
-            let params = [
-                "ERP.PDC.Product.CameraTask.View",
-                "ERP.PDC.Product.CameraTask.SaveCameraTask1",
-                "ERP.PDC.Product.CameraTask.SaveCameraTask2",
-                "ERP.PDC.Product.CameraTask.SaveCameraTask3",
-                "ERP.PDC.Product.CameraTask.SaveCameraTask4",
-                "ERP.PDC.Product.CameraTask.SaveCameraTask",
-                "ERP.PDC.Product.CameraTask.SaveCameraTask5",
-                "ERP.PDC.Product.CameraTask.SaveCameraTask6",
-            ]
-            let url = document.URL.includes('yaheecloud') ? 'http://erptools.yaheecloud.com/api/common/hasPermissions':'http://api-tools-test.yahee.com.cn:84/tool-api/common/hasPermissions'
-            hasPermissions(url,params).then(response => {
-                if(response.data){
-                    let data = JSON.stringify( response.data);
-                    sessionStorage.setItem("permissions", data);
-                    this.renderDom = true
-                }
-            });
+            // if(this.$refs.remarksNew){
+            //     this.$refs.remarksNew.load(this.remarksParam,true) 
+            // } 
         },
         changeMaxHeight(){
             return window.innerHeight - 240 + 'px'
@@ -610,7 +614,7 @@ export default {
                     dateFrom:val && val.timeValue2 ? val.timeValue2[0]: '',//申请日期 开始时间
                     dateTo: val && val.timeValue2 ?val.timeValue2[1]: '',//申请日期 截至时间
 
-                    categoryId: val && val.categoryId ?val.categoryId : null,//类目系列
+                    // categoryId: val && val.categoryId ?val.categoryId : null,//类目系列
                     seriesCategoryId: val && val.seriesCategoryId ?val.seriesCategoryId : null,//类目系列
                     classifyDefId: val && val.classifyDefId ?val.classifyDefId : null,//类目系列
                     leader: val && val.leader ?val.leader : null,//品类经理
@@ -619,6 +623,7 @@ export default {
                     state: val && val.state ?val.state : null,//状态 -- /getStateTime   接口，另外补充  50   已冻结、51   已取消
                     design: val && val.design ?val.design : null,//设计款
                     timeEnum:val && val.timeEnum ? val.timeEnum : null,
+                    supplierType:val && val.supplierType ? val.supplierType : null,
                 }
             getProgressDevelopment(params).then(res => {
                 if(res.data){
@@ -652,7 +657,7 @@ export default {
             this.$message({
                 showClose: true,
                 message: '操作成功',
-                 offset:220,
+                offset:220,
                 duration: 2000,
                 type: 'success'
             });
@@ -674,7 +679,7 @@ export default {
             });
         },
         copeDevelopId(val){
-          copyUrl(val)
+            copyUrl(val)
         },
     }
 }
@@ -780,8 +785,18 @@ export default {
         padding: 2px 0 2px 0 !important;
     }
     .cell{
-            line-height: 18px !important;
-        }
+        line-height: 18px !important;
+    }
+}
+::v-deep.dialog-main {
+    .el-dialog__header {
+        padding: 10px 20px 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+    }
+    .el-dialog__body {
+        padding: 10px 20px;
+    }
 }
 </style>
 <style>
@@ -790,5 +805,9 @@ export default {
     width: 80px;
     padding: 5px;
     text-align: left;
+}
+.btn-custom-cancel {
+  float: right;
+  margin-left: 10px;
 }
 </style>

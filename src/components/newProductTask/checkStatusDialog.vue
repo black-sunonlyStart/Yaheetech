@@ -143,7 +143,7 @@ export default {
             showType:1,
             clickLoading:false,
             ruleForm:{
-                status:'',
+                status:null,
                 remark:'',
                 pdStatuses:[
                     {
@@ -158,10 +158,10 @@ export default {
             dialogVisibleDetail: false,
             rules: {
                 remark: [
-                    { required: true, message: '请输入延期说明', trigger: 'blur' },
+                    { required: true, message: '请输入必填项！', trigger: 'blur' },
                 ],
                 status: [
-                    { required: true, message: '请选择状态', trigger: 'blur' },
+                    { required: true, message: '请选择状态！', trigger: 'blur' },
                 ],
             },
             status:[
@@ -185,34 +185,35 @@ export default {
     },
     methods:{
         showSjDay(sjDay,yjDay,val) {
-             if(sjDay - yjDay == 0){
-                 if(val == 1) {
+            if(sjDay - yjDay == 0){
+                if(val == 1) {
                     return ''
                 }
                 return '-'
-             }else if(  sjDay - yjDay > 0) {
+            }else if(  sjDay - yjDay > 0) {
                 if(val == 1) {
                     return '#0F7535'
                 }
                 return `提前${sjDay - yjDay}天`
-             }else if(sjDay - yjDay < 0) {
+            }else if(sjDay - yjDay < 0) {
                 if(val == 1) {
                     return '#D00606'
                 }
-                 return `延期${yjDay - sjDay}天`
-             }
+                return `延期${yjDay - sjDay}天`
+            }
         },
         checkProdetail() {
             this.dialogVisibleDetail = true
         },
         openDialog(rowList,id){
-           
+            this.showRemark = false
             let param = {
                 progressDevelopmentId:rowList[0].id, //为列表id字段
                 operation:id - 1
             }
             this.rowList = rowList
             this.id = id
+
             getRemain(param).then(res => {
                 if(res.code == 200) {
                     this.status = res.data
@@ -225,8 +226,17 @@ export default {
                         }).toString()
                     }
                     
+                }else {
+                     this.dialogVisible = false
                 }
+                this.$nextTick(() => {
+                    if(this.$refs['ruleForm']) this.$refs['ruleForm'].resetFields()
+                })
+                this.ruleForm.status = null
+            }).catch(res => {
+                 this.dialogVisible = false
             })
+          
         },
         cancelStatusDialog(operation,ids) {
             this.cancelParams = {
@@ -236,7 +246,7 @@ export default {
             this.dialogVisible = true
         },
         resetForm() {
-            this.ruleForm = {}
+            if(this.$refs['ruleForm']) this.$refs['ruleForm'].resetFields()
             this.dialogVisible = false
         },
         submitList(formName){
@@ -269,7 +279,7 @@ export default {
                                 this.successSaveDialog()
                             }
                         }).catch((err) => {
-                          
+                            this.clickLoading = false
                         })
                     } 
                 }
@@ -290,24 +300,24 @@ export default {
             const { columns, data } = param;
             const sums = [];
             columns.forEach((column, index) => {
-            if (index === 0) {
-                sums[index] = '合计';
-                return;
-            }
-            const values = data.map(item => Number(item[column.property]));
-            if (!values.every(value => isNaN(value))) {
-                sums[index] = values.reduce((prev, curr) => {
-                const value = Number(curr);
-                if (!isNaN(value)) {
-                    return prev + curr;
-                } else {
-                    return prev;
+                if (index === 0) {
+                    sums[index] = '合计';
+                    return;
                 }
-                }, 0);
-                sums[index] += '';
-            } else {
-                sums[index] = '';
-            }
+                const values = data.map(item => Number(item[column.property]));
+                if (!values.every(value => isNaN(value))) {
+                    sums[index] = values.reduce((prev, curr) => {
+                    const value = Number(curr);
+                    if (!isNaN(value)) {
+                        return prev + curr;
+                    } else {
+                        return prev;
+                    }
+                    }, 0);
+                    sums[index] += '';
+                } else {
+                    sums[index] = '';
+                }
             });
             return sums;
         }

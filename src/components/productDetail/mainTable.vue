@@ -950,8 +950,6 @@ export default {
     font-size: 20px;
     margin-left: 0px;
     &:hover{
-        background-color:#3366cc ;
-        color: #ffffff;
         display: inline-block;
     }
 }
@@ -1027,6 +1025,7 @@ export default {
 .popperBorder{
     border: none !important;
     padding: 0 !important;
+    background: none !important;
 }
 ::v-deep.el-tooltip__popper{
      border: none !important;

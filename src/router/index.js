@@ -3,11 +3,11 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export const constantRoutes = [
-//   {
-//     name:'default',
-//     path:'/',
-//     redirect:{name: 'packTableList'}
-//   },
+  {
+    name:'default',
+    path:'/',
+    redirect:{name: 'packTableList'}
+  },
   {
     name:'packTableList',
     path: '/packTableList',

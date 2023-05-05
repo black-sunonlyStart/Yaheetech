@@ -27,15 +27,26 @@
                     align="center"
                     label="预定耗时（天）"
                     width="600"
-                    show-overflow-tooltip
+       
                     >
                     <template slot-scope="scope">
-                       <el-input type="text" v-model="scope.row.stateTime" size="mini" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')"></el-input>
+                       <div style="display:flex">
+                            <div :style="{width:scope.row.state == 18? '45%':'100%',display:'flex'}">
+                                <div v-if="scope.row.state == 18" style="width:75px;flex-shrink: 0;">已有供应商：</div>
+                                <el-input type="text" v-model.number="scope.row.stateTime" size="mini" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')"></el-input>
+                            </div>
+                            <div style="width:5%"></div>
+                            <div v-if="scope.row.state == 18" style="width:45%;display:flex">
+                                <div style="width:75px;flex-shrink: 0;">全新供应商：</div>
+                                <el-input type="text" v-model.number="scope.row.stateTime1" size="mini" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')"></el-input>
+                            </div>
+                            
+                        </div>
                     </template>
                 </el-table-column>
             </el-table>
             <span slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="saveSetProgerss()" class="button-style" size="mini">保 存</el-button>
+                <el-button type="primary" @click="saveSetProgerss()" class="button-style" size="mini" :loading="loadingTutton">保 存</el-button>
                 <el-button  @click="dialogVisible = false" class="button-style" size="mini">关 闭</el-button>
             </span>
         </el-dialog>
@@ -49,13 +60,11 @@ export default {
     data() {
         return {
             dialogVisible: false,
+            loadingTutton: false,
             tableData: []
         };
     },
     methods: {
-        saveClickBotton() {
-
-        },
         btnClickBotton(index,editName,value) {
             this.$set(this.tableData[index],editName,value)
         },
@@ -63,7 +72,7 @@ export default {
             let rurl = `http://jira.yaheecloud.com:8080/browse/${url}`
             window.open(rurl)
         },
-        openDialog(params){
+        openDialog(){
             this.dialogVisible = true
             getStateTime().then(res => {
                 if(res.code == 200){
@@ -72,6 +81,7 @@ export default {
             })
         },
         saveSetProgerss() {
+            this.loadingTutton = true
             saveStateTime(this.tableData).then(res => {
                 if(res.code == 200) {
                     this.$message({
@@ -81,6 +91,9 @@ export default {
                     })
                     this.dialogVisible = false
                 }
+                this.loadingTutton = false
+            }).catch((err) => {
+                this.loadingTutton = false
             })
         }
     }

@@ -6,16 +6,16 @@
                 @submit.native.prevent
                 >
             <el-row>
-                <el-col :span="10" :xs="24" :sm="24" :md="24" :lg="20" :xl="20">
+                <el-col :span="10" :xs="22" :sm="22" :md="22" :lg="19" :xl="19">
                     <el-form-item>
                         <template slot="label">
                         创建日期:
                         </template>
                         <el-radio-group size="mini"  v-model="form.timeEnum">
-                            <el-radio-button @click.native="clickRadioSearch('timeEnum',item.timeEnum)" v-for="item in timeList" :key="item.key" :label="item.timeEnum">{{ item.timeEnumValue }}</el-radio-button>
+                            <el-radio-button @click.native="clickRadioSearch('timeEnum',item.timeEnum,$event)" v-for="item in timeList" :key="item.key" :label="item.timeEnum">{{ item.timeEnumValue }}</el-radio-button>
                         </el-radio-group>
                         <el-date-picker 
-                            style="margin-left:10px"
+                            style="margin-left:10px;width:230px"
                             v-model="form.timeValue2"
                             type="daterange"
                             align="right"
@@ -31,7 +31,7 @@
                         </el-date-picker>
                     </el-form-item>
                 </el-col>
-                <el-col :xs="12" :sm="12" :md="6" :lg="5" :xl="5">
+                <el-col :xs="2" :sm="2" :md="2" :lg="5" :xl="5">
                     <el-form-item label-width="10px">
                         <div class="searchBox">
                             <el-input placeholder="请输入编号/名称"
@@ -53,16 +53,16 @@
                     类目系列:
                 </template>
                 <el-radio-group size="mini" v-model="form.seriesCategoryId">
-                    <el-radio-button :label="null" @click.native="clickRadioSearch('seriesCategoryId',null)">全部</el-radio-button>
-                    <el-radio-button @click.native="clickRadioSearch('seriesCategoryId',item.seriesCategoryId),changeRadioSearch(index)" v-for="(item,index) in seriesList" :key="item.seriesCategoryId" :label="item.seriesCategoryId">{{ item.seriesCategoryName }}</el-radio-button>
+                    <el-radio-button :label="null" @click.native="clickRadioSearch('seriesCategoryId',null,$event)">全部</el-radio-button>
+                    <el-radio-button @click.native="clickRadioSearch('seriesCategoryId',item.seriesCategoryId,$event),changeRadioSearch(index)" v-for="(item,index) in seriesList" :key="item.seriesCategoryId" :label="item.seriesCategoryId">{{ item.seriesCategoryName }}</el-radio-button>
                 </el-radio-group>
             </el-form-item>
             <el-form-item>
                 <template slot="label">    
                 </template>
                 <el-radio-group size="mini" v-model="form.classifyDefId" v-if="form.seriesCategoryId ">
-                    <el-radio-button :label="null" @click.native="clickRadioSearch('classifyDefId',null)">全部</el-radio-button>
-                    <el-radio-button @click.native="clickRadioSearch('classifyDefId',item.classifyDefId)" v-for="item in seriesListChilds" :key="item.classifyDefId" :label="item.classifyDefId">{{ item.classifyDefName }}</el-radio-button>
+                    <el-radio-button :label="null" @click.native="clickRadioSearch('classifyDefId',null,$event)">全部</el-radio-button>
+                    <el-radio-button @click.native="clickRadioSearch('classifyDefId',item.classifyDefId,$event)" v-for="item in seriesListChilds" :key="item.classifyDefId" :label="item.classifyDefId">{{ item.classifyDefName }}</el-radio-button>
                 </el-radio-group>
             </el-form-item>
             <el-form-item>
@@ -70,8 +70,8 @@
                     品类经理:
                 </template>
                 <el-radio-group size="mini" v-model="form.leader">
-                    <el-radio-button :label="null" @click.native="clickRadioSearch('leader',null)">全部</el-radio-button>
-                    <el-radio-button @click.native="clickRadioSearch('leader',item.leader)" v-for="item in categoryManagerList" :key="item.leader" :label="item.leader">{{ item.leaderName }}</el-radio-button>
+                    <el-radio-button :label="null" @click.native="clickRadioSearch('leader',null,$event)">全部</el-radio-button>
+                    <el-radio-button @click.native="clickRadioSearch('leader',item.leader,$event)" v-for="item in categoryManagerList" :key="item.leader" :label="item.leader">{{ item.leaderName }}</el-radio-button>
                 </el-radio-group>
             </el-form-item>
             <el-row>
@@ -81,7 +81,7 @@
                             业务开发:
                         </template>
                         <el-radio-group size="mini" v-model="form.curBusiness">
-                            <el-radio-button @click.native="clickRadioSearch('curBusiness',item.label)" v-for="item in developNameList" :key="item.key" :label="item.label">{{ item.name }}</el-radio-button>
+                            <el-radio-button @click.native="clickRadioSearch('curBusiness',item.label,$event)" v-for="item in developNameList" :key="item.key" :label="item.label">{{ item.name }}</el-radio-button>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -91,29 +91,42 @@
                             采购开发:
                         </template>
                         <el-radio-group size="mini" v-model="form.curBuyer">
-                            <el-radio-button @click.native="clickRadioSearch('curBuyer',item.label)" v-for="item in developNameList" :key="item.key" :label="item.label">{{ item.name }}</el-radio-button>
+                            <el-radio-button @click.native="clickRadioSearch('curBuyer',item.label,$event)" v-for="item in developNameList" :key="item.key" :label="item.label">{{ item.name }}</el-radio-button>
+                        </el-radio-group>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="10" :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
+                    <el-form-item>
+                        <template slot="label">
+                            设计款:
+                        </template>
+                        <el-radio-group size="mini" v-model="form.design">
+                            <el-radio-button @click.native="clickRadioSearch('design',item.label,$event),changeSesign(item.label)" v-for="item in designList" :key="item.key" :label="item.label">{{ item.name }}</el-radio-button>
+                        </el-radio-group>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="10" :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
+                    <el-form-item>
+                        <template slot="label">
+                            供应商:
+                        </template>
+                        <el-radio-group size="mini" v-model="form.supplierType">
+                            <el-radio-button @click.native="clickRadioSearch('supplierType',item.label,$event)" v-for="item in supplierTypeList" :key="item.key" :label="item.label">{{ item.name }}</el-radio-button>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-form-item>
                 <template slot="label">
-                    设计款:
-                </template>
-                <el-radio-group size="mini" v-model="form.design">
-                    <el-radio-button @click.native="clickRadioSearch('design',item.label),changeSesign(item.label)" v-for="item in designList" :key="item.key" :label="item.label">{{ item.name }}</el-radio-button>
-                </el-radio-group>
-            </el-form-item>
-            <el-form-item>
-                <template slot="label">
                     状   态:
                 </template>
                 <el-radio-group size="mini" v-model="form.state">
-                    <el-radio-button :label="null" @click.native="clickRadioSearch('state',null)">全部</el-radio-button>
-                    <el-radio-button @click.native="clickRadioSearch('state',item.state)" v-for="item in statusList" :disabled="item.candisable" :key="item.id" :label="item.state">{{ item.statusValue }}</el-radio-button>
-                    <div class="success-radio"><el-radio :label="30" @click.native="clickRadioSearch('state',30)">已下单</el-radio></div>
-                    <div class="success-radio"><el-radio :label="50" @click.native="clickRadioSearch('state',50)">已冻结</el-radio></div>
-                    <div class="success-radio"><el-radio :label="51" @click.native="clickRadioSearch('state',51)">已取消</el-radio></div>
+                    <el-radio-button :label="null" @click.native="clickRadioSearch('state',null,$event)">全部</el-radio-button>
+                    <el-radio-button @click.native="clickRadioSearch('state',item.state,$event)" v-for="item in filterStatusList" :disabled="item.candisable" :key="item.id" :label="item.state">{{ item.statusValue }}({{item.num}})</el-radio-button>
+                    <div class="success-radio" v-for="item in filterStatusList1"  :key="item.id"><el-radio  @click.native="clickRadioSearch('state',item.state,$event)"  :label="item.state">{{ item.statusValue }}({{item.num}})</el-radio></div>
+                  
                 </el-radio-group>
             </el-form-item>
         </el-form>
@@ -121,13 +134,15 @@
 </template>
 <script>
 import { trim } from '@/utils/tools.js';
-import { getBigDepartmentLeaders,getStateTime,getTimeEnums,getSeriesCategoryDef } from '@/api/user.js'
+import { getBigDepartmentLeaders,getAllQueryStatus,getTimeEnums,getSeriesCategoryDef } from '@/api/user.js'
 export default {
     name: 'newProductNaver',
     data () {
         return {
             timeList:[],
             seriesListChilds:[],
+            filterStatusList:[],
+            filterStatusList1:[],
             seriesList:[],
             developNameList:[
                 {
@@ -161,6 +176,23 @@ export default {
                     name:'否',
                     key:3,
                     label:2,
+                },
+            ],
+            supplierTypeList:[
+                {
+                    name:'全部',
+                    key:1,
+                    label:null,
+                },
+                {
+                    name:'已有',
+                    key:2,
+                    label:0,
+                },
+                {
+                    name:'全新',
+                    key:3,
+                    label:1,
                 },
             ],
             statusList:[
@@ -229,6 +261,7 @@ export default {
                 curBuyer: null,//采购开发   true：自己  false：其他
                 state:null,//状态 -- /getStateTime   接口，另外补充  50   已冻结、51   已取消
                 design:null,//设计款
+                supplierType:null,//设计款
                 // categoryIdChird:null,//设计款
                 seriesCategoryId: null,//一级(类目id)
                 classifyDefId:null,
@@ -239,7 +272,7 @@ export default {
         form:{
             handler:function(val){
                 this.tableParams = val
-                this.$emit('putTableList',this.tableParams)
+                this.$emit('putTableList',this.tableParams)          
             },
             deep:true
         }
@@ -248,17 +281,25 @@ export default {
         this.init()
     },
     methods: {
+        getStautList() {
+            getAllQueryStatus(this.form).then(response => {
+                if(response.data) {
+                    this.statusList = response.data
+                    this.filterStatusList =response.data.filter(item => {
+                        return item.state != 30 && item.state != 50 && item.state != 51
+                    })
+                    this.filterStatusList1 = response.data.filter(item => {
+                        return item.state == 30 || item.state == 50 || item.state == 51
+                    })
+                }
+            })
+        },
         init() {
             getBigDepartmentLeaders().then(response => {
                 if(response.data){
                     this.categoryManagerList = response.data
                 }
             });
-            getStateTime().then(response => {
-                if(response.data) {
-                    this.statusList = response.data
-                }
-            })
             getTimeEnums().then(response => {
                 if(response.data) {
                     this.timeList = response.data
@@ -267,17 +308,18 @@ export default {
             getSeriesCategoryDef().then(res => {
                 this.seriesList = res.data
             })  
+            this.getStautList()
         },
         //P图、图片评审、P图方案调整
         changeSesign(value) {
             if(!value) {
-                this.statusList.forEach(item => {
+                this.filterStatusList.forEach(item => {
                     item.candisable = false
                 })
                 return
             }else{
                 let disabledList = value == 1 ?  [6,7,8] : [9,10,11,12,13,15]
-                this.statusList.forEach(item => {
+                this.filterStatusList.forEach(item => {
                     if(disabledList.includes(item.state) ){
                         item.candisable = true
                     }else {
@@ -290,13 +332,16 @@ export default {
         changeRadioSearch(index) {
             this.seriesListChilds = this.seriesList[index].classifyDefs
         },
-        clickRadioSearch(name,value) {
+        clickRadioSearch(name,value,el) {
+            if (el.target.tagName === 'INPUT') return
             this.$set(this.form,name,value)
             this.$set(this.form,'almorlist',Math.random())
+            this.getStautList()
         },
         searchSomething(){
             this.$set(this.form,'search',trim(this.putSearch))
             this.$set(this.form,'almorlist',Math.random())
+            this.getStautList()
         }
     }
 }

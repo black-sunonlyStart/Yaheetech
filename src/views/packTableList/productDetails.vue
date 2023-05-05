@@ -638,7 +638,6 @@ created () {
     }    
 },
 mounted () {
-    console.log(this.routePageList,'routePageList')
     if(this.routePageList.id == 8 || this.routePageList.id == 26){
         this.getNewSizeList()
         this.showSizeTitle = true
@@ -1164,7 +1163,7 @@ async getAllpageList(val){
                         });
                     }
                 } 
-                })
+            })
             //产品认证信息
             let credentialList1 = []
             let credentialList2 = []
@@ -1185,7 +1184,7 @@ async getAllpageList(val){
                 this.prodCerInfoDetailList = {
                     isauth:this.productVos.isauth,//是否需要认证
                     credentialList1:credentialList1 ? credentialList1:[],//必要认证
-                    credentialList2:credentialList2?credentialList2:[],//必要认证其他
+                    credentialList2:credentialList2 ? credentialList2:[],//必要认证其他
                     credentialList3:credentialList3 ? credentialList3 : [],//推荐认证
                     authnote:this.productVos.authnote,//认证备注
                     applicableAge:this.productVos.applicableAge ,//产品年龄段
@@ -1321,11 +1320,11 @@ async getAllpageList(val){
                     return item.type == 0
                 })
             }
-                if(this.productVos.productPurchaseVoList &&this.productVos.productPurchaseVoList[0] ){
+            if(this.productVos.productPurchaseVoList &&this.productVos.productPurchaseVoList[0] ){
                 lastProductPurchaseVoList = this.productVos.productPurchaseVoList.filter(item => {
-                return item.type == 1
-            })
-                }
+                    return item.type == 1
+                })
+            }
             this.purchaseInfoDetaiList = {
                 productPurchaseVoList,//样品采购前报价
                 lastProductPurchaseVoList,//最终报价
@@ -1473,11 +1472,12 @@ async getAllpageList(val){
     proessCenterShow(val){
         if(!val || val < 6)return
         let  image = document.querySelector('.step-container')
-        let  offsetVal = val - 3
+        let  cimage = document.querySelector('.stepBox')
+        // let  offsetVal = val - 3
         if(image.offsetLeft < -1377){
             return
         }else{
-            image.style.left = image.offsetLeft - ( 100 * offsetVal) + 'px'
+            image.style.left = cimage.offsetLeft - ( 170 * val) + 'px'
         }
     },
     leftMove(){

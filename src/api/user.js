@@ -556,6 +556,14 @@ export function progressfreezing(data) {
       data,
     })
   }
+//
+export function getAllQueryStatus(data) {
+    return request({  
+      url:'/progressDevelopment/getAllQueryStatus',
+      method: "post", 
+      data,
+    })
+  }
 //保存进度清单
 export function saveStateTime(data) {
     return request({  
