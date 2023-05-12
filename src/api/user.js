@@ -572,5 +572,22 @@ export function saveStateTime(data) {
       data
     })
   }
+  
+//获取经办人
+export function getSpecifyAssigneeIds(data) {
+    return request({  
+      url:'/progressDevelopment/getSpecifyAssigneeIds',
+      method: "get", 
+      params:data
+    })
+  }
+//分配经办人
+export function saveAssigneeId(data) {
+    return request({  
+      url:'/progressDevelopment/saveAssigneeId',
+      method: "post", 
+      data
+    })
+  }
 
 //新品开发任务 end

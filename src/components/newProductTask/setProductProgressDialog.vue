@@ -27,7 +27,6 @@
                     align="center"
                     label="预定耗时（天）"
                     width="600"
-       
                     >
                     <template slot-scope="scope">
                        <div style="display:flex">

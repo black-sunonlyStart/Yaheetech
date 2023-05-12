@@ -23,6 +23,7 @@
 
                     <el-button type="primary" style="margin-left:10px" class="button-put" @click="putOperation(null,1)" v-permission="'ERP.Product.ProgressDevelopment.ApprovalMemo'">提交</el-button>
                     <el-button type="primary" class="button-put" @click="setTask()" v-permission="'ERP.Product.ProgressDevelopment.SaveStateTime'">设置</el-button>
+                    <el-button type="primary" class="button-put" @click="putOperation(null,3)" v-permission="'ERP.Product.ProgressDevelopment.SaveAssigneeId'">配置经办人</el-button>
                 </div>
             </el-col>
         </el-row>
@@ -266,7 +267,7 @@
                                     <div class="operationText"  
                                         @click="editOperation(scope.row,item.id)"
                                     >
-                                        <div class="nameBox" >{{item.name}}</div>
+                                        <div class="nameBox" >{{editableList.includes(scope.row.state) && item.nameT ? item.nameT : item.name}}</div>
                                     </div>
                                 </div>
                                 <div class="imageBox" slot="reference"></div>
@@ -295,13 +296,14 @@
             top="100px"
             class="dialog-main"
             z-index="9999"
+            @close="closeUploadDialog()"
             >
             <remarksNew :remarksParam='remarksParam' ref="remarksNew" v-if="showTenth"></remarksNew>
             <span slot="footer" class="dialog-footer">
                 <el-button @click="closeUploadDialog()" size="mini">关 闭</el-button>
             </span>
         </el-dialog>
-        <createTaskDialog ref="createTaskDialog" :navFilterList='uploadFilterList' @mainListList='mainListList'></createTaskDialog>
+        <createTaskDialog ref="createTaskDialog" :navFilterList='uploadFilterList' @mainListList='mainListList' :employee="employee"></createTaskDialog>
         <checkStatusDialog ref="checkStatusDialog" :navFilterList='uploadFilterList' @mainListList='mainListList'></checkStatusDialog>
         <developProductPssDialog ref="developProductPssDialog"></developProductPssDialog>
         <setProductProgressDialog ref="setProductProgressDialog"></setProductProgressDialog>
@@ -324,11 +326,13 @@ export default {
     },
     data(){
         return {
+            editableList:['30','50','51'],
             edidOperationList:[
                 {
                     name:'编辑',
                     id:1,
-                    permission:'ERP.Product.EditProgressDevelopment'
+                    permission:'ERP.Product.EditProgressDevelopment',
+                    nameT:'查看'
                 },
                 {
                     name:'进度详情',
@@ -498,10 +502,10 @@ export default {
                     let id = this.multipleSelection.map(res => {
                         return res.id
                     }).toString()
-                    let param = {
-                        progressDevelopmentIds:id,
-                        operation:command,
-                    }
+                        let param = {
+                            progressDevelopmentIds:id,
+                            operation:command,
+                        }
                         progressUnfreezing(param).then(res => {
                             if(res.code == 200) {
                                 this.success('操作成功')
@@ -555,26 +559,42 @@ export default {
                 }
                 rowList = this.multipleSelection
             }
-
             // if(!this.employee.IsAdminRole || rowList.some(item => item.assigneeId != this.employee.Id)) {
             //     this.error('您不能操作当前数据！')
             //     return
             // }
-
-            if(!rowList.every(item => item.state == rowList[0].state)) {
-                this.error('所选数据的状态不一致！')
-                return
+            if(id == 3) {
+                let status = ['6','9','12','16']
+                if(!rowList.every(item => status.includes(item.state))) {
+                    this.error('只可以在P图、设计方案制作、设计方案终稿、结构设计状态下分配经办人！')
+                    return
+                }
+                if(!rowList.every(item => item.design == rowList[0].design)) {
+                    this.error('所选数据的设计类型不一致！')
+                    return
+                }
+            }else {
+                if(!rowList.every(item => item.state == rowList[0].state)) {
+                    this.error('所选数据的状态不一致！')
+                    return
+                }
             }
             switch (id) {
                 case 1 :
-                    detailDialog.openDialog(rowList,id)
                     detailDialog.showType = 1
                     detailDialog.dialogName = '审批'
+                    detailDialog.openDialog(rowList,id)    
                 break;
                 case 2 :
-                    detailDialog.openDialog(rowList,id)
                     detailDialog.showType = 2
                     detailDialog.dialogName = '打回'
+                    detailDialog.openDialog(rowList,id)
+                    
+                break;
+                case 3 :
+                    detailDialog.showType = 4
+                    detailDialog.dialogName = '配置经办人'
+                    detailDialog.openDialog(rowList,id)
                 break;
             }
         },
@@ -606,14 +626,12 @@ export default {
         mainListList:debounce (function(val){
             if(!val) val = this.uploadFilterList
             this.loading = true
-          
                 let params = {
                     pageNum:this.pageNum,
                     pageSize:this.pageSize,
                     search: val ? val.search : '',//综合搜索  sku/sku别名/申请号
                     dateFrom:val && val.timeValue2 ? val.timeValue2[0]: '',//申请日期 开始时间
                     dateTo: val && val.timeValue2 ?val.timeValue2[1]: '',//申请日期 截至时间
-
                     // categoryId: val && val.categoryId ?val.categoryId : null,//类目系列
                     seriesCategoryId: val && val.seriesCategoryId ?val.seriesCategoryId : null,//类目系列
                     classifyDefId: val && val.classifyDefId ?val.classifyDefId : null,//类目系列
@@ -640,7 +658,6 @@ export default {
                 }
             })
         },500),
-        
         handleSizeChange(val) {
             this.pageSize = val
             this.mainListList(this.uploadFilterList)
@@ -652,7 +669,6 @@ export default {
         handleSelectionChange(val) {
             this.multipleSelection = val;
         },
-        
         success() {
             this.$message({
                 showClose: true,

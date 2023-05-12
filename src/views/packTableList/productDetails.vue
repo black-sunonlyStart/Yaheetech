@@ -1118,18 +1118,18 @@ async getAllpageList(val){
                     })   
                 }
                 countryCodeList.forEach(item => {
-                            if(item.countryLanguage == 'en-GB' && !item.dutyrate){
-                                item.dutyrate = 3.26
-                            }else if (item.countryLanguage == 'de' && !item.dutyrate){
-                                item.dutyrate = 3.91
-                            }
-                            if(!item.dutyrate){
-                                item.dutyrate = 0
-                            }
-                            if(!item.countryBand){
-                                item.countryBand = '0'
-                            }
-                        })
+                    if(item.countryLanguage == 'en-GB' && !item.dutyrate){
+                        item.dutyrate = 3.26
+                    }else if (item.countryLanguage == 'de' && !item.dutyrate){
+                        item.dutyrate = 3.91
+                    }
+                    if(!item.dutyrate){
+                        item.dutyrate = 0
+                    }
+                    if(!item.countryBand){
+                        item.countryBand = '0'
+                    }
+                })
                 //开发信息
                 this.devInformationDetaiList = {
                     scenarios:this.scenarios ? this.scenarios :this.productVos ? this.productVos.developmentscenarios : '',

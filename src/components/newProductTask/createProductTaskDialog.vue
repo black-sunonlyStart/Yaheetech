@@ -10,7 +10,7 @@
         zIndex="3000"
         v-dialogDrag
     >
-        <el-form class="edit-form" :model="form" :rules="rules" :inline-message="false" ref="form">
+        <el-form class="edit-form" :model="form" :rules="rules" :inline-message="false" ref="form" :disabled="controlsEdit">
             <el-row>
                 <el-col :span="10" :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
                     <el-form-item  prop="imgUrl" :label-width="formLabelWidth">
@@ -26,6 +26,7 @@
                             :data="{fileType:117}"
                             :auto-upload='true'
                             :with-credentials='true'
+                            title="点击上传图片"
                             >
                             <el-image 
                                 v-if="imgUrl"
@@ -58,7 +59,9 @@
                                 label:'seriesCategoryName',
                                 children:'classifyDefs'
                                 }"
-                            clearable>
+                            clearable
+                           :disabled="controlsEditRadio" 
+                            >
                         </el-cascader>
                     </el-form-item>
                 </el-col>
@@ -79,14 +82,14 @@
                         <template slot="label">
                             是否设计款：
                         </template>
-                        <el-radio-group v-model="form.design"  @change="changeExpectSatrtTime">
+                        <el-radio-group v-model="form.design"  @change="changeExpectSatrtTime" :disabled="controlsEditRadio" >
                             <el-radio  :label="1">是</el-radio>
                             <el-radio  :label="2">否</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12" :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
-                    <el-form-item prop="supplierType" :label-width="formLabelWidth" >
+                    <el-form-item  :label-width="formLabelWidth" :rules="[{required:rowList && rowList.commitStatus  && rowList.commitStatus.some(item => item.state == 18 || item.state == 23),message:'请选择是否有供应商',trigger:'blur'}]">
                         <template slot="label">
                             供应商：
                         </template>
@@ -115,7 +118,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="10" :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
-                    <el-form-item  prop="buyerId" :label-width="formLabelWidth">
+                    <el-form-item  :label-width="formLabelWidth" :rules="[{required:rowList && rowList.commitStatus  && rowList.commitStatus.some(item => item.state == 21 || item.state == 23),message:'请选择是否有供应商',trigger:'blur'}]">
                         <template slot="label">
                                 采购开发：
                         </template>
@@ -215,7 +218,7 @@
             </el-row>      
         </el-form>
         <div slot="footer" class="dialog-footer" style="text-align: center;">
-            <el-button type="primary" @click="onSubmit('form')" size="mini" :loading="clickLoading" :disabled='clickLoading'>保 存</el-button>
+            <el-button type="primary" @click="onSubmit('form')" size="mini" :loading="clickLoading" :disabled='clickLoading' v-if="!controlsEdit">保 存</el-button>
             <el-button @click="dialogFormVisible = false" size="mini">取 消</el-button>
         </div>
     </el-dialog>
@@ -275,15 +278,15 @@ name:"createProductTaskDialog",
                 design : [
                     { required: true, message:'请选择设计款', trigger:['blur', 'change'] }
                 ],
-                supplierType : [
-                    { required: true, message:'请选择是否有供应商', trigger:['blur', 'change'] }
-                ],
+                // supplierType : [
+                //     { required: true, message:'请选择是否有供应商', trigger:['blur', 'change'] }
+                // ],
                 businessId : [
                     { required: true, message:'请选择业务开发', trigger:['blur', 'change'] }
                 ],
-                buyerId : [
-                    { required: true, message:'请选择采购开发', trigger:['blur', 'change'] }
-                ],
+                // buyerId : [
+                //     { required: true, message:'请选择采购开发', trigger:['blur', 'change'] }
+                // ],
                 leader : [
                     { required: true, message:'请选择品类经理', trigger:['blur', 'change'] }
                 ],
@@ -295,6 +298,10 @@ name:"createProductTaskDialog",
                 ],
             },
             patentCountry:[],  
+            rowList:{},
+            editableList:['30','50','51'],
+            editableRadio:[1,2,3,4,5,],
+            controlsEditRadio:false,
         };
     },
     created() {
@@ -304,12 +311,27 @@ name:"createProductTaskDialog",
         navFilterList:{
             type:Object,
             default:() => {}
+        },
+        employee:{
+            type:Object,
+            default:() => {}
         }
     },
     computed:{
         action(){
             return uploadFilesUrl()
         },
+        controlsEdit(){
+            
+            if(this.editableList.includes(this.rowList.state)) {
+                return true
+            }else {
+                return false
+            }
+        },
+        
+
+  
     },
     methods: {
         openDialog(row,id){
@@ -335,11 +357,22 @@ name:"createProductTaskDialog",
                     pictureUri:row.pictureUri,
                 }
                 this.imgUrl = GetFileServiceUrl(row.pictureUri) 
+                this.rowList = row
+                if(this.editableRadio.includes(row.pdStatuses[0].state)) {
+                    this.controlsEditRadio = false
+                }else {
+                    this.controlsEditRadio = true 
+                }
+
             }else {
+                this.controlsEditRadio = false
                 this.form = {}
+                this.rowList = {}
                 this.$set(this.form,'design',2)
-                this.$set(this.form,'supplierType',0)
+                // this.$set(this.form,'supplierType',0)
+                this.$set(this.form,'expectStartTime',this.$moment().format("YYYY-MM-DD"))
                 this.imgUrl = '' 
+                this.changeExpectSatrtTime()
             } 
           
             this.getTypeList()
@@ -362,6 +395,11 @@ name:"createProductTaskDialog",
             getBigDepartmentLeaders().then(response => {
                 if(response.data){
                     this.categoryManagerList = response.data
+                    response.data.forEach(item => {
+                        if(item.leader == this.employee.Id) {
+                            this.$set(this.form,'leader',item.leader)
+                        }
+                    })
                 }
             });
             getSeriesCategoryDef().then(res => {
@@ -388,9 +426,7 @@ name:"createProductTaskDialog",
             }
             
         },
-        changeExpectSatrtTime1() {
 
-        },
         handleAvatarSuccess(res, file) {
             this.imgUrl =  GetFileServiceUrl(res.data[0])
             this.imgLoading = false

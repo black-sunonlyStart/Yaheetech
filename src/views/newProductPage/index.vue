@@ -38,13 +38,14 @@ export default {
     methods: {
         getPermissions(){
           let  params = [
-            'ERP.Product.ProgressDevelopment',
-            'ERP.Product.AddProgressDevelopment',
-            'ERP.Product.EditProgressDevelopment',
-            'ERP.Product.ProgressDevelopment.FreezingOff',
-            'ERP.Product.ProgressDevelopment.FreezingOn',
-            'ERP.Product.ProgressDevelopment.SaveStateTime',
-            'ERP.Product.ProgressDevelopment.ApprovalMemo',
+                'ERP.Product.ProgressDevelopment',
+                'ERP.Product.AddProgressDevelopment',
+                'ERP.Product.EditProgressDevelopment',
+                'ERP.Product.ProgressDevelopment.FreezingOff',
+                'ERP.Product.ProgressDevelopment.FreezingOn',
+                'ERP.Product.ProgressDevelopment.SaveStateTime',
+                'ERP.Product.ProgressDevelopment.ApprovalMemo',
+                'ERP.Product.ProgressDevelopment.SaveAssigneeId',
             ]
             hasPermissions(params).then(res => {
             let data = JSON.stringify( res.data);
@@ -56,11 +57,9 @@ export default {
             let naverCard = document.querySelector('.naverCard')
             if( id == 1) {
                 naverCard.style.overflow = 'hidden'
-           
                 this.upDownshow = true
             }else {
                 naverCard.style.overflow = 'visible'
-   
                 this.upDownshow = false
             }
         },

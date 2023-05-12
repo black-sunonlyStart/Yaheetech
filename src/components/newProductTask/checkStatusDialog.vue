@@ -16,6 +16,7 @@
                     <el-form-item label="提交至：" prop="status">
                         <el-select 
                             v-model="ruleForm.status"
+                            :loading="clickLoading"
                             >
                             <el-option 
                                 v-for="item in status"                        
@@ -44,6 +45,7 @@
                     <el-form-item label="打回至：" prop="status">
                         <el-select 
                             v-model="ruleForm.status"
+                            :loading="clickLoading"
                             >
                             <el-option 
                                 v-for="item in status"                        
@@ -61,6 +63,23 @@
                 <div v-if="showType == 3">
                     <el-form-item label="取消原因：" prop="remark" >
                         <el-input v-model="ruleForm.remark" type="textarea" maxlength="500" show-word-limit></el-input>
+                    </el-form-item>
+                </div>
+                <div v-if="showType == 4">
+                     <el-form-item label="配置经办人：" prop="assigneeId">
+                        <el-select 
+                            v-model="ruleForm.assigneeId"
+                            :loading="clickLoading"
+                            >
+                            <el-option 
+                                v-for="item in assigneeIdList"                        
+                                :key="item.Id"
+                                :label="item.TrueName"
+                                :value="item.Id"
+                                
+                                >
+                            </el-option>
+                        </el-select> 
                     </el-form-item>
                 </div>
             </el-form>
@@ -135,7 +154,7 @@
     </div>
 </template>
 <script>
-import { approvalMemo,progressfreezing,getRemain} from '@/api/user.js'
+import { approvalMemo,progressfreezing,getRemain,getSpecifyAssigneeIds,saveAssigneeId} from '@/api/user.js'
 export default {
     name:'checkStatusDialog',
     data(){
@@ -144,6 +163,7 @@ export default {
             clickLoading:false,
             ruleForm:{
                 status:null,
+                assigneeId:null,
                 remark:'',
                 pdStatuses:[
                     {
@@ -163,12 +183,16 @@ export default {
                 status: [
                     { required: true, message: '请选择状态！', trigger: 'blur' },
                 ],
+                assigneeId: [
+                    { required: true, message: '请选择经办人！', trigger: 'blur' },
+                ],
             },
             status:[
                 
             ],
             rowList:[],
             delayList:[],
+            assigneeIdList:[],
             id:1,
             showRemark:false,
             cancelParams:{},
@@ -207,36 +231,56 @@ export default {
         },
         openDialog(rowList,id){
             this.showRemark = false
+            this.assigneeIdList = {}
+            this.clickLoading = true
+            this.status = {}
             let param = {
                 progressDevelopmentId:rowList[0].id, //为列表id字段
                 operation:id - 1
             }
             this.rowList = rowList
             this.id = id
-
-            getRemain(param).then(res => {
-                if(res.code == 200) {
-                    this.status = res.data
-                    this.dialogVisible = true
+            if(this.showType == 1 || this.showType == 2) {
+                getRemain(param).then(res => {
+                    if(res.code == 200) {
+                        this.status = res.data
+                        if(res.data.length == 1) {
+                            this.$set(this.ruleForm,'status',res.data[0].state)
+                        }else {
+                            this.$set(this.ruleForm,'status',null)
+                        }
+                        if(this.rowList.some(item => item.statusDelay == true)) {
+                            this.showRemark = true
+                            this.delayList = this.rowList.map(item => {
+                                return item.id
+                            }).toString()
+                        }
+                        this.clickLoading = false
+                    }else {
+                        this.dialogVisible = false
+                    } 
+                }).catch(res => {
                     this.clickLoading = false
-                    if(this.rowList.some(item => item.statusDelay == true)) {
-                        this.showRemark = true
-                        this.delayList = this.rowList.map(item => {
-                            return item.id
-                        }).toString()
-                    }
-                    
-                }else {
-                     this.dialogVisible = false
-                }
-                this.$nextTick(() => {
-                    if(this.$refs['ruleForm']) this.$refs['ruleForm'].resetFields()
+                    this.dialogVisible = false
                 })
-                this.ruleForm.status = null
-            }).catch(res => {
-                 this.dialogVisible = false
+            }else if(this.showType == 4){
+                let params =  {
+                    design:rowList[0].design
+                }
+                getSpecifyAssigneeIds(params).then(res => {
+                    this.assigneeIdList = res.data
+                    this.clickLoading = false
+
+                }).catch(res => {
+                    this.clickLoading = false
+                    this.dialogVisible = false
+                })
+            }
+           
+            this.dialogVisible = true
+            this.$nextTick(() => {
+                if(this.$refs['ruleForm']) this.$refs['ruleForm'].resetFields()
             })
-          
         },
         cancelStatusDialog(operation,ids) {
             this.cancelParams = {
@@ -265,7 +309,18 @@ export default {
                                 this.successSaveDialog()
                             }
                         })
-                    }else {
+                    }else if(this.showType == 4) {
+                        let param = {
+                            assigneeId:this.ruleForm.assigneeId,
+                            progressDevelopmentIds:this.rowList.map(item => {return item.id})
+                        }
+                        saveAssigneeId(param).then(res => {
+                            if(res.code == 200) {
+                                this.successSaveDialog()
+                            }
+                        })
+                    }
+                    else {
                         let params = this.rowList.map(item => {
                             return {
                                 progressDevelopmentId:item.id,//列表id

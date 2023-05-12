@@ -379,8 +379,8 @@ import { commonUploadFile } from '@/api/user.js'
                        Notes:val.search,
                        Mark:val.Check
                   }
-                 getLogMessage(this.paramData,this,true)
               }
+
           },
           deep:true
       }
@@ -406,11 +406,11 @@ import { commonUploadFile } from '@/api/user.js'
     methods: {
         errorUploadFile(err){
             this.canUnpload = false
-             this.$message({
-                        type: 'error', 
-                        message:'文件上传失败！',
-                        offset:220
-                    })
+            this.$message({
+                type: 'error', 
+                message:'文件上传失败！',
+                offset:220
+            })
         },
         beforeUpload(file){
             const isLt2M = file.size / 1024 / 1024 < 100;

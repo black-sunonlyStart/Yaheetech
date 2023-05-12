@@ -6,7 +6,7 @@
                 @submit.native.prevent
                 >
             <el-row>
-                <el-col :span="10" :xs="22" :sm="22" :md="22" :lg="19" :xl="19">
+                <el-col :span="10" :xs="20" :sm="19" :md="19" :lg="19" :xl="19">
                     <el-form-item>
                         <template slot="label">
                         创建日期:
@@ -31,7 +31,7 @@
                         </el-date-picker>
                     </el-form-item>
                 </el-col>
-                <el-col :xs="2" :sm="2" :md="2" :lg="5" :xl="5">
+                <el-col :xs="4" :sm="5" :md="5" :lg="5" :xl="5">
                     <el-form-item label-width="10px">
                         <div class="searchBox">
                             <el-input placeholder="请输入编号/名称"
@@ -126,7 +126,6 @@
                     <el-radio-button :label="null" @click.native="clickRadioSearch('state',null,$event)">全部</el-radio-button>
                     <el-radio-button @click.native="clickRadioSearch('state',item.state,$event)" v-for="item in filterStatusList" :disabled="item.candisable" :key="item.id" :label="item.state">{{ item.statusValue }}({{item.num}})</el-radio-button>
                     <div class="success-radio" v-for="item in filterStatusList1"  :key="item.id"><el-radio  @click.native="clickRadioSearch('state',item.state,$event)"  :label="item.state">{{ item.statusValue }}({{item.num}})</el-radio></div>
-                  
                 </el-radio-group>
             </el-form-item>
         </el-form>
@@ -320,7 +319,7 @@ export default {
             }else{
                 let disabledList = value == 1 ?  [6,7,8] : [9,10,11,12,13,15]
                 this.filterStatusList.forEach(item => {
-                    if(disabledList.includes(item.state) ){
+                    if(disabledList.includes(item.state)){
                         item.candisable = true
                     }else {
                         item.candisable = false

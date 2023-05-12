@@ -55,7 +55,9 @@
                     width="200"
                     >
                      <template slot-scope="scope">
-                         <div v-for="(item,index) in scope.row.statusTimesDetail" :key="index" >{{item.beginTime + '~' + item.endTime}}</div>
+                        <div v-for="(item,index) in scope.row.statusTimesDetail" :key="index" >
+                            <span class="timeSty">{{item.beginTime ? item.beginTime : '--'}}</span>  ~  <span class="timeSty" style="text-align: left;padding-left: 5px;">{{item.endTime ? item.endTime : '--'}}</span> 
+                        </div>
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -82,8 +84,8 @@
                             </span> 
                         </div>
                     </template> -->
-                      <template slot-scope="scope">
-                         <div v-for="(item,index) in scope.row.statusTimesDetail" :key="index" >{{item.whyNote ? item.whyNote :'--'}}</div>
+                    <template slot-scope="scope">
+                        <div v-for="(item,index) in scope.row.statusTimesDetail" :key="index" >{{item.whyNote ? item.whyNote :'--'}}</div>
                     </template>
                 </el-table-column>
             </el-table>
@@ -205,6 +207,10 @@ export default {
         padding: 0 20px 20px !important;
         max-height: 450px;
         overflow-y: auto;
+        .timeSty {
+            width: 80px;
+            display: inline-block;
+        }
     } 
 }
  ::v-deep.timeSelectBox {
