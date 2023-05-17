@@ -1119,9 +1119,9 @@ async getAllpageList(val){
                 }
                 countryCodeList.forEach(item => {
                     if(item.countryLanguage == 'en-GB' && !item.dutyrate){
-                        item.dutyrate = 3.26
+                        item.dutyrate = 0
                     }else if (item.countryLanguage == 'de' && !item.dutyrate){
-                        item.dutyrate = 3.91
+                        item.dutyrate = 0
                     }
                     if(!item.dutyrate){
                         item.dutyrate = 0

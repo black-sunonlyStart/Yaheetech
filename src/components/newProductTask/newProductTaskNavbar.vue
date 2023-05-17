@@ -330,6 +330,7 @@ export default {
         },
         changeRadioSearch(index) {
             this.seriesListChilds = this.seriesList[index].classifyDefs
+            this.form.classifyDefId = null
         },
         clickRadioSearch(name,value,el) {
             if (el.target.tagName === 'INPUT') return

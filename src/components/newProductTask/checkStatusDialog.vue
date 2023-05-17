@@ -66,7 +66,7 @@
                     </el-form-item>
                 </div>
                 <div v-if="showType == 4">
-                     <el-form-item label="配置经办人：" prop="assigneeId">
+                     <el-form-item label="分配负责人：" prop="assigneeId">
                         <el-select 
                             v-model="ruleForm.assigneeId"
                             :loading="clickLoading"

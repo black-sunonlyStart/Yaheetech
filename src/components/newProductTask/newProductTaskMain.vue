@@ -22,8 +22,20 @@
                     </el-dropdown>
 
                     <el-button type="primary" style="margin-left:10px" class="button-put" @click="putOperation(null,1)" v-permission="'ERP.Product.ProgressDevelopment.ApprovalMemo'">提交</el-button>
-                    <el-button type="primary" class="button-put" @click="setTask()" v-permission="'ERP.Product.ProgressDevelopment.SaveStateTime'">设置</el-button>
-                    <el-button type="primary" class="button-put" @click="putOperation(null,3)" v-permission="'ERP.Product.ProgressDevelopment.SaveAssigneeId'">配置经办人</el-button>
+                    <el-button type="primary" class="button-put" @click="setTask()" v-permission="'ERP.Product.ProgressDevelopment.SaveStateTime'">设置预耗时</el-button>
+                    <el-button type="primary" class="button-put" @click="putOperation(null,3)" v-permission="'ERP.Product.ProgressDevelopment.SaveAssigneeId'">分配负责人</el-button>
+                    <!-- <el-button type="primary" class="button-put" @click="outPutReport()">导出报表</el-button> -->
+
+                     <el-dropdown  size="mini" style="margin-left:10px" @command="outPutReport">
+                        <el-button type="primary" class="button-put" @click="outPutReport()">
+                            导出新品数据<i class="el-icon-arrow-down el-icon--right"></i>
+                        </el-button>
+                        <el-dropdown-menu slot="dropdown">
+                            <el-dropdown-item :command="5">导出开发进度</el-dropdown-item>  
+                        </el-dropdown-menu>
+                    </el-dropdown>
+
+                    <span v-if="optionPutExcle" class="reportTitle"><i class="el-icon-loading" style="margin:5px 0;"></i>报表导出中</span>
                 </div>
             </el-col>
         </el-row>
@@ -57,6 +69,7 @@
                                         :src="GetFileServiceUrl(scope.row.pictureUri)" 
                                         style="width:200px;height:200px" 
                                         :key="GetFileServiceUrl(scope.row.pictureUri)* Math.random()" 
+                                        @click="blankImageUrl(GetFileServiceUrl(scope.row.pictureUri))"
                                         lazy
                                         :scroll-container="scrollContainer"
                                     >
@@ -72,6 +85,7 @@
                                         style="width: 80px; height: 80px; dispaly:black;margin-top:3px;cursor:pointer;"
                                         :src="GetFileServiceUrl(scope.row.pictureUri)" 
                                         lazy
+                                        @click="blankImageUrl(GetFileServiceUrl(scope.row.pictureUri))"
                                         :scroll-container="scrollContainer"
                                         fit="fill"
                                         >
@@ -219,7 +233,7 @@
                      <template slot-scope="scope">
                         <div>
                             <div>{{scope.row.ljDay}}</div>
-                            <div style="color:green">剩余{{  scope.row.syDay }}天</div>
+                            <div style="color:green">剩余{{  scope.row.syDay || 0 }}天</div>
                         </div>
                     </template>
                 </el-table-column>
@@ -311,8 +325,8 @@
 </template>
 <script>
 
-import { GetFileServiceUrl,copyUrl} from '@/utils/tools.js'
-import { getProgressDevelopment,getEmployee,progressfreezing,progressUnfreezing } from '@/api/user.js'
+import { GetFileServiceUrl,copyUrl,globalReportExport} from '@/utils/tools.js'
+import { getProgressDevelopment,getEmployee,progressfreezing,progressUnfreezing,getTimeEnums } from '@/api/user.js'
 import remarksNew from '@/components/remarksNew.vue'
 import debounce from 'lodash.debounce';
 
@@ -354,7 +368,22 @@ export default {
                 },
                 
             ],
-            uploadFilterList:{},
+            uploadFilterList:{
+                timeValue2:[],
+                timeEnum:500, //时间类型   全部(500)、今天(501)、三天内(502)、7天内(503)、15天内(504)、30天内(505)
+                dateFrom:null,//开始时间
+                dateTo:null,//截至时间
+                // categoryId: null,//类目系列
+                leader:null,//品类经理
+                curBusiness: null,//业务开发   true：自己  false：其他
+                curBuyer: null,//采购开发   true：自己  false：其他
+                state:null,//状态 -- /getStateTime   接口，另外补充  50   已冻结、51   已取消
+                design:null,//设计款
+                supplierType:null,//设计款
+                // categoryIdChird:null,//设计款
+                seriesCategoryId: null,//一级(类目id)
+                classifyDefId:null,
+            },
             dialogVisible:false,
             showTenth:false,
             remarksParam:{},
@@ -367,13 +396,15 @@ export default {
             mainTaskList:[{}],
             multipleSelection: [],
             renderDom :true,
-            employee:{}
+            employee:{},
+            optionPutExcle:false,
+            timeEnumList:[],
         }
     },
     props:{
         filterList:{
             default:() => ({})
-        }
+        },
     },
     
     created: function() {
@@ -395,6 +426,69 @@ export default {
         },
     },
     methods:{
+        outPutReport(val) {
+            let options = []
+            switch (val)  {
+                case 5 : {
+                    if(this.multipleSelection.length == 0) {
+                        this.error('请至少选择一条数据！')
+                        return
+                    }
+                    if(this.multipleSelection.length > 1) {
+                        this.error('只能选择一条数据！')
+                        return
+                    }
+                    options = [
+                            {
+                                "Field":'ProductId',
+                                'Value':document.URL.includes('yaheecloud') ?483:153,//测试
+                            },
+                            {
+                                "Field":'progressDevelopmentId',
+                                'Value':this.multipleSelection[0].id
+                            },
+                        ]
+                    break;
+                } 
+                default : {
+                    let dateFrom = this.uploadFilterList.timeValue2[0]
+                    let dateTo = this.uploadFilterList.timeValue2[1]
+                    if(this.uploadFilterList.timeEnum) {
+                        let timeList =  this.timeEnumList.filter(item => {
+                            return item.timeEnum == this.uploadFilterList.timeEnum
+                        })
+                        dateFrom = timeList[0].dateFrom
+                        dateTo = timeList[0].dateTo
+                    }
+                    options = 
+                    [
+                        {
+                            "Field":'ProductId',
+                            'Value':document.URL.includes('yaheecloud') ?483:65,//测试
+                        },
+                        { "Field":'search','Value':this.uploadFilterList.search,},
+                        { "Field":'dateFrom','Value':dateFrom,},
+                        { "Field":'dateTo','Value':dateTo,},
+                        { "Field":'seriesCategoryId','Value':this.uploadFilterList.seriesCategoryId,},
+                        { "Field":'classifyDefId','Value':this.uploadFilterList.classifyDefId,},
+                        { "Field":'leader','Value':this.uploadFilterList.leader,},
+                        { "Field":'businessId','Value':this.uploadFilterList.curBusiness === true ? this.employee.Id : null,},
+                        { "Field":'notBusinessId','Value':this.uploadFilterList.curBusiness === false ? this.employee.Id : null,},
+                        { "Field":'buyerId','Value':this.uploadFilterList.curBuyer === true ? this.employee.Id : null,},
+                        { "Field":'notBuyerId','Value':this.uploadFilterList.curBuyer === false ? this.employee.Id : null,},
+                        { "Field":'design','Value':this.uploadFilterList.design,},
+                        { "Field":'state','Value':this.uploadFilterList.state,},
+                        { "Field":'supplierType','Value':this.uploadFilterList.supplierType,},
+                        { "Field":'def','Value': !this.uploadFilterList.search &&  this.uploadFilterList.state == null ? 1:null},
+                    ]
+                }
+            }
+            this.optionPutExcle = true
+            globalReportExport(options,this)
+        },
+        blankImageUrl(url) {
+            window.open(url,'_blank')
+        },
         tableRowClassName({ row, rowIndex }) {
             //把每一行的索引放进row
             row.index = rowIndex;
@@ -523,6 +617,9 @@ export default {
             getEmployee().then(res => {
                 this.employee = res.data
             })
+            getTimeEnums().then(res => {
+                this.timeEnumList = res.data
+            })
         },
         GetFileServiceUrl(url) {
             return GetFileServiceUrl(url)
@@ -565,10 +662,15 @@ export default {
             // }
             if(id == 3) {
                 let status = ['6','9','12','16']
-                if(!rowList.every(item => status.includes(item.state))) {
+                //有可能单条数据在两个不同状态里，需循环判断
+                if(!rowList.every(item => item.state.split(',').some(res => status.includes(res)))) {
                     this.error('只可以在P图、设计方案制作、设计方案终稿、结构设计状态下分配经办人！')
                     return
                 }
+                // if(!rowList.every(item => status.includes(item.state))) {
+                //     this.error('只可以在P图、设计方案制作、设计方案终稿、结构设计状态下分配经办人！')
+                //     return
+                // }
                 if(!rowList.every(item => item.design == rowList[0].design)) {
                     this.error('所选数据的设计类型不一致！')
                     return
@@ -593,7 +695,7 @@ export default {
                 break;
                 case 3 :
                     detailDialog.showType = 4
-                    detailDialog.dialogName = '配置经办人'
+                    detailDialog.dialogName = '分配负责人'
                     detailDialog.openDialog(rowList,id)
                 break;
             }
@@ -813,6 +915,9 @@ export default {
     .el-dialog__body {
         padding: 10px 20px;
     }
+}
+.reportTitle{
+    color: rgb(4, 80, 27);
 }
 </style>
 <style>

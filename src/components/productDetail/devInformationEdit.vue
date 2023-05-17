@@ -511,11 +511,11 @@ export default {
                     {
                         required: true,
                         validator: (rules, value, cb) => {
-                        let { countryCodeList } = this.ruleForm;
-                        if(countryCodeList.find(item => item.dutyrate === '' )){
-                            return cb(new Error("请填写税率!"));
-                        }
-                        return cb();
+                            let { countryCodeList } = this.ruleForm;
+                            if(countryCodeList.find(item => item.dutyrate === '' )){
+                                return cb(new Error("请填写税率!"));
+                            }
+                            return cb();
                         },
                         trigger: "change"
                     }

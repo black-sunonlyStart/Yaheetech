@@ -44,7 +44,7 @@
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">GB Duty税率： </div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('en-GB')  || 3.26}}%</div>
+                    <div class="colBoxTitle">GB Duty税率： </div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('en-GB')  || 0}}%</div>
                 </div>
             </el-col>
         </el-row>
@@ -56,7 +56,7 @@
             </el-col>
             <el-col :span="10">
                  <div class="colbox">
-                    <div class="colBoxTitle">DE Duty税率：</div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('de') || 3.91}}%</div>
+                    <div class="colBoxTitle">DE Duty税率：</div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('de') || 0}}%</div>
                 </div>
             </el-col>
         </el-row>

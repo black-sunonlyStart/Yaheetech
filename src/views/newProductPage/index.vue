@@ -7,7 +7,7 @@
         </el-card>
         
         <el-card style="margin-top: 5px;">
-            <mainPageList :filterList='filterList' @putClearList='putClearList'></mainPageList>
+            <mainPageList :filterList='filterList' @putClearList='putClearList' ></mainPageList>
         </el-card>
     </div>
   </template>
@@ -77,7 +77,7 @@ export default {
     .nav-container {
         width: 100%;
         height: 100%;
-        padding: 0px 5px 10px 5px;
+        padding: 0px 5px 5px 5px;
         z-index: 10001;
         display: flex;
         flex-direction: column;
