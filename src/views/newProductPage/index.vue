@@ -10,11 +10,11 @@
             <mainPageList :filterList='filterList' @putClearList='putClearList' ></mainPageList>
         </el-card>
     </div>
-  </template>
-  <script>
-    import navBar from '@/components/newProductTask/newProductTaskNavbar.vue'
-    import mainPageList from '@/components/newProductTask/newProductTaskMain.vue'
-    import {hasPermissions } from '@/api/user.js'
+</template>
+<script>
+import navBar from '@/components/newProductTask/newProductTaskNavbar.vue'
+import mainPageList from '@/components/newProductTask/newProductTaskMain.vue'
+import {hasPermissions } from '@/api/user.js'
 export default {
     components: {
         navBar,

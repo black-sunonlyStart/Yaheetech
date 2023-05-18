@@ -18,61 +18,61 @@ import abilityBtn from '@/components/productDetail/abilityBtn.vue'
 import mainTable from '@/components/productDetail/mainTable.vue'
 import {hasPermissions } from '@/api/user.js'
 export default {
-  name: 'packTableList',
-  components: {
-    navBar,
-    abilityBtn,
-    mainTable,
-  },
+    name: 'packTableList',
+    components: {
+        navBar,
+        abilityBtn,
+        mainTable,
+    },
   data () {
     return {
-      filterList:{},
-      selectRow:[],
-      total:50,
-      employeeId:0,
-      renderDom:false,
+        filterList:{},
+        selectRow:[],
+        total:50,
+        employeeId:0,
+        renderDom:false,
+        }
+    },
+    computed: {
+    },
+    created () {
+        this.getPermissions()
+    },
+    mounted(){
+        this.changeInnterWidth()
+    },
+    methods: {
+        //权限判断
+        getPermissions(){
+            let  params = [
+            'ERP.Product.ProductDev.Select',
+        ]
+            hasPermissions(params).then(res => {
+            let data = JSON.stringify( res.data);
+                sessionStorage.setItem("permissions", data);
+                this.renderDom = true
+            })
+        },
+        getTotal(total){
+            this.total = total
+        },
+        changeInnterWidth(){
+            if(window.innerWidth < 1450){
+                document.querySelector('.nav-card > .el-card__body').style.paddingBottom = 5 + 'px'
+                document.querySelector('.nav-card > .el-card__body').style.overflowX =  'scroll'
+                document.querySelector('.nav-card > .el-card__body').style.overflowY = 'hidden'
+            }
+        },
+        putTbleSelection(val){
+            this.selectRow = val || []
+        },
+        putTableList (val){
+            this.filterList = val
+        },
+        putTbleList(){
+            this.$refs.mainTable.getTableList(this.filterList)
+        },
     }
-  },
-  computed: {
-  },
-  created () {
-    this.getPermissions()
-  },
-  mounted(){
-      this.changeInnterWidth()
-  },
-  methods: {
-     //权限判断
-      getPermissions(){
-          let  params = [
-          'ERP.Product.ProductDev.Select',
-      ]
-        hasPermissions(params).then(res => {
-           let data = JSON.stringify( res.data);
-            sessionStorage.setItem("permissions", data);
-            this.renderDom = true
-        })
-      },
-      getTotal(total){
-          this.total = total
-      },
-      changeInnterWidth(){
-          if(window.innerWidth < 1450){
-              document.querySelector('.nav-card > .el-card__body').style.paddingBottom = 5 + 'px'
-              document.querySelector('.nav-card > .el-card__body').style.overflowX =  'scroll'
-              document.querySelector('.nav-card > .el-card__body').style.overflowY = 'hidden'
-          }
-      },
-    putTbleSelection(val){
-        this.selectRow = val || []
-    },
-    putTableList (val){
-        this.filterList = val
-    },
-    putTbleList(){
-        this.$refs.mainTable.getTableList(this.filterList)
-    },
-  }
 }
 </script>
 
