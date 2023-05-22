@@ -77,12 +77,12 @@ service.interceptors.response.use(
         let showProduct = judgePorduction()
         let login_url = ''
         if(showProduct){
-             login_url = 'http://portal.yaheecloud.com';//正式
+            login_url = 'http://portal.yaheecloud.com';//正式
         }else {
-             login_url = 'http://qas-portal.yahee.com.cn:8088';//测试
+            login_url = 'http://qas-portal.yahee.com.cn:8088';//测试
         }
         var localhref = location.href;
-          window.location.href = login_url+'/Latest/Account/LogOn?returnUrl='+localhref;
+        window.location.href = login_url+'/Latest/Account/LogOn?returnUrl='+localhref;
       
     }else if(error.response.status == 403){
         addMask()

@@ -1241,8 +1241,15 @@ async getAllpageList(val){
                     developmentId:this.routePageList.developmentId,
                     productId:this.routePageList.productId,
                 }
-                getProductMultipleAttribute(devParams).then(res => {
-                    this.multiAttribute = res.data
+                getProductMultipleAttribute(devParams).then(res => {   
+                    res.data.forEach(item => {
+                        if(item.productid == this.productVos.id){
+                            item.nowProduct = 2
+                        }else {
+                            item.nowProduct = 1
+                        }
+                    })
+                    this.multiAttribute = res.data.sort((a,b) => b.nowProduct - a.nowProduct)
                 })
 
             const ycun = 2.54;
@@ -1449,10 +1456,10 @@ async getAllpageList(val){
     },
     prodevInfoEdit(val){
         if(val){
-        this.isEdit6 = val
-        this.getAllpageList()
+            this.isEdit6 = val
+            this.getAllpageList()
         }else {
-        this.getAllpageList()
+            this.getAllpageList()
         }
     },
     closeProdevAttr(val){
@@ -1471,8 +1478,8 @@ async getAllpageList(val){
     },
     proessCenterShow(val){
         if(!val || val < 6)return
-        let  image = document.querySelector('.step-container')
-        let  cimage = document.querySelector('.stepBox')
+            let  image = document.querySelector('.step-container')
+            let  cimage = document.querySelector('.stepBox')
         // let  offsetVal = val - 3
         if(image.offsetLeft < -1377){
             return
@@ -1543,9 +1550,9 @@ async getAllpageList(val){
     font-weight: bold;
 }
 .nav-container {
-  width: 100%;
-  height: 100%;
-  background-color: rgba(230, 230, 230, 1);
+    width: 100%;
+    height: 100%;
+    background-color: rgba(230, 230, 230, 1);
   .cardBox{
     position: relative;
     width: 100%;
@@ -1592,89 +1599,89 @@ async getAllpageList(val){
         left: 8px;
         padding-left: 13px
     }
-  }
-  .navTitle{
+}
+.navTitle{
     position: fixed;
     width: 100%;
     top: 0px;
     z-index: 999;
     background-color: rgba(230, 230, 230, 1)
-  }
-  ::v-deep.card{
-      margin: 10px 10px 10px 10px;
-      .el-card__body{
-          padding-top: 10px !important;
+}
+::v-deep.card{
+    margin: 10px 10px 10px 10px;
+    .el-card__body{
+        padding-top: 10px !important;
     }
-  }
-  .out-container {
+}
+.out-container {
     display: flex;
     .image-container {
-      width: 100px;
-      height: 100px;
-      border: 1px solid #cccccc;
+        width: 100px;
+        height: 100px;
+        border: 1px solid #cccccc;
     }
     .detailsText {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      margin-left: 10px;
-      font-weight: bold;
-      justify-content: space-around;
-      span {
-          font-weight: normal;
-      }
-      .countryTitle{
-          color: #3366cc;
-          display: inline-block;
-          cursor: pointer;
-          font-size: 13px;
-          
-      }
-      .otherCountryTitle{
-          display: inline-block;
-          cursor: pointer;
-          margin-left: 5px;
-          text-decoration: underline;
-          &:hover{
-              color: #3366cc;
-          }
-      }
-      .haveMoneyLitte{
-          display: flex;
-          .profit{
-              font-weight: normal;
-              display: inline-block;
-              margin-right: 10px;
-          }
-      }
-    }
-  }
-  .stepText{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 10px;
         font-weight: bold;
-        float: right;
-        margin-right: 50px;
-        .stepTextLittleTitle{
-            margin-right: 15px;
+        justify-content: space-around;
+        span {
+            font-weight: normal;
         }
-  }
-  .stepBox{
-      position: relative;
-        height: 100px;
-      .leftButton{
-           position: absolute;
-            top: -10px;
-            left: -20px;
-            background: #ffffff;
-            height: 130px;
-            width: 50px;
-            z-index: 9999;
-            line-height: 130px;
+        .countryTitle{
+            color: #3366cc;
+            display: inline-block;
             cursor: pointer;
-            .el-icon-d-arrow-left{
-                font-size: 30px;
+            font-size: 13px;
+            
+        }
+        .otherCountryTitle{
+            display: inline-block;
+            cursor: pointer;
+            margin-left: 5px;
+            text-decoration: underline;
+            &:hover{
+                color: #3366cc;
             }
-      } 
-      ::v-deep.step-container{
+        }
+        .haveMoneyLitte{
+            display: flex;
+            .profit{
+                font-weight: normal;
+                display: inline-block;
+                margin-right: 10px;
+            }
+        }
+    }
+}
+.stepText{
+    font-weight: bold;
+    float: right;
+    margin-right: 50px;
+    .stepTextLittleTitle{
+        margin-right: 15px;
+    }
+}
+.stepBox{
+    position: relative;
+    height: 100px;
+    .leftButton{
+        position: absolute;
+        top: -10px;
+        left: -20px;
+        background: #ffffff;
+        height: 130px;
+        width: 50px;
+        z-index: 9999;
+        line-height: 130px;
+        cursor: pointer;
+        .el-icon-d-arrow-left{
+            font-size: 30px;
+        }
+    } 
+    ::v-deep.step-container{
         display: inline-block;
         width: 200%;
         // overflow: hidden;
@@ -1707,81 +1714,80 @@ async getAllpageList(val){
                 font-size: 30px;
         }
     }
-  }
-  
-  .backgoundCon{
-      width: 100%;
-      height: 10px;
-      background-color: rgba(230, 230, 230, 1);
-  }
-  .tabContainer1{
-      height: 100%;
-      width: 100%;
-      background-color: rgba(230, 230, 230, 1);
-      ::v-deep .el-card__header{
-          padding: 10px !important;
-          font-size: 16px;
-          font-weight: bold;
+}
+.backgoundCon{
+    width: 100%;
+    height: 10px;
+    background-color: rgba(230, 230, 230, 1);
+}
+.tabContainer1{
+    height: 100%;
+    width: 100%;
+    background-color: rgba(230, 230, 230, 1);
+    ::v-deep .el-card__header{
+        padding: 10px !important;
+        font-size: 16px;
+        font-weight: bold;
         //   height: 62px;
-      }
-  }
-  .tabContainer{
-      height: 100%;
-      width: 100%;
-      background-color: rgba(230, 230, 230, 1);
-      ::v-deep .el-card__header{
-          padding: 10px !important;
-          font-size: 16px;
-          font-weight: bold;
-      }
-      ::v-deep .el-card__body{
-          margin-left: 100px;
-      }
-      .edit-position{
-          float: right;
-          margin-right:10px;
-          color: #3366cc;
-          height: 20px;
-          width: 55px;
-          font-size: 12px;
-          &:hover{
-              background-color: #3366cc;
-              color: #ffffff;
-              cursor: pointer;   
-              text-align: center;
-              
-              .icon-edit{
-                  fill: #ffffff;
-                  background-image: url(../../assets/svg/editWrite.svg);
-              }
-          }
-          .icon-edit{
-              height: 16px;
-              width: 16px;
-              float: left;
-              background-image: url(../../assets/svg/edit.svg);
-          }
-      }
+    }
+}
+.tabContainer{
+    height: 100%;
+    width: 100%;
+    background-color: rgba(230, 230, 230, 1);
+    ::v-deep .el-card__header{
+        padding: 10px !important;
+        font-size: 16px;
+        font-weight: bold;
+    }
+    ::v-deep .el-card__body{
+        margin-left: 100px;
+    }
+    .edit-position{
+        float: right;
+        margin-right:10px;
+        color: #3366cc;
+        height: 20px;
+        width: 55px;
+        font-size: 12px;
+        &:hover{
+            background-color: #3366cc;
+            color: #ffffff;
+            cursor: pointer;   
+            text-align: center;
+            
+            .icon-edit{
+                fill: #ffffff;
+                background-image: url(../../assets/svg/editWrite.svg);
+            }
+        }
+        .icon-edit{
+            height: 16px;
+            width: 16px;
+            float: left;
+            background-image: url(../../assets/svg/edit.svg);
+        }
+    }
     .imgContainer{
-          display: flex;
-          min-height: 100px;
-          flex-wrap: wrap;
-          height: max-content;
-          .imgCon{
+        display: flex;
+        min-height: 100px;
+        flex-wrap: wrap;
+        height: max-content;
+        .imgCon{
             width: 100px; 
                 height: 100px; 
-              margin: 3px;
-              .imageListBox{
+            margin: 3px;
+            .imageListBox{
                 width: 100px; 
                 height: 100px; 
                 display: block;
                 cursor:pointer;
                 border-radius: 3px;
-              }         
-          }
-      }  
-  }
-  .icon-loading {
+            }         
+        }
+    }  
+}
+    .icon-loading {
         width: 100px;
         height: 100px;
         display: flex;
@@ -1789,23 +1795,22 @@ async getAllpageList(val){
         align-items: center;
         font-size:25px;    
     }
- .showColor{
-     color: red;
-     font-weight: normal;
- }
- .sizeBox{
-     display: flex;
-     .sizeColor{
+    .showColor{
         color: red;
         font-weight: normal;
-        display: inline-block;
     }
- }
- 
- .redColor{
-     color: green;
- }
-  .imageBox{
+    .sizeBox{
+        display: flex;
+        .sizeColor{
+            color: red;
+            font-weight: normal;
+            display: inline-block;
+        }
+    }
+    .redColor{
+        color: green;
+    }
+    .imageBox{
         height: 18px;
         width: 18px;
         background-image: url(../../assets/shixiyuan.png);

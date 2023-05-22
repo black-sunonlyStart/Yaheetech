@@ -423,7 +423,7 @@
                                 label="关联SKU"
                             >
                             <template slot-scope="scope">
-                                <div v-if="scope.row.productdraftid && scope.row.skualias && scope.row.sku && scope.row.spu">
+                                <div v-if="scope.row.productdraftid && scope.row.skualias && scope.row.sku ">
                                     <div>
                                         上架ID:{{scope.row.productdraftid}}
                                     </div>
@@ -445,7 +445,7 @@
                             <el-table-column
                                 label="是否上架">
                                 <template slot-scope="scope">
-                                    <div><el-checkbox v-model="scope.row.productneed">需要</el-checkbox></div>
+                                    <div><el-checkbox v-model="scope.row.productneed" :disabled="(scope.row.productid != pordSizeAttrInfoList.id )">需要</el-checkbox></div>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -618,7 +618,7 @@ export default {
                         return !val.includes(item)
                     })
                     let colorNewVal = newVal.toString()
-                     this.ruleForm.multiAttribute.forEach((item,index) => {
+                    this.ruleForm.multiAttribute.forEach((item,index) => {
                         if(item && item.color == colorNewVal){
                             this.ruleForm.multiAttribute.splice(index,1)
                         }
@@ -696,7 +696,6 @@ export default {
                     })
                 }
             } 
-           
             let proSize = this.copeMulAttrBute.size || ''
 
             this.ruleForm = {
