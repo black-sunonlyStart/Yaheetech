@@ -1,413 +1,415 @@
 <template>
-<div class="nav-container" style="z-index:111" v-if="renderDom"  v-permission="'Yahee.ERP.Product.ProductDev'">
-      <div class="navTitle" v-track="{triggerType:'browse',currentUrl: $route.path,behavior:'进入产品详情页'}">
-        <el-row :gutter="5">
-        <el-col :span="12">
-            <el-card class="card">
-            <div class="out-container">
-                <div class="image-container">
-                    <el-image
-                        style="width: 97px; height: 97px; dispaly:black"
-                        :src="titleImgSrc"
-                        fit="fill"
-                        >
-                         <div slot="placeholder" class="image-slot icon-loading">
-                            <i class="el-icon-loading" ></i>
-                        </div>
-                        <div slot="error" class="image-slot icon-loading" style="font-size:14px">
-                            <i class="el-icon-picture-outline">加载失败</i>
-                        </div>
-                    </el-image>
-                </div>
-                <div class="detailsText">
-                    <div>
-                        开发id：<span>{{development && development.id ?development.id:'' }}</span>
+<div v-loading="pageLoading">
+    <div class="nav-container" style="z-index:111" v-if="renderDom"  v-permission="'Yahee.ERP.Product.ProductDev'" >
+        <div class="navTitle" v-track="{triggerType:'browse',currentUrl: $route.path,behavior:'进入产品详情页'}">
+            <el-row :gutter="5">
+            <el-col :span="12">
+                <el-card class="card">
+                <div class="out-container">
+                    <div class="image-container">
+                        <el-image
+                            style="width: 97px; height: 97px; dispaly:black"
+                            :src="titleImgSrc"
+                            fit="fill"
+                            >
+                            <div slot="placeholder" class="image-slot icon-loading">
+                                <i class="el-icon-loading" ></i>
+                            </div>
+                            <div slot="error" class="image-slot icon-loading" style="font-size:14px">
+                                <i class="el-icon-picture-outline">加载失败</i>
+                            </div>
+                        </el-image>
                     </div>
-                    <div>
-                        生成型号：<span>{{productVos.skuAlias || '--'}}</span>
-                    </div>
-                    <div>
-                        开发市场：<div class="countryTitle">{{ productCountryList ? productCountryList.countryName:'' }}</div> 
-                        <div v-for="item in otherCountryList" :key="item.productCountryId" class="otherCountryTitle" @click="changeCountry(item.developmentId,item.productId,item.productCountryId)"> {{item ? item.countryName : ''}}</div>
-                    </div>
-                    <div class="haveMoneyLitte">
+                    <div class="detailsText">
                         <div>
-                            开发价/利润：
+                            开发id：<span>{{development && development.id ?development.id:'' }}</span>
                         </div>
                         <div>
-                            <div v-for="item in productMarketStrs" :key="item.platformName" class="profit">
-                                <span v-for="name in item.marketProfits" :key="name.warehouseName">
-                                    <span v-if="(item.currency == 'USD'&& name.warehouseId == 8) || item.currency != 'USD'">
-                                        {{item.platformName}}-{{name.warehouseName}}-{{item.currency}}
-                                        <span :class="item.developmentPrice <= 0 ? 'showColor':''"> {{item.developmentPrice}}</span> /
-                                        <span :class="item.marketProfits && name && name.profitMargin <= 0 ? 'showColor':'redColor'" > {{name.profitMargin ? (name.profitMargin * 100).toFixed(2) + '%' : '' }}</span>
-                                        <span v-if="name.sfpDevelopmentprice"> SFP：{{name.sfpDevelopmentprice}} / </span>
-                                        <span :class="item.marketProfits && name && name.sfpProfitMargin <= 0 ? 'showColor':'redColor'" v-if="name.sfpDevelopmentprice">{{(name.sfpProfitMargin * 100).toFixed(2) + '%' }}</span>
+                            生成型号：<span>{{productVos.skuAlias || '--'}}</span>
+                        </div>
+                        <div>
+                            开发市场：<div class="countryTitle">{{ productCountryList ? productCountryList.countryName:'' }}</div> 
+                            <div v-for="item in otherCountryList" :key="item.productCountryId" class="otherCountryTitle" @click="changeCountry(item.developmentId,item.productId,item.productCountryId)"> {{item ? item.countryName : ''}}</div>
+                        </div>
+                        <div class="haveMoneyLitte">
+                            <div>
+                                开发价/利润：
+                            </div>
+                            <div>
+                                <div v-for="item in productMarketStrs" :key="item.platformName" class="profit">
+                                    <span v-for="name in item.marketProfits" :key="name.warehouseName">
+                                        <span v-if="(item.currency == 'USD'&& name.warehouseId == 8) || item.currency != 'USD'">
+                                            {{item.platformName}}-{{name.warehouseName}}-{{item.currency}}
+                                            <span :class="item.developmentPrice <= 0 ? 'showColor':''"> {{item.developmentPrice}}</span> /
+                                            <span :class="item.marketProfits && name && name.profitMargin <= 0 ? 'showColor':'redColor'" > {{name.profitMargin ? (name.profitMargin * 100).toFixed(2) + '%' : '' }}</span>
+                                            <span v-if="name.sfpDevelopmentprice"> SFP：{{name.sfpDevelopmentprice}} / </span>
+                                            <span :class="item.marketProfits && name && name.sfpProfitMargin <= 0 ? 'showColor':'redColor'" v-if="name.sfpDevelopmentprice">{{(name.sfpProfitMargin * 100).toFixed(2) + '%' }}</span>
+                                        </span>
                                     </span>
-                                </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="sizeBox">
-                        <div class="sizeColor" v-for="item in showSizeText" :key="item+Math.random()">
-                            {{item}}
+                        <div class="sizeBox">
+                            <div class="sizeColor" v-for="item in showSizeText" :key="item+Math.random()">
+                                {{item}}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            </el-card>
-        </el-col>
-        <el-col :span="12">
-            <el-card class="card">
-                <div class="stepBox">
-                    <span class="leftButton" @click="leftMove"><i class="el-icon-d-arrow-left"></i></span>
-                        <span class="step-container">
-                            <el-steps :active="nowStatus" space='150' align-center  finish-status="success" process-status="finish">
-                                <el-step v-for="item in developmentProgresses" :title="item.statusValue" :key="item.status" :description="item.createOn">
-                                        <template slot="icon">
-                                            <div class="imageBox"></div>
-                                        </template>
-                                        <template slot="title">
-                                            <el-tooltip class="item" effect="dark" :content="item.createBy" placement="top">
-                                                <div class="stepTitle">
-                                                    {{item.statusValue}}
-                                                </div>
-                                            </el-tooltip>
-                                        </template>
-                                </el-step>
-                            </el-steps>
-                        </span>
-                    <span class='rightButton' @click="rightMove"><i class="el-icon-d-arrow-right"></i></span>
-                </div> 
-                <div class="stepText">
-                    <span class="stepTextLittleTitle">业务：{{devInformationDetaiList ? devInformationDetaiList.businessProduct :''}}</span><span>采购：{{devInformationDetaiList ? devInformationDetaiList.orderProduct :''}}</span>
-                </div> 
-            </el-card>
-        </el-col>
-        </el-row>
-    </div>
-    <div class="cardBox">
-        <div class="cardBoxMain">
-            <el-tabs v-model="activeName" :before-leave="handleClick">
-                <el-tab-pane name="first" >
-                <span slot="label"><span style="margin-right:30px">开发类型/场景</span><span style="margin-right:30px">产品图片</span><span>销售目标</span></span>
-                    <div class="backgoundCon"></div>
-                    <div class='tabContainer' >
-                        <el-card style="min-height:170px">
-                            <div slot="header" class="clearfix">
-                                <div>开发类型/场景
-                                    <div v-if="isStatusEdit">
-                                        <div class="edit-position" 
-                                            v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
-                                            perkey='ERP.Product.ProductDev.SalesManEdit' 
-                                            @click="isEdit = !isEdit" 
-                                            v-if="isEdit"
-                                            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'开发类型/场景'}"
-                                            ><span><i class="icon-edit"></i>编辑</span>
+                </el-card>
+            </el-col>
+            <el-col :span="12">
+                <el-card class="card">
+                    <div class="stepBox">
+                        <span class="leftButton" @click="leftMove"><i class="el-icon-d-arrow-left"></i></span>
+                            <span class="step-container">
+                                <el-steps :active="nowStatus" space='150' align-center  finish-status="success" process-status="finish">
+                                    <el-step v-for="item in developmentProgresses" :title="item.statusValue" :key="item.status" :description="item.createOn">
+                                            <template slot="icon">
+                                                <div class="imageBox"></div>
+                                            </template>
+                                            <template slot="title">
+                                                <el-tooltip class="item" effect="dark" :content="item.createBy" placement="top">
+                                                    <div class="stepTitle">
+                                                        {{item.statusValue}}
+                                                    </div>
+                                                </el-tooltip>
+                                            </template>
+                                    </el-step>
+                                </el-steps>
+                            </span>
+                        <span class='rightButton' @click="rightMove"><i class="el-icon-d-arrow-right"></i></span>
+                    </div> 
+                    <div class="stepText">
+                        <span class="stepTextLittleTitle">业务：{{devInformationDetaiList ? devInformationDetaiList.businessProduct :''}}</span><span>采购：{{devInformationDetaiList ? devInformationDetaiList.orderProduct :''}}</span>
+                    </div> 
+                </el-card>
+            </el-col>
+            </el-row>
+        </div>
+        <div class="cardBox">
+            <div class="cardBoxMain">
+                <el-tabs v-model="activeName" :before-leave="handleClick">
+                    <el-tab-pane name="first" >
+                    <span slot="label"><span style="margin-right:30px">开发类型/场景</span><span style="margin-right:30px">产品图片</span><span>销售目标</span></span>
+                        <div class="backgoundCon"></div>
+                        <div class='tabContainer' >
+                            <el-card style="min-height:170px">
+                                <div slot="header" class="clearfix">
+                                    <div>开发类型/场景
+                                        <div v-if="isStatusEdit">
+                                            <div class="edit-position" 
+                                                v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
+                                                perkey='ERP.Product.ProductDev.SalesManEdit' 
+                                                @click="isEdit = !isEdit" 
+                                                v-if="isEdit"
+                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'开发类型/场景'}"
+                                                ><span><i class="icon-edit"></i>编辑</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>   
-                            </div>
-                            <div v-if="isEdit">
-                                <devDetail :productVoDetail='productVoDetail' :multiAttribute='multiAttribute' :showSizeTitle='showSizeTitle'></devDetail>
-                            </div>
-                            <div v-else>
-                                <devScene @closeEdit='editPage' :productVoDetail='productVoDetail' ></devScene>
-                            </div>
-                        </el-card>
-                        <el-card style="margin-top:10px">
-                            <div slot="header" class="clearfix">
-                                <span>产品图片
-                                    <div v-if="isStatusEdit1 && $route.query.productId">
-                                        <div class="edit-position" 
-                                            v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
-                                            perkey='ERP.Product.ProductDev.SalesManEdit' 
-                                            @click="isEdit1 = !isEdit1" 
-                                            v-if="isEdit1"
-                                            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品图片'}"
-                                            >
-                                            <span ><i class="icon-edit"></i>编辑</span></div>
-                                        </div>
-                                </span>
-                            </div>
-                            <div v-if="isEdit1" class="imgContainer" >
-                                <div  class="w-50">
-                                    <div style="flex-shrink: 0">
-                                            产品尺寸图
-                                    </div>
-                                    <div class="imgContainer" style="margin:12px 0px">
-                                        <div v-for="item in productImgDetail" :key="item.key" class="imgCon ">
-                                            <el-image
-                                                class="imageListBox"
-                                                :src="item.showImgUrl"
-                                                fit="fill"
-                                                @click="openImageUrl(item.showBigImgUrl)"
+                                    </div>   
+                                </div>
+                                <div v-if="isEdit">
+                                    <devDetail :productVoDetail='productVoDetail' :multiAttribute='multiAttribute' :showSizeTitle='showSizeTitle'></devDetail>
+                                </div>
+                                <div v-else>
+                                    <devScene @closeEdit='editPage' :productVoDetail='productVoDetail' ></devScene>
+                                </div>
+                            </el-card>
+                            <el-card style="margin-top:10px">
+                                <div slot="header" class="clearfix">
+                                    <span>产品图片
+                                        <div v-if="isStatusEdit1 && $route.query.productId">
+                                            <div class="edit-position" 
+                                                v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
+                                                perkey='ERP.Product.ProductDev.SalesManEdit' 
+                                                @click="isEdit1 = !isEdit1" 
+                                                v-if="isEdit1"
+                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品图片'}"
                                                 >
-                                                <div slot="placeholder" class="image-slot icon-loading">
-                                                    <i class="el-icon-loading" ></i>
-                                                </div>
-                                                <div slot="error" class="image-slot icon-loading" style="font-size:14px">
-                                                    <i class="el-icon-picture-outline">加载失败</i>
-                                                </div>
-                                            </el-image>
-                                        </div>
-                                    </div>
+                                                <span ><i class="icon-edit"></i>编辑</span></div>
+                                            </div>
+                                    </span>
                                 </div>
-                                <div  class="w-50">
-                                    <div style="flex-shrink: 0">
-                                            产品细节图
-                                    </div>
-                                    <div class="imgContainer" style="margin:12px 0px">
-                                        <div v-for="item in productImgDetails" :key="item.key" class="imgCon">
-                                            <el-image
-                                                class="imageListBox"
-                                                :src="item.showImgUrl"
-                                                fit="fill"
-                                                @click="openImageUrl(item.showBigImgUrl)"
-                                                >
-                                                <div slot="placeholder" class="image-slot icon-loading">
-                                                    <i class="el-icon-loading" ></i>
-                                                </div>
-                                                <div slot="error" class="image-slot icon-loading" style="font-size:14px">
-                                                    <i class="el-icon-picture-outline">加载失败</i>
-                                                </div>
-                                            </el-image>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div v-else>
-                                <div class="imgContainer">
-                                    <div class="w-50">
+                                <div v-if="isEdit1" class="imgContainer" >
+                                    <div  class="w-50">
                                         <div style="flex-shrink: 0">
-                                            产品尺寸图
+                                                产品尺寸图
                                         </div>
-                                        <imgUpload @inputImg='putImgList' :imgFileType='4' :showButton="false" :value='imageList' @closeEdit='updeEditPage' :limit="10"></imgUpload> 
+                                        <div class="imgContainer" style="margin:12px 0px">
+                                            <div v-for="item in productImgDetail" :key="item.key" class="imgCon ">
+                                                <el-image
+                                                    class="imageListBox"
+                                                    :src="item.showImgUrl"
+                                                    fit="fill"
+                                                    @click="openImageUrl(item.showBigImgUrl)"
+                                                    >
+                                                    <div slot="placeholder" class="image-slot icon-loading">
+                                                        <i class="el-icon-loading" ></i>
+                                                    </div>
+                                                    <div slot="error" class="image-slot icon-loading" style="font-size:14px">
+                                                        <i class="el-icon-picture-outline">加载失败</i>
+                                                    </div>
+                                                </el-image>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="w-50">
+                                    <div  class="w-50">
                                         <div style="flex-shrink: 0">
-                                            产品细节图
+                                                产品细节图
                                         </div>
-                                        <imgUpload @inputImg='putdetailsImgList' :imgFileType='5' :showButton="false" :value='detailsImageList' @closeEdit='updeEditPage' :limit="10"></imgUpload> 
+                                        <div class="imgContainer" style="margin:12px 0px">
+                                            <div v-for="item in productImgDetails" :key="item.key" class="imgCon">
+                                                <el-image
+                                                    class="imageListBox"
+                                                    :src="item.showImgUrl"
+                                                    fit="fill"
+                                                    @click="openImageUrl(item.showBigImgUrl)"
+                                                    >
+                                                    <div slot="placeholder" class="image-slot icon-loading">
+                                                        <i class="el-icon-loading" ></i>
+                                                    </div>
+                                                    <div slot="error" class="image-slot icon-loading" style="font-size:14px">
+                                                        <i class="el-icon-picture-outline">加载失败</i>
+                                                    </div>
+                                                </el-image>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                    <el-col :span="24">
-                                    <div class="bottomButton">
-                                        <el-button type="primary" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'产品尺寸图'}" size="mini" @click="updeEditPage" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
-                                        <el-button size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'产品尺寸图'}" @click="updeEditPage">取消</el-button>
+                                <div v-else>
+                                    <div class="imgContainer">
+                                        <div class="w-50">
+                                            <div style="flex-shrink: 0">
+                                                产品尺寸图
+                                            </div>
+                                            <imgUpload @inputImg='putImgList' :imgFileType='4' :showButton="false" :value='imageList' @closeEdit='updeEditPage' :limit="10"></imgUpload> 
+                                        </div>
+                                        <div class="w-50">
+                                            <div style="flex-shrink: 0">
+                                                产品细节图
+                                            </div>
+                                            <imgUpload @inputImg='putdetailsImgList' :imgFileType='5' :showButton="false" :value='detailsImageList' @closeEdit='updeEditPage' :limit="10"></imgUpload> 
+                                        </div>
                                     </div>
-                                </el-col> 
-                            </div>
+                                        <el-col :span="24">
+                                        <div class="bottomButton">
+                                            <el-button type="primary" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'产品尺寸图'}" size="mini" @click="updeEditPage" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
+                                            <el-button size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'产品尺寸图'}" @click="updeEditPage">取消</el-button>
+                                        </div>
+                                    </el-col> 
+                                </div>
 
-                        </el-card>
-                        <el-card style="margin-top:10px;margin-bottom:30px">
-                            <div slot="header" class="clearfix">
-                                <span>销售目标
-                                    <div v-if="isStatusEdit2 && $route.query.productId">
-                                        <div class="edit-position" 
-                                            v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
-                                            perkey='ERP.Product.ProductDev.SalesManEdit' 
-                                            @click="isEdit2 = !isEdit2" 
-                                            v-if="isEdit2"
-                                            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'销售目标'}"
-                                            >
-                                            <span><i class="icon-edit"></i>编辑</span>
+                            </el-card>
+                            <el-card style="margin-top:10px;margin-bottom:30px">
+                                <div slot="header" class="clearfix">
+                                    <span>销售目标
+                                        <div v-if="isStatusEdit2 && $route.query.productId">
+                                            <div class="edit-position" 
+                                                v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
+                                                perkey='ERP.Product.ProductDev.SalesManEdit' 
+                                                @click="isEdit2 = !isEdit2" 
+                                                v-if="isEdit2"
+                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'销售目标'}"
+                                                >
+                                                <span><i class="icon-edit"></i>编辑</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </span>
-                            </div>
-                            <div v-if="isEdit2">
-                                <sales-target-detail :salesTargetDetaiList='salesTargetDetaiList'></sales-target-detail>
-                            </div>
-                            <div v-else>
-                                <salesTargetEdit @closeEdit='salesEditPage' :salesTargetDetaiList='salesTargetDetaiList'></salesTargetEdit>
-                            </div>
-                        </el-card>
-                    </div>                   
-                </el-tab-pane>
-                
-                <el-tab-pane label="开发信息" name="fifth" style="margin-bottom:30px">
-                    <div class="backgoundCon"></div>
-                    <div class='tabContainer'>
-                        <el-card>
-                            <div slot="header" class="clearfix">
-                                <div>开发信息
-                                    <div v-if="isStatusEdit4">
-                                        <div class="edit-position" 
-                                            v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
-                                            perkey='ERP.Product.ProductDev.SalesManEdit' 
-                                            @click="isEdit4 = !isEdit4" 
-                                            v-if="isEdit4"
-                                            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'开发信息'}"
-                                            >
-                                            <span><i class="icon-edit"></i>编辑</span>
+                                    </span>
+                                </div>
+                                <div v-if="isEdit2">
+                                    <sales-target-detail :salesTargetDetaiList='salesTargetDetaiList'></sales-target-detail>
+                                </div>
+                                <div v-else>
+                                    <salesTargetEdit @closeEdit='salesEditPage' :salesTargetDetaiList='salesTargetDetaiList'></salesTargetEdit>
+                                </div>
+                            </el-card>
+                        </div>                   
+                    </el-tab-pane>
+                    
+                    <el-tab-pane label="开发信息" name="fifth" style="margin-bottom:30px">
+                        <div class="backgoundCon"></div>
+                        <div class='tabContainer'>
+                            <el-card>
+                                <div slot="header" class="clearfix">
+                                    <div>开发信息
+                                        <div v-if="isStatusEdit4">
+                                            <div class="edit-position" 
+                                                v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
+                                                perkey='ERP.Product.ProductDev.SalesManEdit' 
+                                                @click="isEdit4 = !isEdit4" 
+                                                v-if="isEdit4"
+                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'开发信息'}"
+                                                >
+                                                <span><i class="icon-edit"></i>编辑</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>   
-                            </div>
-                            <div v-if="isEdit4">
-                                <devInformationDetail :devInformationDetaiList='devInformationDetaiList'></devInformationDetail>
-                            </div>
-                            <div v-else>
-                                <devInformationEdit @closeEdit='devInfoEdit' :devInformationDetaiList='devInformationDetaiList' :nowStatus='timeStatus'></devInformationEdit>
-                            </div>
-                        </el-card>
-                    </div>
-                </el-tab-pane>
-                    <el-tab-pane label="竞品信息" name="fourth">
-                    <div class="backgoundCon"></div>
-                    <div class='tabContainer'>
-                        <el-card style="margin-bottom:30px">
-                            <div slot="header" class="clearfix">
-                                <div>竞品信息
-                                    <div v-if="isStatusEdit3">
-                                        <div class="edit-position" 
-                                            v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
-                                            perkey='ERP.Product.ProductDev.SalesManEdit' 
-                                            @click="isEdit3 = !isEdit3" 
-                                            v-if="isEdit3"
-                                            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'竞品信息'}"
-                                            >
-                                            <span ><i class="icon-edit"></i>编辑</span>
+                                    </div>   
+                                </div>
+                                <div v-if="isEdit4">
+                                    <devInformationDetail :devInformationDetaiList='devInformationDetaiList'></devInformationDetail>
+                                </div>
+                                <div v-else>
+                                    <devInformationEdit @closeEdit='devInfoEdit' :devInformationDetaiList='devInformationDetaiList' :nowStatus='timeStatus'></devInformationEdit>
+                                </div>
+                            </el-card>
+                        </div>
+                    </el-tab-pane>
+                        <el-tab-pane label="竞品信息" name="fourth">
+                        <div class="backgoundCon"></div>
+                        <div class='tabContainer'>
+                            <el-card style="margin-bottom:30px">
+                                <div slot="header" class="clearfix">
+                                    <div>竞品信息
+                                        <div v-if="isStatusEdit3">
+                                            <div class="edit-position" 
+                                                v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
+                                                perkey='ERP.Product.ProductDev.SalesManEdit' 
+                                                @click="isEdit3 = !isEdit3" 
+                                                v-if="isEdit3"
+                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'竞品信息'}"
+                                                >
+                                                <span ><i class="icon-edit"></i>编辑</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>   
-                            </div>
-                            <div v-if="isEdit3">
-                                <comNewsDetail :comNewsDetailList='comNewsDetailList'></comNewsDetail>
-                            </div>
-                            <div v-else>
-                                <comNewsEdit @closeEdit='comNewsEdit' :comNewsDetailList='comNewsDetailList'></comNewsEdit>
-                            </div>
-                        </el-card>
-                    </div>
-                </el-tab-pane>
-                <el-tab-pane label="产品认证信息" name="sixth">
-                    <span slot="label"><span style="margin-right:30px">产品认证信息</span><span>产品标题和供应商信息</span></span>
-                    <div class="backgoundCon"></div>
-                    <div class='tabContainer'>
-                        <el-card>
-                            <div slot="header" class="clearfix">
-                                <div>产品认证信息
-                                    <div v-if="isStatusEdit5">
-                                        <div class="edit-position" 
-                                            v-permission="'ERP.Product.ProductDev.EditAuth'" 
-                                            perkey='ERP.Product.ProductDev.EditAuth' 
-                                            @click="isEdit5 = !isEdit5" 
-                                            v-if="isEdit5"
-                                            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品认证信息'}"
-                                            ><span ><i class="icon-edit"></i>编辑</span>
+                                    </div>   
+                                </div>
+                                <div v-if="isEdit3">
+                                    <comNewsDetail :comNewsDetailList='comNewsDetailList'></comNewsDetail>
+                                </div>
+                                <div v-else>
+                                    <comNewsEdit @closeEdit='comNewsEdit' :comNewsDetailList='comNewsDetailList'></comNewsEdit>
+                                </div>
+                            </el-card>
+                        </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="产品认证信息" name="sixth">
+                        <span slot="label"><span style="margin-right:30px">产品认证信息</span><span>产品标题和供应商信息</span></span>
+                        <div class="backgoundCon"></div>
+                        <div class='tabContainer'>
+                            <el-card>
+                                <div slot="header" class="clearfix">
+                                    <div>产品认证信息
+                                        <div v-if="isStatusEdit5">
+                                            <div class="edit-position" 
+                                                v-permission="'ERP.Product.ProductDev.EditAuth'" 
+                                                perkey='ERP.Product.ProductDev.EditAuth' 
+                                                @click="isEdit5 = !isEdit5" 
+                                                v-if="isEdit5"
+                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品认证信息'}"
+                                                ><span ><i class="icon-edit"></i>编辑</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>   
-                            </div>
-                            <div v-if="isEdit5">
-                                <prodCerInfoDetail :prodCerInfoDetailList='prodCerInfoDetailList'></prodCerInfoDetail>
-                            </div>
-                            <div v-else>
-                                <prodCerInfoEdit @closeEdit='proInfoEdit'  :prodCerInfoDetailList='prodCerInfoDetailList'></prodCerInfoEdit>
-                            </div>
-                        </el-card>
-                    </div>
-                    <div class="backgoundCon"></div>
-                    <div class='tabContainer'>
-                        <el-card style="margin-bottom:30px">
-                            <div slot="header" class="clearfix">
-                                <div>产品标题和供应商信息
-                                    <div v-if="isStatusEdit6">
-                                        <div class="edit-position" 
+                                    </div>   
+                                </div>
+                                <div v-if="isEdit5">
+                                    <prodCerInfoDetail :prodCerInfoDetailList='prodCerInfoDetailList'></prodCerInfoDetail>
+                                </div>
+                                <div v-else>
+                                    <prodCerInfoEdit @closeEdit='proInfoEdit'  :prodCerInfoDetailList='prodCerInfoDetailList'></prodCerInfoEdit>
+                                </div>
+                            </el-card>
+                        </div>
+                        <div class="backgoundCon"></div>
+                        <div class='tabContainer'>
+                            <el-card style="margin-bottom:30px">
+                                <div slot="header" class="clearfix">
+                                    <div>产品标题和供应商信息
+                                        <div v-if="isStatusEdit6">
+                                            <div class="edit-position" 
+                                                    v-permission="'ERP.Product.ProductDev.BuyerEdit'" 
+                                                    perkey='ERP.Product.ProductDev.BuyerEdit' 
+                                                    @click="isEdit6 = !isEdit6" 
+                                                    v-if="isEdit6"
+                                                    v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品标题和供应商信息'}"
+                                                    ><span><i class="icon-edit"></i>编辑</span>
+                                            </div>
+                                        </div>
+                                    </div>   
+                                </div>
+                                <div v-if="isEdit6">
+                                    <prodevInfoDetail :prodevInfoDetaiList='prodevInfoDetaiList'  :proImageList='proImageList'></prodevInfoDetail>
+                                </div>
+                                <div v-else>
+                                    <prodevInfoEdit @closeEdit='prodevInfoEdit' :proImageList='proImageList'  @getAllpageList='getAllpageList' :prodevInfoDetaiList='prodevInfoDetaiList'></prodevInfoEdit>
+                                </div>
+                            </el-card>
+                        </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="产品尺寸和属性信息" name="eigth">
+                        <div class="backgoundCon"></div>
+                        <div class='tabContainer'>
+                            <el-card style="margin-bottom:30px">
+                                <div slot="header" class="clearfix">
+                                    <div>产品尺寸和属性信息
+                                        <div v-if="isStatusEdit7">
+                                            <div class="edit-position" 
                                                 v-permission="'ERP.Product.ProductDev.BuyerEdit'" 
                                                 perkey='ERP.Product.ProductDev.BuyerEdit' 
-                                                @click="isEdit6 = !isEdit6" 
-                                                v-if="isEdit6"
-                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品标题和供应商信息'}"
-                                                ><span><i class="icon-edit"></i>编辑</span>
+                                                @click="isEdit7 = !isEdit7" 
+                                                v-if="isEdit7"
+                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品尺寸和属性信息'}"
+                                                ><span ><i class="icon-edit"></i>编辑</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>   
-                            </div>
-                            <div v-if="isEdit6">
-                                <prodevInfoDetail :prodevInfoDetaiList='prodevInfoDetaiList'  :proImageList='proImageList'></prodevInfoDetail>
-                            </div>
-                            <div v-else>
-                                <prodevInfoEdit @closeEdit='prodevInfoEdit' :proImageList='proImageList'  @getAllpageList='getAllpageList' :prodevInfoDetaiList='prodevInfoDetaiList'></prodevInfoEdit>
-                            </div>
-                        </el-card>
-                    </div>
-                </el-tab-pane>
-                <el-tab-pane label="产品尺寸和属性信息" name="eigth">
-                    <div class="backgoundCon"></div>
-                    <div class='tabContainer'>
-                        <el-card style="margin-bottom:30px">
-                            <div slot="header" class="clearfix">
-                                <div>产品尺寸和属性信息
-                                    <div v-if="isStatusEdit7">
-                                        <div class="edit-position" 
-                                            v-permission="'ERP.Product.ProductDev.BuyerEdit'" 
-                                            perkey='ERP.Product.ProductDev.BuyerEdit' 
-                                            @click="isEdit7 = !isEdit7" 
-                                            v-if="isEdit7"
-                                            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品尺寸和属性信息'}"
-                                            ><span ><i class="icon-edit"></i>编辑</span>
+                                    </div>   
+                                </div>
+                                <div v-if="isEdit7">
+                                    <pordSizeAttrInfo :pordSizeAttrInfoList='pordSizeAttrInfoList' :multiAttribute='multiAttribute'></pordSizeAttrInfo>
+                                </div>
+                                <div v-else>
+                                    <pordSizeAttrEdit  @closeEdit='closeProdevAttr' :pordSizeAttrInfoList='pordSizeAttrInfoList' :multiAttribute='multiAttribute'></pordSizeAttrEdit>
+                                </div>
+                            </el-card>
+                        </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="采购信息" name="nineth">
+                        <div class="backgoundCon"></div>
+                        <div class='tabContainer'>
+                            <el-card style="margin-bottom:30px">
+                                <div slot="header" class="clearfix">
+                                    <div>采购信息
+                                        <div v-if="isStatusEdit8">
+                                            <div class="edit-position" 
+                                                v-permission="'ERP.Product.ProductDev.BuyerEdit'" 
+                                                perkey='ERP.Product.ProductDev.BuyerEdit' 
+                                                @click="isEdit8 = !isEdit8" 
+                                                v-if="isEdit8"
+                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'采购信息'}"
+                                                ><span ><i class="icon-edit"></i>编辑</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>   
-                            </div>
-                            <div v-if="isEdit7">
-                                <pordSizeAttrInfo :pordSizeAttrInfoList='pordSizeAttrInfoList' :multiAttribute='multiAttribute'></pordSizeAttrInfo>
-                            </div>
-                            <div v-else>
-                                <pordSizeAttrEdit  @closeEdit='closeProdevAttr' :pordSizeAttrInfoList='pordSizeAttrInfoList' :multiAttribute='multiAttribute'></pordSizeAttrEdit>
-                            </div>
-                        </el-card>
-                    </div>
-                </el-tab-pane>
-                <el-tab-pane label="采购信息" name="nineth">
-                    <div class="backgoundCon"></div>
-                    <div class='tabContainer'>
-                        <el-card style="margin-bottom:30px">
-                            <div slot="header" class="clearfix">
-                                <div>采购信息
-                                    <div v-if="isStatusEdit8">
-                                        <div class="edit-position" 
-                                            v-permission="'ERP.Product.ProductDev.BuyerEdit'" 
-                                            perkey='ERP.Product.ProductDev.BuyerEdit' 
-                                            @click="isEdit8 = !isEdit8" 
-                                            v-if="isEdit8"
-                                            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'采购信息'}"
-                                            ><span ><i class="icon-edit"></i>编辑</span>
-                                        </div>
-                                    </div>
-                                </div>   
-                            </div>
-                            <div v-if="isEdit8">
-                                <purchaseInfoDetail :purchaseInfoDetaiList='purchaseInfoDetaiList' :nowStatus='timeStatus'></purchaseInfoDetail>
-                            </div>
-                            <div v-else>
-                                <purchaseInfoEdit  @closeEdit='closePurchaseInfo' @getTableList='getAllpageList' :purchaseInfoDetaiList='purchaseInfoDetaiList' :nowStatus='timeStatus'></purchaseInfoEdit>
-                            </div>
-                        </el-card>
-                    </div>
-                </el-tab-pane>
-                <el-tab-pane label="备注" name="tenth">
-                    <div class="backgoundCon"></div>
-                    <div class='tabContainer1'>
-                        <el-card style="margin-bottom:30px">
-                            <div slot="header" class="clearfix">
-                                <div>备注
-                                    
-                                </div>   
-                            </div>
-                            <remarks :remarksParam='remarksParam' v-if="showTenth" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'备注',businessCode:'备注'}"></remarks>
-                        </el-card>
-                    </div>
-                    
-                </el-tab-pane>
-            </el-tabs>
-            <operationButton :nowStatus='timeStatus' :isanji='isanji' :employee='employee' @getTableList='updateGetAllpageList' v-if="renderDom"></operationButton>   
+                                    </div>   
+                                </div>
+                                <div v-if="isEdit8">
+                                    <purchaseInfoDetail :purchaseInfoDetaiList='purchaseInfoDetaiList' :nowStatus='timeStatus'></purchaseInfoDetail>
+                                </div>
+                                <div v-else>
+                                    <purchaseInfoEdit  @closeEdit='closePurchaseInfo' @getTableList='getAllpageList' :purchaseInfoDetaiList='purchaseInfoDetaiList' :nowStatus='timeStatus'></purchaseInfoEdit>
+                                </div>
+                            </el-card>
+                        </div>
+                    </el-tab-pane>
+                    <el-tab-pane label="备注" name="tenth">
+                        <div class="backgoundCon"></div>
+                        <div class='tabContainer1'>
+                            <el-card style="margin-bottom:30px">
+                                <div slot="header" class="clearfix">
+                                    <div>备注
+                                        
+                                    </div>   
+                                </div>
+                                <remarks :remarksParam='remarksParam' v-if="showTenth" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'备注',businessCode:'备注'}"></remarks>
+                            </el-card>
+                        </div>
+                        
+                    </el-tab-pane>
+                </el-tabs>
+                <operationButton :nowStatus='timeStatus' :isanji='isanji' :employee='employee' @getTableList='updateGetAllpageList' v-if="renderDom"></operationButton>   
+            </div>
         </div>
-    </div>
-</div>  
+    </div>  
+</div>
 </template>
 <script>
 import { getProductDevDetail,getProductMultipleAttribute,exploitType,getImagePath,getEmployee,hasPermissions,getRoleTrue,getCountry,getUsExchangeRate } from '@/api/user.js'
@@ -628,13 +630,14 @@ data () {
         buyerid:'',
         isanji:[],
         routePageList:{},
+        pageLoading:true,
     }
 },
 created () {
     this.getPermissions()   
     this.getRoutePageAll()
-    if( this.routePageList.developmentId || this.routePageList.productCountryId || this.routePageList.productId) {
-            this.getAllpageList()
+    if(this.routePageList.developmentId || this.routePageList.productCountryId || this.routePageList.productId) {
+        this.getAllpageList()
     }    
 },
 mounted () {
@@ -666,30 +669,30 @@ methods: {
     //权限判断
     getPermissions(){
         let  params = [
-        'ERP.Product.ProductDev.SalesManEdit',
-        'ERP.Product.ProductDev.EditAuth',
-        'ERP.Product.ProductDev.BuyerEdit',
-        'ERP.Product.ProductDev.ADD',
-        'ERP.Product.ProductDev.ManagerCancel',
-        'ERP.Product.ProductDev.ManagerAudit',
-        'ERP.Product.ProductDev.EditGroup',
-        'ERP.Product.ProductDev.SalesManBack',
-        'ERP.Product.ProductDev.BuyerBack',
-        'ERP.Product.ProductDev.SalesBack',
-        'ERP.Product.ProductDev.Cancel',
-        'ERP.Product.ProductDev.EndAudit',
-        'ERP.Product.ProductDev.AuditAuth',
-        'ERP.Product.ProductDev.PurchasingSupervisorAudit',
-        'ERP.Product.ProductDev.BackToFreezingOff',
-        'ERP.Product.ProductDev.SamplePurchaseAudit',
-        'Yahee.ERP.Product.ProductDev',
-        'ERP.Product.ProductDev.DistributionProcurement',
-        'ERP.Product.ProductDev.FreezingOff',
-        'ERP.Product.ProductDev.Audit',
-        'ERP.Product.ProductDev.ExportSample',
-        'ERP.Product.ProductDev.ProfitsFirstTrial'
-    ]
-    hasPermissions(params).then(res => {
+            'ERP.Product.ProductDev.SalesManEdit',
+            'ERP.Product.ProductDev.EditAuth',
+            'ERP.Product.ProductDev.BuyerEdit',
+            'ERP.Product.ProductDev.ADD',
+            'ERP.Product.ProductDev.ManagerCancel',
+            'ERP.Product.ProductDev.ManagerAudit',
+            'ERP.Product.ProductDev.EditGroup',
+            'ERP.Product.ProductDev.SalesManBack',
+            'ERP.Product.ProductDev.BuyerBack',
+            'ERP.Product.ProductDev.SalesBack',
+            'ERP.Product.ProductDev.Cancel',
+            'ERP.Product.ProductDev.EndAudit',
+            'ERP.Product.ProductDev.AuditAuth',
+            'ERP.Product.ProductDev.PurchasingSupervisorAudit',
+            'ERP.Product.ProductDev.BackToFreezingOff',
+            'ERP.Product.ProductDev.SamplePurchaseAudit',
+            'Yahee.ERP.Product.ProductDev',
+            'ERP.Product.ProductDev.DistributionProcurement',
+            'ERP.Product.ProductDev.FreezingOff',
+            'ERP.Product.ProductDev.Audit',
+            'ERP.Product.ProductDev.ExportSample',
+            'ERP.Product.ProductDev.ProfitsFirstTrial'
+        ]
+        hasPermissions(params).then(res => {
             let data = JSON.stringify( res.data);
             sessionStorage.setItem("permissions", data);
               res.data.forEach(item => {
@@ -749,21 +752,21 @@ methods: {
     getStateRole(val){
         switch(val){
             case 0 :
-            this.isStatusEdit = true;
-            this.isStatusEdit1 = true;
-            this.isStatusEdit2 = true;
-            this.isStatusEdit3 = true;
-            this.isStatusEdit4 = true;
+                this.isStatusEdit = true;
+                this.isStatusEdit1 = true;
+                this.isStatusEdit2 = true;
+                this.isStatusEdit3 = true;
+                this.isStatusEdit4 = true;
             break;
             case 1:
-            this.isStatusEdit = true;
-            this.isStatusEdit1 = true;
-            this.isStatusEdit2 = true;
-            this.isStatusEdit3 = true;
-            this.isStatusEdit4 = true;
+                this.isStatusEdit = true;
+                this.isStatusEdit1 = true;
+                this.isStatusEdit2 = true;
+                this.isStatusEdit3 = true;
+                this.isStatusEdit4 = true;
             break;
             case 11:
-            this.isStatusEdit5 = true;
+                this.isStatusEdit5 = true;
             break;
             case 2:
                 if(this.employee.Id ==  this.buyerid){
@@ -799,17 +802,17 @@ methods: {
                     this.isStatusEdit6 = true;
                     this.isStatusEdit7 = true;
                     this.isStatusEdit8 = true;
-                    }
+                }
             break;
             case 5:
-            this.isStatusEdit = true;
+                this.isStatusEdit = true;
                 this.isStatusEdit1 = true;
                 this.isStatusEdit2 = true;
                 this.isStatusEdit3 = true;
                 this.isStatusEdit4 = true;
             break;
             case 6:
-            this.isStatusEdit = true;
+                this.isStatusEdit = true;
                 this.isStatusEdit1 = true;
                 this.isStatusEdit2 = true;
                 this.isStatusEdit3 = true;
@@ -902,28 +905,29 @@ methods: {
     },
     //获得所有数据接口
 async getAllpageList(val){
-        this.getRoutePageAll()
-        let exchangeRate = ''
-        await this.newGetImagePath()
-        await getUsExchangeRate().then(res => {
-                    exchangeRate = res.data
-            })
-        this.scrollPostion()
-        let params = {
-            developmentId:this.routePageList.developmentId || '',
-            productId:this.routePageList.productId || '',
-            productCountryId:this.routePageList.productCountryId || '',
-            edit:this.routePageList.edit === 'false' ?  false :true,
+    this.getRoutePageAll()
+    let exchangeRate = ''
+    await this.newGetImagePath()
+    await getUsExchangeRate().then(res => {
+        exchangeRate = res.data
+    })
+    this.scrollPostion()
+    let params = {
+        developmentId:this.routePageList.developmentId || '',
+        productId:this.routePageList.productId || '',
+        productCountryId:this.routePageList.productCountryId || '',
+        edit:this.routePageList.edit === 'false' ?  false :true,
+    }
+    if(val){
+        params = {
+            developmentId:val.developmentId?val.developmentId:'',
+            productId:val.productId?val.productId:'',
+            productCountryId:val.productCountryId?val.productCountryId:'',
         }
-        if(val){
-            params = {
-                developmentId:val.developmentId?val.developmentId:'',
-                productId:val.productId?val.productId:'',
-                productCountryId:val.productCountryId?val.productCountryId:'',
-            }
-        }
-        getProductDevDetail(params).then(res => {
-            if(res.data){
+    }
+    getProductDevDetail(params).then(res => {
+        if(res.data){
+            this.pageLoading = false
             this.allDetailPageDate = res.data
             this.development = res.data.development //产品数据
             this.copeDevProgress = res.data.developmentProgresses
@@ -1024,8 +1028,7 @@ async getAllpageList(val){
                 })
                 this.productImgDetail.forEach(item => {
                     item.name = item.fileName || item.fileuri
-                })
-                
+                }) 
             }
             if(this.productImgDetails.length > 0){
                     this.productImgDetails.forEach(item => {
@@ -1034,23 +1037,21 @@ async getAllpageList(val){
                 })
                 this.productImgDetails.forEach(item => {
                     item.name = item.fileName || item.fileuri
-                })
-                
+                })   
             }
-            
             this.imageList = this.productImgDetail.map(item => {
                 return {
-                        showImgUrl:item.showImgUrl,
-                        showBigImgUrl:item.showBigImgUrl,
-                        id:item.id
-                    }
+                    showImgUrl:item.showImgUrl,
+                    showBigImgUrl:item.showBigImgUrl,
+                    id:item.id
+                }
             })
             this.detailsImageList = this.productImgDetails.map(item => {
                 return {
-                        showImgUrl:item.showImgUrl,
-                        showBigImgUrl:item.showBigImgUrl,
-                        id:item.id
-                    }
+                    showImgUrl:item.showImgUrl,
+                    showBigImgUrl:item.showBigImgUrl,
+                    id:item.id
+                }
             })
             //销售目标数据 
             this.salesTargetDetaiList = {
@@ -1083,7 +1084,6 @@ async getAllpageList(val){
                 jpranking:res.data.development.jpranking,//产品排名
                 jpadjustmentpoint:res.data.development.jpadjustmentpoint,//产品确定开发调整点
                 note:res.data.development.note,//备注
-
             }
             if(this.comNewsDetailList && this.comNewsDetailList.competingproducts){
                 this.comNewsDetailList.competingproducts.forEach(item => {
@@ -1091,7 +1091,6 @@ async getAllpageList(val){
                     item.showBigImgUrl = `${this.proImageList}upload/CompetingProduct/${item.developmentid}/${item.pictureuri}`
                     item.url = `${this.proImageList}upload/CompetingProduct/Small/${item.developmentid}/${item.pictureuri}`
                     item.name = item.developmentid
-
                 })
             }
             let countryCodeList = []
@@ -1169,7 +1168,7 @@ async getAllpageList(val){
             let credentialList2 = []
             let credentialList3 = []
             if(this.productVos && this.productVos.credentialList){
-                    credentialList1 = this.productVos.credentialList.filter(item => { //必要认证
+                credentialList1 = this.productVos.credentialList.filter(item => { //必要认证
                     return item.authtype == 0
                 })
                 credentialList2 = this.productVos.credentialList.filter(item => { //必要认证其他
@@ -1210,17 +1209,17 @@ async getAllpageList(val){
                         item.url = `${this.proImageList}upload/CompetingProduct/Small/${item.developmentid}/${item.fileuri}`
                         item.name = item.fileName || item.fileuri
                     })
-                    }
+                }
                 if(recommendCredentialList){
                     recommendCredentialList.forEach(item => {
                         item.name = item.fileName || item.fileuri
                     })
-                    }
+                }
                 if(mustCredentialList){
                     mustCredentialList.forEach(item => {
                         item.name = item.fileName || item.fileuri
                     })
-                    }
+                }
                 this.prodevInfoDetaiList = {
                     title:this.productVos.title,//中文标题
                     description:this.productVos.description,//中文标题
@@ -1251,7 +1250,6 @@ async getAllpageList(val){
                     })
                     this.multiAttribute = res.data.sort((a,b) => b.nowProduct - a.nowProduct)
                 })
-
             const ycun = 2.54;
             const ychi = 35.3147248;
             this.pordSizeAttrInfoList = {
@@ -1312,10 +1310,8 @@ async getAllpageList(val){
             }
             this.changeSizeTitle(this.pordSizeAttrInfoList,this.productCountryList.countryName,this.nowStatus)
             this.initState()
-            
             this.getStateRole(this.timeStatus)
             this.controlEdit(this.timeStatus)
-        
             // if(this.routePageList.edit === 'false') {
             //     this.initState()
             // }
@@ -1354,6 +1350,8 @@ async getAllpageList(val){
             }
             //备注信息
             // this.remarksList = res.data.developmentmemoVos
+            }else {
+                this.pageLoading = false
             }
         })
     },
@@ -1394,7 +1392,7 @@ async getAllpageList(val){
         }else if(countryName == '英国'){
             // 英国：产品【最长边】超过118cm，请审核人员重新计算利润!（第二长边超过70cm、第三长边超过60、重量超过30KG、体积超过0.23方）；
             if(sizeList[2] > 118){
-                    this.showSizeText.push('产品最长边超过118cm，')
+                this.showSizeText.push('产品最长边超过118cm，')
             } if(sizeList[1] > 70){
                 this.showSizeText.push('第二长边超过70cm，')
             } if (sizeList[0] > 60){
@@ -1407,8 +1405,7 @@ async getAllpageList(val){
         }
         if(this.showSizeText.length>0){
             this.showSizeText.push('请审核人员重新计算利润！')
-        }
-        
+        }   
     },
     //步骤条显示数据处理
     getDevProgresses(val){
@@ -1429,12 +1426,11 @@ async getAllpageList(val){
     },
     updeEditPage(val){  
         if(val){
-        this.isEdit1 = val
-        this.getAllpageList()
+            this.isEdit1 = val
+            this.getAllpageList()
         }else {
-        this.getAllpageList()
-        }
-        
+            this.getAllpageList()
+        }  
     },
     salesEditPage(val){  
         this.isEdit2 = val
@@ -1499,7 +1495,6 @@ async getAllpageList(val){
         }else{
             image.style.left = image.offsetLeft - 100 + 'px'
         }
-        
     },
     handleClick(activeName){
         if(activeName == 'tenth'){
@@ -1516,13 +1511,11 @@ async getAllpageList(val){
             Mark:'Check',
             customButtonName:'审核节点备注',
             showAllbutton:true,
-        }
-            
+        }  
         this.showTenth = true
         }else {
             this.showTenth = false
         }
-    
     },
     changeCountry(developmentId,productId,productCountryId){
         let routeData = this.$router.resolve({
@@ -1551,7 +1544,7 @@ async getAllpageList(val){
 }
 .nav-container {
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background-color: rgba(230, 230, 230, 1);
   .cardBox{
     position: relative;
@@ -1565,7 +1558,7 @@ async getAllpageList(val){
         height: 39px;
         z-index: 1000;
         border-radius: 5px;
-    .remarks {
+        .remarks {
             position: fixed;
             left: 22px;
             top: 248px;
@@ -1583,7 +1576,7 @@ async getAllpageList(val){
     .cardBoxMain{
         margin:0 10px;
         ::v-deep .el-tabs__nav{
-                .is-active{
+            .is-active{
                 font-weight: bold !important;
             }
         }
@@ -1711,7 +1704,7 @@ async getAllpageList(val){
         line-height: 130px;
         cursor: pointer;
         .el-icon-d-arrow-right{
-                font-size: 30px;
+            font-size: 30px;
         }
     }
 }
@@ -1728,7 +1721,6 @@ async getAllpageList(val){
         padding: 10px !important;
         font-size: 16px;
         font-weight: bold;
-        //   height: 62px;
     }
 }
 .tabContainer{

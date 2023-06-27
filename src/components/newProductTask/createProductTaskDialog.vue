@@ -278,15 +278,9 @@ name:"createProductTaskDialog",
                 design : [
                     { required: true, message:'请选择设计款', trigger:['blur', 'change'] }
                 ],
-                // supplierType : [
-                //     { required: true, message:'请选择是否有供应商', trigger:['blur', 'change'] }
-                // ],
                 businessId : [
                     { required: true, message:'请选择业务开发', trigger:['blur', 'change'] }
                 ],
-                // buyerId : [
-                //     { required: true, message:'请选择采购开发', trigger:['blur', 'change'] }
-                // ],
                 leader : [
                     { required: true, message:'请选择品类经理', trigger:['blur', 'change'] }
                 ],
@@ -321,17 +315,13 @@ name:"createProductTaskDialog",
         action(){
             return uploadFilesUrl()
         },
-        controlsEdit(){
-            
+        controlsEdit(){  
             if(this.editableList.includes(this.rowList.state)) {
                 return true
             }else {
                 return false
             }
         },
-        
-
-  
     },
     methods: {
         openDialog(row,id){
@@ -369,12 +359,10 @@ name:"createProductTaskDialog",
                 this.form = {}
                 this.rowList = {}
                 this.$set(this.form,'design',2)
-                // this.$set(this.form,'supplierType',0)
                 this.$set(this.form,'expectStartTime',this.$moment().format("YYYY-MM-DD"))
                 this.imgUrl = '' 
                 this.changeExpectSatrtTime()
             } 
-          
             this.getTypeList()
         },
         getTypeList(){
@@ -421,12 +409,9 @@ name:"createProductTaskDialog",
                 }
                 getExpectEndTime(param).then(res => {
                     this.$set(this.form,'expectEndTime',res.data)
-
                 })
-            }
-            
+            } 
         },
-
         handleAvatarSuccess(res, file) {
             this.imgUrl =  GetFileServiceUrl(res.data[0])
             this.imgLoading = false
@@ -473,7 +458,6 @@ name:"createProductTaskDialog",
                         seriesCategoryId:  this.form.classCategoryIdArray[0],//类目系列
                         classifyDefId: this.form.classCategoryIdArray[1],
                     }
-
                     saveProgressDevelopment(params).then((res) => {
                         if(res.code == 200){
                             this.$message({

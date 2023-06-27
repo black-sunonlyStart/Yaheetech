@@ -68,8 +68,8 @@
                                     <el-image 
                                         :src="GetFileServiceUrl(scope.row.pictureUri)" 
                                         style="width:200px;height:200px" 
-                                        :key="GetFileServiceUrl(scope.row.pictureUri)* Math.random()" 
-                                        @click="blankImageUrl(GetFileServiceUrl(scope.row.pictureUri))"
+                                        :key="scope.row.pictureUri* Math.random()" 
+                                        @click="blankImageUrl(GetFileServiceUrl( scope.row.pictureUri))"
                                         lazy
                                         :scroll-container="scrollContainer"
                                     >
@@ -83,7 +83,7 @@
                                     <el-image
                                         slot="reference"
                                         style="width: 80px; height: 80px; dispaly:black;margin-top:3px;cursor:pointer;"
-                                        :src="GetFileServiceUrl(scope.row.pictureUri)" 
+                                        :src="GetFileServiceUrl('Small/' + scope.row.pictureUri)" 
                                         lazy
                                         @click="blankImageUrl(GetFileServiceUrl(scope.row.pictureUri))"
                                         :scroll-container="scrollContainer"
@@ -253,7 +253,6 @@
                     </template>
                     <template slot-scope="scope">
                         <div style="display:flex;justify-content: space-around;">
-          
                             <el-popover
                                 placement="bottom"
                                 trigger="hover"
@@ -278,9 +277,7 @@
                                 popper-class='popperBorder1' style="border:none"
                                 >
                                 <div class="operationBox" v-for="item in edidOperationList" :key="item.id" v-permission:[item.permission]> 
-                                    <div class="operationText"  
-                                        @click="editOperation(scope.row,item.id)"
-                                    >
+                                    <div class="operationText"   @click="editOperation(scope.row,item.id)">
                                         <div class="nameBox" >{{editableList.includes(scope.row.state) && item.nameT ? item.nameT : item.name}}</div>
                                     </div>
                                 </div>
@@ -426,6 +423,7 @@ export default {
         },
     },
     methods:{
+        //导出报表
         outPutReport(val) {
             let options = []
             switch (val)  {
@@ -439,15 +437,15 @@ export default {
                         return
                     }
                     options = [
-                            {
-                                "Field":'ProductId',
-                                'Value':document.URL.includes('yaheecloud') ?793:153,//测试
-                            },
-                            {
-                                "Field":'progressDevelopmentId',
-                                'Value':this.multipleSelection[0].id
-                            },
-                        ]
+                        {
+                            "Field":'ProductId',
+                            'Value':document.URL.includes('yaheecloud') ?793:153,//测试
+                        },
+                        {
+                            "Field":'progressDevelopmentId',
+                            'Value':this.multipleSelection[0].id
+                        },
+                    ]
                     break;
                 } 
                 default : {
@@ -493,6 +491,7 @@ export default {
             //把每一行的索引放进row
             row.index = rowIndex;
         },
+        //选中表格加背景颜色
         selectedHighlight({ row, rowIndex }) {
             if (this.getIndex.includes(rowIndex) ) {
                 return {
@@ -500,6 +499,7 @@ export default {
                 };
             }
         },
+        //按状态区分颜色
         changeBgColor(val) {
             let stateList1 = [1,4,5,7,10,16,19,20,22,27,29]
             let stateList2 = [18,21,23]
@@ -519,7 +519,6 @@ export default {
             }else {
                  return '#3366cc'
             }
-           
         },
         //点击行触发，选中或不选中复选框
         handleRowClick(row){
@@ -529,7 +528,8 @@ export default {
             }else {
                 this.getIndex.push(row.index);
             }   
-        },     
+        }, 
+        //冻结数据   
         freezing(val) {
             if(this.multipleSelection.length == 0) {
                 this.error('请至少选择一条数据！')
@@ -551,8 +551,7 @@ export default {
                     confirmButtonText: '确定',
                     type: 'warning',
                     cancelButtonClass: 'btn-custom-cancel',
-                    }).then(() => {
-                       
+                    }).then(() => {                      
                         let param = {
                             progressDevelopmentIds:id,
                             operation:val,
@@ -568,6 +567,7 @@ export default {
                 });   
             }
         },
+        //冻结数据 取消冻结，恢复开发
         changeFreezing(command) {
             if(this.multipleSelection.length == 0) {
                 this.error('请至少选择一条数据！')
@@ -621,6 +621,7 @@ export default {
                 this.timeEnumList = res.data
             })
         },
+        //下载文件地址
         GetFileServiceUrl(url) {
             return GetFileServiceUrl(url)
         },
@@ -704,6 +705,7 @@ export default {
             this.showTenth = false
             this.dialogVisible = false
         },
+        //打开日志弹窗
         openRecordDialog(val){
             this.remarksParam = {
                 productCountryId:val.id,
@@ -724,27 +726,27 @@ export default {
         changeMaxHeight(){
             return window.innerHeight - 240 + 'px'
         },
-      
+      //获取列表数据
         mainListList:debounce (function(val){
             if(!val) val = this.uploadFilterList
             this.loading = true
-                let params = {
-                    pageNum:this.pageNum,
-                    pageSize:this.pageSize,
-                    search: val ? val.search : '',//综合搜索  sku/sku别名/申请号
-                    dateFrom:val && val.timeValue2 ? val.timeValue2[0]: '',//申请日期 开始时间
-                    dateTo: val && val.timeValue2 ?val.timeValue2[1]: '',//申请日期 截至时间
-                    // categoryId: val && val.categoryId ?val.categoryId : null,//类目系列
-                    seriesCategoryId: val && val.seriesCategoryId ?val.seriesCategoryId : null,//类目系列
-                    classifyDefId: val && val.classifyDefId ?val.classifyDefId : null,//类目系列
-                    leader: val && val.leader ?val.leader : null,//品类经理
-                    curBusiness:  val.curBusiness,//业务开发   true：自己  false：其他
-                    curBuyer:  val.curBuyer,//采购开发   true：自己  false：其他
-                    state: val && val.state ?val.state : null,//状态 -- /getStateTime   接口，另外补充  50   已冻结、51   已取消
-                    design: val && val.design ?val.design : null,//设计款
-                    timeEnum:val && val.timeEnum ? val.timeEnum : null,
-                    supplierType:val && val.supplierType ? val.supplierType : null,
-                }
+            let params = {
+                pageNum:this.pageNum,
+                pageSize:this.pageSize,
+                search: val ? val.search : '',//综合搜索  sku/sku别名/申请号
+                dateFrom:val && val.timeValue2 ? val.timeValue2[0]: '',//申请日期 开始时间
+                dateTo: val && val.timeValue2 ?val.timeValue2[1]: '',//申请日期 截至时间
+                // categoryId: val && val.categoryId ?val.categoryId : null,//类目系列
+                seriesCategoryId: val && val.seriesCategoryId ?val.seriesCategoryId : null,//类目系列
+                classifyDefId: val && val.classifyDefId ?val.classifyDefId : null,//类目系列
+                leader: val && val.leader ?val.leader : null,//品类经理
+                curBusiness:  val.curBusiness,//业务开发   true：自己  false：其他
+                curBuyer:  val.curBuyer,//采购开发   true：自己  false：其他
+                state: val && val.state ?val.state : null,//状态 -- /getStateTime   接口，另外补充  50   已冻结、51   已取消
+                design: val && val.design ?val.design : null,//设计款
+                timeEnum:val && val.timeEnum ? val.timeEnum : null,
+                supplierType:val && val.supplierType ? val.supplierType : null,
+            }
             getProgressDevelopment(params).then(res => {
                 if(res.data){
                     this.loading = false
@@ -803,85 +805,84 @@ export default {
 }
 </script>
 <style scoped lang="scss">
-    .popperBorder{
-        border: none !important;
-        padding: 0 !important;
-        .copeTitle{
-            color: #3366cc;
-            cursor: pointer;
-            font-size: 20px;
-            margin-left: 0px;
-            &:hover{
-                background-color:#3366cc ;
-                color: #ffffff;
-                display: inline-block;
-            }
-        }
-    }
-    .rightBottom-title {
-        position:absolute;bottom:2px;right:2px;border:1px dashed #ccc;width: 45px;height: 17px;line-height: 17px;
-    }
-    .blue-button {
-        background-color: #3366cc;
-        padding: 0px;
-        color: #ffffff;
-        border-radius: 4px;
-        margin-bottom: 3px;
-        height:25px;line-height:25px
-    }
-    .fileHoverShow{
+.popperBorder{
+    border: none !important;
+    padding: 0 !important;
+    .copeTitle{
         color: #3366cc;
-        display: inline;
+        cursor: pointer;
+        font-size: 20px;
+        margin-left: 0px;
         &:hover{
-            background: #3366cc;
+            background-color:#3366cc ;
             color: #ffffff;
-            cursor: pointer;
+            display: inline-block;
         }
     }
-    .imageBox{
-        height: 18px;
-        width: 18px;
-        background-image: url(~@/assets/bianji.png);
-        cursor: pointer !important;
-        margin: 0px 10px;
+}
+.rightBottom-title {
+    position:absolute;bottom:2px;right:2px;border:1px dashed #ccc;width: 45px;height: 17px;line-height: 17px;
+}
+.blue-button {
+    background-color: #3366cc;
+    padding: 0px;
+    color: #ffffff;
+    border-radius: 4px;
+    margin-bottom: 3px;
+    height:25px;line-height:25px
+}
+.fileHoverShow{
+    color: #3366cc;
+    display: inline;
+    &:hover{
+        background: #3366cc;
+        color: #ffffff;
+        cursor: pointer;
     }
-    .imageHistoryBox{
-        height: 23px;
-        width: 23px;
-        background-image: url(~@/assets/shenhe.png);
-        cursor: pointer !important;
+}
+.imageBox{
+    height: 18px;
+    width: 18px;
+    background-image: url(~@/assets/bianji.png);
+    cursor: pointer !important;
+    margin: 0px 10px;
+}
+.imageHistoryBox{
+    height: 23px;
+    width: 23px;
+    background-image: url(~@/assets/shenhe.png);
+    cursor: pointer !important;
+}
+.button-put{
+    padding: 5px 10px;
+    font-size: 12px;
+}
+.maina-tab-title{
+    top: -10px;
+    .flot-left{
+        float: left;
     }
-    .button-put{
-        padding: 5px 10px;
-        font-size: 12px;
+    .order-position{
+        margin-left: 10px;
     }
-    .maina-tab-title{
-        top: -10px;
-        .flot-left{
-            float: left;
-        }
-        .order-position{
-            margin-left: 10px;
-        }
-    }
-    .item {
-            padding: 6px;
-            background-color: #fdfdfd;
-            border: solid 1px #eee;
-            margin-bottom: 10px;
-            cursor: pointer;
-        } 
-        /*选中样式*/
-        .chosen {
-            border: solid 2px #3089dc !important;
-        }
-    .page-box{
-        position: fixed;
-        bottom: 10px;
-        right: 30px;
-    }
-    .operationBox{
-  
+}
+.item {
+    padding: 6px;
+    background-color: #fdfdfd;
+    border: solid 1px #eee;
+    margin-bottom: 10px;
+    cursor: pointer;
+} 
+/*选中样式*/
+.chosen {
+    border: solid 2px #3089dc !important;
+}
+.page-box{
+    position: fixed;
+    bottom: 10px;
+    right: 30px;
+}
+.operationBox{
     .operationText{
         .nameBox{
             line-height: 7px;
@@ -928,7 +929,7 @@ export default {
     text-align: left;
 }
 .btn-custom-cancel {
-  float: right;
-  margin-left: 10px;
+    float: right;
+    margin-left: 10px;
 }
 </style>

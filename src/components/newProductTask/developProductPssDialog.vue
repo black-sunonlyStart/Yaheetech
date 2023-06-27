@@ -153,11 +153,9 @@ export default {
         },
         openDialog(params){
             this.dialogVisible = true
-            
             getProgressDevelopmentMemo(params.id).then(res => {
                 if(res.code == 200){
                     this.tableData = res.data
-
                 }
             })
         },

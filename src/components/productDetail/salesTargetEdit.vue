@@ -2,12 +2,12 @@
     <div>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="170px" class="demo-ruleForm" size="mini">
             <el-row :gutter="150">
-                <el-col :span="10" :lg="20" :xl="10">
+                <el-col :span="10"  :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
                     <el-form-item label="产品星级评分:" prop="staRating">
                         <el-input-number  :controls='false' :precision="1" :step="0.1" :max="5" :min="0" v-model="ruleForm.staRating" class="numberInput"></el-input-number>
                     </el-form-item>
                 </el-col>
-                <el-col :span="10" :lg="20" :xl="10">
+                <el-col :span="10"  :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
                     <el-form-item label="目标采购价:" prop="targetPrice">
                         <div class="targetPriceWbox">
                             <div class="inputBox">
@@ -33,45 +33,45 @@
                 </el-col>
             </el-row>
             <el-row :gutter="150">
-                <el-col :span="10" :lg="20" :xl="10">
+                <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10" >
                     <el-form-item label="我司目标星级评分:" prop="westaRating">
                         <el-input-number  :controls='false' :precision="1" :step="0.1" :max="5" :min="0" v-model="ruleForm.westaRating" class="numberInput"></el-input-number>
                     </el-form-item>
                 </el-col>
-                <el-col :span="10" :lg="20" :xl="10">
+                <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
                     <el-form-item label="产品预估日销量:" prop="dailySales">
                         <el-input-number  :controls='false'  v-model="ruleForm.dailySales" class="numberInput"></el-input-number>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row :gutter="150">
-                <el-col :span="10" :lg="20" :xl="10">
+                <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
                     <el-form-item label="目标售后返修率要求:" prop="rateRequirements">
                         <el-input v-model="ruleForm.rateRequirements">
                             <template slot="append" >%</template>
                         </el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="10" :lg="20" :xl="10">
+                <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
                     <el-form-item label="预估首单订单数量:" prop="orderQuantity">
                         <el-input-number  :controls='false'  v-model="ruleForm.orderQuantity" class="numberInput"></el-input-number>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row :gutter="150">
-                <el-col :span="10" :lg="20" :xl="10">
+                <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
                     <el-form-item label="产品开发市场:" prop="productMarket">
                         <el-input v-model="ruleForm.productMarket" type="textarea" maxlength="200" show-word-limit></el-input>
                     </el-form-item>
                 </el-col>
-                <el-col :span="10" :lg="20" :xl="10">
+                <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
                     <el-form-item label="产品包装尺寸特殊要求:" prop="specialPackaging">
                         <el-input type="textarea" v-model="ruleForm.specialPackaging"  maxlength="200" show-word-limit></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>     
             <el-row :gutter="150">
-                <el-col :span="10" :lg="20" :xl="10">
+                <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
                      <el-form-item label="产品测样时间点:" prop="samplingTime">
                         <el-date-picker
                             v-model="ruleForm.samplingTime"
@@ -81,7 +81,7 @@
                         </el-date-picker>
                     </el-form-item>
                 </el-col>
-                <el-col :span="10" :lg="20" :xl="10">
+                <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
                      <el-form-item label="产品下单时间点:" prop="orderTime">
                         <el-date-picker
                             v-model="ruleForm.orderTime"

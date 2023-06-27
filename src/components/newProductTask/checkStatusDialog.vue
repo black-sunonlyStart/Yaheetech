@@ -208,6 +208,7 @@ export default {
 
     },
     methods:{
+        //提前延期时间对比
         showSjDay(sjDay,yjDay,val) {
             if(sjDay - yjDay == 0){
                 if(val == 1) {

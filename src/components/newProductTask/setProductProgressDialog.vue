@@ -38,8 +38,7 @@
                             <div v-if="scope.row.state == 18" style="width:45%;display:flex">
                                 <div style="width:75px;flex-shrink: 0;">全新供应商：</div>
                                 <el-input type="text" v-model.number="scope.row.stateTime1" size="mini" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')"></el-input>
-                            </div>
-                            
+                            </div> 
                         </div>
                     </template>
                 </el-table-column>
@@ -103,7 +102,7 @@ export default {
 ::v-deep.dialog-main{
     .el-dialog__header{
         border-bottom: 1px solid #ccc;
-         padding: 10px 0 10px 20px;
+        padding: 10px 0 10px 20px;
         .el-dialog__title{
             font-weight: bold;
         }

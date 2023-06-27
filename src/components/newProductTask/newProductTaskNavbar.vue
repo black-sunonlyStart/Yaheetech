@@ -376,7 +376,6 @@ export default {
             border-radius: 2px;
             border: 1px solid #DCDFE6;
             border-left: 1px solid #DCDFE6;
-          
             &:hover {
                 border: 1px solid #3366cc;
                 border-left: 1px solid #3366cc;
@@ -384,7 +383,7 @@ export default {
             }
         }  
     }
-     ::v-deep .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+    ::v-deep .el-radio-button__orig-radio:checked + .el-radio-button__inner {
         box-shadow: 0px 0 0 0 #3366cc;
     }
     ::v-deep .success-radio {

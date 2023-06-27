@@ -80,7 +80,7 @@ export default {
 .nav-container {
     padding-top: 5px;
     width: 100%;
-    height: 100%;
+    height: 100vh;
     background-color: rgba(230, 230, 230, 1);
     ::v-deep .nav-card {
         // position: fixed;
