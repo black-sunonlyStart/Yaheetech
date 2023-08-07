@@ -62,7 +62,7 @@
 }
 
 let conGetExlist = {
-    GetHelpTagsUrl: function(Url) {
+    GetHelpTagsUrl: function(Url,type) {
         var BaseUrl = '';
         var domain = document.domain;
         if (domain.indexOf('localhost') >= 0) {
@@ -72,7 +72,12 @@ let conGetExlist = {
             BaseUrl = 'http://qas-newerp.yahee.com.cn:8088/PMS/Latest';
         }
         else {
-            BaseUrl = 'http://newerp.yaheecloud.com/PMS/Latest'
+            if(type == 1) {
+                BaseUrl = 'http://newerp.yaheecloud.com/PMS/Report'
+            }else {
+                BaseUrl = 'http://newerp.yaheecloud.com/PMS/Latest'
+            }
+           
         }
         return BaseUrl + Url;
     }
@@ -133,7 +138,7 @@ function Output(Option,Callback,that) {
         datas.append('Data', JSON.stringify(_Option) )
         datas.append('Id',Option.Id)
         datas.append('Type',0)
-        let url = conGetExlist.GetHelpTagsUrl("/ExportTable/OutputNew").toString()
+        let url = conGetExlist.GetHelpTagsUrl("/ExportTable/OutputNew",1).toString()
         OutputNew(url,datas,2000000).then(res => {  
                 if(!res.Url){
                     if(res.Success == false){

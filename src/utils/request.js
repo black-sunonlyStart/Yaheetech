@@ -23,7 +23,7 @@ let removePending = (config) => {
 }
 service.interceptors.request.use(
   config => {
-    if(cancelListApi.includes(config.url.split('/')[2])){
+    if(config.url && cancelListApi.includes(config.url.split('/')[2])){
         removePending(config); //在一个axios发送前执行一下取消操作
         config.cancelToken = new cancelToken((c)=>{
             // pending存放每一次请求的标识，一般是url + 参数名 + 请求方法，当然你可以自己定义
@@ -71,7 +71,7 @@ service.interceptors.response.use(
     if(error['__CANCEL__']) {
         return Promise.reject(1)
     }
-    if(error.response.status == 401) {
+    if(error.response && error.response.status == 401) {
         // let login_url = 'http://portal.yaheecloud.com';//正式
         // let login_url = 'http://qas-portal.yahee.com.cn:8088';//测试111
         let showProduct = judgePorduction()
@@ -84,7 +84,7 @@ service.interceptors.response.use(
         var localhref = location.href;
         window.location.href = login_url+'/Latest/Account/LogOn?returnUrl='+localhref;
       
-    }else if(error.response.status == 403){
+    }else if(error.response && error.response.status == 403){
         addMask()
         let permission = error.response.headers.sc_forbidden_code || ''
         Message({

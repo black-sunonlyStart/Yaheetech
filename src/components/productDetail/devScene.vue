@@ -264,7 +264,8 @@ export default {
             this.$confirm('保存以后开发场景和关联场景不允许更改，请确认要继续保存？', '提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
-                        type: 'warning'
+                        type: 'warning',
+                        cancelButtonClass: 'btn-custom-cancel',
                         }).then(() => {
                             exploitType(params).then(res => {
                                 if(res.code == 200){

@@ -63,7 +63,7 @@
                         </el-option>
                     </el-select> 
                 </el-form-item>
-                <el-form-item :label="label" prop="remark" v-if="clickId != 6 && clickId != 20">
+                <el-form-item :label="label" prop="remark" v-if="clickId != 6 && clickId != 20 && clickId != 50">
                     <el-input v-model="ruleForm.remark" type="textarea" maxlength="500" show-word-limit></el-input>
                 </el-form-item>
                 <el-form-item label="更改采购开发员" prop="dailySales" v-if="clickId == 6">
@@ -97,6 +97,21 @@
                 <div v-if="clickId == 3" class="defText">
                     取消开发以后，产品数据会作废，且不可再开发此市场。
                 </div>
+                <el-form-item label="更换负责人" prop="auditor" v-if="clickId ==50">
+                    <el-select 
+                        v-model="ruleForm.auditor"
+                        filterable 
+                        >
+                        <el-option 
+                            v-for="item in examineList"                        
+                            :key="item.Id"
+                            :label="item.TrueName"
+                            :value="item.Id"
+                            >
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+
             </el-form>
             <span slot="footer" class="dialog-footer">
                 <el-button 
@@ -115,7 +130,7 @@
     </div>
 </template>
 <script>
-import { selectRoleEmployeeForRoleId,approvalPass,beginApprovalPass,loadToBack,updateResponsible,cancelExploit,getDevelopStates,toEndCheck } from '@/api/user.js'
+import { selectRoleEmployeeForRoleId,approvalPass,beginApprovalPass,loadToBack,updateResponsible,cancelExploit,getDevelopStates,toEndCheck,getAssignedAuditorList,saveAssignedAuditor} from '@/api/user.js'
 export default {
     name:'messageDialog',
     data(){
@@ -123,6 +138,7 @@ export default {
             loading:false,
             developStateList:[],
             dailySales:[],
+            examineList:[],
             type2:[],
             label:'',
             ruleForm:{
@@ -131,6 +147,7 @@ export default {
                 type:'',
                 remark:'',
                 dailySales:'',
+                auditor:'',
             },
             orderListStatus:[2,4,11,12,13],
             dailyListStatus:[0,1,3,5,10],
@@ -152,6 +169,9 @@ export default {
                 ],
                 platformid: [
                     { required: true, message: '请选择开发优先级', trigger: 'blur' },
+                ],
+                auditor: [
+                    { required: true, message: '请选择负责人', trigger: 'blur' },
                 ],
             },
             devSign:[
@@ -265,7 +285,7 @@ export default {
               if(val){
                 this.$nextTick(() => {
                     this.clickId = val
-                    if(this.clickId == 6 || this.clickId == 20 ){
+                    if(this.clickId == 6 || this.clickId == 20 || this.clickId == 50 ){
                         this.getTypeList()
                     } 
                 })
@@ -310,10 +330,6 @@ export default {
     },
     mounted(){
         this.changeLabel()
-        if(this.clickId == 6 || this.clickId == 20 ){
-              this.getTypeList()
-        } 
-
     },
     methods:{
         getDevelopStatesList(){
@@ -356,6 +372,10 @@ export default {
                 }
                 selectRoleEmployeeForRoleId(itemList).then(res => {
                     this.dailySales = res.data
+                })
+            }else if(this.clickId == 50){
+                getAssignedAuditorList().then(res => {
+                    this.examineList = res.data
                 })
             }
         },
@@ -403,7 +423,7 @@ export default {
                 toState = this.row.state + 1
             }
             let row = []
-            if((this.clickId == 2 || this.clickId == 6 || this.clickId == 20 || this.clickId == 30 )&& this.selectRow.length > 0){
+            if((this.clickId == 2 || this.clickId == 6 || this.clickId == 20 || this.clickId == 30 || this.clickId == 50 )&& this.selectRow.length > 0){
                  row = this.selectRow.map(res => {
                     return res.id
                 })
@@ -568,6 +588,27 @@ export default {
                         this.loading = false
                     })
                 }
+                if(this.clickId == 50){
+                    let params = {
+                        productCountryIds:row.toString(),
+                        auditor:this.ruleForm.auditor
+                    }
+                    saveAssignedAuditor(params).then(res => {
+                        if(res.code == 200){
+                            this.$message({
+                                type: 'success', 
+                                message:'保存成功',
+                                offset:220
+                            })
+                            this.$emit('getTableList',this.navFilterList)
+                            this.$refs['ruleForm'].resetFields();
+                            this.dialogVisible = false 
+                            this.loading = false 
+                        }  
+                    }).catch((err) => {
+                        this.loading = false
+                    })
+                } 
             }
         })
     }

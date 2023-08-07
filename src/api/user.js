@@ -403,9 +403,16 @@ export function getCountry(data) {
       params:data
     })
   }
+  export function getAssignedAuditorList(data) {
+    return request({
+      url: '/productManage/getAssignedAuditorList',
+      method: "get", 
+      params:data
+    })
+  }
   export function getFilePath(url,data) {
     return request({  
-      url: url,
+      url,
       method: "get", 
       params:data
     })
@@ -423,6 +430,13 @@ export function getCountry(data) {
       url:'/common/sendReq',
       method: "post", 
       data
+    })
+  }
+  export function saveAssignedAuditor(data) {
+    return request({  
+      url:'/productManage/saveAssignedAuditor',
+      method: "get", 
+      params:data
     })
   }
   export function FindGlobalNotes(url,data) {
@@ -591,3 +605,143 @@ export function saveAssigneeId(data) {
   }
 
 //新品开发任务 end
+
+//样品确认任务start
+
+//样品确认列表数据
+export function queryProductSample(data){
+    return request ({
+        url:'/productSample/queryProductSample',
+        method:'post',
+        data
+    })
+}
+//查询指定样品确认数据
+export function queryProductSampleById(data){
+    return request ({
+        url:'/productSample/queryProductSampleById',
+        method:'get',
+        params:data
+    })
+}
+//获取供应商数据
+export function findSupplier(data){
+    return request ({
+        url:'/productSample/findSupplier',
+        method:'get',
+    })
+}
+//保存分配样品确认人员
+export function saveSampleValidator(data){
+    return request ({
+        url:'/productSample/saveSampleValidator',
+        method:'post',
+        data
+    })
+}
+//提交样品确认数据
+export function approvalSampleMemo(data){
+    return request ({
+        url:'/productSample/approvalSampleMemo',
+        method:'post',
+        data
+    })
+}
+//取消数据
+export function cancelApplication(data){
+    return request ({
+        url:'/productSample/cancelApplication',
+        method:'post',
+        data
+    })
+}
+//打回数据
+export function repulse(data){
+    return request ({
+        url:'/productSample/repulse',
+        method:'post',
+        data
+    })
+}
+//恢复数据
+export function unCancel(data){
+    return request ({
+        url:'/productSample/unCancel',
+        method:'post',
+        data
+    })
+}
+//关联数据查询
+export function getRelevanceProductSample(data){
+    return request ({
+        url:'/productSample/getRelevanceProductSample',
+        method:'get',
+        params:data
+    })
+}
+//获取关联数据id
+export function getId(data){
+    return request ({
+        url:'/productSample/getId',
+        method:'get',
+        params:data
+    })
+}
+//上传文件的接口
+export function saveProductSampleAttachment(data){
+    return request ({
+        url:'/productSample/saveProductSampleAttachment',
+        method:'post',
+        data
+    })
+}
+//样品编辑接口
+export function saveProductSample(data){
+    return request ({
+        url:'/productSample/saveProductSample',
+        method:'post',
+        data
+    })
+}
+//验证、获取 开发ID / sku别名
+export function getProductKey(data){
+    return request ({
+        url:'/productSample/getProductKey',
+        method:'get',
+        params:data
+    })
+}
+//验证&获取 是否产前样 & 来样次数
+export function getPreproductionSample(data){
+    return request ({
+        url:'/productSample/getPreproductionSample',
+        method:'post',
+        data
+    })
+}
+//提交样品确认文件数据
+export function savaProductSampleRes(data){
+    return request ({
+        url:'/productSample/savaProductSampleRes',
+        method:'post',
+        data
+    })
+}
+//同步样品文件
+export function saveProductSampleAttachment1(data){
+    return request ({
+        url:'/productSample/saveProductSampleAttachment1',
+        method:'post',
+        data
+    })
+}
+//同步样品文件
+export function delSampleInfo(data){
+    return request ({
+        url:'/productSample/delSampleInfo',
+        method:'get',
+        params:data
+    })
+}
+
+//样品确认任务end

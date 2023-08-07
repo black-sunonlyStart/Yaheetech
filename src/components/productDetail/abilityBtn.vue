@@ -25,12 +25,17 @@
             <el-dropdown-menu slot="dropdown">
                 <!-- <el-dropdown-item command= 6 plain>更换采购开发</el-dropdown-item> -->
                 <el-dropdown-item 
-                command= 20 
-                plain  
-                v-permission="'ERP.Product.ProductDev.DistributionProcurement'" 
-                perkey='ERP.Product.ProductDev.DistributionProcurement'
-                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'更换采购开发按钮'}"
+                    command= 20 
+                    plain  
+                    v-permission="'ERP.Product.ProductDev.DistributionProcurement'" 
+                    perkey='ERP.Product.ProductDev.DistributionProcurement'
+                    v-track="{triggerType:'click',currentUrl: $route.path,behavior:'更换采购开发按钮'}"
                 >更换采购开发</el-dropdown-item>
+                <el-dropdown-item 
+                    command= 30 
+                    plain  
+                    v-track="{triggerType:'click',currentUrl: $route.path,behavior:'更换负责人按钮'}"
+                >更换负责人</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
         <el-dropdown trigger="hover" @command="frozenCommand" size='mini' >
@@ -248,19 +253,20 @@
             },
             handleCommand(){
                 if( !this.selectRow || this.selectRow.length == 0 || this.selectRow.length == undefined){
-                    this.$message({
-                        type: 'error', 
-                        message:'请选择数据',
-                        offset:220
-                    })
-                    return
-                }
-                this.row = this.selectRow
-                this.dialogName = '更换业务开发'
-                this.clickId = 20
-                this.$refs.messageDialog.openDialog()
+                        this.$message({
+                            type: 'error', 
+                            message:'请选择数据',
+                            offset:220
+                        })
+                        return
+                    }
+                    this.row = this.selectRow
+                    this.dialogName = '更换业务开发'
+                    this.clickId = 20
+                    this.$refs.messageDialog.openDialog()
+               
             },
-            changeOrderPer(){
+            changeOrderPer(command){
                 if( !this.selectRow || this.selectRow.length == 0 || this.selectRow.length == undefined){
                     this.$message({
                         type: 'error', 
@@ -270,9 +276,25 @@
                     return
                 }
                 this.row = this.selectRow
-                this.dialogName = '更换采购开发'
-                this.clickId = 6
-                this.$refs.messageDialog.openDialog()
+
+                if(command == 20){
+                    this.dialogName = '更换采购开发'
+                    this.clickId = 6
+                    this.$refs.messageDialog.openDialog()
+                }else if(command == 30){
+
+                    if(this.selectRow.some(item => [7,8,9,14].includes(item.state) )){
+                        this.$message({
+                            type: 'error', 
+                            message:'已取消、已冻结、开发完已上架、开发完未上架状态数据不允许更改负责人！',
+                            offset:220
+                        })
+                        return
+                    }
+                    this.dialogName = '更换负责人'
+                    this.clickId = 50
+                    this.$refs.messageDialog.openDialog()
+                }
             },
             frozenCommand(val){
                  if( !this.selectRow || this.selectRow.length == 0 || this.selectRow.length == undefined){

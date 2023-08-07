@@ -17,7 +17,7 @@ export const constantRoutes = [
   {
     name:'productDetails',
     path: '/productDetails',
-    component: () => import('@/views/packTableList/productDetails'),
+    component: () => import('@/views/packTableList/mainPage/productDetails'),
     hidden: true
   },
   {
@@ -25,6 +25,24 @@ export const constantRoutes = [
     path: '/productDevelopAt',
     component: () => import('@/views/newProductPage/index'),
     hidden: true
+  },
+  {
+    name:'sampleConfirmation',
+    path: '/sampleConfirmation',
+    component: () => import('@/views/sampleConfirmation/index'),
+    hidden: true,
+    meta:{
+        title:'样品确认'
+    }
+  },
+  {
+    name:'sampleDetail',
+    path: '/sampleDetail',
+    component: () => import('@/views/sampleConfirmation/mainPage/sampleDetail'),
+    hidden: true,
+    meta:{
+        title:'样品详情'
+    },
   },
 ]
 

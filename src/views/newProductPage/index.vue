@@ -12,8 +12,8 @@
     </div>
 </template>
 <script>
-import navBar from '@/components/newProductTask/newProductTaskNavbar.vue'
-import mainPageList from '@/components/newProductTask/newProductTaskMain.vue'
+import navBar from '@/views/newProductPage/mainPage/newProductTaskNavbar.vue'
+import mainPageList from '@/views/newProductPage/mainPage/newProductTaskMain.vue'
 import {hasPermissions } from '@/api/user.js'
 export default {
     components: {

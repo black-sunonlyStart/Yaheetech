@@ -42,7 +42,7 @@
             :limit="limit"
             :on-success="onSuccessUpload"
             :on-exceed="onExceed"
-            :data="fileType"
+            :data="{fileType,productSampleId:$route.query.id || null}"
             :before-upload="beforeUpload"
             :with-credentials='true'
         >
@@ -59,8 +59,8 @@
     <el-row v-if="showButton">
         <el-col :span="24">
             <div class="bottomButton">
-                <el-button type="primary" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'产品尺寸图'}" size="mini" @click="saveImgList" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
-                <el-button size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'产品尺寸图'}" @click="updeEditPage">取消</el-button>
+                <el-button type="primary" size="mini" @click="saveImgList" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
+                <el-button size="mini"  @click="updeEditPage">取消</el-button>
             </div>
         </el-col> 
     </el-row>  
@@ -70,7 +70,7 @@
 <script>
 import vuedraggable from 'vuedraggable'
 import {createUniqueString} from '@/utils/tools'
-import {loadFile} from '@/api/user.js'
+import {saveProductSampleAttachment} from '@/api/user.js'
 export default {
   name: 'ImgUpload',
   props: {
@@ -85,10 +85,6 @@ export default {
     limit: {
         type: Number,
         default: 99
-    },
-    imgFileType: {
-        type: Number,
-        default: 4
     },
     // 限制上传图片的文件大小(kb)
     size: {
@@ -125,8 +121,20 @@ export default {
     },
     imageURl:{
         type:String,
-        default:'productManage/loadFile'
-    }
+        default:'productSample/saveProductSampleAttachment'
+    },
+    fileType:{
+        type:Number,
+        default:0
+    },
+    imgUrl:{
+        type:String,
+        default:''
+    },
+    ruleName:{
+        type:String,
+        default:''
+    },
 },
 
 data () {
@@ -135,7 +143,6 @@ data () {
         //   headers: { token: getToken() },
         isUploading: false, // 正在上传状态
         isFirstMount: true ,// 控制防止重复回显
-        fileType:{},
     }
 },
 
@@ -154,7 +161,7 @@ computed: {
             this.syncElUpload(val)
             }
             // 同步v-model
-            this.$emit('inputImg', val,this.imageKey)
+            this.$emit('upDateFile',this.imgList,this.ruleName)
         }
     },
     // 控制达到最大限制时隐藏上传按钮
@@ -162,22 +169,17 @@ computed: {
         return this.imgList.length >= this.limit
     }
 },
-
 watch: {
     value: {
         handler (val) {
             if (this.isFirstMount && this.value.length > 0) {
-            this.syncElUpload()
+                this.syncElUpload(val)
             }
         },
         deep: true
     },
 },
 mounted () {
-    this.fileType = {
-        fileType:this.imgFileType,
-        developmentId:this.$route.query.developmentId
-    }
     if (this.value.length > 0) {
         this.syncElUpload()
     }
@@ -216,7 +218,10 @@ methods: {
                 offset:220
             })
         if (this.imgList.length < this.limit) {
-            this.$emit('closeEdit')
+            res.data[0].showImgUrl = `${this.imgUrl}/Small/${res.data[0].fileUri}`
+            res.data[0].showBigImgUrl = `${this.imgUrl}/${res.data[0].fileUri}`
+            this.imgList.push(res.data[0])
+            this.$emit('upDateFile',this.imgList,this.ruleName)
         }
       } else {
             this.syncElUpload()
@@ -225,26 +230,27 @@ methods: {
         this.isUploading = false
     },
     // 移除单张图片
-    onRemoveHandler (item) {
+    onRemoveHandler (item,index) {
         this.$confirm('确定删除该图片?', '提示', {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning',
-            cancelButtonClass: 'btn-custom-cancel',
+             cancelButtonClass: 'btn-custom-cancel',
         })
         .then(() => {
             let param = new FormData();
-            param.append('developmentId', this.$route.query.developmentId);
-            param.append('fileType', 1);
+            // param.append('productSampleId', this.$route.query.id || null);
+            param.append('fileType', this.fileType);
             param.append('datta', item.id);
             let config = {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             }; 
-            loadFile(param,config).then(res => {
+            saveProductSampleAttachment(param,config).then(res => {
                 if(res.code == 200){
-                   this.$emit('closeEdit')
+                    this.value.splice(index,1)
+                    this.$emit('upDateFile',this.imgList,this.ruleName)
                 }
             })
         })

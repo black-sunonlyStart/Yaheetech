@@ -648,6 +648,10 @@ export default {
       this.checkAll = checkedCount === this.cities.length;
       this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
     },
+     handleCheckAllChange(val) {
+        this.form.checkedCities = val ? cityOptions : [];
+        this.isIndeterminate = false;
+    },
     searchSomething(){
         this.$set(this.form,'search',this.putSearch)
         this.$set(this.form,'almorlist',Math.random())
@@ -661,10 +665,7 @@ export default {
       this.checkStatusAll = checkedCount === this.statusList.length;
       this.isIndeterminate1 = checkedCount > 0 && checkedCount < this.statusList.length;
     },
-    handleCheckAllChange(val) {
-        this.form.checkedCities = val ? cityOptions : [];
-        this.isIndeterminate = false;
-    },
+   
     handleStatusAllChange(val){
         this.form.status = val ? statusOptions : [];
         this.isIndeterminate1 = false;

@@ -24,6 +24,18 @@
                 </div>
             </el-col>
         </el-row>
+         <el-row class="textSpeaing" >
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">是否安吉产品： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.isanji && devInformationDetaiList.isanji == 1 ? '是':devInformationDetaiList.isanji == 0 ? '否' : ' ' }}</div>
+                </div>
+            </el-col>
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">负责人： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.auditorName }}</div>
+                </div>
+            </el-col>
+        </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
@@ -76,11 +88,6 @@
             <el-col :span="10">
                 <div class="colbox">
                     <div class="colBoxTitle">是否需要专利确认： </div> <div class="colBoxContent" style="font-weight: normal">{{ devInformationDetaiList.ispatentproduct == 0 ? '否':'是'}}</div>
-                </div>
-            </el-col>
-            <el-col :span="10">
-                <div class="colbox">
-                    <div class="colBoxTitle">是否安吉产品： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.isanji && devInformationDetaiList.isanji == 1 ? '是':devInformationDetaiList.isanji == 0 ? '否' : ' ' }}</div>
                 </div>
             </el-col>
         </el-row>

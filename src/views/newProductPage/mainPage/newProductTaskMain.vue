@@ -149,7 +149,8 @@
                     </template>
                     <template slot-scope="scope">
                         <div v-for="(item,index) in scope.row.pdStatuses" :key="index" style="height：30px;line-height:30px">
-                            <div class="blue-button" :style="{background:changeBgColor(item.state)}">{{item.statusValue}}</div>
+                            <div class="blue-button" :style="{background:changeBgColor(item.state)}" v-if="item.statusValue">{{item.statusValue}}</div>
+                            <div v-else>{{item.statusValue}}</div>
                         </div>
                     </template>
                 </el-table-column>

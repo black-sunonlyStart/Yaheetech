@@ -212,7 +212,7 @@
                         @click="putOperation(scope.row,item.id)"
                         >
                         <div class="nameBox" 
-                        v-if="showDev(scope.row,item.id)"   
+                       
                         v-permission:[item.perkey] :perkey='item.perkey'
                         v-track="{triggerType:'click',currentUrl: $route.path,behavior:item.name}"
                         >{{item.name}}</div></div>
@@ -249,7 +249,7 @@ import debounce from 'lodash.debounce'
 export default {
   name: 'mainTable',
   components:{
-      messageDialog:() => import('./messageDialog.vue')
+      messageDialog:() => import('../../../components/productDetail/messageDialog.vue')
   },
   data () {
     return {
@@ -333,7 +333,7 @@ export default {
   },
   methods: {
       showDev(row,id){
-          if( row.excludeAuditor.includes(this.IsAdminRoleId) && (row.state == 6 && id == 9 || row.state == 10 && id == 25)){
+          if( row.auditor == this.IsAdminRoleId && ((row.state == 3 && id == 14) || (row.state == 5 && id == 40))){
               return false 
           } else {
               return true

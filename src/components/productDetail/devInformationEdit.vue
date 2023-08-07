@@ -56,13 +56,21 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="开发优先级:" prop="orderQuantity">
-                        <el-radio-group v-model="ruleForm.orderQuantity">
-                            <el-radio :label="0">低</el-radio>
-                            <el-radio :label="1">中</el-radio>
-                            <el-radio :label="2">高</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
+                    <el-form-item label="负责人:" prop="auditor">
+                        <el-select 
+                            v-model="ruleForm.auditor"
+                            filterable 
+                            :disabled='showDailySales1'
+                            >
+                            <el-option 
+                                v-for="item in dailySales4"                        
+                                :key="item.Id"
+                                :label="item.TrueName"
+                                :value="item.Id"
+                                >
+                            </el-option>
+                        </el-select>
+                    </el-form-item>                  
                 </el-col>
             </el-row>
             <el-row>
@@ -191,6 +199,15 @@
                                 >
                             </el-option>
                         </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item label="开发优先级:" prop="orderQuantity">
+                        <el-radio-group v-model="ruleForm.orderQuantity">
+                            <el-radio :label="0">低</el-radio>
+                            <el-radio :label="1">中</el-radio>
+                            <el-radio :label="2">高</el-radio>
+                        </el-radio-group>
                     </el-form-item>
                 </el-col>
             </el-row>    
@@ -424,7 +441,7 @@
     </div>
 </template>
 <script>
-import { selectRoleEmployeeForRoleId , getPlatformSiteByCountry, getWarehouseByCountry ,developmentMsg,profitMargin} from '@/api/user.js'
+import { selectRoleEmployeeForRoleId , getPlatformSiteByCountry, getWarehouseByCountry ,developmentMsg,profitMargin,getAssignedAuditorList} from '@/api/user.js'
 export default {
     name:'devInformationEdit',
     data(){
@@ -434,6 +451,7 @@ export default {
             dailySales:[],
             dailySales2:[],
             dailySales3:[],
+            dailySales4:[],
             countryParams:'',
             loading:false,
             computeModeDefault:true,
@@ -443,6 +461,7 @@ export default {
                 targetPrice: '',
                 westaRating: '',
                 dailySales: '',
+                auditor:'',
                 rateRequirements: '',
                 orderQuantity: '',
                 // productMarket: '',
@@ -528,6 +547,9 @@ export default {
                 ],
                 seaFreight: [
                     { required: true, message: '请选择方式', trigger: 'blur' }
+                ],
+                auditor: [
+                    { required: true, message: '请选择负责人', trigger: 'blur' }
                 ],
             },
             devSign:[    
@@ -685,6 +707,13 @@ export default {
     computed:{
         showDailySales(){
             if(this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] && this.devInformationDetaiList.productMarketList[0].createdon){
+                return true
+            }else {
+                return false
+            }
+        },
+        showDailySales1(){
+            if( [7,8,9,14].includes(this.nowStatus)){
                 return true
             }else {
                 return false
@@ -928,6 +957,9 @@ export default {
             selectRoleEmployeeForRoleId(itemList).then(res => {
                 this.targetPrice = res.data
             })
+            getAssignedAuditorList(itemList).then(res => {
+                this.dailySales4 = res.data
+            })
         },
         getDetailPage(){
             if(!this.devInformationDetaiList.productMarketList)return
@@ -944,6 +976,7 @@ export default {
             this.ruleForm = {
                 staRating: this.devInformationDetaiList.title,
                 targetPrice: this.devInformationDetaiList.businessid,
+                auditor: this.devInformationDetaiList.auditor,
                 westaRating: this.devInformationDetaiList.keys,
                 dailySales: this.devInformationDetaiList.buyerid,
                 rateRequirements:this.devInformationDetaiList.description,
@@ -1027,6 +1060,7 @@ export default {
                             productId:this.$route.query.productId,
                             productCountryId:this.$route.query.productCountryId,
                             businessId:this.ruleForm.targetPrice,
+                            auditor:this.ruleForm.auditor,
                             buyerId:this.ruleForm.dailySales,
                             bandAndRate:JSON.stringify(LocalStrings),
                             computemode:this.ruleForm.seaFreight,
@@ -1114,6 +1148,7 @@ export default {
                             productId:this.$route.query.productId,
                             productCountryId:this.$route.query.productCountryId,
                             businessId:this.ruleForm.targetPrice,
+                            auditor:this.ruleForm.auditor,
                             buyerId:this.ruleForm.dailySales,
                             usCountryBand:this.ruleForm.brandUs,
                             enCountryBand:this.ruleForm.brandEu,

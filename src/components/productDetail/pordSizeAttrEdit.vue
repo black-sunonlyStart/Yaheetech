@@ -737,15 +737,15 @@ export default {
             })
         },
         submitForm(formName) {
-                if((this.ruleForm.packingMethod == 1 && this.ruleForm.productlistings.length == 0) ||  (this.ruleForm.productlistings.length > 0 && this.ruleForm.productlistings.find(item => !item.packedlength || !item.packedwidth || !item.packedheight || !item.packedweight))){
-                    this.$message({
-                        type: 'error', 
-                        message:'多箱清单数据不能为空！',
-                        offset:220
-                    })
-                    return
-                }
-                this.$refs[formName].validate((valid) => {
+            if((this.ruleForm.packingMethod == 1 && this.ruleForm.productlistings.length == 0) ||  (this.ruleForm.productlistings.length > 0 && this.ruleForm.productlistings.find(item => !item.packedlength || !item.packedwidth || !item.packedheight || !item.packedweight))){
+                this.$message({
+                    type: 'error', 
+                    message:'多箱清单数据不能为空！',
+                    offset:220
+                })
+                return
+            }
+            this.$refs[formName].validate((valid) => {
                 if (valid) {
                     let params = {
                         developmentId: this.$route.query.developmentId,
@@ -816,11 +816,11 @@ export default {
                     console.log('error submit!!');
                     return false;
                 }
-                });
-            },
-            resetForm() {
-                this.$emit('closeEdit','false')
-            }
+            });
+        },
+        resetForm() {
+            this.$emit('closeEdit','false')
+        }
     },
 }
 </script>

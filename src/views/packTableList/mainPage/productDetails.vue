@@ -693,6 +693,7 @@ methods: {
             'ERP.Product.ProductDev.ProfitsFirstTrial'
         ]
         hasPermissions(params).then(res => {
+            this.pageLoading = false
             let data = JSON.stringify( res.data);
             sessionStorage.setItem("permissions", data);
               res.data.forEach(item => {
@@ -1140,10 +1141,13 @@ async getAllpageList(val){
                     keys:res.data.development.keys,//英文关键词
                     priority :res.data.development.priority,//开发优先级
                     isanji:res.data.development.isanji,//是否安吉产品
+                    // auditorName:res.data.development.auditorName,//是否安吉产品
                     ispatentproduct:res.data.development.ispatentproduct,//是否需要专利确认
                     fbaWarehouseIds:res.data.fbaWarehouseIds.map(Number),//是否需要专利确认
                     orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//采购开发
                     businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName: '',//业务开发
+                    auditorName:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].auditorName: '',//负责人
+                    auditor:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].auditor: '',//负责人
                     productCountryList:this.productVos.productCountryList ? this.productVos.productCountryList[0] : [],
                     productMarketListALL:this.productVos.productMarketListALL ? this.productVos.productMarketListALL : [],
                     computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList && this.productVos.productCountryList[0].productMarketList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],
@@ -1565,10 +1569,10 @@ async getAllpageList(val){
             height: 32px;
             width: 32px;
             z-index: 1000;
-            background-image: url(../../assets/svg/shousuo.svg);
+            background-image: url(~@/assets/svg/shousuo.svg);
             box-shadow: 4px 4px 5px #888888;
             &:hover{
-                background-image: url(../../assets/svg/shousuo1.svg);
+                background-image: url(~@/assets/svg/shousuo1.svg);
                 cursor: pointer;
             }
         }
@@ -1750,14 +1754,14 @@ async getAllpageList(val){
             
             .icon-edit{
                 fill: #ffffff;
-                background-image: url(../../assets/svg/editWrite.svg);
+                background-image: url(~@/assets/svg/editWrite.svg);
             }
         }
         .icon-edit{
             height: 16px;
             width: 16px;
             float: left;
-            background-image: url(../../assets/svg/edit.svg);
+            background-image: url(~@/assets/svg/edit.svg);
         }
     }
     .imgContainer{
@@ -1805,7 +1809,7 @@ async getAllpageList(val){
     .imageBox{
         height: 18px;
         width: 18px;
-        background-image: url(../../assets/shixiyuan.png);
+        background-image: url(~@/assets/shixiyuan.png);
         cursor: pointer;
     }
 }

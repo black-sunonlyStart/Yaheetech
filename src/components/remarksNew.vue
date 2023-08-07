@@ -17,6 +17,7 @@
                     format="yyyy-MM-dd"
                     value-format="yyyy-MM-dd"
                     size='mini'
+                    style="width: 190px;"
                     v-track="{triggerType:'blur',currentUrl: $route.path,behavior:'备注日期查询',InputContext:form.timeValue2,}"
                     >
                 </el-date-picker>
