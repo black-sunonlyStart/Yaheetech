@@ -168,7 +168,7 @@
 </template>
 <script>
 import { trim } from '@/utils/tools.js';
-import { selectRoleEmployeeForRoleId } from '@/api/user.js'
+import { getSampleValidatorList } from '@/api/user.js'
 export default {
     name: 'newProductNaver',
     components:{
@@ -442,10 +442,10 @@ export default {
     },
     methods: {
         init() {
-            let param = {
-                rid:552
-            }
-            selectRoleEmployeeForRoleId(param).then(res => {
+            // let param = {
+            //     rid:552
+            // }
+            getSampleValidatorList().then(res => {
                 this.samplePersonList = res.data
             })
         },

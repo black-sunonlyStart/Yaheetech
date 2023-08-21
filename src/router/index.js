@@ -12,19 +12,28 @@ export const constantRoutes = [
     name:'packTableList',
     path: '/packTableList',
     component: () => import('@/views/packTableList/index'),
-    hidden: true
+    hidden: true,
+    meta:{
+        title:'产品开发列表页'
+    }
   },
   {
     name:'productDetails',
     path: '/productDetails',
     component: () => import('@/views/packTableList/mainPage/productDetails'),
-    hidden: true
+    hidden: true,
+    meta:{
+        title:'产品开发详情页'
+    }
   },
   {
     name:'productDevelopAt',
     path: '/productDevelopAt',
     component: () => import('@/views/newProductPage/index'),
-    hidden: true
+    hidden: true,
+    meta:{
+        title:'样品确认'
+    }
   },
   {
     name:'sampleConfirmation',
@@ -42,6 +51,24 @@ export const constantRoutes = [
     hidden: true,
     meta:{
         title:'样品详情'
+    },
+  },
+  {
+    name:'newProducts',
+    path: '/newProducts',
+    component: () => import('@/views/atNewProductPage/index'),
+    hidden: true,
+    meta:{
+        title:'新品开发'
+    },
+  },
+  {
+    name:'newProductPageDetail',
+    path: '/newProductPageDetail',
+    component: () => import('@/views/atNewProductPage/mainPage/newProductPageDetail'),
+    hidden: true,
+    meta:{
+        title:'新品开发详情页'
     },
   },
 ]

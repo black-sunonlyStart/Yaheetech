@@ -13,6 +13,12 @@ import '@/utils/track.js'
 import 'element-ui/lib/theme-chalk/icon.css'
 import { VueJsonp } from 'vue-jsonp'
 import store from '@/store/store.js'
+router.beforeEach((to,form,next) => {
+    if(to.meta.title){
+        document.title = to.meta.title
+    }
+    next()
+})
 Vue.prototype.$moment = moment;
 // Object.defineProperty(Vue.prototype,'$moment',{value:moment})
 Vue.prototype.$jsonp = VueJsonp

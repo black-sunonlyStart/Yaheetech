@@ -76,7 +76,7 @@
                     </template>
                     <template slot-scope="scope">
                         <div>
-                            <span class="fileHoverShow" @click="goProductPage(scope.row.releSku)">
+                            <span class="fileHoverShow" @click="openDevProductDetail(scope.row,2)">
                                 {{scope.row.productTitle}}  
                             </span>
                         </div>
@@ -90,7 +90,7 @@
                                     {{scope.row.productKey}}
                                 </span>
                             </el-tooltip>
-                            <span v-if="!scope.row.productKey.includes('DEV')" style="word-break: break-word;">
+                            <span v-if="(scope.row.productKey && !scope.row.productKey.includes('DEV'))" style="word-break: break-word;">
                                 （{{scope.row.skuAlias}}）  
                             </span>
                         </div>
@@ -439,13 +439,12 @@ export default {
             if(type == 1){
                 window.open(`http://newserp.yaheecloud.com/PMC/Latest//Product/ProductDetail?sku=${value}&language=en`,'_blank')
             }else {
-                if(value.productKey.includes('DEV')){
+                if(value.productKey && value.productKey.includes('DEV')){
                     window.open(`http://productdev.yaheecloud.com/productDetails?developmentId=${value.productKey}&productId=${value.devProductId}`,'_blank')
                 }else {
-                    window.open(`http://newserp.yaheecloud.com/PMC/Latest//Product/ProductDetail?sku=${value.releSku}&language=en`,'_blank')
+                    window.open(`http://newserp.yaheecloud.com/PMC/Latest//Product/ProductDetail?sku=${value.productKey}&language=en`,'_blank')
                 } 
             }
-
         },
         copeDevelopId(val){
             copyUrl(val)
@@ -569,6 +568,7 @@ export default {
                     .then(() => {
                         approvalSampleMemo(param).then(res => {
                             if(res.code == 200){
+                                this.success('提交成功！')
                                 this.mainListList(this.uploadFilterList)
                             }
                         })

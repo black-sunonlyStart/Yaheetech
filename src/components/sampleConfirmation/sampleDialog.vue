@@ -74,7 +74,7 @@
     </div>
 </template>
 <script>
-import { selectRoleEmployeeForRoleId,saveSampleValidator,approvalSampleMemo,cancelApplication,repulse } from '@/api/user.js'
+import { getSampleValidatorList,saveSampleValidator,approvalSampleMemo,cancelApplication,repulse } from '@/api/user.js'
 var applicationTime = ''
 export default {
     name:'sampleDialog',
@@ -145,10 +145,10 @@ export default {
         openDialog(list,id) {
             //id = 1 取消 id =2 分配 id= 3 提交样品结果
             if(id == 2) {
-                let param = {
-                    rid:552
-                }
-                selectRoleEmployeeForRoleId(param).then(res => {
+                // let param = {
+                //     rid:552
+                // }
+                getSampleValidatorList().then(res => {
                     this.roleList = res.data
                 })
             }

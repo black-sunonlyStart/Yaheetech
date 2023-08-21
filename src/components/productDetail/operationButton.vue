@@ -1,7 +1,7 @@
 <template>
     <div class="buttonStyle" v-if="$route.query.edit !== 'false'">
-        <div v-permission:[item.perkey]  v-for="item in operationList" :key="item.id*Math.random()"  @click="putOperation(item.id)">
-            <el-button size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:item.name + '按钮',businessCode: item.name,}" v-if="showDev(item.id)" type="primary" style="margin-right:5px">{{item.name}}</el-button>
+        <div v-permission:[item.perkey]  v-for="item in operationList" :key="item.id*Math.random()"  style="margin-right:25px" @click="putOperation(item.id)">
+            <el-button size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:item.name + '按钮',businessCode: item.name,}" v-if="showDev(item.id)" type="primary">{{item.name}}</el-button>
         </div>
         <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog"  @getTableList='getTableList' :row='row' :showOrder='showOrder'></messageDialog>
     </div>
@@ -356,7 +356,7 @@ export default {
 .buttonStyle{
     z-index: 1000;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     border: 1px solid #ffffff;
     background-color: #ffffff;
     position: fixed;

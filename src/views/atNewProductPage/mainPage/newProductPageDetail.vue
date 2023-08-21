@@ -1,0 +1,1996 @@
+<template>
+    <div class="bg-gray" >
+        <div class="flex-stact-title">
+            <el-card class="header-title" style="margin-top:0px">
+                <div><span class="header-text">新品开发需求：</span><span class="header-text" style="font-weight: bold;">{{$route.query.id}}</span></div>
+                <div class="right-button"> 
+                    <div class="green-font" @click="routerDev()">>>产品开发详情页</div>
+                    <div class="green-div">品类经理：{{mainPageList ? mainPageList.stateValue : ''}}</div>
+                    <div class="green-div">业务开发:{{mainPageList ? mainPageList.businessName: ''}}</div>
+                    <div class="gray-div">预计完成时间：{{mainPageList && mainPageList.reviewMeetingDate ? $moment(mainPageList.reviewMeetingDate).format("YYYY-MM-DD") :''}}</div>
+                </div>
+            </el-card>
+            <el-card class="card">
+                <div class="stepBox">
+                    <span class="leftButton" @click="leftMove"><i class="el-icon-d-arrow-left"></i></span>
+                        <span class="step-container">
+                            <el-steps :active="nowStatus" space='150' align-center  finish-status="success" process-status="finish">
+                                <el-step v-for="item in developmentProgresses" :title="item.statusValue" :key="item.status" :description="item.createOn">
+                                        <template slot="icon">
+                                            <div class="imageBox"></div>
+                                        </template>
+                                        <template slot="title">
+                                            <el-tooltip class="item" effect="dark" :content="item.createBy" placement="top">
+                                                <div class="stepTitle">
+                                                    {{item.statusValue}}
+                                                </div>
+                                            </el-tooltip>
+                                        </template>
+                                </el-step>
+                            </el-steps>
+                        </span>
+                    <span class='rightButton' @click="rightMove"><i class="el-icon-d-arrow-right"></i></span>
+                </div> 
+            </el-card>
+        </div>
+        <div class='tabContainer'>
+            <el-card class="sample-basis">
+                <div slot="header" class="clearfix">
+                    <div>基本数据
+                        <div>
+                            <div class="edit-position" @click="controlsEdit.isEdit = !controlsEdit.isEdit" v-if="controlsEdit.isEdit">
+                                <span><i class="icon-edit"></i>编辑</span>
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div v-if="controlsEdit.isEdit">
+                    <el-row class="textSpeaing">
+                        <el-col :span="20"  >
+                            <div class="boxFlex">
+                                <span class="imageMainbox">产品图片： </span>
+                                <div class="imageMainboxText" >
+                                    <div class="image-flex">
+                                        <el-image  v-for="item in mainPageList.productDemandImgs" :key="item.url" :src="item.showImgUrl" :preview-src-list="[item.showBigImgUrl]"></el-image>
+                                    </div>
+                                </div>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row class="textSpeaing">
+                        <el-col :span="20">
+                            <span class="imageMainbox">产品名称： </span>
+                            <span class="imageMainboxText">{{mainPageList.title}}</span>
+                        </el-col>
+                    </el-row>
+                    <el-row class="textSpeaing">
+                        <el-col :span="10">
+                            <span class="imageMainbox">业务开发： </span>
+                            <span class="imageMainboxText">{{mainPageList.businessName}}</span>
+                        </el-col>
+                        <el-col :span="10">
+                            <span class="imageMainbox">是否为设计款： </span>
+                            <span class="imageMainboxText">{{showDesign(mainPageList.design )}}</span>
+                        </el-col>
+                    </el-row>
+                    <el-row class="textSpeaing">
+                        <el-col :span="10">
+                            <span class="imageMainbox">产品来源： </span>
+                            <span class="imageMainboxText">{{mainPageList.productSource}}</span>
+                        </el-col>
+                        <el-col :span="10">
+                            <span class="imageMainbox">产品系列： </span>
+                            <span class="imageMainboxText">{{mainPageList.classifyDefName }}</span>
+                        </el-col>
+                    </el-row>
+                    <el-row class="textSpeaing">
+                        <el-col :span="10" v-if="mainPageList.productSource == 1">
+                            <span class="imageMainbox">工厂名称： </span>
+                            <span class="imageMainboxText">{{mainPageList.factoryName}}</span>
+                        </el-col>
+                        <el-col :span="10" v-if="mainPageList.productSource == 5">
+                            <div class="boxFlex">
+                                <span class="imageMainbox">其他来源： </span>
+                                <div class="imageMainboxText" >{{mainPageList.otherSources}}</div>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row class="textSpeaing">
+                        <el-col :span="10">
+                            <div class="boxFlex">
+                                <span class="imageMainbox">平台： </span>
+                                <div class="imageMainboxText" >{{mainPageList.platForm}}</div>
+                            </div>
+                        </el-col>
+                        <el-col :span="10">
+                            <div class="boxFlex">
+                                <span class="imageMainbox">产品链接： </span>
+                                <div class="imageMainboxText" >{{mainPageList.productLink}}</div>
+                            </div>       
+                        </el-col>
+                    </el-row>
+                    <el-row class="textSpeaing">
+                        <el-col :span="10">
+                            <div class="boxFlex">
+                                <span class="imageMainbox">需求颜色： </span>
+                                <div class="imageMainboxText" >{{mainPageList.desiredColor}}</div>
+                            </div>
+                        </el-col>
+                        <el-col :span="10">
+                            <div class="boxFlex">
+                                <span class="imageMainbox">需求尺寸： </span>
+                                <div class="imageMainboxText" >{{mainPageList.requiredSize}}</div>
+                            </div>       
+                        </el-col>
+                    </el-row>
+                    <el-row class="textSpeaing">
+                        <el-col :span="20">
+                            <div class="boxFlex">
+                                <span class="imageMainbox">工艺材质： </span>
+                                <div class="imageMainboxText" >{{mainPageList.processMaterial}}</div>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row class="textSpeaing">
+                        <el-col :span="10">
+                            <div class="boxFlex">
+                                <span class="imageMainbox">建议售卖市场： </span>
+                                <div class="imageMainboxText" >{{mainPageList.saleMarket}}</div>
+                            </div>
+                        </el-col>
+                        <el-col :span="10">
+                            <div class="boxFlex">
+                                <span class="imageMainbox">预测日销： </span>
+                                <div class="imageMainboxText" >{{mainPageList.xsdailySales}}</div>
+                            </div>       
+                        </el-col>
+                    </el-row>
+                    <el-row class="textSpeaing">
+                        <el-col :span="10">
+                            <div class="boxFlex">
+                                <span class="imageMainbox">推荐理由： </span>
+                                <div class="imageMainboxText" >{{mainPageList.recomReason}}</div>
+                            </div>
+                        </el-col>
+                        <el-col :span="10">
+                            <div class="boxFlex">
+                                <span class="imageMainbox">调整方向： </span>
+                                <div class="imageMainboxText" >{{mainPageList.adjustDirection}}</div>
+                            </div>       
+                        </el-col>
+                    </el-row>  
+                    <el-row class="textSpeaing">
+                        <el-col :span="20">
+                            <div style="display:flex">
+                                <span class="imageMainbox">竞品信息： </span>
+                                <div class="imageMainboxText" style="flex-grow: 1;">
+                                    <el-table :data="mainPageList.productDemandCompetings" border align="center" :header-cell-style="{background:'#f5f7fa',color:'#606266'}">
+                                        <el-table-column width="" label="竞品链接" header-align='center' align="center">
+                                            <template slot-scope="scope">
+                                                <div>
+                                                    {{scope.row.url}}
+                                                </div>   
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column width=""  label="链接市场" header-align='center' align="center">
+                                            <template slot-scope="scope">
+                                                <div>
+                                                    {{scope.row.urlMarket}}
+                                                </div>       
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column width=""  label="竞品品牌" header-align='center' align="center">
+                                            <template slot-scope="scope">
+                                                <div>
+                                                    {{scope.row.bandinfo}}
+                                                </div>   
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column width=""  label="竞品排名" header-align='center' align="center">
+                                            <template slot-scope="scope">
+                                                <div>
+                                                    {{scope.row.ranking}}
+                                                </div>    
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column width=""  label="竞品价格区间" header-align='center' align="center">
+                                            <template slot-scope="scope">
+                                                <div style="display:flex;justify-content: center;">
+                                                    {{scope.row.minPrice}}
+                                                    -   
+                                                    {{scope.row.maxPrice}} 
+                                                </div>
+                                            </template>
+                                        </el-table-column>
+                                    </el-table>
+                                </div> 
+                            </div>
+                        </el-col>
+                    </el-row>  
+                     <el-row class="textSpeaing">
+                        <el-col :span="10">
+                            <div class="boxFlex">
+                                <span class="imageMainbox">其他说明： </span>
+                                <div class="imageMainboxText" >{{mainPageList.otherInstructions}}</div>
+                            </div>       
+                        </el-col>
+                    </el-row> 
+                </div>
+                <div v-else>
+                    <el-form :model="mainPageList" :rules="rules" ref="ruleForm" label-width="170px" size="mini">
+                        <el-row :gutter="150">
+                            <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" >
+                                <el-form-item  prop="productDemandImgs">
+                                    <template slot="label" >
+                                        <span>
+                                            产品图片:
+                                        </span> 
+                                    </template>
+                                    <imgUpload 
+                                        :fileType='1' 
+                                        :dataParams="{ fileType:1,productDemandId:this.routeParam.id || 0}" 
+                                        :showButton="false" :value='mainPageList.productDemandImgs' 
+                                        :limit="20" @upDateFile="upDateFile" 
+                                        imageURl="/productDemand/saveProductDemandAttachment" 
+                                        :imgUrl="imgUrl" 
+                                        ruleName="productDemandImgs"
+                                    ></imgUpload> 
+                                </el-form-item>
+                            </el-col>
+                        </el-row>  
+                        <el-row :gutter="150">
+                            <el-col :span="20">
+                                <el-form-item label="产品名称:" prop="title">
+                                    <el-input v-model="mainPageList.title"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row> 
+                        <el-row :gutter="150">
+                            <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
+                                <el-form-item label="业务开发:" prop="businessId">
+                                    <el-select v-model="mainPageList.businessId" value-key="code" placeholder="请选择" class="project-select" size="mini" >
+                                        <el-option 
+                                            v-for="item in targetPrice"                        
+                                            :key="item.Id"
+                                            :label="item.TrueName"
+                                            :value="item.Id"
+                                            >
+                                        </el-option>
+                                    </el-select>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
+                                <el-form-item label="是否为设计款:" prop="design">
+                                    <el-radio-group v-model="mainPageList.design">
+                                        <el-radio :label="2">否</el-radio>
+                                        <el-radio :label="1">是</el-radio>
+                                        <el-radio :label="10" v-if="mainPageList.design != 2 && mainPageList.design">设计</el-radio>
+                                        <el-radio :label="11" v-if="mainPageList.design != 2 && mainPageList.design">P图</el-radio>
+                                    </el-radio-group>
+                                </el-form-item>
+                            </el-col>
+                        </el-row> 
+                        <el-row :gutter="150">
+                            <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
+                                <el-form-item label="产品来源:" prop="productSource">
+                                    <el-select 
+                                        v-model="mainPageList.productSource"
+                                        >
+                                        <el-option 
+                                            v-for="item in supplierTypeList"                        
+                                            :key="item.label"
+                                            :label="item.name"
+                                            :value="item.label"
+                                            >
+                                        </el-option>
+                                    </el-select> 
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
+                                <el-form-item label="产品系列:" prop="classCategoryIdArray">
+                                    <el-cascader
+                                        style="width:220px"
+                                        v-model="mainPageList.classCategoryIdArray"
+                                        :options="patentCountry"
+                                        size="mini"
+                                        separator=' - '
+                                        :props="{ 
+                                            value:'seriesCategoryId',
+                                            label:'seriesCategoryName',
+                                            children:'classifyDefs'
+                                            }"
+                                        clearable
+                                        >
+                                    </el-cascader> 
+                                </el-form-item>
+                            </el-col>
+                        </el-row> 
+                        <el-row :gutter="150">
+                            <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" v-if="mainPageList.productSource == 1">
+                                <el-form-item label="工厂名称:" prop="factoryName">
+                                    <el-input v-model="mainPageList.factoryName"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" v-if="mainPageList.productSource == 5">
+                                <el-form-item label="其他来源:" prop="otherSources">
+                                    <el-input v-model="mainPageList.otherSources"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row> 
+                        <el-row :gutter="150">
+                            <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
+                                <el-form-item label="平台:" prop="platForm" :rules="[{required: this.mainPageList && this.mainPageList.productSource == 2,message:'请选择平台',trigger:'blur'}]">
+                                    <el-select 
+                                        v-model="mainPageList.platForm"
+                                        >
+                                        <el-option 
+                                            v-for="item in queryPlatsList"                        
+                                            :key="item.name"
+                                            :label="item.name"
+                                            :value="item.name"
+                                            >
+                                        </el-option>
+                                    </el-select> 
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
+                                <div style="display:flex">
+                                    <el-form-item label="产品链接:" prop="productLink"
+                                        :rules="[{required: this.mainPageList && this.mainPageList.productSource == 2,message:'请添加产品链接',trigger:'blur'}]"
+                                        >
+                                        <el-input v-model="mainPageList.productLink" style="width:285px"></el-input>
+                                    </el-form-item>
+                                    <el-form-item prop="productLink"
+                                        label-width="0px"
+                                        :rules="[{required: this.mainPageList && this.mainPageList.productSource == 2,message:'请添加链接市场',trigger:'blur'}]"
+                                    >
+                                        <el-select 
+                                            v-model="mainPageList.productLinkMarket"
+                                            placeholder="链接市场"
+                                            style="width:190px"
+                                            >
+                                            <el-option 
+                                                v-for="item in countryList1"                        
+                                                :key="item.value"
+                                                :label="item.label"
+                                                :value="item.value"
+                                                >
+                                            </el-option>
+                                        </el-select> 
+                                    </el-form-item>
+                                </div>
+                            </el-col>
+                        </el-row> 
+                        <el-row :gutter="150">
+                            <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
+                                <el-form-item label="需求颜色:" prop="desiredColor">
+                                    <el-select 
+                                        v-model="mainPageList.desiredColor"
+                                        >
+                                        <el-option 
+                                            v-for="item in checkList"                        
+                                            :key="item"
+                                            :label="item"
+                                            :value="item"
+                                            >
+                                        </el-option>
+                                    </el-select> 
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
+                                <el-form-item label="需求尺寸:" prop="requiredSize">
+                                    <el-input v-model="mainPageList.requiredSize"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row> 
+                        <el-row :gutter="150">
+                            <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
+                                <el-form-item label="工艺材质:" prop="processMaterial">
+                                    <el-input v-model="mainPageList.processMaterial"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row> 
+                        <el-row :gutter="150">
+                            <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
+                                <el-form-item label="建议售卖市场:" prop="saleMarket">
+                                    <el-select 
+                                        v-model="mainPageList.saleMarket"
+                                        >
+                                        <el-option 
+                                            v-for="item in countryList1"                        
+                                            :key="item.value"
+                                            :label="item.label"
+                                            :value="item.value"
+                                            >
+                                        </el-option>
+                                    </el-select> 
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
+                                <el-form-item label="预测日销:" prop="xsdailySales">
+                                    <el-input v-model="mainPageList.xsdailySales"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row> 
+                        <el-row :gutter="150">
+                            <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
+                                <el-form-item label="推荐理由:" prop="recomReason">
+                                    <el-input type="textarea" v-model="mainPageList.recomReason"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
+                                <el-form-item label="调整方向:" prop="adjustDirection">
+                                    <el-input type="textarea" v-model="mainPageList.adjustDirection"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row> 
+                        <el-row :gutter="150">
+                            <el-col :span="20">
+                                <el-form-item label="竞品数据:">
+                                    <el-table :data="mainPageList.productDemandCompetings" border align="center" :header-cell-style="{background:'#f5f7fa',color:'#606266'}">
+                                        <el-table-column width="" label="竞品链接" header-align='center'>
+                                            <template slot-scope="scope">
+                                                <el-input v-model="scope.row.url"></el-input>      
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column width=""  label="链接市场" header-align='center'>
+                                            <template slot-scope="scope">
+                                                <el-select 
+                                                    v-model="scope.row.urlMarket"
+                                                    >
+                                                    <el-option 
+                                                        v-for="item in countryList1"                        
+                                                        :key="item.value"
+                                                        :label="item.label"
+                                                        :value="item.value"
+                                                        >
+                                                    </el-option>
+                                                </el-select>       
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column width=""  label="竞品品牌" header-align='center'>
+                                           <template slot-scope="scope">
+                                                <el-input v-model="scope.row.bandinfo"></el-input>      
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column width=""  label="竞品排名" header-align='center'>
+                                            <template slot-scope="scope">
+                                                <el-input v-model="scope.row.ranking"></el-input>      
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column width=""  label="竞品价格区间" header-align='center'>
+                                            <template slot-scope="scope">
+                                                <div style="display:flex">
+                                                    <el-input v-model="scope.row.minPrice" oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,2})?).*$/g, '$1')"></el-input>   
+                                                    -   
+                                                    <el-input v-model="scope.row.maxPrice" oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,2})?).*$/g, '$1')"></el-input>     
+                                                </div>
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column
+                                            label="操作"
+                                            width="50px"
+                                            >
+                                            <template slot-scope="scope">
+                                                <!-- <div v-if="scope.$index == 0 || scope.$index == 1">
+                                                    前两条数据无法移除
+                                                </div> -->
+                                                <el-button
+                                                    @click.native.prevent="deleteRow(scope.$index)"
+                                                    type="text"
+                                                    size="small">
+                                                    移除
+                                                </el-button>
+                                            </template>
+                                        </el-table-column>
+                                    </el-table>
+                                    <div class="tableText" @click="addTableList">
+                                        增加竞品信息
+                                    </div>
+                                </el-form-item>
+                            </el-col>
+                        </el-row>
+                        <el-row :gutter="150">
+                            <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
+                                <el-form-item label="其他说明:" prop="otherInstructions">
+                                    <el-input type="textarea" v-model="mainPageList.otherInstructions"></el-input>
+                                </el-form-item>
+                            </el-col>
+                        </el-row> 
+                    </el-form>
+                    <div class="bottomButton">
+                        <el-button type="primary" @click="submitForm('ruleForm')" size="mini">提交</el-button>
+                        <el-button @click="updeEditPage('isEdit',true)"  size="mini">取消</el-button>
+                    </div>
+                </div>
+            </el-card>
+            <el-card>
+                <div slot="header" class="clearfix">
+                    <div>专利信息 <!-- -->
+                        <div>
+                            <div class="edit-position" @click="controlsEdit.isEdit1 = !controlsEdit.isEdit1" v-if="controlsEdit.isEdit1">
+                                <span><i class="icon-edit"></i>编辑</span>
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div v-if="controlsEdit.isEdit1">
+                    <el-row class="textSpeaing">
+                        <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
+                            <span class="imageMainbox"> 查询国家： </span>
+                            <span class="imageMainboxText"><span v-for="item in patentInfo.countryList" :key="item">{{showCountryText(item) + ','}}</span></span>
+                        </el-col>
+                    </el-row>
+                    <el-row class="textSpeaing" >
+                        <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
+                            <div style="display:flex">
+                                <span class="imageMainbox"> 查询结果： </span>
+                                <div>
+                                    <div v-for="item in patentInfo.patentInfoT" :key="item.countryCode">{{showCountryText(item.countryCode) }} - {{showReqRes(item.reqRes)}}</div>
+                                </div>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row class="textSpeaing" >
+                        <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
+                            <div style="display:flex">
+                                <span class="imageMainbox"> 专利说明： </span>
+                                <div>
+                                    <div class="word-break" v-for="item in patentInfo.patentInfoT" :key="item.countryCode">{{showCountryText(item.countryCode)}} - {{item.patentInfo}}</div>
+                                </div>
+                            </div>
+                        </el-col>
+                    </el-row>
+                   
+                </div>
+                <div v-else>
+                    <el-form :model="patentInfo" :rules="patentRules" ref="patentRuleForm" label-width="170px" size="mini">
+                        <el-row :gutter="150">
+                            <el-col :span="12" :xs="13" :sm="13" :md="13" :lg="13" :xl="13">
+                                <el-form-item  label="查询国家 :" prop="countryList">      
+                                    <el-checkbox-group v-model="patentInfo.countryList" > 
+                                        <el-checkbox v-for="item in countryList" :key="item.countryCode" :label="item.countryCode">{{item.label}}</el-checkbox>
+                                    </el-checkbox-group>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="11">
+                                <div class="tableText" @click="showHistoryQueryInfo()">
+                                    历史查询结果
+                                </div>
+                            </el-col>
+                        </el-row> 
+                        <el-row :gutter="150">
+                            <el-col :span="16">
+                                <el-form-item  label="查询结果:" prop="queryResults">     
+                                    <div v-for="item in countryList" :key="item.countryCode">
+                                        <div v-if="patentInfo.countryList && patentInfo.countryList.includes(item.countryCode)">
+                                            <span class="country-type">{{item.label}}:</span>
+                                            <el-select v-model="item.reqRes">
+                                                <el-option 
+                                                    v-for="item in devSign"                        
+                                                    :key="item.key"
+                                                    :label="item.label"
+                                                    :value="item.value"
+                                                    >
+                                                </el-option>
+                                            </el-select>                                            
+                                        </div>
+                                    </div> 
+                                </el-form-item>
+                            </el-col>
+                        </el-row> 
+                        <el-row :gutter="150">
+                            <el-col :span="16">
+                                <el-form-item  label="专利说明:" prop="patentInfo">     
+                                    <div v-for="item in countryList" :key="item.countryCode" style="margin-top:10px">
+                                        <div v-if="patentInfo.countryList && patentInfo.countryList.includes(item.countryCode)" style="display:flex">
+                                            <span class="country-type">{{item.label}}:</span>    
+                                            <el-input v-model="item.patentInfo" type="textarea" show-word-limit maxlength="500" ></el-input>                                      
+                                        </div>
+                                    </div> 
+                                </el-form-item>
+                            </el-col>
+                        </el-row> 
+
+                    </el-form>
+                    <div class="bottomButton">
+                        <el-button type="primary" @click="submitForm1('patentRuleForm')" size="mini">提交</el-button>
+                        <el-button @click="updeEditPage('isEdit1',true)"  size="mini">取消</el-button>
+                    </div>
+                </div>
+            </el-card>
+            <el-card >
+                <div slot="header" class="clearfix">
+                    <div>设计信息 <!-- -->
+                        <div>
+                            <div class="edit-position" @click="controlsEdit.isEdit2 = !controlsEdit.isEdit2" v-if="controlsEdit.isEdit2">
+                                <span><i class="icon-edit"></i>编辑</span>
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+                <div v-if="controlsEdit.isEdit2">
+                    <el-row class="textSpeaing" v-for="(item,index) in devSignInfo.filter(item => item.usage != false)" :key="item.key">              
+                        <el-col :span="20">
+                            <div style="display:flex">
+                                <span class="imageMainbox" style="display: flex;justify-content: space-between;"><div>{{'方案'+ changeNum(index) }}</div> <div>设计方：</div> </span>
+                                <span class="imageMainboxText">{{showDesigner(item.designer) }}</span>
+                            </div>
+                            
+                        </el-col>
+                        <el-col :span="20">
+                            <span class="imageMainbox">设计图片： </span>
+                            <span class="imageMainboxText">
+                                <div class="boxFlex">
+                                    <div class="image-flex">
+                                        <el-image v-for="(item1) in item.designerImgs" :key="item1.fileUri" :src="item1.showImgUrl" :preview-src-list="[item1.showBigImgUrl]"></el-image>
+                                    </div>
+                                </div>
+                            </span>
+                        </el-col>
+                        <el-col :span="20">
+                            <span class="imageMainbox">结构图片： </span>
+                            <span class="imageMainboxText">
+                                <div class="boxFlex">
+                                    <div class="image-flex">
+                                        <el-image v-for="(item1) in item.structureImgs" :key="item1.fileUri" :src="item1.showImgUrl" :preview-src-list="[item1.showBigImgUrl]"></el-image>
+                                    </div>
+                                </div>
+                            </span>
+                        </el-col>
+                    </el-row> 
+                </div>
+                <div v-else>
+                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="170px" size="mini">
+                        <div v-for="(item,index) in devSignInfo.filter(item => item.usage != false)" :key="index * Math.random()" >
+                            <div class="devsign-b">
+                                <el-row class="textSpeaing">
+                                    <el-col :span="10" :xs="10" :sm="10" :md="10" :lg="10" :xl="10" style="display:flex">
+                                        <span class="imageMainbox">  
+                                            <div style="display: flex;justify-content: space-between;">
+                                                <div>
+                                                    <div>{{'方案' + changeNum(index)}}</div>
+                                                </div>
+                                                <div>
+                                                    设计方：
+                                                </div>
+                                            </div> 
+                                        </span>
+                                        <span class="imageMainboxText" style="width:100%;margin-bottom:10px">
+                                            <el-select v-model="item.designer" size="mini">
+                                                <el-option 
+                                                    v-for="item in designerList"                        
+                                                    :key="item.value"
+                                                    :label="item.label"
+                                                    :value="item.value"
+                                                    >
+                                                </el-option>
+                                            </el-select>  
+                                        </span>
+                                    </el-col>  
+                                    <el-col :span="10">
+                                        <span class="tableText" @click="addDevsign(index)" v-if="index == 0">添加方案</span>    
+                                        <span class="red-text"  @click="delDevsign(index)">
+                                            删除方案
+                                        </span>
+                                    </el-col>
+                                </el-row>
+
+                                <el-row class="textSpeaing">
+                                    <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" style="display:flex">
+                                        <span class="imageMainbox">设计图片： </span>
+                                        <span class="imageMainboxText" >
+                                            <imgUpload 
+                                                :fileType='2' 
+                                                :dataParams="{ fileType:2,productDemandId:routeParam.id || 0}" 
+                                                :showButton="false" :value='item.designerImgs' 
+                                                :limit="20"
+                                                imageURl="/productDemand/saveProductDemandAttachment" 
+                                                :imgUrl="imgUrl" 
+                                              
+                                            ></imgUpload> 
+                                        </span>
+                                    </el-col>  
+                                </el-row>
+
+                                <el-row class="textSpeaing">
+                                    <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" style="display:flex">
+                                        <span class="imageMainbox">结构图片： </span>
+                                        <span class="imageMainboxText" >
+                                            <imgUpload 
+                                                :fileType='3' 
+                                                :dataParams="{ fileType:3,productDemandId:routeParam.id || 0}" 
+                                                :showButton="false" :value='item.structureImgs' 
+                                                :limit="20"
+                                                imageURl="/productDemand/saveProductDemandAttachment" 
+                                                :imgUrl="imgUrl" 
+                                               
+                                            ></imgUpload> 
+                                        </span>
+                                    </el-col>  
+                                </el-row>
+                            </div>
+                            
+                        </div>                   
+                    </el-form>
+                    <div class="bottomButton">
+                        <el-button type="primary" @click="submitForm2('ruleForm')" size="mini">提交</el-button>
+                        <el-button @click="updeEditPage('isEdit2',true)"  size="mini">取消</el-button>
+                    </div>
+                </div>
+            </el-card>
+        </div>
+        <div style="display:flex;">
+            <el-drawer
+                title="修改日志"
+                :visible.sync="dialogVisible"
+                size="641px"
+                :modal="false"
+                direction="ltr"
+                class="dialog-main"
+                z-index="9999"
+                :show-close="false"
+                @close="closeUploadDialog()"
+                >
+                <remarksNew :remarksParam='remarksParam' ref="remarksNew" v-if="showTenth"></remarksNew>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="closeUploadDialog()" size="mini">关 闭</el-button>
+                </span>
+            </el-drawer>
+            <i class="el-icon-s-unfold" title="展开日志" @click="openRecordDialog()"></i>
+            <i class="el-icon-s-fold" title="收缩日志" @click="closeUploadDialog()" v-if="dialogVisible"></i>      
+        </div>
+        <commonDialog ref="commonDialog" titleText="历史专利信息">
+            <div>
+                <el-row class="textSpeaing" >
+                    <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
+                        <div style="display:flex">
+                            <span class="imageMainbox"> 查询结果： </span>
+                            <div>
+                                <div v-for="item in historyPatentInfo" :key="item.countryCode">{{showCountryText(item.countryCode) }} - {{showReqRes(item.reqRes)}}</div>
+                            </div>
+                        </div>
+                    </el-col>
+                </el-row>
+                <el-row class="textSpeaing" >
+                    <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
+                        <div style="display:flex">
+                            <span class="imageMainbox"> 专利说明： </span>
+                            <div>
+                                <div  v-for="item in historyPatentInfo" :key="item.countryCode">{{showCountryText(item.countryCode)}} - {{item.patentInfo}}</div>
+                            </div>
+                        </div>
+                    </el-col>
+                </el-row>
+            </div>
+        </commonDialog>
+        <checkStatusDialog ref="checkStatusDialog"  @mainListList='init'></checkStatusDialog>
+        <div class="bottom-button">
+            <el-button size="mini" plain type="primary"  @click="toExamine()">提交/审核</el-button>
+        </div>
+    </div>
+</template>
+<script>
+import { GetFileServiceUrl,judgePorduction} from '@/utils/tools.js'
+import { getProductDemandById,getFilePath,saveProductDemand,hasPermissions,atGetSeriesCategoryDef,selectRoleEmployeeForRoleId,queryPlats,saveProductDemandPatent,saveProductDemandDesignInfo} from '@/api/user.js'
+var applicationTime = ''
+export default {
+    name:'sampleDetail',
+    components:{
+        // sampleBasicDataDetail:() => import('@/components/sampleConfirmation/sampleBasicDataDetail'),//产品详情页
+        remarksNew:() => import('@/components/remarksNew.vue'),//日志页面
+        imgUpload:() => import('@/components/common/commonUploadImg'),
+        commonDialog:()=> import('@/components/common/commonDialog'),
+        checkStatusDialog:() => import('@/components/atNewProductPage/checkStatusDialog.vue'),
+    },
+    data(){
+        return {
+            ruleForm:{
+                productColor:[]
+            },
+            checkList:[
+                '米色','黑色','蓝色','天蓝','绿蓝/宝石蓝','浅蓝','深蓝','藏蓝','棕色','深棕色/茶色','浅棕色','中棕色','透明色','黄金','灰色','绿色','白色',
+                '奶白色','象牙色','多色','橙色','深橙色','粉红色','紫色','红色','浅红色','银色','黄色','镀铬色','不锈钢','木色','金属钛','古铜色','玫红色',
+                '咖啡色','橄榄色','卡其色','铁灰色','暗灰色','驼色','彩虹色','肉色','浅紫色','深紫色','酒红色','复古色'
+            ],
+            designList:[
+                {
+                    label:'是',
+                    value:1
+                },
+                {
+                    label:'否',
+                    value:2
+                },
+                {
+                    label:'设计',
+                    value:10
+                },
+                {
+                    label:'P图',
+                    value:11
+                },
+            ],
+            productDemandImgs:[],
+            historyPatentInfo:[],
+            targetPrice:[],
+            queryPlatsList:[],
+            patentCountry:[],
+            patentInfo:{
+                countryList:[],
+            },
+            imgDataParams:{},
+            nowStatus:5,
+            dialogVisible:false,
+            renderDom:false,
+            imgUrl:'',
+            showTenth:false,
+            sampleQuestionPhoto:[],
+            devSignInfo:[
+                {
+                    id:null,//编辑时必传
+                    productDemandId:this.$route.query.id,//新品需求id
+                    designer:null,//设计方  1:设计部、2:工厂、3:工厂&设计部
+                    usage: true,//使用情况    true 正常     false删除 -- 需要删除时传 false，其他时候不用传值或者true
+                    designerImgs: [//设计图片 -- 文件上传后返回数据
+                    
+                    ],
+                    structureImgs: []  
+                }
+            ],
+            designerList:[
+                {
+                    label: '设计部',
+                    value:1
+                },
+                {
+                    label: '工厂',
+                    value:2
+                },
+                {
+                    label: '工厂&设计部',
+                    value:3
+                },
+            ],
+            devSign:[
+                {
+                    label: '可以开发',
+                    key: 1,
+                    value:1
+                },
+                {
+                    label: '改进后开发',
+                    key: 2,
+                    value:2
+                },    
+                {
+                    label: '不可以开发',
+                    key: 3,
+                    value:3
+                }, 
+            ],
+             supplierTypeList:[
+                {
+                    name:'工厂',
+                    label:1,
+                },
+                {
+                    name:'平台',
+                    label:2,
+                },
+                {
+                    name:'线下',
+                    label:3,
+                },
+                {
+                    name:'设计师推荐',
+                    label:4,
+                },
+                {
+                    name:'其他',
+                    label:5,
+                },
+            ],
+            countryList:[
+                {
+                    label: '美国',
+                    countryCode: 'US',
+                },
+                {
+                    label: '英国',
+                    countryCode: 'GB',
+                },
+                {
+                    label: '欧盟',
+                    countryCode: 'EU',
+                },
+                {
+                    label: '加拿大',
+                    countryCode: 'CA',
+                },
+                {
+                    label: '日本',
+                    countryCode: 'JP' ,
+                },
+
+            ],
+            //英、美、德、意、法、西、日、加
+            countryList1:[
+                {
+                    label: '美国',
+                    value: 'US',
+                },
+                {
+                    label: '英国',
+                    value: 'GB',
+                },
+                {
+                    label: '德国',
+                    value: 'DE',
+                },
+                {
+                    label: '法国',
+                    value: 'FR',
+                },
+                {
+                    label: '意大利',
+                    value: 'IT',
+                },
+                {
+                    label: '西班牙',
+                    value: 'ES',
+                },
+                {
+                    label: '加拿大',
+                    value: 'CA',
+                },
+                {
+                    label: '日本',
+                    value: 'JP' ,
+                },
+
+            ],
+            mainPageList:{
+                saleMarket:[]
+            },
+            controlsEdit:{
+                isEdit:true,
+                isEdit1:true, 
+                isEdit2:true, 
+                isEdit3:true, 
+            },
+            setDisabled: {
+                 disabledDate(time) {
+                    if(applicationTime){
+                        return time.getTime() > Date.now() || time.getTime() <= new Date(applicationTime).getTime() - 8.64e7 ;  // 可选历史天、可选当前天、不可选未来天
+                    }else {
+                        return time.getTime() > Date.now()
+                    }
+               
+                // return time.getTime() > Date.now() - 8.64e7;  // 可选历史天、不可选当前天、不可选未来天
+                // return time.getTime() < Date.now() - 8.64e7;  // 不可选历史天、可选当前天、可选未来天
+                // return time.getTime() < Date.now(); // 不可选历史天、不可选当前天、可选未来天
+                },
+            },
+            imgLoading:false,
+            productLinkRequire:false,
+            routeParam:{
+                id:this.$route.query.id || null
+            },
+            patentRules:{
+                countryList: [
+                    { required: true, message: '请选择查询国家', trigger: 'blur' },
+                ],
+                queryResults: [
+                    {
+                        required:true,
+                        validator: (rules, value, cb) => {
+                            if(!this.patentRules.countryList || this.patentRules.countryList.length == 0){
+                                return cb(new Error("请选择查询结果"));
+                            }
+                            let list  = this.countryList.filter(item => {
+                                return this.patentInfo.countryList.includes(item.countryCode)
+                            })
+                            if(list.some(item => !item.reqRes)){
+                                return cb(new Error("请选择查询结果"));
+                            }
+                            return cb();
+                        },
+                        trigger: "change"
+                    }
+                ],
+            },
+            rules:{
+                productDemandImgs: [
+                    { required: true, message: '请添加产品图片', trigger: 'blur' },
+                ],
+                title: [
+                    { required: true, message: '请添加产品名称', trigger: 'blur' }
+                ],
+                businessId: [
+                    { required: true, message: '请选择业务开发', trigger: 'blur' }
+                ],
+                design: [
+                    { required: true, message: '请选择设计款', trigger: 'blur' }
+                ],
+                productSource: [
+                    { required: true, message: '请选择产品来源', trigger: 'blur' }
+                ],
+                classCategoryIdArray: [
+                    { required: true, message: '请选择产品系列', trigger: 'blur' }
+                ],
+                factoryName: [
+                    { required: true, message: '请添加工厂名称', trigger: 'blur' }
+                ],
+                otherSources: [
+                    { required: true, message: '请添加其他来源', trigger: 'blur' }
+                ],
+                saleMarket: [
+                    { required: true, message: '请选择建议售卖市场', trigger: 'blur' }
+                ],
+                recomReason: [
+                    { required: true, message: '请添加推荐理由', trigger: 'blur' }
+                ],
+                productLink:[
+                    {
+                        required:(this.mainPageList && this.mainPageList.productSource == 2 )|| this.productLinkRequire,
+                        validator: (rules, value, cb) => {
+                            if( !this.mainPageList.productLink || !this.mainPageList.productLinkMarket){
+                                return cb(new Error("请填加产品链接"));
+                            }
+                            return cb();
+                        },
+                        trigger: "change"
+                    }
+                ]
+            },
+            developmentProgresses:[
+            {
+                statusValue:'待提交',
+                status:'1',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:'待提交'
+            },
+            {
+                statusValue:'需求初审',
+                status:'2',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:'需求初审'
+            },
+            {
+                statusValue:'需求复审',
+                status:'3',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:'需求复审'
+            },
+            {
+                statusValue:'需求调研',
+                status:'4',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:'需求调研'
+            },
+            {
+                statusValue:'立项中',
+                status:'5',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:'立项中'
+            },
+            {
+                statusValue:'认证初查',
+                status:'6',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:'认证初查'
+            },
+            {
+                statusValue:'制定设计需求',
+                status:'7',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:'制定设计需求'
+            },
+            {
+                statusValue:'产品设计/P图',
+                status:'8',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:'产品设计/P图'
+            },
+            {
+                statusValue:'专利查询',
+                status:'9',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:'专利查询'
+            },
+            {
+                statusValue:'结构设计',
+                status:'10',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:'结构设计'
+            },
+            {
+                statusValue:'样前方案确认',
+                status:'11',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:'样前方案确认'
+            },
+            {
+                statusValue:'计划下单中',
+                status:'12',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:'计划下单中'
+            },
+            {
+                statusValue:'候选下单',
+                status:'13',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:'候选下单'
+            },
+            {
+                statusValue:'已下单',
+                status:'14',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:'已下单'
+            },
+            {
+                statusValue:'已冻结',
+                status:'15',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:'已冻结'
+            },
+            {
+                statusValue:'已取消',
+                status:'16',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:'已取消'
+            },
+            ],//进度条数据
+        }
+    },
+    computed:{
+        action(){
+            return `${process.env.VUE_APP_DEVSERVER}/productSample/saveProductSampleAttachment`
+        },
+        requireT(){
+            return this.mainPageList && this.mainPageList.productSource == 2 ? true : false
+        }
+    },
+    mounted(){
+        this.init()
+    },
+    methods:{  
+        init(){
+            this.routeParam.id = this.$route.query.id || null
+           
+            this.getPermissions()
+            //获取系列数据
+            atGetSeriesCategoryDef().then(res => {
+                res.data.forEach(item => {
+                    item.classifyDefs.forEach(list => {
+                        list.seriesCategoryName = list.classifyDefName
+                        list.seriesCategoryId = list.classifyDefId
+                    })
+                })
+                this.patentCountry = res.data
+            })
+            //获取业务开发
+            let itemList = {
+                rid:document.URL.includes('yaheecloud') ? 40 : 171
+                // rid:40//业务开发40
+            }
+            selectRoleEmployeeForRoleId(itemList).then(res => {
+                this.targetPrice = res.data
+            })
+            //获取平台数据
+            let url = document.URL.includes('yaheecloud') ?   171 : 'http://api-tools-test.yahee.com.cn:81/api/platstore/queryPlats'
+            queryPlats(url).then(res => {
+                this.queryPlatsList = res.data
+            })
+            if(!this.routeParam.id){
+                let url = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/common/getFilePath' : 'http://api-tools-test.yahee.com.cn:82/tool-api/common/getFilePath'
+                getFilePath(url).then(res1 => {
+                    this.imgUrl = res1.data
+                })
+                return
+            }
+            let param = {
+                id:this.routeParam.id
+            }
+            getProductDemandById(param).then(res => {
+                let url = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/common/getFilePath' : 'http://api-tools-test.yahee.com.cn:82/tool-api/common/getFilePath'
+                getFilePath(url).then(res1 => {
+                    this.imgUrl = res1.data
+                    res.data.productDemandImgs.forEach(item => {
+                        item.showImgUrl = `${this.imgUrl}/Small/${item.fileUri}`
+                        item.showBigImgUrl = `${this.imgUrl}/${item.fileUri}`
+                    })
+                    res.data.classCategoryIdArray = [res.data.seriesCategoryId,res.data.classifyDefId]
+
+                    //处理专利信息数据
+                    let patentInfo = []
+                    patentInfo = res.data.productDemandPatents.filter(item => {
+                        return item.flag == 1
+                    })
+                    if(patentInfo.length > 0){
+                        patentInfo[0].patentInfo = JSON.parse(patentInfo[0].patentInfo)
+                        this.patentInfo = {
+                            countryList: patentInfo[0].patentInfo.map(item => {return item.countryCode}),
+                            patentInfoT:patentInfo[0].patentInfo,
+                            id:patentInfo[0].id,
+                            productDemandId: patentInfo[0].productDemandId,
+                        }
+                        this.countryList.forEach(item => {
+                            patentInfo[0].patentInfo.forEach(item1 => {
+                                if(item.countryCode == item1.countryCode){
+                                    this.$set(item,'reqRes',item1.reqRes)
+                                    this.$set(item,'patentInfo',item1.patentInfo)
+                                }
+                            })
+                        })
+                    }else {
+                        this.patentInfo.countryList = []
+                    }
+                    //处理设计信息数据
+                    if(res.data.productDemandDesignInfos && res.data.productDemandDesignInfos.length > 0){
+                        res.data.productDemandDesignInfos.forEach(item => {
+                            item.designerImgs.forEach(item1 => {
+                                item1.showImgUrl = `${this.imgUrl}/Small/${item1.fileUri}`
+                                item1.showBigImgUrl = `${this.imgUrl}/${item1.fileUri}`
+                            })
+                            item.structureImgs.forEach(item1 => {
+                                item1.showImgUrl = `${this.imgUrl}/Small/${item1.fileUri}`
+                                item1.showBigImgUrl = `${this.imgUrl}/${item1.fileUri}`
+                            })
+                        })
+                        this.devSignInfo = res.data.productDemandDesignInfos
+                    }
+                    //处理状态进度数据
+                    if(res.data.progresses){
+                        this.developmentProgresses.forEach(item => {
+                            res.data.progresses.forEach(item1 => {
+                                if(item1.toState == item.status){
+                                    item.createBy = item1.createBy
+                                    item.createOn = this.$moment(item1.createOn).format("YYYY-MM-DD HH:mm:ss")
+                                }
+                            })
+                        })
+                    }
+                    this.nowStatus = res.data.state
+                    this.mainPageList = res.data
+                })
+            })
+             
+        },
+        submitForm(formName){
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    let params = {
+                        id:this.routeParam.id,//编辑时必传
+                        productDemandImgs: this.mainPageList.productDemandImgs,
+                        title: this.mainPageList.title,
+                        businessId: this.mainPageList.businessId,
+                        design:this.mainPageList.design,
+                        // seriesCategoryId: this.mainPageList.seriesCategoryId,
+                        // classifyDefId:this.mainPageList.classifyDefId,
+                        productSource:this.mainPageList.productSource,
+                        factoryName:this.mainPageList.factoryName,
+                        platForm:this.mainPageList.platForm,
+                        productLink:this.mainPageList.productLink,
+                        productLinkMarket:this.mainPageList.productLinkMarket,
+                        otherSources:this.mainPageList.otherSources,
+                        desiredColor:this.mainPageList.desiredColor,
+                        requiredSize:this.mainPageList.requiredSize,
+                        processMaterial:this.mainPageList.processMaterial,
+                        saleMarket:this.mainPageList.saleMarket,
+                        xsdailySales:this.mainPageList.xsdailySales,
+                        recomReason:this.mainPageList.recomReason,
+                        adjustDirection:this.mainPageList.adjustDirection,
+                        otherInstructions:this.mainPageList.otherInstructions,
+                        productDemandCompetings:this.mainPageList.productDemandCompetings,
+                        seriesCategoryId:  this.mainPageList.classCategoryIdArray[0],//类目系列
+                        classifyDefId: this.mainPageList.classCategoryIdArray[1],
+                    }
+                    saveProductDemand(params).then((res) => {
+                        if(res.code == 200){
+                            this.$message({
+                                type: 'success', 
+                                message:'保存成功',
+                                offset:220
+                            })
+                        }
+                        this.$set(this.routeParam,'id',res.data)
+                        this.$router.push({query:{id:res.data}})
+                        this.init()
+                        this.controlsEdit.isEdit = true
+                    })
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            });   
+        },
+        submitForm1(formName){
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    let list  = this.countryList.filter(item => {
+                        return this.patentInfo.countryList.includes(item.countryCode)
+                    })
+                    
+                    let params = {
+                        productDemandId:this.routeParam.id,//专利信息id 编辑必传
+                        id: this.patentInfo.id,  
+                    }
+                    let patentInfo = list.map(item => {
+                        return {
+                            countryCode:item.countryCode,
+                            patentInfo:item.patentInfo,
+                            reqRes:item.reqRes,
+                        }
+                    })
+                    params.patentInfo = JSON.stringify(patentInfo)
+                    saveProductDemandPatent(params).then((res) => {
+                        if(res.code == 200){
+                            this.$message({
+                                type: 'success', 
+                                message:'保存成功',
+                                offset:220
+                            })
+                        }
+                        this.init()
+                        this.controlsEdit.isEdit1 = true
+                    })
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            }); 
+        },
+        submitForm2(formName){
+            this.$refs[formName].validate((valid) => {
+                if (valid) {               
+                    saveProductDemandDesignInfo(this.devSignInfo).then((res) => {
+                        if(res.code == 200){
+                            this.$message({
+                                type: 'success', 
+                                message:'保存成功',
+                                offset:220
+                            })
+                        }
+                        this.init()
+                        this.controlsEdit.isEdit2 = true
+                    })
+                } else {
+                    console.log('error submit!!');
+                    return false;
+                }
+            }); 
+        },
+        routerDev(){
+             window.open(`http://productdev.yaheecloud.com/productDetails?developmentId=${this.mainPageList.developmentId}&productId=${this.mainPageList.productId}`,'_blank')
+        },
+         //审核数据 
+        toExamine(list){
+            let checkList = []
+           
+            checkList.push(this.mainPageList)
+            
+            if(checkList.length == 0) {
+                this.error('请至少选择一条数据！')
+                return
+            }
+            if(checkList.some(item => [13,14,15,16,17].includes(item.state))){
+                this.error('计划下单、候选下单、已下单、已取消、已冻结状态不允许审批！')
+                return
+            }
+            if(checkList.some(item => item.state != checkList[0].state)){
+                this.error('请选择相同状态的数据！')
+                return
+            }
+            if(checkList.length > 1 && checkList.some(item => item.state == 6 || item.state == 7 || item.state == 10 || item.state == 13)){
+                this.error('所选状态不支持批量处理！')
+                return
+            }
+            let checkStatusDialog = this.$refs.checkStatusDialog
+            checkStatusDialog.openDialog(checkList)
+            
+        },
+        showDesign(val){
+            if(!val) return '--'
+            let des = []
+            des = this.designList.filter(item => {
+                return item.value == val
+            })
+            if(des.length > 0){
+                return des[0].label
+            }else {
+                return '--'
+            }
+            
+        },
+        showCountryText(val){
+            if(!val) return ''
+            let des = []
+            des = this.countryList.filter(item => {
+                return item.countryCode == val
+            })
+            if(des.length > 0){
+                return des[0].label
+            }else {
+                return ''
+            } 
+        },
+        showReqRes(val){
+            if(!val) return ''
+            let des = []
+            des = this.devSign.filter(item => {
+                return item.value == val
+            })
+            if(des.length > 0){
+                return des[0].label
+            }else {
+                return ''
+            }
+        },
+        showDesigner(val){
+            if(!val) return ''
+            let des = []
+            des = this.designerList.filter(item => {
+                return item.value == val
+            })
+            if(des.length > 0){
+                return des[0].label
+            }else {
+                return ''
+            }
+        },
+        changeNum(index){
+            let numList = ['一','二','三','四','五','六','七','八','九','十']
+            return numList[index]
+        },
+        leftMove(){
+            let  image = document.querySelector('.step-container')
+            if(image.offsetLeft > 30)return
+            image.style.left = image.offsetLeft +100 + 'px'
+        },
+        rightMove(){
+            let image = document.querySelector('.step-container')
+            if(image.offsetLeft < -1377){
+                return
+            }else{
+                image.style.left = image.offsetLeft - 100 + 'px'
+            }
+        },
+        deleteRow(index,) {
+            this.mainPageList.productDemandCompetings.splice(index, 1);
+        },
+        addTableList(){
+            if(!this.mainPageList.productDemandCompetings) this.$set(this.mainPageList,'productDemandCompetings',[])
+            this.mainPageList.productDemandCompetings.push({
+                url:'',
+                urlMarket:'',
+                bandinfo:'',
+                ranking:'',
+                minPrice:'',
+                maxPrice:'',
+            })
+        },
+        //权限控制
+        getPermissions(){
+            let  params = [
+                'ERP.Product.ProductSample.View',
+                'ERP.Product.ProductSample.SavaProductSampleRes',
+            ]
+            hasPermissions(params).then(res => {
+                this.pageLoading = false
+                let data = JSON.stringify( res.data);
+                sessionStorage.setItem("permissions", data);
+                res.data.forEach(item => {
+                    if(item.PermissionCode == 'ERP.Product.ProductSample.View' && !item.HasPermission){
+                        this.$message({
+                            message: `对不起您没有权限（ERP.Product.ProductSample.View）进行当前操作！`,
+                            type: 'error',
+                            duration:0,
+                            showClose:true,
+                            offset:300,
+                        })
+                    }
+                })
+                this.renderDom = true
+            })
+        },
+        addDevsign(i){
+            if(this.devSignInfo.length > 10){
+                this.error('设计方案最多10条！')
+                return
+            }
+            let filterDevSignInfo = this.devSignInfo.filter(item => {
+                return item.usage != false
+            })
+            this.devSignInfo.push({
+                id:null,//编辑时必传
+                productDemandId:this.routeParam.id,//新品需求id
+                designer:null,//设计方  1:设计部、2:工厂、3:工厂&设计部
+                seriaNum:this.changeNum(filterDevSignInfo.length + 1),//方案编号
+                usage: true,//使用情况    true 正常     false删除 -- 需要删除时传 false，其他时候不用传值或者true
+                designerImgs: [//设计图片 -- 文件上传后返回数据
+                   
+                ],
+                structureImgs: []
+            })
+        },
+        delDevsign(i){
+            if(this.devSignInfo.length < 1){
+                this.error('最少要有一条设计方案！')
+            }
+            let filterDevSignInfo = this.devSignInfo.filter(item => {
+                return item.usage != false
+            })
+            this.$set(filterDevSignInfo[i],'usage',false)
+        },
+        //路由参数
+        routerMove(id){
+            let routeData = this.$router.resolve({
+                name: "sampleDetail",
+                query:{
+                    id
+                }
+            });
+            window.open(routeData.href, '_blank');
+        },
+
+         //下载文件地址
+        GetFileServiceUrl(url) {
+            return GetFileServiceUrl(url)
+        },
+        //关闭日志弹窗
+        closeUploadDialog(){
+            this.showTenth = false
+            this.dialogVisible = false
+        },
+
+        //打开日志弹窗
+        openRecordDialog(){
+            this.remarksParam = {
+                productCountryId:this.routeParam.id,
+                noteBussinessName:'ProductSample_verify',
+                pageNum:0,
+                PageIndex:-1,
+                proImageList:GetFileServiceUrl(),
+                mainBtn:false,
+                Mark:null,
+                showAllbutton:false,
+            }
+            this.showTenth = true
+            this.dialogVisible = true
+            // if(this.$refs.remarksNew){
+            //     this.$refs.remarksNew.load(this.remarksParam,true) 
+            // } 
+        },
+       
+        upDateFile(list,name){
+            this.$set(this.mainPageList,name,list)
+            this[name]= list
+        },
+        updeEditPage(key,value,shouldUpdate){  
+            this.$set(this.controlsEdit,key,value)
+            this.init()
+        },
+        showHistoryQueryInfo(){
+            let  patentInfo = []
+            if(this.mainPageList.productDemandPatents && this.mainPageList.productDemandPatents.length > 0) {
+                 patentInfo = this.mainPageList.productDemandPatents.filter(item => {
+                    return item.flag == 0
+                })
+                if(patentInfo.length == 0) return this.warning('未查询到历史数据！')
+                this.historyPatentInfo = JSON.parse(patentInfo[0].patentInfo) 
+                this.$refs.commonDialog.dialogVisible = true
+            }
+           return this.warning('未查询到历史数据！')
+        },
+        success() {
+            this.$message({
+                showClose: true,
+                message: '操作成功',
+                offset:220,
+                duration: 2000,
+                type: 'success'
+            });
+        },
+        warning(msg) {
+            this.$message({
+                showClose: true,
+                message: msg,
+                offset:220,
+                type: 'warning'
+            });
+        },
+        error(msg) {
+            this.$message({
+                showClose: true,
+                message: msg,
+                offset:220,
+                type: 'error'
+            });
+        },
+    }
+}
+</script>
+<style scoped lang="scss">
+.bottom-button {
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #ffffff;
+    background-color: #ffffff;
+    position: fixed;
+    bottom: 0px;
+    right: 0px;
+    width: 100%;
+    padding: 5px;
+    box-shadow: -5px -5px 5px #cccccc
+}
+.word-break {
+    word-break: break-all;
+}
+.devsign-b{
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 15px;
+}
+.tableText{
+    &:hover{
+        background-color: #3366cc;
+        color: #ffffff;
+    }
+    color:#3366cc ;
+    cursor: pointer;
+    margin-top: 3px;
+    padding: 0 5px;
+    border-radius: 3px;
+    font-size: 12px;
+    display: inline-block;
+}
+
+.stepBox{
+    position: relative;
+    height: 90px;
+    .leftButton{
+        position: absolute;
+        top: -36px;
+        left: -20px;
+        background: #ffffff;
+        width: 50px;
+        z-index: 9999;
+        line-height: 175px;
+        cursor: pointer;
+        .el-icon-d-arrow-left{
+            font-size: 30px;
+        }
+    } 
+    ::v-deep.step-container{
+        display: inline-block;
+        width: 200%;
+        // overflow: hidden;
+        position: absolute;
+        left: 23px;
+        .is-success{
+            color: green !important;
+            border-color: green !important;
+            .el-step__line-inner{
+                border-width: 1px !important;
+                width: 100% !important;;
+            }
+        }
+        .stepTitle{ 
+            font-size: 12px;
+            width: 120px;
+        }
+    }
+    .rightButton{
+        position: absolute;
+        right: -20px;
+        width: 52px;
+        z-index: 9999;
+        top: -36px;
+        background: #ffffff;
+        line-height: 175px;
+        cursor: pointer;
+        .el-icon-d-arrow-right{
+            font-size: 30px;
+        }
+    }
+}
+.el-card {
+    margin-top: 3px;
+}
+ .el-icon-question1 {
+    background-image: url('~@/assets/svg/interpretation.svg');
+
+    cursor: pointer;
+    user-select: none;
+    background-size: 15px;
+    display: inline-block;
+    height: 15px;
+    width: 15px;
+}
+.textSpeaing .el-col{
+    margin-top: 15px;
+}
+.imageMainbox{
+    text-align: right;
+    font-weight: bold;
+    width: 180px;
+    display: inline-block;
+    flex-shrink: 0;
+    .imageMainboxText{
+        font-weight: normal;
+        display: inline-block;
+    }
+}
+.boxFlex{
+    display: flex;
+}
+.image-flex {
+    display: flex;
+    flex-wrap: wrap;
+    .el-image {
+        margin: 5px;
+        width: 100px;
+        height: 100px;
+        border: 1px solid #ccc;
+    }
+}
+::v-deep.dialog-main {
+    .el-drawer__header {
+        padding: 10px 20px 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 0px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+    .el-drawer__body {
+        padding: 10px;
+    }
+}
+.textSpeaing .el-col{
+    margin-top: 15px;
+}
+::v-deep.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    &:hover{
+        border-color: #409EFF;
+    }
+}
+.avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+}
+.avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 130px;
+    height: 130px;
+    line-height: 130px;
+    text-align: center;
+}
+.avatar {
+    width: 130px;
+    height: 130px;
+    display: block;
+}
+.bottomButton{
+    width: 100%;
+    height: 30px;   
+    display: flex;
+    justify-content: flex-end;
+}
+.sample-basis .el-row {
+    margin-top: 5px;
+}
+.bg-gray {
+    background-color: #ededed;
+    padding: 5px;
+    .el-icon-s-unfold {
+        position: fixed;
+        top: 139px;
+        left: 10px;
+        font-size: 30px;
+        cursor: pointer;
+        box-shadow: 1px 1px rgba(0,0,0,0.1);
+    }
+    .el-icon-s-fold {
+        background: #fff;
+        z-index: 11111;
+        position: fixed;
+        top: 139px;
+        left: 645px;
+        font-size: 30px;
+        cursor: pointer;
+        box-shadow: 1px 1px rgba(0,0,0,0.1);
+    }
+    .clearfix {
+        height: 20px;
+    }
+.flex-stact-title {
+    position: sticky;
+    top: 0px;
+    background-color: #ededed;
+    z-index: 999;
+    .header-title {
+        height: 30px;
+        line-height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        position: relative;
+        border-bottom: 1px solid #ccc; background-color: #fff;
+        .header-text {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .right-button {
+            display: flex;
+            position: absolute;
+            right: 10px;
+            top: 4px;
+            .green-div,.gray-div {
+                background-color: #0f7535;
+                color: #fff;
+                padding: 0px 5px;
+                margin-right: 5px;
+                height: 20px;
+                line-height: 20px;
+            }
+            .gray-div {
+                background-color: #606060;
+            }
+            .green-font {
+                color: #3366cc;
+                height: 20px;
+                line-height: 20px;
+                margin-right: 5px;
+                cursor: pointer;
+            }
+        }
+    }
+}
+.tabContainer{
+    height: 100%;
+    width: 100%;
+    background-color: rgba(230, 230, 230, 1);
+    margin-bottom:40px;
+    .imageMainbox{
+        text-align: right;
+        font-weight: bold;
+        width: 180px;
+        display: inline-block;
+        flex-shrink: 0;
+        
+    }
+    .imageMainboxText{
+        font-weight: normal;
+        display: inline-block;
+        // width: 100%;
+    }
+    ::v-deep .el-card__header{
+        padding: 10px 50px !important;
+        font-size: 16px;
+        font-weight: bold;
+        position: relative;
+    }
+    ::v-deep .el-card__body{
+        margin-left: 100px;
+    }
+    .edit-position{
+        float: right;
+        margin-right:10px;
+        color: #3366cc;
+        height: 20px;
+        width: 55px;
+        font-size: 12px;
+        position: absolute;
+        right: 5px;
+        top: 12px;
+        &:hover{
+            background-color: #3366cc;
+            color: #ffffff;
+            cursor: pointer;   
+            text-align: center;
+            
+            .icon-edit{
+                fill: #ffffff;
+                background-image: url(~@/assets/svg/editWrite.svg);
+            }
+        }
+        .icon-edit{
+            height: 16px;
+            width: 16px;
+            float: left;
+            background-image: url(~@/assets/svg/edit.svg);
+        }
+    }
+    .imgContainer{
+        display: flex;
+        min-height: 100px;
+        flex-wrap: wrap;
+        height: max-content;
+        .imgCon{
+            width: 100px; 
+                height: 100px; 
+            margin: 3px;
+            .imageListBox{
+                width: 100px; 
+                height: 100px; 
+                display: block;
+                cursor:pointer;
+                border-radius: 3px;
+            }         
+        }
+    }  
+}
+}
+.fileHoverShow{
+    color: #3366cc;
+    display: inline;
+    &:hover{
+        background: #3366cc;
+        color: #ffffff;
+        cursor: pointer;
+    }
+}
+.red-text {
+    color: red;
+    cursor: pointer;
+    padding: 0 5px;
+    border-radius: 3px;
+    font-size: 12px;
+    display: inline-block;
+    &:hover {
+        background: red;
+        color: #ffffff;
+    }
+}
+.country-type {
+    display:inline-block;width:60px;padding-right:5px;text-align:right;
+    margin-top: 5px;
+    flex-shrink: 0;
+}
+</style>
+<style>
+.el-table .cell {
+    white-space: pre-line;
+}
+</style>

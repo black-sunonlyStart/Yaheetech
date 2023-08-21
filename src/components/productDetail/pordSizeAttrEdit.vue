@@ -547,7 +547,11 @@ export default {
                     value: 1
                 }
             ],
-            checkList:['米色','黑色','蓝色','天蓝','绿蓝/宝石蓝','浅蓝','深蓝','藏蓝','棕色','深棕色/茶色','浅棕色','中棕色','透明色','黄金','灰色','绿色','白色','奶白色','象牙色','多色','橙色','深橙色','粉红色','紫色','红色','浅红色','银色','黄色','镀铬色','不锈钢','木色','金属钛','古铜色','玫红色','咖啡色','橄榄色','卡其色','铁灰色','暗灰色','驼色','彩虹色','肉色','浅紫色','深紫色','酒红色','复古色']
+            checkList:[
+                '米色','黑色','蓝色','天蓝','绿蓝/宝石蓝','浅蓝','深蓝','藏蓝','棕色','深棕色/茶色','浅棕色','中棕色','透明色','黄金','灰色','绿色','白色',
+                '奶白色','象牙色','多色','橙色','深橙色','粉红色','紫色','红色','浅红色','银色','黄色','镀铬色','不锈钢','木色','金属钛','古铜色','玫红色',
+                '咖啡色','橄榄色','卡其色','铁灰色','暗灰色','驼色','彩虹色','肉色','浅紫色','深紫色','酒红色','复古色'
+            ]
         }
     },
     props:{
@@ -592,11 +596,10 @@ export default {
     watch:{
         productColor:{
             handler(val,oldVal){
-                
                 // if(val == oldVal  || (oldVal.length == 0 && this.firstList))return  
-               this.number++ 
-               console.log(this.number,'number')
-               if(this.number < 3) return
+                this.number++ 
+                console.log(this.number,'number')
+                if(this.number < 3) return
                 if(val.length > oldVal.length){
                     let newVal = val.filter(item => {
                         return !oldVal.includes(item)
@@ -646,8 +649,7 @@ export default {
                     this.rules.outerBoxNum[0].required = false
                     this.rules.containersNumber[0].required = false
                 }
-            }
-             
+            }    
         },
         selectConNumb(val){
             let selectid = []
@@ -684,7 +686,6 @@ export default {
         getDetaiList(){
             let productColor = []
             if(this.multiAttribute && this.multiAttribute[0]){
-               
                 let newMulBute =  this.multiAttribute.filter((item => {
                     return item.productid == this.pordSizeAttrInfoList.id
                 }))
@@ -697,7 +698,6 @@ export default {
                 }
             } 
             let proSize = this.copeMulAttrBute.size || ''
-
             this.ruleForm = {
                 productType:this.pordSizeAttrInfoList.producttype == 2 ? 2 : 1,
                 productSizeL:this.pordSizeAttrInfoList.productSizeL,
@@ -722,8 +722,7 @@ export default {
                 productSize:proSize,
                 multiAttribute:this.multiAttribute,
                 productlistings:this.pordSizeAttrInfoList.productlistings ? this.pordSizeAttrInfoList.productlistings:[],
-            }
-            
+            }   
         },
         deleteRow(index, rows) {
             rows.splice(index, 1);
@@ -790,7 +789,6 @@ export default {
                     }else {
                         params.productlistings = []
                     }
-                    
                     params.productcolors = this.ruleForm.multiAttribute.map(res => {
                         return {
                             productneed:res.productneed || false,

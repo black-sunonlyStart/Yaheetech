@@ -688,9 +688,9 @@ export function getId(data){
     })
 }
 //上传文件的接口
-export function saveProductSampleAttachment(data){
+export function saveProductSampleAttachment(data,url){
     return request ({
-        url:'/productSample/saveProductSampleAttachment',
+        url,
         method:'post',
         data
     })
@@ -743,5 +743,166 @@ export function delSampleInfo(data){
         params:data
     })
 }
+//样品确认员
+export function getSampleValidatorList(data){
+    return request ({
+        url:'/productSample/getSampleValidatorList',
+        method:'get',
+        params:data
+    })
+}
 
 //样品确认任务end
+
+
+//新品开发start
+
+export function atGetSeriesCategoryDef(data){
+    return request ({
+        url:'/productDemand/getSeriesCategoryDef',
+        method:'get',
+        params:data
+    })
+}
+export function atgetBigDepartmentLeaders(data){
+    return request ({
+        url:'/productDemand/getBigDepartmentLeaders',
+        method:'get',
+        params:data
+    })
+}
+export function getProductDemandById(data){
+    return request ({
+        url:'/productDemand/getProductDemandById',
+        method:'get',
+        params:data
+    })
+}
+
+export function queryPlats(url){
+    return request ({
+        url:url,
+        method:'get',
+    })
+}
+
+export function getProductDemand(data){
+    return request ({
+        url:'/productDemand/getProductDemand',
+        method:'post',
+        data
+    })
+}
+//分类数量清单
+export function getQueryProductDemandNum(data){
+    return request ({
+        url:'/productDemand/getQueryProductDemandNum',
+        method:'post',
+        data
+    })
+}
+//分类数量清单
+export function saveProductDemand(data){
+    return request ({
+        url:'/productDemand/saveProductDemand',
+        method:'post',
+        data
+    })
+}
+//新增/编辑 专利信息
+export function saveProductDemandPatent(data){
+    return request ({
+        url:'/productDemand/saveProductDemandPatent',
+        method:'post',
+        data
+    })
+}
+//新增/编辑 
+export function saveProductDemandDesignInfo(data){
+    return request ({
+        url:'/productDemand/saveProductDemandDesignInfo',
+        method:'post',
+        data
+    })
+}
+//审核 
+export function auditProductDemand(data){
+    return request ({
+        url:'/productDemand/auditProductDemand',
+        method:'post',
+        data
+    })
+}
+//分配设计师
+export function saveDesigner(data){
+    return request ({
+        url:'/productDemand/saveDesigner',
+        method:'post',
+        data
+    })
+}
+//专利检索人员
+export function getPatentClerks(){
+    return request ({
+        url:'/productDemand/getPatentClerks',
+        method:'get',
+        
+    })
+}
+//分配检索人员
+export function savePatentClerk(data){
+    return request ({
+        url:'/productDemand/savePatentClerk',
+        method:'post',
+        data
+    })
+}
+//更换业务开发
+export function saveBusinessId(data){
+    return request ({
+        url:'/productDemand/saveBusinessId',
+        method:'post',
+        data
+    })
+}
+//取消原因
+export function getCancelType(data){
+    return request ({
+        url:'/productDemand/getCancelType',
+        method:'get',
+        
+    })
+}
+//取消
+export function demandFreezing(data){
+    return request ({
+        url:'/productDemand/freezing',
+        method:'POST',
+        data
+    })
+}
+export function demandUnfreezing(data){
+    return request ({
+        url:'/productDemand/unfreezing',
+        method:'POST',
+        data
+    })
+}
+export function skipProjectApproval(data){
+    return request ({
+        url:'/productDemand/skipProjectApproval',
+        method:'POST',
+        data
+    })
+}
+export function skipStructuralDesign(data){
+    return request ({
+        url:'/productDemand/skipStructuralDesign',
+        method:'POST',
+        data
+    })
+}
+
+
+
+//新品开发end

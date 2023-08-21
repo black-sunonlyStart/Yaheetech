@@ -2,8 +2,8 @@ import Vue from 'vue'
 // v-permission: 权限控制
 Vue.directive('permission', {
     bind(el,binding) {
-        let objAfter = JSON.parse(sessionStorage.getItem("permissions"));
-        if(!objAfter) el.style.display = 'none'
+        let objAfter = JSON.parse(sessionStorage.getItem("permissions")) || null;
+        if(!objAfter) return el.style.display = 'none' 
         //多个权限码
         if(Array.isArray(binding.value) || Array.isArray(binding.arg) ) {
             let filterArray = binding.value || binding.arg

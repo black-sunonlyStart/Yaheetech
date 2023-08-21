@@ -42,7 +42,7 @@
             :limit="limit"
             :on-success="onSuccessUpload"
             :on-exceed="onExceed"
-            :data="{fileType,productSampleId:$route.query.id || null}"
+            :data="dataParams"
             :before-upload="beforeUpload"
             :with-credentials='true'
         >
@@ -79,6 +79,15 @@ export default {
         type: Array,
         default () {
             return []
+        }
+    },
+    dataParams: {
+        type: Object,
+        default () {
+            return {
+                fileType:this.fileType,
+                productSampleId:this.$route.query.id
+            }
         }
     },
     // 限制上传的图片数量
@@ -247,7 +256,7 @@ methods: {
                     'Content-Type': 'multipart/form-data'
                 }
             }; 
-            saveProductSampleAttachment(param,config).then(res => {
+            saveProductSampleAttachment(param,this.imageURl).then(res => {
                 if(res.code == 200){
                     this.value.splice(index,1)
                     this.$emit('upDateFile',this.imgList,this.ruleName)

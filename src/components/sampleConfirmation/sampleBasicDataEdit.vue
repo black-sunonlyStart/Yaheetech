@@ -327,8 +327,8 @@
             </el-row>  
         </el-form>
         <div class="bottomButton">
-            <el-button type="success" @click="submitForm('ruleForm')" size="mini">提交</el-button>
-            <el-button type="primary" @click="saveProductSampleFn(1)" size="mini" >保存</el-button>
+            <el-button type="success" @click="submitForm('ruleForm')" size="mini" :disabled="submitDisabled" :loading="submitDisabled">提交</el-button>
+            <el-button type="primary" @click="saveProductSampleFn(1)" size="mini" :disabled="submitDisabled" :loading="submitDisabled">保存</el-button>
             <el-button @click="resetForm('ruleForm')"  size="mini">取消</el-button>
         </div>
     </div>
@@ -345,6 +345,7 @@ export default {
     data(){
         return {
             disabledSupplier:false,
+            submitDisabled:false,
             successIcon:false,
             errorIcon:false,
             successIcon1:false,
@@ -414,7 +415,16 @@ export default {
                     { required: true, message: '请选择验货报告需求', trigger: 'blur' }
                 ],
                 exportMarket: [
-                    { required: true, message: '请选择出口市场', trigger: 'blur' }
+                    {
+                        required: true,
+                        validator: (rules, value, cb) => {
+                            if( !this.exportMarket || (this.exportMarket && this.exportMarket.length == 0) ){
+                                return cb(new Error("请选择出口市场！"));
+                            }
+                            return cb();
+                        },
+                        trigger: "blur"
+                    }
                 ],
                 englishInspectionReport: [
                     { required: true, message: '请选择英文验货报告', trigger: 'blur' }
@@ -593,6 +603,7 @@ export default {
         exportMarket:{
             handler:function(val,oldVal){
                 if(!val) val = []
+                this.$set(this.ruleForm,'exportMarket',this.exportMarket || [])
                 let eulist =  ['FR','IT','ES','DE'];
                 if(val.includes('EU') && !oldVal.includes('EU')){
                     eulist.forEach(item=> {
@@ -611,7 +622,7 @@ export default {
                     return
                 }
                 this.exportMarket = val
-                this.$set(this.ruleForm,'exportMarket',val)
+                this.$set(this.ruleForm,'exportMarket',this.exportMarket)
             }
         }
     },
@@ -688,12 +699,12 @@ export default {
                     if(!this.successIcon){
                         this.$set(this.ruleForm,'releSku', res.data.releSku || this.ruleForm.releSku)
                         this.$set(this.ruleForm,'scenarios', res.data.scenarios || res.data.scenarios == 0 ? res.data.scenarios : this.ruleForm.scenarios)
-                        this.$set(this.ruleForm,'productKey', res.data.productKey || this.ruleForm.productKey)
+                        // this.$set(this.ruleForm,'productKey', res.data.productKey || this.ruleForm.productKey)
+                        this.$set(this.ruleForm,'originalTypeSku', res.data.productKey)
                         this.$set(this.ruleForm,'devProductId', res.data.devProductId || this.ruleForm.devProductId)
                         if(this.ruleForm.sampleCondition == 1 || this.ruleForm.scenarios == 2) {
                             this.$set(this.ruleForm,'supplierCode', res.data.supplierCode || this.ruleForm.supplierCode)
                             this.$set(this.ruleForm,'supplierId', res.data.supplierId || this.ruleForm.supplierId)
-                            
                         } 
                         if(res.data.supplierId && this.ruleForm.scenarios == 2 && this.ruleForm.sampleCondition == 0){
                             let list = []
@@ -844,6 +855,7 @@ export default {
         },
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
+                console.log(this.ruleForm,'ruleForm')
                 if (valid) {
                     this.$confirm(`确认提交样品申请单到认证部确认？`, '提示', {
                         confirmButtonText: '确定',
@@ -863,10 +875,10 @@ export default {
             });
         },
         saveProductSampleFn(val){
+             this.submitDisabled = true
             if(!this.ruleForm.productSizePhotoList){
                 this.ruleForm.productSizePhotoList = []
             }
-            
             let params = {
                 id:this.$route.query.id || null,//传空会自动生成，正常逻辑是使用 /productSample/getId 生成
                 scenarios: this.ruleForm.scenarios,//产品类型   0：全新开发  1：二次开发产品  2：改进变更产品
@@ -897,8 +909,9 @@ export default {
                 jpInformation: this.ruleForm.jpInformation,//竞品信息
                 thisImprovement:this.ruleForm.thisImprovement,
                 sampleImprovedInformation:this.ruleForm.sampleImprovedInformation,//来样改进信息
-                originalTypeSkuAlias:this.ruleForm.originalTypeSkuAlias,//来样改进信息
-                reasonForSecondaryDev:this.ruleForm.reasonForSecondaryDev,//来样改进信息
+                originalTypeSkuAlias:this.ruleForm.originalTypeSkuAlias,//sku别名
+                reasonForSecondaryDev:this.ruleForm.reasonForSecondaryDev,//二次开发原因
+                originalTypeSku:this.ruleForm.originalTypeSku,//sku别名
                 state: val,// 1：保存   2：提交
                 psas:this.ruleForm.productSizePhotoList.concat(this.ruleForm.sampleOnePhoto || [],this.ruleForm.sampleImprovementPhoto||[],this.ruleForm.changePhoto||[]),
             }
@@ -911,7 +924,10 @@ export default {
                     })
                     this.$router.push({query:{id:res.data}})
                     this.$emit('closeEdit','isEdit',true,true)
+                    this.submitDisabled = false
                 }
+            }).catch(() => {
+                this.submitDisabled = false
             })
         },
         resetForm(formName) {
@@ -939,6 +955,7 @@ export default {
             this.copySuppliers = this.copySuppliers1;
         },
         changePreproductionSample(val){
+            
             if(this.ruleForm.supplierId){
                 let list = this.copySuppliers.filter(item => {
                     return item.id == this.ruleForm.supplierId
@@ -964,8 +981,8 @@ export default {
 
             // productKey 为 sku别名：产品名称(productTitle)、产品材质(material)、产品工艺(process)、基础信息(basicInformation)、竞品信息(jpInformation)
            
-            if((this.ruleForm.skuAlias && this.ruleForm.scenarios >= 0 && this.ruleForm.preproductionSample == 1 && this.ruleForm.supplierId) || 
-            (this.ruleForm.skuAlias &&  this.ruleForm.supplierId && this.ruleForm.preproductionSample == 0)){
+            if(((this.ruleForm.skuAlias || this.ruleForm.originalTypeSkuAlias) && this.ruleForm.scenarios >= 0 && this.ruleForm.preproductionSample == 1 && this.ruleForm.supplierId) || 
+            ((this.ruleForm.skuAlias || this.ruleForm.originalTypeSkuAlias) &&  this.ruleForm.supplierId && this.ruleForm.preproductionSample == 0)){
                 //开发ID/sku别名+供应商+产品类型+否为产前样
                 //开发ID/sku别名+供应商+是为产前样
                 this.$confirm(`是否需要同步最新型号的数据？`, '提示', {
@@ -984,6 +1001,8 @@ export default {
                         supplierName: this.ruleForm.supplierName,//供应商名字
                         preproductionSample:this.ruleForm.preproductionSample,// 是否为产前样   0 ： 是   1：否
                         originalTypeSkuAlias:this.ruleForm.productKey,//原型号sku别名   与 productKey 不能同时传空
+                        originalTypeSku :this.ruleForm.originalTypeSku,//原型号sku别名   与 productKey 不能同时传空
+                        sampleNum :this.ruleForm.sampleNum,//原型号sku别名   与 productKey 不能同时传空
                         id:this.$route.query.id,//原型号sku别名   与 productKey 不能同时传空
                     }
                     getPreproductionSample(param).then(res => {
@@ -1009,7 +1028,7 @@ export default {
                                 type: 'success'
                             });
                             //同步彩图
-                            if((this.ruleForm.preproductionSample == 1 && (this.ruleForm.productKey.includes('DEV') || this.ruleForm.sampleNum > 1)) || this.ruleForm.preproductionSample == 0){
+                            if((this.ruleForm.preproductionSample == 1 && (this.ruleForm.productKey && this.ruleForm.productKey.includes('DEV') || this.ruleForm.sampleNum > 1)) || this.ruleForm.preproductionSample == 0){
                                 if(res.data.psas){
                                     let list =  res.data.psas.filter(item => {
                                         return item.fileType == 4
@@ -1043,12 +1062,12 @@ export default {
                             this.$set(this.ruleForm,'process',res.data.process || this.ruleForm.process)
                             this.$set(this.ruleForm,'basicInformation',res.data.basicInformation ? res.data.basicInformation.replaceAll('\\n','\n') : this.ruleForm.basicInformation)
                             this.$set(this.ruleForm,'jpInformation',res.data.jpInformation ? res.data.jpInformation.replaceAll('\\n','\n') : this.ruleForm.jpInformation)
-                            if(this.ruleForm.preproductionSample == 1 && this.ruleForm.sampleNum < 2 && this.ruleForm.productKey.includes('DEV')){
+                            if(this.ruleForm.preproductionSample == 1 && this.ruleForm.sampleNum < 2 && (this.ruleForm.productKey && this.ruleForm.productKey.includes('DEV'))){
                                 this.$set(this.ruleForm,'productTitle',res.data.productTitle || this.ruleForm.productTitle)
                                 return 
                             }else {
                                     this.$set(this.ruleForm,'scenarios',res.data.scenarios || res.data.scenarios == 0 ? res.data.scenarios : this.ruleForm.scenarios)
-                                    if(this.ruleForm.preproductionSample == 1 && this.ruleForm.sampleNum < 2 && this.ruleForm.productKey.includes('DEV')){
+                                    if(this.ruleForm.preproductionSample == 1 && this.ruleForm.sampleNum < 2 && (this.ruleForm.productKey && this.ruleForm.productKey.includes('DEV'))){
                                         this.$set(this.ruleForm,'productTitle',res.data.productTitle || this.ruleForm.productTitle)
                                         return
                                     }
@@ -1064,14 +1083,13 @@ export default {
                                         this.$set(this.ruleForm,'exportMarket',this.ruleForm.exportMarket)
                                         this.exportMarket = this.ruleForm.exportMarket
                                     }
-                                     this.$set(this.ruleForm,'productTitle',res.data.productTitle || this.ruleForm.productTitle)
+                                    this.$set(this.ruleForm,'productTitle',res.data.productTitle || this.ruleForm.productTitle)
                                     this.$set(this.ruleForm,'englishInspectionReport',res.data.englishInspectionReport || res.data.englishInspectionReport == 0 ? res.data.englishInspectionReport : this.ruleForm.englishInspectionReport)
                                     this.$set(this.ruleForm,'productColorType',res.data.productColorType || this.ruleForm.productColorType)
                                     this.$set(this.ruleForm,'sampleColor',res.data.sampleColor || this.ruleForm.sampleColor)
                                     this.$set(this.ruleForm,'burstingStrengthCarton',res.data.burstingStrengthCarton || this.ruleForm.burstingStrengthCarton)
                                     this.$set(this.ruleForm,'auxiliaryFoamDensity',res.data.auxiliaryFoamDensity || this.ruleForm.auxiliaryFoamDensity)
-                                if(this.ruleForm.preproductionSample == 0 && this.ruleForm.sampleNum > 1){
-                                   
+                                if(this.ruleForm.preproductionSample == 0 && this.ruleForm.sampleNum > 1){                              
                                     this.$set(this.ruleForm,'supplierType',res.data.supplierType || res.data.supplierType == 0 ? res.data.supplierType : this.ruleForm.supplierType)
                                     return
                                 }
