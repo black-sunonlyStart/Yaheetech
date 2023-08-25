@@ -36,7 +36,7 @@
                         <el-select 
                             v-model="ruleForm.dailySales"
                             filterable 
-                            :disabled='showDailySales'
+                        
                             >
                             <el-option 
                                 v-for="item in dailySales"                        

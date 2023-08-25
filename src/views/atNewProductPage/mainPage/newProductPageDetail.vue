@@ -2,12 +2,15 @@
     <div class="bg-gray" >
         <div class="flex-stact-title">
             <el-card class="header-title" style="margin-top:0px">
-                <div><span class="header-text">新品开发需求：</span><span class="header-text" style="font-weight: bold;">{{$route.query.id}}</span></div>
+                <div class="header-title-text">
+                    产品开发 > 新品需求管理
+                </div>
+                <div><span class="header-text">新品开发需求：</span><span class="header-text" style="font-weight: bold;">{{mainPageList.developmentId}}<span v-if="mainPageList.skuAlias">({{mainPageList.skuAlias}})</span></span></div>
                 <div class="right-button"> 
                     <div class="green-font" @click="routerDev()">>>产品开发详情页</div>
-                    <div class="green-div">品类经理：{{mainPageList ? mainPageList.stateValue : ''}}</div>
+                    <div class="green-div">品类经理：{{mainPageList ? mainPageList.categoryManagerName : ''}}</div>
                     <div class="green-div">业务开发:{{mainPageList ? mainPageList.businessName: ''}}</div>
-                    <div class="gray-div">预计完成时间：{{mainPageList && mainPageList.reviewMeetingDate ? $moment(mainPageList.reviewMeetingDate).format("YYYY-MM-DD") :''}}</div>
+                    <div class="gray-div">预计完成时间：{{mainPageList && mainPageList.completionOn ? $moment(mainPageList.completionOn).format("YYYY-MM-DD") :''}}</div>
                 </div>
             </el-card>
             <el-card class="card">
@@ -37,7 +40,7 @@
             <el-card class="sample-basis">
                 <div slot="header" class="clearfix">
                     <div>基本数据
-                        <div>
+                        <div v-if="!noEditableList.includes(this.mainPageList.state)">
                             <div class="edit-position" @click="controlsEdit.isEdit = !controlsEdit.isEdit" v-if="controlsEdit.isEdit">
                                 <span><i class="icon-edit"></i>编辑</span>
                             </div>
@@ -76,11 +79,11 @@
                     <el-row class="textSpeaing">
                         <el-col :span="10">
                             <span class="imageMainbox">产品来源： </span>
-                            <span class="imageMainboxText">{{mainPageList.productSource}}</span>
+                            <span class="imageMainboxText">{{mainPageList.productSourceStr}}</span>
                         </el-col>
                         <el-col :span="10">
                             <span class="imageMainbox">产品系列： </span>
-                            <span class="imageMainboxText">{{mainPageList.classifyDefName }}</span>
+                            <span class="imageMainboxText">{{mainPageList.seriesCategoryName }}</span>
                         </el-col>
                     </el-row>
                     <el-row class="textSpeaing">
@@ -105,7 +108,7 @@
                         <el-col :span="10">
                             <div class="boxFlex">
                                 <span class="imageMainbox">产品链接： </span>
-                                <div class="imageMainboxText" >{{mainPageList.productLink}}</div>
+                                <div class="imageMainboxText" >{{mainPageList.productLink}}  {{changeMarket(mainPageList.productLinkMarket) }}</div>
                             </div>       
                         </el-col>
                     </el-row>
@@ -135,7 +138,7 @@
                         <el-col :span="10">
                             <div class="boxFlex">
                                 <span class="imageMainbox">建议售卖市场： </span>
-                                <div class="imageMainboxText" >{{mainPageList.saleMarket}}</div>
+                                <div class="imageMainboxText" >{{mainPageList.saleMarket && mainPageList.saleMarket.length > 0 ? mainPageList.saleMarket : ''}}</div>
                             </div>
                         </el-col>
                         <el-col :span="10">
@@ -175,7 +178,7 @@
                                         <el-table-column width=""  label="链接市场" header-align='center' align="center">
                                             <template slot-scope="scope">
                                                 <div>
-                                                    {{scope.row.urlMarket}}
+                                                    {{changeMarket(scope.row.urlMarket)}}
                                                 </div>       
                                             </template>
                                         </el-table-column>
@@ -241,7 +244,7 @@
                         <el-row :gutter="150">
                             <el-col :span="20">
                                 <el-form-item label="产品名称:" prop="title">
-                                    <el-input v-model="mainPageList.title"></el-input>
+                                    <el-input type="textarea" rows="1" v-model="mainPageList.title" show-word-limit maxlength="100"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row> 
@@ -263,9 +266,8 @@
                                 <el-form-item label="是否为设计款:" prop="design">
                                     <el-radio-group v-model="mainPageList.design">
                                         <el-radio :label="2">否</el-radio>
-                                        <el-radio :label="1">是</el-radio>
-                                        <el-radio :label="10" v-if="mainPageList.design != 2 && mainPageList.design">设计</el-radio>
-                                        <el-radio :label="11" v-if="mainPageList.design != 2 && mainPageList.design">P图</el-radio>
+                                        <el-radio :label="10">设计</el-radio>
+                                        <el-radio :label="11">P图</el-radio>
                                     </el-radio-group>
                                 </el-form-item>
                             </el-col>
@@ -379,14 +381,14 @@
                             </el-col>
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                                 <el-form-item label="需求尺寸:" prop="requiredSize">
-                                    <el-input v-model="mainPageList.requiredSize"></el-input>
+                                    <el-input v-model="mainPageList.requiredSize" type="textarea" show-word-limit maxlength="100" rows="1"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row> 
                         <el-row :gutter="150">
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                                 <el-form-item label="工艺材质:" prop="processMaterial">
-                                    <el-input v-model="mainPageList.processMaterial"></el-input>
+                                    <el-input v-model="mainPageList.processMaterial" type="textarea" show-word-limit maxlength="200"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row> 
@@ -408,19 +410,19 @@
                             </el-col>
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                                 <el-form-item label="预测日销:" prop="xsdailySales">
-                                    <el-input v-model="mainPageList.xsdailySales"></el-input>
+                                    <el-input v-model.number="mainPageList.xsdailySales" οninput="value=value.replace(/[^0-9]/g,'')"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row> 
                         <el-row :gutter="150">
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                                 <el-form-item label="推荐理由:" prop="recomReason">
-                                    <el-input type="textarea" v-model="mainPageList.recomReason"></el-input>
+                                    <el-input type="textarea" v-model="mainPageList.recomReason" show-word-limit maxlength="300"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                                 <el-form-item label="调整方向:" prop="adjustDirection">
-                                    <el-input type="textarea" v-model="mainPageList.adjustDirection"></el-input>
+                                    <el-input type="textarea" v-model="mainPageList.adjustDirection" show-word-limit maxlength="500"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row> 
@@ -493,7 +495,7 @@
                         <el-row :gutter="150">
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
                                 <el-form-item label="其他说明:" prop="otherInstructions">
-                                    <el-input type="textarea" v-model="mainPageList.otherInstructions"></el-input>
+                                    <el-input type="textarea" v-model="mainPageList.otherInstructions" show-word-limit maxlength="500"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row> 
@@ -504,10 +506,10 @@
                     </div>
                 </div>
             </el-card>
-            <el-card>
+            <el-card v-if="this.mainPageList.state && ![1,2,3].includes(this.mainPageList.state)">
                 <div slot="header" class="clearfix">
                     <div>专利信息 <!-- -->
-                        <div>
+                        <div v-if="!noEditableList.includes(this.mainPageList.state)">
                             <div class="edit-position" @click="controlsEdit.isEdit1 = !controlsEdit.isEdit1" v-if="controlsEdit.isEdit1">
                                 <span><i class="icon-edit"></i>编辑</span>
                             </div>
@@ -521,7 +523,7 @@
                             <span class="imageMainboxText"><span v-for="item in patentInfo.countryList" :key="item">{{showCountryText(item) + ','}}</span></span>
                         </el-col>
                     </el-row>
-                    <el-row class="textSpeaing" >
+                    <el-row class="textSpeaing" v-if="this.mainPageList.state && ![4,5].includes(this.mainPageList.state)">
                         <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
                             <div style="display:flex">
                                 <span class="imageMainbox"> 查询结果： </span>
@@ -531,7 +533,7 @@
                             </div>
                         </el-col>
                     </el-row>
-                    <el-row class="textSpeaing" >
+                    <el-row class="textSpeaing" v-if="this.mainPageList.state &&![4,5].includes(this.mainPageList.state)">
                         <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
                             <div style="display:flex">
                                 <span class="imageMainbox"> 专利说明： </span>
@@ -559,7 +561,7 @@
                                 </div>
                             </el-col>
                         </el-row> 
-                        <el-row :gutter="150">
+                        <el-row :gutter="150" v-if="this.mainPageList.state && ![4,5].includes(this.mainPageList.state)">
                             <el-col :span="16">
                                 <el-form-item  label="查询结果:" prop="queryResults">     
                                     <div v-for="item in countryList" :key="item.countryCode">
@@ -579,7 +581,7 @@
                                 </el-form-item>
                             </el-col>
                         </el-row> 
-                        <el-row :gutter="150">
+                        <el-row :gutter="150" v-if="this.mainPageList.state && ![4,5].includes(this.mainPageList.state)">
                             <el-col :span="16">
                                 <el-form-item  label="专利说明:" prop="patentInfo">     
                                     <div v-for="item in countryList" :key="item.countryCode" style="margin-top:10px">
@@ -599,10 +601,10 @@
                     </div>
                 </div>
             </el-card>
-            <el-card >
+            <el-card v-if="this.mainPageList.state > 6 && this.mainPageList.design != 2">
                 <div slot="header" class="clearfix">
                     <div>设计信息 <!-- -->
-                        <div>
+                        <div v-if="!noEditableList.includes(this.mainPageList.state)">
                             <div class="edit-position" @click="controlsEdit.isEdit2 = !controlsEdit.isEdit2" v-if="controlsEdit.isEdit2">
                                 <span><i class="icon-edit"></i>编辑</span>
                             </div>
@@ -619,43 +621,46 @@
                             
                         </el-col>
                         <el-col :span="20">
-                            <span class="imageMainbox">设计图片： </span>
-                            <span class="imageMainboxText">
-                                <div class="boxFlex">
-                                    <div class="image-flex">
-                                        <el-image v-for="(item1) in item.designerImgs" :key="item1.fileUri" :src="item1.showImgUrl" :preview-src-list="[item1.showBigImgUrl]"></el-image>
+                            <div style="display:flex">
+                                <span class="imageMainbox">设计图片： </span>
+                                <span class="imageMainboxText">
+                                    <div class="boxFlex">
+                                        <div class="image-flex">
+                                            <el-image v-for="(item1) in item.designerImgs" :key="item1.fileUri" :src="item1.showImgUrl" :preview-src-list="[item1.showBigImgUrl]"></el-image>
+                                        </div>
                                     </div>
-                                </div>
-                            </span>
+                                </span>
+                            </div>
+                            
                         </el-col>
-                        <el-col :span="20">
-                            <span class="imageMainbox">结构图片： </span>
-                            <span class="imageMainboxText">
-                                <div class="boxFlex">
-                                    <div class="image-flex">
-                                        <el-image v-for="(item1) in item.structureImgs" :key="item1.fileUri" :src="item1.showImgUrl" :preview-src-list="[item1.showBigImgUrl]"></el-image>
+                        <el-col :span="20" v-if="mainPageList.state11 !== 1">
+                            <div style="display:flex">
+                                <span class="imageMainbox">结构图片： </span>
+                                <span class="imageMainboxText">
+                                    <div class="boxFlex">
+                                        <div class="image-flex">
+                                            <el-image v-for="(item1) in item.structureImgs" :key="item1.fileUri" :src="item1.showImgUrl" :preview-src-list="[item1.showBigImgUrl]"></el-image>
+                                        </div>
                                     </div>
-                                </div>
-                            </span>
+                                </span>
+                             </div>
                         </el-col>
                     </el-row> 
                 </div>
                 <div v-else>
-                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="170px" size="mini">
-                        <div v-for="(item,index) in devSignInfo.filter(item => item.usage != false)" :key="index * Math.random()" >
-                            <div class="devsign-b">
-                                <el-row class="textSpeaing">
-                                    <el-col :span="10" :xs="10" :sm="10" :md="10" :lg="10" :xl="10" style="display:flex">
-                                        <span class="imageMainbox">  
-                                            <div style="display: flex;justify-content: space-between;">
-                                                <div>
-                                                    <div>{{'方案' + changeNum(index)}}</div>
-                                                </div>
-                                                <div>
-                                                    设计方：
-                                                </div>
-                                            </div> 
-                                        </span>
+                    <el-form v-for="(item,index) in devSignInfo.filter(item => item.usage != false)" :key="index * Math.random()" 
+                        :model="item" :rules="rulesDesign" ref="ruleFormDesign" label-width="170px" size="mini">
+                        <div class="devsign-b">
+                            <el-row class="textSpeaing">
+                                <el-col :span="10" :xs="10" :sm="10" :md="10" :lg="10" :xl="10" style="display:flex">
+                                    <span>  
+                                        <div style="display: flex;justify-content: space-between;position: absolute;">
+                                            <div>
+                                                <div>{{'方案' + changeNum(index)}}</div>
+                                            </div>
+                                        </div> 
+                                    </span>
+                                    <el-form-item prop="designer" label="设计方：">
                                         <span class="imageMainboxText" style="width:100%;margin-bottom:10px">
                                             <el-select v-model="item.designer" size="mini">
                                                 <el-option 
@@ -667,54 +672,65 @@
                                                 </el-option>
                                             </el-select>  
                                         </span>
-                                    </el-col>  
-                                    <el-col :span="10">
-                                        <span class="tableText" @click="addDevsign(index)" v-if="index == 0">添加方案</span>    
-                                        <span class="red-text"  @click="delDevsign(index)">
-                                            删除方案
-                                        </span>
-                                    </el-col>
-                                </el-row>
+                                    </el-form-item>
+                                    
+                                </el-col>  
+                                <el-col :span="10">
+                                    <span class="tableText" @click="addDevsign(index)" v-if="index == 0">添加方案</span>    
+                                    <span class="red-text"  @click="delDevsign(index)">
+                                        删除方案
+                                    </span>
+                                </el-col>
+                            </el-row>
 
-                                <el-row class="textSpeaing">
-                                    <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" style="display:flex">
-                                        <span class="imageMainbox">设计图片： </span>
-                                        <span class="imageMainboxText" >
-                                            <imgUpload 
-                                                :fileType='2' 
-                                                :dataParams="{ fileType:2,productDemandId:routeParam.id || 0}" 
-                                                :showButton="false" :value='item.designerImgs' 
-                                                :limit="20"
-                                                imageURl="/productDemand/saveProductDemandAttachment" 
-                                                :imgUrl="imgUrl" 
-                                              
-                                            ></imgUpload> 
-                                        </span>
-                                    </el-col>  
-                                </el-row>
-
-                                <el-row class="textSpeaing">
-                                    <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" style="display:flex">
-                                        <span class="imageMainbox">结构图片： </span>
-                                        <span class="imageMainboxText" >
-                                            <imgUpload 
-                                                :fileType='3' 
-                                                :dataParams="{ fileType:3,productDemandId:routeParam.id || 0}" 
-                                                :showButton="false" :value='item.structureImgs' 
-                                                :limit="20"
-                                                imageURl="/productDemand/saveProductDemandAttachment" 
-                                                :imgUrl="imgUrl" 
-                                               
-                                            ></imgUpload> 
-                                        </span>
-                                    </el-col>  
-                                </el-row>
-                            </div>
-                            
-                        </div>                   
-                    </el-form>
+                            <el-row class="textSpeaing">
+                                <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" style="display:flex">
+                                    <el-form-item label="设计图片：" prop="designerImgs">
+                                        <imgUpload 
+                                            :fileType='2' 
+                                            :dataParams="{ fileType:2,productDemandId:routeParam.id || 0}" 
+                                            :showButton="false" :value='item.designerImgs' 
+                                            :limit="20"
+                                            imageURl="/productDemand/saveProductDemandAttachment" 
+                                            :imgUrl="imgUrl" 
+                                        
+                                        ></imgUpload> 
+                                    </el-form-item>
+                                    <!-- <span class="imageMainbox">设计图片： </span>
+                                    <span class="imageMainboxText" >
+                                        <imgUpload 
+                                            :fileType='2' 
+                                            :dataParams="{ fileType:2,productDemandId:routeParam.id || 0}" 
+                                            :showButton="false" :value='item.designerImgs || []' 
+                                            :limit="20"
+                                            imageURl="/productDemand/saveProductDemandAttachment" 
+                                            :imgUrl="imgUrl" 
+                                            
+                                        ></imgUpload> 
+                                    </span> -->
+                                </el-col>  
+                            </el-row>
+                    
+                            <el-row class="textSpeaing" v-if="mainPageList.state11 != 1">
+                                <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" style="display:flex">
+                                    <el-form-item label="结构图片：" prop="structureImgs">
+                                        <imgUpload 
+                                            :fileType='3' 
+                                            :dataParams="{ fileType:3,productDemandId:routeParam.id || 0}" 
+                                            :showButton="false" :value='item.structureImgs' 
+                                            :limit="20"
+                                            imageURl="/productDemand/saveProductDemandAttachment" 
+                                            :imgUrl="imgUrl" 
+                        
+                                        ></imgUpload> 
+                                    </el-form-item>
+                                </el-col>  
+                            </el-row>                            
+                 
+                        </div> 
+                    </el-form>                   
                     <div class="bottomButton">
-                        <el-button type="primary" @click="submitForm2('ruleForm')" size="mini">提交</el-button>
+                        <el-button type="primary" @click="submitForm2('ruleFormDesign')" size="mini">提交</el-button>
                         <el-button @click="updeEditPage('isEdit2',true)"  size="mini">取消</el-button>
                     </div>
                 </div>
@@ -765,8 +781,8 @@
             </div>
         </commonDialog>
         <checkStatusDialog ref="checkStatusDialog"  @mainListList='init'></checkStatusDialog>
-        <div class="bottom-button">
-            <el-button size="mini" plain type="primary"  @click="toExamine()">提交/审核</el-button>
+        <div class="bottom-button" v-if="!noEditableList.includes(this.mainPageList.state)">
+            <el-button size="mini" plain type="primary"  @click="toExamine()" v-if="this.mainPageList.state">提交/审核</el-button>
         </div>
     </div>
 </template>
@@ -819,13 +835,11 @@ export default {
             patentInfo:{
                 countryList:[],
             },
-            imgDataParams:{},
-            nowStatus:5,
+            nowStatus:0,
             dialogVisible:false,
             renderDom:false,
             imgUrl:'',
             showTenth:false,
-            sampleQuestionPhoto:[],
             devSignInfo:[
                 {
                     id:null,//编辑时必传
@@ -833,7 +847,6 @@ export default {
                     designer:null,//设计方  1:设计部、2:工厂、3:工厂&设计部
                     usage: true,//使用情况    true 正常     false删除 -- 需要删除时传 false，其他时候不用传值或者true
                     designerImgs: [//设计图片 -- 文件上传后返回数据
-                    
                     ],
                     structureImgs: []  
                 }
@@ -917,35 +930,35 @@ export default {
             //英、美、德、意、法、西、日、加
             countryList1:[
                 {
-                    label: '美国',
+                    label: 'US',
                     value: 'US',
                 },
                 {
-                    label: '英国',
+                    label: 'GB',
                     value: 'GB',
                 },
                 {
-                    label: '德国',
+                    label: 'DE',
                     value: 'DE',
                 },
                 {
-                    label: '法国',
+                    label: 'FR',
                     value: 'FR',
                 },
                 {
-                    label: '意大利',
+                    label: 'IT',
                     value: 'IT',
                 },
                 {
-                    label: '西班牙',
+                    label: 'ES',
                     value: 'ES',
                 },
                 {
-                    label: '加拿大',
+                    label: 'CA',
                     value: 'CA',
                 },
                 {
-                    label: '日本',
+                    label: 'JP',
                     value: 'JP' ,
                 },
 
@@ -958,19 +971,6 @@ export default {
                 isEdit1:true, 
                 isEdit2:true, 
                 isEdit3:true, 
-            },
-            setDisabled: {
-                 disabledDate(time) {
-                    if(applicationTime){
-                        return time.getTime() > Date.now() || time.getTime() <= new Date(applicationTime).getTime() - 8.64e7 ;  // 可选历史天、可选当前天、不可选未来天
-                    }else {
-                        return time.getTime() > Date.now()
-                    }
-               
-                // return time.getTime() > Date.now() - 8.64e7;  // 可选历史天、不可选当前天、不可选未来天
-                // return time.getTime() < Date.now() - 8.64e7;  // 不可选历史天、可选当前天、可选未来天
-                // return time.getTime() < Date.now(); // 不可选历史天、不可选当前天、可选未来天
-                },
             },
             imgLoading:false,
             productLinkRequire:false,
@@ -996,6 +996,18 @@ export default {
                             }
                             return cb();
                         },
+                        trigger: "change"
+                    }
+                ],
+            },
+            rulesDesign:{
+                designer: [
+                    { required: true, message: '请选择查询国家', trigger: 'blur' },
+                ],
+                designerImgs: [
+                    {
+                        required:true,
+                        message:'请添加结构图片',
                         trigger: "change"
                     }
                 ],
@@ -1111,7 +1123,7 @@ export default {
             },
             {
                 statusValue:'专利查询',
-                status:'9',
+                status:'10',
                 createBy:'',
                 createOn:'',
                 toStatus :'',
@@ -1119,7 +1131,7 @@ export default {
             },
             {
                 statusValue:'结构设计',
-                status:'10',
+                status:'11',
                 createBy:'',
                 createOn:'',
                 toStatus :'',
@@ -1127,15 +1139,23 @@ export default {
             },
             {
                 statusValue:'样前方案确认',
-                status:'11',
+                status:'12',
                 createBy:'',
                 createOn:'',
                 toStatus :'',
                 toStatusValue:'样前方案确认'
             },
             {
+                statusValue:'开发中',
+                status:'18',
+                createBy:'',
+                createOn:'',
+                toStatus :'',
+                toStatusValue:'开发中'
+            },
+            {
                 statusValue:'计划下单中',
-                status:'12',
+                status:'13',
                 createBy:'',
                 createOn:'',
                 toStatus :'',
@@ -1143,7 +1163,7 @@ export default {
             },
             {
                 statusValue:'候选下单',
-                status:'13',
+                status:'14',
                 createBy:'',
                 createOn:'',
                 toStatus :'',
@@ -1151,7 +1171,7 @@ export default {
             },
             {
                 statusValue:'已下单',
-                status:'14',
+                status:'15',
                 createBy:'',
                 createOn:'',
                 toStatus :'',
@@ -1159,7 +1179,7 @@ export default {
             },
             {
                 statusValue:'已冻结',
-                status:'15',
+                status:'16',
                 createBy:'',
                 createOn:'',
                 toStatus :'',
@@ -1167,13 +1187,14 @@ export default {
             },
             {
                 statusValue:'已取消',
-                status:'16',
+                status:'17',
                 createBy:'',
                 createOn:'',
                 toStatus :'',
                 toStatusValue:'已取消'
             },
             ],//进度条数据
+            noEditableList:[13,14,15,16,17,18],
         }
     },
     computed:{
@@ -1262,14 +1283,22 @@ export default {
                     //处理设计信息数据
                     if(res.data.productDemandDesignInfos && res.data.productDemandDesignInfos.length > 0){
                         res.data.productDemandDesignInfos.forEach(item => {
-                            item.designerImgs.forEach(item1 => {
-                                item1.showImgUrl = `${this.imgUrl}/Small/${item1.fileUri}`
-                                item1.showBigImgUrl = `${this.imgUrl}/${item1.fileUri}`
-                            })
-                            item.structureImgs.forEach(item1 => {
-                                item1.showImgUrl = `${this.imgUrl}/Small/${item1.fileUri}`
-                                item1.showBigImgUrl = `${this.imgUrl}/${item1.fileUri}`
-                            })
+                            if(item.designerImgs){
+                                item.designerImgs.forEach(item1 => {
+                                    item1.showImgUrl = `${this.imgUrl}/Small/${item1.fileUri}`
+                                    item1.showBigImgUrl = `${this.imgUrl}/${item1.fileUri}`
+                                })
+                            }else {
+                                item.designerImgs = []
+                            }
+                            if(item.structureImgs){
+                                item.structureImgs.forEach(item1 => {
+                                    item1.showImgUrl = `${this.imgUrl}/Small/${item1.fileUri}`
+                                    item1.showBigImgUrl = `${this.imgUrl}/${item1.fileUri}`
+                                })
+                            }else {
+                                item.structureImgs = []
+                            }
                         })
                         this.devSignInfo = res.data.productDemandDesignInfos
                     }
@@ -1284,7 +1313,14 @@ export default {
                             })
                         })
                     }
-                    this.nowStatus = res.data.state
+                    
+                    if(res.data.state < 13 && res.data.state > 9){
+                        this.nowStatus = res.data.state ? res.data.state - 2 : 0
+                    }else if(res.data.state == 18){
+                        this.nowStatus = 11
+                    }else {
+                        this.nowStatus = res.data.state ? res.data.state - 1 : 0
+                    }
                     this.mainPageList = res.data
                 })
             })
@@ -1375,27 +1411,47 @@ export default {
             }); 
         },
         submitForm2(formName){
-            this.$refs[formName].validate((valid) => {
-                if (valid) {               
-                    saveProductDemandDesignInfo(this.devSignInfo).then((res) => {
-                        if(res.code == 200){
-                            this.$message({
-                                type: 'success', 
-                                message:'保存成功',
-                                offset:220
-                            })
-                        }
-                        this.init()
-                        this.controlsEdit.isEdit2 = true
-                    })
-                } else {
-                    console.log('error submit!!');
-                    return false;
-                }
-            }); 
+            let usage = [] 
+            usage = this.devSignInfo.filter((item) => {
+                return item.usage
+            })
+            if(usage.length == 0){
+                this.error('请至少填写一条数据！')
+            }
+            let p1 = []
+            this.$refs[formName].forEach(item => {
+                p1.push(item.validate())
+            })
+            Promise.all(p1).then(res => {
+                let num = -1
+                this.devSignInfo.forEach((item) => {
+                    if(item.usage){
+                        num +=1
+                        item.seriaNum = this.changeNum(num)
+                    }
+                })
+                saveProductDemandDesignInfo(this.devSignInfo).then((res) => {
+                    if(res.code == 200){
+                        this.$message({
+                            type: 'success', 
+                            message:'保存成功',
+                            offset:220
+                        })
+                    }
+                    this.init()
+                    this.controlsEdit.isEdit2 = true
+                })
+            }).catch(err => {
+                return
+            })
         },
         routerDev(){
-             window.open(`http://productdev.yaheecloud.com/productDetails?developmentId=${this.mainPageList.developmentId}&productId=${this.mainPageList.productId}`,'_blank')
+            if(judgePorduction()){
+                window.open(`http://productdev.yaheecloud.com/productDetails?developmentId=${this.mainPageList.developmentId}&productId=${this.mainPageList.productId}&productCountryId=${this.mainPageList.productCountryId}`,'_blank')
+            }else {
+                window.open(`http://api-tools-test.yahee.com.cn:82/productDetails?developmentId=${this.mainPageList.developmentId}&productId=${this.mainPageList.productId}&productCountryId=${this.mainPageList.productCountryId}`,'_blank')
+            }
+            
         },
          //审核数据 
         toExamine(list){
@@ -1448,6 +1504,18 @@ export default {
                 return ''
             } 
         },
+        changeMarket(val){
+            if(!val) return ''
+            let des = []
+            des = this.countryList1.filter(item => {
+                return item.value == val
+            })
+            if(des.length > 0){
+                return des[0].label
+            }else {
+                return ''
+            } 
+        },
         showReqRes(val){
             if(!val) return ''
             let des = []
@@ -1483,7 +1551,7 @@ export default {
         },
         rightMove(){
             let image = document.querySelector('.step-container')
-            if(image.offsetLeft < -1377){
+            if(image.offsetLeft <  window.innerWidth - 120 * 18){
                 return
             }else{
                 image.style.left = image.offsetLeft - 100 + 'px'
@@ -1494,6 +1562,10 @@ export default {
         },
         addTableList(){
             if(!this.mainPageList.productDemandCompetings) this.$set(this.mainPageList,'productDemandCompetings',[])
+            if(this.mainPageList.productDemandCompetings.length > 9){
+                this.error('最多添加10条竞品信息！')
+                return
+            }
             this.mainPageList.productDemandCompetings.push({
                 url:'',
                 urlMarket:'',
@@ -1548,12 +1620,15 @@ export default {
             })
         },
         delDevsign(i){
-            if(this.devSignInfo.length < 1){
-                this.error('最少要有一条设计方案！')
-            }
+            
             let filterDevSignInfo = this.devSignInfo.filter(item => {
                 return item.usage != false
             })
+            
+            if(filterDevSignInfo.length <= 1){
+                this.error('最少要有一条设计方案！')
+                return
+            }
             this.$set(filterDevSignInfo[i],'usage',false)
         },
         //路由参数
@@ -1610,11 +1685,13 @@ export default {
                  patentInfo = this.mainPageList.productDemandPatents.filter(item => {
                     return item.flag == 0
                 })
-                if(patentInfo.length == 0) return this.warning('未查询到历史数据！')
+                if(patentInfo.length == 0) {
+                     this.warning('未查询到历史数据！')
+                     return
+                }
                 this.historyPatentInfo = JSON.parse(patentInfo[0].patentInfo) 
                 this.$refs.commonDialog.dialogVisible = true
             }
-           return this.warning('未查询到历史数据！')
         },
         success() {
             this.$message({
@@ -1701,6 +1778,9 @@ export default {
         // overflow: hidden;
         position: absolute;
         left: 23px;
+        .el-step.is-horizontal {
+            width: 120px;
+        }
         .is-success{
             color: green !important;
             border-color: green !important;
@@ -1711,7 +1791,7 @@ export default {
         }
         .stepTitle{ 
             font-size: 12px;
-            width: 120px;
+            // width: 132px;
         }
     }
     .rightButton{
@@ -1820,11 +1900,12 @@ export default {
     margin-top: 5px;
 }
 .bg-gray {
+    min-height: 100vh;
     background-color: #ededed;
     padding: 5px;
     .el-icon-s-unfold {
         position: fixed;
-        top: 139px;
+        top: 180px;
         left: 10px;
         font-size: 30px;
         cursor: pointer;
@@ -1834,7 +1915,7 @@ export default {
         background: #fff;
         z-index: 11111;
         position: fixed;
-        top: 139px;
+        top: 180px;
         left: 645px;
         font-size: 30px;
         cursor: pointer;
@@ -1857,6 +1938,13 @@ export default {
         width: 100%;
         position: relative;
         border-bottom: 1px solid #ccc; background-color: #fff;
+        .header-title-text{
+            position: absolute;
+            left: 10px;
+            font-size: 12px;
+            color: #747474;
+            top: 0px;
+        }
         .header-text {
             font-size: 18px;
             font-weight: bold;

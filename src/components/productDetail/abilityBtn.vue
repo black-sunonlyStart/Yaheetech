@@ -1,24 +1,22 @@
 <template>
     <span class="navButton" v-if="renderDom">
         <el-button size="mini" 
+            type="primary"
             @click="addProctList" 
-            type="primary" 
             plain  
             icon="el-icon-circle-plus-outline" 
             v-permission="'ERP.Product.ProductDev.ADD'" 
-            perkey="ERP.Product.ProductDev.ADD"
             v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发产品按钮'}"
         >开发产品</el-button>
         <!-- <el-button size="mini" >更换业务开发</el-button> -->
         <el-dropdown trigger="hover"  @command="changeOrderPer" size='mini' >
             <el-button type="primary" 
-            size='mini' 
-            plain 
-            style="margin-left:10px" 
-            v-permission="'ERP.Product.ProductDev.EditGroup'"
-            porkey='ERP.Product.ProductDev.EditGroup' 
-            @click="handleCommand"
-            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'更换业务开发按钮'}"
+                size='mini' 
+                plain 
+                style="margin-left:10px" 
+                v-permission="'ERP.Product.ProductDev.EditGroup'"
+                @click="handleCommand"
+                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'更换业务开发按钮'}"
             >
                  更换业务开发<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
@@ -40,48 +38,49 @@
         </el-dropdown>
         <el-dropdown trigger="hover" @command="frozenCommand" size='mini' >
             <el-button 
-                type="primary" 
+                type="danger" 
                 size='mini' 
                 plain 
                 style="margin-left:10px;margin-right:10px" 
                 @click="freezelist" 
                 v-permission="'ERP.Product.ProductDev.FreezingOff'" 
-                perkey='ERP.Product.ProductDev.FreezingOff'
                 v-track="{triggerType:'click',currentUrl: $route.path,behavior:'冻结数据按钮'}"
             >冻结数据<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown" >
                 <el-dropdown-item 
-                command= 6 
-                plain 
-                v-permission="'ERP.Product.ProductDev.BackToFreezingOff'" 
-                perkey='ERP.Product.ProductDev.BackToFreezingOff'
-                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消冻结数据按钮'}"
+                    command= 6 
+                    plain 
+                    v-permission="'ERP.Product.ProductDev.BackToFreezingOff'" 
+                    v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消冻结数据按钮'}"
                 >取消冻结数据</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
         <el-button 
-        size="mini" 
-        type="primary" 
-        plain 
-        @click="putDataPass" 
-        v-permission="'ERP.Product.ProductDev.Audit'" 
-        perkey='ERP.Product.ProductDev.Audit'
-        v-track="{triggerType:'click',currentUrl: $route.path,behavior:'资料初审通过按钮'}"
-        >资料初审通过</el-button>
+            size="mini" 
+            type="primary" 
+            plain 
+            @click="putDataPass" 
+            v-permission="'ERP.Product.ProductDev.Audit'" 
+            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'资料初审通过按钮'}"
+            >资料初审</el-button>
         <el-button 
-        size="mini" 
-        type="primary" 
-        plain 
-        @click="lastPutDataPass"
-        v-permission="'ERP.Product.ProductDev.EndAudit'" 
-        perkey='ERP.Product.ProductDev.EndAudit'
-        v-track="{triggerType:'click',currentUrl: $route.path,behavior:'终审通过按钮'}"
-        >终审通过</el-button>
+            size="mini" 
+            type="primary" 
+            plain 
+            @click="lastPutDataPass"
+            v-permission="'ERP.Product.ProductDev.EndAudit'" 
+            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'终审通过按钮'}"
+            >终审审核</el-button>
         
         <el-dropdown trigger="hover" size='mini'  @command="clickOutput">
-            <el-button type="primary" size='mini' plain style="margin-left:10px;margin-right:10px" v-permission="'ERP.Product.ProductDev.ExportSample'" perkey='ERP.Product.ProductDev.ExportSample'>
-                 导出报表<i class="el-icon-arrow-down el-icon--right"></i>
+            <el-button 
+                size='mini' 
+                plain 
+                style="margin-left:10px;margin-right:10px" 
+                v-permission="'ERP.Product.ProductDev.ExportSample'" 
+                >
+                导出报表<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command= 1 plain v-track="{triggerType:'click',currentUrl: $route.path,behavior:'需求确认清单按钮'}">需求确认清单</el-dropdown-item>
@@ -399,16 +398,16 @@
     
 </script>
 <style lang="scss" scoped>
-    .navButton{
-        .el-button{
-             font-weight: bold;
-             color: #ffffff;
-        }
-       .is-plain{
-           background: #3366cc;
-       }
-    }
-    .reportTitle{
-        color: rgb(4, 80, 27);
-    }
+    // .navButton{
+    //     .el-button{
+    //          font-weight: bold;
+    //          color: #ffffff;
+    //     }
+    //    .is-plain{
+    //        background: #3366cc;
+    //    }
+    // }
+    // .reportTitle{
+    //     color: rgb(4, 80, 27);
+    // }
 </style>

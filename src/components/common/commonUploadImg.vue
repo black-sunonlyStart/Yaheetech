@@ -230,7 +230,10 @@ methods: {
             res.data[0].showImgUrl = `${this.imgUrl}/Small/${res.data[0].fileUri}`
             res.data[0].showBigImgUrl = `${this.imgUrl}/${res.data[0].fileUri}`
             this.imgList.push(res.data[0])
-            this.$emit('upDateFile',this.imgList,this.ruleName)
+            console.log(this.imgList,'this.image')
+            if(this.ruleName){
+                this.$emit('upDateFile',this.imgList,this.ruleName)
+            }
         }
       } else {
             this.syncElUpload()

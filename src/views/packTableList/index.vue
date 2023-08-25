@@ -1,9 +1,12 @@
 <template>
-    <div class="nav-container" v-if="renderDom"  v-permission="'ERP.Product.ProductDev.Select'" >
-        <el-card class="nav-card">
+     <div class="nav-container" v-if="renderDom"  v-permission="'ERP.Product.ProductDev.Select'" >
+        <el-card class="nav-card naverCard">
             <navBar  @putTableList='putTableList' :total='total' :employeeId='employeeId'></navBar>
+            <div title="点击加载更多" class="up-text up-text-c" v-if="upDownshow" @click="clickMoreFilter">∨</div>
+            <div title="点击收缩" class="down-text" v-else @click="clickMoreFilter(1)">∧</div>
         </el-card>
-        <el-card class="button-card">
+        
+         <el-card class="button-card">
             <abilityBtn :selectRow='selectRow' @putTbleList='putTbleList' :navFilterList='filterList'></abilityBtn>
         </el-card>
         <el-card class="mainTable-card" >
@@ -31,6 +34,7 @@ export default {
         total:50,
         employeeId:0,
         renderDom:false,
+        upDownshow:true,
         }
     },
     computed: {
@@ -39,7 +43,7 @@ export default {
         this.getPermissions()
     },
     mounted(){
-        this.changeInnterWidth()
+        // this.changeInnterWidth()
     },
     methods: {
         //权限判断
@@ -56,12 +60,18 @@ export default {
         getTotal(total){
             this.total = total
         },
-        changeInnterWidth(){
-            if(window.innerWidth < 1450){
-                document.querySelector('.nav-card > .el-card__body').style.paddingBottom = 5 + 'px'
-                document.querySelector('.nav-card > .el-card__body').style.overflowX =  'scroll'
-                document.querySelector('.nav-card > .el-card__body').style.overflowY = 'hidden'
+       clickMoreFilter (id) {
+            let naverCard = document.querySelector('.naverCard')
+            if( id == 1) {
+                naverCard.style.overflow = 'hidden'
+                this.upDownshow = true
+            }else {
+                naverCard.style.overflow = 'visible'
+                this.upDownshow = false
             }
+        },
+        putClearList(){
+            this.$refs.navBar.getStautList()
         },
         putTbleSelection(val){
             this.selectRow = val || []
@@ -78,26 +88,63 @@ export default {
 
 <style lang="scss" scoped>
 .nav-container {
-    padding-top: 5px;
     width: 100%;
-    height: 100vh;
+    height: 100%;
+    padding: 0px 5px 5px 5px;
+    z-index: 10001;
+    display: flex;
+    flex-direction: column;
     background-color: rgba(230, 230, 230, 1);
     ::v-deep .nav-card {
-        // position: fixed;
-        width: 99.6%;
-        z-index: 999;
-        height: 205px;
-        overflow-x: auto;
         .el-card__body{
-            padding: 5px 20px;
+            padding: 1px 0px;
         }
     }
-    ::v-deep .button-card {
+    .up-text,.down-text {
+        width:100%;
+        background: #EAEDED;
+        font-weight: bold;
+        color: #3366cc;
+        text-align: center;
+        font-size: 15px;
+        height: 12px;
+        line-height: 10px;
+        z-index: 1111;
+        display: inline-block;
+        position: absolute;
+        margin: 0px;
+        cursor: pointer;
+        border-bottom: 1px solid #3366cc;
+        border-top: 1px solid #ddd;
+        line-height: 9px;
+            &:hover {
+            background: #9BAFBF;
+            color: #fff;
+        }
+    }
+    .up-text-c {
+        top: 133px;
+    }
+}
+.naverCard {
+    position: relative;
+    height: 147px;
+    overflow: hidden;
+    background: #fff;
+    z-index: 2000;
+    opacity: 0.9;
+    flex-shrink: 0;
+}
+.naverCard .el-card__body {
+    background: #fff;
+}
+::v-deep .button-card {
         // position: fixed;
         // top: 191px;
         z-index: 1000;
         width: 99.6%;
         height: 37px;
+        margin: 3px 0px;
         .el-card__body{
             padding: 3px 20px;
         }
@@ -110,5 +157,6 @@ export default {
             padding: 5px 10px 35px;
         }
     }
-}
 </style>
+  
+

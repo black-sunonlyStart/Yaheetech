@@ -54,7 +54,7 @@
                 </template>
                 <el-radio-group size="mini" v-model="form.seriesCategoryId">
                     <el-radio-button :label="null" @click.native="clickRadioSearch('seriesCategoryId',null,$event)">全部({{this.totalNum(1)}})</el-radio-button>
-                    <el-radio-button @click.native="clickRadioSearch('seriesCategoryId',item.seriesCategoryId,$event),changeRadioSearch(index)" v-for="(item,index) in seriesList" :key="item.seriesCategoryId" :label="item.seriesCategoryId">{{ item.seriesCategoryName }}({{item.num}})</el-radio-button>
+                    <el-radio-button @click.native="clickRadioSearch('seriesCategoryId',item.seriesCategoryId,$event),changeRadioSearch(index)" v-for="(item,index) in seriesList" :key="item.seriesCategoryId" :label="item.seriesCategoryId">{{ item.seriesCategoryName }}({{item.num || 0}})</el-radio-button>
                 </el-radio-group>
             </el-form-item>
             <el-form-item v-if="form.seriesCategoryId != null">
@@ -63,7 +63,7 @@
                 </template>
                 <el-radio-group size="mini" v-model="form.classifyDefId" >
                     <el-radio-button :label="null" @click.native="clickRadioSearch('classifyDefId',null,$event)">全部({{this.totalNum(2)}})</el-radio-button>
-                    <el-radio-button @click.native="clickRadioSearch('classifyDefId',item.classifyDefId,$event)" v-for="item in seriesListChilds" :key="item.classifyDefId" :label="item.classifyDefId">{{ item.classifyDefName }}({{item.num}})</el-radio-button>
+                    <el-radio-button @click.native="clickRadioSearch('classifyDefId',item.classifyDefId,$event)" v-for="item in seriesListChilds" :key="item.classifyDefId" :label="item.classifyDefId">{{ item.classifyDefName }}({{item.num || 0}})</el-radio-button>
                 </el-radio-group>
             </el-form-item>
             <el-form-item>
@@ -81,7 +81,7 @@
                 </template>
                 <el-radio-group size="mini" v-model="form.state">
                     <el-radio-button :label="null" @click.native="clickRadioSearch('state',null,$event)">全部</el-radio-button>
-                    <el-radio-button @click.native="clickRadioSearch('state',item.state,$event)" v-for="item in filterStatusList" :disabled="item.candisable" :key="item.state" :label="item.state">{{ item.statusValue }}</el-radio-button>
+                    <el-radio-button @click.native="clickRadioSearch('state',item.state,$event)" v-for="item in filterStatusList" :disabled="item.candisable" :key="item.key" :label="item.state">{{ item.statusValue }}</el-radio-button>
                     <div class="success-radio" v-for="item in filterStatusList1"  :key="item.state"><el-radio  @click.native="clickRadioSearch('state',item.state,$event)"  :label="item.state">{{ item.statusValue }}</el-radio></div>
                 </el-radio-group>
             </el-form-item>
@@ -152,50 +152,67 @@ export default {
             filterStatusList:[
                 {
                     state:1,
+                    key:1,
                     statusValue:'待提交',
                 },
                 {
                     state:2,
+                    key:2,
                     statusValue:'需求初审',
                 },
                 {
                     state:3,
+                    key:3,
                     statusValue:'需求复审',
                 },
                 {
                     state:4,
+                    key:4,
                     statusValue:'需求调研',
                 },
                 {
                     state:5,
+                    key:5,
                     statusValue:'立项中',
                 },
                 {
                     state:6,
+                    key:6,
                     statusValue:'认证初查',
                 },
                 {
                     state:7,
+                    key:7,
                     statusValue:'制定设计需求',
                 },
                 {
                     state:[8,9],
+                    key:8,
                     statusValue:'产品设计/P图',
                 },
                 {
                     state:10,
+                    key:10,
                     statusValue:'专利查询',
                 },
                 {
                     state:11,
+                    key:11,
                     statusValue:'结构设计',
                 },
                 {
                     state:12,
+                    key:12,
                     statusValue:'样前方案确认',
                 },
                 {
+                    state:18,
+                    key:18,
+                    statusValue:'开发中',
+                },
+                {
                     state:13,
+                    key:13,
                     statusValue:'计划下单中',
                 },
             ],
@@ -388,7 +405,7 @@ export default {
             list.forEach(item => {
                 totalNumber += item.num
             })
-            return totalNumber
+            return totalNumber || 0
         },
         getStautList() {
             let param = JSON.parse(JSON.stringify(this.form)) 

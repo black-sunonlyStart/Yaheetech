@@ -3,21 +3,22 @@
     <el-form ref="form"
              :model="form"
              label-width="150px">
-      <el-row>
-        <el-col :span="10" :xs="24" :sm="24" :md="11" :lg="12" :xl="11">
-          <el-form-item class="firstCreateStyle"
+        <div class="row-flex" style="position:relactive">
+            <el-form-item class="firstCreateStyle w-50"
                 label-width="150px">
-            <el-select v-model="form.dateType"
-                       @change="typeChange"
-                       size='mini'
-                       class="timeBox"        
-                       >
-              <el-option v-for="item in dataOptions"
-                         :key="item.value"
-                         :label="item.label"
-                         :value="item.value"
-                          v-track="{triggerType:'click',currentUrl: $route.path,behavior:'筛选时间',businessCode: item.label}"   
-                         >
+            <el-select 
+                v-model="form.dateType"
+                @change="typeChange"
+                size='mini'
+                class="timeBox"        
+                >
+                <el-option 
+                    v-for="item in dataOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                    v-track="{triggerType:'click',currentUrl: $route.path,behavior:'筛选时间',businessCode: item.label}"   
+                >
               </el-option>
             </el-select>
             <span class="editMstyle">:</span>
@@ -33,66 +34,67 @@
                 format="yyyy-MM-dd"
                 value-format="yyyy-MM-dd"
                 size='mini'
-                 v-track="{triggerType:'blur',currentUrl: $route.path,behavior:'输入日期查询',InputContext:form.timeValue2,}"
+                v-track="{triggerType:'blur',currentUrl: $route.path,behavior:'输入日期查询',InputContext:form.timeValue2,}"
                 >
             </el-date-picker>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :md="9" :lg="8" :xl="9">
-          <el-form-item label="产品负责人:">
-            <el-radio-group v-model="form.productOwner"
-           
-            >
-              <el-radio 
-              v-for="item in productOwner" 
-              :label="item.value" 
-              :key="item.value" 
-              @click.native="clickRadioSearch('productOwner',item.value)"
-               v-track="{triggerType:'click',currentUrl: $route.path,behavior:'产品负责人筛选',businessCode:item.label,}"
-              >{{item.label}}</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-col>
-        <el-col :xs="12" :sm="12" :md="4" :lg="4" :xl="4">
-          <el-form-item label-width="10px">
-            <div class="searchBox">
-                <el-input placeholder="综合搜索"
-                        v-model="putSearch"
-                        size='mini'
-                        class="input-with-select"
-                        clearable
-                        @change="searchSomething"
-                        @keyup.enter.native="searchSomething"
-                        v-track="{triggerType:'blur',currentUrl: $route.path,behavior:'综合搜索输入框',InputContext:putSearch}"
-                        >
-                </el-input>
-                <el-button 
-                type="primary" 
-                size="mini" 
-                @click="searchSomething"
-                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'综合搜索按钮'}"
-                >搜索</el-button>
-            </div>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="10" :xs="24" :sm="24" :md="11" :lg="12" :xl="11">
-          <el-form-item label="开发国家:">
-              <div class="checkBoxAll">
+            </el-form-item>
+
+            <el-form-item label="产品负责人:" class="w-30">
+                <el-radio-group v-model="form.productOwner">
+                <el-radio-button 
+                    v-for="item in productOwner" 
+                    :label="item.value" 
+                    :key="item.value" 
+                    @click.native="clickRadioSearch('productOwner',item.value)"
+                    v-track="{triggerType:'click',currentUrl: $route.path,behavior:'产品负责人筛选',businessCode:item.label,}"
+                >{{item.label}}</el-radio-button>
+                </el-radio-group>
+            </el-form-item>
+
+            <el-form-item label-width="10px" style="position:absolute;right:0px">
+                <div class="searchBox">
+                    <el-input placeholder="综合搜索"
+                            v-model="putSearch"
+                            size='mini'
+                            class="input-with-select"
+                            clearable
+                            @change="searchSomething"
+                            @keyup.enter.native="searchSomething"
+                            v-track="{triggerType:'blur',currentUrl: $route.path,behavior:'综合搜索输入框',InputContext:putSearch}"
+                            >
+                    </el-input>
+                    <el-button 
+                    type="primary" 
+                    size="mini" 
+                    @click="searchSomething"
+                    v-track="{triggerType:'click',currentUrl: $route.path,behavior:'综合搜索按钮'}"
+                    >搜索</el-button>
+                </div>
+            </el-form-item>
+        </div>
+         
+     
+        <div class="row-flex"> 
+            <el-form-item label="开发国家:" class="w-50" style="min-width:750px">
+              <div class="row-flex">
                 <el-checkbox 
+                    size="mini"
                     class="checkboxAlltext" 
+                    style="margin-right:10px;margin-left:5px;"
                     :indeterminate="isIndeterminate" 
                     v-model="checkAll" 
                     @change="handleCheckAllChange"
-                    >全选</el-checkbox>
+                   border >全选</el-checkbox>
                 <el-checkbox-group 
+                    size="mini"
                     class="chengboxMoreBox"
                     v-model="form.checkedCities"
                     @change="handleCheckedCitiesChange"
                      
                     >
                     <el-checkbox 
+                        border
+                         size="mini"
                         v-for="item in cities"
                         :label="item.countryCodes"
                         :key="item.countryCodes"
@@ -103,91 +105,100 @@
                 </el-checkbox-group>
               </div>
           </el-form-item>
-        </el-col>
-        <el-col :span="10" :md="10" :lg="10" :xl="10">
-          <el-form-item label="寻找供应商:">
+       
+            <el-form-item label="寻找供应商:" class="w-30">
                 <el-radio-group v-model="form.suppliers" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'寻找供应商筛选'}">
-                <el-radio label="all" @click.native="clickRadioSearch('suppliers','all')">全部</el-radio>
-                <el-radio label="1" @click.native="clickRadioSearch('suppliers','1')">已找过</el-radio>
-                <el-radio label="0" @click.native="clickRadioSearch('suppliers','0')">未找过</el-radio>
+                    <el-radio-button label="all" @click.native="clickRadioSearch('suppliers','all')">全部</el-radio-button>
+                    <el-radio-button label="1" @click.native="clickRadioSearch('suppliers','1')">已找过</el-radio-button>
+                    <el-radio-button label="0" @click.native="clickRadioSearch('suppliers','0')">未找过</el-radio-button>
                 </el-radio-group>
             </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="10" :xs="24" :sm="24" :md="11" :lg="12" :xl="11">
-          <el-form-item label="开发场景:">
-            <el-checkbox-group v-model="form.developmentScenario" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发场景筛选'}"> 
-                <el-radio  label='all' v-model="radio" style="width:42px" @click.native="showOtherCheck('all')" class="radioStyle">全部</el-radio>
-                <el-radio :label="5" v-model="radio" style="width:52px;" @click.native="showOtherCheck(5)" class="radioStyle">二次开发</el-radio>
-                <el-radio :label="4" v-model="radio" style="width:42px" @click.native="showOtherCheck(4)" class="radioStyle">全新开发</el-radio> 
-              <el-checkbox label= '1' v-if="newProd" style="margin-left:10px;width:74px">开发新产品</el-checkbox>
-              <el-checkbox label= '2' v-if="newProd" style="width:74px" >开发新市场</el-checkbox>
-              <el-checkbox label= '3' v-if="newProd" style="width:74px" >开发新尺码</el-checkbox>
+        </div>
+
+        <div class="row-flex"> 
+          <el-form-item label="开发场景:" class="w-50">
+            <el-checkbox-group v-model="form.developmentScenario" style=" display: flex;align-items: center;" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发场景筛选'}"> 
+                <el-radio-group v-model="radio">
+                    <el-radio-button label='all' @click.native="showOtherCheck('all')" class="radioStyle">全部</el-radio-button>
+                    <el-radio-button :label="5"  @click.native="showOtherCheck(5)" class="radioStyle">二次开发</el-radio-button>
+                    <el-radio-button :label="4"  @click.native="showOtherCheck(4)" class="radioStyle">全新开发</el-radio-button> 
+                </el-radio-group>
+              <el-checkbox label= '1' border v-if="newProd" size="mini">开发新产品</el-checkbox>
+              <el-checkbox label= '2' border v-if="newProd" size="mini">开发新市场</el-checkbox>
+              <el-checkbox label= '3' border v-if="newProd" size="mini">开发新尺码</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
-        </el-col>
-        <el-col :span="10" :md="10" :lg="9" :xl="10">
-          <el-form-item label="距样品到货:">
+
+          <el-form-item label="距样品到货:" class="w-30">
             <el-radio-group v-model="form.sample" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'距样品到货筛选'}">
-              <el-radio label="all" @click.native="clickRadioSearch('sample','all')">全部</el-radio>
-              <el-radio label="0" @click.native="clickRadioSearch('sample','0')">未超交期</el-radio>
-              <el-radio label="1" @click.native="clickRadioSearch('sample','1')">已逾期</el-radio>
+              <el-radio-button label="all" @click.native="clickRadioSearch('sample','all')">全部</el-radio-button>
+              <el-radio-button label="0" @click.native="clickRadioSearch('sample','0')">未超交期</el-radio-button>
+              <el-radio-button label="1" @click.native="clickRadioSearch('sample','1')">已逾期</el-radio-button>
             </el-radio-group>
           </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="10" :xs="24" :sm="24" :md="11" :lg="12" :xl="11">
-          <el-form-item label="是否需要认证:">
-            <el-radio-group v-model="form.authentication" class="actionBox" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'是否需要认证筛选'}">
-              <el-radio style="width:42px" label="all" @click.native="clickRadioSearch('authentication','all')">全部</el-radio>
-              <el-radio style="width:52px" :label='1' @click.native="clickRadioSearch('authentication',1)">是</el-radio>
-              <el-radio style="width:42px" :label='0' @click.native="clickRadioSearch('authentication',0)">否</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-col>
-        <el-col :span="10" :md="10" :lg="9" :xl="10">
-            <el-form-item label="是否需要专利:">
-                <el-radio-group v-model="form.patent" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'是否需要专利筛选'}">
-                    <el-radio label="all" @click.native="clickRadioSearch('patent','all')">全部</el-radio>
-                    <el-radio label='1' @click.native="clickRadioSearch('patent','1')">需要</el-radio>
-                    <el-radio label='0' @click.native="clickRadioSearch('patent','0')">不需要</el-radio>
+        </div>
+        <div class="row-flex">
+            <el-form-item label="是否需要认证:" class="w-50">
+                <el-radio-group v-model="form.authentication" class="actionBox" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'是否需要认证筛选'}">
+                    <el-radio-button  label="all" @click.native="clickRadioSearch('authentication','all')">全部</el-radio-button>
+                    <el-radio-button  :label='1' @click.native="clickRadioSearch('authentication',1)">是</el-radio-button>
+                    <el-radio-button  :label='0' @click.native="clickRadioSearch('authentication',0)">否</el-radio-button>
                 </el-radio-group>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="10" :xs="24" :sm="24" :md="11" :lg="12" :xl="11">
-          <el-form-item label="包装方式:">
+            </el-form-item>
+    
+            <el-form-item label="是否需要专利:" class="w-30">
+                <el-radio-group v-model="form.patent" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'是否需要专利筛选'}">
+                    <el-radio-button label="all" @click.native="clickRadioSearch('patent','all')">全部</el-radio-button>
+                    <el-radio-button label='1' @click.native="clickRadioSearch('patent','1')">需要</el-radio-button>
+                    <el-radio-button label='0' @click.native="clickRadioSearch('patent','0')">不需要</el-radio-button>
+                </el-radio-group>
+            </el-form-item>
+        </div>
+        <div class="row-flex">
+            <el-form-item label="包装方式:" class="w-50">
             <el-radio-group v-model="form.packingWay" class="actionBox" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'包装方式筛选'}">
-              <el-radio style="width:42px" :label="null" @click.native="clickRadioSearch('packingWay',null)">全部</el-radio>
-              <el-radio style="width:52px" :label="1" @click.native="clickRadioSearch('packingWay',1)" >多箱</el-radio>
-              <el-radio style="width:42px" :label="0" @click.native="clickRadioSearch('packingWay',0)">单箱</el-radio>
+                <el-radio-button  :label="null" @click.native="clickRadioSearch('packingWay',null)">全部</el-radio-button>
+                <el-radio-button  :label="1" @click.native="clickRadioSearch('packingWay',1)" >多箱</el-radio-button>
+                <el-radio-button  :label="0" @click.native="clickRadioSearch('packingWay',0)">单箱</el-radio-button>
             </el-radio-group>
-          </el-form-item>
-        </el-col>
-      </el-row>
+            </el-form-item>
+            <el-form-item label="产品等级：" class="w-50" style="min-width:800px;">
+                <el-radio-group v-model="form.productLevelValue" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'是否需要专利筛选'}">
+                    <el-radio-button label="all" @click.native="clickRadioSearch('productLevelValue','all')">全部</el-radio-button>
+                    <el-radio-button :label="item.levelId" @click.native="clickRadioSearch('productLevelValue',item.levelId)" v-for="item in productLevelValueList" :key="item.levelId">{{item.levelValue}}</el-radio-button>
+                </el-radio-group>
+            </el-form-item>
+        </div>
+   
       <el-row>
         <el-col :span="21">
           <el-form-item label="开发状态:" class="statusBox">
-            <div class="checkBoxAll1">
+            <div class="checkBoxAll1" style="display:flex">
                 <el-checkbox class="checkboxAlltext1" 
-                :indeterminate="isIndeterminate1" 
-                v-model="checkStatusAll" 
-                @change="handleStatusAllChange"
-                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发状态筛选'}"
-                >全选 ({{total}})</el-checkbox>
+                    border
+                     size="mini"
+                     style="margin-right:10px;margin-left:5px;"
+                    :indeterminate="isIndeterminate1" 
+                    v-model="checkStatusAll" 
+                    @change="handleStatusAllChange"
+                    v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发状态筛选'}"
+                    >全选 ({{total}})</el-checkbox>
                 <el-checkbox-group 
-                class="chengboxMoreBox1" 
-                v-model="form.status" 
-                @change="handleCheckedStatusChange"
-                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发状态筛选'}"
-                >
+                    border
+                    size="mini"
+                    class="chengboxMoreBox1" 
+                    v-model="form.status" 
+                    @change="handleCheckedStatusChange"
+                    v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发状态筛选'}"
+                    >
                     <el-checkbox 
-                        v-for="item in statusList"
+                        border
+                        size="mini"
+                        v-for="(item,index) in statusList"
                         :label="item.label"
-                        :key="item.key">
+                        :key="item.key" 
+                        :class="index == 0 ? 'margin-120' : ''"
+                        >
                         {{item.name}} ({{item.num}})
                     </el-checkbox>
                 </el-checkbox-group>
@@ -195,6 +206,24 @@
           </el-form-item>
         </el-col>
       </el-row>
+      <el-form-item>
+            <template slot="label">
+                类目:
+            </template>
+            <el-radio-group size="mini" v-model="form.seriesCategoryId">
+                <el-radio-button :label="null" @click.native="clickRadioSearch('seriesCategoryId',null,$event)">全部</el-radio-button>
+                <el-radio-button @click.native="clickRadioSearch('seriesCategoryId',item.seriesCategoryId,$event),changeRadioSearch(index)" v-for="(item,index) in seriesList" :key="item.seriesCategoryId" :label="item.seriesCategoryId">{{ item.seriesCategoryName }}</el-radio-button>
+            </el-radio-group>
+        </el-form-item>
+        <el-form-item v-if="form.seriesCategoryId != null">
+            <template slot="label">  
+                系列:
+            </template>
+            <el-radio-group size="mini" v-model="form.classifyDefId" >
+                <el-radio-button :label="null" @click.native="clickRadioSearch('classifyDefId',null,$event)">全部</el-radio-button>
+                <el-radio-button @click.native="clickRadioSearch('classifyDefId',item.classifyDefId,$event)" v-for="item in seriesListChilds" :key="item.classifyDefId" :label="item.classifyDefId">{{ item.classifyDefName }}</el-radio-button>
+            </el-radio-group>
+        </el-form-item>
     </el-form>
   </div>
 
@@ -202,7 +231,7 @@
 <script>
 const cityOptions = ['GB','US','DE','AU','NZ','JP'];
 const statusOptions = [0, 1, 2, 3, 4, 5, 6, 10, 11, 12, 13];
-import { getDevelopStatesNum } from '@/api/user.js'
+import { getDevelopStatesNum,getProductLevelEnums,atGetSeriesCategoryDef } from '@/api/user.js'
 export default {
   name: 'navBar',  
   data () {
@@ -238,19 +267,21 @@ export default {
             countryCodes:'JP',
             country:'日本'
         }],
+         seriesList:[],
+         seriesListChilds:[],
       statusList:[
           {
-              name:'未提交审批',
+              name:'待提交开发',
               label:0,
               key:0,
               num:0,
           },
-          {
-              name:'待审批',
-              label:1,
-              key:1,
-              num:0,
-          },
+        //   {
+        //       name:'待审批',
+        //       label:1,
+        //       key:1,
+        //       num:0,
+        //   },
           {
               name:'认证确认',
               label:11,
@@ -506,12 +537,16 @@ export default {
         suppliers: 'all',
         sample: 'all',
         authentication: 'all',
+        productLevelValue: 'all',
         patent: 'all',
+        seriesCategoryId: null,//一级(类目id)
+        classifyDefId:null,
         packingWay:null,
         status: ['15'],
         checkedCities:[],
       },
       tableParams:{},
+      productLevelValueList:[],
     //   bleanStatus:true
     }
   },
@@ -544,9 +579,12 @@ export default {
                     scenariosParentIds:val.developmentScenario.includes('all')? [] : val.developmentScenario,
                     sampleDelivery:val.sample == 'all'? '':Number(val.sample),
                     patentProduct:val.patent == 'all'? null:val.patent,
+                    productLevelValue:val.productLevelValue == 'all'? null:val.productLevelValue,
                     packingWay:val.packingWay,
                     search:val.search,
-                    almorlist:val.almorlist
+                    almorlist:val.almorlist,
+                    seriesCategoryId: val.seriesCategoryId,//一级(类目id)
+                    classifyDefId:val.classifyDefId,
                 }
                 // if(this.bleanStatus){
                     this.getDevelopStutsNumber()
@@ -557,11 +595,15 @@ export default {
       } 
   },
   mounted () {
-      this.changeInnterWeith() 
+    //   this.changeInnterWeith() 
       this.getDevelopStutsNumber() 
       this.filterStatusNavbar()
   },
   methods: {
+    changeRadioSearch(index) {
+        this.seriesListChilds = this.seriesList[index].classifyDefs
+        this.form.classifyDefId = null
+    },
     clickRadioSearch(name,value) {
         this.form[name] = value
         this.$set(this.form,'almorlist',Math.random())
@@ -572,6 +614,12 @@ export default {
             this.form.status = []
             this.form.status.push(Number(this.$route.query.status))
           }
+          getProductLevelEnums().then(res => {
+            this.productLevelValueList = res.data
+          })
+          atGetSeriesCategoryDef().then(res => {  
+                this.seriesList = res.data
+            })  
       },
       getDevelopStutsNumber(){
         let params = this.tableParams
@@ -675,82 +723,133 @@ export default {
 </script>
 
 <style  lang="scss" scoped>
-.navbarContainer {
-  height: 173px;
-  background-color: #ffffff;
-  margin: 0 10px 10px;
-  .el-row {
-    height: 25px;
-    display: flex;
-  }
-  .radioStyle{
-      margin-top: 14px;
-  }
-  ::v-deep .el-form-item__label {
-    color: #3366cc !important;
-    font-weight: bold;
-  }
-  ::v-deep .el-form-item__content{
-        font-size: 12px !important;
+::v-deep.checkbox-status {
+    display: inline-block;
+    .el-checkbox.is-bordered {
+        margin-right: 0px;
+        margin-left: 5px;
+        // padding: 0px 7px 0px 10px;
+        height: 25px;
+        top: 2px;
+        padding: 2px 3px;
     }
-  ::v-deep .firstCreateStyle {
+}
+.navbarContainer {
+    padding-top: 5px;
+    background-color: #ffffff;
+    min-height: 275px;
+    .row-flex {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .w-50 {
+        width: 50%;
+        min-width: 600px;
+    }
+    .w-30 {
+        width: 30%;
+        min-width: 400px;
+    }
+    .el-row {
+        // height: 30px;
+        display: flex;
+    }
+    ::v-deep .el-form-item__label {
+        color: #3366cc !important;
+        font-weight: bold; 
+        line-height: 30px; 
+    }
+    ::v-deep .el-form-item__content{
+        font-size: 12px !important;
+        line-height: 30px;
+    }
+    ::v-deep .el-form-item {
+        margin-bottom: 0px;
+    }
+    ::v-deep .el-radio-button{
+        line-height: 2;
+        margin: 3px 4px;
+        .el-radio-button__inner {
+            padding: 5px 10px;
+            color: #333 ;
+            border-radius: 2px;
+            border: 1px solid #DCDFE6;
+            border-left: 1px solid #DCDFE6;
+            font-size: 12px;
+            &:hover {
+                border: 1px solid #3366cc;
+                border-left: 1px solid #3366cc;
+                color: #3366cc;
+            }
+        }  
+    }
+    .el-checkbox.is-bordered.el-checkbox--mini {
+        margin-right: 10px;
+        margin-left: 0px;
+        height: 24px;
+        line-height: 22px;
+        padding: 0px 15px 0px 10px;
+    }
+    ::v-deep .el-radio-button__orig-radio:checked + .el-radio-button__inner {
+        box-shadow: 0px 0 0 0 #3366cc;
+    }
+    ::v-deep .success-radio {
+        border: 1px solid #ccc;
+        display: inline-block;
+        margin-right: 10px;
+        height: 25px;
+        line-height: 25px;
+        position: relative;
+        top: 5px;
+        padding-right: 10px;
+        // background: #e8f0f7;
+        .el-radio__input {
+            border-right:1px solid #ccc;
+            line-height: 23px;
+        }
+    }
+   
+}
+.searchBox{
+    display: flex;
+    .el-button{
+        height: 28px;
+        margin-top: 1px;
+        line-height: 3px;
+        padding: 12px 12px;
+        font-size: 12px;
+        margin-right: 10px;
+    }
+}
+::v-deep .firstCreateStyle {
     margin-bottom: 0px;
     .el-form-item__content {
       margin-left: 10px !important;
     }
   }
-  .editMstyle {
-    margin: 0 10px;
-    font-weight: 600;
-  }
-  .countryCheckbox {
-    display: flex;
-  }
-    .actionBox{
-        width: 350px;
-    }
-    .el-radio{
-        width: 80px;
-    }
-    .timeBox{
+   .timeBox{
         width: 120px;
         margin-left: 30px;
     }
-}
-.checkBoxAll{
-    display: flex;
-    .checkboxAlltext{
-        display: inline-block;
-        margin-right: 20px;
-    }
-    .chengboxMoreBox{
-        width: 500px;
-        display: inline-block;
-    }
-}
-.checkBoxAll1{
+    .checkBoxAll1{
     display: flex;
     padding-top: 9px;
+    position: relative;
     .checkboxAlltext1{
         display: inline-block;
         margin-right: 20px;
-        height: 23px;
+        // height: 23px;
+        width: 112px;
+        position: absolute;
+        margin-left: 5px !important;
     }
     .chengboxMoreBox1{
-        width: 1250px;
+        width: 1500px;
         display: inline-block;
-    }
-}
-::v-deep.statusBox{
-    .el-form-item__content{
-        line-height: 25px !important;
-    }
-}
-.searchBox{
-    display: flex;
-    .el-button{
-        height: 27px;
-        margin-top: 6px;
+        margin-left: 5px;
+        .margin-120 {
+            margin-left: 122px !important;
+        }
     }
 }
 </style>

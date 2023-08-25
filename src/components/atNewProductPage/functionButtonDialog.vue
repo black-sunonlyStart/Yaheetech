@@ -135,36 +135,9 @@ export default {
                 cancelType: [
                     { required: true, message: '请选择取消原因！', trigger: 'blur' },
                 ],
-                // approvalDate: [
-                //     { required: true, message: '请选择评审会日期！', trigger: 'blur' },
-                // ],
-                // design: [
-                //     { required: true, message: '请选择产品类型！', trigger: 'blur' },
-                // ],
-                // designer: [
-                //     { required: true, message: '请选择！', trigger: 'blur' },
-                // ],
-                // toState: [
-                //     { required: true, message: '请选择下一个状态！', trigger: 'blur' },
-                // ],
-                // beforeSampleResult: [
-                //     { required: true, message: '请选择样前方案结果！', trigger: 'blur' },
-                // ],
             },
-            status:[
-                
-            ],
+            status:[],
             rowList:[],
-            operationList:[
-                {
-                    value:0,
-                    label:'通过',
-                },
-                {
-                    value:1,
-                    label:'驳回',
-                },
-            ],
             countryList:[
                 {
                     label: '美国',
@@ -205,36 +178,8 @@ export default {
                     value:3
                 }, 
             ],
-            toStateList:[
-                {
-                    label: '结构设计',
-                    value:10
-                },
-                {
-                    label: '重新进行产品设计/P图',
-                    value:8
-                },    
-            ],
-             designerList:[
-                {
-                    label: '设计部',
-                    value:1
-                },
-                {
-                    label: '工厂',
-                    value:2
-                },
-                {
-                    label: '工厂&设计部',
-                    value:3
-                },
-            ],
             assigneeIdList:[],
-            patentResults:[],
-            showCountryList:[],
             cancelList:[],
-            productStructurePictureNum:0
-           
         }
     },
     props:{
@@ -375,30 +320,6 @@ export default {
             this.$refs['ruleForm'].resetFields();
             this.dialogVisible = false 
             this.clickLoading = false
-        },
-         showCountryText(val){
-            if(!val) return ''
-            let des = []
-            des = this.countryList.filter(item => {
-                return item.countryCode == val
-            })
-            if(des.length > 0){
-                return des[0].label
-            }else {
-                return ''
-            } 
-        },
-        showReqRes(val){
-            if(!val) return ''
-            let des = []
-            des = this.devSign.filter(item => {
-                return item.value == val
-            })
-            if(des.length > 0){
-                return des[0].label
-            }else {
-                return ''
-            }
         },
     }  
 }

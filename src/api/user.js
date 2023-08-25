@@ -330,6 +330,16 @@ export function getDevelopmentProgresses(data) {
       params:data
     })
   }
+  //获得产品等级
+export function getProductLevelEnums(data) {
+    return request({
+      url: '/productManage/getProductLevelEnums',
+      method: "get", 
+      params:data
+    })
+  }
+  //
+
 export function getDevelopment(data) {
     return request({
       url: '/productManage/getDevelopment',

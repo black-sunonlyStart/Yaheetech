@@ -69,6 +69,22 @@
                     </div>
                 </div>
             </el-form-item>
+            <el-form-item label="产品系列:" prop="classCategoryIdArray">
+                <el-cascader
+                    style="width:220px"
+                    v-model="ruleForm.classCategoryIdArray"
+                    :options="patentCountry"
+                    size="mini"
+                    separator=' - '
+                    :props="{ 
+                        value:'seriesCategoryId',
+                        label:'seriesCategoryName',
+                        children:'classifyDefs'
+                        }"
+                    clearable
+                    >
+                </el-cascader> 
+            </el-form-item>
             <el-form-item label="所属分类" prop="classiFication" v-if="ruleForm.scene == 1 ">
                 <div class="signClass">
                     <div class="signInput">
@@ -88,7 +104,7 @@
     </div>
 </template>
 <script>
-import { findProductByDevId,exploitType,getDevelopmentScenarios } from '@/api/user.js'
+import { findProductByDevId,exploitType,getDevelopmentScenarios,atGetSeriesCategoryDef } from '@/api/user.js'
 import productTypeDialog from '@/components/productDetail/productTypeDialog'
 export default {
     name:'devScene',
@@ -148,6 +164,7 @@ export default {
         selectId:false,
         closeComponent:false,
         spuSign:[],  
+        patentCountry:[],
         ruleForm: {
           scene: '',
           region: '',
@@ -178,6 +195,9 @@ export default {
           classiFication: [
             { required: true, message: '请选择产品类别', trigger: 'change' },
           ],
+          classCategoryIdArray: [
+            { required: true, message: '请选择产品系列', trigger: 'blur' }
+            ],
         }
       };
     },
@@ -208,6 +228,16 @@ export default {
             this.$refs.productTypeDialog.openDialog()
         },
       getDetailPage(){
+        //获取系列数据
+        atGetSeriesCategoryDef().then(res => {
+            res.data.forEach(item => {
+                item.classifyDefs.forEach(list => {
+                    list.seriesCategoryName = list.classifyDefName
+                    list.seriesCategoryId = list.classifyDefId
+                })
+            })
+            this.patentCountry = res.data
+        })
           this.ruleForm = {
               region : this.productVoDetail.developmenttype,
               scene:this.productVoDetail.developmentscenarios == '11' || this.productVoDetail.developmentscenarios == '12' ? 11 : this.productVoDetail.developmentscenarios,
@@ -215,7 +245,9 @@ export default {
               relation:this.productVoDetail.id ? '1':'2',
               inputRelation:this.productVoDetail.spuid,
               selectRelation:this.productVoDetail.id,
-              skuid:this.productVoDetail.spu
+              skuid:this.productVoDetail.spu,
+              classCategoryIdArray:this.productVoDetail.classCategoryIdArray,
+              treeId:this.productVoDetail.categoryId
           }
           if(this.productVoDetail.developmentscenarios == 1){
               this.showRelation = false
@@ -259,6 +291,8 @@ export default {
                 addDevelopmentId:this.ruleForm.inputRelation,
                 associatedProductId:this.ruleForm.selectRelation,
                 addSPUId:this.ruleForm.skuid,
+                seriesCategoryId: this.ruleForm.classCategoryIdArray[0],//类目系列
+              classifyDefId: this.ruleForm.classCategoryIdArray[1],
             }
            
             this.$confirm('保存以后开发场景和关联场景不允许更改，请确认要继续保存？', '提示', {

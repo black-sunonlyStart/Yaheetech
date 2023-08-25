@@ -9,22 +9,29 @@
                 <span class="boldTitle">开发场景： </span>
                 <span>{{ showSign(productVoDetail.developmentscenarios) }}</span>
             </el-col>
+            <el-col :span="8">
+                <span class="boldTitle">类目-系列： </span>
+                <span>{{ productVoDetail.seriesCategoryName }}</span>
+            </el-col>
+            
+        </el-row>
+        <el-row class="textSpeaing">
             <el-col :span="8" v-if="productVoDetail.developmentscenarios != 1">
                 <span class="boldTitle">关联产品： </span>
                 <span>{{ productVoDetail.developmentscenarios == 10 || productVoDetail.developmentscenarios == 11 || productVoDetail.developmentscenarios == 12 ? productVoDetail.spu : productVoDetail.spuid}}({{productVoDetail.id}})</span>
                 <div >请再次确认关联产品，当前关联产品尺码为{{getAttrBute(productVoDetail.id,multiAttribute)}}</div>
             </el-col>
-            <el-col :span="8" v-else>
+            <el-col :span="8">
                 <span class="boldTitle">所属分类：</span>
-                <span>{{productVoDetail.categoryname}}</span>
+                 <span>{{productVoDetail.categoryname}}</span>
             </el-col>
         </el-row>
-        <el-row class="textSpeaing" v-if="productVoDetail.developmentscenarios != 1" >
+        <!-- <el-row class="textSpeaing" v-if="productVoDetail.developmentscenarios != 1" >
             <el-col :span="8">
                 <span class="boldTitle">所属分类：</span>
                 <span>{{productVoDetail.categoryname}}</span>
             </el-col>
-        </el-row>
+        </el-row> -->
     </div>
 </template>
 <script>

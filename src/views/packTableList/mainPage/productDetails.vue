@@ -486,14 +486,14 @@ data () {
                 toStatus :'',
                 toStatusValue:'未提交审批'
             },
-            {
-                statusValue:'待审批',
-                status:'1',
-                createBy:'',
-                createOn:'',
-                toStatus :'',
-                toStatusValue:'待审批'
-            },
+            // {
+            //     statusValue:'待审批',
+            //     status:'1',
+            //     createBy:'',
+            //     createOn:'',
+            //     toStatus :'',
+            //     toStatusValue:'待审批'
+            // },
             {
                 statusValue:'待认证确认',
                 status:'2',
@@ -952,43 +952,43 @@ async getAllpageList(val){
                     this.nowStatus = 1;
                     break;
                     case 11:
-                    this.nowStatus = 2;
+                    this.nowStatus = 1;
                     break;
                     case 2:
-                    this.nowStatus = 3;
+                    this.nowStatus = 2;
                     break;
                     case 13 :
-                    this.nowStatus = 4;
+                    this.nowStatus = 3;
                     break;
                     case 12:
-                    this.nowStatus = 5;
+                    this.nowStatus = 4;
                     break;
                     case 3 :
-                    this.nowStatus = 6;
+                    this.nowStatus = 5;
                     break;
                     case 10:
-                    this.nowStatus = 7;
+                    this.nowStatus = 6;
                     break;
                     case 4:
-                    this.nowStatus = 8;
+                    this.nowStatus = 7;
                     break;
                     case 5:
-                    this.nowStatus = 9;
+                    this.nowStatus = 8;
                     break;
                     case 6:
-                    this.nowStatus = 10;
+                    this.nowStatus = 9;
                     break;
                     case 7:
-                    this.nowStatus = 11;
+                    this.nowStatus = 10;
                     break;
                     case 8:
-                    this.nowStatus = 12;
+                    this.nowStatus = 11;
                     break;
                     case 9:
-                    this.nowStatus = 13;
+                    this.nowStatus = 12;
                     break;
                     case 14:
-                    this.nowStatus = 14;
+                    this.nowStatus = 13;
                     break;
                 }
 
@@ -1013,7 +1013,11 @@ async getAllpageList(val){
                 spu:res.data.development ? res.data.development.spu : '',//关联spu
                 id:this.productVos ? this.productVos.id : '',
                 spuid:res.data.development ? res.data.development.id : '',
+                categoryId:res.data.development ? res.data.development.categoryid : '',
+                seriesCategoryName:res.data.development ? res.data.development.seriesCategoryName : '',
             }
+            this.productVoDetail.classCategoryIdArray = [res.data.development.seriesCategoryId,res.data.development.classifyDefId]
+            
             //图片信息数据
             this.productImgDetail =  res.data.developmentAttachmentList.filter(item => {
                 return item.filetype == 4
@@ -1067,6 +1071,8 @@ async getAllpageList(val){
                 xsspecialrequirements:this.productVos.xsspecialrequirements, //产品包装尺寸有无特殊要求
                 xsorderoftime:this.productVos.xsorderoftime, //产品下单时间点
                 xspurchasePriceCurrency:this.productVos.xspurchasePriceCurrency, //
+                planToOrder:this.productVos.planToOrder, //
+                planToOrderStr:this.productVos.planToOrderStr, //
             }  
             //竞品信息数据
             this.comNewsDetailList = {

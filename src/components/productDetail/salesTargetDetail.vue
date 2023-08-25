@@ -50,8 +50,17 @@
                 <span class="imageMainboxText">{{salesTargetDetaiList.xstestsampletime  ? $moment(salesTargetDetaiList.xstestsampletime).format("YYYY-MM-DD"):''}}</span>
             </el-col>
             <el-col :span="10">
-                <span class="imageMainbox">产品下单时间点： </span>
+                <span class="imageMainbox">预计下单日期： </span>
                 <span class="imageMainboxText">{{salesTargetDetaiList.xsorderoftime  ?$moment(salesTargetDetaiList.xsorderoftime).format("YYYY-MM-DD"):''}}</span>
+            </el-col>
+        </el-row>
+        <el-row class="textSpeaing">
+            <el-col :span="10">
+                
+            </el-col>
+            <el-col :span="10">
+                <span class="imageMainbox">是否计划下单： </span>
+                <span class="imageMainboxText">{{salesTargetDetaiList.planToOrderStr}}</span>
             </el-col>
         </el-row>
     </div>

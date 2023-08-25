@@ -126,18 +126,22 @@
                     <template slot-scope="scope">
                         <div>
                             <span>
-                                {{scope.row.categoryName}}  
+                                {{scope.row.seriesCategoryName}}  
                             </span>
                         </div>
 
                         <el-tooltip placement="right" effect="light" :visible-arrow='false' popper-class='popperBorder' style="padding:0;border:none">
-                            <span slot="content" class="copeTitle"  @click="copeDevelopId(scope.row.id)">
+                            <span slot="content" class="copeTitle"  @click="copeDevelopId(scope.row.developmentId)">
                                 <i class="el-icon-document-copy" ></i>
                             </span>
                             <div>
-                                {{scope.row.id}} 
+                                {{scope.row.developmentId}} 
                             </div>
                         </el-tooltip>
+
+                        <div>
+                            <span>sku:{{scope.row.skuAlias}}</span>
+                        </div>
                     </template>
                 </el-table-column>
                 <el-table-column width="170"  align="center">
@@ -164,7 +168,7 @@
                         产品来源
                     </template>
                     <template slot-scope="scope">
-                        {{scope.row.productSource}}
+                        {{scope.row.productSourceStr}}
                     </template>
                 </el-table-column>
                 <el-table-column width="100" align="center">
@@ -173,7 +177,7 @@
                     </template>
                     <template slot-scope="scope">
                             <div class="blue-button" :style="{background:changeBgColor(scope.row.state),'border-color': changeBorColor(scope.row.state),'color':changeBorColor(scope.row.state)}" v-if="scope.row.stateValue">{{scope.row.stateValue}}</div>
-                            <div >{{scope.row.syDay}}</div>
+                            <div >{{scope.row.sjDay + '天' || 0  + '天'}}</div>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" width="120">
@@ -201,8 +205,7 @@
                     </template>
                      <template slot-scope="scope">
                         <div>
-                            <div>{{scope.row.ljDay}}</div>
-                            <div style="color:green">{{  scope.row.syDay || 0 }}天</div>
+                            <div style="color:green">{{  scope.row.sjTotalDay || 0 }}天</div>
                         </div>
                     </template>
                 </el-table-column>
@@ -212,9 +215,18 @@
                         推荐理由
                     </template>
                     <template slot-scope="scope">
-                        <div class="nodeTextElipire">
-                            {{scope.row.recomReason ? scope.row.recomReason : '--'}}
-                        </div>
+                        <el-popover
+                            placement="bottom"
+                            trigger="hover"
+                            :width="600"
+                            >
+                            <div>
+                                {{scope.row.recomReason ? scope.row.recomReason : '--'}}
+                            </div>
+                            <div class="nodeTextElipire" slot="reference">
+                                {{scope.row.recomReason ? scope.row.recomReason : '--'}}
+                            </div>
+                        </el-popover>
                     </template>
                 </el-table-column>
 
@@ -229,9 +241,9 @@
                         发起/完成日期
                     </template>
                     <template slot-scope="scope">
-                        <div>{{scope.row.actualStartTime ? $moment(scope.row.actualStartTime).format("YYYY-MM-DD") : '--'}}</div>
+                        <div>{{scope.row.startTime ? $moment(scope.row.startTime).format("YYYY-MM-DD") : '--'}}</div>
                         <div>-</div>
-                        <div>{{scope.row.actualEndTime ? $moment(scope.row.actualEndTime).format("YYYY-MM-DD") : '--'}}</div>
+                        <div>{{scope.row.completionOn ? $moment(scope.row.completionOn).format("YYYY-MM-DD") : '--'}}</div>
                     </template>
                 </el-table-column>
                 <el-table-column prop="id" label="操作 / 记录" width="120"  align="center" fixed="right">
@@ -247,7 +259,7 @@
                                 >
                                 <div class="operationBox" v-for="item in operationList" :key="item.id"> 
                                     <div class="operationText" 
-                                    v-if="(!noEditableList.includes(scope.row.state) && item.id == 2) || item.id ==3"
+                                        v-if="(!noEditableList.includes(scope.row.state) && item.id == 2) || item.id ==3 || item.id == 1"
                                         @click="editOperation(scope.row,item.id)"                                     
                                     >
                                     <div class="nameBox"  
@@ -281,6 +293,7 @@
             class="dialog-main"
             z-index="9999"
             @close="closeUploadDialog()"
+              v-dialogDrag
             >
             <remarksNew :remarksParam='remarksParam' ref="remarksNew" v-if="showTenth"></remarksNew>
             <span slot="footer" class="dialog-footer">
@@ -306,16 +319,12 @@ export default {
     },
     data(){
         return {
-            noEditableList:[13,14,15,16,17],
-            edidOperationList:[
-                {
-                    name:'编辑',
-                    id:1,
-                    nameT:'查看'
-                },
-               
-            ],
+            noEditableList:[13,14,15,16,17,18],
             operationList:[
+                 {
+                    name:'查看',
+                    id:1,
+                },
                  {
                     name:'审批',
                     id:2,
@@ -325,6 +334,29 @@ export default {
                     id:3,
                 },
                 
+            ],
+              //1：工厂、2：平台、3：线下、4：设计师推荐、5：其他
+            supplierTypeList:[
+                {
+                    name:'工厂',
+                    label:1,
+                },
+                {
+                    name:'平台',
+                    label:2,
+                },
+                {
+                    name:'线下',
+                    label:3,
+                },
+                {
+                    name:'设计师推荐',
+                    label:4,
+                },
+                {
+                    name:'其他',
+                    label:5,
+                },
             ],
             uploadFilterList:{
                 timeValue2:[],
@@ -445,6 +477,14 @@ export default {
             this.optionPutExcle = true
             globalReportExport(options,this)
         },
+        // //产品来源字段转化
+        // changeProductSource(val){
+        //     if(!val) return '--'
+        //     let sourceList = []
+        //     sourceList = this.supplierTypeList.filter(item => {
+        //         return item.label == val
+        //     })
+        // },
         blankImageUrl(url) {
             window.open(url,'_blank')
         },
@@ -516,8 +556,8 @@ export default {
                 this.error('请至少选择一条数据！')
                 return
             }
-            if(checkList.some(item => [13,14,15,16,17].includes(item.state))){
-                this.error('计划下单、候选下单、已下单、已取消、已冻结状态不允许审批！')
+            if(checkList.some(item => [13,14,15,16,17,18].includes(item.state))){
+                this.error('计划下单、候选下单、已下单、已取消、开发中、已冻结状态不允许审批！')
                 return
             }
             
@@ -659,9 +699,6 @@ export default {
             }
             
         },
-        allocationButton(){
-
-        },
         init() {
             this.mainListList()
             // this.controlPromiss()
@@ -771,6 +808,7 @@ export default {
                 timeEnum:val && val.timeEnum ? val.timeEnum : null,
                 productSource:val && val.productSource ? val.productSource : null,
             }
+            console.log(params,'getProductDemand')
             getProductDemand(params).then(res => {
                 if(res.data){
                     this.loading = false

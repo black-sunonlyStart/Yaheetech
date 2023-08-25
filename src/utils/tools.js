@@ -302,8 +302,9 @@ function gethashCode(hashCodeStr){
                 that.moreData = true
             }
             that.loading = false 
-        },err => {
-            that.loading = false
+        }).catch(() => {
+            that.moreData = true
+            that.loading = false 
         }) 
     }
 

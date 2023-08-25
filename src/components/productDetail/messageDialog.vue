@@ -402,7 +402,7 @@ export default {
           if (valid) {
             let toState = ''
             if(this.row.state == 0){
-                toState = 1
+                toState = 11
             }else if (this.row.state == 1){
                 toState = 11
             }else if (this.row.state == 11){
@@ -416,7 +416,7 @@ export default {
             }else if (this.row.state == 3){
                 toState = 10
             }else if (this.row.state == 10){
-                    toState = 4
+                toState = 4
             }else if(this.row.state == 9){
                 toState = 10
             }else {

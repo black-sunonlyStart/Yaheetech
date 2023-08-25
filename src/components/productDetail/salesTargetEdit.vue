@@ -82,13 +82,23 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
-                     <el-form-item label="产品下单时间点:" prop="orderTime">
+                     <el-form-item label="预计下单日期:" prop="orderTime">
                         <el-date-picker
                             v-model="ruleForm.orderTime"
                             type="date"
                             placeholder="选择日期"
                             >
                         </el-date-picker>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row :gutter="150">
+                <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
+                     <el-form-item label="是否计划下单:" prop="planToOrder">
+                        <el-radio-group v-model="ruleForm.planToOrder">
+                            <el-radio :label="1">是</el-radio>
+                            <el-radio :label="0">否</el-radio>
+                        </el-radio-group>
                     </el-form-item>
                 </el-col>
             </el-row>
@@ -117,6 +127,7 @@ export default {
             specialPackaging: '',
             samplingTime:'',
             orderTime:'',
+            planToOrder:1,
             },
             rules: {
             staRating: [
@@ -148,6 +159,9 @@ export default {
             ],
             orderTime: [
                 { required: true, message: '请添加产品下单时间点', trigger: 'blur' }
+            ],
+            planToOrder: [
+                { required: true, message: '请选择是否计划下单', trigger: 'blur' }
             ],
             },
             devSign:[    
@@ -191,6 +205,7 @@ export default {
                 specialPackaging:this.salesTargetDetaiList.xsspecialrequirements,//产品包装尺寸特殊要求
                 samplingTime:this.salesTargetDetaiList.xstestsampletime ? this.salesTargetDetaiList.xstestsampletime : '',//产品测样时间点
                 orderTime:this.salesTargetDetaiList.xsorderoftime ? this.salesTargetDetaiList.xsorderoftime : '',//产品下单时间点
+                planToOrder:this.salesTargetDetaiList.planToOrder ? this.salesTargetDetaiList.planToOrder : 0,//是否计划下单
                 region:this.salesTargetDetaiList.xspurchasePriceCurrency == 0 ?'1' : !this.salesTargetDetaiList.xspurchasePriceCurrency ? '1' : this.salesTargetDetaiList.xspurchasePriceCurrency,//目标采购价
                 
             }
@@ -212,6 +227,7 @@ export default {
                     xsSpecialRequirements:this.ruleForm.specialPackaging,
                     xsTestSampleTime:this.ruleForm.samplingTime,
                     xsOrderOfTime:this.ruleForm.orderTime,
+                    planToOrder:this.ruleForm.planToOrder,
                     xspurchasePriceCurrency:this.ruleForm.region,
                 }
                 salesTarget(params).then(res => {

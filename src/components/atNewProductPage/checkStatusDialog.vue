@@ -107,12 +107,12 @@
                             <div v-for="item in historyPatentInfo" :key="item.countryCode">{{showCountryText(item.countryCode) }} - {{showReqRes(item.reqRes)}}</div>
                         </div>
                     </div> -->
-                    <el-form-item label="专利查询市场：" prop="approvalDate">
+                    <el-form-item label="专利查询市场：" prop="reqRes">
                          <div style="display:flex">
                             <div v-for="item in showCountryList" :key="item">{{showCountryText(item) + ','}}</div>
                          </div>
                     </el-form-item>
-                    <el-form-item label="专利查询结果：" prop="approvalDate">
+                    <el-form-item label="专利查询结果：" prop="reqRes1">
                         <div v-for="item in historyPatentInfo" :key="item.countryCode">{{showCountryText(item.countryCode) }} - {{showReqRes(item.reqRes)}}</div>
                     </el-form-item>
                 </div>
@@ -153,9 +153,9 @@
                             >
                             <el-option 
                                 v-for="item in toStateList"                        
-                                :key="item.value"
-                                :label="item.label"
-                                :value="item.value"
+                                :key="item.key"
+                                :label="item.value"
+                                :value="item.key"
                                 >
                             </el-option>
                         </el-select> 
@@ -164,7 +164,7 @@
                         <el-input v-model="ruleForm.remark" type="textarea" maxlength="500" show-word-limit></el-input>
                     </el-form-item>
                 </div>
-                 <div v-if="[8,9,10].includes(showType)">
+                 <div v-if="[8,9,10,11].includes(showType)">
                     <div style="padding-left: 140px;" v-if="showType == 8 || showType == 9">
                         是否已上传产品设计图片，确认提交至下一状态？
                     </div>
@@ -172,7 +172,7 @@
                         是否已完成产品专利的查询，确认提交至下一状态？
                     </div>
                     <div style="padding-left: 140px;" v-if="showType == 11">
-                        当前检测到型号上传产品结构图片【xx】张，是否确认提交至下一状态？
+                        是否已上传产品结构图片，确认提交至下一状态？
                     </div>
                     <el-form-item label="备注：" prop="remark" :rules="[{required: false}]">
                         <el-input v-model="ruleForm.remark" type="textarea" maxlength="500" show-word-limit></el-input>
@@ -181,8 +181,8 @@
                 <div v-if="showType == 12">
                     <el-form-item label="样前方案确认结果：" prop="beforeSampleResult">
                         <el-radio-group v-model="ruleForm.beforeSampleResult">
-                            <el-radio :label="1">通过，推送产品开发系统</el-radio>
-                            <el-radio :label="0">打回，重新进行产品设计需求调整</el-radio>
+                            <el-radio :label="0">通过，推送产品开发系统</el-radio>
+                            <el-radio :label="1">打回，重新进行产品设计需求调整</el-radio>
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item label="备注：" prop="remark" :rules="[{required: false}]">
@@ -206,7 +206,7 @@
     </div>
 </template>
 <script>
-import { approvalMemo,selectRoleEmployeeForRoleId,auditProductDemand} from '@/api/user.js'
+import { selectRoleEmployeeForRoleId,auditProductDemand} from '@/api/user.js'
 export default {
     name:'checkStatusDialog',
     data(){
@@ -219,6 +219,7 @@ export default {
                 businessId:null,
                 country:[],
                 remark:'',
+                design:null,
             },
             tableData:[],
             dialogName:'审批',
@@ -312,14 +313,14 @@ export default {
             toStateList:[
                 {
                     label: '结构设计',
-                    value:10
+                    value:11
                 },
                 {
                     label: '重新进行产品设计/P图',
                     value:8
                 },    
             ],
-             designerList:[
+            designerList:[
                 {
                     label: '设计部',
                     value:1
@@ -338,7 +339,6 @@ export default {
             showCountryList:[],
             historyPatentInfo:[],
             productStructurePictureNum:0
-           
         }
     },
     props:{
@@ -354,6 +354,16 @@ export default {
         openDialog(rowList){
             this.rowList = rowList
             let params = {}
+            this.$set(this.ruleForm,'status',null)
+            this.$set(this.ruleForm,'toState',null)
+            this.$set(this.ruleForm,'businessId',null)
+            this.$set(this.ruleForm,'country',[])
+            this.$set(this.ruleForm,'remark',null)
+            this.$set(this.ruleForm,'design',null)
+            this.$set(this.ruleForm,'designer',null)
+            this.$set(this.ruleForm,'beforeSampleResult',null)
+            this.$set(this.ruleForm,'approvalDate',null)
+            this.$set(this.ruleForm,'projectApproval',null)
             this.showType = rowList[0].state
             switch (rowList[0].state) {
                 case 3 :
@@ -363,7 +373,6 @@ export default {
                     selectRoleEmployeeForRoleId(params).then(res => {
                         this.assigneeIdList = res.data
                         this.clickLoading = false
-
                     }).catch(res => {
                         this.clickLoading = false
                         this.dialogVisible = false
@@ -371,21 +380,38 @@ export default {
                 break;  
                 case 6:
                     if(this.rowList[0].curProductDemandPatent){
-                      this.showCountryList  =  JSON.parse(this.rowList[0].curProductDemandPatent.patentInfo).map(item => {
-                        return item.countryCode
-                      })
-                      this.historyPatentInfo = JSON.parse(this.rowList[0].curProductDemandPatent.patentInfo)
+                        this.showCountryList  =  JSON.parse(this.rowList[0].curProductDemandPatent.patentInfo).map(item => {
+                            return item.countryCode
+                        })
+                        this.historyPatentInfo = JSON.parse(this.rowList[0].curProductDemandPatent.patentInfo)
+                    }else {
+                        this.showCountryList = []
+                        this.historyPatentInfo = []
                     }
                     break 
                 case 7 :
-                    if(!this.rowList[0].alreadyPatentInquiry){
+                    if(this.rowList[0].alreadyPatentInquiry == 1){
                         this.showType = 7.1
-                            if(this.rowList[0].curProductDemandPatent){
-                                this.showCountryList  =  JSON.parse(this.rowList[0].curProductDemandPatent.patentInfo).map(item => {
+                        if(this.rowList[0].curProductDemandPatent){
+                            this.showCountryList  =  JSON.parse(this.rowList[0].curProductDemandPatent.patentInfo).map(item => {
                                 return item.countryCode
                             })
                         }
-                    }
+                        if(this.rowList[0].statusChangeOptions){
+                            let toStateList
+                            toStateList = this.rowList[0].statusChangeOptions.filter(item => {
+                                return item.operation == 0 && item.design == this.ruleForm.design
+                                    && item.projectApproval == this.ruleForm.projectApproval 
+                                    && item.beforeSampleResult == this.ruleForm.beforeSampleResult 
+                            })
+                            if(toStateList.length > 0){
+                                this.toStateList = toStateList[0].toStateOptions
+                            }
+                            
+                        }
+                    }  
+                    this.$set(this.ruleForm,'designer',this.rowList[0].designer)      
+                    this.$set(this.ruleForm,'design',this.rowList[0].design)
                     break
                 case 11 :
                     this.productStructurePictureNum = this.rowList[0].productStructurePictureNum
@@ -400,7 +426,21 @@ export default {
             }else {
                 this.dialogName = '提交'
             }
-            this.dialogVisible = true
+
+            if(this.showType == 1){
+                this.$confirm(`是否已完成产品需求的录入，确认提交新产品开发需求？`, '提示', {
+                        cancelButtonText: '取消',
+                        confirmButtonText: '确定',
+                        type: 'warning',
+                        cancelButtonClass: 'btn-custom-cancel',
+                        }).then(() => {                      
+                           this.savefnExamine()
+                        }).catch(() => {
+                            return          
+                    }); 
+            }else {
+                this.dialogVisible = true
+            }
         },
         resetForm() {
             if(this.$refs['ruleForm']) this.$refs['ruleForm'].resetFields()
@@ -409,44 +449,127 @@ export default {
         submitList(formName){
             this.$refs[formName].validate((valid) => {
                 if (valid) {
-                    this.clickLoading = true
-                    let toState = this.rowList.state + 1
-                    let operation = this.ruleForm.operation ? this.ruleForm.operation : 0
-                    if(this.rowList[0].statusChangeOptions){
-                        let toStateList
-                        toStateList = this.rowList[0].statusChangeOptions.filter(item => {
-                            return item.operation == operation && item.design == this.ruleForm.design
-                             && item.projectApproval == this.ruleForm.projectApproval 
-                             && item.beforeSampleResult == this.ruleForm.beforeSampleResult 
-                        })
-                        if(toStateList.length > 0){
-                            toState = toStateList[0].toStates[0]
-                        }
-                        
-                    }
-                    
-                    let param = {
-                        "productDemandIds": this.rowList.map(item =>{ return item.id }),//需要操作审核的id 数组
-                        "operation": operation,//操作 0：提交   1：打回
-                        "toState":this.showType == 7.1 ? this.ruleForm.toState : toState,//需要操作到达状态
-                        "projectApproval":this.ruleForm.projectApproval || this.ruleForm.projectApproval == 0 ? this.ruleForm.projectApproval : null,//是否立项  0：不立项、1：立项
-                        "patentInfo": this.ruleForm.patentInfo || null, //专利信息
-                        "note":this.ruleForm.note || null,//备注
-                        "reviewMeetingDate":this.ruleForm.reviewMeetingDate || null,//评审会日期
-                        "design": this.ruleForm.design || null,//产品类型 设计款(10： 设计、11：P图)、 2 非设计款
-                        "designer":this.ruleForm.designer || null,// 设计/P图方  1:设计部、2:工厂、3:工厂&设计部
-                        "beforeSampleResult":this.ruleForm.beforeSampleResult || null,//样前方案确认结果  0：通过  1：不通过
-                        "businessId":this.ruleForm.businessId || null,//业务开发
-                        "approvalDate":this.ruleForm.approvalDate || null,//业务开发
-                    }
-                    auditProductDemand(param).then(res => {
-                        if(res.code == 200){
-                            this.successSaveDialog()
-                        }
-                    }).catch((err) => {
-                        this.clickLoading = false
-                    })
+                    this.savefnExamine()
                 }
+            })
+        },
+        savefnExamine(){
+            if(this.showType == 6 && (this.showCountryList.length == 0 || this.historyPatentInfo.length == 0)){
+                this.$message({
+                    type: 'error', 
+                    message:'请添加专利查询市场和结果！',
+                    offset:220
+                })
+                return 
+            }
+            
+            if(this.showType == 8 || this.showType == 9){
+                if(!this.rowList.every(item => item.productDesignPictureNum > 0)){
+                    let filterList = this.rowList.filter(item => {
+                        return !item.productDesignPictureNum 
+                    })
+                    let text = filterList.map(item => {
+                        return item.developmentId
+                    })
+                    this.$message({
+                        type: 'error', 
+                        message:`id:${text.toString()}，请至少上传一张设计图片！`,
+                        offset:220
+                    })
+                    return 
+                }
+            }
+            if(this.showType ==  11){
+                if(!this.rowList.every(item => item.productStructurePictureNum > 0)){
+                    let filterList = this.rowList.filter(item => {
+                        return !item.productStructurePictureNum 
+                    })
+                    let text = filterList.map(item => {
+                        return item.developmentId
+                    })
+                    this.$message({
+                        type: 'error', 
+                        message:`id:${text.toString()}，请至少上传一张结构图片！`,
+                        offset:220
+                    })
+                    return 
+                }
+            }
+            if(this.showType == 4){
+                this.rowList.forEach(item => {
+                    if(item.productDemandCompetings){
+                        item.countryList = item.productDemandCompetings.map(res => {
+                            return res.urlMarket 
+                        })
+                        if(item.countryList.includes('DE') || item.countryList.includes('FR') || item.countryList.includes('IT') || item.countryList.includes('ES')){
+                            item.countryList.push('EU')
+                        }
+                    }else {
+                        item.countryList = []
+                    }
+                    //德意法西任意一个市场添加了竞品信息，就可以查询欧盟。
+                    item.filterCountryList = this.ruleForm.country.filter(item1 => {
+                        return !Array.from(new Set(item.countryList)).includes(item1) && (item1)
+                    })
+                    //德意法西 DE FR IT ES
+                })
+                if(this.rowList.some(item => item.filterCountryList && item.filterCountryList.length > 0)){
+                    let textList = this.rowList.filter(item => {
+                        return item.filterCountryList && item.filterCountryList.length > 0
+                    })
+                    let text = ''
+                    textList.forEach(item => {
+                        text += `<div style="margin-top:10px">开发ID：${item.developmentId}，需要完善${item.filterCountryList}市场的竞品信息及链接!</div>`
+                    })
+                    this.$message({
+                        type: 'error', 
+                        dangerouslyUseHTMLString: true,
+                        message: text,
+                        offset:220
+                    })
+                    return 
+                }
+            }
+            
+            this.clickLoading = true
+            let toState = this.rowList.state + 1
+            let operation = this.ruleForm.operation ? this.ruleForm.operation : 0
+            if(this.rowList[0].statusChangeOptions){
+                let toStateList
+                toStateList = this.rowList[0].statusChangeOptions.filter(item => {
+                    return (item.operation == null || item.operation == operation )
+                        && (item.design == null || item.design == this.ruleForm.design)
+                        && (item.projectApproval == null || item.projectApproval == this.ruleForm.projectApproval )
+                        && (item.beforeSampleResul == null || item.beforeSampleResult == this.ruleForm.beforeSampleResult) 
+                        && (item.patentInquiry == null || item.patentInquiry == this.rowList[0].patentInquiry)
+                })
+                if(toStateList.length > 0){
+                    toState = toStateList[0].toStates[0]
+                }
+                
+            }
+            
+            let param = {
+                "productDemandIds": this.rowList.map(item =>{ return item.id }),//需要操作审核的id 数组
+                "operation": operation,//操作 0：提交   1：打回
+                "toState":this.showType == 7.1 ? this.ruleForm.toState : toState,//需要操作到达状态
+                "projectApproval":this.ruleForm.projectApproval || this.ruleForm.projectApproval == 0 ? this.ruleForm.projectApproval : null,//是否立项  0：不立项、1：立项
+                "patentInfo": this.ruleForm.patentInfo || null, //专利信息
+                "note":this.ruleForm.remark  || null,//备注
+                "reviewMeetingDate":this.ruleForm.reviewMeetingDate || null,//评审会日期
+                "design": this.ruleForm.design || null,//产品类型 设计款(10： 设计、11：P图)、 2 非设计款
+                "designer":this.ruleForm.designer || null,// 设计/P图方  1:设计部、2:工厂、3:工厂&设计部
+                "beforeSampleResult":this.ruleForm.beforeSampleResult || this.ruleForm.beforeSampleResult == 0 ? this.ruleForm.beforeSampleResult : null,//样前方案确认结果  0：通过  1：不通过
+                "businessId":this.ruleForm.businessId || null,//业务开发
+                "approvalDate":this.ruleForm.approvalDate || null,//业务开发
+            }
+            console.log(param,'auditProductDemand')
+            auditProductDemand(param).then(res => {
+                if(res.code == 200){
+                    this.successSaveDialog()
+                }
+            }).catch((err) => {
+                this.clickLoading = false
             })
         },
         successSaveDialog() {

@@ -64,11 +64,21 @@
             prop="name"
             label="市场"
             align='center'
-            width="50"
+            width="60"
             >
         <template slot-scope="scope">
             <div class="remarksTitle">{{scope.row.countryName}}</div>
             <div class="otherRemarks" v-for="item in scope.row.otherCountryNames" :key="item">{{item}}</div>
+        </template>
+      </el-table-column>
+      <el-table-column 
+            prop="name"
+            label="产品等级"
+            align='center'
+            width="80"
+            >
+        <template slot-scope="scope">
+            <div>{{scope.row.productLevelValue}}</div>
         </template>
       </el-table-column>
       <el-table-column 
@@ -140,7 +150,7 @@
         </template>
       </el-table-column>
       <el-table-column 
-            prop="categoryName"
+            prop="seriesCategoryName"
             label="产品分类"
             show-overflow-tooltip
             v-if="showOrder"
@@ -182,7 +192,7 @@
             <template slot-scope="scope">
                 <div>{{$moment(scope.row.createdOn).format("YYYY-MM-DD HH:mm")}}</div>
                 <div>{{$moment(scope.row.modifyOn).format("YYYY-MM-DD HH:mm")}}</div>
-                <div :class="scope.row.priority == 2? 'priorityStyle':'smallPriorityStyle'">{{getPriority(scope.row.priority)}}</div>
+                <div :class="scope.row.priority == 2? 'priorityStyle':'smallPriorityStyle'">{{scope.row.priority ? getPriority(scope.row.priority) : ''}}</div>
             </template>
       </el-table-column>
       <el-table-column 
@@ -345,7 +355,7 @@ export default {
           })
       },
        changeMaxHeight(){
-            return window.innerHeight - 300 + 'px'
+            return window.innerHeight - 240 + 'px'
         },
       copeDevelopId(val){
           copyUrl(val)
@@ -835,12 +845,14 @@ export default {
             patentProduct:val.patentProduct,
             search:val.search,
             packingWay:val.packingWay,
+            productLevelValue:val.productLevelValue,
+            seriesCategoryId: val.seriesCategoryId,//一级(类目id)
+            classifyDefId:val.classifyDefId,
         }
          if(val.search){
              if(!pageSize){
-                 params.pageNum =1
+                params.pageNum =1
              }
-             
              params.state = val.state && val.state.length > 0 ? val.state:null
        }
         this.loading = true
