@@ -36,7 +36,7 @@
                         <el-select 
                             v-model="ruleForm.dailySales"
                             filterable 
-                        
+                            :disabled='showDailySales'
                             >
                             <el-option 
                                 v-for="item in dailySales"                        
@@ -706,7 +706,10 @@ export default {
     },
     computed:{
         showDailySales(){
-            if(this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] && this.devInformationDetaiList.productMarketList[0].createdon){
+            if(this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] && this.devInformationDetaiList.productMarketList[0].createdon ){
+                if(this.devInformationDetaiList.countrycode == 'PC'){
+                    return false
+                }
                 return true
             }else {
                 return false

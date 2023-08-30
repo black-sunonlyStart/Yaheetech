@@ -3,20 +3,20 @@
         <el-row class="maina-tab-title" v-track="{triggerType:'browse',currentUrl: $route.path,behavior:'进入竞品页面'}">
             <el-col :span="24">
                 <div class="flot-left">
-                    <el-button type="primary" class="button-put" plain @click="routerMove()">发起需求</el-button>
-                    <el-button type="primary" class="button-put" plain @click="toExamine()">审核</el-button>
+                    <el-button type="primary" v-permission="'ERP.Product.ProductDemand.SaveProductDemand'"  class="button-put" plain @click="routerMove()">发起需求</el-button>
+                    <el-button type="primary" v-permission="'ERP.Product.ProductDemand.AuditProductDemand'" class="button-put" plain @click="toExamine()">审核</el-button>
                     <el-dropdown  size="mini" style="margin-left:10px" @command="assignDesigner">
-                        <el-button plain  class="button-put" @click="assignDesigner(1)">
+                        <el-button plain  class="button-put" @click="assignDesigner(1)" v-permission="'ERP.Product.ProductDemand.SaveDesigner'">
                             分配设计师<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item :command="2">分配专利检索</el-dropdown-item>  
-                            <el-dropdown-item :command="3">更换业务开发</el-dropdown-item>  
+                            <el-dropdown-item :command="2" v-permission="'ERP.Product.ProductDemand.SavePatentClerk'">分配专利检索</el-dropdown-item >  
+                            <el-dropdown-item :command="3" v-permission="'ERP.Product.ProductDemand.SaveBusinessId'">更换业务开发</el-dropdown-item>  
                         </el-dropdown-menu>
                     </el-dropdown>
-                    <el-button plain style="margin-left:10px" class="button-put" @click="assignDesigner(8)">跳过立项</el-button>
-                    <el-button plain class="button-put" @click="assignDesigner(9)">跳过结构设计</el-button>
-                    <el-dropdown  size="mini" style="margin-left:10px" @command="assignDesigner">
+                    <el-button v-permission="'ERP.Product.ProductDemand.SkipProjectApproval'" plain style="margin-left:10px" class="button-put" @click="assignDesigner(8)" >跳过立项</el-button>
+                    <el-button v-permission="'ERP.Product.ProductDemand.SkipStructuralDesign'" plain class="button-put" @click="assignDesigner(9)">跳过结构设计</el-button>
+                    <el-dropdown v-permission="'ERP.Product.ProductDemand.Freezing'" size="mini" style="margin-left:10px" @command="assignDesigner">
                         <el-button type="danger" plain  class="button-put" @click="assignDesigner(4)">
                             取消开发<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
@@ -24,7 +24,7 @@
                             <el-dropdown-item :command="5">恢复开发</el-dropdown-item>  
                         </el-dropdown-menu>
                     </el-dropdown>
-                    <el-dropdown  size="mini" style="margin:0 10px" @command="assignDesigner">
+                    <el-dropdown v-permission="'ERP.Product.ProductDemand.Freezing'" size="mini" style="margin:0 10px" @command="assignDesigner">
                         <el-button type="danger" plain class="button-put" @click="assignDesigner(6)">
                             冻结数据<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
@@ -32,7 +32,7 @@
                             <el-dropdown-item :command="7">取消冻结</el-dropdown-item>  
                         </el-dropdown-menu>
                     </el-dropdown>
-                    <el-button plain class="button-put" @click="setTask()" v-permission="'ERP.Product.ProgressDevelopment.SaveStateTime'">导入需求</el-button>
+                    <el-button plain class="button-put" @click="setTask()" style="display:none">导入需求</el-button>
                     <!-- <el-dropdown  size="mini" style="margin-left:10px" @command="outPutReport">
                         <el-button type="primary" class="button-put" @click="outPutReport()">
                             导出新品数据<i class="el-icon-arrow-down el-icon--right"></i>
@@ -57,7 +57,6 @@
                 @row-click="handleRowClick"
                 ref="multipleTable"
                 :row-class-name="tableRowClassName"
-                :row-style="selectedHighlight"
              >
                 <el-table-column type="selection" width="40" header-align='center'></el-table-column>
                 
@@ -129,18 +128,16 @@
                                 {{scope.row.seriesCategoryName}}  
                             </span>
                         </div>
-
                         <el-tooltip placement="right" effect="light" :visible-arrow='false' popper-class='popperBorder' style="padding:0;border:none">
                             <span slot="content" class="copeTitle"  @click="copeDevelopId(scope.row.developmentId)">
                                 <i class="el-icon-document-copy" ></i>
                             </span>
-                            <div>
+                            <div class="fileHoverShow" @click="routerMove(scope.row.id)">
                                 {{scope.row.developmentId}} 
                             </div>
                         </el-tooltip>
-
-                        <div>
-                            <span>sku:{{scope.row.skuAlias}}</span>
+                        <div v-if="scope.row.skuAlias">
+                            <span>sku别名:{{scope.row.skuAlias}}</span>
                         </div>
                     </template>
                 </el-table-column>
@@ -169,6 +166,9 @@
                     </template>
                     <template slot-scope="scope">
                         {{scope.row.productSourceStr}}
+                        <div>
+                            {{scope.row.factoryName || scope.row.platForm}}
+                        </div>
                     </template>
                 </el-table-column>
                 <el-table-column width="100" align="center">
@@ -246,9 +246,9 @@
                         <div>{{scope.row.completionOn ? $moment(scope.row.completionOn).format("YYYY-MM-DD") : '--'}}</div>
                     </template>
                 </el-table-column>
-                <el-table-column prop="id" label="操作 / 记录" width="120"  align="center" fixed="right">
+                <el-table-column prop="id" label="操作" width="120"  align="center" fixed="right">
                     <template slot="header">
-                        操作 / 记录
+                        操作 
                     </template>
                     <template slot-scope="scope">
                         <div style="display:flex;justify-content: space-around;">
@@ -256,18 +256,34 @@
                                 placement="bottom"
                                 trigger="hover"
                                 popper-class='popperBorder1' style="border:none"
+                                v-permission="'ERP.Product.ProductDemand.View'"
+                                >
+                                <div class="operationBox"> 
+                                    <div class="operationText" 
+                                         @click="editOperation(scope.row,1)"                                   
+                                    >
+                                    <div class="nameBox"  
+                                    >详情</div></div>
+                                </div>
+                                <div class="imageBox" slot="reference"></div>
+                            </el-popover>
+                            <el-popover
+                                placement="bottom"
+                                trigger="hover"
+                                popper-class='popperBorder1' style="border:none"
+                                v-if="!noEditableList.includes(scope.row.state) && (scope.row.assigneeId == employee.Id || employee.IsAdminRole)"
+                                v-permission="'ERP.Product.ProductDemand.AuditProductDemand'"
                                 >
                                 <div class="operationBox" v-for="item in operationList" :key="item.id"> 
                                     <div class="operationText" 
-                                        v-if="(!noEditableList.includes(scope.row.state) && item.id == 2) || item.id ==3 || item.id == 1"
+                                       
                                         @click="editOperation(scope.row,item.id)"                                     
                                     >
                                     <div class="nameBox"  
-                                    >{{item.name}}</div></div>
+                                    >{{scope.row.state == 2 || scope.row.state == 3 ? item.name : item.tname}}</div></div>
                                 </div>
                                 <div class="imageHistoryBox" slot="reference" ></div>
                             </el-popover>
-                            <div class="imageBox" v-if="(!noEditableList.includes(scope.row.state))"  @click="editOperation(scope.row,1)"></div>
                         </div>
                     </template>
                 </el-table-column>
@@ -293,7 +309,7 @@
             class="dialog-main"
             z-index="9999"
             @close="closeUploadDialog()"
-              v-dialogDrag
+            v-dialogDrag
             >
             <remarksNew :remarksParam='remarksParam' ref="remarksNew" v-if="showTenth"></remarksNew>
             <span slot="footer" class="dialog-footer">
@@ -321,18 +337,19 @@ export default {
         return {
             noEditableList:[13,14,15,16,17,18],
             operationList:[
-                 {
-                    name:'查看',
-                    id:1,
-                },
-                 {
+                //  {
+                //     name:'查看',
+                //     id:1,
+                // },
+                {
                     name:'审批',
                     id:2,
+                    tname:'提交',
                 },
-                {
-                    name:'日志',
-                    id:3,
-                },
+                // {
+                //     name:'日志',
+                //     id:3,
+                // },
                 
             ],
               //1：工厂、2：平台、3：线下、4：设计师推荐、5：其他
@@ -546,6 +563,7 @@ export default {
         },
         //审核数据 
         toExamine(list){
+
             let checkList = []
             if(!list){
                 checkList = this.multipleSelection
@@ -556,6 +574,7 @@ export default {
                 this.error('请至少选择一条数据！')
                 return
             }
+
             if(checkList.some(item => [13,14,15,16,17,18].includes(item.state))){
                 this.error('计划下单、候选下单、已下单、已取消、开发中、已冻结状态不允许审批！')
                 return
@@ -567,6 +586,10 @@ export default {
             }
             if(checkList.length > 1 && checkList.some(item => item.state == 6 || item.state == 7 || item.state == 10 || item.state == 13)){
                 this.error('所选状态不支持批量处理！')
+                return
+            }
+            if(checkList.some(item => item.assigneeId != this.employee.Id) && !this.employee.IsAdminRole){
+                this.error('只有当前经办人可以审批该数据！')
                 return
             }
             let checkStatusDialog = this.$refs.checkStatusDialog
@@ -756,7 +779,7 @@ export default {
                 showAllbutton:false,
             }
             this.showTenth = true
-            this.dialogVisible = true
+            this.dialogVisible = true 
         },
         changeMaxHeight(){
             let nHeight = 0

@@ -345,6 +345,7 @@ import { commonUploadFile } from '@/api/user.js'
             type: Object,
             default:() => ({})
         },
+        height:String
     },
     watch:{
       form:{
@@ -400,6 +401,9 @@ import { commonUploadFile } from '@/api/user.js'
     mounted(){
       this.fileType = {
           fileType:115,
+      }
+      if(this.height){
+        document.querySelector('.infinite-list-wrapper').style.height = this.height 
       }
       this.addElementListion(this.remarksParam,this)
       this.openHandle()

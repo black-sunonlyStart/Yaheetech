@@ -34,7 +34,7 @@
                 <el-col :xs="4" :sm="5" :md="5" :lg="5" :xl="5">
                     <el-form-item label-width="10px">
                         <div class="searchBox">
-                            <el-input placeholder="请输入编号/名称"
+                            <el-input placeholder="综合搜索"
                                 v-model="putSearch"
                                 size='mini'
                                 class="input-with-select"
@@ -205,7 +205,10 @@ export default {
                     key:12,
                     statusValue:'样前方案确认',
                 },
-                {
+               
+            ],
+            filterStatusList1:[
+                 {
                     state:18,
                     key:18,
                     statusValue:'开发中',
@@ -215,8 +218,6 @@ export default {
                     key:13,
                     statusValue:'计划下单中',
                 },
-            ],
-            filterStatusList1:[
                 {
                     state:14,
                     statusValue:'候选下单',
@@ -436,8 +437,8 @@ export default {
                             }
                         })
                         this.categoryManagerList.forEach(item => {
-                            if(response.data.categoryManagerCount[item.id]){
-                                this.$set(item,'num', response.data.categoryManagerCount[item.id])
+                            if(response.data.categoryManagerCount[item.leader]){
+                                this.$set(item,'num', response.data.categoryManagerCount[item.leader])
                             }else {
                                 this.$set(item,'num', 0)
                             }

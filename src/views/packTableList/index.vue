@@ -123,12 +123,12 @@ export default {
         }
     }
     .up-text-c {
-        top: 133px;
+        top: 141px;
     }
 }
 .naverCard {
     position: relative;
-    height: 147px;
+    height: 155px;
     overflow: hidden;
     background: #fff;
     z-index: 2000;

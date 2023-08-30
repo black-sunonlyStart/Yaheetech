@@ -268,6 +268,11 @@ function gethashCode(hashCodeStr){
   function getLogMessage(param,that,trueOne){
         let filter = {}
         filter.OnlyHandleLastRequest = false
+        if(!param.productCountryId){
+            that.moreData = true
+            that.loading = false 
+            return 
+        }
         let data = {
            BusinessKey:param.productCountryId,
            BusinessName:param.noteBussinessName,
@@ -324,6 +329,9 @@ function gethashCode(hashCodeStr){
         await getLogMessage(param,that,true)
     }
     function GetGlobalNotesUsers(param,that){
+        if(!param.productCountryId){
+            return null
+        }
         let sdata = 
          {
             "BusinessKey":param.productCountryId,
@@ -337,7 +345,7 @@ function gethashCode(hashCodeStr){
         })
      
     }
-    function addMask() {
+    function addMask(Id) {
         if(!document.getElementById('mask')) {
             let mask = document.createElement('div')
             mask.id='mask'
@@ -347,8 +355,11 @@ function gethashCode(hashCodeStr){
             mask.style.bottom = 0
             mask.style.left = 0
             mask.style.right = 0
-            mask.style.zIndex = 1111
+            mask.innerHTML = `对不起您没有权限（${Id}）进行当前操作！` 
             document.body.appendChild(mask)
+        }else {
+            let mask = document.querySelector('#mask')
+            mask.innerHTML = `对不起您没有权限（${Id}）进行当前操作！` 
         }
     }
     function trim(str){ //删除左右两端的空格

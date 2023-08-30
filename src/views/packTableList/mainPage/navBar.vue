@@ -75,7 +75,7 @@
          
      
         <div class="row-flex"> 
-            <el-form-item label="开发国家:" class="w-50" style="min-width:750px">
+            <el-form-item label="开发国家:" class="w-50" style="min-width:850px">
               <div class="row-flex">
                 <el-checkbox 
                     size="mini"
@@ -116,7 +116,7 @@
         </div>
 
         <div class="row-flex"> 
-          <el-form-item label="开发场景:" class="w-50">
+          <el-form-item label="开发场景:" class="w-50" style="min-width:735px;">
             <el-checkbox-group v-model="form.developmentScenario" style=" display: flex;align-items: center;" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发场景筛选'}"> 
                 <el-radio-group v-model="radio">
                     <el-radio-button label='all' @click.native="showOtherCheck('all')" class="radioStyle">全部</el-radio-button>
@@ -128,48 +128,14 @@
               <el-checkbox label= '3' border v-if="newProd" size="mini">开发新尺码</el-checkbox>
             </el-checkbox-group>
           </el-form-item>
-
-          <el-form-item label="距样品到货:" class="w-30">
-            <el-radio-group v-model="form.sample" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'距样品到货筛选'}">
-              <el-radio-button label="all" @click.native="clickRadioSearch('sample','all')">全部</el-radio-button>
-              <el-radio-button label="0" @click.native="clickRadioSearch('sample','0')">未超交期</el-radio-button>
-              <el-radio-button label="1" @click.native="clickRadioSearch('sample','1')">已逾期</el-radio-button>
-            </el-radio-group>
-          </el-form-item>
-        </div>
-        <div class="row-flex">
-            <el-form-item label="是否需要认证:" class="w-50">
-                <el-radio-group v-model="form.authentication" class="actionBox" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'是否需要认证筛选'}">
-                    <el-radio-button  label="all" @click.native="clickRadioSearch('authentication','all')">全部</el-radio-button>
-                    <el-radio-button  :label='1' @click.native="clickRadioSearch('authentication',1)">是</el-radio-button>
-                    <el-radio-button  :label='0' @click.native="clickRadioSearch('authentication',0)">否</el-radio-button>
+          <el-form-item label="产品等级:" class="w-50" style="min-width:600px;">
+                <el-radio-group v-model="form.levelId" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'是否需要专利筛选'}">
+                    <el-radio-button label="all" @click.native="clickRadioSearch('levelId','all')">全部</el-radio-button>
+                    <el-radio-button :label="item.levelId" @click.native="clickRadioSearch('levelId',item.levelId)" v-for="item in productLevelValueList" :key="item.levelId">{{item.levelValue}}</el-radio-button>
                 </el-radio-group>
             </el-form-item>
-    
-            <el-form-item label="是否需要专利:" class="w-30">
-                <el-radio-group v-model="form.patent" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'是否需要专利筛选'}">
-                    <el-radio-button label="all" @click.native="clickRadioSearch('patent','all')">全部</el-radio-button>
-                    <el-radio-button label='1' @click.native="clickRadioSearch('patent','1')">需要</el-radio-button>
-                    <el-radio-button label='0' @click.native="clickRadioSearch('patent','0')">不需要</el-radio-button>
-                </el-radio-group>
-            </el-form-item>
+          
         </div>
-        <div class="row-flex">
-            <el-form-item label="包装方式:" class="w-50">
-            <el-radio-group v-model="form.packingWay" class="actionBox" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'包装方式筛选'}">
-                <el-radio-button  :label="null" @click.native="clickRadioSearch('packingWay',null)">全部</el-radio-button>
-                <el-radio-button  :label="1" @click.native="clickRadioSearch('packingWay',1)" >多箱</el-radio-button>
-                <el-radio-button  :label="0" @click.native="clickRadioSearch('packingWay',0)">单箱</el-radio-button>
-            </el-radio-group>
-            </el-form-item>
-            <el-form-item label="产品等级：" class="w-50" style="min-width:800px;">
-                <el-radio-group v-model="form.productLevelValue" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'是否需要专利筛选'}">
-                    <el-radio-button label="all" @click.native="clickRadioSearch('productLevelValue','all')">全部</el-radio-button>
-                    <el-radio-button :label="item.levelId" @click.native="clickRadioSearch('productLevelValue',item.levelId)" v-for="item in productLevelValueList" :key="item.levelId">{{item.levelValue}}</el-radio-button>
-                </el-radio-group>
-            </el-form-item>
-        </div>
-   
       <el-row>
         <el-col :span="21">
           <el-form-item label="开发状态:" class="statusBox">
@@ -211,7 +177,7 @@
                 类目:
             </template>
             <el-radio-group size="mini" v-model="form.seriesCategoryId">
-                <el-radio-button :label="null" @click.native="clickRadioSearch('seriesCategoryId',null,$event)">全部</el-radio-button>
+                <el-radio-button :label="null" @click.native="clickRadioSearch('seriesCategoryId',null,$event),changeRadioSearch()">全部</el-radio-button>
                 <el-radio-button @click.native="clickRadioSearch('seriesCategoryId',item.seriesCategoryId,$event),changeRadioSearch(index)" v-for="(item,index) in seriesList" :key="item.seriesCategoryId" :label="item.seriesCategoryId">{{ item.seriesCategoryName }}</el-radio-button>
             </el-radio-group>
         </el-form-item>
@@ -224,12 +190,45 @@
                 <el-radio-button @click.native="clickRadioSearch('classifyDefId',item.classifyDefId,$event)" v-for="item in seriesListChilds" :key="item.classifyDefId" :label="item.classifyDefId">{{ item.classifyDefName }}</el-radio-button>
             </el-radio-group>
         </el-form-item>
+         <div class="row-flex">
+            <el-form-item label="是否需要认证:" class="w-50">
+                <el-radio-group v-model="form.authentication" class="actionBox" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'是否需要认证筛选'}">
+                    <el-radio-button  label="all" @click.native="clickRadioSearch('authentication','all')">全部</el-radio-button>
+                    <el-radio-button  :label='1' @click.native="clickRadioSearch('authentication',1)">是</el-radio-button>
+                    <el-radio-button  :label='0' @click.native="clickRadioSearch('authentication',0)">否</el-radio-button>
+                </el-radio-group>
+            </el-form-item>
+    
+            <el-form-item label="是否需要专利:" class="w-30">
+                <el-radio-group v-model="form.patent" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'是否需要专利筛选'}">
+                    <el-radio-button label="all" @click.native="clickRadioSearch('patent','all')">全部</el-radio-button>
+                    <el-radio-button label='1' @click.native="clickRadioSearch('patent','1')">需要</el-radio-button>
+                    <el-radio-button label='0' @click.native="clickRadioSearch('patent','0')">不需要</el-radio-button>
+                </el-radio-group>
+            </el-form-item>
+        </div>
+        <div class="row-flex">
+            <el-form-item label="包装方式:" class="w-50">
+            <el-radio-group v-model="form.packingWay" class="actionBox" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'包装方式筛选'}">
+                <el-radio-button  :label="null" @click.native="clickRadioSearch('packingWay',null)">全部</el-radio-button>
+                <el-radio-button  :label="1" @click.native="clickRadioSearch('packingWay',1)" >多箱</el-radio-button>
+                <el-radio-button  :label="0" @click.native="clickRadioSearch('packingWay',0)">单箱</el-radio-button>
+            </el-radio-group>
+            </el-form-item>
+            <el-form-item label="距样品到货:" class="w-30">
+            <el-radio-group v-model="form.sample" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'距样品到货筛选'}">
+              <el-radio-button label="all" @click.native="clickRadioSearch('sample','all')">全部</el-radio-button>
+              <el-radio-button label="0" @click.native="clickRadioSearch('sample','0')">未超交期</el-radio-button>
+              <el-radio-button label="1" @click.native="clickRadioSearch('sample','1')">已逾期</el-radio-button>
+            </el-radio-group>
+          </el-form-item>
+        </div>
     </el-form>
   </div>
 
 </template>
 <script>
-const cityOptions = ['GB','US','DE','AU','NZ','JP'];
+const cityOptions = ['GB','US','DE','AU','NZ','JP','PC'];
 const statusOptions = [0, 1, 2, 3, 4, 5, 6, 10, 11, 12, 13];
 import { getDevelopStatesNum,getProductLevelEnums,atGetSeriesCategoryDef } from '@/api/user.js'
 export default {
@@ -266,102 +265,107 @@ export default {
         {
             countryCodes:'JP',
             country:'日本'
-        }],
-         seriesList:[],
-         seriesListChilds:[],
-      statusList:[
-          {
-              name:'待提交开发',
-              label:0,
-              key:0,
-              num:0,
-          },
+        },
+        {
+            countryCodes:'PC',
+            country:'待确认'
+        }
+        ],
+        seriesList:[],
+        seriesListChilds:[],
+        statusList:[
+            {
+                name:'待提交开发',
+                label:0,
+                key:0,
+                num:0,
+            },
         //   {
         //       name:'待审批',
         //       label:1,
         //       key:1,
         //       num:0,
         //   },
-          {
-              name:'认证确认',
-              label:11,
-              key:11,
-              num:0,
-          },
-          {
-              name:'寻找供应商',
-              label:2,
-              key:2,
-              num:0,
-          },
-          {
-              name:'采购主管审核',
-              label:13,
-              key:13,
-              num:0,
-          },
-          {
-              name:'认证审核',
-              label:12,
-              key:12,
-              num:0,
-          },
-          {
-              name:'利润初审',
-              label:3,
-              key:3,
-              num:0,
-          },
-          {
-              name:'样品采购审核',
-              label:10,
-              key:10,
-              num:0,
-          },
-          {
-              name:'确认样品',
-              label:4,
-              key:4,
-              num:0,
-          },
-          {
-              name:'利润复审',
-              label:5,
-              key:5,
-              num:0,
-          },
-          {
-              name:'待终审',
-              label:6,
-              key:6,
-              num:0,
-          },
-          {
-              name:'开发完未上架',
-              label:7,
-              key:7,
-              num:0,
-          },
-          {
-              name:'开发完已上架',
-              label:8,
-              key:8,
-              num:0,
-          },
-          {
-              name:'已取消',
-              label:9,
-              key:9,
-              num:0,
-          },
-          {
-              name:'已冻结',
-              label:14,
-              key:14,
-              num:0,
-          },
-      ],
-      copeStatusList:[
+            {
+                name:'认证确认',
+                label:11,
+                key:11,
+                num:0,
+            },
+            {
+                name:'寻找供应商',
+                label:2,
+                key:2,
+                num:0,
+            },
+            {
+                name:'采购主管审核',
+                label:13,
+                key:13,
+                num:0,
+            },
+            {
+                name:'认证审核',
+                label:12,
+                key:12,
+                num:0,
+            },
+            {
+                name:'利润初审',
+                label:3,
+                key:3,
+                num:0,
+            },
+            {
+                name:'样品采购审核',
+                label:10,
+                key:10,
+                num:0,
+            },
+            {
+                name:'确认样品',
+                label:4,
+                key:4,
+                num:0,
+            },
+            {
+                name:'利润复审',
+                label:5,
+                key:5,
+                num:0,
+            },
+            {
+                name:'待终审',
+                label:6,
+                key:6,
+                num:0,
+            },
+            {
+                name:'开发完未上架',
+                label:7,
+                key:7,
+                num:0,
+            },
+            {
+                name:'开发完已上架',
+                label:8,
+                key:8,
+                num:0,
+            },
+            {
+                name:'已取消',
+                label:9,
+                key:9,
+                num:0,
+            },
+            {
+                name:'已冻结',
+                label:14,
+                key:14,
+                num:0,
+            },
+        ],
+        copeStatusList:[
           {
               name:'未提交审批',
               label:0,
@@ -537,7 +541,7 @@ export default {
         suppliers: 'all',
         sample: 'all',
         authentication: 'all',
-        productLevelValue: 'all',
+        levelId: 'all',
         patent: 'all',
         seriesCategoryId: null,//一级(类目id)
         classifyDefId:null,
@@ -579,7 +583,7 @@ export default {
                     scenariosParentIds:val.developmentScenario.includes('all')? [] : val.developmentScenario,
                     sampleDelivery:val.sample == 'all'? '':Number(val.sample),
                     patentProduct:val.patent == 'all'? null:val.patent,
-                    productLevelValue:val.productLevelValue == 'all'? null:val.productLevelValue,
+                    levelId:val.levelId == 'all'? null:val.levelId,
                     packingWay:val.packingWay,
                     search:val.search,
                     almorlist:val.almorlist,
@@ -601,7 +605,9 @@ export default {
   },
   methods: {
     changeRadioSearch(index) {
-        this.seriesListChilds = this.seriesList[index].classifyDefs
+        if(index) {
+            this.seriesListChilds = this.seriesList[index].classifyDefs
+        }
         this.form.classifyDefId = null
     },
     clickRadioSearch(name,value) {

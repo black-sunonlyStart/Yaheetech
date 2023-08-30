@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" size="mini">
-            <el-form-item label="开发类型" prop="region">
+            <!-- <el-form-item label="开发类型" prop="region">
             <el-select 
                 v-model="ruleForm.region"
                 >
@@ -13,7 +13,7 @@
                     >
                 </el-option>
             </el-select>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="开发场景" prop="scene">
                 <el-select v-model="ruleForm.scene" class="option-input" placeholder="请选择" @change="selectScene" :disabled='closeComponent'>
                     <el-option-group
@@ -286,13 +286,13 @@ export default {
                 productId:this.$route.query.productId  ? this.$route.query.productId:this.$route.query.productId ,
                 productCountryId:this.$route.query.productCountryId  ? this.$route.query.productCountryId:this.$route.query.productCountryId ,
                 categoryId:this.ruleForm.treeId,
-                developmentType:this.ruleForm.region,
+                // developmentType:this.ruleForm.region,
                 developmentScenarios:this.twoSecence ? this.twoSecence : this.ruleForm.scene,
                 addDevelopmentId:this.ruleForm.inputRelation,
                 associatedProductId:this.ruleForm.selectRelation,
                 addSPUId:this.ruleForm.skuid,
                 seriesCategoryId: this.ruleForm.classCategoryIdArray[0],//类目系列
-              classifyDefId: this.ruleForm.classCategoryIdArray[1],
+                classifyDefId: this.ruleForm.classCategoryIdArray[1],
             }
            
             this.$confirm('保存以后开发场景和关联场景不允许更改，请确认要继续保存？', '提示', {

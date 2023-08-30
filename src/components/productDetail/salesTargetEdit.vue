@@ -92,10 +92,10 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row :gutter="150">
-                <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
+            <el-row :gutter="150" v-if="ruleForm.showPlanToOrder">
+                <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10" >
                      <el-form-item label="是否计划下单:" prop="planToOrder">
-                        <el-radio-group v-model="ruleForm.planToOrder">
+                        <el-radio-group v-model="ruleForm.planToOrder" :disabled="ruleForm.nowStatus != 8">
                             <el-radio :label="1">是</el-radio>
                             <el-radio :label="0">否</el-radio>
                         </el-radio-group>
@@ -199,13 +199,15 @@ export default {
                 targetPrice:this.salesTargetDetaiList.xspurchaseprice,//目标采购价
                 westaRating:this.salesTargetDetaiList.xstargetstarrating,//我司目标星级评分
                 dailySales:this.salesTargetDetaiList.xsdailysales,//产品预估日销量
+                nowStatus:this.salesTargetDetaiList.nowStatus,//产品预估日销量
+                showPlanToOrder:this.salesTargetDetaiList.showPlanToOrder,//产品预估日销量
                 rateRequirements:this.salesTargetDetaiList.xsrepairraterequirement,//目标售后返修率要求
                 orderQuantity:this.salesTargetDetaiList.xsfirstorderquantity,//预估首单订单数量
                 productMarket:this.salesTargetDetaiList.xsmarket,//产品开发市场
                 specialPackaging:this.salesTargetDetaiList.xsspecialrequirements,//产品包装尺寸特殊要求
                 samplingTime:this.salesTargetDetaiList.xstestsampletime ? this.salesTargetDetaiList.xstestsampletime : '',//产品测样时间点
                 orderTime:this.salesTargetDetaiList.xsorderoftime ? this.salesTargetDetaiList.xsorderoftime : '',//产品下单时间点
-                planToOrder:this.salesTargetDetaiList.planToOrder ? this.salesTargetDetaiList.planToOrder : 0,//是否计划下单
+                planToOrder:this.salesTargetDetaiList.planToOrder ||  this.salesTargetDetaiList.planToOrder == 0 ? this.salesTargetDetaiList.planToOrder : null,//是否计划下单
                 region:this.salesTargetDetaiList.xspurchasePriceCurrency == 0 ?'1' : !this.salesTargetDetaiList.xspurchasePriceCurrency ? '1' : this.salesTargetDetaiList.xspurchasePriceCurrency,//目标采购价
                 
             }

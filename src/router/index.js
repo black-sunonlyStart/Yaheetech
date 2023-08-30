@@ -59,7 +59,7 @@ export const constantRoutes = [
     component: () => import('@/views/atNewProductPage/index'),
     hidden: true,
     meta:{
-        title:'新品开发'
+        title:'新品开发列表页'
     },
   },
   {

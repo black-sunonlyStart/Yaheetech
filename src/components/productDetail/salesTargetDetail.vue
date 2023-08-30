@@ -54,7 +54,7 @@
                 <span class="imageMainboxText">{{salesTargetDetaiList.xsorderoftime  ?$moment(salesTargetDetaiList.xsorderoftime).format("YYYY-MM-DD"):''}}</span>
             </el-col>
         </el-row>
-        <el-row class="textSpeaing">
+        <el-row class="textSpeaing" v-if="salesTargetDetaiList.showPlanToOrder">
             <el-col :span="10">
                 
             </el-col>

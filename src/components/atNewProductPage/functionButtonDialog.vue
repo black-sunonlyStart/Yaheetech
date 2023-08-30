@@ -97,7 +97,7 @@
                 <el-button 
                     @click="resetForm('ruleForm')" 
                     size="mini" 
-                >取 消</el-button>
+                >关 闭</el-button>
             </span>
         </el-dialog>
     </div>
@@ -113,6 +113,7 @@ export default {
             ruleForm:{
                 status:null,
                 assigneeId:null,
+                empId:null,
                 cancelType:null,
                 country:[],
                 remark:'',
@@ -124,7 +125,7 @@ export default {
                     { required: true, message: '请输入必填项！', trigger: 'blur' },
                 ],
                 empId: [
-                    { required: true, message: '请选择设计师！', trigger: 'blur' },
+                    { required: true, message: '请选择！', trigger: 'blur' },
                 ],
                 assigneeId: [
                     { required: true, message: '请选择经办人！', trigger: 'blur' },
@@ -196,6 +197,12 @@ export default {
             this.rowList = rowList
             this.showType = val
             let params = {}
+            this.$set(this.ruleForm,'status',null)
+            this.$set(this.ruleForm,'assigneeId',null)
+            this.$set(this.ruleForm,'empId',null)
+            this.$set(this.ruleForm,'cancelType',null)
+            this.$set(this.ruleForm,'country',[])
+            this.$set(this.ruleForm,'remark',null)
             //设计款：产品设计角色     正式：1497、测试： 433
             //P图款：视觉设计角色      正式：1498、测试： 418
             if(val == 1){
@@ -313,7 +320,7 @@ export default {
         successSaveDialog() {
             this.$message({
                 type: 'success', 
-                message:'保存成功',
+                message:'操作成功！',
                 offset:220
             })
             this.$emit('mainListList',this.navFilterList)

@@ -1,5 +1,5 @@
 <template>
-    <div class="nav-container">
+    <div class="nav-container" v-permission="'ERP.Product.ProductDemand.View'" v-if="renderDom">
         <el-card class="nav-card naverCard">
             <navBar  @putTableList='putTableList' ref="navBar"></navBar>
             <div title="点击加载更多" class="up-text up-text-c" v-if="upDownshow" @click="clickMoreFilter">∨</div>
@@ -15,6 +15,7 @@
 import navBar from '@/views/atNewProductPage/mainPage/navbar.vue'
 import mainPageList from '@/views/atNewProductPage/mainPage/mainTable.vue'
 import { hasPermissions } from '@/api/user.js'
+import { addMask } from '@/utils/tools.js'
 export default {
     components: {
         navBar,
@@ -24,13 +25,13 @@ export default {
         return {
             upDownshow:true,
             filterList:{},
-            renderDom:true,
+            renderDom:false,
         }
     },
     computed: {
     },
     created () {
-        //  this.getPermissions()   
+         this.getPermissions()   
     },
     mounted(){
     
@@ -38,18 +39,28 @@ export default {
     methods: {
         getPermissions(){
             let  params = [
-                'ERP.Product.ProgressDevelopment',
-                'ERP.Product.AddProgressDevelopment',
-                'ERP.Product.EditProgressDevelopment',
-                'ERP.Product.ProgressDevelopment.FreezingOff',
-                'ERP.Product.ProgressDevelopment.FreezingOn',
-                'ERP.Product.ProgressDevelopment.SaveStateTime',
-                'ERP.Product.ProgressDevelopment.ApprovalMemo',
-                'ERP.Product.ProgressDevelopment.SaveAssigneeId',
+                'ERP.Product.ProductDemand.View',
+                'ERP.Product.ProductDemand.SaveDesigner',
+                'ERP.Product.ProductDemand.SavePatentClerk',
+                'ERP.Product.ProductDemand.SaveBusinessId',
+                'ERP.Product.ProductDemand.SkipProjectApproval',
+                'ERP.Product.ProductDemand.SkipStructuralDesign',
+                'ERP.Product.ProductDemand.Freezing',
+                'ERP.Product.ProductDemand.Unfreezing',
+                'ERP.Product.ProductDemand.AuditProductDemand',
+                'ERP.Product.ProductDemand.SaveProductDemand',
+                'ERP.Product.ProductDemand.SaveProductDemandPatent',
+                'ERP.Product.ProductDemand.SaveProductDemandDesignInfo',
             ]
             hasPermissions(params).then(res => {
-            let data = JSON.stringify( res.data);
+                let data = JSON.stringify( res.data);
                 sessionStorage.setItem("permissions", data);
+                let per =  res.data.filter(item => {
+                    return item.PermissionCode == 'ERP.Product.ProductDemand.View' && !item.HasPermission
+                })
+                if(per && per.length > 0){
+                    addMask('ERP.Product.ProductDemand.View')
+                }
                 this.renderDom = true
             })
         },

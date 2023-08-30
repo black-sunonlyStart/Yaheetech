@@ -358,7 +358,7 @@
                     })
                     return
                 }
-                if(this.selectRow.every(res => res.state == 1)){
+                if(this.selectRow.every(res => res.state == 0)){
                     this.dialogName = '资料初审通过'
                     this.clickId = 2
                     this.row = this.selectRow
@@ -398,16 +398,12 @@
     
 </script>
 <style lang="scss" scoped>
-    // .navButton{
-    //     .el-button{
-    //          font-weight: bold;
-    //          color: #ffffff;
-    //     }
-    //    .is-plain{
-    //        background: #3366cc;
-    //    }
-    // }
-    // .reportTitle{
-    //     color: rgb(4, 80, 27);
-    // }
+.navButton{
+    .el-button--mini {
+        padding: 5px 15px;
+        font-size: 12px;
+        border-radius: 3px;
+        margin-top: 3px;
+    }
+}
 </style>

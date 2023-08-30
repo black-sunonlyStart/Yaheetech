@@ -5,6 +5,7 @@
             <el-row :gutter="5">
             <el-col :span="12">
                 <el-card class="card">
+                    <div class="router-text" @click="routerDev()" v-if="development.productDemandId">>>新品需求详情页</div>
                 <div class="out-container">
                     <div class="image-container">
                         <el-image
@@ -413,6 +414,7 @@
 </template>
 <script>
 import { getProductDevDetail,getProductMultipleAttribute,exploitType,getImagePath,getEmployee,hasPermissions,getRoleTrue,getCountry,getUsExchangeRate } from '@/api/user.js'
+import { judgePorduction} from '@/utils/tools.js'
 export default {
     name: 'productDetails',
     components:{
@@ -446,7 +448,6 @@ data () {
         showSizeText:[],
         multiAttribute:[],
         employee:{},
-        oemployee:{},
         titleImgSrc:'',
         productMarketStrs:{},//头部信息产品利润信息
         copeDevProgress:{},
@@ -655,9 +656,16 @@ mounted () {
     this.init()
 },
 methods: {
+    routerDev(){
+        if(judgePorduction()){
+                window.open(`http://productdev.yaheecloud.com/newProductPageDetail?id=${this.development.productDemandId}`,'_blank')
+            }else {
+                window.open(`http://api-tools-test.yahee.com.cn:82/newProductPageDetail?id=${this.development.productDemandId}`,'_blank')
+            }
+    },
     getRoutePageAll (){
         this.routePageList = {
-            developmentType: this.$route.query.developmentType ? this.$route.query.developmentType : '',
+            // developmentType: this.$route.query.developmentType ? this.$route.query.developmentType : '',
             developmentId:this.$route.query.developmentId ? this.$route.query.developmentId : '',
             productId: this.$route.query.productId ? this.$route.query.productId : '',
             developmentScenarios: this.$route.query.developmentScenarios ? this.$route.query.developmentScenarios : '',
@@ -832,7 +840,7 @@ methods: {
     init(){
         getEmployee().then(res => {
             if(res.data){
-                this.oemployee = res.data
+                this.employee = res.data
             }
         })
     },
@@ -866,7 +874,7 @@ methods: {
         
         let params = {
             scenarios:this.scenarios,//开发场景
-            developmentType:this.routePageList.developmentType,
+            // developmentType:this.routePageList.developmentType,
             developmentScenarios:this.scenarios,
             addDevelopmentId:this.routePageList.developmentId,
             associatedProductId:this.routePageList.id == 8 ? '' : this.routePageList.productId,
@@ -1059,6 +1067,11 @@ async getAllpageList(val){
                 }
             })
             //销售目标数据 
+              let showPlanToOrder = false
+              //利润复核状态下，需要填入，未经历利润复核状态数据，不显示此项；
+            if(res.data.developmentProgresses && res.data.developmentProgresses.some(item => item.toStatus == 5)){
+                 showPlanToOrder = true
+            }
             this.salesTargetDetaiList = {
                 xsstarrating : this.productVos.xsstarrating, //产品星级评分
                 xstargetstarrating:this.productVos.xstargetstarrating, //我司目标星级评分
@@ -1073,6 +1086,8 @@ async getAllpageList(val){
                 xspurchasePriceCurrency:this.productVos.xspurchasePriceCurrency, //
                 planToOrder:this.productVos.planToOrder, //
                 planToOrderStr:this.productVos.planToOrderStr, //
+                nowStatus:this.nowStatus,
+                showPlanToOrder
             }  
             //竞品信息数据
             this.comNewsDetailList = {
@@ -1162,6 +1177,7 @@ async getAllpageList(val){
                     businessid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessid : '',   
                     buyerid:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerid : '',
                     packingway:this.productVos.packingway,//包装方式   
+                    countrycode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] && this.productVos.productCountryList[0].countrycode ? this.productVos.productCountryList[0].countrycode : ''
                 }
                 if(this.showInfoTitle){
                     if( !this.devInformationDetaiList.packingway && this.devInformationDetaiList.productMarketList.find(item => (item.sfpDevelopmentPrice &&  !item.sfpOceanFreight))){
@@ -1486,11 +1502,10 @@ async getAllpageList(val){
         if(!val || val < 6)return
             let  image = document.querySelector('.step-container')
             let  cimage = document.querySelector('.stepBox')
-        // let  offsetVal = val - 3
         if(image.offsetLeft < -1377){
             return
         }else{
-            image.style.left = cimage.offsetLeft - ( 170 * val) + 'px'
+            image.style.left = cimage.offsetLeft - (100 * val) + 'px'
         }
     },
     leftMove(){
@@ -1612,9 +1627,21 @@ async getAllpageList(val){
 }
 ::v-deep.card{
     margin: 10px 10px 10px 10px;
+    position: relative;
     .el-card__body{
         padding-top: 10px !important;
     }
+}
+.router-text {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    cursor: pointer;
+    color: #3366cc;
+    // &:hover{
+    //     background-color: #3366cc;
+    //     color: #ffffff;
+    // }
 }
 .out-container {
     display: flex;

@@ -82,12 +82,12 @@
                     <div style="padding-left: 140px;">
                         是否已完成立项，确认提交至认证初查？
                     </div>
-                    <el-form-item label="评审会日期：" prop="approvalDate">
+                    <el-form-item label="评审会日期：" prop="reviewMeetingDate">
                         <el-date-picker
                             format="yyyy-MM-dd"
                             value-format="yyyy-MM-dd"
                             size="mini"
-                            v-model="ruleForm.approvalDate"
+                            v-model="ruleForm.reviewMeetingDate"
                             type="date"
                             placeholder="选择日期">
                         </el-date-picker>
@@ -109,7 +109,8 @@
                     </div> -->
                     <el-form-item label="专利查询市场：" prop="reqRes">
                          <div style="display:flex">
-                            <div v-for="item in showCountryList" :key="item">{{showCountryText(item) + ','}}</div>
+                            <!-- <div v-for="item in showCountryList" :key="item">{{showCountryText(item) + ','}}</div> -->
+                            <div >{{this.showCountryList && this.showCountryList.length > 0 ? this.showCountryList.toString() : ''}}</div>
                          </div>
                     </el-form-item>
                     <el-form-item label="专利查询结果：" prop="reqRes1">
@@ -120,8 +121,8 @@
                     <el-form-item label="产品类型：" prop="design">
                          <el-radio-group v-model="ruleForm.design">
                             <el-radio :label="2">非设计款</el-radio>
-                            <el-radio :label="10">设计</el-radio>
-                            <el-radio :label="11">P图</el-radio>
+                            <el-radio v-if="devSignShow" :label="10">设计</el-radio>
+                            <el-radio v-if="devSignShow" :label="11">P图</el-radio>
                         </el-radio-group>
                     </el-form-item>
                     <el-form-item label="设计/P图方：" prop="designer" v-if="ruleForm.design == 10 || ruleForm.design == 11">
@@ -143,8 +144,8 @@
                     </el-form-item>
                 </div>
                 <div v-if="showType == 7.1">
-                    <div style="padding-left: 140px;">
-                        产品专利查询未在【<span v-for="item in showCountryList" :key="item">{{showCountryText(item) + ','}}</span>】市场通过状态，请确认该产品的下一状态：
+                    <div style="padding-left: 140px;" v-if="showCountryList && showCountryList.length > 0">
+                        产品专利查询未在【<span v-for="item in showCountryList" :key="item">{{showCountryText(item) + ','}}</span>】市场通过，请确认该产品的下一状态：
                     </div>
                     <el-form-item label="下一状态：" prop="toState">
                         <el-select 
@@ -200,7 +201,7 @@
                 <el-button 
                     @click="resetForm('ruleForm')" 
                     size="mini" 
-                >取 消</el-button>
+                >关 闭</el-button>
             </span>
         </el-dialog>
     </div>
@@ -213,6 +214,7 @@ export default {
         return {
             showType:1,
             clickLoading:false,
+            devSignShow:true,
             ruleForm:{
                 status:null,
                 toState:null,
@@ -240,7 +242,7 @@ export default {
                 projectApproval: [
                     { required: true, message: '请选择是否立项！', trigger: 'blur' },
                 ],
-                approvalDate: [
+                reviewMeetingDate: [
                     { required: true, message: '请选择评审会日期！', trigger: 'blur' },
                 ],
                 design: [
@@ -362,9 +364,10 @@ export default {
             this.$set(this.ruleForm,'design',null)
             this.$set(this.ruleForm,'designer',null)
             this.$set(this.ruleForm,'beforeSampleResult',null)
-            this.$set(this.ruleForm,'approvalDate',null)
+            this.$set(this.ruleForm,'reviewMeetingDate',null)
             this.$set(this.ruleForm,'projectApproval',null)
             this.showType = rowList[0].state
+            this.devSignShow = true
             switch (rowList[0].state) {
                 case 3 :
                     params = {
@@ -390,10 +393,16 @@ export default {
                     }
                     break 
                 case 7 :
-                    if(this.rowList[0].alreadyPatentInquiry == 1){
+                    if(this.rowList[0].design == 2){
+                       this.ruleForm.design = 2
+                       this.devSignShow = false
+                    }
+                    if(this.rowList[0].alreadyPatentInquiry == 1 && this.rowList[0].design != 2){
                         this.showType = 7.1
                         if(this.rowList[0].curProductDemandPatent){
-                            this.showCountryList  =  JSON.parse(this.rowList[0].curProductDemandPatent.patentInfo).map(item => {
+                            this.showCountryList  =  JSON.parse(this.rowList[0].curProductDemandPatent.patentInfo).filter(item => {
+                                return !item.patentInfo
+                            }).map(item => {
                                 return item.countryCode
                             })
                         }
@@ -519,13 +528,13 @@ export default {
                     })
                     let text = ''
                     textList.forEach(item => {
-                        text += `<div style="margin-top:10px">开发ID：${item.developmentId}，需要完善${item.filterCountryList}市场的竞品信息及链接!</div>`
+                        text += `<div style="margin-bottom:2px">开发ID：${item.developmentId}，需要完善${item.filterCountryList}市场的竞品信息及链接!</div>`
                     })
                     this.$message({
                         type: 'error', 
                         dangerouslyUseHTMLString: true,
                         message: text,
-                        offset:220
+                        offset:220,
                     })
                     return 
                 }
@@ -540,7 +549,7 @@ export default {
                     return (item.operation == null || item.operation == operation )
                         && (item.design == null || item.design == this.ruleForm.design)
                         && (item.projectApproval == null || item.projectApproval == this.ruleForm.projectApproval )
-                        && (item.beforeSampleResul == null || item.beforeSampleResult == this.ruleForm.beforeSampleResult) 
+                        && (item.beforeSampleResult == null || item.beforeSampleResult == this.ruleForm.beforeSampleResult) 
                         && (item.patentInquiry == null || item.patentInquiry == this.rowList[0].patentInquiry)
                 })
                 if(toStateList.length > 0){
@@ -554,14 +563,14 @@ export default {
                 "operation": operation,//操作 0：提交   1：打回
                 "toState":this.showType == 7.1 ? this.ruleForm.toState : toState,//需要操作到达状态
                 "projectApproval":this.ruleForm.projectApproval || this.ruleForm.projectApproval == 0 ? this.ruleForm.projectApproval : null,//是否立项  0：不立项、1：立项
-                "patentInfo": this.ruleForm.patentInfo || null, //专利信息
+                "patentInfo": this.ruleForm.country || null, //专利信息
                 "note":this.ruleForm.remark  || null,//备注
                 "reviewMeetingDate":this.ruleForm.reviewMeetingDate || null,//评审会日期
                 "design": this.ruleForm.design || null,//产品类型 设计款(10： 设计、11：P图)、 2 非设计款
                 "designer":this.ruleForm.designer || null,// 设计/P图方  1:设计部、2:工厂、3:工厂&设计部
                 "beforeSampleResult":this.ruleForm.beforeSampleResult || this.ruleForm.beforeSampleResult == 0 ? this.ruleForm.beforeSampleResult : null,//样前方案确认结果  0：通过  1：不通过
                 "businessId":this.ruleForm.businessId || null,//业务开发
-                "approvalDate":this.ruleForm.approvalDate || null,//业务开发
+                // "reviewMeetingDate":this.ruleForm.reviewMeetingDate || null,//业务开发
             }
             console.log(param,'auditProductDemand')
             auditProductDemand(param).then(res => {
@@ -575,7 +584,7 @@ export default {
         successSaveDialog() {
             this.$message({
                 type: 'success', 
-                message:'保存成功',
+                message:'操作成功！',
                 offset:220
             })
             this.$emit('mainListList',this.navFilterList)

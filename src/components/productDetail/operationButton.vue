@@ -168,7 +168,7 @@ export default {
               this.operationList = [
                    {
                     name:'提交审批',
-                    id:1,
+                    id:2,
                     type:'primary',
                     perkey:'ERP.Product.ProductDev.Audit'
                   },

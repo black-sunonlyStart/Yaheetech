@@ -29,6 +29,7 @@
             <el-popover
                 placement="right"
                 trigger="hover"
+                v-if="scope.row.imagesUri"
                 >
                 <el-image
                     style="width: 200px; height: 200px; dispaly:black"
@@ -55,9 +56,13 @@
                     <div slot="error" class="image-slot" style="margin-top:35px;margin-left:5px;color:#cccccc">
                         <i class="el-icon-picture-outline">加载失败</i>
                     </div>
-                </el-image>
+                </el-image>  
          </el-popover>
-
+          <div v-else>
+                    <div  class="image-slot" style="height: 80px;display: flex;justify-content: center;align-items: center;color:#cccccc">
+                        <i class="el-icon-picture-outline">暂无图片</i>
+                    </div>
+                </div>
         </template>
       </el-table-column>
       <el-table-column 
@@ -151,7 +156,7 @@
       </el-table-column>
       <el-table-column 
             prop="seriesCategoryName"
-            label="产品分类"
+            label="产品类目-系列"
             show-overflow-tooltip
             v-if="showOrder"
             header-align='center'
@@ -423,7 +428,7 @@ export default {
                 let routeData = this.$router.resolve({
                     name: "productDetails",
                         query:{
-                            developmentType:row.developmentType,
+                            // developmentType:row.developmentType,
                             developmentId:row.developmentId,
                             productId:row.productId,
                             developmentScenarios:row.developmentScenarios,
@@ -470,7 +475,7 @@ export default {
                 let routeData = this.$router.resolve({
                         name: "productDetails",
                         query:{
-                                developmentType:row.developmentType,
+                                // developmentType:row.developmentType,
                                 developmentId:row.developmentId,
                                 productId:row.productId,
                                 developmentScenarios:row.developmentScenarios,
@@ -497,7 +502,7 @@ export default {
               this.operationList = [
                   {
                     name:'提交审批',
-                    id:1,
+                    id:2,
                     perkey:'ERP.Product.ProductDev.ADD'
                   },
                   {
@@ -845,7 +850,7 @@ export default {
             patentProduct:val.patentProduct,
             search:val.search,
             packingWay:val.packingWay,
-            productLevelValue:val.productLevelValue,
+            levelId:val.levelId,
             seriesCategoryId: val.seriesCategoryId,//一级(类目id)
             classifyDefId:val.classifyDefId,
         }
