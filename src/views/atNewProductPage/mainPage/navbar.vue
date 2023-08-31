@@ -145,9 +145,7 @@ export default {
     data () {
         return {
             designs1:[],
-            timeList:[
-
-            ],
+            timeList:[],
             seriesListChilds:[],
             filterStatusList:[
                 {
@@ -204,8 +202,7 @@ export default {
                     state:12,
                     key:12,
                     statusValue:'样前方案确认',
-                },
-               
+                },  
             ],
             filterStatusList1:[
                  {
@@ -389,9 +386,7 @@ export default {
     created() {
         this.init()
     },
-    computed:{
-        
-    },
+    computed:{},
     methods: {
         totalNum(val){
             let totalNumber = 0
@@ -410,7 +405,6 @@ export default {
         },
         getStautList() {
             let param = JSON.parse(JSON.stringify(this.form)) 
-        
             if(param.state){
                 if(Array.isArray(param.state)){
                     param.inStatus = param.state
@@ -418,7 +412,6 @@ export default {
                 }
             }
             if(param.designs)  param.designs = [param.designs]
-           
             getQueryProductDemandNum(param).then(response => {
                 if(response.data) {
                     this.$nextTick(res => {
@@ -489,9 +482,8 @@ export default {
             this.$set(this.form,name,value)
             this.$set(this.form,'almorlist',Math.random())
             // if(name != 'seriesCategoryId' && name != 'classifyDefId'){
-                this.getStautList()
+            this.getStautList()
             // }
-           
         },
         searchSomething(){
             this.$set(this.form,'search',trim(this.putSearch))

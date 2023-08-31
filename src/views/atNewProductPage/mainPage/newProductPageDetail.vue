@@ -1213,11 +1213,11 @@ export default {
             return this.mainPageList && this.mainPageList.productSource == 2 ? true : false
         },
         assigneePermission(){
-             if(this.employee.Id == this.mainPageList.assigneeId || this.employee.IsAdminRole || !this.mainPageList.assigneeId){
+            if(this.employee.Id == this.mainPageList.assigneeId || this.employee.IsAdminRole || !this.mainPageList.assigneeId){
                 return true
-             }else {
+            }else {
                 return false
-             }
+            }
         }
     },
     mounted(){
@@ -1249,7 +1249,7 @@ export default {
                 this.targetPrice = res.data
             })
             //获取平台数据
-            let url = document.URL.includes('yaheecloud') ?   'http://productdev.yaheecloud.com/tool-api/platstore/queryPlats' : 'http://api-tools-test.yahee.com.cn:81/api/platstore/queryPlats'
+            let url = document.URL.includes('yaheecloud') ? 'http://productdev.yaheecloud.com/tool-api/platstore/queryPlats' : 'http://api-tools-test.yahee.com.cn:81/api/platstore/queryPlats'
             queryPlats(url).then(res => {
                 this.queryPlatsList = res.data
             })
@@ -1659,7 +1659,7 @@ export default {
                 this.pageLoading = false
                 let data = JSON.stringify( res.data);
                 sessionStorage.setItem("permissions", data);
-                let per =  res.data.filter(item => {
+                let per = res.data.filter(item => {
                     return item.PermissionCode == 'PM00038' && !item.HasPermission
                 })
                 if(per && per.length > 0){
@@ -1683,9 +1683,7 @@ export default {
                 designer:null,//设计方  1:设计部、2:工厂、3:工厂&设计部
                 seriaNum:this.changeNum(filterDevSignInfo.length + 1),//方案编号
                 usage: true,//使用情况    true 正常     false删除 -- 需要删除时传 false，其他时候不用传值或者true
-                designerImgs: [//设计图片 -- 文件上传后返回数据
-                   
-                ],
+                designerImgs: [],//设计图片 -- 文件上传后返回数据,
                 structureImgs: []
             })
         },
@@ -1694,7 +1692,6 @@ export default {
             let filterDevSignInfo = this.devSignInfo.filter(item => {
                 return item.usage != false
             })
-            
             if(filterDevSignInfo.length <= 1){
                 this.error('最少要有一条设计方案！')
                 return
@@ -1749,12 +1746,12 @@ export default {
         showHistoryQueryInfo(){
             let  patentInfo = []
             if(this.mainPageList.productDemandPatents && this.mainPageList.productDemandPatents.length > 0) {
-                 patentInfo = this.mainPageList.productDemandPatents.filter(item => {
+                patentInfo = this.mainPageList.productDemandPatents.filter(item => {
                     return item.flag == 0
                 })
                 if(patentInfo.length == 0) {
-                     this.warning('未查询到历史数据！')
-                     return
+                    this.warning('未查询到历史数据！')
+                    return
                 }
                 this.historyPatentInfo = JSON.parse(patentInfo[0].patentInfo) 
                 this.$refs.commonDialog.dialogVisible = true

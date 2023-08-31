@@ -33,9 +33,7 @@ export default {
     created () {
          this.getPermissions()   
     },
-    mounted(){
-    
-    },
+    mounted(){},
     methods: {
         getPermissions(){
             let  params = [

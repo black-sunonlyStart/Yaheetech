@@ -11,7 +11,6 @@
             <div class="titleText" slot="title">
                 {{this.dialogName}}
             </div>
-            
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px" class="demo-ruleForm" size='mini'>
                 <div v-if="showType == 1">
                     是否已完成产品需求的录入，确认提交新产品开发需求？
@@ -36,7 +35,7 @@
                     </el-form-item>
                 </div>
                 <div v-if="showType == 3">
-                    <div style="padding-left: 140px;">
+                    <div class="dialog-l-text">
                         是否已完成需求复审，确认由业务开发进行需求调研？
                     </div>
                     <el-form-item label="业务开发：" prop="businessId">
@@ -49,7 +48,6 @@
                                 :key="item.Id"
                                 :label="item.TrueName"
                                 :value="item.Id"
-                                
                                 >
                             </el-option>
                         </el-select> 
@@ -59,7 +57,7 @@
                     </el-form-item>
                 </div>
                 <div v-if="showType == 4">
-                    <div style="padding-left: 140px;">
+                    <div class="dialog-l-text">
                         是否已完成需求调研，确认提交至下一节点？
                     </div>
                     <el-form-item label="是否立项：" prop="projectApproval">
@@ -79,7 +77,7 @@
                     </el-form-item>
                 </div>
                 <div v-if="showType == 5">
-                    <div style="padding-left: 140px;">
+                    <div class="dialog-l-text">
                         是否已完成立项，确认提交至认证初查？
                     </div>
                     <el-form-item label="评审会日期：" prop="reviewMeetingDate">
@@ -108,10 +106,10 @@
                         </div>
                     </div> -->
                     <el-form-item label="专利查询市场：" prop="reqRes">
-                         <div style="display:flex">
-                            <!-- <div v-for="item in showCountryList" :key="item">{{showCountryText(item) + ','}}</div> -->
+                        <div style="display:flex">
+                        <!-- <div v-for="item in showCountryList" :key="item">{{showCountryText(item) + ','}}</div> -->
                             <div >{{this.showCountryList && this.showCountryList.length > 0 ? this.showCountryList.toString() : ''}}</div>
-                         </div>
+                        </div>
                     </el-form-item>
                     <el-form-item label="专利查询结果：" prop="reqRes1">
                         <div v-for="item in historyPatentInfo" :key="item.countryCode">{{showCountryText(item.countryCode) }} - {{showReqRes(item.reqRes)}}</div>
@@ -119,7 +117,7 @@
                 </div>
                 <div v-if="showType == 7">
                     <el-form-item label="产品类型：" prop="design">
-                         <el-radio-group v-model="ruleForm.design">
+                        <el-radio-group v-model="ruleForm.design">
                             <el-radio :label="2">非设计款</el-radio>
                             <el-radio v-if="devSignShow" :label="10">设计</el-radio>
                             <el-radio v-if="devSignShow" :label="11">P图</el-radio>
@@ -144,7 +142,7 @@
                     </el-form-item>
                 </div>
                 <div v-if="showType == 7.1">
-                    <div style="padding-left: 140px;" v-if="showCountryList && showCountryList.length > 0">
+                    <div class="dialog-l-text" v-if="showCountryList && showCountryList.length > 0">
                         产品专利查询未在【<span v-for="item in showCountryList" :key="item">{{showCountryText(item) + ','}}</span>】市场通过，请确认该产品的下一状态：
                     </div>
                     <el-form-item label="下一状态：" prop="toState">
@@ -165,14 +163,14 @@
                         <el-input v-model="ruleForm.remark" type="textarea" maxlength="500" show-word-limit></el-input>
                     </el-form-item>
                 </div>
-                 <div v-if="[8,9,10,11].includes(showType)">
-                    <div style="padding-left: 140px;" v-if="showType == 8 || showType == 9">
+                <div v-if="[8,9,10,11].includes(showType)">
+                    <div class="dialog-l-text" v-if="showType == 8 || showType == 9">
                         是否已上传产品设计图片，确认提交至下一状态？
                     </div>
-                    <div style="padding-left: 140px;" v-if="showType == 10">
+                    <div class="dialog-l-text" v-if="showType == 10">
                         是否已完成产品专利的查询，确认提交至下一状态？
                     </div>
-                    <div style="padding-left: 140px;" v-if="showType == 11">
+                    <div class="dialog-l-text" v-if="showType == 11">
                         是否已上传产品结构图片，确认提交至下一状态？
                     </div>
                     <el-form-item label="备注：" prop="remark" :rules="[{required: false}]">
@@ -258,9 +256,7 @@ export default {
                     { required: true, message: '请选择样前方案结果！', trigger: 'blur' },
                 ],
             },
-            status:[
-                
-            ],
+            status:[],
             rowList:[],
             operationList:[
                 {
@@ -349,9 +345,7 @@ export default {
             default:() => {}
         }
     },
-    mounted(){
-
-    },
+    mounted(){},
     methods:{
         openDialog(rowList){
             this.rowList = rowList
@@ -383,9 +377,11 @@ export default {
                 break;  
                 case 6:
                     if(this.rowList[0].curProductDemandPatent){
-                        this.showCountryList  =  JSON.parse(this.rowList[0].curProductDemandPatent.patentInfo).map(item => {
-                            return item.countryCode
-                        })
+                        if(this.rowList[0].curProductDemandPatent.patentInfo){
+                            this.showCountryList  =  JSON.parse(this.rowList[0].curProductDemandPatent.patentInfo).map(item => {
+                                return item.countryCode
+                            })
+                        }
                         this.historyPatentInfo = JSON.parse(this.rowList[0].curProductDemandPatent.patentInfo)
                     }else {
                         this.showCountryList = []
@@ -400,11 +396,13 @@ export default {
                     if(this.rowList[0].alreadyPatentInquiry == 1 && this.rowList[0].design != 2){
                         this.showType = 7.1
                         if(this.rowList[0].curProductDemandPatent){
-                            this.showCountryList  =  JSON.parse(this.rowList[0].curProductDemandPatent.patentInfo).filter(item => {
-                                return !item.patentInfo
-                            }).map(item => {
-                                return item.countryCode
-                            })
+                            if(this.rowList[0].curProductDemandPatent.patentInfo){
+                                this.showCountryList  =  JSON.parse(this.rowList[0].curProductDemandPatent.patentInfo).filter(item => {
+                                    return !item.patentInfo
+                                }).map(item => {
+                                    return item.countryCode
+                                })
+                            }
                         }
                         if(this.rowList[0].statusChangeOptions){
                             let toStateList
@@ -416,7 +414,6 @@ export default {
                             if(toStateList.length > 0){
                                 this.toStateList = toStateList[0].toStateOptions
                             }
-                            
                         }
                     }  
                     this.$set(this.ruleForm,'designer',this.rowList[0].designer)      
@@ -435,18 +432,17 @@ export default {
             }else {
                 this.dialogName = '提交'
             }
-
             if(this.showType == 1){
                 this.$confirm(`是否已完成产品需求的录入，确认提交新产品开发需求？`, '提示', {
-                        cancelButtonText: '取消',
-                        confirmButtonText: '确定',
-                        type: 'warning',
-                        cancelButtonClass: 'btn-custom-cancel',
-                        }).then(() => {                      
-                           this.savefnExamine()
-                        }).catch(() => {
-                            return          
-                    }); 
+                    cancelButtonText: '取消',
+                    confirmButtonText: '确定',
+                    type: 'warning',
+                    cancelButtonClass: 'btn-custom-cancel',
+                }).then(() => {                      
+                    this.savefnExamine()
+                }).catch(() => {
+                    return          
+                }); 
             }else {
                 this.dialogVisible = true
             }
@@ -471,18 +467,17 @@ export default {
                 })
                 return 
             }
-            
             if(this.showType == 8 || this.showType == 9){
                 if(!this.rowList.every(item => item.productDesignPictureNum > 0)){
                     let filterList = this.rowList.filter(item => {
                         return !item.productDesignPictureNum 
                     })
-                    let text = filterList.map(item => {
+                    .map(item => {
                         return item.developmentId
                     })
                     this.$message({
                         type: 'error', 
-                        message:`id:${text.toString()}，请至少上传一张设计图片！`,
+                        message:`id:${filterList.toString()}，请至少上传一张设计图片！`,
                         offset:220
                     })
                     return 
@@ -493,12 +488,12 @@ export default {
                     let filterList = this.rowList.filter(item => {
                         return !item.productStructurePictureNum 
                     })
-                    let text = filterList.map(item => {
+                    .map(item => {
                         return item.developmentId
                     })
                     this.$message({
                         type: 'error', 
-                        message:`id:${text.toString()}，请至少上传一张结构图片！`,
+                        message:`id:${filterList.toString()}，请至少上传一张结构图片！`,
                         offset:220
                     })
                     return 
@@ -523,10 +518,10 @@ export default {
                     //德意法西 DE FR IT ES
                 })
                 if(this.rowList.some(item => item.filterCountryList && item.filterCountryList.length > 0)){
+                    let text = ''
                     let textList = this.rowList.filter(item => {
                         return item.filterCountryList && item.filterCountryList.length > 0
                     })
-                    let text = ''
                     textList.forEach(item => {
                         text += `<div style="margin-bottom:2px">开发ID：${item.developmentId}，需要完善${item.filterCountryList}市场的竞品信息及链接!</div>`
                     })
@@ -539,7 +534,6 @@ export default {
                     return 
                 }
             }
-            
             this.clickLoading = true
             let toState = this.rowList.state + 1
             let operation = this.ruleForm.operation ? this.ruleForm.operation : 0
@@ -548,16 +542,14 @@ export default {
                 toStateList = this.rowList[0].statusChangeOptions.filter(item => {
                     return (item.operation == null || item.operation == operation )
                         && (item.design == null || item.design == this.ruleForm.design)
-                        && (item.projectApproval == null || item.projectApproval == this.ruleForm.projectApproval )
+                        && (item.projectApproval == null || item.projectApproval == this.ruleForm.projectApproval)
                         && (item.beforeSampleResult == null || item.beforeSampleResult == this.ruleForm.beforeSampleResult) 
                         && (item.patentInquiry == null || item.patentInquiry == this.rowList[0].patentInquiry)
                 })
                 if(toStateList.length > 0){
                     toState = toStateList[0].toStates[0]
                 }
-                
             }
-            
             let param = {
                 "productDemandIds": this.rowList.map(item =>{ return item.id }),//需要操作审核的id 数组
                 "operation": operation,//操作 0：提交   1：打回
@@ -572,7 +564,6 @@ export default {
                 "businessId":this.ruleForm.businessId || null,//业务开发
                 // "reviewMeetingDate":this.ruleForm.reviewMeetingDate || null,//业务开发
             }
-            console.log(param,'auditProductDemand')
             auditProductDemand(param).then(res => {
                 if(res.code == 200){
                     this.successSaveDialog()
@@ -592,7 +583,7 @@ export default {
             this.dialogVisible = false 
             this.clickLoading = false
         },
-         showCountryText(val){
+        showCountryText(val){
             if(!val) return ''
             let des = []
             des = this.countryList.filter(item => {
@@ -648,5 +639,9 @@ export default {
         padding-left: 140px;
         flex-shrink: 0;
     }
+}
+.dialog-l-text {
+    padding-left: 140px;
+    margin-bottom: 15px;
 }
 </style>

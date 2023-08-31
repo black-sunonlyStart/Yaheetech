@@ -29,11 +29,11 @@
                     </el-form-item>
                 </div>
                 <div v-if="showType == 4">
-                    <div style="padding-left: 140px;" v-if="rowList[0].state == 1">
+                    <div class="dialog-l-text" v-if="rowList[0].state == 1">
                         确定取消此开发需求么？取消后数据将被删除；
                     </div>
                     <div v-else>
-                        <div style="padding-left: 140px;">
+                        <div class="dialog-l-text">
                             当前选中{{this.rowList.length}}条数据！
                         </div>
                         <el-form-item label="取消原因：" prop="cancelType">
@@ -57,7 +57,7 @@
                     
                 </div>
                 <div v-if="showType == 6">
-                    <div style="padding-left: 140px;">
+                    <div class="dialog-l-text">
                         当前选中{{this.rowList.length}}条数据！
                     </div>
                     <el-form-item label="冻结原因：" prop="whyNote"  >
@@ -65,7 +65,7 @@
                     </el-form-item>
                 </div>
                 <div v-if="showType == 8">
-                    <div style="padding-left: 140px;">
+                    <div class="dialog-l-text">
                         当前选中{{this.rowList.length}}条数据！
                     </div>
                     <el-form-item label="跳过的状态：" prop="skipStatus">
@@ -76,7 +76,7 @@
                     </el-form-item>
                 </div>
                 <div v-if="showType == 9">
-                    <div style="padding-left: 140px;">
+                    <div class="dialog-l-text">
                         当前选中{{this.rowList.length}}条数据！
                     </div>
                     <el-form-item label="跳过的状态：" prop="skipStatus">
@@ -189,9 +189,7 @@ export default {
             default:() => {}
         }
     },
-    mounted(){
-
-    },
+    mounted(){},
     methods:{
         async openDialog(rowList,val){
             this.rowList = rowList
@@ -233,7 +231,6 @@ export default {
                 await getPatentClerks(params).then(res => {
                     this.assigneeIdList = res.data
                     this.clickLoading = false
-
                 }).catch(res => {
                     this.clickLoading = false
                 })
@@ -245,7 +242,6 @@ export default {
                 await selectRoleEmployeeForRoleId(params).then(res => {
                     this.assigneeIdList = res.data
                     this.clickLoading = false
-
                 }).catch(res => {
                     this.clickLoading = false
                 })
@@ -254,7 +250,6 @@ export default {
                 await getCancelType().then(res => {
                     this.cancelList = res.data
                     this.clickLoading = false
-
                 }).catch(res => {
                     this.clickLoading = false
                 })
@@ -263,8 +258,6 @@ export default {
             }else if(val == 8){
                 this.dialogName = '跳过'
             }
-           
-            
             this.dialogVisible = true
         },
         resetForm() {
@@ -364,5 +357,9 @@ export default {
         padding-left: 140px;
         flex-shrink: 0;
     }
+}
+.dialog-l-text {
+    padding-left: 140px;
+    margin-bottom: 15px;
 }
 </style>

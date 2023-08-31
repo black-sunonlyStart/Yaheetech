@@ -710,8 +710,7 @@ export default {
             if(command != 4 && command != 5 && command != 7){
                 let checkStatusDialog = this.$refs.functionButtonDialog
                 checkStatusDialog.openDialog(checkList,command)
-            }
-            
+            } 
         },
         init() {
             this.mainListList()
@@ -796,8 +795,7 @@ export default {
             if(val.designs1 && val.designs1.length > 0){
                 designs = val.designs1
             }else {
-                if(val.designs) designs.push(val.designs)
-                
+                if(val.designs) designs.push(val.designs)  
             }
             this.loading = true
             let params = {
@@ -818,7 +816,6 @@ export default {
                 timeEnum:val && val.timeEnum ? val.timeEnum : null,
                 productSource:val && val.productSource ? val.productSource : null,
             }
-            console.log(params,'getProductDemand')
             getProductDemand(params).then(res => {
                 if(res.data){
                     this.loading = false
