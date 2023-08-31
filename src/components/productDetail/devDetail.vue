@@ -98,13 +98,13 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-    .textSpeaing{
-          margin-top: 15px;
-      }
-      .boldTitle{
-          font-weight: bold;
-      }
-      .noBoldTitle{
-          font-weight: normal;
-      }
+.textSpeaing{
+    margin-top: 15px;
+}
+.boldTitle{
+    font-weight: bold;
+}
+.noBoldTitle{
+    font-weight: normal;
+}
 </style>

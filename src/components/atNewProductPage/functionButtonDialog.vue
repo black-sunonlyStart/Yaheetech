@@ -103,7 +103,7 @@
     </div>
 </template>
 <script>
-import { selectRoleEmployeeForRoleId,saveDesigner,getPatentClerks,savePatentClerk,saveBusinessId,getCancelType,demandFreezing,skipProjectApproval,skipStructuralDesign} from '@/api/user.js'
+import { selectRoleEmployeeForRoleId,saveDesigner,getPatentClerks,savePatentClerk,saveBusinessId,getCancelType,demandFreezing,skipProjectApproval,skipStructuralDesign,getDesigners2} from '@/api/user.js'
 export default {
     name:'functionButtonDialog',
     data(){
@@ -207,23 +207,27 @@ export default {
             //P图款：视觉设计角色      正式：1498、测试： 418
             if(val == 1){
                 this.dialogName = '分配设计师'
-                if(rowList[0].devSign == 10) {
+                if(rowList[0].design == 10) { 
                     params = {
-                        rid:document.URL.includes('yaheecloud') ? 1497 : 433 // rid:40//业务开发40
+                        rid:document.URL.includes('yaheecloud') ? 1612 : 433 // 设计款：产品设计角色 
                     } 
+                    await selectRoleEmployeeForRoleId(params).then(res => {
+                        this.assigneeIdList = res.data
+                        this.clickLoading = false
+
+                    }).catch(res => {
+                        this.clickLoading = false
+                    })
                 }else {
-                    params = {
-                        rid:document.URL.includes('yaheecloud') ? 1498 : 418 // rid:40//业务开发40
-                    } 
+                    await getDesigners2(params).then(res => {
+                        this.assigneeIdList = res.data
+                        this.clickLoading = false
+
+                    }).catch(res => {
+                        this.clickLoading = false
+                    })
                 }
                 
-                await selectRoleEmployeeForRoleId(params).then(res => {
-                    this.assigneeIdList = res.data
-                    this.clickLoading = false
-
-                }).catch(res => {
-                    this.clickLoading = false
-                })
             }else if (val == 2){
                 this.dialogName = '分配专利检索员'
                 await getPatentClerks(params).then(res => {

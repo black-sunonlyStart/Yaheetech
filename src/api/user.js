@@ -883,6 +883,14 @@ export function getCancelType(data){
         
     })
 }
+//取消原因
+export function getDesigners2(data){
+    return request ({
+        url:'/productDemand/getDesigners2',
+        method:'get',
+        
+    })
+}
 //取消
 export function demandFreezing(data){
     return request ({

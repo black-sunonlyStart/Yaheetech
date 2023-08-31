@@ -612,46 +612,45 @@ export default {
     },
     clickRadioSearch(name,value) {
         this.form[name] = value
-        this.$set(this.form,'almorlist',Math.random())
-       
+        this.$set(this.form,'almorlist',Math.random()) 
     },
-      filterStatusNavbar(){
-          if(this.$route.query.status){
-            this.form.status = []
-            this.form.status.push(Number(this.$route.query.status))
-          }
-          getProductLevelEnums().then(res => {
-            this.productLevelValueList = res.data
-          })
-          atGetSeriesCategoryDef().then(res => {  
-                this.seriesList = res.data
-            })  
-      },
-      getDevelopStutsNumber(){
+    filterStatusNavbar(){
+        if(this.$route.query.status){
+        this.form.status = []
+        this.form.status.push(Number(this.$route.query.status))
+        }
+        getProductLevelEnums().then(res => {
+        this.productLevelValueList = res.data
+        })
+        atGetSeriesCategoryDef().then(res => {  
+            this.seriesList = res.data
+        })  
+    },
+    getDevelopStutsNumber(){
         let params = this.tableParams
         if (this.tableParams.state && [0,1,2,3,4,5,6,10,11,12,13].toString() == this.tableParams.state.toString()){
             let copeParams = JSON.parse(JSON.stringify(this.tableParams))
             copeParams.state = []
             params = copeParams
         } 
-          getDevelopStatesNum(params).then(res => {
-              if(res.data){
-                  this.statusList.forEach(item => {
-                      item.num = 0
-                      res.data.forEach(itemNum => {
-                          if(item.key == itemNum.state){
-                              item.num = itemNum.num
-                          }
-                      })
-                  })
-              } 
-          })
-      },
-      changeInnterWeith(){
-          if(window.innerWidth < 1450){
-              document.querySelector('.navbarContainer').style.width = 1470 + 'px'
-          }
-      },
+        getDevelopStatesNum(params).then(res => {
+            if(res.data){
+                this.statusList.forEach(item => {
+                    item.num = 0
+                    res.data.forEach(itemNum => {
+                        if(item.key == itemNum.state){
+                            item.num = itemNum.num
+                        }
+                    })
+                })
+            } 
+        })
+    },
+    changeInnterWeith(){
+        if(window.innerWidth < 1450){
+            document.querySelector('.navbarContainer').style.width = 1470 + 'px'
+        }
+    },
     changeMath(val){
         if(val.length == 1 && val.includes('15')){
             val = [0,1,2,3,4,5,6,10,11,12,13]
@@ -660,7 +659,6 @@ export default {
             let copeIndex = JSON.parse(JSON.stringify(val))
             let index = copeIndex.indexOf('15');
             copeIndex.splice(index, 1)
-
             let newVal = copeIndex.map(Number)
             return newVal
         }else {
@@ -814,7 +812,6 @@ export default {
             line-height: 23px;
         }
     }
-   
 }
 .searchBox{
     display: flex;
@@ -838,9 +835,9 @@ export default {
         margin-left: 30px;
     }
     .checkBoxAll1{
-    display: flex;
-    padding-top: 9px;
-    position: relative;
+        display: flex;
+        padding-top: 2px;
+        position: relative;
     .checkboxAlltext1{
         display: inline-block;
         margin-right: 20px;

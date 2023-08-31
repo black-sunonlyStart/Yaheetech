@@ -3,20 +3,20 @@
         <el-row class="maina-tab-title" v-track="{triggerType:'browse',currentUrl: $route.path,behavior:'进入竞品页面'}">
             <el-col :span="24">
                 <div class="flot-left">
-                    <el-button type="primary" v-permission="'ERP.Product.ProductDemand.SaveProductDemand'"  class="button-put" plain @click="routerMove()">发起需求</el-button>
-                    <el-button type="primary" v-permission="'ERP.Product.ProductDemand.AuditProductDemand'" class="button-put" plain @click="toExamine()">审核</el-button>
+                    <el-button type="primary" v-permission="'PM00048'"  class="button-put" plain @click="routerMove()">发起需求</el-button>
+                    <el-button type="primary" v-permission="'PM00047'" class="button-put" plain @click="toExamine()">审核</el-button>
                     <el-dropdown  size="mini" style="margin-left:10px" @command="assignDesigner">
-                        <el-button plain  class="button-put" @click="assignDesigner(1)" v-permission="'ERP.Product.ProductDemand.SaveDesigner'">
+                        <el-button plain  class="button-put" @click="assignDesigner(1)" v-permission="'PM00039'">
                             分配设计师<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item :command="2" v-permission="'ERP.Product.ProductDemand.SavePatentClerk'">分配专利检索</el-dropdown-item >  
-                            <el-dropdown-item :command="3" v-permission="'ERP.Product.ProductDemand.SaveBusinessId'">更换业务开发</el-dropdown-item>  
+                            <el-dropdown-item :command="2" v-permission="'PM00041'">分配专利检索</el-dropdown-item>  
+                            <el-dropdown-item :command="3" v-permission="'PM00042'">更换业务开发</el-dropdown-item>  
                         </el-dropdown-menu>
                     </el-dropdown>
-                    <el-button v-permission="'ERP.Product.ProductDemand.SkipProjectApproval'" plain style="margin-left:10px" class="button-put" @click="assignDesigner(8)" >跳过立项</el-button>
-                    <el-button v-permission="'ERP.Product.ProductDemand.SkipStructuralDesign'" plain class="button-put" @click="assignDesigner(9)">跳过结构设计</el-button>
-                    <el-dropdown v-permission="'ERP.Product.ProductDemand.Freezing'" size="mini" style="margin-left:10px" @command="assignDesigner">
+                    <el-button v-permission="'PM00043'" plain style="margin-left:10px" class="button-put" @click="assignDesigner(8)">跳过立项</el-button>
+                    <el-button v-permission="'PM00044'" plain class="button-put" @click="assignDesigner(9)">跳过结构设计</el-button>
+                    <el-dropdown v-permission="'PM00045'" size="mini" style="margin-left:10px" @command="assignDesigner">
                         <el-button type="danger" plain  class="button-put" @click="assignDesigner(4)">
                             取消开发<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
@@ -24,7 +24,7 @@
                             <el-dropdown-item :command="5">恢复开发</el-dropdown-item>  
                         </el-dropdown-menu>
                     </el-dropdown>
-                    <el-dropdown v-permission="'ERP.Product.ProductDemand.Freezing'" size="mini" style="margin:0 10px" @command="assignDesigner">
+                    <el-dropdown v-permission="'PM00045'" size="mini" style="margin:0 10px" @command="assignDesigner">
                         <el-button type="danger" plain class="button-put" @click="assignDesigner(6)">
                             冻结数据<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
@@ -32,7 +32,7 @@
                             <el-dropdown-item :command="7">取消冻结</el-dropdown-item>  
                         </el-dropdown-menu>
                     </el-dropdown>
-                    <el-button plain class="button-put" @click="setTask()" style="display:none">导入需求</el-button>
+                    <el-button plain class="button-put" style="display:none">导入需求</el-button>
                     <!-- <el-dropdown  size="mini" style="margin-left:10px" @command="outPutReport">
                         <el-button type="primary" class="button-put" @click="outPutReport()">
                             导出新品数据<i class="el-icon-arrow-down el-icon--right"></i>
@@ -160,7 +160,7 @@
                     </template>
                 </el-table-column>
 
-                 <el-table-column  width="120" align="center">
+                <el-table-column  width="120" align="center">
                     <template slot="header">
                         产品来源
                     </template>
@@ -176,8 +176,8 @@
                         状态/耗时
                     </template>
                     <template slot-scope="scope">
-                            <div class="blue-button" :style="{background:changeBgColor(scope.row.state),'border-color': changeBorColor(scope.row.state),'color':changeBorColor(scope.row.state)}" v-if="scope.row.stateValue">{{scope.row.stateValue}}</div>
-                            <div >{{scope.row.sjDay + '天' || 0  + '天'}}</div>
+                        <div class="blue-button" :style="{background:changeBgColor(scope.row.state),'border-color': changeBorColor(scope.row.state),'color':changeBorColor(scope.row.state)}" v-if="scope.row.stateValue">{{scope.row.stateValue}}</div>
+                        <div >{{scope.row.sjDay ?  scope.row.sjDay + '天' : '0天'}}</div>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" width="120">
@@ -196,7 +196,7 @@
                        {{scope.row.businessName}}
                     </template>
                 </el-table-column>
-                 <el-table-column prop="priority"  align="center"  width="120">
+                <el-table-column prop="priority"  align="center"  width="120">
                     <template slot="header">
                         累计工期
                         <div>
@@ -230,7 +230,7 @@
                     </template>
                 </el-table-column>
 
-               <el-table-column prop="created"  width="100" align="center" sortable label="发起人">
+                <el-table-column prop="created"  width="100" align="center" sortable label="发起人">
                     <template slot-scope="scope">
                         {{scope.row.createName ? scope.row.createName : '--'}}
                     </template>
@@ -256,7 +256,7 @@
                                 placement="bottom"
                                 trigger="hover"
                                 popper-class='popperBorder1' style="border:none"
-                                v-permission="'ERP.Product.ProductDemand.View'"
+                                v-permission="'PM00038'"
                                 >
                                 <div class="operationBox"> 
                                     <div class="operationText" 
@@ -272,15 +272,14 @@
                                 trigger="hover"
                                 popper-class='popperBorder1' style="border:none"
                                 v-if="!noEditableList.includes(scope.row.state) && (scope.row.assigneeId == employee.Id || employee.IsAdminRole)"
-                                v-permission="'ERP.Product.ProductDemand.AuditProductDemand'"
+                                v-permission="'PM00047'"
                                 >
                                 <div class="operationBox" v-for="item in operationList" :key="item.id"> 
-                                    <div class="operationText" 
-                                       
+                                    <div class="operationText"                                       
                                         @click="editOperation(scope.row,item.id)"                                     
                                     >
-                                    <div class="nameBox"  
-                                    >{{scope.row.state == 2 || scope.row.state == 3 ? item.name : item.tname}}</div></div>
+                                        <div class="nameBox">{{scope.row.state == 2 || scope.row.state == 3 ? item.name : item.tname}}</div>
+                                    </div>
                                 </div>
                                 <div class="imageHistoryBox" slot="reference" ></div>
                             </el-popover>
@@ -502,20 +501,13 @@ export default {
         //         return item.label == val
         //     })
         // },
+        //打开地址
         blankImageUrl(url) {
             window.open(url,'_blank')
         },
         tableRowClassName({ row, rowIndex }) {
             //把每一行的索引放进row
             row.index = rowIndex;
-        },
-        //选中表格加背景颜色
-        selectedHighlight({ row, rowIndex }) {
-            if (this.getIndex.includes(rowIndex) ) {
-                return {
-                    'background-color': '#F0F5FF !important'
-                };
-            }
         },
         //按状态区分颜色
         changeBgColor(val) {
@@ -563,7 +555,6 @@ export default {
         },
         //审核数据 
         toExamine(list){
-
             let checkList = []
             if(!list){
                 checkList = this.multipleSelection
@@ -745,10 +736,6 @@ export default {
                 }
             });
             window.open(routeData.href, '_blank');
-        },
-        //设置任务
-        setTask() {
-            this.$refs.setProductProgressDialog.openDialog(this.multipleSelection)
         },
         editOperation(row,id) {
             switch (id) {

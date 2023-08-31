@@ -1,5 +1,5 @@
 <template>
-    <div class="nav-container" v-permission="'ERP.Product.ProductDemand.View'" v-if="renderDom">
+    <div class="nav-container" v-permission="'PM00038'" v-if="renderDom">
         <el-card class="nav-card naverCard">
             <navBar  @putTableList='putTableList' ref="navBar"></navBar>
             <div title="点击加载更多" class="up-text up-text-c" v-if="upDownshow" @click="clickMoreFilter">∨</div>
@@ -39,27 +39,26 @@ export default {
     methods: {
         getPermissions(){
             let  params = [
-                'ERP.Product.ProductDemand.View',
-                'ERP.Product.ProductDemand.SaveDesigner',
-                'ERP.Product.ProductDemand.SavePatentClerk',
-                'ERP.Product.ProductDemand.SaveBusinessId',
-                'ERP.Product.ProductDemand.SkipProjectApproval',
-                'ERP.Product.ProductDemand.SkipStructuralDesign',
-                'ERP.Product.ProductDemand.Freezing',
-                'ERP.Product.ProductDemand.Unfreezing',
-                'ERP.Product.ProductDemand.AuditProductDemand',
-                'ERP.Product.ProductDemand.SaveProductDemand',
-                'ERP.Product.ProductDemand.SaveProductDemandPatent',
-                'ERP.Product.ProductDemand.SaveProductDemandDesignInfo',
+                'PM00038',
+                'PM00039',
+                'PM00041',
+                'PM00042',
+                'PM00043',
+                'PM00044',
+                'PM00045',
+                'PM00047',
+                'PM00048',
+                'PM00049',
+                'PM00050',
             ]
             hasPermissions(params).then(res => {
                 let data = JSON.stringify( res.data);
                 sessionStorage.setItem("permissions", data);
                 let per =  res.data.filter(item => {
-                    return item.PermissionCode == 'ERP.Product.ProductDemand.View' && !item.HasPermission
+                    return item.PermissionCode == 'PM00038' && !item.HasPermission
                 })
                 if(per && per.length > 0){
-                    addMask('ERP.Product.ProductDemand.View')
+                    addMask('PM00038')
                 }
                 this.renderDom = true
             })

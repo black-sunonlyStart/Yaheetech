@@ -42,7 +42,7 @@
             <el-card class="sample-basis">
                 <div slot="header" class="clearfix">
                     <div>基本数据
-                        <div v-if="!noEditableList.includes(this.mainPageList.state) && assigneePermission"  v-permission="'ERP.Product.ProductDemand.SaveProductDemand'">
+                        <div v-if="!noEditableList.includes(this.mainPageList.state) && assigneePermission"  v-permission="'PM00048'">
                             <div class="edit-position" @click="controlsEdit.isEdit = !controlsEdit.isEdit" v-if="controlsEdit.isEdit">
                                 <span><i class="icon-edit"></i>编辑</span>
                             </div>
@@ -510,10 +510,10 @@
                     </div>
                 </div>
             </el-card>
-            <el-card v-if="this.mainPageList.state && ![1,2,3].includes(this.mainPageList.state) && assigneePermission" v-permission="'ERP.Product.ProductDemand.SaveProductDemandPatent'">
+            <el-card v-if="this.mainPageList.state && ![1,2,3].includes(this.mainPageList.state)" >
                 <div slot="header" class="clearfix">
                     <div>专利信息 <!-- -->
-                        <div v-if="!noEditableList.includes(this.mainPageList.state)">
+                        <div v-if="!noEditableList.includes(this.mainPageList.state) && assigneePermission" v-permission="'PM00049'">
                             <div class="edit-position" @click="controlsEdit.isEdit1 = !controlsEdit.isEdit1" v-if="controlsEdit.isEdit1">
                                 <span><i class="icon-edit"></i>编辑</span>
                             </div>
@@ -526,8 +526,6 @@
                             <span class="imageMainbox"> 查询国家： </span>
                             <span class="imageMainboxText">
                                 <span v-for="(item,index) in patentInfo.countryList" :key="item">{{showCountryText(item)}}<span v-if="index != patentInfo.countryList.length - 1">,</span></span>
-
-                                <!-- <div >{{this.patentInfo.countryList && this.patentInfo.countryList.length > 0 ? this.patentInfo.countryList.toString() : ''}}</div> -->
                             </span>
                         </el-col>
                     </el-row>
@@ -609,10 +607,10 @@
                     </div>
                 </div>
             </el-card>
-            <el-card v-if="this.mainPageList.state > 6 && this.mainPageList.design != 2 && assigneePermission" v-permission="'ERP.Product.ProductDemand.SaveProductDemandDesignInfo'">
+            <el-card v-if="this.mainPageList.state > 6 && this.mainPageList.design != 2 " >
                 <div slot="header" class="clearfix">
                     <div>设计信息 <!-- -->
-                        <div v-if="!noEditableList.includes(this.mainPageList.state)">
+                        <div v-if="!noEditableList.includes(this.mainPageList.state) && assigneePermission" v-permission="'PM00050'">
                             <div class="edit-position" @click="controlsEdit.isEdit2 = !controlsEdit.isEdit2" v-if="controlsEdit.isEdit2">
                                 <span><i class="icon-edit"></i>编辑</span>
                             </div>
@@ -798,7 +796,6 @@
 <script>
 import { GetFileServiceUrl,judgePorduction,addMask} from '@/utils/tools.js'
 import { getProductDemandById,getFilePath,saveProductDemand,hasPermissions,atGetSeriesCategoryDef,selectRoleEmployeeForRoleId,queryPlats,saveProductDemandPatent,saveProductDemandDesignInfo,getEmployee} from '@/api/user.js'
-var applicationTime = ''
 export default {
     name:'sampleDetail',
     components:{
@@ -1216,7 +1213,7 @@ export default {
             return this.mainPageList && this.mainPageList.productSource == 2 ? true : false
         },
         assigneePermission(){
-             if(this.employee.id == this.mainPageList.assigneeId || this.employee.IsAdminRole){
+             if(this.employee.Id == this.mainPageList.assigneeId || this.employee.IsAdminRole || !this.mainPageList.assigneeId){
                 return true
              }else {
                 return false
@@ -1252,7 +1249,7 @@ export default {
                 this.targetPrice = res.data
             })
             //获取平台数据
-            let url = document.URL.includes('yaheecloud') ?   171 : 'http://api-tools-test.yahee.com.cn:81/api/platstore/queryPlats'
+            let url = document.URL.includes('yaheecloud') ?   'http://productdev.yaheecloud.com/tool-api/platstore/queryPlats' : 'http://api-tools-test.yahee.com.cn:81/api/platstore/queryPlats'
             queryPlats(url).then(res => {
                 this.queryPlatsList = res.data
             })
@@ -1276,9 +1273,7 @@ export default {
                             item.showBigImgUrl = `${this.imgUrl}/${item.fileUri}`
                         })
                     }
-                    
                     res.data.classCategoryIdArray = [res.data.seriesCategoryId,res.data.classifyDefId]
-
                     //处理专利信息数据
                     let patentInfo = []
                     if(res.data.productDemandPatents && res.data.productDemandPatents.length > 0){
@@ -1286,8 +1281,6 @@ export default {
                             return item.flag == 1
                         })
                     }
-                    
-                    
                     if(patentInfo.length > 0){
                         patentInfo[0].patentInfo = JSON.parse(patentInfo[0].patentInfo)
                         this.patentInfo = {
@@ -1306,7 +1299,6 @@ export default {
                                 })
                             })
                         }
-                        
                     }else {
                         this.patentInfo.countryList = []
                     }
@@ -1317,8 +1309,6 @@ export default {
                     if(res.data.desiredColor){
                         res.data.desiredColor = res.data.desiredColor.split(',')
                     }
-                        
-                        //this.devSignInfo = res.data.productDemandDesignInfos
                     //处理设计信息数据
                     if(res.data.productDemandDesignInfos && res.data.productDemandDesignInfos.length > 0){
                         res.data.productDemandDesignInfos.forEach(item => {
@@ -1347,7 +1337,6 @@ export default {
                     //处理状态进度数据
                     if(res.data.progresses && res.data.progresses.length > 0){
                         this.developmentProgresses.forEach(item => {
-                           
                             res.data.progresses.forEach(item1 => {
                                 if(item1.state == 9){
                                     item1.state = 8
@@ -1370,26 +1359,22 @@ export default {
                         }else {
                             this.nowStatus = res.data.state ? res.data.state - 2 : 0
                         }
-                       
                     }else if(res.data.state == 18){
                         if(res.data.design == 2){
                            this.nowStatus = 10
                         }else {
                             this.nowStatus = 11
-                        }
-                        
+                        } 
                     }else { 
                         if(res.data.design == 2){
                             this.nowStatus = res.data.state ? res.data.state - 2 : 0
                         }else {
                             this.nowStatus = res.data.state ? res.data.state - 1 : 0
                         }
-                       
                     }
                     this.mainPageList = res.data
                 })
-            })
-             
+            })  
         },
         submitForm(formName){
             this.$refs[formName].validate((valid) => {
@@ -1421,7 +1406,7 @@ export default {
                         classifyDefId: this.mainPageList.classCategoryIdArray[1],
                     }
                     if(this.mainPageList.productDemandCompetings && this.mainPageList.productDemandCompetings.length > 0){
-                         let filterProductDemand = this.mainPageList.productDemandCompetings.filter(item => {
+                        let filterProductDemand = this.mainPageList.productDemandCompetings.filter(item => {
                             return item.usage != false
                         })
                         if(filterProductDemand && filterProductDemand.length > 0){
@@ -1431,7 +1416,6 @@ export default {
                             }
                         }
                     }
-                   
                     saveProductDemand(params).then((res) => {
                         if(res.code == 200){
                             this.$message({
@@ -1457,7 +1441,6 @@ export default {
                     let list  = this.countryList.filter(item => {
                         return this.patentInfo.countryList.includes(item.countryCode)
                     })
-                    
                     let params = {
                         productDemandId:this.routeParam.id,//专利信息id 编辑必传
                         id: this.patentInfo.id,  
@@ -1508,7 +1491,6 @@ export default {
                     }
                     item.productDemandId = this.routeParam.id
                 })
-
                 saveProductDemandDesignInfo(this.devSignInfo).then((res) => {
                     if(res.code == 200){
                         this.$message({
@@ -1529,15 +1511,12 @@ export default {
                 window.open(`http://productdev.yaheecloud.com/productDetails?developmentId=${this.mainPageList.developmentId}&productId=${this.mainPageList.productId}&productCountryId=${this.mainPageList.productCountryId}`,'_blank')
             }else {
                 window.open(`http://api-tools-test.yahee.com.cn:82/productDetails?developmentId=${this.mainPageList.developmentId}&productId=${this.mainPageList.productId}&productCountryId=${this.mainPageList.productCountryId}`,'_blank')
-            }
-            
+            }  
         },
          //审核数据 
         toExamine(list){
             let checkList = []
-           
             checkList.push(this.mainPageList)
-            
             if(checkList.length == 0) {
                 this.error('请至少选择一条数据！')
                 return
@@ -1559,8 +1538,7 @@ export default {
                 return
             }
             let checkStatusDialog = this.$refs.checkStatusDialog
-            checkStatusDialog.openDialog(checkList)
-            
+            checkStatusDialog.openDialog(checkList) 
         },
         showDesign(val){
             if(!val) return '--'
@@ -1572,8 +1550,7 @@ export default {
                 return des[0].label
             }else {
                 return '--'
-            }
-            
+            } 
         },
         showCountryText(val){
             if(!val) return ''
@@ -1632,6 +1609,7 @@ export default {
             if(image.offsetLeft > 30)return
             image.style.left = image.offsetLeft +100 + 'px'
         },
+        //点击右边按钮
         rightMove(){
             let image = document.querySelector('.step-container')
             if(image.offsetLeft <  window.innerWidth - 120 * 18){
@@ -1640,6 +1618,7 @@ export default {
                 image.style.left = image.offsetLeft - 100 + 'px'
             }
         },
+        //删除竞品信息
         deleteRow(index,) {
             // this.mainPageList.productDemandCompetings.splice(index, 1);
             let filterProductDemand = this.mainPageList.productDemandCompetings.filter(item => {
@@ -1647,6 +1626,7 @@ export default {
             })
             filterProductDemand[index].usage = false
         },
+        //添加竞品信息
         addTableList(){
             if(!this.mainPageList.productDemandCompetings) this.$set(this.mainPageList,'productDemandCompetings',[])
             let filterProductDemand = this.mainPageList.productDemandCompetings.filter(item => {
@@ -1670,24 +1650,25 @@ export default {
         //权限控制
         getPermissions(){
             let  params = [
-                'ERP.Product.ProductDemand.View',
-                'ERP.Product.ProductDemand.SaveProductDemand',
-                'ERP.Product.ProductDemand.SaveProductDemandPatent',
-                'ERP.Product.ProductDemand.SaveProductDemandDesignInfo',
+                'PM00038',
+                'PM00048',
+                'PM00049',
+                'PM00050',
             ]
             hasPermissions(params).then(res => {
                 this.pageLoading = false
                 let data = JSON.stringify( res.data);
                 sessionStorage.setItem("permissions", data);
                 let per =  res.data.filter(item => {
-                    return item.PermissionCode == 'ERP.Product.ProductDemand.View' && !item.HasPermission
+                    return item.PermissionCode == 'PM00038' && !item.HasPermission
                 })
                 if(per && per.length > 0){
-                    addMask('ERP.Product.ProductDemand.View')
+                    addMask('PM00038')
                 }
                 this.renderDom = true
             })
         },
+        //添加设计信息
         addDevsign(i){
             if(this.devSignInfo.length > 9){
                 this.error('设计方案最多10条！')
@@ -1708,8 +1689,8 @@ export default {
                 structureImgs: []
             })
         },
+        //删除设计信息
         delDevsign(i){
-            
             let filterDevSignInfo = this.devSignInfo.filter(item => {
                 return item.usage != false
             })
@@ -1730,7 +1711,6 @@ export default {
             });
             window.open(routeData.href, '_blank');
         },
-
          //下载文件地址
         GetFileServiceUrl(url) {
             return GetFileServiceUrl(url)
@@ -1740,7 +1720,6 @@ export default {
             this.showTenth = false
             this.dialogVisible = false
         },
-
         //打开日志弹窗
         openRecordDialog(){
             this.remarksParam = {
@@ -1756,15 +1735,17 @@ export default {
             this.showTenth = true
             this.dialogVisible = true
         },
-       
+        //更新图片数据
         upDateFile(list,name){
             this.$set(this.mainPageList,name,list)
             this[name]= list
         },
+        //取消按钮更新数据
         updeEditPage(key,value,shouldUpdate){  
             this.$set(this.controlsEdit,key,value)
             this.init()
         },
+        //专利信息显示历史数据
         showHistoryQueryInfo(){
             let  patentInfo = []
             if(this.mainPageList.productDemandPatents && this.mainPageList.productDemandPatents.length > 0) {
@@ -1779,6 +1760,7 @@ export default {
                 this.$refs.commonDialog.dialogVisible = true
             }
         },
+        //成功消息提示
         success() {
             this.$message({
                 showClose: true,
@@ -1788,6 +1770,7 @@ export default {
                 type: 'success'
             });
         },
+        //警告消息提示
         warning(msg) {
             this.$message({
                 showClose: true,
@@ -1796,6 +1779,7 @@ export default {
                 type: 'warning'
             });
         },
+        //错误消息提示
         error(msg) {
             this.$message({
                 showClose: true,
