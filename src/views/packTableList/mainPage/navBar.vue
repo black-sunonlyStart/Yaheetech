@@ -72,7 +72,36 @@
                 </div>
             </el-form-item>
         </div>
-         
+         <el-row>
+        <el-col :span="21">
+          <el-form-item label="开发状态:" class="statusBox">
+            <div class="checkBoxAll1" style="display:flex;flex-wrap:wrap">
+                <el-radio-group 
+                    border
+                    size="mini"
+                    class="chengboxMoreBox1" 
+                    v-model="form.status" 
+                    v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发状态筛选'}"
+                    >
+                    <el-radio-button :label="null" @click.native="clickRadioSearch('status',null,$event)" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发状态筛选'}">全选 ({{total}})</el-radio-button>
+                    <el-radio-button 
+                        border
+                        size="mini"
+                        v-for="(item) in statusList"
+                        :label="item.label"
+                        :key="item.key" 
+                        @click.native="clickRadioSearch('status',item.label,$event)"
+                        >
+                        {{item.name}} ({{item.num}})
+                    </el-radio-button>
+                </el-radio-group>
+                <el-checkbox-group v-model="form.status1" size="mini" class="checkbox-status">
+                    <el-checkbox v-for="(item) in statusList2" :key="item.label"  :label="item.label" border>{{ item.name }}({{item.num}})</el-checkbox>
+                </el-checkbox-group>
+            </div>
+          </el-form-item>
+        </el-col>
+      </el-row>
      
         <div class="row-flex"> 
             <el-form-item label="开发国家:" class="w-50" style="min-width:850px">
@@ -136,42 +165,7 @@
             </el-form-item>
           
         </div>
-      <el-row>
-        <el-col :span="21">
-          <el-form-item label="开发状态:" class="statusBox">
-            <div class="checkBoxAll1" style="display:flex">
-                <el-checkbox class="checkboxAlltext1" 
-                    border
-                     size="mini"
-                     style="margin-right:10px;margin-left:5px;"
-                    :indeterminate="isIndeterminate1" 
-                    v-model="checkStatusAll" 
-                    @change="handleStatusAllChange"
-                    v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发状态筛选'}"
-                    >全选 ({{total}})</el-checkbox>
-                <el-checkbox-group 
-                    border
-                    size="mini"
-                    class="chengboxMoreBox1" 
-                    v-model="form.status" 
-                    @change="handleCheckedStatusChange"
-                    v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发状态筛选'}"
-                    >
-                    <el-checkbox 
-                        border
-                        size="mini"
-                        v-for="(item,index) in statusList"
-                        :label="item.label"
-                        :key="item.key" 
-                        :class="index == 0 ? 'margin-120' : ''"
-                        >
-                        {{item.name}} ({{item.num}})
-                    </el-checkbox>
-                </el-checkbox-group>
-            </div>
-          </el-form-item>
-        </el-col>
-      </el-row>
+      
       <el-form-item>
             <template slot="label">
                 类目:
@@ -230,7 +224,7 @@
 <script>
 const cityOptions = ['GB','US','DE','AU','NZ','JP','PC'];
 const statusOptions = [0, 1, 2, 3, 4, 5, 6, 10, 11, 12, 13];
-import { getDevelopStatesNum,getProductLevelEnums,atGetSeriesCategoryDef } from '@/api/user.js'
+import { getDevelopStatesNum,getProductLevelEnums,getSeriesCategoryDef1 } from '@/api/user.js'
 export default {
   name: 'navBar',  
   data () {
@@ -340,7 +334,10 @@ export default {
                 key:6,
                 num:0,
             },
-            {
+           
+        ],
+        statusList2:[
+             {
                 name:'开发完未上架',
                 label:7,
                 key:7,
@@ -546,8 +543,9 @@ export default {
         seriesCategoryId: null,//一级(类目id)
         classifyDefId:null,
         packingWay:null,
-        status: ['15'],
+        status: null,
         checkedCities:[],
+        status1:[],
       },
       tableParams:{},
       productLevelValueList:[],
@@ -578,7 +576,7 @@ export default {
                     countryCodes:this.changeCities(val.checkedCities),
                     seekEnd:val.suppliers == 'all' ?null:parseInt(val.suppliers),
                     auth:val.authentication == 'all'?null:parseInt(val.authentication),
-                    state:this.changeMath(val.status),
+                    state:val.status?val.status:null,
                     productOwner:val.productOwner == 2 ? null:val.productOwner,
                     scenariosParentIds:val.developmentScenario.includes('all')? [] : val.developmentScenario,
                     sampleDelivery:val.sample == 'all'? '':Number(val.sample),
@@ -586,12 +584,13 @@ export default {
                     levelId:val.levelId == 'all'? null:val.levelId,
                     packingWay:val.packingWay,
                     search:val.search,
+                    status1:val.status1,
                     almorlist:val.almorlist,
                     seriesCategoryId: val.seriesCategoryId,//一级(类目id)
                     classifyDefId:val.classifyDefId,
                 }
                 // if(this.bleanStatus){
-                    this.getDevelopStutsNumber()
+                    this.getDevelopStutsNumber(this.tableParams)
                 // }
                 this.$emit('putTableList',this.tableParams)      
           },
@@ -605,7 +604,7 @@ export default {
   },
   methods: {
     changeRadioSearch(index) {
-        if(index) {
+        if(index || index == 0) {
             this.seriesListChilds = this.seriesList[index].classifyDefs
         }
         this.form.classifyDefId = null
@@ -616,26 +615,45 @@ export default {
     },
     filterStatusNavbar(){
         if(this.$route.query.status){
-        this.form.status = []
-        this.form.status.push(Number(this.$route.query.status))
+        this.form.status = Number(this.$route.query.status)
         }
         getProductLevelEnums().then(res => {
         this.productLevelValueList = res.data
         })
-        atGetSeriesCategoryDef().then(res => {  
+        getSeriesCategoryDef1().then(res => {  
             this.seriesList = res.data
         })  
     },
-    getDevelopStutsNumber(){
-        let params = this.tableParams
-        if (this.tableParams.state && [0,1,2,3,4,5,6,10,11,12,13].toString() == this.tableParams.state.toString()){
-            let copeParams = JSON.parse(JSON.stringify(this.tableParams))
-            copeParams.state = []
-            params = copeParams
-        } 
+    getDevelopStutsNumber(val){
+        let params
+        if(val){
+            params = JSON.parse(JSON.stringify(val))
+        }else {
+            params = JSON.parse(JSON.stringify(this.tableParams)) 
+        }
+         let status = []
+        if(!val || val.state == null || !val.state){
+            status = [0, 1, 2, 3, 4, 5, 6, 10, 11, 12, 13]
+        }else {
+            status.push(val.state)
+        }
+        if(val && val.status1 && val.status1.length > 0){
+            val.status1.forEach(item => {
+                status.push(item) 
+            })
+        }
+        params.state = status
         getDevelopStatesNum(params).then(res => {
             if(res.data){
                 this.statusList.forEach(item => {
+                    item.num = 0
+                    res.data.forEach(itemNum => {
+                        if(item.key == itemNum.state){
+                            item.num = itemNum.num
+                        }
+                    })
+                })
+                this.statusList2.forEach(item => {
                     item.num = 0
                     res.data.forEach(itemNum => {
                         if(item.key == itemNum.state){
@@ -728,6 +746,7 @@ export default {
 
 <style  lang="scss" scoped>
 ::v-deep.checkbox-status {
+    margin-left: 5px;
     display: inline-block;
     .el-checkbox.is-bordered {
         margin-right: 0px;
@@ -849,7 +868,6 @@ export default {
     .chengboxMoreBox1{
         width: 1500px;
         display: inline-block;
-        margin-left: 5px;
         .margin-120 {
             margin-left: 122px !important;
         }

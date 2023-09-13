@@ -69,7 +69,7 @@
                     </div>
                 </div>
             </el-form-item>
-            <el-form-item label="产品系列:" prop="classCategoryIdArray">
+            <el-form-item label="系列-类目:" prop="classCategoryIdArray">
                 <el-cascader
                     style="width:220px"
                     v-model="ruleForm.classCategoryIdArray"
@@ -104,7 +104,7 @@
     </div>
 </template>
 <script>
-import { findProductByDevId,exploitType,getDevelopmentScenarios,atGetSeriesCategoryDef } from '@/api/user.js'
+import { findProductByDevId,exploitType,getDevelopmentScenarios,getSeriesCategoryDef1 } from '@/api/user.js'
 import productTypeDialog from '@/components/productDetail/productTypeDialog'
 export default {
     name:'devScene',
@@ -196,7 +196,7 @@ export default {
             { required: true, message: '请选择产品类别', trigger: 'change' },
           ],
           classCategoryIdArray: [
-            { required: true, message: '请选择产品系列', trigger: 'blur' }
+            { required: true, message: '请选择系列-类目', trigger: 'blur' }
             ],
         }
       };
@@ -229,7 +229,7 @@ export default {
         },
       getDetailPage(){
         //获取系列数据
-        atGetSeriesCategoryDef().then(res => {
+        getSeriesCategoryDef1().then(res => {
             res.data.forEach(item => {
                 item.classifyDefs.forEach(list => {
                     list.seriesCategoryName = list.classifyDefName

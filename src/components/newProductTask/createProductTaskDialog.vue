@@ -46,7 +46,7 @@
                 <el-col :span="10" :xs="22" :sm="22" :md="22" :lg="22" :xl="22">
                     <el-form-item  prop="classCategoryIdArray" :label-width="formLabelWidth" >
                         <template slot="label">
-                                产品系列：
+                                系列-类目：
                         </template>
                         <el-cascader
                             style="width:220px"
@@ -270,7 +270,7 @@ name:"createProductTaskDialog",
                     { required: true, message:'请上传图片', trigger:['blur', 'change'] }
                 ],
                 classCategoryIdArray : [
-                    { required: true, message:'请选择产品系列', trigger:['blur', 'change'] }
+                    { required: true, message:'请选择系列-类目', trigger:['blur', 'change'] }
                 ],
                 title : [
                     { required: true, message:'请填写中文简称', trigger:['blur', 'change'] }

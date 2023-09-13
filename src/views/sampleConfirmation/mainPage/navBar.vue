@@ -336,6 +336,10 @@ export default {
                     name:'结果输出中',
                     label:4,
                 },
+                {
+                    name:'结果修改中',
+                    label:9,
+                },
               
             ],
             statusList1:[
@@ -429,7 +433,7 @@ export default {
         },
         status1:{
             handler:function(val){
-                 this.$set(this.form,'search1',false)
+                this.$set(this.form,'search1',false)
                 this.$set(this.form,'status1',val)
                 this.$set(this.form,'status','')
                 this.$set(this.form,'almorlist',Math.random())       
@@ -490,7 +494,6 @@ export default {
     .el-checkbox.is-bordered {
         margin-right: 0px;
         margin-left: 5px;
-        // padding: 0px 7px 0px 10px;
         height: 25px;
         top: 2px;
         padding: 2px 3px;
@@ -499,10 +502,6 @@ export default {
 .navbarContainer {
     padding: 5px;
     background-color: #ffffff;
-    // .el-row {
-    //     height: 30px;
-    //     display: flex;
-    // }
     ::v-deep .el-form-item__label {
         color: #3366cc !important;
         font-weight: bold; 
@@ -560,7 +559,7 @@ export default {
         font-size: 12px;
         margin-right: 10px;
     }
-    .more-search{
+    .more-search {
         color: #3366cc;
         position: absolute;
         right: 10px;

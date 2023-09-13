@@ -84,7 +84,7 @@
                             <span class="imageMainboxText">{{mainPageList.productSourceStr}}</span>
                         </el-col>
                         <el-col :span="10">
-                            <span class="imageMainbox">产品系列： </span>
+                            <span class="imageMainbox">类目-系列： </span>
                             <span class="imageMainboxText">{{mainPageList.seriesCategoryName }}</span>
                         </el-col>
                     </el-row>
@@ -97,6 +97,12 @@
                             <div class="boxFlex">
                                 <span class="imageMainbox">其他来源： </span>
                                 <div class="imageMainboxText" >{{mainPageList.otherSources}}</div>
+                            </div>
+                        </el-col>
+                        <el-col :span="10" v-if="mainPageList.productSource == 4">
+                            <div class="boxFlex">
+                                <span class="imageMainbox">设计师名称： </span>
+                                <div class="imageMainboxText" >{{mainPageList.productSourceDesigner}}</div>
                             </div>
                         </el-col>
                     </el-row>
@@ -291,7 +297,7 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
-                                <el-form-item label="产品系列:" prop="classCategoryIdArray">
+                                <el-form-item label="类目-系列:" prop="classCategoryIdArray">
                                     <el-cascader
                                         style="display: block;"
                                         v-model="mainPageList.classCategoryIdArray"
@@ -318,6 +324,11 @@
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" v-if="mainPageList.productSource == 5">
                                 <el-form-item label="其他来源:" prop="otherSources">
                                     <el-input v-model="mainPageList.otherSources"></el-input>
+                                </el-form-item>
+                            </el-col>
+                            <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" v-if="mainPageList.productSource == 4">
+                                <el-form-item label="设计师名称:" prop="productSourceDesigner">
+                                    <el-input v-model="mainPageList.productSourceDesigner"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row> 
@@ -637,9 +648,44 @@
                                     </div>
                                 </span>
                             </div>
-                            
                         </el-col>
-                        <el-col :span="20" v-if="mainPageList.state11 !== 1">
+                        <el-col :span="20" v-if="item.explain">
+                            <div style="display:flex">
+                                <span class="imageMainbox">设计说明： </span>
+                                <span class="imageMainboxText">
+                                    <div class="boxFlex">
+                                        <div class="image-flex">
+                                            {{item.explain}}
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                        </el-col>
+                        <el-col :span="20" v-if="item.designerDescImgs && item.designerDescImgs.length > 0">
+                            <div style="display:flex">
+                                <span class="imageMainbox">设计说明-图片： </span>
+                                <span class="imageMainboxText">
+                                    <div class="boxFlex">
+                                        <div class="image-flex">
+                                            <el-image v-for="(item1) in item.designerDescImgs" :key="item1.fileUri" :src="item1.showImgUrl" :preview-src-list="[item1.showBigImgUrl]"></el-image>
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                        </el-col>
+                        <el-col :span="20" v-if="item.designerDescFiles && item.designerDescFiles.length > 0">
+                            <div style="display:flex">
+                                <span class="imageMainbox">设计说明-文件： </span>
+                                <span class="imageMainboxText">
+                                    <div>
+                                        <div v-for="(item1) in item.designerDescFiles" :key="item1.id">
+                                           <el-link type="primary" class="a-link" @click="clickFileName(item1.fileUri)">{{item1.fileName}}</el-link >
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                        </el-col>
+                        <el-col :span="20" v-if="mainPageList.state11 !== 1" >
                             <div style="display:flex">
                                 <span class="imageMainbox">结构图片： </span>
                                 <span class="imageMainboxText">
@@ -651,10 +697,22 @@
                                 </span>
                              </div>
                         </el-col>
+                        <el-col :span="20" v-if="mainPageList.state11 !== 1 && item.structureFiles && item.structureFiles.length > 0">
+                            <div style="display:flex">
+                                <span class="imageMainbox">结构相关文件： </span>
+                                <span class="imageMainboxText">
+                                    <div>
+                                        <div v-for="item1 in item.structureFiles" :key="item1.id">
+                                           <el-link type="primary" class="a-link" @click="clickFileName(item1.fileUri)">{{item1.fileName}}</el-link >
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                        </el-col>
                     </el-row> 
                 </div>
                 <div v-else>
-                    <el-form v-for="(item,index) in devSignInfo.filter(item => item.usage != false)" :key="index * Math.random()" 
+                    <el-form v-for="(item,index) in devSignInfo.filter(item => item.usage != false)" :key="index" 
                         :model="item" :rules="rulesDesign" ref="ruleFormDesign" label-width="170px" size="mini">
                         <div class="devsign-b">
                             <el-row class="textSpeaing">
@@ -701,22 +759,52 @@
                                             :imgUrl="imgUrl" 
                                         
                                         ></imgUpload> 
+                                        <div class="fover-click" @click="addDevsignFile(index)">
+                                            添加设计说明
+                                        </div>
                                     </el-form-item>
-                                    <!-- <span class="imageMainbox">设计图片： </span>
-                                    <span class="imageMainboxText" >
-                                        <imgUpload 
-                                            :fileType='2' 
-                                            :dataParams="{ fileType:2,productDemandId:routeParam.id || 0}" 
-                                            :showButton="false" :value='item.designerImgs || []' 
-                                            :limit="20"
-                                            imageURl="/productDemand/saveProductDemandAttachment" 
-                                            :imgUrl="imgUrl" 
-                                            
-                                        ></imgUpload> 
-                                    </span> -->
                                 </el-col>  
                             </el-row>
-                    
+                            <div >
+                                <el-row class="textSpeaing" v-if="item.explain  || item.showDevsignFile">
+                                    <el-col :span="20" :xs="20" :sm="20" :md="20" :lg="20" :xl="10" style="display:flex">
+                                        <el-form-item label="设计说明：" prop="explain" style="width:100%">
+                                            <el-input type="textarea" rows="3" v-model="item.explain"></el-input>
+                                        </el-form-item>
+                                    </el-col>  
+                                </el-row>  
+                                <el-row class="textSpeaing" v-if="(item.designerDescImgs && item.designerDescImgs.length > 0) || item.showDevsignFile">
+                                    <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" style="display:flex">
+                                        <el-form-item label="设计说明-图片：" prop="designerDescImgs">
+                                            <imgUpload 
+                                                :fileType='4' 
+                                                :dataParams="{ fileType:4,productDemandId:routeParam.id || 0}" 
+                                                :showButton="false" :value='item.designerDescImgs' 
+                                                :limit="10"
+                                                imageURl="/productDemand/saveProductDemandAttachment" 
+                                                :imgUrl="imgUrl" 
+                            
+                                            ></imgUpload> 
+                                        </el-form-item>
+                                    </el-col>  
+                                </el-row>  
+                                <el-row class="textSpeaing" v-if="(item.designerDescFiles && item.designerDescFiles.length > 0) || item.showDevsignFile">
+                                    <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" style="display:flex">
+                                        <el-form-item label="设计说明-文件：" prop="designerDescFiles">
+                                            <fileUpload 
+                                                :fileType='5' 
+                                                :dataParams="{ fileType:5,productDemandId:routeParam.id || 0}" 
+                                                accept='.doc,.docx,.pdf,.xlsx,.csv,.xls' 
+                                                :value='item.designerDescFiles' 
+                                                :limit="5"
+                                                imageURl="/productDemand/saveProductDemandAttachment" 
+                                                :imgUrl="imgUrl" 
+                                                extraParams='productDemandId'  
+                                            ></fileUpload> 
+                                        </el-form-item>
+                                    </el-col>  
+                                </el-row>                              
+                            </div>
                             <el-row class="textSpeaing" v-if="mainPageList.state11 != 1">
                                 <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" style="display:flex">
                                     <el-form-item label="结构图片：" prop="structureImgs">
@@ -729,6 +817,25 @@
                                             :imgUrl="imgUrl" 
                         
                                         ></imgUpload> 
+                                         <div class="fover-click" @click="showDesignFile(index)">
+                                            添加结构文件
+                                        </div>
+                                    </el-form-item>
+                                </el-col>  
+                            </el-row>                            
+                            <el-row class="textSpeaing" v-if="mainPageList.state11 != 1 && (item.structureFiles && item.structureFiles.length > 0 || item.showStructureFiles)">
+                                <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" style="display:flex">
+                                    <el-form-item label="结构相关文件：" prop="structureFiles">
+                                        <fileUpload 
+                                            :fileType='6' 
+                                            :dataParams="{ fileType:6,productDemandId:routeParam.id || 0}" 
+                                            accept='.pdf'
+                                            :value='item.structureFiles' 
+                                            :limit="5"
+                                            imageURl="/productDemand/saveProductDemandAttachment" 
+                                            :imgUrl="imgUrl" 
+                                            extraParams='productDemandId'  
+                                        ></fileUpload> 
                                     </el-form-item>
                                 </el-col>  
                             </el-row>                            
@@ -802,6 +909,7 @@ export default {
         // sampleBasicDataDetail:() => import('@/components/sampleConfirmation/sampleBasicDataDetail'),//产品详情页
         remarksNew:() => import('@/components/remarksNew.vue'),//日志页面
         imgUpload:() => import('@/components/common/commonUploadImg'),
+        fileUpload:() => import('@/components/common/commonUploadFile'),
         commonDialog:()=> import('@/components/common/commonDialog'),
         checkStatusDialog:() => import('@/components/atNewProductPage/checkStatusDialog.vue'),
     },
@@ -855,7 +963,10 @@ export default {
                     usage: true,//使用情况    true 正常     false删除 -- 需要删除时传 false，其他时候不用传值或者true
                     designerImgs: [//设计图片 -- 文件上传后返回数据
                     ],
-                    structureImgs: []  
+                    structureImgs: [],
+                    designerDescImgs: [], 
+                    designerDescFiles: [],  
+                    structureFiles: [],  
                 }
             ],
             designerList:[
@@ -1037,13 +1148,16 @@ export default {
                     { required: true, message: '请选择产品来源', trigger: 'blur' }
                 ],
                 classCategoryIdArray: [
-                    { required: true, message: '请选择产品系列', trigger: 'blur' }
+                    { required: true, message: '请选择系列-类目', trigger: 'blur' }
                 ],
                 factoryName: [
                     { required: true, message: '请添加工厂名称', trigger: 'blur' }
                 ],
                 otherSources: [
                     { required: true, message: '请添加其他来源', trigger: 'blur' }
+                ],
+                productSourceDesigner: [
+                    { required: true, message: '请填写设计师名称', trigger: 'blur' }
                 ],
                 saleMarket: [
                     { required: true, message: '请选择建议售卖市场', trigger: 'blur' }
@@ -1203,6 +1317,7 @@ export default {
             },
             ],//进度条数据
             noEditableList:[13,14,15,16,17,18],
+            copeMainPageList:{},
         }
     },
     computed:{
@@ -1328,6 +1443,28 @@ export default {
                             }else {
                                 item.structureImgs = []
                             }
+                            if(item.designerDescImgs){
+                                item.designerDescImgs.forEach(item1 => {
+                                    item1.showImgUrl = `${this.imgUrl}/Small/${item1.fileUri}`
+                                    item1.showBigImgUrl = `${this.imgUrl}/${item1.fileUri}`
+                                })
+                            }else {
+                                item.designerDescImgs = []
+                            }
+                            if(item.designerDescFiles){
+                                item.designerDescFiles.forEach(item1 => {
+                                    item1.name =  item1.fileName
+                                })
+                            }else {
+                                item.designerDescFiles = []
+                            }
+                            if(item.structureFiles){
+                                item.structureFiles.forEach(item1 => {
+                                    item1.name =  item1.fileName
+                                })
+                            }else {
+                                item.structureFiles = []
+                            }
                             if(!item.id){
                                 item.id = this.$route.query.id
                             }
@@ -1373,6 +1510,7 @@ export default {
                         }
                     }
                     this.mainPageList = res.data
+                    this.copeMainPageList = JSON.parse(JSON.stringify(this.mainPageList))
                 })
             })  
         },
@@ -1390,6 +1528,7 @@ export default {
                         productSource:this.mainPageList.productSource,
                         factoryName:this.mainPageList.factoryName,
                         platForm:this.mainPageList.platForm,
+                        productSourceDesigner:this.mainPageList.productSourceDesigner,
                         productLink:this.mainPageList.productLink,
                         productLinkMarket:this.mainPageList.productLinkMarket,
                         otherSources:this.mainPageList.otherSources,
@@ -1506,6 +1645,10 @@ export default {
                 return
             })
         },
+         //下载地址
+        clickFileName(url){
+            window.open(`${this.imgUrl}${url}`)
+        },
         routerDev(){
             if(judgePorduction()){
                 window.open(`http://productdev.yaheecloud.com/productDetails?developmentId=${this.mainPageList.developmentId}&productId=${this.mainPageList.productId}&productCountryId=${this.mainPageList.productCountryId}`,'_blank')
@@ -1516,7 +1659,7 @@ export default {
          //审核数据 
         toExamine(list){
             let checkList = []
-            checkList.push(this.mainPageList)
+            checkList.push(this.copeMainPageList)
             if(checkList.length == 0) {
                 this.error('请至少选择一条数据！')
                 return
@@ -1664,8 +1807,9 @@ export default {
                 })
                 if(per && per.length > 0){
                     addMask('PM00038')
-                }
-                this.renderDom = true
+                }else {
+                    this.renderDom = true
+                } 
             })
         },
         //添加设计信息
@@ -1684,7 +1828,11 @@ export default {
                 seriaNum:this.changeNum(filterDevSignInfo.length + 1),//方案编号
                 usage: true,//使用情况    true 正常     false删除 -- 需要删除时传 false，其他时候不用传值或者true
                 designerImgs: [],//设计图片 -- 文件上传后返回数据,
-                structureImgs: []
+                structureImgs: [],
+                designerDescImgs: [],
+                designerDescFiles: [],
+                structureFiles: [],
+                explain: '',
             })
         },
         //删除设计信息
@@ -1697,6 +1845,18 @@ export default {
                 return
             }
             this.$set(filterDevSignInfo[i],'usage',false)
+        },
+        addDevsignFile(i){
+            this.$set(this.devSignInfo.filter(item => {
+                return item.usage != false
+            })[i],'showDevsignFile',true
+            )
+        },
+        showDesignFile(i){
+            this.$set(this.devSignInfo.filter(item => {
+                return item.usage != false
+            })[i],'showStructureFiles',true
+            )
         },
         //路由参数
         routerMove(id){
@@ -2149,6 +2309,23 @@ export default {
 .country-type {
     display:inline-block;width:60px;padding-right:5px;text-align:right;
     flex-shrink: 0;
+}
+.fover-click{
+    color: #3366cc;
+   text-align: left;
+    cursor: pointer;
+    padding: 1px 2px;
+    font-size: 12px;
+    float: left;
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    margin-top: 2px;
+    margin-left: 5px;
+    &:hover {
+        background-color: #3366cc;
+        color: #fff;
+    }
 }
 </style>
 <style>

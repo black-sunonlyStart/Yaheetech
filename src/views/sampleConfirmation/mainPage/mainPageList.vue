@@ -6,6 +6,8 @@
                     <el-button type="primary" plain class="button-put" @click="routerMove()" v-permission="'ERP.Product.ProductSample.ExportSample'">申请样品确认</el-button>
                     <el-button type="primary" plain class="button-put" @click="opreateButton(3)" v-permission="'ERP.Product.ProductSample.ApprovalSampleMemo'">提交样品结果</el-button>
                     <el-button type="primary" plain class="button-put" @click="opreateButton(2)" v-permission="'ERP.Product.ProductSample.SaveSampleValidator'">分配样品确认员</el-button>
+                    <el-button type="primary" plain class="button-put" @click="opreateButton(5)" v-permission="'PM00070'">申请修改结果</el-button>
+                    <el-button type="primary" plain class="button-put" @click="opreateButton(6)" v-permission="'PM00071'">审核修改结果</el-button>
                     <el-dropdown trigger="hover"  @command="unCancelList" size='mini'>
                         <el-button  plain
                             size='mini' 
@@ -23,7 +25,7 @@
                             >恢复申请</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
-                    <el-dropdown trigger="hover"  command size='mini'>
+                    <el-dropdown trigger="hover" size='mini' @command="exportFile">
                         <el-button 
                             plain
                             size='mini' 
@@ -32,11 +34,12 @@
                             报表导出<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item command= 20 >导出样品确认申请单</el-dropdown-item>
-                            <el-dropdown-item command= 30 >导出样品进度清单</el-dropdown-item>
+                            <el-dropdown-item command= 20  >导出样品确认申请单</el-dropdown-item>
+                            <el-dropdown-item command= 30 v-permission="'ERP.Product.ProductSample.SaveSampleValidator'">导出样品进度清单</el-dropdown-item>
                             <el-dropdown-item command= 40 >需求确认单</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
+                    <span v-if="optionPutExcle" class="reportTitle"><i class="el-icon-loading" style="margin-right:5px"></i>报表导出中</span>
                 </div>
             </el-col>
         </el-row>
@@ -81,7 +84,6 @@
                             </span>
                         </div>
                         <div>
-                          
                             <el-tooltip placement="right" effect="light" :visible-arrow='false' popper-class='popperBorder' style="padding:0;border:none">
                                 <span slot="content" class="copeTitle"  @click="copeDevelopId(scope.row.productKey)">
                                     <i class="el-icon-document-copy" ></i>
@@ -145,7 +147,7 @@
                     </template>
                     <template slot-scope="scope">
                         <div class="status-rudis">
-                            <div :class="showClass(scope.row.state)"></div>
+                            <div :class="showClass(scope.row.state,'radiusDiv')"></div>
                             <div>
                                 <div>{{scope.row.stateValue}}</div>
                                 <div v-if="scope.row.sjDay">({{scope.row.sjDay}}天)</div>
@@ -178,6 +180,9 @@
                         <span>
                             {{scope.row.testSiteStr}}
                         </span> 
+                        <div v-if="scope.row.testSite == 1" style="color:#797979">
+                            {{scope.row.supplierName}}
+                        </div> 
                     </template>
                 </el-table-column>
                 <el-table-column  width="120" align="center">
@@ -228,7 +233,6 @@
                                         <div v-permission:[item.permission]>
                                             <div v-if="(scope.row.state == 8 && (item.value != 2 && item.value != 3)) || scope.row.state != 8">{{item.label}}</div>
                                         </div>
-                                        
                                     </el-dropdown-item>
                                 </el-dropdown-menu>
                             </el-dropdown>
@@ -261,9 +265,8 @@
                     </template>
                     <template slot-scope="scope" >
                         <div @click="routerMove(scope.row.id)" class="fileHoverShow">
-                             {{scope.row.id}}
+                            {{scope.row.id}}
                         </div>
-                       
                     </template>
                 </el-table-column>
                 <el-table-column >
@@ -271,7 +274,7 @@
                        样品情况
                     </template>
                     <template slot-scope="scope" >
-                         {{scope.row.sampleConditionStr}}
+                        {{scope.row.sampleConditionStr}}
                     </template>
                 </el-table-column>
                 <el-table-column >
@@ -279,7 +282,7 @@
                        当前状态
                     </template>
                     <template slot-scope="scope" >
-                         {{scope.row.stateValue}}
+                        {{scope.row.stateValue}}
                     </template>
                 </el-table-column>
                 <el-table-column >
@@ -287,7 +290,7 @@
                        申请时间
                     </template>
                     <template slot-scope="scope" >
-                         {{$moment(scope.row.applicationTime).format("YYYY-MM-DD") }}
+                        {{$moment(scope.row.applicationTime).format("YYYY-MM-DD") }}
                     </template>
                 </el-table-column>
             </el-table>
@@ -296,8 +299,8 @@
 </template>
 <script>
 import debounce from 'lodash.debounce';
-import { queryProductSample,approvalSampleMemo,unCancel,getRelevanceProductSample,getId } from '@/api/user.js'
-import { GetFileServiceUrl,copyUrl,formatDate } from '@/utils/tools'
+import { queryProductSample,approvalSampleMemo,unCancel,getRelevanceProductSample,getEmployee,exportProductSampleRequirement,queryExportProductSampleProgress } from '@/api/user.js'
+import { GetFileServiceUrl,copyUrl,formatDate,globalReportExport } from '@/utils/tools'
 export default {
     components:{
         sampleDialog:() => import('@/components/sampleConfirmation/sampleDialog.vue'),
@@ -350,7 +353,9 @@ export default {
             multipleSelection: [],
             renderDom :false,
             employee:{},
+            paramCope:{},
             tableData:[],
+            optionPutExcle:false,
         }
     },
     props:{
@@ -360,6 +365,7 @@ export default {
     },
     created: function() {
         this.mainListList()
+        this.init()
     },
     watch:{
         filterList:{
@@ -377,6 +383,11 @@ export default {
         },
     },
     methods:{
+        init(){
+            getEmployee().then(res => {
+                this.employee = res.data
+            })
+        },
         mainListList:debounce (function(val){
             if(!val) val = this.uploadFilterList
             this.loading = true
@@ -393,12 +404,12 @@ export default {
             }
             let param = {}
             if(val  &&  val.parameters){
-                 param = {
+                param = {
                     pageNum:this.pageNum,
                     pageSize:this.pageSize,
                     parametersType:val ? val.parametersType :null,
                     parameters:val ? val.parameters.replaceAll('\n',',') :null,
-                 }
+                }
             } else if(val.search &&  (val.selectCheck != 1 && val.search1)) {
                 param = {
                     pageNum:this.pageNum,
@@ -424,6 +435,7 @@ export default {
                     search:val && val.selectCheck == 1 ? val.search : null //搜索(供应商、开发ID、sku别名、sku、申请单号)
                 }
             }
+            this.paramCope = param
             queryProductSample(param).then(res => {
                 this.mainTaskList = res.data.rows
                 this.total = res.data.records;
@@ -431,8 +443,7 @@ export default {
                 this.loading =false
             }).catch(res => {
                 this.loading = false
-            })
-           
+            })       
         },500),
         //跳转产品详情页
         openDevProductDetail(value,type){
@@ -463,26 +474,13 @@ export default {
         },
         //路由跳转
         routerMove(id){
-            // if(!id){
-            //     getId().then(res => {
-            //         id = res.data
-            //         let routeData = this.$router.resolve({
-            //             name: "sampleDetail",
-            //             query:{
-            //                 id
-            //             }
-            //         });
-            //         window.open(routeData.href, '_blank');
-            //     })
-            // }else {
-                let routeData = this.$router.resolve({
-                    name: "sampleDetail",
-                    query:{
-                        id
-                    }
-                });
-                window.open(routeData.href, '_blank');
-            // }
+            let routeData = this.$router.resolve({
+                name: "sampleDetail",
+                query:{
+                    id
+                }
+            });
+            window.open(routeData.href, '_blank');
         },
         unCancelList(){
             if(this.multipleSelection.length == 0){
@@ -496,12 +494,12 @@ export default {
             let params = {
                 productSampleIds:this.multipleSelection.map(res => {return res.id})
             }
-             unCancel(params).then(res => {
+            unCancel(params).then(res => {
                 if(res.code == 200){
                     this.success('恢复成功！')
                     this.mainListList(this.uploadFilterList)
                 }
-             })
+            })
         },
         //取消申请
         opreateButton(id,list){
@@ -514,7 +512,7 @@ export default {
                 this.warning('请至少选择一条数据！')
                 return
             }
-            if(id == 1 || id == 4) {
+            if(id == 1 || id == 4 || id== 5 || id== 6) {
                 if(this.multipleSelection.length > 1){
                     this.warning('只能操作单条数据！')
                     return
@@ -533,17 +531,153 @@ export default {
                 }
             }
             if(id == 1){
-                 if(this.multipleSelection.some(res => res.state != 2 && res.state != 3 && res.state != 4)){
+                if(this.multipleSelection.some(res => res.state != 2 && res.state != 3 && res.state != 4)){
                     this.warning('仅支持待分配，样品确认中,结果输出中可以操作取消！')
                     return
                 }
             }
+            //申请修改结果判断当前登录人是否是该条数据的样品确认员。
+            if(id == 5){
+                if(this.multipleSelection.some(res => res.sampleValidator != this.employee.Id) && !this.employee.IsAdminRole){
+                    this.warning('只有当前登录账号是该产品的样品确认员才能修改！')
+                    return
+                }
+                if(this.multipleSelection.some(res => res.state != 5 && res.state != 6 && res.state != 7)){
+                    this.warning('仅支持合格，改进后通过(产前样),不合格状态可以操作！')
+                    return
+                }
+            }
+            if(id == 6) {
+                 if(this.multipleSelection.some(res => res.state != 9)){
+                    this.warning('仅支持结果修改中状态可以操作！')
+                    return
+                }
+            }
+            if(id == 5) dialog.title = '申请修改结果'
+            if(id == 6) dialog.title = '审核修改结果'
             if(id == 1) dialog.title = '取消'
             if(id == 2) dialog.title = '分配'
             if(id == 3) dialog.title = '提交'
             if(id == 4) dialog.title = '打回'
             dialog.openDialog(this.multipleSelection,id)
         },
+        //导出文件
+        exportFile(command){
+            let options
+            if(command == 20){
+                if(!this.multipleSelection || this.multipleSelection.length == 0 ){
+                    this.$message({
+                        type: 'error', 
+                        message:'请选择数据列表',
+                        offset:220
+                    })
+                    return
+                }  
+                if(this.multipleSelection.every(item => item.scenarios == null || item.sampleCondition == null)){
+                    this.error(`所选数据类型未选定,无法导出需求确认单!`)
+                    return
+                }
+                let rowId = this.multipleSelection.filter(item => {
+                    return item.scenarios >= 0 && item.sampleCondition >= 0
+                }).map(item => {
+                    return item.id
+                })
+                let noDevProductList =  this.multipleSelection.filter(item => {
+                    return item.scenarios == null || item.sampleCondition == null
+                }).map(item => {
+                    return item.id
+                })
+                if(noDevProductList && noDevProductList.length > 0){
+                    this.error(`申请单号:${noDevProductList.join(',')}，所选数据类型未选定，无法导出需求确认单!`)
+                }
+                this.optionPutExcle = true
+                exportProductSampleRequirement([...new Set(rowId)]).then(res => {
+                    if(res.code == 200){
+                        this.optionPutExcle = false
+                        if(res.data.virtualPaths){
+                            res.data.virtualPaths.forEach(item => {
+                                window.open(item,'_self')
+                            })
+                        }
+                        
+                        if(res.data.errProductSampleIds){
+                           this.error(`申请单号 ${res.data.errProductSampleIds.join(',')} 未成功导出数据，请联系IT部【 崔凯旋，王蒙 】进行处理!`)
+                        }
+                    }else {
+                      this.optionPutExcle = false
+                    }
+                })
+                return
+            }else if(command == 30){
+                queryExportProductSampleProgress(this.paramCope).then(res => {
+                    if(res.data && res.data.length > 0){
+                        options = 
+                            [
+                                {
+                                    "Field":'data-exportid',
+                                    'Value':document.URL.includes('yaheecloud') ?863:157,//测试
+                                },
+                                {
+                                    "Field":'productSampleIds',
+                                    'Value':res.data.join(','),//测试
+                                },
+                            ]
+                        this.optionPutExcle = true
+                        globalReportExport(options,this)
+                    }else {
+                        this.error('暂无数据可导出！')
+                    }
+                })
+                
+            }else if(command == 40){
+                if(!this.multipleSelection || this.multipleSelection.length == 0 ){
+                    this.$message({
+                        type: 'error', 
+                        message:'请选择数据列表',
+                        offset:220
+                    })
+                    return
+                }
+                //devProductId如果没有就报错
+                if(this.multipleSelection.every(item => item.devProductId == null)){
+                    this.error(`所选数据未找到对应的开发任务,无法导出需求确认单!`)
+                    return
+                }
+                //过滤出来数据
+                let rowId = this.multipleSelection.filter(item => {
+                    return item.devProductId
+                }).map(item => {
+                    return item.devProductId
+                })
+                //如果没有productId用ID提示
+                let noDevProductList =  this.multipleSelection.filter(item => {
+                    return item.devProductId == null 
+                }).map(item => {
+                    return item.id
+                })
+                if(noDevProductList && noDevProductList.length > 0){
+                    this.error(`申请单号:${noDevProductList.join(',')}，未找到对应的开发任务，无法导出需求确认单!`)
+                }
+                //去重循环获取文件地址
+                [...new Set(rowId)].forEach(item => {
+                    options = 
+                    [  
+                        {
+                            "Field":'data-exportid',
+                            'Value':document.URL.includes('yaheecloud') ? 257 : '55',//55测试
+                        },
+                        {
+                            "Field":'ProductId',
+                            'Value':item,
+                        },     
+                    ]
+                    this.optionPutExcle = true
+                    globalReportExport(options,this)
+                })
+                return
+            }
+        },
+        //下拉框改变参数
         changCommand(value,list){
             let opvalue = {
                 list,
@@ -551,6 +685,7 @@ export default {
             }
             return opvalue
         },
+        //点击按钮本身
         clickCommand(val){
             if(val.value == 1 || val.value == 2){
                 this.routerMove(val.list.id)
@@ -559,7 +694,7 @@ export default {
                     let param = {
                         productSampleIds:[val.list.id]
                     }
-                    this.$confirm(' 确定要提交样品申请单至认证部进行样品确认?', '提示', {
+                    this.$confirm('确定要提交样品申请单至认证部进行样品确认?', '提示', {
                         confirmButtonText: '确定',
                         cancelButtonText: '取消',
                         type: 'warning',
@@ -615,6 +750,7 @@ export default {
             this.showTenth = false
             this.dialogVisible = false
         },
+        //日志弹窗
         openRecordDialog(val){
             this.remarksParam = {
                 productCountryId:`${val.sku}_${val.accountType}_${val.taskType}`,
@@ -634,9 +770,18 @@ export default {
             // } 
         },
         changeMaxHeight(){
-            return window.innerHeight - 255 + 'px' 
+            let nHeight = 0
+            if(document.querySelector('.navbarContainer')){
+                if(navigator.userAgent.indexOf('WebKit') > -1) {
+                    nHeight = 90
+                }else {
+                    nHeight = 90
+                }
+                return window.innerHeight - document.querySelector('.navbarContainer').offsetHeight + 5 - nHeight  + 'px' 
+            }
+               return window.innerHeight - 255 + 'px' 
         },
-
+        //时间格式修改
         formatDate(row) {
             if(row){
                 return formatDate(row);
@@ -671,7 +816,15 @@ export default {
                 offset:220,
                 type: 'warning'
             });
-        }
+        },
+        error(msg) {
+            this.$message({
+                showClose: true,
+                message: msg,
+                offset:220,
+                type: 'error'
+            });
+        },
     }
 }
 </script>
@@ -715,61 +868,33 @@ export default {
     display: flex;
     justify-content: left;
     // align-items: center;
-    .bgRudis-orange {
-        background: orange;
+    .radiusDiv{
         width: 10px;
         height: 10px;
         border-radius: 50%;
         margin-right: 10px;
         margin-top: 6px;
+    }
+    .bgRudis-orange {
+        background: orange;
     }
     .bgRudis-b {
         background: #3366cc;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        margin-right: 10px;
-        margin-top: 6px;
     }
     .bgRudis-green {
         background: green;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        margin-right: 10px;
-        margin-top: 6px;
     }
     .bgRudis-red {
         background: red;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        margin-right: 10px;
-        margin-top: 6px;
     }
     .bgRudis-gray{
         background: #a8a6a6;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        margin-right: 10px;
-        margin-top: 6px;
     }
     .bgRudis-pink{
         background: #fdabab;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        margin-right: 10px;
-        margin-top: 6px;
     }
     .bgRudis-agreen{
         background: #41f489;
-        width: 10px;
-        height: 10px;
-        border-radius: 50%;
-        margin-right: 10px;
-        margin-top: 6px;
     }
 }
 

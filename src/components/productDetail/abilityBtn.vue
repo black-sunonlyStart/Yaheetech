@@ -142,48 +142,55 @@
                 'ERP.Product.ProductDev.Audit',
                 'ERP.Product.ProductDev.EndAudit',
                 'ERP.Product.ProductDev.ExportSample',
-                'ERP.Product.ProductDev.ProfitsFirstTrial',
-                
-      ]
-        hasPermissions(params).then(res => {
-           let data = JSON.stringify( res.data);
-            sessionStorage.setItem("permissions", data);
-            this.renderDom = true
-        })
+                'ERP.Product.ProductDev.ProfitsFirstTrial',   
+            ]
+            hasPermissions(params).then(res => {
+            let data = JSON.stringify( res.data);
+                sessionStorage.setItem("permissions", data);
+                this.renderDom = true
+            })
         },
         methods:{
             clickOutput(command){
                 let options = []
                 if(command == 1){
                     if(!this.selectRow || this.selectRow.length == 0 ){
-                     this.$message({
+                        this.$message({
                             type: 'error', 
                             message:'请选择数据列表',
                             offset:220
                         })
                         return
-                }
-                if(this.selectRow.length >= 2 ){
-                     this.$message({
-                            type: 'error', 
-                            message:'选择数据不能大于1',
-                            offset:220
-                        })
-                        return
-                }
-                    options = 
-                    [  
-                        {
-                            "Field":'data-exportid',
-                            'Value':document.URL.includes('yaheecloud') ? 257 : '55',//55测试
-                        },
-                        {
-                            "Field":'ProductId',
-                            'Value':this.selectRow[0].productId,
-                        },     
-                    ]
+                    }
+                    // if(this.selectRow.length >= 2 ){
+                    //     this.$message({
+                    //         type: 'error', 
+                    //         message:'选择数据不能大于1',
+                    //         offset:220
+                    //     })
+                    //     return
+                    // }
+                    let rowId = this.selectRow.map(item => {
+                        return item.productId
+                    })
+                    rowId = [...new Set(rowId)]
+                    rowId.forEach(item => {
+                        options = 
+                        [  
+                            {
+                                "Field":'data-exportid',
+                                'Value':document.URL.includes('yaheecloud') ? 257 : '55',//55测试
+                            },
+                            {
+                                "Field":'ProductId',
+                                'Value':item,
+                            },     
+                        ]
+                         this.optionPutExcle = true
+                        globalReportExport(options,this)
+                    })
+                    return
                 }else if (command == 2){
-                    
                     if(!this.navFilterList.dateFrom || !this.navFilterList.dateTo || !this.navFilterList.countryCodes || this.navFilterList.countryCodes.length == 0 || this.navFilterList.timeType != 0){
                         this.$message({
                             type: 'error', 

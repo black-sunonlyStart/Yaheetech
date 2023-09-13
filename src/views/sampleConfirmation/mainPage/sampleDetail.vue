@@ -214,7 +214,7 @@
                             </el-col>
                         </el-row>
                         <el-row class="textSpeaing">
-                            <el-col :span="10"  v-if="mainPageList.sampleNum > 1">
+                            <el-col :span="20"  v-if="mainPageList.sampleNum > 1">
                                 <div class="boxFlex">
                                     <span class="imageMainbox">来样改进信息： </span>
                                     <div class="imageMainboxText" style="white-space:pre-wrap">{{mainPageList.sampleImprovedInformation}}</div>
@@ -222,7 +222,7 @@
                             </el-col>
                         </el-row>
                         <el-row class="textSpeaing">
-                            <el-col :span="10"  >
+                            <el-col :span="20"  >
                                 <div class="boxFlex">
                                     <span class="imageMainbox">产品尺寸图（彩图）： </span>
                                     <div class="imageMainboxText" >
@@ -234,8 +234,10 @@
                             </el-col>
                         </el-row>
                     </div>
-                    <el-row class="textSpeaing" v-else>
-                        <el-col :span="10"  >
+                    <div v-else>
+
+                    <el-row class="textSpeaing" >
+                        <el-col :span="20">
                             <div class="boxFlex">
                                 <span class="imageMainbox" v-if="mainPageList.sampleCondition == 0">
                                     本次改进/变更点:
@@ -247,7 +249,23 @@
                             </div>       
                         </el-col>
                     </el-row>
-                    <el-row class="textSpeaing"  v-if="mainPageList.testSite == 0 && mainPageList.sampleCondition == 0">
+                     <el-row class="textSpeaing" v-if="mainPageList.sampleCondition == 0">
+                        <el-col :span="20"  >
+                            <div class="boxFlex">
+                                <span class="imageMainbox">本次改进/变更点-文件： </span>
+                                <div class="imageMainboxText" >
+                                    <div>
+                                        <div v-for="item in mainPageList.improvedChangeFile" :key="item.id">
+                                            <el-link type="primary" class="a-link" @click="clickFileName(item.fileUri)">{{item.fileName}}</el-link >
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </el-col>
+                    </el-row>
+                                            
+                    </div>
+                    <el-row class="textSpeaing" v-if="mainPageList.testSite == 0 && mainPageList.sampleCondition == 0">
                         <el-col :span="20"  >
                             <div class="boxFlex">
                                 <span class="imageMainbox">来样图片： </span>
@@ -278,6 +296,32 @@
                                 <div class="imageMainboxText" >
                                     <div class="image-flex">
                                         <el-image  v-for="item in mainPageList.sampleOnePhoto" :key="item.url" :src="item.showImgUrl" :preview-src-list="[item.showBigImgUrl]"></el-image>
+                                    </div>
+                                </div>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row class="textSpeaing">
+                        <el-col :span="20"  >
+                            <div class="boxFlex">
+                                <span class="imageMainbox">设计施工图片： </span>
+                                <div class="imageMainboxText" >
+                                    <div class="image-flex">
+                                        <el-image  v-for="item in mainPageList.designConstructionDraw" :key="item.url" :src="item.showImgUrl" :preview-src-list="[item.showBigImgUrl]"></el-image>
+                                    </div>
+                                </div>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row class="textSpeaing">
+                        <el-col :span="20"  >
+                            <div class="boxFlex">
+                                <span class="imageMainbox">设计施工文件： </span>
+                                <div class="imageMainboxText" >
+                                    <div>
+                                        <div v-for="item in mainPageList.designConstructionFile" :key="item.id">
+                                            <el-link type="primary" class="a-link" @click="clickFileName(item.fileUri)">{{item.fileName}}</el-link >
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -332,7 +376,6 @@
                             <div  v-if="showRedRequire">
                                 <span class="imageMainbox"></span>
                                 <span class="imageMainboxText" style="color:red">请填写样品确认时间！</span>
-                                
                             </div>
                         </el-col>
                     </el-row>
@@ -354,10 +397,9 @@
                                     </el-option>
                                 </el-select>
                             </span>
-                            <div  v-if="showRedRequire1">
+                            <div v-if="showRedRequire1">
                                 <span class="imageMainbox"></span>
                                 <span class="imageMainboxText" style="color:red">请填写样品确认结果！</span>
-                                
                             </div>
                         </el-col>
                     </el-row>
@@ -378,7 +420,7 @@
                     </div>   
                 </div>
                 <div v-if="controlsEdit.isEdit2">
-                    <el-row class="textSpeaing" v-if="mainPageList.sampleConfirmationResult == 5">
+                    <el-row class="textSpeaing" v-if="mainPageList.sampleConfirmationResult == 5 || mainPageList.sampleConfirmationResult == 6">
                         <el-col :span="20">
                             <span class="imageMainbox">初版验货报告： </span>
                             <span class="imageMainboxText">
@@ -388,7 +430,7 @@
                             </span>
                         </el-col>
                     </el-row>
-                    <el-row class="textSpeaing" v-else>              
+                    <el-row class="textSpeaing" v-if="mainPageList.sampleConfirmationResult == 7 || mainPageList.sampleConfirmationResult == 6">              
                         <el-col :span="20">
                             <span class="imageMainbox"> 问题描述： </span>
                             <span class="imageMainboxText">{{mainPageList.problemDesc}}</span>
@@ -417,7 +459,7 @@
                     </el-row> 
                 </div>
                 <div v-else>
-                    <el-row class="textSpeaing" v-if="mainPageList.sampleConfirmationResult == 5">
+                    <el-row class="textSpeaing" v-if="mainPageList.sampleConfirmationResult == 5 || mainPageList.sampleConfirmationResult == 6">
                         <el-col :span="10" :xs="15" :sm="15" :md="15" :lg="15" :xl="15" style="display:flex">
                             <span class="imageMainbox"><span style="color:red">*</span> 初版验货报告： </span>
                             <span class="imageMainboxText" style="width:100%;margin-bottom:10px">
@@ -425,7 +467,7 @@
                                     ref="uploadRef1"
                                     class="upload-demo"
                                     :action="action"
-                                     accept=".doc,.docx,.pdf,.xlsx,.csv,.xls"
+                                    accept=".doc,.docx,.pdf,.xlsx,.csv,.xls"
                                     :on-success="uploadFileSuccess1"
                                     :on-remove="handleRemove1"
                                     :before-remove="beforeRemove"
@@ -446,9 +488,9 @@
                             </span>
                         </el-col>  
                     </el-row>
-                    <div v-else>
+                    <div v-if="mainPageList.sampleConfirmationResult == 7 || mainPageList.sampleConfirmationResult == 6">
                         <el-row class="textSpeaing" >
-                            <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" style="display:flex">
+                            <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10" style="display:flex">
                                 <span class="imageMainbox"> 问题描述： </span>
                                 <span class="imageMainboxText" style="width:100%;margin-bottom:10px">
                                     <el-input type="textarea" v-model="mainPageList.problemDesc"></el-input>
@@ -500,7 +542,7 @@
                     <div>关联单据</div>   
                 </div>
                 <div v-if="controlsEdit.isEdit3">
-                    <el-table :data="gridData2" border  :header-cell-style="{background:'#f5f7fa',color:'#606266'}">
+                    <el-table :data="gridData2" border  height="500" :header-cell-style="{background:'#f5f7fa',color:'#606266'}">
                         <el-table-column width="" property="productType" label="序号"  type="index"></el-table-column>
                         <el-table-column width="" property="id" label="单据">
                             <template slot-scope="scope">
@@ -540,7 +582,7 @@
                 :show-close="false"
                 @close="closeUploadDialog()"
                 >
-                <remarksNew :remarksParam='remarksParam' ref="remarksNew" v-if="showTenth"></remarksNew>
+                <remarksNew :remarksParam='remarksParam' ref="remarksNew" v-if="showTenth" height='67vh'></remarksNew>
                 <span slot="footer" class="dialog-footer">
                     <el-button @click="closeUploadDialog()" size="mini">关 闭</el-button>
                 </span>
@@ -551,13 +593,12 @@
     </div>
 </template>
 <script>
-import { GetFileServiceUrl,judgePorduction} from '@/utils/tools.js'
+import { GetFileServiceUrl,judgePorduction,addMask} from '@/utils/tools.js'
 import { queryProductSampleById,getFilePath,saveProductSampleAttachment,approvalSampleMemo,getRelevanceProductSample,savaProductSampleRes,hasPermissions } from '@/api/user.js'
 var applicationTime = ''
 export default {
     name:'sampleDetail',
     components:{
-        // sampleBasicDataDetail:() => import('@/components/sampleConfirmation/sampleBasicDataDetail'),//产品详情页
         remarksNew:() => import('@/components/remarksNew.vue'),//日志页面
         imgUpload:() => import('@/components/common/commonUploadImg'),
         sampleBasicDataEdit:() => import('@/components/sampleConfirmation/sampleBasicDataEdit'),//产品编辑页
@@ -605,7 +646,6 @@ export default {
                     }else {
                         return time.getTime() > Date.now()
                     }
-               
                 // return time.getTime() > Date.now() - 8.64e7;  // 可选历史天、不可选当前天、不可选未来天
                 // return time.getTime() < Date.now() - 8.64e7;  // 不可选历史天、可选当前天、可选未来天
                 // return time.getTime() < Date.now(); // 不可选历史天、不可选当前天、可选未来天
@@ -722,6 +762,27 @@ export default {
                             res.data.sampleQuestionPhoto = this.sampleQuestionPhoto = res.data.psas.filter(item => {
                                 return item.fileType == 6
                             })
+                            //设计施工图
+                            res.data.designConstructionDraw = res.data.psas.filter(item => {
+                                return item.fileType == 8
+                            })
+                            //设计施工图
+                            res.data.improvedChangeFile = res.data.psas.filter(item => {
+                                return item.fileType == 7
+                            })
+
+                            res.data.designConstructionFile = res.data.psas.filter(item => {
+                                return item.fileType == 20
+                            })
+                            res.data.designConstructionFile.forEach(item => {
+                                 item.name =  item.fileName
+                            })
+                            if(res.data.improvedChangeFile){
+                                res.data.improvedChangeFile.forEach(item => {
+                                    item.name =  item.fileName
+                                })
+                            }
+                            
                             this.mainPageList = res.data
                         }else{
                             this.mainPageList = res.data
@@ -733,6 +794,7 @@ export default {
                         supplierId:res.data.supplierId,
                         id:this.$route.query.id || null,
                     }
+                    if(!param.supplierId) return
                     getRelevanceProductSample(param).then(res => {
                         this.gridData2 = res.data
                     })
@@ -750,18 +812,14 @@ export default {
                 this.pageLoading = false
                 let data = JSON.stringify( res.data);
                 sessionStorage.setItem("permissions", data);
-                res.data.forEach(item => {
-                    if(item.PermissionCode == 'ERP.Product.ProductSample.View' && !item.HasPermission){
-                        this.$message({
-                            message: `对不起您没有权限（ERP.Product.ProductSample.View）进行当前操作！`,
-                            type: 'error',
-                            duration:0,
-                            showClose:true,
-                            offset:300,
-                        })
-                    }
+                let per = res.data.filter(item => {
+                    return item.PermissionCode == 'ERP.Product.ProductSample.View' && !item.HasPermission
                 })
-                this.renderDom = true
+                if(per && per.length > 0){
+                    addMask('ERP.Product.ProductSample.View')
+                }else {
+                    this.renderDom = true
+                }
             })
         },
         //下载地址
@@ -832,11 +890,11 @@ export default {
         openRecordDialog(){
             if(!this.routeParam.id) return
             this.remarksParam = {
-                productCountryId:this.routeParam.id,
-                noteBussinessName:'ProductSample_verify',
-                pageNum:0,
-                PageIndex:-1,
-                proImageList:GetFileServiceUrl(),
+                productCountryId:this.routeParam.id,//必传参数
+                noteBussinessName:'ProductSample_verify',//必传参数
+                pageNum:0,//页面数据num
+                PageIndex:-1,//页码
+                proImageList:GetFileServiceUrl(),//图片地址
                 mainBtn:false,
                 Mark:null,
                 showAllbutton:false,
@@ -861,7 +919,7 @@ export default {
                 text = '确定已完成样品确认，准备输出样品确认文档？'
             }else if(type == 2) {
                 text = '确定完成样品确认文件的输出，向采购开发通知样品确认结果？'
-                if(this.mainPageList.sampleConfirmationResult == 5 && this.mainPageList.inspectionReport.length == 0) {
+                if((this.mainPageList.sampleConfirmationResult == 5 || this.mainPageList.sampleConfirmationResult == 6) && this.mainPageList.inspectionReport.length == 0) {
                     this.showRedRequire2 = true
                     return
                 }
@@ -932,9 +990,9 @@ export default {
                             file.url =  `${this.imgUrl}/${file.fileUri}`
                         }
                     })
-                     this.mainPageList.sampleQuestionFile = fileList
+                    this.mainPageList.sampleQuestionFile = fileList
                     // res.data[0].name = res.data[0].fileName
-                    // res.data[0].url =  `${this.imgUrl}/${res.data[0].fileUri}`
+                    // res.data[0].url = `${this.imgUrl}/${res.data[0].fileUri}`
                     // this.mainPageList.sampleQuestionFile.push(res.data[0])
                 }else {
                     this.handleExceed()
@@ -971,7 +1029,7 @@ export default {
                     'Content-Type': 'multipart/form-data'
                 }
             }; 
-            saveProductSampleAttachment(param,config).then(res => {
+            saveProductSampleAttachment(param,this.action).then(res => {
                 if(res.code == 200){
                     // this.mainPageList.sampleQuestionFile.push(res.data[0])
                     this.mainPageList.sampleQuestionFile.splice(this.mainPageList.sampleQuestionFile.findIndex(item => item.id == file1.id),1)
@@ -984,13 +1042,13 @@ export default {
             param.append('productSampleId',  this.$route.query.id || null);
             param.append('fileType', 2);
             param.append('datta', id);
-             if(!id) return
+            if(!id) return
             let config = {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 }
             }; 
-            saveProductSampleAttachment(param,config).then(res => {
+            saveProductSampleAttachment(param,this.action).then(res => {
                 if(res.code == 200){
                      this.$message({
                         type: 'success', 

@@ -244,27 +244,27 @@ function judgePorduction(){
 //生产汉语匹配的hash值
 function gethashCode(hashCodeStr){
     var str = hashCodeStr;
-      var hash = 0, i, chr, len;
-      if (str.length === 0) return hash;
-      for (i = 0, len = str.length; i < len; i++) {
-          chr = str.charCodeAt(i);
-          hash = ((hash << 5) - hash) + chr;
-          hash |= 0; // Convert to 32bit integer
-      }
-      return hash
-  }
-    function GetFileServiceUrl (Url) {
-        let  BaseUrl = '';
-        let  domain = document.domain;
-        if (domain.indexOf('localhost') >= 0 || domain.indexOf('127.0.0.1') >= 0) {
-            BaseUrl = 'http://qas-service.yahee.com.cn:8088/FMSService/Latest/';
-        } else if (domain.indexOf('yahee.com') >= 0) {
-            BaseUrl = 'http://qas-service.yahee.com.cn:8088/FMSService/Latest/';
-        } else {
-            BaseUrl = 'http://fileservice.yaheecloud.com/'
-        }
-        return BaseUrl + Url;
+    var hash = 0, i, chr, len;
+    if (str.length === 0) return hash;
+    for (i = 0, len = str.length; i < len; i++) {
+        chr = str.charCodeAt(i);
+        hash = ((hash << 5) - hash) + chr;
+        hash |= 0; // Convert to 32bit integer
     }
+    return hash
+}
+function GetFileServiceUrl (Url) {
+    let  BaseUrl = '';
+    let  domain = document.domain;
+    if (domain.indexOf('localhost') >= 0 || domain.indexOf('127.0.0.1') >= 0) {
+        BaseUrl = 'http://qas-service.yahee.com.cn:8088/FMSService/Latest/';
+    } else if (domain.indexOf('yahee.com') >= 0) {
+        BaseUrl = 'http://qas-service.yahee.com.cn:8088/FMSService/Latest/';
+    } else {
+        BaseUrl = 'http://fileservice.yaheecloud.com/'
+    }
+    return BaseUrl + Url;
+}
   function getLogMessage(param,that,trueOne){
         let filter = {}
         filter.OnlyHandleLastRequest = false

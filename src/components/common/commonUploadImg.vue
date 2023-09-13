@@ -42,7 +42,7 @@
             :limit="limit"
             :on-success="onSuccessUpload"
             :on-exceed="onExceed"
-            :data="dataParams"
+            :data="dataParamsCom"
             :before-upload="beforeUpload"
             :with-credentials='true'
         >
@@ -71,6 +71,7 @@
 import vuedraggable from 'vuedraggable'
 import {createUniqueString} from '@/utils/tools'
 import {saveProductSampleAttachment} from '@/api/user.js'
+import remarksNewVue from '../remarksNew.vue'
 export default {
   name: 'ImgUpload',
   props: {
@@ -156,6 +157,16 @@ data () {
 },
 
 computed: {
+    dataParamsCom(){
+        if(this.dataParams.fileType || this.dataParams.fileType == 0){
+            return this.dataParams
+        }else {
+            return {
+                fileType:this.fileType,
+                productSampleId:this.$route.query.id
+            }
+       }
+    },
     action(){
         return `${process.env.VUE_APP_DEVSERVER}/${this.imageURl}`
     },
@@ -247,7 +258,7 @@ methods: {
             confirmButtonText: '确定',
             cancelButtonText: '取消',
             type: 'warning',
-             cancelButtonClass: 'btn-custom-cancel',
+            cancelButtonClass: 'btn-custom-cancel',
         })
         .then(() => {
             let param = new FormData();

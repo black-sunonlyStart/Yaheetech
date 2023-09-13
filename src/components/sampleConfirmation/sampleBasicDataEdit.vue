@@ -115,10 +115,9 @@
                             filterable :filter-method="dataFilter"
                             ref="selectSupplierId"
                             @visible-change="getVisible()"
-                             value-key="id"
-                             :disabled="ruleForm.sampleCondition == 1 || ruleForm.scenarios == 2 || disabledSupplier"
+                            value-key="id"
+                            :disabled="ruleForm.sampleCondition == 1 || ruleForm.scenarios == 2 || disabledSupplier"
                             >
-                            
                             <el-option 
                                 v-for="item in suppliers"                        
                                 :key="item.id"
@@ -129,7 +128,7 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                 <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" >
+                <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" >
                     <el-form-item label="原产国:" prop="countryOfOrigin" v-if="ruleForm.scenarios == 2 && ruleForm.sampleCondition == 0 && ruleForm.countryOfOrigin">
                         <el-input v-model="ruleForm.countryOfOrigin"></el-input>
                     </el-form-item>
@@ -182,7 +181,7 @@
                 </el-col>
                 <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="20" :xl="10" >
                     <el-form-item label="英文验货报告:" prop="englishInspectionReport" v-if="showSampleNum">
-                         <el-radio-group v-model="ruleForm.englishInspectionReport">
+                        <el-radio-group v-model="ruleForm.englishInspectionReport">
                             <el-radio :label="0">需要</el-radio>
                             <el-radio :label="1">不需要</el-radio>
                         </el-radio-group>
@@ -274,7 +273,7 @@
                             <template slot="label">
                                 来样改进图片：
                             </template>
-                            <imgUpload :fileType='1' :showButton="false" :value='sampleOnePhoto' :limit="20" @upDateFile="upDateFile" :imgUrl="imgUrl" ruleName="sampleOnePhoto"></imgUpload> 
+                            <imgUpload :dataParams='{fileType:1,productSampleId:$route.query.id || null}'  :showButton="false" :value='sampleOnePhoto' :limit="20" @upDateFile="upDateFile" :imgUrl="imgUrl" ruleName="sampleOnePhoto"></imgUpload> 
                         </el-form-item>
                     </el-col>
                      <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
@@ -282,26 +281,52 @@
                             <template slot="label">
                                 产品尺寸图（彩图）:
                             </template>
-                            <imgUpload :fileType='4' :showButton="false" :value='productSizePhotoList' :limit="20" @upDateFile="upDateFile" :imgUrl="imgUrl" ruleName="productSizePhotoList"></imgUpload> 
+                            <imgUpload :dataParams='{fileType:4,productSampleId:$route.query.id || null}' :showButton="false" :value='productSizePhotoList' :limit="20" @upDateFile="upDateFile" :imgUrl="imgUrl" ruleName="productSizePhotoList"></imgUpload> 
                         </el-form-item>
                     </el-col>
                 </el-row> 
             </div>  
-            <el-row :gutter="150" v-else>
-                <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
-                    <el-form-item label="本次改进/变更点:" prop="thisImprovement">
-                        <template slot="label" >
-                            <span v-if="ruleForm.sampleCondition == 0">
-                               本次改进/变更点:
-                            </span> 
-                            <span v-else>
-                                部件变更点:
-                            </span> 
-                        </template>
-                        <el-input v-model="ruleForm.thisImprovement" type="textarea" :rows="6" maxlength="300" show-word-limit></el-input>
-                    </el-form-item>
-                </el-col>
-            </el-row> 
+            <div v-else> 
+                <el-row :gutter="150" >
+                    <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
+                        <el-form-item label="本次改进/变更点:" prop="thisImprovement">
+                            <template slot="label" >
+                                <span v-if="ruleForm.sampleCondition == 0">
+                                本次改进/变更点:
+                                </span> 
+                                <span v-else>
+                                    部件变更点:
+                                </span> 
+                            </template>
+                            <el-input v-model="ruleForm.thisImprovement" type="textarea" :rows="6" maxlength="300" show-word-limit></el-input>
+                            <div v-if="ruleForm.sampleCondition == 0" @click="uploadChangeFile" >
+                                <div class="fover-click">
+                                    上传文件
+                                </div>
+                            </div>
+                        </el-form-item>
+                    </el-col>
+                </el-row> 
+                <el-row :gutter="150" v-if="(improvedChangeFileShow && ruleForm.sampleCondition == 0) || (ruleForm.improvedChangeFile && ruleForm.improvedChangeFile.length > 0 && ruleForm.sampleCondition == 0)">
+                    <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" >
+                        <el-form-item  prop="improvedChangeFile">
+                            <template slot="label" >
+                                <span >
+                                    本次改进/变更点-文件:
+                                </span> 
+                            </template>
+                            <fileUpload 
+                                :dataParams='{fileType:7,productSampleId:$route.query.id || null}' 
+                                extraParams='productSampleId'  
+                                accept='.doc,.docx,.pdf,.xlsx,.csv,.xls' :imgUrl="imgUrl" 
+                                :value='ruleForm.improvedChangeFile' 
+                                :limit="5" @upDateFile="upDateFile" 
+                                ruleName="improvedChangeFile"
+                            ></fileUpload> 
+                        </el-form-item>
+                    </el-col>
+                </el-row>  
+            </div>
             <el-row :gutter="150">
                 <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" >
                     <el-form-item  prop="sampleImprovementPhoto" v-if="ruleForm.testSite == 0 && ruleForm.sampleCondition == 0">
@@ -310,7 +335,7 @@
                                 来样图片:
                             </span> 
                         </template>
-                        <imgUpload :fileType='0' :showButton="false" :value='sampleImprovementPhoto' :limit="1" @upDateFile="upDateFile" :imgUrl="imgUrl" ruleName="sampleImprovementPhoto"></imgUpload> 
+                        <imgUpload :dataParams='{fileType:0,productSampleId:$route.query.id || null}' :showButton="false" :value='sampleImprovementPhoto' :limit="1" @upDateFile="upDateFile" :imgUrl="imgUrl" ruleName="sampleImprovementPhoto"></imgUpload> 
                     </el-form-item>
                 </el-col>
                 <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" >
@@ -320,10 +345,41 @@
                                 变更图片:
                             </span> 
                         </template>
-                        <imgUpload :fileType='3' :showButton="false" :value='changePhoto' :limit="20" @upDateFile="upDateFile" :imgUrl="imgUrl" ruleName="changePhoto"></imgUpload> 
+                        <imgUpload :dataParams='{fileType:3,productSampleId:$route.query.id || null}' :showButton="false" :value='changePhoto' :limit="20" @upDateFile="upDateFile" :imgUrl="imgUrl" ruleName="changePhoto"></imgUpload> 
                     </el-form-item>
                 </el-col>
                 
+            </el-row>  
+            <el-row :gutter="150">
+                <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" >
+                    <el-form-item  prop="designConstructionDraw">
+                        <template slot="label" >
+                            <span >
+                                设计施工图片:
+                            </span> 
+                        </template>
+                        <imgUpload :dataParams='{fileType:8,productSampleId:$route.query.id || null}' :showButton="false" :value='designConstructionDraw' :limit="20" @upDateFile="upDateFile" :imgUrl="imgUrl" ruleName="designConstructionDraw"></imgUpload> 
+                    </el-form-item>
+                </el-col>
+            </el-row>  
+            <el-row :gutter="150">
+                <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" >
+                    <el-form-item  prop="designConstructionFile">
+                        <template slot="label" >
+                            <span >
+                                设计施工文件:
+                            </span> 
+                        </template>
+                        <fileUpload 
+                            :dataParams='{fileType:20,productSampleId:$route.query.id || null}' 
+                            extraParams='productSampleId'  
+                            accept='.pdf' :imgUrl="imgUrl" 
+                            :value='designConstructionFile' 
+                            :limit="5" @upDateFile="upDateFile" 
+                            ruleName="designConstructionFile"
+                        ></fileUpload> 
+                    </el-form-item>
+                </el-col>
             </el-row>  
         </el-form>
         <div class="bottomButton">
@@ -340,6 +396,7 @@ import { judgePorduction,trim } from '@/utils/tools.js'
 export default {
     components:{
         imgUpload:() => import('@/components/common/commonUploadImg'),
+        fileUpload:() => import('@/components/common/commonUploadFile'),
     },
     name:'salesTargetEdit',
     data(){
@@ -352,6 +409,7 @@ export default {
             errorIcon1:false,
             checkAll: false,
             showAddPhoto: false,
+            improvedChangeFileShow: false,
             cities: [
             {
                 countryCodes:'US',
@@ -565,6 +623,8 @@ export default {
             productSizePhotoList:[],
             sampleOnePhoto:[],//来样图片1张
             sampleImprovementPhoto:[],//来样改进信息图片
+            designConstructionFile:[],//来样改进信息图片
+            designConstructionDraw:[],//来样改进信息图片
             changePhoto:[],//变更图片
             imgUrl:'',
             ruleName:'',
@@ -680,12 +740,25 @@ export default {
                     this.ruleForm.sampleImprovementPhoto = this.sampleImprovementPhoto = this.ruleForm.psas.filter(item => {
                         return item.fileType == 0
                     })
+                    this.ruleForm.designConstructionFile = this.designConstructionFile = this.ruleForm.psas.filter(item => {
+                        return item.fileType == 20
+                    })
+                    this.ruleForm.designConstructionDraw = this.designConstructionDraw = this.ruleForm.psas.filter(item => {
+                        return item.fileType == 8
+                    })
+                    //改进变更点文件
+                    this.ruleForm.improvedChangeFile  = this.ruleForm.psas.filter(item => {
+                        return item.fileType == 7
+                    })
                     this.ruleForm.changePhoto = this.changePhoto = this.ruleForm.psas.filter(item => {
                         return item.fileType == 3
                     })
                 }
             })
             //if(this.ruleForm.basicInformation)this.ruleForm.basicInformation.replaceAll('\\n','\n')
+        },
+        uploadChangeFile(){
+            this.improvedChangeFileShow = true
         },
         changeProductKey1(){
             if(!this.ruleForm.originalTypeSkuAlias) return
@@ -737,7 +810,7 @@ export default {
         changeProductKey(type){
             if(type == 2) {
                 if(this.ruleForm.skuAlias.includes('DEV')){
-                      this.$message({
+                    this.$message({
                         type: 'error', 
                         message:'请填写sku别名',
                         offset:200,
@@ -787,7 +860,6 @@ export default {
                     if(this.ruleForm.sampleCondition == 1 || this.ruleForm.scenarios == 2) {
                         this.$set(this.ruleForm,'supplierCode', res.data.supplierCode || this.ruleForm.supplierCode)
                         this.$set(this.ruleForm,'supplierId', res.data.supplierId || this.ruleForm.supplierId)
-                       
                     } 
                     if(res.data.supplierId && this.ruleForm.scenarios == 2 && this.ruleForm.sampleCondition == 0){
                         let list = []
@@ -798,7 +870,7 @@ export default {
                             if(list[0].regionName && list[0].regionName.includes('国外')){
                                 this.$set(this.ruleForm,'countryOfOrigin',list[0].regionName)
                             }
-                        }  
+                        }
                     }
                     this.successIcon = true
                     this.errorIcon = false
@@ -807,7 +879,6 @@ export default {
                     // }else {
                     //     this.disableScenarios = false
                     // }
-                   
                 }else {
                     this.$set(this.ruleForm,'skuAlias', '')
                     this.$set(this.ruleForm,'productKey', '')
@@ -848,7 +919,7 @@ export default {
             const isJPG = file.type.includes('image');
             this.imgLoading = true
             if (!isJPG) {
-                this.$message.error('上传类型只能是 图片!');
+                this.$message.error('上传类型只能是图片!');
                 this.imgLoading = false
             }
             return isJPG ;
@@ -866,8 +937,7 @@ export default {
                         this.saveProductSampleFn(2)
                     }).catch(() => {
                         return          
-                    });  
-                   
+                    });
                 } else {
                     console.log('error submit!!');
                     return false;
@@ -913,7 +983,9 @@ export default {
                 reasonForSecondaryDev:this.ruleForm.reasonForSecondaryDev,//二次开发原因
                 originalTypeSku:this.ruleForm.originalTypeSku,//sku别名
                 state: val,// 1：保存   2：提交
-                psas:this.ruleForm.productSizePhotoList.concat(this.ruleForm.sampleOnePhoto || [],this.ruleForm.sampleImprovementPhoto||[],this.ruleForm.changePhoto||[]),
+                psas:this.ruleForm.productSizePhotoList.concat(this.ruleForm.sampleOnePhoto || [],this.ruleForm.sampleImprovementPhoto||[],this.ruleForm.changePhoto||[],this.ruleForm.designConstructionDraw || [],
+                this.ruleForm.designConstructionFile || [], this.ruleForm.improvedChangeFile || []
+                ),
             }
             saveProductSample(params).then(res => {
                 if(res.code == 200){
@@ -932,7 +1004,7 @@ export default {
         },
         resetForm(formName) {
             // this.$refs[formName].resetFields();
-            this.$set(this,'ruleForm',{})
+            // this.$set(this,'ruleForm',[])
             this.$emit('closeEdit','isEdit',true)
         },
         dataFilter(val) {  
@@ -955,7 +1027,6 @@ export default {
             this.copySuppliers = this.copySuppliers1;
         },
         changePreproductionSample(val){
-            
             if(this.ruleForm.supplierId){
                 let list = this.copySuppliers.filter(item => {
                     return item.id == this.ruleForm.supplierId
@@ -1097,19 +1168,21 @@ export default {
                         }
                     })
                 }).catch(() => {
-                    return          
-                });   
-            }  
-        }    
+                    this.$nextTick(res => {
+                        this.$refs.selectSupplierId.handleClose()  
+                    })
+                    return
+                });
+            }
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
 ::v-deep.col-r{
     position: relative;
-     .el-icon-question1 {
+    .el-icon-question1 {
         background-image: url('~@/assets/svg/interpretation.svg');
-
         cursor: pointer;
         user-select: none;
         background-size: 15px;
@@ -1151,6 +1224,22 @@ export default {
     bottom: 19px;
     cursor: pointer;
     padding: 2px 5px;
+    &:hover {
+        background-color: #3366cc;
+        color: #fff;
+    }
+}
+.fover-click{
+    color: #3366cc;
+   text-align: right;
+    cursor: pointer;
+    padding: 1px 2px;
+    font-size: 12px;
+    float: right;
+    display: inline-block;
+    height: 20px;
+    line-height: 20px;
+    margin-top: 2px;
     &:hover {
         background-color: #3366cc;
         color: #fff;

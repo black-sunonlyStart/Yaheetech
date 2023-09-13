@@ -32,7 +32,7 @@ export const constantRoutes = [
     component: () => import('@/views/newProductPage/index'),
     hidden: true,
     meta:{
-        title:'样品确认'
+        title:'新品'
     }
   },
   {

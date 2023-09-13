@@ -156,7 +156,7 @@
       </el-table-column>
       <el-table-column 
             prop="seriesCategoryName"
-            label="产品类目-系列"
+            label="类目-系列"
             show-overflow-tooltip
             v-if="showOrder"
             header-align='center'
@@ -834,6 +834,17 @@ export default {
         })
     },
     getTableList:debounce (function(val,pageSize = false){
+        let status = []
+        if(val.state == null || !val.state){
+            status = [0, 1, 2, 3, 4, 5, 6, 10, 11, 12, 13]
+        }else {
+            status.push(val.state)
+        }
+        if(val.status1 && val.status1.length > 0){
+            val.status1.forEach(item => {
+                status.push(item) 
+            })
+        }
         let params = {
             pageNum :this.pageNum,
             pageSize:this.pageSize,
@@ -843,7 +854,7 @@ export default {
             countryCodes:val.countryCodes,
             seekEnd:val.seekEnd,
             auth:val.auth,
-            state:val.state && val.state.length > 0 ? val.state:[0,1,2,3,4,5,6,10,11,12,13],
+            state:status,
             productOwner:val.productOwner,
             scenariosParentIds:val.scenariosParentIds,
             sampleDelivery:val.sampleDelivery,

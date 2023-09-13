@@ -144,7 +144,7 @@ export default {
     name: 'newProductNaver',
     data () {
         return {
-            designs1:[],
+            // designs1:[],
             timeList:[],
             seriesListChilds:[],
             filterStatusList:[
@@ -205,7 +205,7 @@ export default {
                 },  
             ],
             filterStatusList1:[
-                 {
+                {
                     state:18,
                     key:18,
                     statusValue:'开发中',
@@ -460,7 +460,7 @@ export default {
         //P图、图片评审、P图方案调整
         changeSesign(value) {
             if(value == 1){
-                this.designs1 = [10,11]
+                // this.designs1 = [10,11]
                 this.form.designs1 = [10,11]
             }else {
                 this.form.designs1 = []

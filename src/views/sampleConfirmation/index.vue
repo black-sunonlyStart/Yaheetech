@@ -6,6 +6,7 @@
 </template>
 <script>
 import { hasPermissions } from '@/api/user.js'
+import { addMask} from '@/utils/tools.js'
 export default {
     name:'sampleConfirmation',
     components:{
@@ -36,23 +37,21 @@ export default {
                 'ERP.Product.ProductSample.ApprovalSampleMemo',
                 'ERP.Product.ProductSample.SaveProductSample',
                 'ERP.Product.ProductSample.SavaProductSampleRes',
+                'PM00070',
+                'PM00071',
             ]
             hasPermissions(params).then(res => {
                 this.pageLoading = false
                 let data = JSON.stringify( res.data);
                 sessionStorage.setItem("permissions", data);
-                res.data.forEach(item => {
-                    if(item.PermissionCode == 'ERP.Product.ProductSample.View' && !item.HasPermission){
-                        this.$message({
-                            message: `对不起您没有权限（ERP.Product.ProductSample.View）进行当前操作！`,
-                            type: 'error',
-                            duration:0,
-                            showClose:true,
-                            offset:300,
-                        })
-                    }
+                 let per = res.data.filter(item => {
+                    return item.PermissionCode == 'ERP.Product.ProductSample.View' && !item.HasPermission
                 })
-                this.renderDom = true
+                if(per && per.length > 0){
+                    addMask('ERP.Product.ProductSample.View')
+                }else {
+                    this.renderDom = true
+                }
             })
         },
     }

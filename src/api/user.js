@@ -449,6 +449,13 @@ export function getCountry(data) {
       params:data
     })
   }
+  export function getSeriesCategoryDef1(data) {
+    return request({  
+      url:'/productManage/getSeriesCategoryDef',
+      method: "get", 
+      params:data
+    })
+  }
   export function FindGlobalNotes(url,data) {
     return request({  
       url:url,
@@ -671,6 +678,30 @@ export function repulse(data){
         url:'/productSample/repulse',
         method:'post',
         data
+    })
+}
+//样品申请修改数据
+export function applyUpdateResult(data){
+    return request ({
+        url:'/productSample/applyUpdateResult',
+        method:'post',
+        data
+    })
+}
+//审核修改结果
+export function reviewApplyUpdateResult(data){
+    return request ({
+        url:'/productSample/reviewApplyUpdateResult',
+        method:'post',
+        data
+    })
+}
+//查看申请结果
+export function getApplyUpdateResult(data){
+    return request ({
+        url:'/productSample/getApplyUpdateResult',
+        method:'get',
+        params:data
     })
 }
 //恢复数据
@@ -924,3 +955,46 @@ export function skipStructuralDesign(data){
 
 
 //新品开发end
+
+//翻译start
+export function addTranslate(url,data) {
+    return request({
+      url,
+      method: "post", 
+      data
+    })
+  }
+//获取全部翻译
+export function getAllTranslate(url,data) {
+    return request({
+      url: `${url}/${data}`,
+      method: "get", 
+    })
+  }
+//获取全部翻译
+export function getTimeStamp(url) {
+    return request({
+      url,
+      method: "get", 
+    })
+  }
+//翻译end
+
+//样品导出start
+//导出样品确认清单
+export function exportProductSampleRequirement(data){
+    return request ({
+        url:'productSample/exportProductSampleRequirement',
+        method:'POST',
+        data
+    })
+}
+//导出样品进度清单id集合
+export function queryExportProductSampleProgress(data){
+    return request ({
+        url:'/productSample/queryExportProductSampleProgress',
+        method:'POST',
+        data
+    })
+}
+//样品导出end

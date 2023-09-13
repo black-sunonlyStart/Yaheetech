@@ -119,7 +119,7 @@
                 <el-table-column prop="otherSKUAlias"  width="150">
                     <template slot="header">
                         <div style="text-align:center">
-                            类目系列/ID
+                            类目-系列/ID
                         </div>
                     </template>
                     <template slot-scope="scope">
@@ -166,9 +166,11 @@
                     </template>
                     <template slot-scope="scope">
                         {{scope.row.productSourceStr}}
-                        <div>
-                            {{scope.row.factoryName || scope.row.platForm}}
-                        </div>
+                        <div v-if="scope.row.productSource == 1"> {{scope.row.factoryName}}</div>
+                        <div v-if="scope.row.productSource == 2"> {{scope.row.platForm}}</div>
+                        <div v-if="scope.row.productSource == 3"> {{scope.row.platForm}}</div>
+                        <div v-if="scope.row.productSource == 4"> {{scope.row.productSourceDesigner}}</div>
+                        <div v-if="scope.row.productSource == 5"> {{scope.row.otherSources}}</div>
                     </template>
                 </el-table-column>
                 <el-table-column width="100" align="center">
