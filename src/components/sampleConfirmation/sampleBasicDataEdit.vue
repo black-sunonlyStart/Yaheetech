@@ -1137,29 +1137,29 @@ export default {
                                 this.$set(this.ruleForm,'productTitle',res.data.productTitle || this.ruleForm.productTitle)
                                 return 
                             }else {
-                                    this.$set(this.ruleForm,'scenarios',res.data.scenarios || res.data.scenarios == 0 ? res.data.scenarios : this.ruleForm.scenarios)
-                                    if(this.ruleForm.preproductionSample == 1 && this.ruleForm.sampleNum < 2 && (this.ruleForm.productKey && this.ruleForm.productKey.includes('DEV'))){
-                                        this.$set(this.ruleForm,'productTitle',res.data.productTitle || this.ruleForm.productTitle)
-                                        return
-                                    }
-                                    if(res.data.exportMarket) {
-                                        res.data.exportMarket = res.data.exportMarket.split(',')
-                                    }else {
-                                        res.data.exportMarket = [] 
-                                    }
-                                    if(res.data.exportMarket && res.data.exportMarket.length > 0) {
-                                        this.$set(this.ruleForm,'exportMarket',res.data.exportMarket)
-                                        this.exportMarket = res.data.exportMarket
-                                    }else {
-                                        this.$set(this.ruleForm,'exportMarket',this.ruleForm.exportMarket)
-                                        this.exportMarket = this.ruleForm.exportMarket
-                                    }
+                                this.$set(this.ruleForm,'scenarios',res.data.scenarios || res.data.scenarios == 0 ? res.data.scenarios : this.ruleForm.scenarios)
+                                if(this.ruleForm.preproductionSample == 1 && this.ruleForm.sampleNum < 2 && (this.ruleForm.productKey && this.ruleForm.productKey.includes('DEV'))){
                                     this.$set(this.ruleForm,'productTitle',res.data.productTitle || this.ruleForm.productTitle)
-                                    this.$set(this.ruleForm,'englishInspectionReport',res.data.englishInspectionReport || res.data.englishInspectionReport == 0 ? res.data.englishInspectionReport : this.ruleForm.englishInspectionReport)
-                                    this.$set(this.ruleForm,'productColorType',res.data.productColorType || this.ruleForm.productColorType)
-                                    this.$set(this.ruleForm,'sampleColor',res.data.sampleColor || this.ruleForm.sampleColor)
-                                    this.$set(this.ruleForm,'burstingStrengthCarton',res.data.burstingStrengthCarton || this.ruleForm.burstingStrengthCarton)
-                                    this.$set(this.ruleForm,'auxiliaryFoamDensity',res.data.auxiliaryFoamDensity || this.ruleForm.auxiliaryFoamDensity)
+                                    return
+                                }
+                                if(res.data.exportMarket) {
+                                    res.data.exportMarket = res.data.exportMarket.split(',')
+                                }else {
+                                    res.data.exportMarket = [] 
+                                }
+                                if(res.data.exportMarket && res.data.exportMarket.length > 0) {
+                                    this.$set(this.ruleForm,'exportMarket',res.data.exportMarket)
+                                    this.exportMarket = res.data.exportMarket
+                                }else {
+                                    this.$set(this.ruleForm,'exportMarket',this.ruleForm.exportMarket)
+                                    this.exportMarket = this.ruleForm.exportMarket
+                                }
+                                this.$set(this.ruleForm,'productTitle',res.data.productTitle || this.ruleForm.productTitle)
+                                this.$set(this.ruleForm,'englishInspectionReport',res.data.englishInspectionReport || res.data.englishInspectionReport == 0 ? res.data.englishInspectionReport : this.ruleForm.englishInspectionReport)
+                                this.$set(this.ruleForm,'productColorType',res.data.productColorType || this.ruleForm.productColorType)
+                                this.$set(this.ruleForm,'sampleColor',res.data.sampleColor || this.ruleForm.sampleColor)
+                                this.$set(this.ruleForm,'burstingStrengthCarton',res.data.burstingStrengthCarton || this.ruleForm.burstingStrengthCarton)
+                                this.$set(this.ruleForm,'auxiliaryFoamDensity',res.data.auxiliaryFoamDensity || this.ruleForm.auxiliaryFoamDensity)
                                 if(this.ruleForm.preproductionSample == 0 && this.ruleForm.sampleNum > 1){                              
                                     this.$set(this.ruleForm,'supplierType',res.data.supplierType || res.data.supplierType == 0 ? res.data.supplierType : this.ruleForm.supplierType)
                                     return
