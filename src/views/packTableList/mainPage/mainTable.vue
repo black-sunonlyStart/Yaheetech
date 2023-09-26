@@ -334,6 +334,7 @@ export default {
           'ERP.Product.ProductDev.EndAudit',
           'ERP.Product.ProductDev.ExportSample',
           'ERP.Product.ProductDev.ProfitsFirstTrial',
+          'ERP.Product.ProductSample.SaveProductSample',
       ]
         hasPermissions(params).then(res => {
            let data = JSON.stringify( res.data);
@@ -487,8 +488,17 @@ export default {
                 return          
             });
           }else if(id == 15){
-             this.dialogName ='提交利润复核'
-          }else {
+            this.dialogName ='提交利润复核'
+          }else if(id == 50){
+                let routeData = this.$router.resolve({
+                    name: "sampleDetail",
+                    query:{
+                        productKey:row.developmentId
+                    }
+                });
+                window.open(routeData.href, '_blank');
+                return
+          } else {
               this.dialogName = '审批通过'
           }
           this.row = row
@@ -626,6 +636,11 @@ export default {
                     name:'开发新市场',
                     id:26,
                     perkey:'ERP.Product.ProductDev.ADD'
+                  },
+                  {
+                    name:'申请样品确认',
+                    id:50,
+                    perkey:'ERP.Product.ProductSample.SaveProductSample'
                   },
               ]
           }else if(row.state == 5){
@@ -835,10 +850,14 @@ export default {
     },
     getTableList:debounce (function(val,pageSize = false){
         let status = []
-        if(val.state == null || !val.state){
-            status = [0, 1, 2, 3, 4, 5, 6, 10, 11, 12, 13]
-        }else {
+        if(val &&  (val.state || val.state == 0)){
             status.push(val.state)
+        }else {
+           if(val.status1 && val.status1.length > 0){
+                status = []
+            }else {
+                status = [0, 1, 2, 3, 4, 5, 6, 10, 11, 12, 13]
+            }
         }
         if(val.status1 && val.status1.length > 0){
             val.status1.forEach(item => {

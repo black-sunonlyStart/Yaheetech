@@ -484,6 +484,14 @@ export function getCountry(data) {
       data,
     })
   }
+  export function getProductSampleFromProductDev(data) {
+    return request({  
+      url:'productSample/getProductSampleFromProductDev',
+      method: "get", 
+      params:data
+    })
+  }
+  ///
 //新品开发任务 start
 //大组长
 export function getBigDepartmentLeaders(data) {

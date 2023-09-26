@@ -257,11 +257,14 @@ export default {
                 modificationResult : [
                     { required: true, message: '请选择审核结果！', trigger:['change'] }
                 ],
+                reason : [
+                    { required: true, message: '请填写修改原因！', trigger:['change'] }
+                ],
                 resultFile : [
                       {
                         required: true,
                         validator: (rules, value, cb) => {
-                            if( this.resultFile && this.resultFile.length == 0){
+                            if(!this.resuletList || (this.resultFile && this.resultFile.length == 0)){
                                 return cb(new Error("请选择文件！"));
                             }
                             return cb();
@@ -269,10 +272,6 @@ export default {
                         trigger: "change"
                     }
                 ],
-                reason : [
-                    { required: true, message: '请填写修改原因！', trigger:['change'] }
-                ],
-
             },
              setDisabled: {
                 disabledDate(time) {
@@ -281,7 +280,6 @@ export default {
                     }else {
                         return time.getTime() > Date.now()
                     }
-               
                 // return time.getTime() > Date.now() - 8.64e7;  // 可选历史天、不可选当前天、不可选未来天
                 // return time.getTime() < Date.now() - 8.64e7;  // 不可选历史天、可选当前天、可选未来天
                 // return time.getTime() < Date.now(); // 不可选历史天、不可选当前天、可选未来天
@@ -304,7 +302,6 @@ export default {
                     this.roleList = res.data
                 })
             }
-           
             applicationTime = list.applicationTime ? this.$moment(list.applicationTime).format("YYYY-MM-DD")  : this.$moment(list[0].applicationTime).format("YYYY-MM-DD")  
             let ids =  list.map(res =>  res.id )
             this.$set(this.ruleForm,'whyNote',null)
@@ -362,6 +359,7 @@ export default {
             this.mainList = list  
         },
         closeSubmit(formName){
+            //if(this.$refs[formName] && this.$refs[formName].resetFields())this.$refs[formName].resetFields()
             this.dialogVisible = false
             this.buttonLoading = false
         },
@@ -374,9 +372,9 @@ export default {
                         statusF = cancelApplication(this.ruleForm)
                     }else if(this.id == 2){
                         statusF = saveSampleValidator(this.ruleForm)
-                    } else if(this.id == 3) {
+                    }else if(this.id == 3){
                         statusF = approvalSampleMemo(this.ruleForm)
-                    } else if(this.id == 4) {
+                    }else if(this.id == 4){
                         statusF= repulse(this.ruleForm)
                     }else if(this.id == 5){
                         if(this.ruleForm.sampleConfirmationResult == 6 || this.ruleForm.sampleConfirmationResult == 7){
@@ -390,6 +388,27 @@ export default {
                                 return
                             }
                         }
+                        if(this.ruleForm.sampleConfirmationResult == 5 || this.ruleForm.sampleConfirmationResult == 6){
+                            if(!this.resultFile || (this.resultFile && this.resultFile.length == 0)){
+                                 this.$message({
+                                    type: 'error', 
+                                    message:'请添加初版验货报告！',
+                                    offset:220
+                                })
+                                this.buttonLoading = false
+                                return
+                            }
+                           
+                        }
+                         if(!this.ruleForm.reason){
+                                 this.$message({
+                                    type: 'error', 
+                                    message:'请添加本次修改的原因！',
+                                    offset:220
+                                })
+                                this.buttonLoading = false
+                                return
+                            }
                         let param = {
                             "productSampleId":this.mainList.map(res =>  res.id ).toString(),//样品确认Id   列表 申请单号 
                             "sampleConfirmationResult": this.ruleForm.sampleConfirmationResult,//样品确认结果  5:合格  6：改进后通过(产前样)  7：不合格
@@ -406,7 +425,6 @@ export default {
                         }
                         statusF= reviewApplyUpdateResult(param)
                     }
-
                     statusF.then((res) => {
                         this.buttonLoading = false
                         if(res.code == 200){
@@ -415,13 +433,8 @@ export default {
                                 message:'保存成功',
                                 offset:220
                             })
-                        this.$nextTick(res => {
-                             this.$refs[formName].resetFields();
-                        })
-                        this.$emit('mainListList')
-                        this.dialogVisible = false
-                        
-                        
+                            this.$emit('mainListList')
+                            this.dialogVisible = false
                         }
                     }).catch(() => {
                         this.buttonLoading = false

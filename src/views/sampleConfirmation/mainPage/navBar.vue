@@ -59,6 +59,22 @@
                 </el-col>
             </el-row>
             <el-row>
+                <el-col :span="20" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
+                    <el-form-item>
+                        <template slot="label">
+                            状     态:
+                        </template>
+
+                        <el-radio-group size="mini" v-model="form.status">
+                            <el-radio-button @click.native="clickRadioSearch('status',item.label,$event)" v-for="(item) in statusList" :key="item.label" :label="item.label">{{ item.name }}</el-radio-button>  
+                        </el-radio-group>
+                        <el-checkbox-group v-model="status1" size="mini" class="checkbox-status">
+                            <el-checkbox v-for="(item) in statusList1" :key="item.label"  :label="item.label" border>{{ item.name }}</el-checkbox>
+                        </el-checkbox-group>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row>
                 <el-col :span="10" :xs="12" :sm="12" :md="12" :lg="12" :xl="15">
                     <el-form-item>
                         <template slot="label">
@@ -84,15 +100,11 @@
                 <el-col :span="10" :xs="12" :sm="12" :md="12" :lg="12" :xl="15">
                     <el-form-item>
                         <template slot="label">
-                            状     态:
+                            来样次数:
                         </template>
-
-                        <el-radio-group size="mini" v-model="form.status">
-                            <el-radio-button @click.native="clickRadioSearch('status',item.label,$event)" v-for="(item) in statusList" :key="item.label" :label="item.label">{{ item.name }}</el-radio-button>  
+                        <el-radio-group size="mini" v-model="form.sampleNum">
+                            <el-radio-button @click.native="clickRadioSearch('sampleNum',item.label,$event)" v-for="(item) in prenatalSampleList" :key="item.id" :label="item.label">{{ item.name }}</el-radio-button>
                         </el-radio-group>
-                        <el-checkbox-group v-model="status1" size="mini" class="checkbox-status">
-                            <el-checkbox v-for="(item) in statusList1" :key="item.label"  :label="item.label" border>{{ item.name }}</el-checkbox>
-                        </el-checkbox-group>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10" :xs="12" :sm="12" :md="12" :lg="12" :xl="9">
@@ -110,10 +122,10 @@
                 <el-col :span="10" :xs="12" :sm="12" :md="12" :lg="12" :xl="15">
                     <el-form-item>
                         <template slot="label">
-                            来样次数:
+                            申请人:
                         </template>
-                        <el-radio-group size="mini" v-model="form.sampleNum">
-                            <el-radio-button @click.native="clickRadioSearch('sampleNum',item.label,$event)" v-for="(item) in prenatalSampleList" :key="item.id" :label="item.label">{{ item.name }}</el-radio-button>
+                        <el-radio-group size="mini" v-model="form.curApplicantId">
+                            <el-radio-button @click.native="clickRadioSearch('curApplicantId',item.label,$event)" v-for="(item) in developNameList" :key="item.label" :label="item.label">{{ item.name }}</el-radio-button>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -140,16 +152,7 @@
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
-                <el-col :span="10" :xs="12" :sm="12" :md="12" :lg="12" :xl="9">
-                    <el-form-item>
-                        <template slot="label">
-                            申请人:
-                        </template>
-                        <el-radio-group size="mini" v-model="form.curApplicantId">
-                            <el-radio-button @click.native="clickRadioSearch('curApplicantId',item.label,$event)" v-for="(item) in developNameList" :key="item.label" :label="item.label">{{ item.name }}</el-radio-button>
-                        </el-radio-group>
-                    </el-form-item>
-                </el-col>
+             
             </el-row>
            
             <!-- <el-form-item>
@@ -443,6 +446,13 @@ export default {
     },
     created() {
         this.init()
+    },
+    mounted(){
+          this.$nextTick(res => {
+            if(this.$route.query.search){
+                this.putSearch = this.$route.query.search
+            }
+      })
     },
     methods: {
         init() {

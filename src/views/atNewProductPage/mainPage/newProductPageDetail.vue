@@ -472,7 +472,7 @@
                                         </el-table-column>
                                         <el-table-column width=""  label="竞品排名" header-align='center'>
                                             <template slot-scope="scope">
-                                                <el-input v-model="scope.row.ranking"></el-input>      
+                                                <el-input v-model="scope.row.ranking" show-word-limit maxlength="100" type="textarea" rows="1"></el-input>      
                                             </template>
                                         </el-table-column>
                                         <el-table-column width=""  label="竞品价格区间" header-align='center'>

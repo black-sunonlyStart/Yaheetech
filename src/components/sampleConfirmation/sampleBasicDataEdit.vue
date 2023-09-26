@@ -383,7 +383,7 @@
             </el-row>  
         </el-form>
         <div class="bottomButton">
-            <el-button type="success" @click="submitForm('ruleForm')" size="mini" :disabled="submitDisabled" :loading="submitDisabled">提交</el-button>
+            <el-button class="bule-button" @click="submitForm('ruleForm')" size="mini" :disabled="submitDisabled">提交</el-button>
             <el-button type="primary" @click="saveProductSampleFn(1)" size="mini" :disabled="submitDisabled" :loading="submitDisabled">保存</el-button>
             <el-button @click="resetForm('ruleForm')"  size="mini">取消</el-button>
         </div>
@@ -572,7 +572,7 @@ export default {
                         required: true,
                         validator: (rules, value, cb) => {
                             if( !this.ruleForm.sampleImprovementPhoto || this.ruleForm.sampleImprovementPhoto.length == 0){
-                                return cb(new Error("请填加来样改进信息图片!"));
+                                return cb(new Error("请填加来样图片!"));
                             }
                             return cb();
                         },
@@ -617,7 +617,7 @@ export default {
             gridData3:[
                 {
                     productType:'产前样',
-                    Interpretation:'该产品已提交过样品确认申请单，且被认证部确认为“改进后通过”，本次为量产前的再次样品确认（本次与首次提交单据的供应商一致）。',
+                    Interpretation:'该产品已提交过样品确认申请单，且被认证部确认为“合格/改进后通过”，本次为量产前的再次样品确认（本次与首次提交单据的供应商应一致）。',
                 }
             ],
             productSizePhotoList:[],
@@ -650,7 +650,6 @@ export default {
                 return false
             }
         },
-        
     },
     watch:{
         showSampleCondition:{
@@ -925,6 +924,7 @@ export default {
             return isJPG ;
         },
         submitForm(formName) {
+            this.requireLimitLength()
             this.$refs[formName].validate((valid) => {
                 console.log(this.ruleForm,'ruleForm')
                 if (valid) {
@@ -944,7 +944,34 @@ export default {
                 }
             });
         },
+        requireLimitLength(){
+            if(this.ruleForm.jpInformation && this.ruleForm.jpInformation.length > 300){
+                this.error('竞品信息最多填写300字符，请修改后在提交！');
+                return
+            }
+            if(this.ruleForm.basicInformation && this.ruleForm.basicInformation.length > 300){
+                this.error('基础信息最多填写300字符，请修改后在提交！');
+                return
+            }
+            if(this.ruleForm.sampleImprovedInformation && this.ruleForm.sampleImprovedInformation.length > 300){
+                this.error('来样改进信息最多填写300字符，请修改后在提交！');
+                return
+            }
+            if(this.ruleForm.thisImprovement && this.ruleForm.thisImprovement.length > 300){
+                this.error('本次变更信息最多填写300字符，请修改后在提交！');
+                return
+            }
+        },
+        error(msg) {
+            this.$message({
+                showClose: true,
+                message: msg,
+                offset:220,
+                type: 'error'
+            });
+        },
         saveProductSampleFn(val){
+            this.requireLimitLength()
              this.submitDisabled = true
             if(!this.ruleForm.productSizePhotoList){
                 this.ruleForm.productSizePhotoList = []
@@ -991,7 +1018,7 @@ export default {
                 if(res.code == 200){
                     this.$message({
                         type: 'success', 
-                        message:'保存成功',
+                        message:val == 1 ? '保存成功' : '提交成功',
                         offset:220
                     })
                     this.$router.push({query:{id:res.data}})
@@ -1179,6 +1206,13 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.bule-button {
+    background-color: #0f7535;
+    color: #fff;
+    &:hover{
+        opacity: 0.8;
+    }
+}
 ::v-deep.col-r{
     position: relative;
     .el-icon-question1 {

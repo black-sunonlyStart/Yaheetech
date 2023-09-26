@@ -95,8 +95,8 @@
                         {{item.name}} ({{item.num}})
                     </el-radio-button>
                 </el-radio-group>
-                <el-checkbox-group v-model="form.status1" size="mini" class="checkbox-status">
-                    <el-checkbox v-for="(item) in statusList2" :key="item.label"  :label="item.label" border>{{ item.name }}({{item.num}})</el-checkbox>
+                <el-checkbox-group v-model="form.status1" size="mini" @change="changeStatus1" class="checkbox-status">
+                    <el-checkbox v-for="(item) in statusList2"  :key="item.label"  :label="item.label" border>{{ item.name }}({{item.num}})</el-checkbox>
                 </el-checkbox-group>
             </div>
           </el-form-item>
@@ -576,7 +576,7 @@ export default {
                     countryCodes:this.changeCities(val.checkedCities),
                     seekEnd:val.suppliers == 'all' ?null:parseInt(val.suppliers),
                     auth:val.authentication == 'all'?null:parseInt(val.authentication),
-                    state:val.status?val.status:null,
+                    state:val.status || val.status == 0 ?val.status:null,
                     productOwner:val.productOwner == 2 ? null:val.productOwner,
                     scenariosParentIds:val.developmentScenario.includes('all')? [] : val.developmentScenario,
                     sampleDelivery:val.sample == 'all'? '':Number(val.sample),
@@ -603,6 +603,9 @@ export default {
       this.filterStatusNavbar()
   },
   methods: {
+    changeStatus1(){
+        this.$set(this.form,'status',null)
+    },
     changeRadioSearch(index) {
         if(index || index == 0) {
             this.seriesListChilds = this.seriesList[index].classifyDefs
@@ -610,6 +613,9 @@ export default {
         this.form.classifyDefId = null
     },
     clickRadioSearch(name,value) {
+        if(name == 'status'){
+            this.$set(this.form,'status1',[])
+        }
         this.form[name] = value
         this.$set(this.form,'almorlist',Math.random()) 
     },
@@ -632,10 +638,14 @@ export default {
             params = JSON.parse(JSON.stringify(this.tableParams)) 
         }
          let status = []
-        if(!val || val.state == null || !val.state){
-            status = [0, 1, 2, 3, 4, 5, 6, 10, 11, 12, 13]
-        }else {
+        if( val &&(val.state ||  val.state == 0)){
             status.push(val.state)
+        }else {
+            if(val && val.status1 && val.status1.length > 0){
+                status = []
+            }else {
+                status = [0, 1, 2, 3, 4, 5, 6, 10, 11, 12, 13]
+            }
         }
         if(val && val.status1 && val.status1.length > 0){
             val.status1.forEach(item => {

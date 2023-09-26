@@ -86,8 +86,10 @@
                     </el-row>
                     <el-row class="textSpeaing">
                         <el-col :span="10">
-                            <span class="imageMainbox">产品名称： </span>
-                            <span class="imageMainboxText">{{mainPageList.productTitle}}</span>
+                            <div class="boxFlex">
+                                <span class="imageMainbox">产品名称： </span>
+                                <span class="imageMainboxText">{{mainPageList.productTitle}}</span>
+                            </div> 
                         </el-col>
                         <el-col :span="10" v-if="mainPageList.scenarios != 2 && mainPageList.sampleCondition == 0">
                             <div class="boxFlex">
@@ -227,7 +229,11 @@
                                     <span class="imageMainbox">产品尺寸图（彩图）： </span>
                                     <div class="imageMainboxText" >
                                         <div class="image-flex">
-                                            <el-image  v-for="item in mainPageList.productSizePhotoList" :key="item.url" :src="item.showImgUrl" :preview-src-list="[item.showBigImgUrl]"></el-image>
+                                            <el-image  v-for="item in mainPageList.productSizePhotoList" :key="item.url" :src="item.showImgUrl" :preview-src-list="[item.showBigImgUrl]">
+                                                <div slot="error" class="image-slot" style="margin-top:35px;margin-left:5px;color:#cccccc">
+                                                    <i class="el-icon-picture-outline">加载失败</i>
+                                                </div>
+                                            </el-image>
                                         </div>
                                     </div>
                                 </div>
@@ -235,7 +241,6 @@
                         </el-row>
                     </div>
                     <div v-else>
-
                     <el-row class="textSpeaing" >
                         <el-col :span="20">
                             <div class="boxFlex">
@@ -262,8 +267,7 @@
                                 </div>
                             </div>
                         </el-col>
-                    </el-row>
-                                            
+                    </el-row>                    
                     </div>
                     <el-row class="textSpeaing" v-if="mainPageList.testSite == 0 && mainPageList.sampleCondition == 0">
                         <el-col :span="20"  >
@@ -542,7 +546,7 @@
                     <div>关联单据</div>   
                 </div>
                 <div v-if="controlsEdit.isEdit3">
-                    <el-table :data="gridData2" border  height="500" :header-cell-style="{background:'#f5f7fa',color:'#606266'}">
+                    <el-table :data="gridData2" border max-height="500" :header-cell-style="{background:'#f5f7fa',color:'#606266'}">
                         <el-table-column width="" property="productType" label="序号"  type="index"></el-table-column>
                         <el-table-column width="" property="id" label="单据">
                             <template slot-scope="scope">
@@ -594,7 +598,7 @@
 </template>
 <script>
 import { GetFileServiceUrl,judgePorduction,addMask} from '@/utils/tools.js'
-import { queryProductSampleById,getFilePath,saveProductSampleAttachment,approvalSampleMemo,getRelevanceProductSample,savaProductSampleRes,hasPermissions } from '@/api/user.js'
+import { queryProductSampleById,getFilePath,saveProductSampleAttachment,approvalSampleMemo,getRelevanceProductSample,savaProductSampleRes,hasPermissions,getProductSampleFromProductDev } from '@/api/user.js'
 var applicationTime = ''
 export default {
     name:'sampleDetail',
@@ -682,7 +686,7 @@ export default {
             gridData3:[
                 {
                     productType:'产前样',
-                    Interpretation:'该产品已提交过样品确认申请单，且被认证部确认为“改进后通过”，本次为量产前的再次样品确认（本次与首次提交单据的供应商一致）。',
+                    Interpretation:'该产品已提交过样品确认申请单，且被认证部确认为“合格/改进后通过”，本次为量产前的再次样品确认（本次与首次提交单据的供应商应一致）。',
                 }
             ],
         }
@@ -701,8 +705,40 @@ export default {
     },
     mounted(){
         this.init()
+        // this.getProductSampleData()
     },
-    methods:{  
+    methods:{ 
+        getProductSampleData(){
+            if(this.$route.query.productKey){
+                let param = {
+                    productKey:this.$route.query.productKey
+                }
+                getProductSampleFromProductDev(param).then(res => {
+                    if(res.data.basicInformation) res.data.basicInformation = res.data.basicInformation.replaceAll('\\n','\n')
+                    if(res.data.jpInformation) res.data.jpInformation = res.data.jpInformation.replaceAll('\\n','\n')
+                    let url = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/common/getFilePath' : 'http://api-tools-test.yahee.com.cn:82/tool-api/common/getFilePath'
+                    getFilePath(url).then(res1 => {
+                        if(res.data.psas && res.data.psas.length > 0){
+                            res.data.psas.forEach(item => {
+                                item.showImgUrl = `${res1.data}/Small/${item.fileUri}`
+                                item.showBigImgUrl = `${res1.data}/${item.fileUri}`
+                            })
+                            //产品尺寸图
+                            res.data.productSizePhotoList =  res.data.psas.filter(item => {
+                                return item.fileType == 4
+                            })
+                        } 
+                    })
+                    res.data.exportMarket = []
+                    // this.mainPageList = res.data
+                    this.$nextTick(res1 => {
+                        this.$set(this,'mainPageList',res.data)
+                        this.$set(this.mainPageList,'productSizePhotoList',res.data.productSizePhotoList)
+                    })
+                  
+                })
+            }
+        },
         init(){
             this.routeParam.id = this.$route.query.id || null
             this.getPermissions()
@@ -794,12 +830,13 @@ export default {
                         supplierId:res.data.supplierId,
                         id:this.$route.query.id || null,
                     }
-                    if(!param.supplierId) return
+                    if(!param.supplierId || !param.productKey) return
                     getRelevanceProductSample(param).then(res => {
                         this.gridData2 = res.data
                     })
                 }else {
                     this.mainPageList.exportMarket = []
+                    this.getProductSampleData()
                 }
             })  
         },

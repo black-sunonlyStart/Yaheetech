@@ -44,7 +44,7 @@ export default {
                 this.pageLoading = false
                 let data = JSON.stringify( res.data);
                 sessionStorage.setItem("permissions", data);
-                 let per = res.data.filter(item => {
+                let per = res.data.filter(item => {
                     return item.PermissionCode == 'ERP.Product.ProductSample.View' && !item.HasPermission
                 })
                 if(per && per.length > 0){

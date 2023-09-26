@@ -3,9 +3,9 @@
         <el-row class="maina-tab-title">
             <el-col :span="24">
                 <div class="flot-left">
-                    <el-button type="primary" plain class="button-put" @click="routerMove()" v-permission="'ERP.Product.ProductSample.ExportSample'">申请样品确认</el-button>
-                    <el-button type="primary" plain class="button-put" @click="opreateButton(3)" v-permission="'ERP.Product.ProductSample.ApprovalSampleMemo'">提交样品结果</el-button>
+                    <el-button type="primary" plain class="button-put" @click="routerMove()" v-permission="'ERP.Product.ProductSample.SaveProductSample'">申请样品确认</el-button>
                     <el-button type="primary" plain class="button-put" @click="opreateButton(2)" v-permission="'ERP.Product.ProductSample.SaveSampleValidator'">分配样品确认员</el-button>
+                    <el-button type="primary" plain class="button-put" @click="opreateButton(3)" v-permission="'ERP.Product.ProductSample.ApprovalSampleMemo'">提交样品结果</el-button>
                     <el-button type="primary" plain class="button-put" @click="opreateButton(5)" v-permission="'PM00070'">申请修改结果</el-button>
                     <el-button type="primary" plain class="button-put" @click="opreateButton(6)" v-permission="'PM00071'">审核修改结果</el-button>
                     <el-dropdown trigger="hover"  @command="unCancelList" size='mini'>
@@ -14,6 +14,7 @@
                             style="margin-left:10px;height:25px;padding: 5px 15px;" 
                             @click="opreateButton(1)"
                             v-permission="'ERP.Product.ProductSample.CancelOff'"
+                            type="danger"
                         >
                             取消申请<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
@@ -34,9 +35,9 @@
                             报表导出<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item command= 20  >导出样品确认申请单</el-dropdown-item>
-                            <el-dropdown-item command= 30 v-permission="'ERP.Product.ProductSample.SaveSampleValidator'">导出样品进度清单</el-dropdown-item>
-                            <el-dropdown-item command= 40 >需求确认单</el-dropdown-item>
+                            <el-dropdown-item command= 20 >样品确认申请单</el-dropdown-item>
+                            <el-dropdown-item command= 40 >开发需求确认单</el-dropdown-item>
+                            <el-dropdown-item command= 30 v-permission="'ERP.Product.ProductSample.SaveSampleValidator'">样品确认进度报表</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                     <span v-if="optionPutExcle" class="reportTitle"><i class="el-icon-loading" style="margin-right:5px"></i>报表导出中</span>
@@ -48,9 +49,10 @@
                 v-loading="loading"
                 :data="mainTaskList" 
                 border 
+                :fit="true"
                 style="width: 100%"
                 @selection-change="handleSelectionChange" :height='changeMaxHeight()'
-                :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
+                :header-cell-style="{background:'#f5f7fa',color:'#606266',padding:'5px 0px' }"
              >
                 <el-table-column type="selection" width="40" header-align='center'></el-table-column>
                 <el-table-column width="150">
@@ -71,7 +73,7 @@
                     </template>
                 </el-table-column>
                 
-                <el-table-column prop="otherSKUAlias" >
+                <el-table-column prop="otherSKUAlias" width="380">
                     <template slot="header">
                         <div style="text-align:center">
                             产品名称/申请ID
@@ -79,9 +81,7 @@
                     </template>
                     <template slot-scope="scope">
                         <div>
-                            <span class="fileHoverShow" @click="openDevProductDetail(scope.row,2)">
-                                {{scope.row.productTitle}}  
-                            </span>
+                            {{scope.row.productTitle}}  
                         </div>
                         <div>
                             <el-tooltip placement="right" effect="light" :visible-arrow='false' popper-class='popperBorder' style="padding:0;border:none">
@@ -92,9 +92,14 @@
                                     {{scope.row.productKey}}
                                 </span>
                             </el-tooltip>
-                            <span v-if="(scope.row.productKey && !scope.row.productKey.includes('DEV'))" style="word-break: break-word;">
-                                （{{scope.row.skuAlias}}）  
-                            </span>
+                            <el-tooltip  v-if="(scope.row.productKey && !scope.row.productKey.includes('DEV'))" placement="right" effect="light" :visible-arrow='false' popper-class='popperBorder' style="padding:0;border:none">
+                                <span slot="content" class="copeTitle"  @click="copeDevelopId(scope.row.skuAlias)">
+                                    <i class="el-icon-document-copy" ></i>
+                                </span>
+                                <span  style="word-break: break-word;">
+                                    （{{scope.row.skuAlias}}）  
+                                 </span>
+                            </el-tooltip> 
                         </div>
                     </template>
                 </el-table-column>
@@ -150,7 +155,7 @@
                             <div :class="showClass(scope.row.state,'radiusDiv')"></div>
                             <div>
                                 <div>{{scope.row.stateValue}}</div>
-                                <div v-if="scope.row.sjDay">({{scope.row.sjDay}}天)</div>
+                                <div v-if="scope.row.sjDay"  style="color:#797979">({{scope.row.sjDay}}天)</div>
                             </div>
                         </div>
                         <div class="fileHoverShow" v-if="scope.row.preProductionDocuments"  @click="clickShowBill(scope.row)">({{scope.row.preProductionDocuments[0].stateValue}})</div>
@@ -231,7 +236,7 @@
                                 <el-dropdown-menu slot="dropdown">
                                     <el-dropdown-item :command='changCommand(item.value,scope.row)' style="width:100px;text-align:center" v-for="item in optionsList"  :key="item.value">
                                         <div v-permission:[item.permission]>
-                                            <div v-if="(scope.row.state == 8 && (item.value != 2 && item.value != 3)) || scope.row.state != 8">{{item.label}}</div>
+                                            <div v-if="item.value == 2 || (item.value == 3 && (scope.row.state == 3 || scope.row.state == 4 || scope.row.state == 1)) || (item.value == 4 && (scope.row.state == 2 || scope.row.state == 3))">{{item.label}}</div>
                                         </div>
                                     </el-dropdown-item>
                                 </el-dropdown-menu>
@@ -339,7 +344,8 @@ export default {
                 curApplicantId: null ,//申请人   true：自己  false：其他
                 status: null ,//状态   1:未提交  2：待分配   3：样品确认中   4：结果输出中   5：合格    6：改进后通过(产前样)    7：不合格     8：已取消
                 status1: [] ,//状态   1:未提交  2：待分配   3：样品确认中   4：结果输出中   5：合格    6：改进后通过(产前样)    7：不合格     8：已取消
-                search: null //搜索(供应商、开发ID、sku别名、sku、申请单号)
+                search:this.$route.query.search?this.$route.query.search :  null, //搜索(供应商、开发ID、sku别名、sku、申请单号)
+                search1: this.$route.query.search?true :  null //搜索(供应商、开发ID、sku别名、sku、申请单号)
             },
             dialogVisible:false,
             showTenth:false,
@@ -457,6 +463,7 @@ export default {
                 } 
             }
         },
+        //复制地址
         copeDevelopId(val){
             copyUrl(val)
         },
@@ -532,7 +539,7 @@ export default {
             }
             if(id == 1){
                 if(this.multipleSelection.some(res => res.state != 2 && res.state != 3 && res.state != 4)){
-                    this.warning('仅支持待分配，样品确认中,结果输出中可以操作取消！')
+                    this.warning('仅支持待分配，样品确认中，结果输出中可以操作取消！')
                     return
                 }
             }
@@ -543,7 +550,7 @@ export default {
                     return
                 }
                 if(this.multipleSelection.some(res => res.state != 5 && res.state != 6 && res.state != 7)){
-                    this.warning('仅支持合格，改进后通过(产前样),不合格状态可以操作！')
+                    this.warning('仅支持合格，改进后通过(产前样)，不合格状态可以操作！')
                     return
                 }
             }
@@ -574,7 +581,7 @@ export default {
                     return
                 }  
                 if(this.multipleSelection.every(item => item.scenarios == null || item.sampleCondition == null)){
-                    this.error(`所选数据类型未选定,无法导出需求确认单!`)
+                    this.error(`所选数据类型未选定，无法导出需求确认单!`)
                     return
                 }
                 let rowId = this.multipleSelection.filter(item => {
@@ -708,6 +715,8 @@ export default {
                             }
                         })
                     })
+                }else if(val.list.state == 4){
+                    this.error('请到详情页补充文件后再提交！')
                 }else {
                     this.opreateButton(val.value,val.list)
                 }  
@@ -866,7 +875,7 @@ export default {
 }
 .status-rudis {
     display: flex;
-    justify-content: left;
+    justify-content: center;
     // align-items: center;
     .radiusDiv{
         width: 10px;

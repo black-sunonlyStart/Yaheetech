@@ -825,6 +825,7 @@ import { commonUploadFile } from '@/api/user.js'
     }
     .text-m {
         word-break: break-all;
+        white-space: pre-line;
     }
     .loading-t {
         display: flex;

@@ -71,7 +71,6 @@
 import vuedraggable from 'vuedraggable'
 import {createUniqueString} from '@/utils/tools'
 import {saveProductSampleAttachment} from '@/api/user.js'
-import remarksNewVue from '../remarksNew.vue'
 export default {
   name: 'ImgUpload',
   props: {
@@ -106,11 +105,6 @@ export default {
         type: Boolean,
         default: false
     },
-    // 是否使用图片压缩
-    useCompress: {
-        type: Boolean,
-        default: false
-    },
     // 图片显示的宽度(px)
     width: {
         type: Number,
@@ -124,10 +118,6 @@ export default {
     showButton:{
         type:Boolean,
         default:true
-    },
-    imageKey:{
-        type:Number,
-        default:1
     },
     imageURl:{
         type:String,
