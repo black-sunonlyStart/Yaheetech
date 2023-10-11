@@ -5,7 +5,7 @@
                 <div class="flot-left">
                     <el-button type="primary" v-permission="'PM00048'"  class="button-put" plain @click="routerMove()">发起需求</el-button>
                     <el-button type="primary" v-permission="'PM00047'" class="button-put" plain @click="toExamine()">审核</el-button>
-                    <el-dropdown  size="mini" style="margin-left:10px" @command="assignDesigner">
+                    <!-- <el-dropdown  size="mini" style="margin-left:10px" @command="assignDesigner">
                         <el-button plain  class="button-put" @click="assignDesigner(1)" v-permission="'PM00039'">
                             分配设计师<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
@@ -13,7 +13,10 @@
                             <el-dropdown-item :command="2" v-permission="'PM00041'">分配专利检索</el-dropdown-item>  
                             <el-dropdown-item :command="3" v-permission="'PM00042'">更换业务开发</el-dropdown-item>  
                         </el-dropdown-menu>
-                    </el-dropdown>
+                    </el-dropdown> -->
+                    <el-button v-permission="'PM00039'" plain style="margin-left:10px" class="button-put" @click="assignDesigner(1)">分配设计师</el-button>
+                    <el-button v-permission="'PM00041'" plain style="margin-left:10px" class="button-put" @click="assignDesigner(2)">分配专利检索</el-button>
+                    <el-button v-permission="'PM00042'" plain style="margin-left:10px" class="button-put" @click="assignDesigner(3)">更换业务开发</el-button>
                     <el-button v-permission="'PM00043'" plain style="margin-left:10px" class="button-put" @click="assignDesigner(8)">跳过立项</el-button>
                     <el-button v-permission="'PM00044'" plain class="button-put" @click="assignDesigner(9)">跳过结构设计</el-button>
                     <el-dropdown v-permission="'PM00045'" size="mini" style="margin-left:10px" @command="assignDesigner">
@@ -88,7 +91,7 @@
                                     </el-image>
                                     <el-image
                                         slot="reference"
-                                        style="width: 80px; height: 80px; dispaly:black;margin-top:3px;cursor:pointer;"
+                                        style="width: 80px; height: 80px; dispaly:block;margin-top:3px;cursor:pointer;"
                                         :src="GetFileServiceUrl('Small/' + scope.row.showProductDemandImg)" 
                                         lazy
                                         @click="blankImageUrl(GetFileServiceUrl(scope.row.showProductDemandImg))"

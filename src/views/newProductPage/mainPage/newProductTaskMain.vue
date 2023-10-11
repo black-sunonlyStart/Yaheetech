@@ -82,7 +82,7 @@
                                     </el-image>
                                     <el-image
                                         slot="reference"
-                                        style="width: 80px; height: 80px; dispaly:black;margin-top:3px;cursor:pointer;"
+                                        style="width: 80px; height: 80px; dispaly:block;margin-top:3px;cursor:pointer;"
                                         :src="GetFileServiceUrl('Small/' + scope.row.pictureUri)" 
                                         lazy
                                         @click="blankImageUrl(GetFileServiceUrl(scope.row.pictureUri))"

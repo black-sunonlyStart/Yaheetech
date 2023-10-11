@@ -13,231 +13,231 @@
         @row-click="handleRowClick"
         v-loading="loading" 
         >
-      <el-table-column 
-        type="selection"
-        width="40"
-        header-align='center'
+        <el-table-column 
+            type="selection"
+            width="40"
+            header-align='center'
         >
-      </el-table-column>
-      <el-table-column 
-        label="产品图片"
-        width="100"
-        header-align='center'
+        </el-table-column>
+        <el-table-column 
+            label="产品图片"
+            width="100"
+            header-align='center'
         >
-        <template slot-scope="scope">
-            <div :class="scope.row.developmentScenarios < 8 ?'imageTitel':'imageTitelRed'">{{showScenarios(scope.row.developmentScenarios)}}</div>
-            <el-popover
-                placement="right"
-                trigger="hover"
-                v-if="scope.row.imagesUri"
-                >
-                <el-image
-                    style="width: 200px; height: 200px; dispaly:black"
-                    :src="scope.row.showBigImgUrl" 
-                    :scroll-container="scrollContainer"
-                    :key="scope.row.showBigImgUrl * Math.random()"
-                    lazy
-                    fit="fill">
-                    <div slot="placeholder" class="image-slot">
-                        <i class="el-icon-loading"></i>
-                    </div>
-                </el-image>
-                <el-image
-                    slot="reference"
-                    style="width: 80px; height: 80px; dispaly:black;margin-top:3px;cursor:pointer;"
-                    :src="scope.row.showImgUrl" 
-                    lazy
-                    :scroll-container="scrollContainer"
-                    fit="fill"
+            <template slot-scope="scope">
+                <div :class="scope.row.developmentScenarios < 8 ?'imageTitel':'imageTitelRed'">{{showScenarios(scope.row.developmentScenarios)}}</div>
+                <el-popover
+                    placement="right"
+                    trigger="hover"
+                    v-if="scope.row.imagesUri"
                     >
-                    <div slot="placeholder" class="image-slot icon-loading">
-                        <i class="el-icon-loading" ></i>
-                    </div>
-                    <div slot="error" class="image-slot" style="margin-top:35px;margin-left:5px;color:#cccccc">
-                        <i class="el-icon-picture-outline">加载失败</i>
-                    </div>
-                </el-image>  
-         </el-popover>
-          <div v-else>
+                    <el-image
+                        style="width: 200px; height: 200px; dispaly:block"
+                        :src="scope.row.showBigImgUrl" 
+                        :scroll-container="scrollContainer"
+                        :key="scope.row.showBigImgUrl * Math.random()"
+                        lazy
+                        fit="fill">
+                        <div slot="placeholder" class="image-slot">
+                            <i class="el-icon-loading"></i>
+                        </div>
+                    </el-image>
+                    <el-image
+                        slot="reference"
+                        style="width: 80px; height: 80px; dispaly:block;margin-top:3px;cursor:pointer;"
+                        :src="scope.row.showImgUrl" 
+                        lazy
+                        :scroll-container="scrollContainer"
+                        fit="fill"
+                        >
+                        <div slot="placeholder" class="image-slot icon-loading">
+                            <i class="el-icon-loading" ></i>
+                        </div>
+                        <div slot="error" class="image-slot" style="margin-top:35px;margin-left:5px;color:#cccccc">
+                            <i class="el-icon-picture-outline">加载失败</i>
+                        </div>
+                    </el-image>  
+                </el-popover>
+                <div v-else>
                     <div  class="image-slot" style="height: 80px;display: flex;justify-content: center;align-items: center;color:#cccccc">
                         <i class="el-icon-picture-outline">暂无图片</i>
                     </div>
                 </div>
-        </template>
-      </el-table-column>
-      <el-table-column 
-            prop="name"
-            label="市场"
-            align='center'
-            width="60"
-            >
-        <template slot-scope="scope">
-            <div class="remarksTitle">{{scope.row.countryName}}</div>
-            <div class="otherRemarks" v-for="item in scope.row.otherCountryNames" :key="item">{{item}}</div>
-        </template>
-      </el-table-column>
-      <el-table-column 
+            </template>
+        </el-table-column>
+        <el-table-column 
+                prop="name"
+                label="市场"
+                align='center'
+                width="60"
+                >
+            <template slot-scope="scope">
+                <div class="remarksTitle">{{scope.row.countryName}}</div>
+                <div class="otherRemarks" v-for="item in scope.row.otherCountryNames" :key="item">{{item}}</div>
+            </template>
+        </el-table-column>
+        <el-table-column 
             prop="name"
             label="产品等级"
             align='center'
             width="80"
             >
-        <template slot-scope="scope">
-            <div>{{scope.row.productLevelValue}}</div>
-        </template>
-      </el-table-column>
-      <el-table-column 
+            <template slot-scope="scope">
+                <div>{{scope.row.productLevelValue}}</div>
+            </template>
+        </el-table-column>
+        <el-table-column 
             prop="productTypeName"
             label="产品名称"
             header-align='center'
             width="250"
             >
-        <template slot-scope="scope">
-            <div class="remarksenTitle" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'跳转产品详情页链接',businessCode:'/productDetails'}"  @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">{{scope.row.enTitle}}</div>
-            <div>{{scope.row.title || '--'}}</div>
-            <el-tooltip placement="right" effect="light" :visible-arrow='false' popper-class='popperBorder' style="padding:0;border:none">
-                <span slot="content" class="copeTitle"  @click="copeDevelopId(scope.row.developmentId)">
-                        <i class="el-icon-document-copy" ></i>
-                    </span>
-                <div style="display:inline-block">普通产品:{{scope.row.developmentId}}</div>
-            </el-tooltip>
-            <el-tooltip placement="right" effect="light" :visible-arrow='false' popper-class='popperBorder' style="padding:0;border:none">
-                <span slot="content" class="copeTitle"  @click="copeDevelopId(scope.row.skuAlias)">
-                        <i class="el-icon-document-copy" ></i>
-                    </span>
-                <div style="display:inline-block">sku别名:{{scope.row.skuAlias || '--'}}</div>
-            </el-tooltip>
-            <!-- <div>sku别名:{{scope.row.skuAlias || '--'}}</div> -->
-        </template>
-      </el-table-column>
-      <el-table-column
-        label="产品利润"
-        header-align='center'
-        width="300"
+            <template slot-scope="scope">
+                <div class="remarksenTitle" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'跳转产品详情页链接',businessCode:'/productDetails'}"  @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">{{scope.row.enTitle}}</div>
+                <div>{{scope.row.title || '--'}}</div>
+                <el-tooltip placement="right" effect="light" :visible-arrow='false' popper-class='popperBorder' style="padding:0;border:none">
+                    <span slot="content" class="copeTitle"  @click="copeDevelopId(scope.row.developmentId)">
+                            <i class="el-icon-document-copy" ></i>
+                        </span>
+                    <div style="display:inline-block">普通产品:{{scope.row.developmentId}}</div>
+                </el-tooltip>
+                <el-tooltip placement="right" effect="light" :visible-arrow='false' popper-class='popperBorder' style="padding:0;border:none">
+                    <span slot="content" class="copeTitle"  @click="copeDevelopId(scope.row.skuAlias)">
+                            <i class="el-icon-document-copy" ></i>
+                        </span>
+                    <div style="display:inline-block">sku别名:{{scope.row.skuAlias || '--'}}</div>
+                </el-tooltip>
+                <!-- <div>sku别名:{{scope.row.skuAlias || '--'}}</div> -->
+            </template>
+        </el-table-column>
+        <el-table-column
+            label="产品利润"
+            header-align='center'
+            width="300"
         >
-        <template slot-scope="scope">
-            <div v-for="item in scope.row.productMarketStrs" :key="item.platformName">
-                <div style="font-weight:bold">{{item.platformName}}:</div>
-                <div>{{item.currency}} {{item.developmentPrice ? item.developmentPrice.toFixed(2) : '--'}} ：
-                    <span v-for="(rows,index) in item.marketProfits " :key="rows.warehouseId">
-                        <el-tooltip :content="rows.warehouseName" effect="dark" placement="top" :key="rows.warehouseId">
-                            <span v-if="index == item.marketProfits.length - 1" :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin ? (rows.profitMargin * 100).toFixed(2) + '%' + ' ' : '--'}}</span>
-                            <span v-else :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin ? (rows.profitMargin * 100).toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
-                        </el-tooltip>
-                    </span>              
-                </div>
-                <div v-if="item.sfp">  
-                    <div style="font-weight:bold" >{{item.platformName}}-SFP:</div>
-                    <div>{{item.currency}} {{item.sfpDevelopmentprice ? item.sfpDevelopmentprice.toFixed(2) : '--'}} ： 
+            <template slot-scope="scope">
+                <div v-for="item in scope.row.productMarketStrs" :key="item.platformName">
+                    <div style="font-weight:bold">{{item.platformName}}:</div>
+                    <div>{{item.currency}} {{item.developmentPrice ? item.developmentPrice.toFixed(2) : '--'}} ：
                         <span v-for="(rows,index) in item.marketProfits " :key="rows.warehouseId">
-                            <span v-if="rows.sfpDevelopmentprice">
-                                <el-tooltip :content="rows.warehouseName" effect="dark" placement="top" :key="rows.warehouseId">
-                                     <span v-if="index == item.marketProfits.length - 1" :class="rows.sfpProfitMargin < 0 ? 'boxColor':''">{{rows.sfpProfitMargin ? (rows.sfpProfitMargin * 100).toFixed(2) + '%' + ' ' : '--'}}</span>
-                                     <span v-else :class="rows.sfpProfitMargin < 0 ? 'boxColor':''">{{rows.sfpProfitMargin ? (rows.sfpProfitMargin * 100).toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
-                                </el-tooltip>
-                            </span>
+                            <el-tooltip :content="rows.warehouseName" effect="dark" placement="top" :key="rows.warehouseId">
+                                <span v-if="index == item.marketProfits.length - 1" :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin ? (rows.profitMargin * 100).toFixed(2) + '%' + ' ' : '--'}}</span>
+                                <span v-else :class="rows.profitMargin < 0 ? 'boxColor':''">{{rows.profitMargin ? (rows.profitMargin * 100).toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
+                            </el-tooltip>
                         </span>              
                     </div>
+                    <div v-if="item.sfp">  
+                        <div style="font-weight:bold" >{{item.platformName}}-SFP:</div>
+                        <div>{{item.currency}} {{item.sfpDevelopmentprice ? item.sfpDevelopmentprice.toFixed(2) : '--'}} ： 
+                            <span v-for="(rows,index) in item.marketProfits " :key="rows.warehouseId">
+                                <span v-if="rows.sfpDevelopmentprice">
+                                    <el-tooltip :content="rows.warehouseName" effect="dark" placement="top" :key="rows.warehouseId">
+                                        <span v-if="index == item.marketProfits.length - 1" :class="rows.sfpProfitMargin < 0 ? 'boxColor':''">{{rows.sfpProfitMargin ? (rows.sfpProfitMargin * 100).toFixed(2) + '%' + ' ' : '--'}}</span>
+                                        <span v-else :class="rows.sfpProfitMargin < 0 ? 'boxColor':''">{{rows.sfpProfitMargin ? (rows.sfpProfitMargin * 100).toFixed(2) + '%' + ' ' + '/' : '--'}}</span>
+                                    </el-tooltip>
+                                </span>
+                            </span>              
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </template>
-      </el-table-column>
-      <el-table-column 
+            </template>
+        </el-table-column>
+        <el-table-column 
             label="产品尺寸 / 属性"
             show-overflow-tooltip
             header-align='center'
             align='center'
         >
-        <template slot-scope="scope">
-            <div>{{scope.row.size || '--'}}</div>
-            <div v-if="scope.row.packingWay == '多箱'" style="color:red">{{scope.row.packingWay}}</div>
-            <div v-if="scope.row.shape == '不规则'" style="color:red">{{scope.row.shape }}</div>
-        </template>
-      </el-table-column>
-      <el-table-column 
+            <template slot-scope="scope">
+                <div>{{scope.row.size || '--'}}</div>
+                <div v-if="scope.row.packingWay == '多箱'" style="color:red">{{scope.row.packingWay}}</div>
+                <div v-if="scope.row.shape == '不规则'" style="color:red">{{scope.row.shape }}</div>
+            </template>
+        </el-table-column>
+        <el-table-column 
             prop="seriesCategoryName"
             label="类目-系列"
             show-overflow-tooltip
             v-if="showOrder"
             header-align='center'
             >
-      </el-table-column>
-      <el-table-column 
+        </el-table-column>
+        <el-table-column 
             prop="stateName"
             label="开发状态"
             show-overflow-tooltip   
             header-align='center'
-             align='center'
+            align='center'
         >
-        <template slot-scope="scope">
-            <div>
-                {{scope.row.stateName}}
-            </div>
-            <div v-if="scope.row.backNum" style="color:red" @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">
-                打回次数：{{scope.row.backNum}}/{{scope.row.backTotalNum}}
-            </div>
-        </template>
-      </el-table-column>
-      <el-table-column 
+            <template slot-scope="scope">
+                <div>
+                    {{scope.row.stateName}}
+                </div>
+                <div v-if="scope.row.backNum" style="color:red" @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">
+                    打回次数：{{scope.row.backNum}}/{{scope.row.backTotalNum}}
+                </div>
+            </template>
+        </el-table-column>
+        <el-table-column 
             label="业务 / 采购"
             show-overflow-tooltip
             header-align='center'
-             align='center'
+            align='center'
             >
             <template slot-scope="scope">
                 <div>{{scope.row.businessName}}</div>
                 <div>{{scope.row.buyerName}}</div>
             </template>
-      </el-table-column>
-      <el-table-column 
-        label="创建 / 更新时间"
-        show-overflow-tooltip
-        header-align='center'
-        >
+        </el-table-column>
+        <el-table-column 
+            label="创建 / 更新时间"
+            show-overflow-tooltip
+            header-align='center'
+            >
             <template slot-scope="scope">
                 <div>{{$moment(scope.row.createdOn).format("YYYY-MM-DD HH:mm")}}</div>
                 <div>{{$moment(scope.row.modifyOn).format("YYYY-MM-DD HH:mm")}}</div>
                 <div :class="scope.row.priority == 2? 'priorityStyle':'smallPriorityStyle'">{{scope.row.priority ? getPriority(scope.row.priority) : ''}}</div>
             </template>
-      </el-table-column>
-      <el-table-column 
-        label="操作"
-        show-overflow-tooltip
-        header-align='center'
-         align='center'
-         width="80px"
-        >
-        <template slot-scope="scope">
-            <div class="operaBox" v-show="stateList.includes(scope.row.state)">
-                <el-tooltip class="item" effect="dark" content="编辑" placement="bottom-start">
-                    <div class="imageBox" 
-                    @click="clickEdit(scope.row.developmentId,scope.row.productId,scope.row.id)" 
-                    v-permission="'ERP.Product.ProductDev.Select'" 
-                    perkey='ERP.Product.ProductDev.SalesManEdit'
-                    v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑开发产品',businessCode: '编辑',}"
-                    ></div>
-                </el-tooltip>
-                <!-- <el-tooltip class="item" effect="dark" content="操作" placement="bottom-start"> -->
-                <el-popover
-                    placement="bottom"
-                    width="80"
-                    trigger="hover">
-                    <div class="operationBox" v-for="item in operationList" :key="item.id"> 
-                        <div class="operationText"  
-                        @click="putOperation(scope.row,item.id)"
-                        >
-                        <div class="nameBox" 
-                       
-                        v-permission:[item.perkey] :perkey='item.perkey'
-                        v-track="{triggerType:'click',currentUrl: $route.path,behavior:item.name}"
-                        >{{item.name}}</div></div>
-                    </div>
-                    <div class="imageBox1" slot="reference" @mouseover="openOperation(scope.row)"></div>
-                </el-popover>
-                <!-- </el-tooltip> -->
-            </div>
-        </template>             
-      </el-table-column>
+        </el-table-column>
+        <el-table-column 
+            label="操作"
+            show-overflow-tooltip
+            header-align='center'
+            align='center'
+            width="80px"
+            >
+            <template slot-scope="scope">
+                <div class="operaBox" v-show="stateList.includes(scope.row.state)">
+                    <el-tooltip class="item" effect="dark" content="编辑" placement="bottom-start">
+                        <div class="imageBox" 
+                        @click="clickEdit(scope.row.developmentId,scope.row.productId,scope.row.id)" 
+                        v-permission="'ERP.Product.ProductDev.Select'" 
+                        perkey='ERP.Product.ProductDev.SalesManEdit'
+                        v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑开发产品',businessCode: '编辑',}"
+                        ></div>
+                    </el-tooltip>
+                    <!-- <el-tooltip class="item" effect="dark" content="操作" placement="bottom-start"> -->
+                    <el-popover
+                        placement="bottom"
+                        width="80"
+                        trigger="hover">
+                        <div class="operationBox" v-for="item in operationList" :key="item.id"> 
+                            <div class="operationText"  
+                                @click="putOperation(scope.row,item.id)"
+                            >
+                            <div class="nameBox" 
+                        
+                            v-permission:[item.perkey] :perkey='item.perkey'
+                            v-track="{triggerType:'click',currentUrl: $route.path,behavior:item.name}"
+                            >{{item.name}}</div></div>
+                        </div>
+                        <div class="imageBox1" slot="reference" @mouseover="openOperation(scope.row)"></div>
+                    </el-popover>
+                    <!-- </el-tooltip> -->
+                </div>
+            </template>             
+        </el-table-column>
     </el-table>
     <!-- <div class="pageInation-box"> -->
         <el-pagination 
@@ -253,7 +253,7 @@
         </el-pagination>
     <!-- </div> -->
     <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog" @getTableList='getTableList' :row='row' :navFilterList='navFilterList' :showOrder='showOrder'></messageDialog>
-  </div>
+</div>
 
 </template>
 <script>
@@ -262,92 +262,92 @@ import { formatDate,copyUrl, } from '@/utils/tools'
 import throttle from 'lodash.throttle'
 import debounce from 'lodash.debounce'
 export default {
-  name: 'mainTable',
-  components:{
-      messageDialog:() => import('../../../components/productDetail/messageDialog.vue')
-  },
-  data () {
-    return {
-      stateList:[0,1,2,3,4,5,6,10,11,12,13],
-      row:{},
-      dialogName:'',
-      operationList:{},
-      currentPage4: 1,
-      tableData: [],
-      multipleSelection: [],
-      pageSize:50,
-      pageNum:1,
-      total:50,
-      clickId:0,
-      lastImageUrl:'',
-      loading:true,
-      showOrder:false,
-      renderDom:false,
-      IsAdminRoleId:'',
-    }
-  },
-  props:{
-      navFilterList:{
-      type: Object,
-      default:() => ({})
+    name: 'mainTable',
+    components:{
+        messageDialog:() => import('../../../components/productDetail/messageDialog.vue')
     },
-  },
-  watch:{
-      navFilterList:{
-          handler:function(val){
-              if(val){
-                this.pageNum = 1
-                this.getTableList(val)
-              }
-          },
-          deep:true
-      }
-  },
-  computed:{
-      scrollContainer(){
-          return document.querySelector('.el-table__body-wrapper')
-      }
-  },
-  created(){ 
-      this.newGetImagePath()
-      let  params = [
-          'ERP.Product.ProductDev.SalesManEdit',
-          'ERP.Product.ProductDev.EditAuth',
-          'ERP.Product.ProductDev.BuyerEdit',
-          'ERP.Product.ProductDev.ADD',
-          'ERP.Product.ProductDev.ManagerCancel',
-          'ERP.Product.ProductDev.ManagerAudit',
-          'ERP.Product.ProductDev.EditGroup',
-          'ERP.Product.ProductDev.SalesManBack',
-          'ERP.Product.ProductDev.BuyerBack',
-          'ERP.Product.ProductDev.SalesBack',
-          'ERP.Product.ProductDev.Cancel',
-          'ERP.Product.ProductDev.EndAudit',
-          'ERP.Product.ProductDev.AuditAuth',
-          'ERP.Product.ProductDev.PurchasingSupervisorAudit',
-          'ERP.Product.ProductDev.BackToFreezingOff',
-          'ERP.Product.ProductDev.SamplePurchaseAudit',
-          'ERP.Product.ProductDev.Select',
-          'ERP.Product.ProductDev.DistributionProcurement',
-          'ERP.Product.ProductDev.FreezingOff',
-          'ERP.Product.ProductDev.Audit',
-          'ERP.Product.ProductDev.EndAudit',
-          'ERP.Product.ProductDev.ExportSample',
-          'ERP.Product.ProductDev.ProfitsFirstTrial',
-          'ERP.Product.ProductSample.SaveProductSample',
-      ]
+    data () {
+        return {
+            stateList:[0,1,2,3,4,5,6,10,11,12,13],
+            row:{},
+            dialogName:'',
+            operationList:{},
+            currentPage4: 1,
+            tableData: [],
+            multipleSelection: [],
+            pageSize:50,
+            pageNum:1,
+            total:50,
+            clickId:0,
+            lastImageUrl:'',
+            loading:true,
+            showOrder:false,
+            renderDom:false,
+            IsAdminRoleId:'',
+        }
+    },
+    props:{
+        navFilterList:{
+        type: Object,
+        default:() => ({})
+        },
+    },
+    watch:{
+        navFilterList:{
+            handler:function(val){
+                if(val){
+                    this.pageNum = 1
+                    this.getTableList(val)
+                }
+            },
+            deep:true
+        }
+    },
+    computed:{
+        scrollContainer(){
+            return document.querySelector('.el-table__body-wrapper')
+        }
+    },
+    created(){ 
+        this.newGetImagePath()
+        let  params = [
+            'ERP.Product.ProductDev.SalesManEdit',
+            'ERP.Product.ProductDev.EditAuth',
+            'ERP.Product.ProductDev.BuyerEdit',
+            'ERP.Product.ProductDev.ADD',
+            'ERP.Product.ProductDev.ManagerCancel',
+            'ERP.Product.ProductDev.ManagerAudit',
+            'ERP.Product.ProductDev.EditGroup',
+            'ERP.Product.ProductDev.SalesManBack',
+            'ERP.Product.ProductDev.BuyerBack',
+            'ERP.Product.ProductDev.SalesBack',
+            'ERP.Product.ProductDev.Cancel',
+            'ERP.Product.ProductDev.EndAudit',
+            'ERP.Product.ProductDev.AuditAuth',
+            'ERP.Product.ProductDev.PurchasingSupervisorAudit',
+            'ERP.Product.ProductDev.BackToFreezingOff',
+            'ERP.Product.ProductDev.SamplePurchaseAudit',
+            'ERP.Product.ProductDev.Select',
+            'ERP.Product.ProductDev.DistributionProcurement',
+            'ERP.Product.ProductDev.FreezingOff',
+            'ERP.Product.ProductDev.Audit',
+            'ERP.Product.ProductDev.EndAudit',
+            'ERP.Product.ProductDev.ExportSample',
+            'ERP.Product.ProductDev.ProfitsFirstTrial',
+            'ERP.Product.ProductSample.SaveProductSample',
+        ]
         hasPermissions(params).then(res => {
            let data = JSON.stringify( res.data);
             sessionStorage.setItem("permissions", data);
             this.renderDom = true
             this.getEmployee()
         })
-  },
-  mounted(){
-      this.getTableList(this.navFilterList)
+    },
+    mounted(){
+        this.getTableList(this.navFilterList)
 
-  },
-  methods: {
+    },
+    methods: {
       showDev(row,id){
           if( row.auditor == this.IsAdminRoleId && ((row.state == 3 && id == 14) || (row.state == 5 && id == 40))){
               return false 
@@ -853,7 +853,7 @@ export default {
         if(val &&  (val.state || val.state == 0)){
             status.push(val.state)
         }else {
-           if(val.status1 && val.status1.length > 0){
+            if(val.status1 && val.status1.length > 0){
                 status = []
             }else {
                 status = [0, 1, 2, 3, 4, 5, 6, 10, 11, 12, 13]
@@ -884,12 +884,12 @@ export default {
             seriesCategoryId: val.seriesCategoryId,//一级(类目id)
             classifyDefId:val.classifyDefId,
         }
-         if(val.search){
-             if(!pageSize){
+        if(val.search){
+            if(!pageSize){
                 params.pageNum =1
-             }
-             params.state = val.state && val.state.length > 0 ? val.state:null
-       }
+            }
+            params.state = val.state && val.state.length > 0 ? val.state:null
+        }
         this.loading = true
         fetchPageTableList(params).then(res => {
             if(res.data && res.data.rows){
@@ -898,14 +898,13 @@ export default {
                     item.showBigImgUrl = `${this.lastImageUrl}upload/CompetingProduct/${item.developmentId}/${item.imagesUri}`
                     this.loading = false
                 });
-              }else{
+            }else{
                 this.loading = false  
-              }
+            }
             this.currentPage4 = res.data && res.data.pageNum ? res.data.pageNum : 0
             this.tableData = res.data && res.data.rows ? res.data.rows : []
             this.total = res.data && res.data.rows ? res.data.records : 0
             this.$emit('getTotal',this.total)
-        
         }).catch((err) => {
             if(err == 1){
                 this.loading = true     
@@ -916,8 +915,8 @@ export default {
         
     },300),
     handleSelectionChange (val) {
-      this.multipleSelection = val;
-      this.$emit('putTbleSelection',val)
+        this.multipleSelection = val;
+        this.$emit('putTbleSelection',val)
     },
     handleSizeChange (val) {
         this.pageSize = val
@@ -941,8 +940,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size:25px
-    
+    font-size:25px;
 }
 .imageTitel {
     display: inline-block;

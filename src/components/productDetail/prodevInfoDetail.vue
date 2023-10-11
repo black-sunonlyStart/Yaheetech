@@ -48,7 +48,7 @@
                 <div class="postionBox">工厂提供照片：</div>
                     <div v-for="item in prodevInfoDetaiList.factoryGaveImage" :key="item.id">
                         <el-image
-                            style="width: 100px; height: 100px; dispaly:black;margin-right:10px"
+                            style="width: 100px; height: 100px; dispaly:block;margin-right:10px"
                             :src="item.showImgUrl"
                             fit="fill">
                             <div slot="placeholder" class="image-slot icon-loading">
