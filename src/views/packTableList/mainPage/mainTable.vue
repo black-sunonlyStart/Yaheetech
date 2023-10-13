@@ -465,6 +465,7 @@ export default {
                       this.getTableList(this.navFilterList)
                   }
               }) 
+              return
           }else if(id == 14){
              this.dialogName ='利润初审通过'
           }else if (id == 26){

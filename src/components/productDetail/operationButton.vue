@@ -135,8 +135,10 @@ export default {
                             message:'解冻成功',
                             offset:220
                         })
+                        this.getTableList()
                     }
                 }) 
+                return
             }else if(id == 14){
                 this.dialogName ='利润初审通过'
             }else if (id == 26){

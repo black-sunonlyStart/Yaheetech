@@ -13,7 +13,7 @@
             <el-card class="sample-basis">
                 <div slot="header" class="clearfix">
                     <div>样品基础数据
-                        <div v-if="mainPageList.state == 1 || !mainPageList.state">
+                        <div v-if="mainPageList.state == 1 || !mainPageList.state"  v-permission="'ERP.Product.ProductSample.SaveProductSample'">
                             <div class="edit-position" @click="controlsEdit.isEdit = !controlsEdit.isEdit" v-if="controlsEdit.isEdit">
                                 <span><i class="icon-edit"></i>编辑</span>
                             </div>
@@ -339,7 +339,7 @@
             <el-card>
                 <div slot="header" class="clearfix">
                     <div>样品确认数据 <!-- -->
-                        <div v-if="mainPageList.state == 3 || mainPageList.state == 4">
+                        <div v-if="mainPageList.state == 3 || mainPageList.state == 4"  v-permission="'ERP.Product.ProductSample.ApprovalSampleMemo'">
                             <div class="edit-position" @click="controlsEdit.isEdit1 = !controlsEdit.isEdit1" v-if="controlsEdit.isEdit1">
                                 <span><i class="icon-edit"></i>编辑</span>
                             </div>
@@ -436,8 +436,10 @@
                     </el-row>
                     <el-row class="textSpeaing" v-if="mainPageList.sampleConfirmationResult == 7 || mainPageList.sampleConfirmationResult == 6">              
                         <el-col :span="20">
-                            <span class="imageMainbox"> 问题描述： </span>
-                            <span class="imageMainboxText">{{mainPageList.problemDesc}}</span>
+                            <div class="boxFlex">
+                                <span class="imageMainbox"> 问题描述： </span>
+                                <span class="imageMainboxText" style="white-space: pre-wrap;">{{mainPageList.problemDesc}}</span>
+                            </div>
                         </el-col>
                         <el-col :span="20" >
                             <div style="display:flex">

@@ -250,12 +250,12 @@
                 <el-row :gutter="150">
                     <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                         <el-form-item label="基础信息:" prop="basicInformation">
-                            <el-input v-model="ruleForm.basicInformation" type="textarea" :rows="6" maxlength="300" show-word-limit></el-input>
+                            <el-input v-model="ruleForm.basicInformation" type="textarea" :rows="6" maxlength="1000" show-word-limit></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                         <el-form-item label="竞品信息:" prop="jpInformation">
-                            <el-input type="textarea" v-model="ruleForm.jpInformation" :rows="6" maxlength="300" show-word-limit></el-input>
+                            <el-input type="textarea" v-model="ruleForm.jpInformation" :rows="6" maxlength="1000" show-word-limit></el-input>
                         </el-form-item>
                     </el-col>
                 </el-row>   
@@ -945,12 +945,12 @@ export default {
             });
         },
         requireLimitLength(){
-            if(this.ruleForm.jpInformation && this.ruleForm.jpInformation.length > 300){
-                this.error('竞品信息最多填写300字符，请修改后在提交！');
+            if(this.ruleForm.jpInformation && this.ruleForm.jpInformation.length > 1000){
+                this.error('竞品信息最多填写1000字符，请修改后在提交！');
                 return
             }
-            if(this.ruleForm.basicInformation && this.ruleForm.basicInformation.length > 300){
-                this.error('基础信息最多填写300字符，请修改后在提交！');
+            if(this.ruleForm.basicInformation && this.ruleForm.basicInformation.length > 1000){
+                this.error('基础信息最多填写1000字符，请修改后在提交！');
                 return
             }
             if(this.ruleForm.sampleImprovedInformation && this.ruleForm.sampleImprovedInformation.length > 300){

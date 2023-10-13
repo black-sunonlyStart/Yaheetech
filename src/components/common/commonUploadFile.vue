@@ -22,6 +22,10 @@
                 <div>请上传{{accept}}类型的文件，最多上传{{limit}}个文件</div>
             </div>
         </el-upload>
+        <!-- <div v-for="item in fileList" :key="item.id">
+            {{item.fileName}}
+            <el-progress :percentage="percentage" :color="customColors"></el-progress>
+        </div> -->
     </div>
 </div>
 </template>
@@ -82,7 +86,14 @@ export default {
 
 data () {
     return {
-      
+        percentage: 20,
+        customColors: [
+            {color: '#f56c6c', percentage: 20},
+            {color: '#e6a23c', percentage: 40},
+            {color: '#5cb87a', percentage: 60},
+            {color: '#1989fa', percentage: 80},
+            {color: '#409eff', percentage: 100}
+        ]
     }
 },
 
@@ -179,7 +190,7 @@ methods: {
             }
         })  
     },
-     handlePreview(file) {
+    handlePreview(file) {
         //文件点击事件
         window.open(`${this.imgUrl}${file.fileUri}`)
     },

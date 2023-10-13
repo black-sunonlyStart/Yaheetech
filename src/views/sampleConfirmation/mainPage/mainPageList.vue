@@ -317,7 +317,7 @@ export default {
                 {
                     value: 2,
                     label: '详情',
-                    permission:'ERP.Product.ProductSample.SaveProductSample',
+                    permission:'ERP.Product.ProductSample.View',
                 },
                 {
                     value: 3,
