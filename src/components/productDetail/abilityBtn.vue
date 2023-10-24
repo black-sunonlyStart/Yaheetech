@@ -7,7 +7,7 @@
             icon="el-icon-circle-plus-outline" 
             v-permission="'ERP.Product.ProductDev.ADD'" 
             v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发产品按钮'}"
-        >开发产品</el-button>
+        >{{M2('开发产品')}}</el-button>
         <!-- <el-button size="mini" >更换业务开发</el-button> -->
         <el-dropdown trigger="hover"  @command="changeOrderPer" size='mini' >
             <el-button type="primary" 
@@ -18,7 +18,7 @@
                 @click="handleCommand"
                 v-track="{triggerType:'click',currentUrl: $route.path,behavior:'更换业务开发按钮'}"
             >
-                 更换业务开发<i class="el-icon-arrow-down el-icon--right"></i>
+                {{M2('更换业务开发')}}<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
                 <!-- <el-dropdown-item command= 6 plain>更换采购开发</el-dropdown-item> -->
@@ -28,12 +28,12 @@
                     v-permission="'ERP.Product.ProductDev.DistributionProcurement'" 
                     perkey='ERP.Product.ProductDev.DistributionProcurement'
                     v-track="{triggerType:'click',currentUrl: $route.path,behavior:'更换采购开发按钮'}"
-                >更换采购开发</el-dropdown-item>
+                >{{M2('更换采购开发')}}</el-dropdown-item>
                 <el-dropdown-item 
                     command= 30 
                     plain  
                     v-track="{triggerType:'click',currentUrl: $route.path,behavior:'更换负责人按钮'}"
-                >更换负责人</el-dropdown-item>
+                >{{M2('更换负责人')}}</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
         <el-dropdown trigger="hover" @command="frozenCommand" size='mini' >
@@ -45,7 +45,7 @@
                 @click="freezelist" 
                 v-permission="'ERP.Product.ProductDev.FreezingOff'" 
                 v-track="{triggerType:'click',currentUrl: $route.path,behavior:'冻结数据按钮'}"
-            >冻结数据<i class="el-icon-arrow-down el-icon--right"></i>
+            >{{M2('冻结数据')}}<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown" >
                 <el-dropdown-item 
@@ -53,7 +53,7 @@
                     plain 
                     v-permission="'ERP.Product.ProductDev.BackToFreezingOff'" 
                     v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消冻结数据按钮'}"
-                >取消冻结数据</el-dropdown-item>
+                >{{M2('取消冻结数据')}}</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
         <el-button 
@@ -63,7 +63,7 @@
             @click="putDataPass" 
             v-permission="'ERP.Product.ProductDev.Audit'" 
             v-track="{triggerType:'click',currentUrl: $route.path,behavior:'资料初审通过按钮'}"
-            >资料初审</el-button>
+            >{{M2('资料初审')}}</el-button>
         <el-button 
             size="mini" 
             type="primary" 
@@ -71,7 +71,7 @@
             @click="lastPutDataPass"
             v-permission="'ERP.Product.ProductDev.EndAudit'" 
             v-track="{triggerType:'click',currentUrl: $route.path,behavior:'终审通过按钮'}"
-            >终审审核</el-button>
+            >{{M2('终审审核')}}</el-button>
         
         <el-dropdown trigger="hover" size='mini'  @command="clickOutput">
             <el-button 
@@ -80,15 +80,15 @@
                 style="margin-left:10px;margin-right:10px" 
                 v-permission="'ERP.Product.ProductDev.ExportSample'" 
                 >
-                导出报表<i class="el-icon-arrow-down el-icon--right"></i>
+                {{M2('导出报表')}}<i class="el-icon-arrow-down el-icon--right"></i>
             </el-button>
             <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item command= 1 plain v-track="{triggerType:'click',currentUrl: $route.path,behavior:'需求确认清单按钮'}">需求确认清单</el-dropdown-item>
-                <el-dropdown-item command= 2 plain v-track="{triggerType:'click',currentUrl: $route.path,behavior:'新产品开发进度表按钮'}">新产品开发进度表</el-dropdown-item>
-                <el-dropdown-item command= 3 plain v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发利润表按钮'}">开发利润表</el-dropdown-item>
+                <el-dropdown-item command= 1 plain v-track="{triggerType:'click',currentUrl: $route.path,behavior:'需求确认清单按钮'}">{{M2('需求确认清单')}}</el-dropdown-item>
+                <el-dropdown-item command= 2 plain v-track="{triggerType:'click',currentUrl: $route.path,behavior:'新产品开发进度表按钮'}">{{M2('新产品开发进度表')}}</el-dropdown-item>
+                <el-dropdown-item command= 3 plain v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发利润表按钮'}">{{M2('开发利润表')}}</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
-        <span v-if="optionPutExcle" class="reportTitle"><i class="el-icon-loading" style="margin-right:5px"></i>报表导出中</span>
+        <span v-if="optionPutExcle" class="reportTitle"><i class="el-icon-loading" style="margin-right:5px"></i>{{M2('报表导出中')}}</span>
         <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog" :selectRow="selectRow" @getTableList='getTableList'></messageDialog>
     </span>
 </template>
@@ -157,7 +157,7 @@
                     if(!this.selectRow || this.selectRow.length == 0 ){
                         this.$message({
                             type: 'error', 
-                            message:'请选择数据列表',
+                            message:this.M2('请选择数据列表'),
                             offset:220
                         })
                         return
@@ -194,7 +194,7 @@
                     if(!this.navFilterList.dateFrom || !this.navFilterList.dateTo || !this.navFilterList.countryCodes || this.navFilterList.countryCodes.length == 0 || this.navFilterList.timeType != 0){
                         this.$message({
                             type: 'error', 
-                            message:'请选择创建产品的起止时间及开发国家',
+                            message:this.M2('请选择创建产品的起止时间及开发国家'),
                             offset:220
                         })
                         return
@@ -202,7 +202,7 @@
                     if(this.navFilterList.timeType != 0){
                         this.$message({
                             type: 'error', 
-                            message:'请选择创建时间',
+                            message:this.M2('请选择创建时间'),
                             offset:220
                         })
                         return
@@ -223,7 +223,7 @@
                     if(!this.navFilterList.dateFrom || !this.navFilterList.dateTo || !this.navFilterList.countryCodes || this.navFilterList.countryCodes.length == 0 || this.navFilterList.timeType != 0){
                         this.$message({
                             type: 'error', 
-                            message:'请选择创建产品的起止时间及开发国家',
+                            message:this.M2('请选择创建产品的起止时间及开发国家'),
                             offset:220
                         })
                         return
@@ -261,13 +261,13 @@
                 if( !this.selectRow || this.selectRow.length == 0 || this.selectRow.length == undefined){
                         this.$message({
                             type: 'error', 
-                            message:'请选择数据',
+                            message:this.M2('请选择数据'),
                             offset:220
                         })
                         return
                     }
                     this.row = this.selectRow
-                    this.dialogName = '更换业务开发'
+                    this.dialogName = this.M2('更换业务开发')
                     this.clickId = 20
                     this.$refs.messageDialog.openDialog()
                
@@ -276,7 +276,7 @@
                 if( !this.selectRow || this.selectRow.length == 0 || this.selectRow.length == undefined){
                     this.$message({
                         type: 'error', 
-                        message:'请选择数据',
+                        message:this.M2('请选择数据'),
                         offset:220
                     })
                     return
@@ -284,7 +284,7 @@
                 this.row = this.selectRow
 
                 if(command == 20){
-                    this.dialogName = '更换采购开发'
+                    this.dialogName = this.M2('更换采购开发')
                     this.clickId = 6
                     this.$refs.messageDialog.openDialog()
                 }else if(command == 30){
@@ -292,12 +292,12 @@
                     if(this.selectRow.some(item => [7,8,9,14].includes(item.state) )){
                         this.$message({
                             type: 'error', 
-                            message:'已取消、已冻结、开发完已上架、开发完未上架状态数据不允许更改负责人！',
+                            message:this.M2('已取消、已冻结、开发完已上架、开发完未上架状态数据不允许更改负责人！'),
                             offset:220
                         })
                         return
                     }
-                    this.dialogName = '更换负责人'
+                    this.dialogName = this.M2('更换负责人')
                     this.clickId = 50
                     this.$refs.messageDialog.openDialog()
                 }
@@ -306,7 +306,7 @@
                  if( !this.selectRow || this.selectRow.length == 0 || this.selectRow.length == undefined){
                     this.$message({
                         type: 'error', 
-                        message:'请选择数据',
+                        message:this.M2('请选择数据'),
                         offset:220
                     })
                     return
@@ -322,7 +322,7 @@
                         if(res.code == 200){
                             this.$message({
                                 type: 'success', 
-                                message:'数据解除冻结成功',
+                                message:this.M2('数据解除冻结成功'),
                                 offset:220
                             })
                             this.$emit('putTbleList')
@@ -334,7 +334,7 @@
                 if( !this.selectRow || this.selectRow.length == 0 || this.selectRow.length == undefined){
                     this.$message({
                         type: 'error', 
-                        message:'请选择数据',
+                        message:this.M2('请选择数据'),
                         offset:220
                     })
                     return
@@ -349,7 +349,7 @@
                         if(res.code == 200){
                              this.$message({
                                 type: 'success', 
-                                message:'数据冻结成功',
+                                message:this.M2('数据冻结成功'),
                                 offset:220
                             })
                             this.$emit('putTbleList')
@@ -360,20 +360,20 @@
                 if( !this.selectRow || this.selectRow.length == 0 || this.selectRow.length == undefined){
                     this.$message({
                         type: 'error', 
-                        message:'请选择数据',
+                        message:this.M2('请选择数据'),
                         offset:220
                     })
                     return
                 }
                 if(this.selectRow.every(res => res.state == 0)){
-                    this.dialogName = '资料初审通过'
+                    this.dialogName = this.M2('资料初审通过')
                     this.clickId = 2
                     this.row = this.selectRow
                     this.$refs.messageDialog.openDialog()
                 }else {
                     this.$message({
                         type: 'error', 
-                        message:'所选产品中包含无需初审产品',
+                        message:this.M2('所选产品中包含无需初审产品'),
                         offset:220
                     })
                     return
@@ -386,14 +386,14 @@
                     return
                 }
                 if(this.selectRow.every(res => res.state == 6)){
-                    this.dialogName = '资料终审通过'
+                    this.dialogName = this.M2('资料终审通过')
                     this.clickId = 30
                     this.row = this.selectRow
                     this.$refs.messageDialog.openDialog()
                 }else {
                     this.$message({
                         type: 'error', 
-                        message:'所选产品中包含无需终审产品',
+                        message:this.M2('所选产品中包含无需终审产品'),
                         offset:220
                     })
                     return

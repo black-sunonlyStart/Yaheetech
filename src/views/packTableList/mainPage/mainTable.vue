@@ -10,6 +10,7 @@
         @selection-change="handleSelectionChange"
         :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
         class="tableBox"
+        :empty-text="M2('暂无数据')"
         @row-click="handleRowClick"
         v-loading="loading" 
         >
@@ -20,7 +21,7 @@
         >
         </el-table-column>
         <el-table-column 
-            label="产品图片"
+            :label="M2('产品图片')"
             width="100"
             header-align='center'
         >
@@ -54,41 +55,41 @@
                             <i class="el-icon-loading" ></i>
                         </div>
                         <div slot="error" class="image-slot" style="margin-top:35px;margin-left:5px;color:#cccccc">
-                            <i class="el-icon-picture-outline">加载失败</i>
+                            <i class="el-icon-picture-outline">{{M2('加载失败')}}</i>
                         </div>
                     </el-image>  
                 </el-popover>
                 <div v-else>
                     <div  class="image-slot" style="height: 80px;display: flex;justify-content: center;align-items: center;color:#cccccc">
-                        <i class="el-icon-picture-outline">暂无图片</i>
+                        <i class="el-icon-picture-outline">{{M2('暂无图片')}}</i>
                     </div>
                 </div>
             </template>
         </el-table-column>
         <el-table-column 
                 prop="name"
-                label="市场"
+                :label="M2('市场')"
                 align='center'
                 width="60"
                 >
             <template slot-scope="scope">
-                <div class="remarksTitle">{{scope.row.countryName}}</div>
-                <div class="otherRemarks" v-for="item in scope.row.otherCountryNames" :key="item">{{item}}</div>
+                <div class="remarksTitle">{{M2(scope.row.countryName)}}</div>
+                <div class="otherRemarks" v-for="item in scope.row.otherCountryNames" :key="item">{{M2(item)}}</div>
             </template>
         </el-table-column>
         <el-table-column 
             prop="name"
-            label="产品等级"
+            :label="M2('产品等级')"
             align='center'
             width="80"
             >
             <template slot-scope="scope">
-                <div>{{scope.row.productLevelValue}}</div>
+                <div>{{M2(scope.row.productLevelValue)}}</div>
             </template>
         </el-table-column>
         <el-table-column 
             prop="productTypeName"
-            label="产品名称"
+            :label="M2('产品名称')"
             header-align='center'
             width="250"
             >
@@ -99,19 +100,19 @@
                     <span slot="content" class="copeTitle"  @click="copeDevelopId(scope.row.developmentId)">
                             <i class="el-icon-document-copy" ></i>
                         </span>
-                    <div style="display:inline-block">普通产品:{{scope.row.developmentId}}</div>
+                    <div style="display:inline-block">{{M2('普通产品')}}:{{scope.row.developmentId}}</div>
                 </el-tooltip>
                 <el-tooltip placement="right" effect="light" :visible-arrow='false' popper-class='popperBorder' style="padding:0;border:none">
                     <span slot="content" class="copeTitle"  @click="copeDevelopId(scope.row.skuAlias)">
                             <i class="el-icon-document-copy" ></i>
                         </span>
-                    <div style="display:inline-block">sku别名:{{scope.row.skuAlias || '--'}}</div>
+                    <div style="display:inline-block">{{M2('sku别名')}}:{{scope.row.skuAlias || '--'}}</div>
                 </el-tooltip>
                 <!-- <div>sku别名:{{scope.row.skuAlias || '--'}}</div> -->
             </template>
         </el-table-column>
         <el-table-column
-            label="产品利润"
+            :label="M2('产品利润')"
             header-align='center'
             width="300"
         >
@@ -143,54 +144,59 @@
             </template>
         </el-table-column>
         <el-table-column 
-            label="产品尺寸 / 属性"
+            :label="M2('产品尺寸 / 属性')"
             show-overflow-tooltip
             header-align='center'
             align='center'
         >
             <template slot-scope="scope">
                 <div>{{scope.row.size || '--'}}</div>
-                <div v-if="scope.row.packingWay == '多箱'" style="color:red">{{scope.row.packingWay}}</div>
-                <div v-if="scope.row.shape == '不规则'" style="color:red">{{scope.row.shape }}</div>
+                <div v-if="scope.row.packingWay == M2('多箱')" style="color:red">{{scope.row.packingWay}}</div>
+                <div v-if="scope.row.shape == M2('不规则')" style="color:red">{{scope.row.shape }}</div>
             </template>
         </el-table-column>
         <el-table-column 
             prop="seriesCategoryName"
-            label="类目-系列"
+            :label="M2('类目-系列')"
             show-overflow-tooltip
             v-if="showOrder"
             header-align='center'
             >
+             <template slot-scope="scope">
+                <div v-if="scope.row.seriesCategoryName">
+                    {{M2(scope.row.seriesCategoryName.split('>')[0])}} > {{M2(scope.row.seriesCategoryName.split('>')[1])}}
+                </div>
+             </template>
         </el-table-column>
         <el-table-column 
             prop="stateName"
-            label="开发状态"
+            :label="M2('开发状态')"
             show-overflow-tooltip   
             header-align='center'
             align='center'
         >
             <template slot-scope="scope">
                 <div>
-                    {{scope.row.stateName}}
+                    {{M2(scope.row.stateName)}}
                 </div>
                 <div v-if="scope.row.backNum" style="color:red" @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">
-                    打回次数：{{scope.row.backNum}}/{{scope.row.backTotalNum}}
+                    {{M2('打回次数')}}：{{scope.row.backNum}}/{{scope.row.backTotalNum}}
                 </div>
             </template>
         </el-table-column>
         <el-table-column 
-            label="业务 / 采购"
+            :label="M2('业务 / 采购')"
             show-overflow-tooltip
             header-align='center'
             align='center'
             >
             <template slot-scope="scope">
-                <div>{{scope.row.businessName}}</div>
-                <div>{{scope.row.buyerName}}</div>
+                <div>{{M2(scope.row.businessName)}}</div>
+                <div>{{M2(scope.row.buyerName)}}</div>
             </template>
         </el-table-column>
         <el-table-column 
-            label="创建 / 更新时间"
+            :label="M2('创建 / 更新时间')"
             show-overflow-tooltip
             header-align='center'
             >
@@ -201,7 +207,7 @@
             </template>
         </el-table-column>
         <el-table-column 
-            label="操作"
+            :label="M2('操作')"
             show-overflow-tooltip
             header-align='center'
             align='center'
@@ -209,7 +215,7 @@
             >
             <template slot-scope="scope">
                 <div class="operaBox" v-show="stateList.includes(scope.row.state)">
-                    <el-tooltip class="item" effect="dark" content="编辑" placement="bottom-start">
+                    <el-tooltip class="item" effect="dark" :content="M2('编辑')" placement="bottom-start">
                         <div class="imageBox" 
                         @click="clickEdit(scope.row.developmentId,scope.row.productId,scope.row.id)" 
                         v-permission="'ERP.Product.ProductDev.Select'" 
@@ -230,7 +236,7 @@
                         
                             v-permission:[item.perkey] :perkey='item.perkey'
                             v-track="{triggerType:'click',currentUrl: $route.path,behavior:item.name}"
-                            >{{item.name}}</div></div>
+                            >{{M2(item.name)}}</div></div>
                         </div>
                         <div class="imageBox1" slot="reference" @mouseover="openOperation(scope.row)"></div>
                     </el-popover>
@@ -368,17 +374,13 @@ export default {
       },
       showScenarios(val){
           if(val == 1){
-              return '新产品'
+              return this.M2('新产品')
           }else if(val == 2){
-              return '新市场'
+              return this.M2('新市场')
           }else if(val == 3){
-              return '新尺码'
-          }else if(val == 10){
-              return '二次开发'
-          }else if(val == 11){
-              return '二次开发'
-          }else if(val == 12){
-              return '二次开发'
+              return this.M2('新尺码')
+          }else if(val == 10 || val == 11 || val == 12){
+              return this.M2('二次开发')
           }
       },
       handleRowClick(row){
@@ -386,11 +388,11 @@ export default {
       },
       getPriority(val){
           if(val == 0){
-              return '低优先级'
+              return this.M2('低优先级')
           }else if(val == 1){
-              return '中优先级'
+              return this.M2('中优先级')
           }else{
-              return '高优先级'
+              return this.M2('高优先级')
           }
       },
       clickEdit(devId,proId,procountryId){
@@ -407,23 +409,23 @@ export default {
       putOperation(row,id){
           this.clickId = id
           if(id == 1){
-            this.dialogName = '提交审批' 
+            this.dialogName = '提交审批'
           }else if (id == 2){
-            this.dialogName = '审批通过' 
+            this.dialogName = '审批通过'
           }else if(id == 3){
-            this.dialogName = '取消开发' 
+            this.dialogName ='取消开发'
           }else if (id == 4){
             this.dialogName = '打回'
           }else if (id == 5){
             this.dialogName = '提交采购主管审核'
           }else if (id == 6){
-            this.dialogName = '更改采购开发员'
+            this.dialogName ='更改采购开发员'
           }else if (id == 7){
             this.dialogName = '样品采购审核'
           }else if (id == 8){
-              this.$confirm('确定开发此产品的新尺码？', '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
+              this.$confirm(this.M2('确定开发此产品的新尺码？'), this.M2('提示'), {
+                confirmButtonText: this.M2('确定'),
+                cancelButtonText: this.M2('取消'),
                 type: 'warning'
                 }).then(() => {
                 let routeData = this.$router.resolve({
@@ -445,11 +447,11 @@ export default {
               this.dialogName='终审通过'
               this.clickId = 30
           }else if (id == 10){
-              this.dialogName ='提交寻找供应商'
+              this.dialogName = '提交寻找供应商'
           }else if (id == 11){
-              this.dialogName ='提交利润初审'
+              this.dialogName = '提交利润初审'
           }else if (id == 12){
-              this.dialogName='审核通过'
+              this.dialogName= '审核通过'
               this.clickId = 2
           }else if (id == 13){
               let params = {
@@ -459,7 +461,7 @@ export default {
                   if(res.code == 200){
                       this.$message({
                         type: 'success', 
-                        message:'解冻成功',
+                        message:this.M2('解冻成功'),
                         offset:220
                     })
                       this.getTableList(this.navFilterList)
@@ -467,11 +469,11 @@ export default {
               }) 
               return
           }else if(id == 14){
-             this.dialogName ='利润初审通过'
+             this.dialogName = '利润初审通过'
           }else if (id == 26){
-              this.$confirm('确定开发此产品的新市场？', '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
+              this.$confirm(this.M2('确定开发此产品的新市场？'), this.M2('提示'), {
+                    confirmButtonText: this.M2('确定'),
+                    cancelButtonText: this.M2('取消'),
                     type: 'warning'
                 }).then(() => {
                 let routeData = this.$router.resolve({
@@ -711,7 +713,7 @@ export default {
                   },
               ]
           }else if (row.state == 7){
-              console.log(row)
+            //   console.log(row)
           } else if(row.state == 10){
               this.operationList = [
                   {
@@ -818,7 +820,7 @@ export default {
                   },
               ]
           }else if (row.state == 9){
-              console.log(row)
+            //   console.log(row)
           }
     },
     routerMove(devId,proId,procountryId){

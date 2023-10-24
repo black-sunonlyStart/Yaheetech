@@ -3,9 +3,10 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm" size="mini">
             <el-row>
                  <el-col :span="22">
-                     <el-form-item label="样品采购前报价:" prop="samplePurchase">
+                     <el-form-item  :label="M2('样品采购前报价') + ':'" prop="samplePurchase">
                             <el-table
                                 border
+                                :empty-text="M2('暂无数据')"
                                 :data="ruleForm.productPurchaseVoList"
                                 style="width: 100%"
                                 ref="singleTable"
@@ -13,8 +14,8 @@
                                 @selection-change="selectionLineChangeHandle"
                                 >
                                 <el-table-column
-                                     label="选择"
-                                     width="50px"
+                                    :label="M2('选择')"
+                                    width="50px"
                                     >
                                     <template slot-scope="scope">
                                         <el-radio :label="scope.$index" v-model="radio" :disabled='canTableEdit' @change.native="handleSelectionChange(scope.row,scope.$index)">&nbsp;</el-radio>
@@ -22,20 +23,21 @@
                                 </el-table-column>
                                 <el-table-column
                                     prop="createdName"
-                                    label="采购开发"
+                                    :label="M2('采购开发')"
                                     >
                                     <template slot-scope="scope">
                                         <el-input v-model="scope.row.createdName" disabled></el-input>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
-                                    label="最小起订量">
+                                    :label="M2('最小起订量')"
+                                    >
                                     <template slot-scope="scope">
                                         <el-input-number style="width:100%" :controls='false' :disabled='canTableEdit' v-model="scope.row.minbuynum" :min="1"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
-                                    label="首单下单数量"
+                                    :label="M2('首单下单数量')"
                                     width="110px"
                                     >
                                     <template slot-scope="scope">
@@ -43,25 +45,25 @@
                                     </template>
                                 </el-table-column>
                                 <el-table-column
-                                    label="出厂价(¥)">
+                                    :label="M2('出厂价') + '(¥)'">
                                     <template slot-scope="scope">
                                         <el-input-number  style="width:100%" :controls='false' :disabled='canTableEdit' v-model="scope.row.purchaseprice"></el-input-number >      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
-                                    label="FOB价($)">
+                                    :label="M2('FOB价') + '($)'">
                                     <template slot-scope="scope">
                                         <el-input-number  style="width:100%" :controls='false' :disabled='canTableEdit' v-model="scope.row.fobprice"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
-                                    label="含税价(¥)">
+                                    :label="M2('含税价') + '(¥)'">
                                     <template slot-scope="scope">
                                         <el-input-number style="width:100%" :controls='false' :disabled='canTableEdit' v-model="scope.row.taxprice"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
-                                    label="选择利润计算采购价"
+                                    :label="M2('选择利润计算采购价')"
                                     width="120px"
                                     >
                                     <template slot-scope="scope">
@@ -69,7 +71,7 @@
                                             <el-option 
                                                 v-for="item in devSign"                        
                                                 :key="item.key"
-                                                :label="item.label"
+                                                :label="M2(item.label)"
                                                 :value="item.value"
                                                 >
                                             </el-option>
@@ -77,13 +79,13 @@
                                     </template>
                                 </el-table-column>
                                 <el-table-column
-                                    label="杂费(¥)">
+                                     :label="M2('杂费') + '(¥)'">
                                     <template slot-scope="scope">
                                         <el-input-number style="width:100%" :controls='false' v-model="scope.row.miscprice" :disabled='canTableEdit'></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column
-                                    label="产品包装费(¥)"
+                                    :label="M2('产品包装费') + '(¥)'"
                                     width="110px"
                                     >
                                     <template slot-scope="scope">
@@ -94,15 +96,15 @@
                                      width="200px"
                                 >
                                     <template slot="header">
-                                        <div class="textPostion">采购成本</div>
-                                        <div class="textPostion">净采购价+杂费+包装费(¥)</div>
+                                        <div class="textPostion">{{M2('采购成本')}}</div>
+                                        <div class="textPostion">{{M2('净采购价')}}+{{M2('杂费')}}+{{M2('包装费')}}(¥)</div>
                                     </template>
                                     <template slot-scope="scope">
                                          <span>{{changePrice(scope.row.calculateprofittype,scope.row.fobprice,scope.row.taxprice,scope.row.purchaseprice,scope.row.miscprice,scope.row.warpperfee)|| 0 }}</span>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                           
-                                    label="交期(天)"
+                                    :label="M2('交期') + '(' + M2('天') + ')'"
                                     width='80px'
                                     >
                                     <template slot-scope="scope">
@@ -110,7 +112,7 @@
                                     </template>
                                 </el-table-column>
                                 <el-table-column                        
-                                    label="装箱数量(/箱)"
+                                    :label="M2('装箱数量') + '(/' + M2('箱') + ')'"
                                     width="110px"
                                     >
                                     <template slot-scope="scope">
@@ -118,7 +120,7 @@
                                     </template>
                                 </el-table-column>
                                 <el-table-column                        
-                                    label="操作"
+                                    :label="M2('操作')"
                                     width="50px"
                                     >
                                     <template slot-scope="scope">
@@ -130,20 +132,20 @@
                                             @click.native.prevent="deleteRow(scope.$index, ruleForm.productPurchaseVoList)"
                                             type="text"
                                             size="small">
-                                            移除
+                                            {{M2('移除')}}
                                         </el-button>
                                     </template>
                                 </el-table-column>
                             </el-table>
                             <div class="tableText" @click="addTableList" v-if="!statusList.includes(nowStatus)">
-                                添加一条
+                                {{M2('添加一条')}}
                             </div>
                     </el-form-item>
                  </el-col>
              </el-row>
             <el-row v-if="statusList.includes(nowStatus)">
                  <el-col :span="22">
-                     <el-form-item label="最终报价:" prop="samplePurchase">
+                     <el-form-item :label="M2('最终报价') + ':'" prop="samplePurchase">
                             <el-table
                                 border
                                 :data="ruleForm.lastProductPurchaseVoList"
@@ -152,44 +154,44 @@
                                 >
                                 <el-table-column
                                     prop="createdName"
-                                    label="采购开发"
+                                     :label="M2('采购开发')"
                                     >
                                     <template slot-scope="scope">
                                         <el-input style="width:100%"  v-model="scope.row.createdName" disabled></el-input>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                        
-                                    label="最小起订量">
+                                    :label="M2('最小起订量')">
                                     <template slot-scope="scope">
                                         <el-input-number style="width:100%" :controls='false' v-model="scope.row.minbuynum" :disabled='canEdit' :min="1"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                           
-                                    label="首单下单数量">
+                                    :label="M2('首单下单数量')">
                                     <template slot-scope="scope">
                                         <el-input-number style="width:100%" :controls='false' v-model="scope.row.firstorderqty" :disabled='canEdit' :min="1"></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                      
-                                    label="出厂价(¥)">
+                                    :label="M2('出厂价') + '(¥)'">
                                     <template slot-scope="scope">
                                         <el-input-number style="width:100%" :controls='false' v-model="scope.row.purchaseprice" :disabled='canEdit'></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                            
-                                    label="FOB价($)">
+                                    :label="M2('FOB价') + '($)'">
                                     <template slot-scope="scope">
                                         <el-input-number style="width:100%" :controls='false' v-model="scope.row.fobprice" :disabled='canEdit'></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                            
-                                    label="含税价(¥)">
+                                    :label="M2('含税价') + '(¥)'">
                                     <template slot-scope="scope">
                                         <el-input-number  style="width:100%" :controls='false' v-model="scope.row.taxprice" :disabled='canEdit'></el-input-number>      
                                     </template>
                                 </el-table-column>
                                  <el-table-column
-                                    label="选择利润计算采购价"
+                                    :label="M2('选择利润计算采购价')"
                                      width="120px"
                                     >
                                     <template slot-scope="scope">
@@ -199,7 +201,7 @@
                                             <el-option 
                                                 v-for="item in devSign"                        
                                                 :key="item.key"
-                                                :label="item.label"
+                                                :label="M2(item.label)"
                                                 :value="item.value"
                                                 >
                                             </el-option>
@@ -207,13 +209,13 @@
                                     </template>
                                 </el-table-column>
                                 <el-table-column                         
-                                    label="杂费(¥)">
+                                    :label="M2('杂费') + '(¥)'">
                                     <template slot-scope="scope">
                                         <el-input-number style="width:100%" :controls='false' v-model="scope.row.miscprice" :disabled='canEdit'></el-input-number>      
                                     </template>
                                 </el-table-column>
                                 <el-table-column                            
-                                    label="产品包装费(¥)">
+                                    :label="M2('产品包装费') + '(¥)'">
                                     <template slot-scope="scope">
                                         <el-input-number style="width:100%" :controls='false' v-model="scope.row.warpperfee" :disabled='canEdit'></el-input-number>      
                                     </template>
@@ -222,15 +224,15 @@
                                      width="200px"
                                 >
                                     <template slot="header">
-                                        <div class="textPostion">采购成本</div>
-                                        <div class="textPostion">净采购价+杂费+包装费(¥)</div>
+                                        <div class="textPostion">{{M2('采购成本')}}</div>
+                                        <div class="textPostion">{{M2('净采购价')}}+{{M2('杂费')}}+{{M2('包装费')}}(¥)</div>
                                     </template>
                                     <template slot-scope="scope">
                                         <div>{{changePrice(scope.row.calculateprofittype,scope.row.fobprice,scope.row.taxprice,scope.row.purchaseprice,scope.row.miscprice,scope.row.warpperfee) || 0}} </div>   
                                     </template>
                                 </el-table-column>
                                 <el-table-column
-                                    label="交期(天)"
+                                    :label="M2('交期') + '(' + M2('天') + ')'"
                                     width='80px'
                                     >
                                     <template slot-scope="scope">
@@ -238,7 +240,7 @@
                                     </template>
                                 </el-table-column>
                                 <el-table-column                         
-                                    label="装箱数量(/箱)">
+                                    :label="M2('装箱数量') + '(/' + M2('箱') + ')'">
                                     <template slot-scope="scope">
                                         <el-input-number style="width:100%" :controls='false' v-model="scope.row.packingquantity" :disabled='canEdit'></el-input-number>      
                                     </template>
@@ -249,10 +251,10 @@
              </el-row>
              <el-row>
                  <el-col :span="7" :xs="24" :sm="24" :md="11" :lg="10" :xl="7">
-                    <el-form-item label="样品购买价:" prop="productprice">
+                    <el-form-item :label="M2('样品购买价') + ':'" prop="productprice">
                         <div class="inputBox">
                             <el-input-number :controls='false' v-model="ruleForm.productprice"></el-input-number>
-                            <span class="inputUnit">产品价格（RMB）</span>
+                            <span class="inputUnit">{{M2('产品价格')}}（RMB）</span>
                         </div> 
                     </el-form-item>
                 </el-col>
@@ -260,13 +262,13 @@
                     <el-form-item  prop="freight" label-width="15px">
                             <div class="inputBox">
                                 <el-input-number :controls='false' v-model="ruleForm.freight"></el-input-number>
-                                <span class="inputUnit">运费（RMB）</span>
+                                <span class="inputUnit">{{M2('运费')}}（RMB）</span>
                             </div> 
                     </el-form-item>
                  </el-col>
 
                  <el-col :span="8">
-                     <el-form-item label="含税价税点:" prop="taxPoint">
+                     <el-form-item :label="M2('含税价税点') + ':'" prop="taxPoint">
                          <div class="feeForOrderText">
                             <div class="inputBox">
                                 <el-input-number :controls='false' v-model="ruleForm.taxleviedpoint"></el-input-number>
@@ -278,7 +280,7 @@
             </el-row>
             <el-row>
                 <el-col :span="11">
-                    <el-form-item label="下单返样品费:" prop="feeForOrdering">
+                    <el-form-item :label="M2('下单返样品费') + ':'" prop="feeForOrdering">
                         <div class="feeForOrderText">
                             <div class="inputBox">
                                 <el-input-number :controls='false' v-model="ruleForm.backpurchaseprice"></el-input-number>
@@ -289,7 +291,7 @@
                      </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                    <el-form-item label="出口退税率:" prop="tax">
+                    <el-form-item :label="M2('出口退税率') + ':'" prop="tax">
                         <div class="feeForOrderText">
                             <div class="inputBox">
                                 <el-input-number :controls='false' v-model="ruleForm.tax"></el-input-number>
@@ -301,14 +303,14 @@
             </el-row>
             <el-row>
                 <el-col :span="11">
-                    <el-form-item label="返样品费详情备注:" prop="feeForOrdering">
+                    <el-form-item  :label="M2('返样品费详情备注') + ':'" prop="feeForOrdering">
                         <div class="feeForOrderText">
                             <el-input type="textarea" autosize v-model="ruleForm.backpurchasepricenote" maxlength="200" show-word-limit>></el-input>
                         </div>  
                      </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                    <el-form-item label="品牌费:" prop="feeForOrdering">
+                    <el-form-item :label="M2('品牌费') + ':'" prop="feeForOrdering">
                         <div class="feeForOrderText">
                             <div class="inputBox">
                                 <el-input-number :controls='false' v-model="ruleForm.bandprice"></el-input-number>
@@ -320,21 +322,21 @@
             </el-row>
             <el-row>
                 <el-col :span="11">
-                    <el-form-item label="样品交期:" prop="sampleDeliveryOn">
+                    <el-form-item  :label="M2('样品交期') + ':'" prop="sampleDeliveryOn">
                         <div class="feeForOrderText">
                             <el-date-picker
                                 v-model="ruleForm.sampleDeliveryOn"
                                 type="date"
-                                placeholder="选择日期"
+                                :placeholder="M2('选择日期')"
                                 @change="changeDate"
                                 >
                             </el-date-picker>
-                            距样品交期: {{ ruleForm.sampledeliverydays }}天
+                            {{M2('距样品交期')}}: {{ ruleForm.sampledeliverydays }}天
                         </div>   
                      </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                    <el-form-item label="FOB报价品牌费:" prop="feeForOrdering">
+                    <el-form-item  :label="M2('FOB报价品牌费') + ':'" prop="feeForOrdering">
                         <div class="feeForOrderText">
                             <div class="inputBox">
                                 <el-input-number :controls='false' v-model="ruleForm.fobbandprice"></el-input-number>
@@ -346,12 +348,12 @@
             </el-row>
             <el-row>
                 <el-col :span="11">
-                    <el-form-item label="货好时间:" prop="goodTimeDate" v-if="statusList.includes(nowStatus)">
+                    <el-form-item :label="M2('货好时间') + ':'"  prop="goodTimeDate" v-if="statusList.includes(nowStatus)">
                         <div class="feeForOrderText">
                             <el-date-picker
                                 v-model="ruleForm.goodTimeDate"
                                 type="date"
-                                placeholder="选择日期"
+                                :placeholder="M2('选择日期')"
                                 :disabled='canEdit'
                                 >
                             </el-date-picker>
@@ -359,7 +361,7 @@
                      </el-form-item>
                 </el-col>
                 <el-col :span="8">
-                    <el-form-item label="FOB头程费:" prop="feeForOrdering">
+                    <el-form-item :label="M2('FOB头程费') + ':'" prop="feeForOrdering">
                         <div class="feeForOrderText">
                             <div class="inputBox">
                                 <el-input-number :controls='false' :precision="2" v-model="ruleForm.fobPrice" disabled></el-input-number>
@@ -371,7 +373,7 @@
             </el-row>
             <el-row>
                 <el-col :span="11">
-                    <el-form-item label="货好时间详情备注:" v-if="statusList.includes(nowStatus)"> 
+                    <el-form-item  :label="M2('货好时间详情备注') + ':'" v-if="statusList.includes(nowStatus)"> 
                         <div class="feeForOrderText">
                             <el-input type="textarea" autosize v-model="ruleForm.feeForOrdering" maxlength="200" show-word-limit></el-input>
                         </div>      
@@ -380,8 +382,8 @@
             </el-row>
         </el-form>
         <div class="bottomButton">
-            <el-button type="primary" @click="submitForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'采购信息'}" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
-            <el-button @click="resetForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'采购信息'}">取消</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'采购信息'}" perkey='ERP.Product.ProductDev.SalesManEdit'>{{M2('保存')}}</el-button>
+            <el-button @click="resetForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'采购信息'}">{{M2('取消')}}</el-button>
         </div>
     </div>
 </template>
@@ -418,11 +420,11 @@ export default {
                 lastProductPurchaseVoList:[],
             },
             rules:{
-                productprice: [{ required: true, message: '请填写样品购买价', trigger: 'blur' }],
-                sampleDeliveryOn: [{ required: true, message: '请选择样品交期', trigger: 'blur' }],
-                goodTimeDate: [{ required: true, message: '请选择货好时间', trigger: 'blur' }],
-                freight: [{ required: true, message: '请填写运费', trigger: 'blur' }],
-                tax: [{ required: true, message: '请填写税率', trigger: 'blur' }],
+                productprice: [{ required: true, message: this.M2('请填写样品购买价'), trigger: 'blur' }],
+                sampleDeliveryOn: [{ required: true, message: this.M2('请选择样品交期'), trigger: 'blur' }],
+                goodTimeDate: [{ required: true, message: this.M2('请选择货好时间'), trigger: 'blur' }],
+                freight: [{ required: true, message: this.M2('请填写运费'), trigger: 'blur' }],
+                tax: [{ required: true, message: this.M2('请填写税率'), trigger: 'blur' }],
             },
             devSign:[
                 {
@@ -494,7 +496,7 @@ export default {
             if(val.length > 1){
                 this.$message({
                     type: 'error', 
-                    message:'只能选择一条数据',
+                    message:this.M2('只能选择一条数据'),
                     offset:220
                 })
                 return
@@ -566,7 +568,7 @@ export default {
           if(!this.selectRow || this.selectRow.length == 0){
               this.$message({
                             type: 'error', 
-                            message:'请选择一条采购前报价数据',
+                            message:this.M2('请选择一条采购前报价数据'),
                             offset:220
                         })
                         return
@@ -612,7 +614,7 @@ export default {
                     if(res.code == 200){
                         this.$message({
                             type: 'success', 
-                            message:'保存成功',
+                            message:this.M2('保存成功'),
                             offset:220
                         })
                         this.loading = false

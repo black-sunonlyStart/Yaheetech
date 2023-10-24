@@ -17,6 +17,7 @@
                 border
                 :summary-method="getSummaries"
                 show-summary
+                :empty-text="M2('暂无数据')"
                 :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                 >
                 <el-table-column

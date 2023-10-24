@@ -3,35 +3,35 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm" size="mini">
             <el-row>
                 <el-col :span="10">
-                    <el-form-item label="是否需要认证:" prop="isCertificationReq">
+                    <el-form-item :label="M2('是否需要认证') + ':'" prop="isCertificationReq">
                         <el-radio-group v-model="ruleForm.isCertificationReq">
-                            <el-radio :label="true">是</el-radio>
-                            <el-radio :label="false">否</el-radio>
+                            <el-radio :label="true">{{M2('是')}}</el-radio>
+                            <el-radio :label="false">{{M2('否')}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="21">
-                    <el-form-item label="认证标准:" prop="usaNessCertification" >
+                    <el-form-item :label="M2('认证标准') + ':'" prop="usaNessCertification" >
                         <el-checkbox-group v-model="ruleForm.usaNessCertification">
                             <div class="contrayText">
-                                美国 : <el-checkbox :label="item.authId" v-for="item in isUsa" :key="item.authId">{{item.authName}}</el-checkbox>
+                                {{M2('美国')}} : <el-checkbox :label="item.authId" v-for="item in isUsa" :key="item.authId">{{item.authName}}</el-checkbox>
                             </div>
                         </el-checkbox-group>
                         <el-checkbox-group v-model="ruleForm.ukNessCertification">
                             <div class="contrayText">
-                                欧盟 : <el-checkbox :label="item.authId" v-for="item in isUk" :key="item.authId">{{item.authName}}</el-checkbox>
+                                {{M2('欧盟')}} : <el-checkbox :label="item.authId" v-for="item in isUk" :key="item.authId">{{item.authName}}</el-checkbox>
                             </div>
                         </el-checkbox-group>
                         <el-checkbox-group v-model="ruleForm.euNessCertification">
                             <div class="contrayText">
-                                英国 : <el-checkbox :label="item.authId" v-for="item in isEu" :key="item.authId">{{item.authName}}</el-checkbox>
+                                {{M2('英国')}} : <el-checkbox :label="item.authId" v-for="item in isEu" :key="item.authId">{{item.authName}}</el-checkbox>
                             </div>
                         </el-checkbox-group>
                         <el-checkbox-group v-model="ruleForm.jpNessCertification">
                             <div class="contrayText">
-                                日本 : <el-checkbox :label="item.authId" v-for="item in isjp" :key="item.authId">{{item.authName}}</el-checkbox>
+                                {{M2('日本')}} : <el-checkbox :label="item.authId" v-for="item in isjp" :key="item.authId">{{item.authId == 111 ? M2(item.authName) : item.authName }}</el-checkbox>
                             </div>
                         </el-checkbox-group>
                     </el-form-item>
@@ -39,7 +39,7 @@
             </el-row>
             <el-row>
                 <el-col :span="11">
-                    <el-form-item label="认证要求:" prop="requirements">
+                    <el-form-item  :label="M2('认证要求') + ':'" prop="requirements">
                         <div v-for="(item, index) in ruleForm.requirements" 
                             :key="item.id" class="remarkBox">
                             <el-input
@@ -57,13 +57,13 @@
                                 <i v-if="index !== 0" @click="delRements(index)" class="delText el-icon-circle-close"></i>
                             </div>      
                         </div>
-                        <div class="requireMentsBox" @click="addMustRequire">添加</div>
+                        <div class="requireMentsBox" @click="addMustRequire">{{M2('添加')}}</div>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="11">
-                    <el-form-item label="确认测试要求:" prop="testRequirements">
+                    <el-form-item :label="M2('确认测试要求') + ':'" prop="testRequirements">
                         <div v-for="(item, index) in ruleForm.testRequirements" 
                             :key="item.id" class="remarkBox">
                             <el-input
@@ -82,17 +82,17 @@
                                 <i v-if="index !== 0" @click="delTestRement(index)" class="delText el-icon-circle-close"></i>
                             </div>      
                         </div>
-                        <div class="requireMentsBox" @click="addRequireMent">添加</div>
+                        <div class="requireMentsBox" @click="addRequireMent">{{M2('添加')}}</div>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="10">
-                    <el-form-item label="认证备注:">
+                    <el-form-item :label="M2('认证备注') + ':'">
                         <el-input
                             type="textarea"
                             :autosize="{ minRows: 2, maxRows: 4}"
-                            placeholder="请输入内容"
+                            :placeholder="M2('请输入内容')"
                             maxlength="100"
                             show-word-limit
                             clearable
@@ -103,14 +103,14 @@
             </el-row>
             <el-row :gutter="10">
                 <el-col :span="5" :lg="8" :xl="5">
-                    <el-form-item label="产品年龄段:" prop="productAgeGroup">
+                    <el-form-item  :label="M2('产品年龄段') + ':'" prop="productAgeGroup">
                         <el-select 
                             v-model="ruleForm.productAgeGroup"
                             >
                             <el-option 
                                 v-for="item in devSign"                        
                                 :key="item.key"
-                                :label="item.label"
+                                :label="M2(item.label)"
                                 :value="item.value"
                                 >
                             </el-option>
@@ -126,7 +126,7 @@
                                 maxlength="120"
                                 show-word-limit type="textarea" 
                                 :autosize="{ minRows: 1, maxRows: 4}" 
-                                placeholder="备注">
+                                :placeholder="M2('备注')">
                             </el-input>
                         <!-- </span> -->
                     </el-form-item>
@@ -134,14 +134,14 @@
             </el-row>
             <el-row :gutter="10">
                 <el-col :span="5" :lg="8" :xl="5">
-                    <el-form-item label="专利风险等级:" prop="patentRiskLevel">
+                    <el-form-item :label="M2('专利风险等级') + ':'" prop="patentRiskLevel">
                         <el-select 
                             v-model="ruleForm.patentRiskLevel"
                             >
                             <el-option 
                                 v-for="item in riskLevel"                        
                                 :key="item.key"
-                                :label="item.label"
+                                :label="M2(item.label)"
                                 :value="item.key"
                                 >
                             </el-option>
@@ -151,46 +151,46 @@
             </el-row>
             <el-row :gutter="10">
                 <el-col :span="10">
-                    <el-form-item label="专利确认:">
-                         <el-checkbox v-model="checkedUSA" label='en-US'>美国</el-checkbox>
-                         <el-checkbox v-model="checkedUK" label="EN_GB">英国</el-checkbox>
-                         <el-checkbox v-model="checkedEU" label="DE">德国</el-checkbox>
-                         <el-checkbox v-model="checkedJP" label="JP">日本</el-checkbox>
+                    <el-form-item :label="M2('专利确认') + ':'">
+                         <el-checkbox v-model="checkedUSA" label='en-US'>{{M2('美国')}}</el-checkbox>
+                         <el-checkbox v-model="checkedUK" label="EN_GB">{{M2('英国')}}</el-checkbox>
+                         <el-checkbox v-model="checkedEU" label="DE">{{M2('德国')}}</el-checkbox>
+                         <el-checkbox v-model="checkedJP" label="JP">{{M2('日本')}}</el-checkbox>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row v-if="checkedUSA.length>0">
                 <el-col :span="10">
-                    <el-form-item label="美国">
+                    <el-form-item :label="M2('美国')">
                          <el-input v-model="inputUSA" type="textarea" maxlength="500" :autosize="{ minRows: 1, maxRows: 4}" clearable></el-input>  
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row v-if="checkedUK.length>0">
                 <el-col :span="10">
-                    <el-form-item label="英国">
+                    <el-form-item :label="M2('英国')">
                          <el-input v-model="inputUK" type="textarea" maxlength="500" :autosize="{ minRows: 1, maxRows: 4}" clearable></el-input>  
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row v-if="checkedEU.length>0">
                 <el-col :span="10">
-                    <el-form-item label="德国">
+                    <el-form-item :label="M2('德国')">
                          <el-input v-model="inputEU" type="textarea" maxlength="500" :autosize="{ minRows: 1, maxRows: 4}" clearable></el-input>  
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row v-if="checkedJP.length>0">
                 <el-col :span="10">
-                    <el-form-item label="日本">
+                    <el-form-item :label="M2('日本')">
                          <el-input v-model="inputJP" type="textarea" maxlength="500" :autosize="{ minRows: 1, maxRows: 4}" clearable></el-input>  
                     </el-form-item>
                 </el-col>
             </el-row>
         </el-form>
         <div class="bottomButton">
-            <el-button type="primary" @click="submitForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'产品认证信息'}" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
-            <el-button @click="resetForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'产品认证信息'}">取消</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'产品认证信息'}" perkey='ERP.Product.ProductDev.SalesManEdit'>{{M2('保存')}}</el-button>
+            <el-button @click="resetForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'产品认证信息'}">{{M2('取消')}}</el-button>
         </div>
     </div>
 </template>
@@ -222,8 +222,8 @@ export default {
                 patentRiskLevel:'',
             },
             rules:{
-                isCertificationReq: [{ required: true, message: '请选择', trigger: 'blur' }],
-                patentRiskLevel: [{ required: true, message: '请选择风险等级', trigger: 'blur' }],
+                isCertificationReq: [{ required: true, message: this.M2('请选择'), trigger: 'blur' }],
+                patentRiskLevel: [{ required: true, message: this.M2('请选择风险等级'), trigger: 'blur' }],
             },
             isUsa:[
                 {
@@ -555,7 +555,7 @@ export default {
                     if(res.code == 200){
                         this.$message({
                             type: 'success', 
-                            message:'保存成功',
+                            message:this.M2('保存成功'),
                             offset:220
                         })
                         this.$emit('closeEdit','false')

@@ -114,6 +114,7 @@
                 :data="tableData"
                 style="width: 100%;"
                 border
+                :empty-text="M2('暂无数据')"
                 :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                 :summary-method="getSummaries"
                 show-summary

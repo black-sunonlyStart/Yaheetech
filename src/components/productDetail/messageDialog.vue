@@ -9,33 +9,33 @@
             v-loading='loading'
             >
             <div class="titleText" slot="title">
-                {{this.dialogName}}
+                {{M2(this.dialogName)}}
             </div>
-            <span v-if="clickId == 1" class="dialogText">说明:确定要把选择的产品提交给业务主管(经理)进行审批?</span>
-            <span v-if="clickId == 40" class="dialogText">说明:确定选择的产品有利润空间且产品资料正确,提交业务主管(经理)进行终审?</span>
-            <span v-if="clickId == 30" class="dialogText">说明:确定选择产品的利润和资料均复核公司开发要求,审核通过进入上架流程?</span>
-            <span v-if="clickId == 25 || clickId == 2" class="dialogText">说明:确定要把选择的产品审批通过,让认证专员去完善认证需求?</span>
-            <span v-if="clickId == 15" class="dialogText">说明:确定选择的产品样品资料已经正确,让业务开发员复核利润率?</span>
-            <span v-if="clickId == 5" class="dialogText">说明:确定选择的产品资料已经正确,让采购主管审核?</span>
-            <span v-if="clickId == 7" class="dialogText">说明:确定选择的产品有利润空间后,让采购开发员去购买样品?</span>
-            <span v-if="clickId == 14" class="dialogText">说明:确定选择的产品有利润空间,让采购开发员确定样品资料?</span>
-            <span v-if="clickId == 10" class="dialogText">说明:确定选择的产品认证需求信息完善,让采购去寻找供应商?</span>
-            <span v-if="clickId == 21 || clickId == 11" class="dialogText">说明:确定选择的产品资料已经正确,让业务开发员初步审核利润率?</span>
+            <span v-if="clickId == 1" class="dialogText">{{M2('说明:确定要把选择的产品提交给业务主管(经理)进行审批?')}}</span>
+            <span v-if="clickId == 40" class="dialogText">{{M2('说明:确定选择的产品有利润空间且产品资料正确,提交业务主管(经理)进行终审?')}}</span>
+            <span v-if="clickId == 30" class="dialogText">{{M2('说明:确定选择产品的利润和资料均复核公司开发要求,审核通过进入上架流程?')}}</span>
+            <span v-if="clickId == 25 || clickId == 2" class="dialogText">{{M2('说明:确定要把选择的产品审批通过,让认证专员去完善认证需求?')}}</span>
+            <span v-if="clickId == 15" class="dialogText">{{M2('说明:确定选择的产品样品资料已经正确,让业务开发员复核利润率?')}}</span>
+            <span v-if="clickId == 5" class="dialogText">{{M2('说明:确定选择的产品资料已经正确,让采购主管审核?')}}</span>
+            <span v-if="clickId == 7" class="dialogText">{{M2('说明:确定选择的产品有利润空间后,让采购开发员去购买样品?')}}</span>
+            <span v-if="clickId == 14" class="dialogText">{{M2('说明:确定选择的产品有利润空间,让采购开发员确定样品资料?')}}</span>
+            <span v-if="clickId == 10" class="dialogText">{{M2('说明:确定选择的产品认证需求信息完善,让采购去寻找供应商?')}}</span>
+            <span v-if="clickId == 21 || clickId == 11" class="dialogText">{{M2('说明:确定选择的产品资料已经正确,让业务开发员初步审核利润率?')}}</span>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm" size='mini'>
-               <el-form-item label="开发优先级" prop="platformid" v-if="clickId == 2">
+               <el-form-item :label="M2('开发优先级') + '：'" prop="platformid" v-if="clickId == 2">
                     <el-select 
                         v-model="ruleForm.platformid"
                         >
                         <el-option 
                             v-for="item in devSign"                        
                             :key="item.key"
-                            :label="item.label"
+                            :label="M2(item.label)"
                             :value="item.value"
                             >
                         </el-option>
                     </el-select> 
                 </el-form-item>
-               <el-form-item label="打回状态" prop="status" v-if="clickId == 4">
+               <el-form-item :label="M2('打回状态') + '：'" prop="status" v-if="clickId == 4">
                     <el-select 
                         v-model="ruleForm.status"
                          @change='changeStatus'
@@ -43,21 +43,21 @@
                         <el-option 
                             v-for="item in status"                        
                             :key="item.status"
-                            :label="item.statusValue"
+                            :label="M2(item.statusValue)"
                             :value="item.status"
                            
                             >
                         </el-option>
                     </el-select> 
                 </el-form-item>
-               <el-form-item label="打回类型" prop="type" v-if="clickId == 4">
+               <el-form-item :label="M2('打回类型') + '：'" prop="type" v-if="clickId == 4">
                     <el-select 
                         v-model="ruleForm.type"
                         >
                         <el-option 
                             v-for="item in type2"                        
                             :key="item.key"
-                            :label="item.label"
+                            :label="M2(item.label)"
                             :value="item.value"
                             >
                         </el-option>
@@ -66,7 +66,7 @@
                 <el-form-item :label="label" prop="remark" v-if="clickId != 6 && clickId != 20 && clickId != 50">
                     <el-input v-model="ruleForm.remark" type="textarea" maxlength="500" show-word-limit></el-input>
                 </el-form-item>
-                <el-form-item label="更改采购开发员" prop="dailySales" v-if="clickId == 6">
+                <el-form-item :label="M2('更改采购开发员') + '：'" prop="dailySales" v-if="clickId == 6">
                     <el-select 
                         v-model="ruleForm.dailySales"
                         filterable 
@@ -80,7 +80,7 @@
                         </el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="更改业务开发员" prop="dailySales" v-if="clickId ==20">
+                <el-form-item :label="M2('更改业务开发员') + '：'" prop="dailySales" v-if="clickId ==20">
                     <el-select 
                         v-model="ruleForm.dailySales"
                         filterable 
@@ -95,9 +95,9 @@
                     </el-select>
                 </el-form-item>
                 <div v-if="clickId == 3" class="defText">
-                    取消开发以后，产品数据会作废，且不可再开发此市场。
+                    {{M2('取消开发以后，产品数据会作废，且不可再开发此市场。')}}
                 </div>
-                <el-form-item label="更换负责人" prop="auditor" v-if="clickId ==50">
+                <el-form-item :label="M2('更换负责人') + '：'" prop="auditor" v-if="clickId ==50">
                     <el-select 
                         v-model="ruleForm.auditor"
                         filterable 
@@ -119,12 +119,12 @@
                     @click="submitList('ruleForm')" 
                     size="mini" 
                     v-track="{triggerType:'click',currentUrl: $route.path,behavior:'确定',behavior:dialogName,shouldUpdate:'1'}"
-                >确 定</el-button>
+                >{{M2('确 定')}}</el-button>
                 <el-button 
                     @click="resetForm('ruleForm')" 
                     size="mini" 
                     v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',behavior:dialogName,shouldUpdate:'1'}"
-                >取 消</el-button>
+                >{{M2('取 消')}}</el-button>
             </span>
         </el-dialog>
     </div>
@@ -156,22 +156,22 @@ export default {
             remark:'',
             rules: {
                 remark: [
-                    { required: true, message: '请输入备注', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入备注'), trigger: 'blur' },
                 ],
                 status: [
-                    { required: true, message: '请选择状态', trigger: 'blur' },
+                    { required: true, message: this.M2('请选择状态'), trigger: 'blur' },
                 ],
                 type: [
-                    { required: true, message: '请选择类型', trigger: 'blur' },
+                    { required: true, message: this.M2('请选择类型'), trigger: 'blur' },
                 ],
                 dailySales: [
-                    { required: true, message: '请选择采购开发', trigger: 'blur' },
+                    { required: true, message: this.M2('请选择采购开发'), trigger: 'blur' },
                 ],
                 platformid: [
-                    { required: true, message: '请选择开发优先级', trigger: 'blur' },
+                    { required: true, message: this.M2('请选择开发优先级'), trigger: 'blur' },
                 ],
                 auditor: [
-                    { required: true, message: '请选择负责人', trigger: 'blur' },
+                    { required: true, message: this.M2('请选择负责人'), trigger: 'blur' },
                 ],
             },
             devSign:[
@@ -349,55 +349,62 @@ export default {
             this.$refs[formName].resetFields();
              this.dialogVisible = false      
       },
-      changeStatus(val){
-          if(this.orderListStatus.includes(val)){
-                this.type2 = this.type1
-            }else{
-              this.type2 = this.type 
+    changeStatus(val){
+        if(this.orderListStatus.includes(val)){
+            this.type2 = this.type1
+        }else{
+            this.type2 = this.type 
+        }
+    },
+    getTypeList(){
+        if(this.clickId == 6){
+            let params = {
+                    rid:document.URL.includes('yaheecloud') ? 41 : 170
+                // rid:41//采购开发正式41
             }
-      },
-        getTypeList(){
-            if(this.clickId == 6){
-                let params = {
-                     rid:document.URL.includes('yaheecloud') ? 41 : 170
-                    // rid:41//采购开发正式41
-                }
-                selectRoleEmployeeForRoleId(params).then(res => {
-                    this.dailySales = res.data
-                })
-            }else if(this.clickId == 20){
-                let itemList = {
-                    rid:document.URL.includes('yaheecloud') ? 40 : 171
-                    // rid:40//业务开发正式40
-                }
-                selectRoleEmployeeForRoleId(itemList).then(res => {
-                    this.dailySales = res.data
-                })
-            }else if(this.clickId == 50){
-                getAssignedAuditorList().then(res => {
-                    this.examineList = res.data
-                })
+            selectRoleEmployeeForRoleId(params).then(res => {
+                this.dailySales = res.data
+            })
+        }else if(this.clickId == 20){
+            let itemList = {
+                rid:document.URL.includes('yaheecloud') ? 40 : 171
+                // rid:40//业务开发正式40
             }
-        },
-        // changStatus(val){
-        //     if(val == 3){
-        //         this.type2 = this.type1
-        //     }else {
-        //         this.type2 = this.type
-        //     }
-        // },
-        changeLabel(){
-            this.label = '备注:'
-            if(this.clickId == 3){
-                this.label = '取消原因:'
-            }else if(this.clickId == 4){
-                this.label = '打回备注:'
-            }
-        },
-         openDialog(){
-            this.dialogVisible = true
-        },
-        submitList(formName){
+            selectRoleEmployeeForRoleId(itemList).then(res => {
+                this.dailySales = res.data
+            })
+        }else if(this.clickId == 50){
+            getAssignedAuditorList().then(res => {
+                this.examineList = res.data
+            })
+        }
+    },
+    // changStatus(val){
+    //     if(val == 3){
+    //         this.type2 = this.type1
+    //     }else {
+    //         this.type2 = this.type
+    //     }
+    // },
+    changeLabel(){
+        this.label = this.M2('备注') + ':'
+        if(this.clickId == 3){
+            this.label = this.M2('取消原因') + ':'
+        }else if(this.clickId == 4){
+            this.label = this.M2('打回备注') + ':'
+        }
+    },
+    openDialog(){
+        this.dialogVisible = true
+    },
+    successMessage(res){
+        this.$message({
+            type: 'success', 
+            message:this.M2(res),
+            offset:220
+        })
+    },
+    submitList(formName){
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let toState = ''
@@ -441,11 +448,7 @@ export default {
                 }
                 approvalPass(params).then(res => {
                     if(res.code == 200){
-                        this.$message({
-                            type: 'success', 
-                            message:'保存成功',
-                            offset:220
-                        })
+                        this.successMessage('保存成功')
                         this.loading = false
                         this.$emit('getTableList',this.navFilterList)
                         this.$refs['ruleForm'].resetFields();
@@ -464,11 +467,7 @@ export default {
                 }
                 beginApprovalPass(params).then(res => {
                     if(res.code == 200){
-                        this.$message({
-                            type: 'success', 
-                            message:'保存成功',
-                            offset:220
-                        })
+                         this.successMessage('保存成功')
                         this.$emit('getTableList',this.navFilterList)
                         this.$refs['ruleForm'].resetFields();
                         this.dialogVisible = false
@@ -486,11 +485,7 @@ export default {
                 }
                 toEndCheck(params).then(res => {
                     if(res.code == 200){
-                        this.$message({
-                            type: 'success', 
-                            message:'保存成功',
-                            offset:220
-                        })
+                       this.successMessage('保存成功')
                         this.$emit('getTableList',this.navFilterList)
                         this.$refs['ruleForm'].resetFields();
                         this.dialogVisible = false
@@ -509,11 +504,7 @@ export default {
                 }
                 loadToBack(params).then(res => {
                     if(res.code == 200){
-                        this.$message({
-                            type: 'success', 
-                            message:'保存成功',
-                            offset:220
-                        })
+                       this.successMessage('保存成功')
                         this.$emit('getTableList',this.navFilterList)
                         this.$refs['ruleForm'].resetFields();
                         this.dialogVisible = false
@@ -531,11 +522,7 @@ export default {
                 }
                 updateResponsible(params).then(res => {
                     if(res.code == 200){
-                        this.$message({
-                            type: 'success', 
-                            message:'保存成功',
-                            offset:220
-                        })
+                        this.successMessage('保存成功')
                         this.$emit('getTableList',this.navFilterList)
                         this.$refs['ruleForm'].resetFields();
                         this.dialogVisible = false  
@@ -553,11 +540,7 @@ export default {
                 }
                 updateResponsible(params).then(res => {
                     if(res.code == 200){
-                        this.$message({
-                            type: 'success', 
-                            message:'保存成功',
-                            offset:220
-                        })
+                        this.successMessage('保存成功')
                         this.$emit('getTableList',this.navFilterList)
                         this.$refs['ruleForm'].resetFields();
                         this.dialogVisible = false 
@@ -574,11 +557,7 @@ export default {
                 }
                 cancelExploit(params).then(res => {
                     if(res.code == 200){
-                        this.$message({
-                            type: 'success', 
-                            message:'保存成功',
-                            offset:220
-                        })
+                        this.successMessage('保存成功')
                         this.$emit('getTableList',this.navFilterList)
                         this.$refs['ruleForm'].resetFields();
                         this.dialogVisible = false 
@@ -595,11 +574,7 @@ export default {
                     }
                     saveAssignedAuditor(params).then(res => {
                         if(res.code == 200){
-                            this.$message({
-                                type: 'success', 
-                                message:'保存成功',
-                                offset:220
-                            })
+                            this.successMessage('保存成功')
                             this.$emit('getTableList',this.navFilterList)
                             this.$refs['ruleForm'].resetFields();
                             this.dialogVisible = false 

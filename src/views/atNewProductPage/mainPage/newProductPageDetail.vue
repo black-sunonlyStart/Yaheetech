@@ -3,16 +3,16 @@
         <div class="flex-stact-title">
             <el-card class="header-title" style="margin-top:0px">
                 <div class="header-title-text">
-                    产品开发 > 新品需求管理
+                    {{M2('产品开发')}} > {{M2('新品需求管理')}} 
                 </div>
-                <div><span class="header-text">新品开发需求：</span>
+                <div><span class="header-text">{{M2('新品开发需求')}}：</span>
                     <span  class="header-text" style="font-weight: bold;">{{mainPageList.developmentId}}
                     <span v-if="mainPageList.skuAlias">({{mainPageList.skuAlias}})</span></span></div>
                 <div class="right-button"> 
-                    <div class="green-font" @click="routerDev()" v-if="mainPageList.state > 12">>>产品开发详情页</div>
-                    <div class="green-div">品类经理：{{mainPageList ? mainPageList.categoryManagerName : ''}}</div>
-                    <div class="green-div" v-if="mainPageList.businessName || mainPageList.state >= 4">业务开发:{{mainPageList ? mainPageList.businessName: ''}}</div>
-                    <div class="gray-div">预计完成时间：{{mainPageList && mainPageList.completionOn ? $moment(mainPageList.completionOn).format("YYYY-MM-DD") :''}}</div>
+                    <div class="green-font" @click="routerDev()" v-if="mainPageList.state > 12">>>{{M2('产品开发详情页')}}</div>
+                    <div class="green-div">{{M2('品类经理')}}：{{mainPageList ? mainPageList.categoryManagerName : ''}}</div>
+                    <div class="green-div" v-if="mainPageList.businessName || mainPageList.state >= 4">{{M2('业务开发')}}:{{mainPageList ? mainPageList.businessName: ''}}</div>
+                    <div class="gray-div">{{M2('预计完成时间')}}：{{mainPageList && mainPageList.completionOn ? $moment(mainPageList.completionOn).format("YYYY-MM-DD") :''}}</div>
                 </div>
             </el-card>
             <el-card class="card">
@@ -20,14 +20,14 @@
                     <span class="leftButton" @click="leftMove"><i class="el-icon-d-arrow-left"></i></span>
                         <span class="step-container">
                             <el-steps :active="nowStatus" space='150' align-center  finish-status="success" process-status="finish">
-                                <el-step v-for="item in developmentProgresses" :title="item.statusValue" :key="item.status" :description="item.createOn" >
+                                <el-step v-for="item in developmentProgresses" :title="M2(item.statusValue)" :key="item.status" :description="item.createOn" >
                                         <template slot="icon">
                                             <div class="imageBox"></div>
                                         </template>
                                         <template slot="title">
                                             <el-tooltip class="item" effect="dark" :content="item.createBy" placement="top">
                                                 <div class="stepTitle">
-                                                    {{ item.status == 8 && mainPageList.design == 11 ? item.toStatusValue : item.statusValue}}
+                                                    {{ item.status == 8 && mainPageList.design == 11 ? M2(item.toStatusValue) : M2(item.statusValue)}}
                                                 </div>
                                             </el-tooltip>
                                         </template>
@@ -41,10 +41,10 @@
         <div class='tabContainer'>
             <el-card class="sample-basis">
                 <div slot="header" class="clearfix">
-                    <div>基本数据
+                    <div>{{M2('基本数据')}}
                         <div v-if="!noEditableList.includes(this.mainPageList.state) && assigneePermission"  v-permission="'PM00048'">
                             <div class="edit-position" @click="controlsEdit.isEdit = !controlsEdit.isEdit" v-if="controlsEdit.isEdit">
-                                <span><i class="icon-edit"></i>编辑</span>
+                                <span><i class="icon-edit"></i>{{M2('编辑')}}</span>
                             </div>
                         </div>
                     </div>   
@@ -53,7 +53,7 @@
                     <el-row class="textSpeaing">
                         <el-col :span="20"  >
                             <div class="boxFlex">
-                                <span class="imageMainbox">产品图片： </span>
+                                <span class="imageMainbox">{{M2('产品图片')}}： </span>
                                 <div class="imageMainboxText" >
                                     <div class="image-flex">
                                         <el-image  v-for="item in mainPageList.productDemandImgs" :key="item.url" :src="item.showImgUrl" :preview-src-list="[item.showBigImgUrl]"></el-image>
@@ -64,44 +64,44 @@
                     </el-row>
                     <el-row class="textSpeaing">
                         <el-col :span="20">
-                            <span class="imageMainbox">产品名称： </span>
+                            <span class="imageMainbox">{{M2('产品名称')}}： </span>
                             <span class="imageMainboxText">{{mainPageList.title}}</span>
                         </el-col>
                     </el-row>
                     <el-row class="textSpeaing">
                         <el-col :span="10" v-if="mainPageList.businessName || mainPageList.state >= 4">
-                            <span class="imageMainbox">业务开发： </span>
+                            <span class="imageMainbox">{{M2('业务开发')}}： </span>
                             <span class="imageMainboxText">{{mainPageList.businessName}}</span>
                         </el-col>
                         <el-col :span="10" v-if="mainPageList.design || mainPageList.state >= 7">
-                            <span class="imageMainbox">是否为设计款： </span>
+                            <span class="imageMainbox">{{M2('是否为设计款')}}： </span>
                             <span class="imageMainboxText">{{showDesign(mainPageList.design )}}</span>
                         </el-col>
                     </el-row>
                     <el-row class="textSpeaing">
                         <el-col :span="10">
-                            <span class="imageMainbox">产品来源： </span>
-                            <span class="imageMainboxText">{{mainPageList.productSourceStr}}</span>
+                            <span class="imageMainbox">{{M2('产品来源')}}： </span>
+                            <span class="imageMainboxText">{{M2(mainPageList.productSourceStr)}}</span>
                         </el-col>
                         <el-col :span="10">
-                            <span class="imageMainbox">类目-系列： </span>
+                            <span class="imageMainbox">{{M2('类目-系列')}}： </span>
                             <span class="imageMainboxText">{{mainPageList.seriesCategoryName }}</span>
                         </el-col>
                     </el-row>
                     <el-row class="textSpeaing">
                         <el-col :span="10" v-if="mainPageList.productSource == 1">
-                            <span class="imageMainbox">工厂名称： </span>
+                            <span class="imageMainbox">{{M2('工厂名称')}}： </span>
                             <span class="imageMainboxText">{{mainPageList.factoryName}}</span>
                         </el-col>
                         <el-col :span="10" v-if="mainPageList.productSource == 5">
                             <div class="boxFlex">
-                                <span class="imageMainbox">其他来源： </span>
+                                <span class="imageMainbox">{{M2('其他来源')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.otherSources}}</div>
                             </div>
                         </el-col>
                         <el-col :span="10" v-if="mainPageList.productSource == 4">
                             <div class="boxFlex">
-                                <span class="imageMainbox">设计师名称： </span>
+                                <span class="imageMainbox">{{M2('设计师名称')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.productSourceDesigner}}</div>
                             </div>
                         </el-col>
@@ -109,13 +109,13 @@
                     <el-row class="textSpeaing">
                         <el-col :span="10">
                             <div class="boxFlex">
-                                <span class="imageMainbox">平台： </span>
+                                <span class="imageMainbox">{{M2('平台')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.platForm}}</div>
                             </div>
                         </el-col>
                         <el-col :span="10">
                             <div class="boxFlex">
-                                <span class="imageMainbox">产品链接： </span>
+                                <span class="imageMainbox">{{M2('产品链接')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.productLink}}  {{changeMarket(mainPageList.productLinkMarket) }}</div>
                             </div>       
                         </el-col>
@@ -123,13 +123,13 @@
                     <el-row class="textSpeaing">
                         <el-col :span="10">
                             <div class="boxFlex">
-                                <span class="imageMainbox">需求颜色： </span>
-                                <div class="imageMainboxText" >{{mainPageList.desiredColor && mainPageList.desiredColor.length > 0 ? mainPageList.desiredColor.toString() : ''}}</div>
+                                <span class="imageMainbox">{{M2('需求颜色')}}： </span>
+                                <div class="imageMainboxText" >{{mainPageList.desiredColor && mainPageList.desiredColor.length > 0 ? M2(mainPageList.desiredColor.toString()) : ''}}</div>
                             </div>
                         </el-col>
                         <el-col :span="10">
                             <div class="boxFlex">
-                                <span class="imageMainbox">需求尺寸： </span>
+                                <span class="imageMainbox">{{M2('需求尺寸')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.requiredSize}}</div>
                             </div>       
                         </el-col>
@@ -137,7 +137,7 @@
                     <el-row class="textSpeaing">
                         <el-col :span="20">
                             <div class="boxFlex">
-                                <span class="imageMainbox">工艺材质： </span>
+                                <span class="imageMainbox">{{M2('工艺材质')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.processMaterial}}</div>
                             </div>
                         </el-col>
@@ -145,13 +145,13 @@
                     <el-row class="textSpeaing">
                         <el-col :span="10">
                             <div class="boxFlex">
-                                <span class="imageMainbox">建议售卖市场： </span>
+                                <span class="imageMainbox">{{M2('建议售卖市场')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.saleMarket && mainPageList.saleMarket.length > 0 ? mainPageList.saleMarket.toString() : ''}}</div>
                             </div>
                         </el-col>
                         <el-col :span="10">
                             <div class="boxFlex">
-                                <span class="imageMainbox">预测日销： </span>
+                                <span class="imageMainbox">{{M2('预测日销')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.xsdailySales}}</div>
                             </div>       
                         </el-col>
@@ -159,13 +159,13 @@
                     <el-row class="textSpeaing">
                         <el-col :span="10">
                             <div class="boxFlex">
-                                <span class="imageMainbox">推荐理由： </span>
+                                <span class="imageMainbox">{{M2('推荐理由')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.recomReason}}</div>
                             </div>
                         </el-col>
                         <el-col :span="10">
                             <div class="boxFlex">
-                                <span class="imageMainbox">调整方向： </span>
+                                <span class="imageMainbox">{{M2('调整方向')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.adjustDirection}}</div>
                             </div>       
                         </el-col>
@@ -173,38 +173,38 @@
                     <el-row class="textSpeaing">
                         <el-col :span="20">
                             <div style="display:flex">
-                                <span class="imageMainbox">竞品信息： </span>
+                                <span class="imageMainbox">{{M2('竞品信息')}}： </span>
                                 <div class="imageMainboxText" style="flex-grow: 1;">
-                                    <el-table :data="mainPageList.productDemandCompetings && mainPageList.productDemandCompetings.filter(item => item.usage)" border align="center" :header-cell-style="{background:'#f5f7fa',color:'#606266'}">
-                                        <el-table-column width="" label="竞品链接" header-align='center' align="center">
+                                    <el-table :empty-text="M2('暂无数据')" :data="mainPageList.productDemandCompetings && mainPageList.productDemandCompetings.filter(item => item.usage)" border align="center" :header-cell-style="{background:'#f5f7fa',color:'#606266'}">
+                                        <el-table-column width="500" :label="M2('竞品链接')" header-align='center' align="center">
                                             <template slot-scope="scope">
                                                 <div>
                                                     {{scope.row.url}}
                                                 </div>   
                                             </template>
                                         </el-table-column>
-                                        <el-table-column width=""  label="链接市场" header-align='center' align="center">
+                                        <el-table-column width=""  :label="M2('链接市场')" header-align='center' align="center">
                                             <template slot-scope="scope">
                                                 <div>
                                                     {{changeMarket(scope.row.urlMarket)}}
                                                 </div>       
                                             </template>
                                         </el-table-column>
-                                        <el-table-column width=""  label="竞品品牌" header-align='center' align="center">
+                                        <el-table-column width=""  :label="M2('竞品品牌')" header-align='center' align="center">
                                             <template slot-scope="scope">
                                                 <div>
                                                     {{scope.row.bandinfo}}
                                                 </div>   
                                             </template>
                                         </el-table-column>
-                                        <el-table-column width=""  label="竞品排名" header-align='center' align="center">
+                                        <el-table-column width=""  :label="M2('竞品排名')" header-align='center' align="center">
                                             <template slot-scope="scope">
                                                 <div>
                                                     {{scope.row.ranking}}
                                                 </div>    
                                             </template>
                                         </el-table-column>
-                                        <el-table-column width=""  label="竞品价格区间" header-align='center' align="center">
+                                        <el-table-column width=""  :label="M2('竞品价格区间')" header-align='center' align="center">
                                             <template slot-scope="scope">
                                                 <div style="display:flex;justify-content: center;">
                                                     {{scope.row.minPrice}}
@@ -221,7 +221,7 @@
                      <el-row class="textSpeaing">
                         <el-col :span="10">
                             <div class="boxFlex">
-                                <span class="imageMainbox">其他说明： </span>
+                                <span class="imageMainbox">{{M2('其他说明')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.otherInstructions}}</div>
                             </div>       
                         </el-col>
@@ -234,7 +234,7 @@
                                 <el-form-item  prop="productDemandImgs">
                                     <template slot="label" >
                                         <span>
-                                            产品图片:
+                                            {{M2('产品图片')}}:
                                         </span> 
                                     </template>
                                     <imgUpload 
@@ -251,15 +251,15 @@
                         </el-row>  
                         <el-row :gutter="150">
                             <el-col :span="20">
-                                <el-form-item label="产品名称:" prop="title">
+                                <el-form-item :label="M2('产品名称') + ':'" prop="title">
                                     <el-input type="textarea" rows="1" v-model="mainPageList.title" show-word-limit maxlength="100"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row> 
                         <el-row :gutter="150">
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" v-if="mainPageList.businessName || mainPageList.state >= 4">
-                                <el-form-item label="业务开发:" prop="businessId">
-                                    <el-select v-model="mainPageList.businessId" value-key="code" placeholder="请选择" class="project-select" size="mini" >
+                                <el-form-item :label="M2('业务开发') + ':'" prop="businessId">
+                                    <el-select v-model="mainPageList.businessId" value-key="code" :placeholder="M2('请选择')" class="project-select" size="mini" >
                                         <el-option 
                                             v-for="item in targetPrice"                        
                                             :key="item.Id"
@@ -271,25 +271,25 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" v-if="mainPageList.design || mainPageList.state >= 7">
-                                <el-form-item label="是否为设计款:" prop="design">
+                                <el-form-item :label="M2('是否为设计款') + ':'" prop="design">
                                     <el-radio-group v-model="mainPageList.design">
-                                        <el-radio :label="2">否</el-radio>
-                                        <el-radio :label="10">设计</el-radio>
-                                        <el-radio :label="11">P图</el-radio>
+                                        <el-radio :label="2">{{M2('否')}}</el-radio>
+                                        <el-radio :label="10">{{M2('设计')}}</el-radio>
+                                        <el-radio :label="11">{{M2('P图')}}</el-radio>
                                     </el-radio-group>
                                 </el-form-item>
                             </el-col>
                         </el-row> 
                         <el-row :gutter="150">
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
-                                <el-form-item label="产品来源:" prop="productSource">
+                                <el-form-item :label="M2('产品来源') + ':'" prop="productSource">
                                     <el-select 
                                         v-model="mainPageList.productSource"
                                         >
                                         <el-option 
                                             v-for="item in supplierTypeList"                        
                                             :key="item.label"
-                                            :label="item.name"
+                                            :label="M2(item.name)"
                                             :value="item.label"
                                             >
                                         </el-option>
@@ -297,7 +297,7 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
-                                <el-form-item label="类目-系列:" prop="classCategoryIdArray">
+                                <el-form-item :label="M2('类目-系列') + ':'" prop="classCategoryIdArray">
                                     <el-cascader
                                         style="display: block;"
                                         v-model="mainPageList.classCategoryIdArray"
@@ -317,24 +317,24 @@
                         </el-row> 
                         <el-row :gutter="150">
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" v-if="mainPageList.productSource == 1">
-                                <el-form-item label="工厂名称:" prop="factoryName">
+                                <el-form-item :label="M2('工厂名称') + ':'" prop="factoryName">
                                     <el-input v-model="mainPageList.factoryName"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" v-if="mainPageList.productSource == 5">
-                                <el-form-item label="其他来源:" prop="otherSources">
+                                <el-form-item  :label="M2('其他来源') + ':'" prop="otherSources">
                                     <el-input v-model="mainPageList.otherSources"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" v-if="mainPageList.productSource == 4">
-                                <el-form-item label="设计师名称:" prop="productSourceDesigner">
+                                <el-form-item :label="M2('设计师名称') + ':'" prop="productSourceDesigner">
                                     <el-input v-model="mainPageList.productSourceDesigner"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row> 
                         <el-row :gutter="150">
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
-                                <el-form-item label="平台:" prop="platForm" :rules="[{required: this.mainPageList && this.mainPageList.productSource == 2,message:'请选择平台',trigger:'blur'}]">
+                                <el-form-item :label="M2('平台') + ':'" prop="platForm" :rules="[{required: this.mainPageList && this.mainPageList.productSource == 2,message:M2('请选择平台'),trigger:'blur'}]">
                                     <el-select 
                                         v-model="mainPageList.platForm"
                                         >
@@ -350,18 +350,18 @@
                             </el-col>
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                                 <div style="display:flex">
-                                    <el-form-item label="产品链接:" prop="productLink"
-                                        :rules="[{required: this.mainPageList && this.mainPageList.productSource == 2,message:'请添加产品链接',trigger:'blur'}]"
+                                    <el-form-item :label="M2('产品链接') + ':'" prop="productLink"
+                                        :rules="[{required: this.mainPageList && this.mainPageList.productSource == 2,message:M2('请添加产品链接'),trigger:'blur'}]"
                                         >
                                         <el-input v-model="mainPageList.productLink" style="width:285px"></el-input>
                                     </el-form-item>
                                     <el-form-item prop="productLinkMarket"
                                         label-width="0px"
-                                        :rules="[{required: this.mainPageList && this.mainPageList.productSource == 2,message:'请添加链接市场',trigger:'blur'}]"
+                                        :rules="[{required: this.mainPageList && this.mainPageList.productSource == 2,message:M2('请添加链接市场'),trigger:'blur'}]"
                                     >
                                         <el-select 
                                             v-model="mainPageList.productLinkMarket"
-                                            placeholder="链接市场"
+                                            :placeholder="M2('链接市场')"
                                             style="width:190px"
                                             >
                                             <el-option 
@@ -378,7 +378,7 @@
                         </el-row> 
                         <el-row :gutter="150">
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
-                                <el-form-item label="需求颜色:" prop="desiredColor">
+                                <el-form-item :label="M2('需求颜色') + ':'" prop="desiredColor">
                                     <el-select 
                                         v-model="mainPageList.desiredColor"
                                         multiple
@@ -386,7 +386,7 @@
                                         <el-option 
                                             v-for="item in checkList"                        
                                             :key="item"
-                                            :label="item"
+                                            :label="M2(item)"
                                             :value="item"
                                             >
                                         </el-option>
@@ -394,21 +394,21 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
-                                <el-form-item label="需求尺寸:" prop="requiredSize">
+                                <el-form-item :label="M2('需求尺寸') + ':'" prop="requiredSize">
                                     <el-input v-model="mainPageList.requiredSize" type="textarea" show-word-limit maxlength="100" rows="1"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row> 
                         <el-row :gutter="150">
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
-                                <el-form-item label="工艺材质:" prop="processMaterial">
+                                <el-form-item :label="M2('工艺材质') + ':'" prop="processMaterial">
                                     <el-input v-model="mainPageList.processMaterial" type="textarea" show-word-limit maxlength="200"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row> 
                         <el-row :gutter="150">
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
-                                <el-form-item label="建议售卖市场:" prop="saleMarket">
+                                <el-form-item :label="M2('建议售卖市场') + ':'" prop="saleMarket">
                                     <el-select 
                                         v-model="mainPageList.saleMarket"
                                         multiple
@@ -424,33 +424,33 @@
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
-                                <el-form-item label="预测日销:" prop="xsdailySales">
+                                <el-form-item :label="M2('预测日销') + ':'" prop="xsdailySales">
                                     <el-input v-model.number="mainPageList.xsdailySales" oninput="value=value.replace(/[^0-9]/g,'')"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row> 
                         <el-row :gutter="150">
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
-                                <el-form-item label="推荐理由:" prop="recomReason">
+                                <el-form-item :label="M2('推荐理由') + ':'" prop="recomReason">
                                     <el-input type="textarea" v-model="mainPageList.recomReason" show-word-limit maxlength="300"></el-input>
                                 </el-form-item>
                             </el-col>
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
-                                <el-form-item label="调整方向:" prop="adjustDirection">
+                                <el-form-item  :label="M2('调整方向') + ':'" prop="adjustDirection">
                                     <el-input type="textarea" v-model="mainPageList.adjustDirection" show-word-limit maxlength="500"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row> 
                         <el-row :gutter="150">
                             <el-col :span="20">
-                                <el-form-item label="竞品数据:">
-                                    <el-table :data="mainPageList.productDemandCompetings && mainPageList.productDemandCompetings.filter(item => item.usage)" border align="center" :header-cell-style="{background:'#f5f7fa',color:'#606266'}">
-                                        <el-table-column width="" label="竞品链接" header-align='center'>
+                                <el-form-item  :label="M2('竞品数据') + ':'">
+                                    <el-table :empty-text="M2('暂无数据')" :data="mainPageList.productDemandCompetings && mainPageList.productDemandCompetings.filter(item => item.usage)" border align="center" :header-cell-style="{background:'#f5f7fa',color:'#606266'}">
+                                        <el-table-column width="" :label="M2('竞品链接')" header-align='center'>
                                             <template slot-scope="scope">
                                                 <el-input v-model="scope.row.url"></el-input>      
                                             </template>
                                         </el-table-column>
-                                        <el-table-column width=""  label="链接市场" header-align='center'>
+                                        <el-table-column width="" :label="M2('链接市场')" header-align='center'>
                                             <template slot-scope="scope">
                                                 <el-select 
                                                     v-model="scope.row.urlMarket"
@@ -465,17 +465,17 @@
                                                 </el-select>       
                                             </template>
                                         </el-table-column>
-                                        <el-table-column width=""  label="竞品品牌" header-align='center'>
+                                        <el-table-column width="" :label="M2('竞品品牌')" header-align='center'>
                                            <template slot-scope="scope">
                                                 <el-input v-model="scope.row.bandinfo"></el-input>      
                                             </template>
                                         </el-table-column>
-                                        <el-table-column width=""  label="竞品排名" header-align='center'>
+                                        <el-table-column width="" :label="M2('竞品排名')" header-align='center'>
                                             <template slot-scope="scope">
                                                 <el-input v-model="scope.row.ranking" show-word-limit maxlength="100" type="textarea" rows="1"></el-input>      
                                             </template>
                                         </el-table-column>
-                                        <el-table-column width=""  label="竞品价格区间" header-align='center'>
+                                        <el-table-column width="" :label="M2('竞品价格区间')" header-align='center'>
                                             <template slot-scope="scope">
                                                 <div style="display:flex">
                                                     <el-input v-model="scope.row.minPrice" oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,2})?).*$/g, '$1')"></el-input>   
@@ -485,7 +485,7 @@
                                             </template>
                                         </el-table-column>
                                         <el-table-column
-                                            label="操作"
+                                            :label="M2('操作')"
                                             width="50px"
                                             >
                                             <template slot-scope="scope">
@@ -496,37 +496,37 @@
                                                     @click.native.prevent="deleteRow(scope.$index)"
                                                     type="text"
                                                     size="small">
-                                                    移除
+                                                    {{M2('移除')}}
                                                 </el-button>
                                             </template>
                                         </el-table-column>
                                     </el-table>
                                     <div class="tableText" @click="addTableList">
-                                        增加竞品信息
+                                        {{M2('增加竞品信息')}}
                                     </div>
                                 </el-form-item>
                             </el-col>
                         </el-row>
                         <el-row :gutter="150">
                             <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
-                                <el-form-item label="其他说明:" prop="otherInstructions">
+                                <el-form-item :label="M2('其他说明') + ':'" prop="otherInstructions">
                                     <el-input type="textarea" v-model="mainPageList.otherInstructions" show-word-limit maxlength="500"></el-input>
                                 </el-form-item>
                             </el-col>
                         </el-row> 
                     </el-form>
                     <div class="bottomButton">
-                        <el-button type="primary" @click="submitForm('ruleForm')" size="mini">保存</el-button>
-                        <el-button @click="updeEditPage('isEdit',true)"  size="mini">取消</el-button>
+                        <el-button type="primary" @click="submitForm('ruleForm')" size="mini">{{M2('保存')}}</el-button>
+                        <el-button @click="updeEditPage('isEdit',true)"  size="mini">{{M2('取消')}}</el-button>
                     </div>
                 </div>
             </el-card>
             <el-card v-if="this.mainPageList.state && ![1,2,3].includes(this.mainPageList.state)" >
                 <div slot="header" class="clearfix">
-                    <div>专利信息 <!-- -->
+                    <div>{{M2('专利信息')}} <!-- -->
                         <div v-if="!noEditableList.includes(this.mainPageList.state) && assigneePermission" v-permission="'PM00049'">
                             <div class="edit-position" @click="controlsEdit.isEdit1 = !controlsEdit.isEdit1" v-if="controlsEdit.isEdit1">
-                                <span><i class="icon-edit"></i>编辑</span>
+                                <span><i class="icon-edit"></i>{{M2('编辑')}}</span>
                             </div>
                         </div>
                     </div>   
@@ -534,7 +534,7 @@
                 <div v-if="controlsEdit.isEdit1">
                     <el-row class="textSpeaing">
                         <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
-                            <span class="imageMainbox"> 查询国家： </span>
+                            <span class="imageMainbox"> {{M2('查询国家')}}： </span>
                             <span class="imageMainboxText">
                                 <span v-for="(item,index) in patentInfo.countryList" :key="item">{{showCountryText(item)}}<span v-if="index != patentInfo.countryList.length - 1">,</span></span>
                             </span>
@@ -543,7 +543,7 @@
                     <el-row class="textSpeaing" v-if="this.mainPageList.state && ![4,5].includes(this.mainPageList.state)">
                         <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
                             <div style="display:flex">
-                                <span class="imageMainbox"> 查询结果： </span>
+                                <span class="imageMainbox"> {{M2('查询结果')}}： </span>
                                 <div>
                                     <div v-for="item in patentInfo.patentInfoT" :key="item.countryCode">{{showCountryText(item.countryCode) }} - {{showReqRes(item.reqRes)}}</div>
                                 </div>
@@ -553,7 +553,7 @@
                     <el-row class="textSpeaing" v-if="this.mainPageList.state &&![4,5].includes(this.mainPageList.state)">
                         <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
                             <div style="display:flex">
-                                <span class="imageMainbox"> 专利说明： </span>
+                                <span class="imageMainbox"> {{M2('专利说明')}}： </span>
                                 <div>
                                     <div class="word-break" v-for="item in patentInfo.patentInfoT" :key="item.countryCode">{{showCountryText(item.countryCode)}} - {{item.patentInfo}}</div>
                                 </div>
@@ -566,7 +566,7 @@
                     <el-form :model="patentInfo" :rules="patentRules" ref="patentRuleForm" label-width="170px" size="mini">
                         <el-row :gutter="150">
                             <el-col :span="12" :xs="13" :sm="13" :md="13" :lg="13" :xl="13">
-                                <el-form-item  label="查询国家 :" prop="countryList">      
+                                <el-form-item :label="M2('查询国家') + ':'" prop="countryList">      
                                     <el-checkbox-group v-model="patentInfo.countryList" > 
                                         <el-checkbox v-for="item in countryList" :key="item.countryCode" :label="item.countryCode">{{item.label}}</el-checkbox>
                                     </el-checkbox-group>
@@ -574,13 +574,13 @@
                             </el-col>
                             <el-col :span="11">
                                 <div class="tableText" @click="showHistoryQueryInfo()">
-                                    历史查询结果
+                                    {{M2('历史查询结果')}}
                                 </div>
                             </el-col>
                         </el-row> 
                         <el-row :gutter="150" v-if="this.mainPageList.state && ![4,5].includes(this.mainPageList.state)">
                             <el-col :span="16">
-                                <el-form-item  label="查询结果:" prop="queryResults">     
+                                <el-form-item  :label="M2('查询结果') + ':'" prop="queryResults">     
                                     <div v-for="item in countryList" :key="item.countryCode">
                                         <div v-if="patentInfo.countryList && patentInfo.countryList.includes(item.countryCode)">
                                             <span class="country-type">{{item.label}}:</span>
@@ -588,7 +588,7 @@
                                                 <el-option 
                                                     v-for="item in devSign"                        
                                                     :key="item.key"
-                                                    :label="item.label"
+                                                    :label="M2(item.label)"
                                                     :value="item.value"
                                                     >
                                                 </el-option>
@@ -600,7 +600,7 @@
                         </el-row> 
                         <el-row :gutter="150" v-if="this.mainPageList.state && ![4,5].includes(this.mainPageList.state)">
                             <el-col :span="16">
-                                <el-form-item  label="专利说明:" prop="patentInfo">     
+                                <el-form-item :label="M2('专利说明') + ':'" prop="patentInfo">     
                                     <div v-for="item in countryList" :key="item.countryCode">
                                         <div v-if="patentInfo.countryList && patentInfo.countryList.includes(item.countryCode)" style="display:flex">
                                             <span class="country-type">{{item.label}}:</span>    
@@ -613,17 +613,17 @@
 
                     </el-form>
                     <div class="bottomButton">
-                        <el-button type="primary" @click="submitForm1('patentRuleForm')" size="mini">保存</el-button>
-                        <el-button @click="updeEditPage('isEdit1',true)"  size="mini">取消</el-button>
+                        <el-button type="primary" @click="submitForm1('patentRuleForm')" size="mini">{{M2('保存')}}</el-button>
+                        <el-button @click="updeEditPage('isEdit1',true)"  size="mini">{{M2('取消')}}</el-button>
                     </div>
                 </div>
             </el-card>
             <el-card v-if="this.mainPageList.state > 6 && this.mainPageList.design != 2 " >
                 <div slot="header" class="clearfix">
-                    <div>设计信息 <!-- -->
+                    <div>{{M2('设计信息')}} <!-- -->
                         <div v-if="!noEditableList.includes(this.mainPageList.state) && assigneePermission" v-permission="'PM00050'">
                             <div class="edit-position" @click="controlsEdit.isEdit2 = !controlsEdit.isEdit2" v-if="controlsEdit.isEdit2">
-                                <span><i class="icon-edit"></i>编辑</span>
+                                <span><i class="icon-edit"></i>{{M2('编辑')}}</span>
                             </div>
                         </div>
                     </div>   
@@ -632,14 +632,14 @@
                     <el-row class="textSpeaing" v-for="(item,index) in devSignInfo.filter(item => item.usage != false)" :key="item.key" style="margin-bottom:40px">              
                         <el-col :span="20">
                             <div style="display:flex">
-                                <span class="imageMainbox" style="display: flex;justify-content: space-between;"><div>{{'方案'+ changeNum(index) }}</div> <div>设计方：</div> </span>
+                                <span class="imageMainbox" style="display: flex;justify-content: space-between;"><div>{{M2('方案')+ changeNum(index) }}</div> <div>{{M2('设计方')}}：</div> </span>
                                 <span class="imageMainboxText">{{showDesigner(item.designer) }}</span>
                             </div>
                             
                         </el-col>
                         <el-col :span="20">
                             <div style="display:flex">
-                                <span class="imageMainbox">设计图片： </span>
+                                <span class="imageMainbox">{{M2('设计图片')}}： </span>
                                 <span class="imageMainboxText">
                                     <div class="boxFlex">
                                         <div class="image-flex">
@@ -651,7 +651,7 @@
                         </el-col>
                         <el-col :span="20" v-if="item.explain">
                             <div style="display:flex">
-                                <span class="imageMainbox">设计说明： </span>
+                                <span class="imageMainbox">{{M2('设计说明')}}： </span>
                                 <span class="imageMainboxText">
                                     <div class="boxFlex">
                                         <div class="image-flex">
@@ -663,7 +663,7 @@
                         </el-col>
                         <el-col :span="20" v-if="item.designerDescImgs && item.designerDescImgs.length > 0">
                             <div style="display:flex">
-                                <span class="imageMainbox">设计说明-图片： </span>
+                                <span class="imageMainbox">{{M2('设计说明-图片')}}： </span>
                                 <span class="imageMainboxText">
                                     <div class="boxFlex">
                                         <div class="image-flex">
@@ -675,7 +675,7 @@
                         </el-col>
                         <el-col :span="20" v-if="item.designerDescFiles && item.designerDescFiles.length > 0">
                             <div style="display:flex">
-                                <span class="imageMainbox">设计说明-文件： </span>
+                                <span class="imageMainbox">{{M2('设计说明-文件')}}： </span>
                                 <span class="imageMainboxText">
                                     <div>
                                         <div v-for="(item1) in item.designerDescFiles" :key="item1.id">
@@ -687,7 +687,7 @@
                         </el-col>
                         <el-col :span="20" v-if="mainPageList.state11 !== 1" >
                             <div style="display:flex">
-                                <span class="imageMainbox">结构图片： </span>
+                                <span class="imageMainbox">{{M2('结构图片')}}： </span>
                                 <span class="imageMainboxText">
                                     <div class="boxFlex">
                                         <div class="image-flex">
@@ -699,7 +699,7 @@
                         </el-col>
                         <el-col :span="20" v-if="mainPageList.state11 !== 1 && item.structureFiles && item.structureFiles.length > 0">
                             <div style="display:flex">
-                                <span class="imageMainbox">结构相关文件： </span>
+                                <span class="imageMainbox">{{M2('结构相关文件')}}： </span>
                                 <span class="imageMainboxText">
                                     <div>
                                         <div v-for="item1 in item.structureFiles" :key="item1.id">
@@ -720,17 +720,17 @@
                                     <span>  
                                         <div style="display: flex;justify-content: space-between;position: absolute;">
                                             <div>
-                                                <div>{{'方案' + changeNum(index)}}</div>
+                                                <div>{{M2('方案') + changeNum(index)}}</div>
                                             </div>
                                         </div> 
                                     </span>
-                                    <el-form-item prop="designer" label="设计方：">
+                                    <el-form-item prop="designer" :label="M2('设计方') + ':'">
                                         <span class="imageMainboxText" style="width:100%;margin-bottom:10px">
                                             <el-select v-model="item.designer" size="mini">
                                                 <el-option 
                                                     v-for="item in designerList"                        
                                                     :key="item.value"
-                                                    :label="item.label"
+                                                    :label="M2(item.label)"
                                                     :value="item.value"
                                                     >
                                                 </el-option>
@@ -740,16 +740,16 @@
                                     
                                 </el-col>  
                                 <el-col :span="10">
-                                    <span class="tableText" style="margin-right: 10px;" @click="addDevsign(index)" v-if="index == 0">添加方案</span>    
+                                    <span class="tableText" style="margin-right: 10px;" @click="addDevsign(index)" v-if="index == 0">{{M2('添加方案')}}</span>    
                                     <span class="red-text" :style="{'margin-left':index == 0 ? '0px':''}" @click="delDevsign(index)">
-                                        删除方案
+                                        {{M2('删除方案')}}
                                     </span>
                                 </el-col>
                             </el-row>
 
                             <el-row class="textSpeaing">
                                 <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" style="display:flex">
-                                    <el-form-item label="设计图片：" prop="designerImgs">
+                                    <el-form-item :label="M2('设计图片') + ':'" prop="designerImgs">
                                         <imgUpload 
                                             :fileType='2' 
                                             :dataParams="{ fileType:2,productDemandId:routeParam.id || 0}" 
@@ -760,7 +760,7 @@
                                         
                                         ></imgUpload> 
                                         <div class="fover-click" @click="addDevsignFile(index)">
-                                            添加设计说明
+                                            {{M2('添加设计说明')}}
                                         </div>
                                     </el-form-item>
                                 </el-col>  
@@ -768,14 +768,14 @@
                             <div >
                                 <el-row class="textSpeaing" v-if="item.explain  || item.showDevsignFile">
                                     <el-col :span="20" :xs="20" :sm="20" :md="20" :lg="20" :xl="10" style="display:flex">
-                                        <el-form-item label="设计说明：" prop="explain" style="width:100%">
+                                        <el-form-item  :label="M2('设计说明') + ':'" prop="explain" style="width:100%">
                                             <el-input type="textarea" rows="3" v-model="item.explain"></el-input>
                                         </el-form-item>
                                     </el-col>  
                                 </el-row>  
                                 <el-row class="textSpeaing" v-if="(item.designerDescImgs && item.designerDescImgs.length > 0) || item.showDevsignFile">
                                     <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" style="display:flex">
-                                        <el-form-item label="设计说明-图片：" prop="designerDescImgs">
+                                        <el-form-item  :label="M2('设计说明-图片') + ':'" prop="designerDescImgs">
                                             <imgUpload 
                                                 :fileType='4' 
                                                 :dataParams="{ fileType:4,productDemandId:routeParam.id || 0}" 
@@ -790,7 +790,7 @@
                                 </el-row>  
                                 <el-row class="textSpeaing" v-if="(item.designerDescFiles && item.designerDescFiles.length > 0) || item.showDevsignFile">
                                     <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" style="display:flex">
-                                        <el-form-item label="设计说明-文件：" prop="designerDescFiles">
+                                        <el-form-item :label="M2('设计说明-文件') + ':'" prop="designerDescFiles">
                                             <fileUpload 
                                                 :fileType='5' 
                                                 :dataParams="{ fileType:5,productDemandId:routeParam.id || 0}" 
@@ -807,7 +807,7 @@
                             </div>
                             <el-row class="textSpeaing" v-if="mainPageList.state11 != 1">
                                 <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" style="display:flex">
-                                    <el-form-item label="结构图片：" prop="structureImgs">
+                                    <el-form-item :label="M2('结构图片') + ':'" prop="structureImgs">
                                         <imgUpload 
                                             :fileType='3' 
                                             :dataParams="{ fileType:3,productDemandId:routeParam.id || 0}" 
@@ -818,14 +818,14 @@
                         
                                         ></imgUpload> 
                                          <div class="fover-click" @click="showDesignFile(index)">
-                                            添加结构文件
+                                            {{M2('添加结构文件')}}
                                         </div>
                                     </el-form-item>
                                 </el-col>  
                             </el-row>                            
                             <el-row class="textSpeaing" v-if="mainPageList.state11 != 1 && (item.structureFiles && item.structureFiles.length > 0 || item.showStructureFiles)">
                                 <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" style="display:flex">
-                                    <el-form-item label="结构相关文件：" prop="structureFiles">
+                                    <el-form-item :label="M2('结构相关文件') + ':'" prop="structureFiles">
                                         <fileUpload 
                                             :fileType='6' 
                                             :dataParams="{ fileType:6,productDemandId:routeParam.id || 0}" 
@@ -843,15 +843,15 @@
                         </div> 
                     </el-form>                   
                     <div class="bottomButton">
-                        <el-button type="primary" @click="submitForm2('ruleFormDesign')" size="mini">保存</el-button>
-                        <el-button @click="updeEditPage('isEdit2',true)"  size="mini">取消</el-button>
+                        <el-button type="primary" @click="submitForm2('ruleFormDesign')" size="mini">{{M2('保存')}}</el-button>
+                        <el-button @click="updeEditPage('isEdit2',true)"  size="mini">{{M2('取消')}}</el-button>
                     </div>
                 </div>
             </el-card>
         </div>
         <div style="display:flex;">
             <el-drawer
-                title="修改日志"
+                :title="M2('修改日志')"
                 :visible.sync="dialogVisible"
                 size="641px"
                 :modal="false"
@@ -863,19 +863,19 @@
                 >
                 <remarksNew :remarksParam='remarksParam' ref="remarksNew" v-if="showTenth" height='67vh'></remarksNew>
                 <span slot="footer" class="dialog-footer">
-                    <el-button @click="closeUploadDialog()" size="mini">关 闭</el-button>
+                    <el-button @click="closeUploadDialog()" size="mini">{{M2('关 闭')}}</el-button>
                 </span>
             </el-drawer>
             
-            <i class="el-icon-s-fold" title="收缩日志" @click="closeUploadDialog()" v-if="dialogVisible"></i>      
-            <i class="el-icon-s-unfold" title="展开日志" @click="openRecordDialog()" v-else></i>
+            <i class="el-icon-s-fold" :title="M2('收缩日志')" @click="closeUploadDialog()" v-if="dialogVisible"></i>      
+            <i class="el-icon-s-unfold" :title="M2('展开日志')" @click="openRecordDialog()" v-else></i>
         </div>
-        <commonDialog ref="commonDialog" titleText="历史专利信息">
+        <commonDialog ref="commonDialog" :titleText="M2('历史专利信息')">
             <div>
                 <el-row class="textSpeaing" >
                     <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
                         <div style="display:flex">
-                            <span class="imageMainbox"> 查询结果： </span>
+                            <span class="imageMainbox"> {{M2('查询结果')}}： </span>
                             <div>
                                 <div v-for="item in historyPatentInfo" :key="item.countryCode">{{showCountryText(item.countryCode) }} - {{showReqRes(item.reqRes)}}</div>
                             </div>
@@ -885,7 +885,7 @@
                 <el-row class="textSpeaing" >
                     <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
                         <div style="display:flex">
-                            <span class="imageMainbox"> 专利说明： </span>
+                            <span class="imageMainbox"> {{M2('专利说明')}}： </span>
                             <div>
                                 <div  v-for="item in historyPatentInfo" :key="item.countryCode">{{showCountryText(item.countryCode)}} - {{item.patentInfo}}</div>
                             </div>
@@ -896,7 +896,7 @@
         </commonDialog>
         <checkStatusDialog ref="checkStatusDialog"  @mainListList='init'></checkStatusDialog>
         <div class="bottom-button" v-if="!noEditableList.includes(this.mainPageList.state)">
-            <el-button size="mini" plain type="primary"  @click="toExamine()" v-if="this.mainPageList.state">{{mainPageList.state == 2 || mainPageList.state == 3 ? '审核' :'提交'}}</el-button>
+            <el-button size="mini" plain type="primary"  @click="toExamine()" v-if="this.mainPageList.state">{{mainPageList.state == 2 || mainPageList.state == 3 ? M2('审核') :M2('提交')}}</el-button>
         </div>
     </div>
 </template>
@@ -1098,20 +1098,20 @@ export default {
             },
             patentRules:{
                 countryList: [
-                    { required: true, message: '请选择查询国家', trigger: 'blur' },
+                    { required: true, message: this.M2('请选择查询国家'), trigger: 'blur' },
                 ],
                 queryResults: [
                     {
                         required:true,
                         validator: (rules, value, cb) => {
                             if(!this.patentRules.countryList || this.patentRules.countryList.length == 0){
-                                return cb(new Error("请选择查询结果"));
+                                return cb(new Error(this.M2("请选择查询结果")));
                             }
                             let list  = this.countryList.filter(item => {
                                 return this.patentInfo.countryList.includes(item.countryCode)
                             })
                             if(list.some(item => !item.reqRes)){
-                                return cb(new Error("请选择查询结果"));
+                                return cb(new Error(this.M2("请选择查询结果")));
                             }
                             return cb();
                         },
@@ -1121,56 +1121,56 @@ export default {
             },
             rulesDesign:{
                 designer: [
-                    { required: true, message: '请选择查询国家', trigger: 'blur' },
+                    { required: true, message: this.M2('请选择查询国家'), trigger: 'blur' },
                 ],
                 designerImgs: [
                     {
                         required:true,
-                        message:'请添加结构图片',
+                        message:this.M2('请添加结构图片'),
                         trigger: "change"
                     }
                 ],
             },
             rules:{
                 productDemandImgs: [
-                    { required: true, message: '请添加产品图片', trigger: 'blur' },
+                    { required: true, message: this.M2('请添加产品图片'), trigger: 'blur' },
                 ],
                 title: [
-                    { required: true, message: '请添加产品名称', trigger: 'blur' }
+                    { required: true, message: this.M2('请添加产品名称'), trigger: 'blur' }
                 ],
                 businessId: [
-                    { required: true, message: '请选择业务开发', trigger: 'blur' }
+                    { required: true, message: this.M2('请选择业务开发'), trigger: 'blur' }
                 ],
                 design: [
-                    { required: true, message: '请选择设计款', trigger: 'blur' }
+                    { required: true, message: this.M2('请选择设计款'), trigger: 'blur' }
                 ],
                 productSource: [
-                    { required: true, message: '请选择产品来源', trigger: 'blur' }
+                    { required: true, message: this.M2('请选择产品来源'), trigger: 'blur' }
                 ],
                 classCategoryIdArray: [
-                    { required: true, message: '请选择系列-类目', trigger: 'blur' }
+                    { required: true, message: this.M2('请选择系列-类目'), trigger: 'blur' }
                 ],
                 factoryName: [
-                    { required: true, message: '请添加工厂名称', trigger: 'blur' }
+                    { required: true, message: this.M2('请添加工厂名称'), trigger: 'blur' }
                 ],
                 otherSources: [
-                    { required: true, message: '请添加其他来源', trigger: 'blur' }
+                    { required: true, message: this.M2('请添加其他来源'), trigger: 'blur' }
                 ],
                 productSourceDesigner: [
-                    { required: true, message: '请填写设计师名称', trigger: 'blur' }
+                    { required: true, message: this.M2('请填写设计师名称'), trigger: 'blur' }
                 ],
                 saleMarket: [
-                    { required: true, message: '请选择建议售卖市场', trigger: 'blur' }
+                    { required: true, message: this.M2('请选择建议售卖市场'), trigger: 'blur' }
                 ],
                 recomReason: [
-                    { required: true, message: '请添加推荐理由', trigger: 'blur' }
+                    { required: true, message: this.M2('请添加推荐理由'), trigger: 'blur' }
                 ],
                 productLink:[
                     {
                         required:(this.mainPageList && this.mainPageList.productSource == 2 )|| this.productLinkRequire,
                         validator: (rules, value, cb) => {
                             if( !this.mainPageList.productLink || !this.mainPageList.productLinkMarket){
-                                return cb(new Error("请填加产品链接"));
+                                return cb(new Error(this.M2("请填加产品链接")));
                             }
                             return cb();
                         },
@@ -1559,7 +1559,7 @@ export default {
                         if(res.code == 200){
                             this.$message({
                                 type: 'success', 
-                                message:'保存成功',
+                                message:this.M2('保存成功'),
                                 offset:220
                             })
                         }
@@ -1596,7 +1596,7 @@ export default {
                         if(res.code == 200){
                             this.$message({
                                 type: 'success', 
-                                message:'保存成功',
+                                message:this.M2('保存成功'),
                                 offset:220
                             })
                         }
@@ -1634,7 +1634,7 @@ export default {
                     if(res.code == 200){
                         this.$message({
                             type: 'success', 
-                            message:'保存成功',
+                            message:this.M2('保存成功'),
                             offset:220
                         })
                     }
@@ -1931,7 +1931,7 @@ export default {
         warning(msg) {
             this.$message({
                 showClose: true,
-                message: msg,
+                message: this.M2(msg),
                 offset:220,
                 type: 'warning'
             });
@@ -1940,7 +1940,7 @@ export default {
         error(msg) {
             this.$message({
                 showClose: true,
-                message: msg,
+                message:this.M2(msg),
                 offset:220,
                 type: 'error'
             });

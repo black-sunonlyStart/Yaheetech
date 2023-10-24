@@ -13,9 +13,9 @@ import '@/utils/track.js'
 import 'element-ui/lib/theme-chalk/icon.css'
 import { VueJsonp } from 'vue-jsonp'
 import store from '@/store/store.js'
-// import '@/utils/requestTranslate.js'
-// import { M2 } from '@/utils/translate.js'
-// Vue.prototype.M2 = M2;
+import '@/utils/requestTranslate.js'
+import { M2 } from '@/utils/translate.js'
+Vue.prototype.M2 = M2;
 router.beforeEach((to,form,next) => {
     if(to.meta.title){
         document.title = to.meta.title

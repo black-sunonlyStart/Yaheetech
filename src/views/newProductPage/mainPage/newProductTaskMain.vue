@@ -44,6 +44,7 @@
                 v-loading="loading"
                 :data="mainTaskList" 
                 border 
+                :empty-text="M2('暂无数据')"
                 style="width: 100%"
                 @selection-change="handleSelectionChange" :height='changeMaxHeight()'
                 :header-cell-style="{background:'#f5f7fa',color:'#606266'}"

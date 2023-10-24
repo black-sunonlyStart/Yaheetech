@@ -23,7 +23,7 @@
                     <i class="el-icon-loading" ></i>
                 </div>
                 <div slot="error" class="image-slot icon-loading" style="font-size:14px">
-                    <i class="el-icon-picture-outline">加载失败</i>
+                    <i class="el-icon-picture-outline">{{M2('加载失败')}}</i>
                 </div>
             </el-image>
             <div class="shadow" @click="onRemoveHandler(item,index)">
@@ -47,11 +47,11 @@
             :with-credentials='true'
         >
             <i class="el-icon-plus uploadIcon">
-            <span class="uploading" v-show="isUploading">正在上传...</span>
+            <span class="uploading" v-show="isUploading">{{M2('正在上传...')}}</span>
             <span
                 v-if="!isUploading && limit && limit!==99 && !isSingle"
                 class="limitTxt"
-            >最多{{ limit }}张</span>
+            >{{M2('最多')}}{{ limit }}{{M2('张')}}</span>
             </i>
         </el-upload>
         </vuedraggable>
@@ -59,8 +59,8 @@
     <el-row v-if="showButton">
         <el-col :span="24">
             <div class="bottomButton">
-                <el-button type="primary" size="mini" @click="saveImgList" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
-                <el-button size="mini"  @click="updeEditPage">取消</el-button>
+                <el-button type="primary" size="mini" @click="saveImgList" perkey='ERP.Product.ProductDev.SalesManEdit'>{{M2('保存')}}</el-button>
+                <el-button size="mini"  @click="updeEditPage">{{M2('取消')}}</el-button>
             </div>
         </el-col> 
     </el-row>  
@@ -224,14 +224,14 @@ methods: {
         if (res.code == 200) {
             this.$message({
                 type: 'success', 
-                message:'上传成功',
+                message:this.M2('上传成功'),
                 offset:220
             })
         if (this.imgList.length < this.limit) {
             res.data[0].showImgUrl = `${this.imgUrl}/Small/${res.data[0].fileUri}`
             res.data[0].showBigImgUrl = `${this.imgUrl}/${res.data[0].fileUri}`
             this.imgList.push(res.data[0])
-            console.log(this.imgList,'this.image')
+            // console.log(this.imgList,'this.image')
             if(this.ruleName){
                 this.$emit('upDateFile',this.imgList,this.ruleName)
             }
@@ -244,9 +244,9 @@ methods: {
     },
     // 移除单张图片
     onRemoveHandler (item,index) {
-        this.$confirm('确定删除该图片?', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
+        this.$confirm(this.M2('确定删除该图片?'), this.M2('提示'), {
+            confirmButtonText: this.M2('确定'),
+            cancelButtonText: this.M2('取消'),
             type: 'warning',
             cancelButtonClass: 'btn-custom-cancel',
         })
@@ -275,7 +275,7 @@ methods: {
         this.syncElUpload()
         this.$message({
             type: 'warning',
-            message: `图片超限，最多可上传${this.limit}张图片`,
+            message:this.M2( `图片超限，最多可上传${this.limit}张图片`),
             offset:220
         })
     },

@@ -9,14 +9,14 @@
             zIndex="3000"
             >
             <div class="titleText" slot="title">
-                {{this.dialogName}}
+                {{M2(this.dialogName)}}
             </div>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px" class="demo-ruleForm" size='mini'>
                 <div v-if="showType == 1">
-                    是否已完成产品需求的录入，确认提交新产品开发需求？
+                    {{M2('是否已完成产品需求的录入，确认提交新产品开发需求？')}}
                 </div>
                <div v-if="showType == 2">
-                    <el-form-item label="初审结果：" prop="operation">
+                    <el-form-item :label="M2('初审结果') + '：'" prop="operation">
                         <el-select 
                             v-model="ruleForm.operation"
                             :loading="clickLoading"
@@ -24,21 +24,21 @@
                             <el-option 
                                 v-for="item in operationList"                        
                                 :key="item.value"
-                                :label="item.label"
+                                :label="M2(item.label)"
                                 :value="item.value"
                                 >
                             </el-option>
                         </el-select> 
                     </el-form-item>
-                    <el-form-item label="备注：" prop="remark">
+                    <el-form-item :label="M2('备注') + '：'" prop="remark">
                         <el-input v-model="ruleForm.remark" type="textarea" maxlength="500" show-word-limit></el-input>
                     </el-form-item>
                 </div>
                 <div v-if="showType == 3">
                     <div class="dialog-l-text">
-                        是否已完成需求复审，确认由业务开发进行需求调研？
+                       {{M2('是否已完成需求复审，确认由业务开发进行需求调研？')}}
                     </div>
-                    <el-form-item label="业务开发：" prop="businessId">
+                    <el-form-item :label="M2('业务开发') + '：'" prop="businessId">
                         <el-select 
                             v-model="ruleForm.businessId"
                             :loading="clickLoading"
@@ -52,33 +52,33 @@
                             </el-option>
                         </el-select> 
                     </el-form-item>
-                     <el-form-item label="备注：" prop="remark">
+                     <el-form-item :label="M2('备注') + '：'" prop="remark">
                         <el-input v-model="ruleForm.remark" type="textarea" maxlength="500" show-word-limit></el-input>
                     </el-form-item>
                 </div>
                 <div v-if="showType == 4">
                     <div class="dialog-l-text">
-                        是否已完成需求调研，确认提交至下一节点？
+                        {{M2('是否已完成需求调研，确认提交至下一节点？')}}
                     </div>
-                    <el-form-item label="是否立项：" prop="projectApproval">
+                    <el-form-item :label="M2('是否立项') + '：'" prop="projectApproval">
                         <el-radio-group v-model="ruleForm.projectApproval">
-                            <el-radio :label="1">是（进行立项资料准备）</el-radio>
-                            <el-radio :label="0">否（进行专利查询）</el-radio>
+                            <el-radio :label="1">{{M2('是（进行立项资料准备）')}}</el-radio>
+                            <el-radio :label="0">{{M2('否（进行专利查询）')}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <el-form-item label="专利查询市场：" prop="country">
+                    <el-form-item :label="M2('专利查询市场') + '：'" prop="country">
                         <el-checkbox-group v-model="ruleForm.country" > 
                             <el-checkbox v-for="item in countryList" :key="item.countryCode" :label="item.countryCode">{{item.label}}</el-checkbox>
                         </el-checkbox-group>
                     </el-form-item>
 
-                    <el-form-item label="备注：" prop="remark" :rules="[{required: false}]">
+                    <el-form-item :label="M2('备注') + '：'" prop="remark" :rules="[{required: false}]">
                         <el-input v-model="ruleForm.remark" type="textarea" maxlength="500" show-word-limit></el-input>
                     </el-form-item>
                 </div>
                 <div v-if="showType == 5">
                     <div class="dialog-l-text">
-                        是否已完成立项，确认提交至认证初查？
+                        {{M2('是否已完成立项，确认提交至认证初查？')}}
                     </div>
                     <el-form-item label="评审会日期：" prop="reviewMeetingDate">
                         <el-date-picker
@@ -87,10 +87,10 @@
                             size="mini"
                             v-model="ruleForm.reviewMeetingDate"
                             type="date"
-                            placeholder="选择日期">
+                            :placeholder="M2('选择日期')">
                         </el-date-picker>
                     </el-form-item>
-                    <el-form-item label="备注：" prop="remark">
+                    <el-form-item :label="M2('备注') + '：'" prop="remark">
                         <el-input v-model="ruleForm.remark" type="textarea" maxlength="500" show-word-limit></el-input>
                     </el-form-item>
                 </div>
@@ -105,25 +105,25 @@
                             <div v-for="item in historyPatentInfo" :key="item.countryCode">{{showCountryText(item.countryCode) }} - {{showReqRes(item.reqRes)}}</div>
                         </div>
                     </div> -->
-                    <el-form-item label="专利查询市场：" prop="reqRes">
+                    <el-form-item  :label="M2('专利查询市场') + '：'" prop="reqRes">
                         <div style="display:flex">
                         <!-- <div v-for="item in showCountryList" :key="item">{{showCountryText(item) + ','}}</div> -->
                             <div >{{this.showCountryList && this.showCountryList.length > 0 ? this.showCountryList.toString() : ''}}</div>
                         </div>
                     </el-form-item>
-                    <el-form-item label="专利查询结果：" prop="reqRes1">
+                    <el-form-item  :label="M2('专利查询结果') + '：'" prop="reqRes1">
                         <div v-for="item in historyPatentInfo" :key="item.countryCode">{{showCountryText(item.countryCode) }} - {{showReqRes(item.reqRes)}}</div>
                     </el-form-item>
                 </div>
                 <div v-if="showType == 7">
-                    <el-form-item label="产品类型：" prop="design">
+                    <el-form-item :label="M2('产品类型') + '：'" prop="design">
                         <el-radio-group v-model="ruleForm.design">
-                            <el-radio :label="2">非设计款</el-radio>
-                            <el-radio v-if="devSignShow" :label="10">设计</el-radio>
-                            <el-radio v-if="devSignShow" :label="11">P图</el-radio>
+                            <el-radio :label="2">{{M2('非设计款')}}</el-radio>
+                            <el-radio v-if="devSignShow" :label="10">{{M2('设计')}}</el-radio>
+                            <el-radio v-if="devSignShow" :label="11">{{M2('P图')}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <el-form-item label="设计/P图方：" prop="designer" v-if="ruleForm.design == 10 || ruleForm.design == 11">
+                    <el-form-item :label="M2('设计/P图方') + '：'" prop="designer" v-if="ruleForm.design == 10 || ruleForm.design == 11">
                        <el-select 
                             v-model="ruleForm.designer"
                             :loading="clickLoading"
@@ -131,21 +131,21 @@
                             <el-option 
                                 v-for="item in designerList"                        
                                 :key="item.value"
-                                :label="item.label"
+                                :label="M2(item.label)"
                                 :value="item.value"
                                 >
                             </el-option>
                         </el-select> 
                     </el-form-item>
-                    <el-form-item label="备注：" prop="remark" :rules="[{required: false}]">
+                    <el-form-item :label="M2('备注') + '：'" prop="remark" :rules="[{required: false}]">
                         <el-input v-model="ruleForm.remark" type="textarea" maxlength="500" show-word-limit></el-input>
                     </el-form-item>
                 </div>
                 <div v-if="showType == 7.1">
                     <div class="dialog-l-text" v-if="showCountryList && showCountryList.length > 0">
-                        产品专利查询未在【<span v-for="item in showCountryList" :key="item">{{showCountryText(item) + ','}}</span>】市场通过，请确认该产品的下一状态：
+                        {{M2('产品专利查询未在')}}【<span v-for="item in showCountryList" :key="item">{{M2(showCountryText(item)) + ','}}</span>】{{M2('市场通过')}}，{{M2('请确认该产品的下一状态')}}：
                     </div>
-                    <el-form-item label="下一状态：" prop="toState">
+                    <el-form-item  :label="M2('下一状态') + '：'" prop="toState">
                         <el-select 
                             v-model="ruleForm.toState"
                             :loading="clickLoading"
@@ -153,38 +153,38 @@
                             <el-option 
                                 v-for="item in toStateList"                        
                                 :key="item.key"
-                                :label="item.value"
+                                :label="M2(item.value)"
                                 :value="item.key"
                                 >
                             </el-option>
                         </el-select> 
                     </el-form-item>
-                    <el-form-item label="备注：" prop="remark">
+                    <el-form-item  :label="M2('备注') + '：'" prop="remark">
                         <el-input v-model="ruleForm.remark" type="textarea" maxlength="500" show-word-limit></el-input>
                     </el-form-item>
                 </div>
                 <div v-if="[8,9,10,11].includes(showType)">
                     <div class="dialog-l-text" v-if="showType == 8 || showType == 9">
-                        是否已上传产品设计图片，确认提交至下一状态？
+                        {{M2('是否已上传产品设计图片，确认提交至下一状态？')}}
                     </div>
                     <div class="dialog-l-text" v-if="showType == 10">
-                        是否已完成产品专利的查询，确认提交至下一状态？
+                        {{M2('是否已完成产品专利的查询，确认提交至下一状态？')}}
                     </div>
                     <div class="dialog-l-text" v-if="showType == 11">
-                        是否已上传产品结构图片，确认提交至下一状态？
+                        {{M2('是否已上传产品结构图片，确认提交至下一状态？')}}
                     </div>
-                    <el-form-item label="备注：" prop="remark" :rules="[{required: false}]">
+                    <el-form-item :label="M2('备注') + '：'" prop="remark" :rules="[{required: false}]">
                         <el-input v-model="ruleForm.remark" type="textarea" maxlength="500" show-word-limit></el-input>
                     </el-form-item>
                 </div>
                 <div v-if="showType == 12">
-                    <el-form-item label="样前方案确认结果：" prop="beforeSampleResult">
+                    <el-form-item :label="M2('样前方案确认结果') + '：'" prop="beforeSampleResult">
                         <el-radio-group v-model="ruleForm.beforeSampleResult">
-                            <el-radio :label="0">通过，推送产品开发系统</el-radio>
-                            <el-radio :label="1">打回，重新进行产品设计需求调整</el-radio>
+                            <el-radio :label="0"> {{M2('通过，推送产品开发系统')}}</el-radio>
+                            <el-radio :label="1">{{M2('打回，重新进行产品设计需求调整')}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
-                    <el-form-item label="备注：" prop="remark" :rules="[{required: false}]">
+                    <el-form-item :label="M2('备注') + '：'" prop="remark" :rules="[{required: false}]">
                         <el-input v-model="ruleForm.remark" type="textarea" maxlength="500" show-word-limit></el-input>
                     </el-form-item>
                 </div>
@@ -195,11 +195,11 @@
                     @click="submitList('ruleForm')" 
                     size="mini" 
                     :loading="clickLoading"
-                >确 定</el-button>
+                >{{M2('确 定')}}</el-button>
                 <el-button 
                     @click="resetForm('ruleForm')" 
                     size="mini" 
-                >关 闭</el-button>
+                >{{M2('关 闭')}}</el-button>
             </span>
         </el-dialog>
     </div>
@@ -226,34 +226,34 @@ export default {
             dialogVisible: false,
             rules: {
                 remark: [
-                    { required: true, message: '请输入必填项！', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入必填项！'), trigger: 'blur' },
                 ],
                 operation: [
-                    { required: true, message: '请选择！', trigger: 'blur' },
+                    { required: true, message: this.M2('请选择！'), trigger: 'blur' },
                 ],
                 businessId: [
-                    { required: true, message: '请选择经办人！', trigger: 'blur' },
+                    { required: true, message: this.M2('请选择经办人！'), trigger: 'blur' },
                 ],
                 country: [
-                    { required: true, message: '请选择专利查询市场！', trigger: 'blur' },
+                    { required: true, message: this.M2('请选择专利查询市场！'), trigger: 'blur' },
                 ],
                 projectApproval: [
-                    { required: true, message: '请选择是否立项！', trigger: 'blur' },
+                    { required: true, message: this.M2('请选择是否立项！'), trigger: 'blur' },
                 ],
                 reviewMeetingDate: [
-                    { required: true, message: '请选择评审会日期！', trigger: 'blur' },
+                    { required: true, message: this.M2('请选择评审会日期！'), trigger: 'blur' },
                 ],
                 design: [
-                    { required: true, message: '请选择产品类型！', trigger: 'blur' },
+                    { required: true, message: this.M2('请选择产品类型！'), trigger: 'blur' },
                 ],
                 designer: [
-                    { required: true, message: '请选择！', trigger: 'blur' },
+                    { required: true, message: this.M2('请选择！'), trigger: 'blur' },
                 ],
                 toState: [
-                    { required: true, message: '请选择下一个状态！', trigger: 'blur' },
+                    { required: true, message: this.M2('请选择下一个状态！'), trigger: 'blur' },
                 ],
                 beforeSampleResult: [
-                    { required: true, message: '请选择样前方案结果！', trigger: 'blur' },
+                    { required: true, message: this.M2('请选择样前方案结果！'), trigger: 'blur' },
                 ],
             },
             status:[],
@@ -433,9 +433,9 @@ export default {
                 this.dialogName = '提交'
             }
             if(this.showType == 1){
-                this.$confirm(`是否已完成产品需求的录入，确认提交新产品开发需求？`, '提示', {
-                    cancelButtonText: '取消',
-                    confirmButtonText: '确定',
+                this.$confirm(this.M2(`是否已完成产品需求的录入，确认提交新产品开发需求？`), this.M2('提示'), {
+                    cancelButtonText: this.M2('取消'),
+                    confirmButtonText: this.M2('确定'),
                     type: 'warning',
                     cancelButtonClass: 'btn-custom-cancel',
                 }).then(() => {                      
@@ -462,7 +462,7 @@ export default {
             if(this.showType == 6 && (this.showCountryList.length == 0 || this.historyPatentInfo.length == 0)){
                 this.$message({
                     type: 'error', 
-                    message:'请添加专利查询市场和结果！',
+                    message:this.M2('请添加专利查询市场和结果！'),
                     offset:220
                 })
                 return 
@@ -477,7 +477,7 @@ export default {
                     })
                     this.$message({
                         type: 'error', 
-                        message:`id:${filterList.toString()}，请至少上传一张设计图片！`,
+                        message:`id:${filterList.toString()}，${this.M2('请至少上传一张设计图片！')}`,
                         offset:220
                     })
                     return 
@@ -493,7 +493,7 @@ export default {
                     })
                     this.$message({
                         type: 'error', 
-                        message:`id:${filterList.toString()}，请至少上传一张结构图片！`,
+                        message:`id:${filterList.toString()}，${this.M2('请至少上传一张结构图片！')}`,
                         offset:220
                     })
                     return 
@@ -523,7 +523,7 @@ export default {
                         return item.filterCountryList && item.filterCountryList.length > 0
                     })
                     textList.forEach(item => {
-                        text += `<div style="margin-bottom:2px">开发ID：${item.developmentId}，需要完善${item.filterCountryList}市场的竞品信息及链接!</div>`
+                        text += `<div style="margin-bottom:2px">${this.M2('开发ID')}：${item.developmentId}，${this.M2('需要完善')}${item.filterCountryList}${this.M2('市场的竞品信息及链接!')}</div>`
                     })
                     this.$message({
                         type: 'error', 
@@ -575,7 +575,7 @@ export default {
         successSaveDialog() {
             this.$message({
                 type: 'success', 
-                message:'操作成功！',
+                message:this.M2('操作成功！'),
                 offset:220
             })
             this.$emit('mainListList',this.navFilterList)

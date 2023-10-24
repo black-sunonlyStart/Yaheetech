@@ -1,7 +1,7 @@
 <template>
     <div class="buttonStyle" v-if="$route.query.edit !== 'false'">
         <div v-permission:[item.perkey]  v-for="item in operationList" :key="item.id*Math.random()"  style="margin-right:25px" @click="putOperation(item.id)">
-            <el-button size="mini" plain v-track="{triggerType:'click',currentUrl: $route.path,behavior:item.name + '按钮',businessCode: item.name,}" v-if="showDev(item.id)" :type="item.type">{{item.name}}</el-button>
+            <el-button size="mini" plain v-track="{triggerType:'click',currentUrl: $route.path,behavior:item.name + '按钮',businessCode: item.name,}" v-if="showDev(item.id)" :type="item.type">{{M2(item.name)}}</el-button>
         </div>
         <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog"  @getTableList='getTableList' :row='row' :showOrder='showOrder'></messageDialog>
     </div> 
@@ -132,7 +132,7 @@ export default {
                     if(res.code == 200){
                         this.$message({
                             type: 'success', 
-                            message:'解冻成功',
+                            message:this.M2('解冻成功'),
                             offset:220
                         })
                         this.getTableList()

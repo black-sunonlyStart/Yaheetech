@@ -1,7 +1,7 @@
 <template>
     <div class="dialogBox">
         <el-dialog
-            title="提示"
+            :title="M2('提示')"
             :visible.sync="dialogVisible"
             width="30%">
             <el-input v-model="selectTreeData" disabled size="mini"></el-input>
@@ -14,8 +14,8 @@
                 @node-click='handleNodeClick'
             ></el-tree>
             <span slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="putTreeNode" size="small">确 定</el-button>
-                <el-button @click="dialogVisible = false" size="small">取 消</el-button>
+                <el-button type="primary" @click="putTreeNode" size="small">{{M2('确 定')}}</el-button>
+                <el-button @click="dialogVisible = false" size="small">{{M2('取 消')}}</el-button>
             </span>
         </el-dialog>
     </div>

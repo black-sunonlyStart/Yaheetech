@@ -3,21 +3,22 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm1" label-width="200px" class="demo-ruleForm" size="mini">
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="英文标题:" prop="staRating">
+                    <el-form-item :label="M2('英文标题') + '：'" prop="staRating">
                         <el-input type="textarea" maxlength="100" show-word-limit  autosize v-model="ruleForm.staRating"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="业务开发:" prop="targetPrice"> 
+                    <el-form-item :label="M2('业务开发') + '：'" prop="targetPrice"> 
                         <el-select 
                             v-model="ruleForm.targetPrice"
                             filterable 
+                            :placeholder="M2('请选择')"
                             :disabled='showDailySales'
                             >
                             <el-option 
                                 v-for="item in targetPrice"                        
                                 :key="item.Id"
-                                :label="item.TrueName"
+                                :label="M2(item.TrueName)"
                                 :value="item.Id"
                                 >
                             </el-option>
@@ -27,21 +28,22 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="英文关键字:" prop="westaRating">
+                    <el-form-item :label="M2('英文关键字') + '：'" prop="westaRating">
                         <el-input type="textarea"  maxlength="100" show-word-limit autosize v-model="ruleForm.westaRating"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="采购开发:" prop="dailySales">
+                    <el-form-item :label="M2('采购开发') + '：'" prop="dailySales">
                         <el-select 
                             v-model="ruleForm.dailySales"
                             filterable 
+                            :placeholder="M2('请选择')"
                             :disabled='showDailySales'
                             >
                             <el-option 
                                 v-for="item in dailySales"                        
                                 :key="item.Id"
-                                :label="item.TrueName"
+                                :label="M2(item.TrueName)"
                                 :value="item.Id"
                                 >
                             </el-option>
@@ -51,12 +53,12 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="中文概述:" prop="rateRequirements">
+                    <el-form-item :label="M2('中文概述') + '：'" prop="rateRequirements">
                         <el-input type="textarea" maxlength="500" autosize show-word-limit v-model="ruleForm.rateRequirements"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="负责人:" prop="auditor">
+                    <el-form-item :label="M2('负责人') + '：'" prop="auditor">
                         <el-select 
                             v-model="ruleForm.auditor"
                             filterable 
@@ -75,39 +77,39 @@
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="德文标题:" >
+                    <el-form-item :label="M2('德文标题') + '：'">
                         <el-input type="textarea" maxlength="200" show-word-limit autosize v-model="ruleForm.titleDe"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="是否安吉产品:" prop="isanji">
+                    <el-form-item :label="M2('是否安吉产品') + '：'" prop="isanji">
                         <el-radio-group v-model="ruleForm.isanji">
-                            <el-radio :label="1">是</el-radio>
-                            <el-radio :label="0">否</el-radio>
+                            <el-radio :label="1">{{M2('是')}}</el-radio>
+                            <el-radio :label="0">{{M2('否')}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="日文标题:" >
+                    <el-form-item :label="M2('日文标题') + '：'">
                         <el-input type="textarea" maxlength="200" show-word-limit autosize v-model="ruleForm.titleJp"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12" :xs="24" :sm="24" :md="24" :lg="20" :xl="12">
-                    <el-form-item label="是否需要专利确认:" prop="ispatentproduct">
+                    <el-form-item :label="M2('是否需要专利确认') + '：'" prop="ispatentproduct">
                         <el-radio-group v-model="ruleForm.ispatentproduct">
-                            <el-radio :label="1">是</el-radio>
-                            <el-radio :label="0">否</el-radio>
+                            <el-radio :label="1">{{M2('是')}}</el-radio>
+                            <el-radio :label="0">{{M2('否')}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="12" :xs="24" :sm="24" :md="24" :lg="20" :xl="12">
-                    <el-form-item label="是否品牌:" prop="specialPackaging">
+                    <el-form-item :label="M2('是否品牌') + '：'" prop="specialPackaging">
                         <span v-for="item in ruleForm.countryCodeList" :key="item.countryCode">
-                            {{item.countrySimName}}：
+                            {{M2(item.countrySimName)}}：
                             <el-select 
                                 style="width:80px"
                                 v-model="item.countryBand"
@@ -115,7 +117,7 @@
                                 <el-option 
                                     v-for="item in isBrandSign"                        
                                     :key="item.key"
-                                    :label="item.label"
+                                    :label="M2(item.label)"
                                     :value="item.value"
                                     >
                                 </el-option>
@@ -124,7 +126,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="10"  :xs="24" :sm="24" :md="24" :lg="20" :xl="10">
-                     <el-form-item label="Duty税率:" prop="productMarketUS">
+                     <el-form-item :label="M2('Duty税率') + '：'" prop="productMarketUS">
                         <div class="taxRate">
                                 <span v-for="item in ruleForm.countryCodeList" :key="item.countryCode" >
                                     <span v-if="item.judgeDuty" style="display:flex">
@@ -139,16 +141,16 @@
             </el-row>
             <el-row>
                 <el-col :span="24">
-                    <el-form-item label="选择开发市场:">
+                    <el-form-item :label="M2('选择开发市场') + '：'">
                         <el-select 
                             v-model="ruleForm.marksContry1"
                             @change="seleContry"
-                            placeholder="选择开发市场"
+                            :placeholder="M2('选择开发市场')"
                             >
                             <el-option 
                                 v-for="item in dailySales1"                        
                                 :key="item.key"
-                                :label="item.label"
+                                :label="M2(item.label)"
                                 :value="item.value"
                                 >
                             </el-option>
@@ -156,7 +158,7 @@
                         <el-select 
                             v-model="ruleForm.marksContry2"
                             @change="selectSale"
-                            placeholder="选择开发平台"
+                            :placeholder="M2('选择开发平台')"
                             >
                             <el-option 
                                 v-for="item in dailySales2"                        
@@ -169,24 +171,24 @@
                         <el-select 
                             v-model="ruleForm.marksContry3"
                             @change="selectBox"
-                            placeholder="选择开发仓库"
+                            :placeholder="M2('选择开发仓库')"
                             >
                             <el-option 
                                 v-for="item in dailySales3"                        
                                 :key="item.Id"
-                                :label="item.Name"
+                                :label="M2(item.Name)"
                                 :value="item.Id"
                                 >
                             </el-option>
                         </el-select>
-                        <el-button @click="addRemarks" type="primary">添加市场</el-button>
-                        添加不同国家站点，请在列表页的操作下拉菜单选择”开发其它市场”
+                        <el-button @click="addRemarks" type="primary">{{M2('添加市场')}}</el-button>
+                        {{M2('添加不同国家站点，请在列表页的操作下拉菜单选择”开发其它市场”')}}
                     </el-form-item>
                 </el-col>
             </el-row> 
             <el-row>
                 <el-col :span="12">
-                    <el-form-item label="计算海运费方式:" prop="seaFreight">
+                    <el-form-item :label="M2('计算海运费方式') + '：'" prop="seaFreight">
                         <el-select 
                             v-model="ruleForm.seaFreight"
                             style="width:250px"
@@ -194,7 +196,7 @@
                             <el-option 
                                 v-for="item in seaFreightSign"                        
                                 :key="item.key"
-                                :label="item.label"
+                                :label="M2(item.label)"
                                 :value="item.value"
                                 >
                             </el-option>
@@ -202,11 +204,11 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                    <el-form-item label="开发优先级:" prop="orderQuantity">
+                    <el-form-item :label="M2('开发优先级') + '：'" prop="orderQuantity">
                         <el-radio-group v-model="ruleForm.orderQuantity">
-                            <el-radio :label="0">低</el-radio>
-                            <el-radio :label="1">中</el-radio>
-                            <el-radio :label="2">高</el-radio>
+                            <el-radio :label="0">{{M2('低')}}</el-radio>
+                            <el-radio :label="1">{{M2('中')}}</el-radio>
+                            <el-radio :label="2">{{M2('高')}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -215,46 +217,46 @@
         <el-row style="margin-top:30px">
             <el-col v-for="(item,index) in devInformationDetaiList.productMarketList" :key="item.id" :span="12">
                 <div class="titleAndButton">
-                    <span class="mainTitle">{{item.platformname}}-{{item.countrycode}}   {{item.warehouseName}}</span> <el-button type="primary" @click="delProductMarketList(index)" size="mini" class="delButton">删除</el-button>
+                    <span class="mainTitle">{{item.platformname}}-{{item.countrycode}}   {{item.warehouseName}}</span> <el-button type="primary" @click="delProductMarketList(index)" size="mini" class="delButton">{{M2('删除')}}</el-button>
                 </div>
                 <el-form :model="item" :rules="wareHouseRules" ref="ruleForm2" label-width="200px" class="demo-ruleForm" size="mini">
-                    <el-form-item label="产品开发价:" prop="developmentprice" >
+                    <el-form-item :label="M2('产品开发价') + '：'" prop="developmentprice" >
                         <div class="inputBox"> 
                             <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                             <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.developmentprice" @change="changeDevelopmentprice(item.developmentprice,item.platformname)"></el-input-number>  
                         </div>
-                        <el-button  v-if="showList(item.createdon)" @click="getMoeny(item,index)">计算利润</el-button>
+                        <el-button  v-if="showList(item.createdon)" @click="getMoeny(item,index)">{{M2('计算利润')}}</el-button>
                         <div :class="item.profit > 0 ? 'titleText' :'noTitleText'" v-show="item.showProfit && item.freight">
-                            {{contryCurry(item.countrycode)}}: {{item.endprofit? item.endprofit:item.profit}} - 利润率：{{item.endprofitmargin ? item.endprofitmargin * 100 : item.profitmargin * 100}}%
+                            {{contryCurry(item.countrycode)}}: {{item.endprofit? item.endprofit:item.profit}} - {{M2('利润率')}}：{{item.endprofitmargin ? item.endprofitmargin * 100 : item.profitmargin * 100}}%
                         </div>
                         <div class='noTitleText' v-if="item.showProfit && !item.freight">
-                            【产品尺寸重量超过物流限制，SFP运费匹配不到】
+                            【{{M2('产品尺寸重量超过物流限制，SFP运费匹配不到')}}】
                         </div>
                     </el-form-item>
                     <div v-if="showList(item.createdon) && nowStatus > 1">
-                        <el-form-item label="SFP开发价:" prop="sfpDevelopmentPrice" class="sfpDevelopmentPrice-content" v-if="(item.countrycode == 'GB' || item.countrycode == 'DE') && item.platformname == 'Amazon' && !devInformationDetaiList.packingway">
+                        <el-form-item  :label="M2('SFP开发价') + '：'" prop="sfpDevelopmentPrice" class="sfpDevelopmentPrice-content" v-if="(item.countrycode == 'GB' || item.countrycode == 'DE') && item.platformname == 'Amazon' && !devInformationDetaiList.packingway">
                             <div class="inputBox"> 
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.sfpDevelopmentPrice"></el-input-number>
                             </div>
-                            <el-button  v-if="showList(item.createdon)" @click="getMoeny(item,index)">计算利润</el-button>
+                            <el-button  v-if="showList(item.createdon)" @click="getMoeny(item,index)">{{M2('计算利润')}}</el-button>
                             <div :class="item.sfpProfit > 0 ? 'titleText' :'noTitleText'" v-show="item.showSfpProfit && item.freight" >
-                                {{contryCurry(item.countrycode)}}: {{item.sfpEndProfit? item.sfpEndProfit:item.sfpProfit}} - 利润率：{{item.sfpEndProfitMargin ? item.sfpEndProfitMargin * 100 : item.sfpProfitMargin * 100}}%
+                                {{contryCurry(item.countrycode)}}: {{item.sfpEndProfit? item.sfpEndProfit:item.sfpProfit}} - {{M2('利润率')}}：{{item.sfpEndProfitMargin ? item.sfpEndProfitMargin * 100 : item.sfpProfitMargin * 100}}%
                             </div>
                         </el-form-item>
-                        <el-form-item label="SFP运费:" prop="sfpOceanFreight" v-if="(item.countrycode == 'GB' || item.countrycode == 'DE') && item.platformname == 'Amazon' && !devInformationDetaiList.packingway">
+                        <el-form-item :label="M2('SFP运费') + '：'" prop="sfpOceanFreight" v-if="(item.countrycode == 'GB' || item.countrycode == 'DE') && item.platformname == 'Amazon' && !devInformationDetaiList.packingway">
                             <div class="inputBox"> 
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.sfpOceanFreight"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="发货包装费:" prop="packagingfee">
+                        <el-form-item :label="M2('发货包装费') + '：'" prop="packagingfee">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.packagingfee"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="本地化费用:" prop="localizationfee">
+                        <el-form-item :label="M2('本地化费用') + '：'" prop="localizationfee">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.localizationfee"></el-input-number>
@@ -266,13 +268,13 @@
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.piprice"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="包材费:" prop="packingMaterialFee" v-if="item.countrycode == 'DE'">
+                        <el-form-item  :label="M2('包材费') + '：'" prop="packingMaterialFee" v-if="item.countrycode == 'DE'">
                             <div class="inputBox"> 
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.packingMaterialFee"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="空/海运费:" >
+                        <el-form-item  :label="M2('空/海运费') + '：'">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.oceanfreight"></el-input-number>
@@ -283,67 +285,67 @@
                                 <el-option 
                                     v-for="item in seaSkySelect"                        
                                     :key="item.key"
-                                    :label="item.label"
+                                    :label="M2(item.label)"
                                     :value="item.value"
                                     >
                                 </el-option>
                             </el-select> 
                         </el-form-item>
-                        <el-form-item label="港前费用:" prop="inlandportcosts">
+                        <el-form-item :label="M2('港前费用') + '：'" prop="inlandportcosts">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.inlandportcosts"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="目的地港费用:" prop="outlandportcosts">
+                        <el-form-item  :label="M2('目的地港费用') + '：'" prop="outlandportcosts">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.outlandportcosts"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="进口DUTY费:" prop="duty">
+                        <el-form-item :label="M2('进口DUTY费') + '：'" prop="duty">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.duty"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="仓租费:" prop="storageCharges"  v-if="devInformationDetaiList.fbaWarehouseIds && devInformationDetaiList.fbaWarehouseIds.includes(item.warehouseid)">
+                        <el-form-item :label="M2('仓租费') + '：'" prop="storageCharges"  v-if="devInformationDetaiList.fbaWarehouseIds && devInformationDetaiList.fbaWarehouseIds.includes(item.warehouseid)">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.storageCharges"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="称重处理费:" prop="weighingFee"  v-if="devInformationDetaiList.fbaWarehouseIds && devInformationDetaiList.fbaWarehouseIds.includes(item.warehouseid)">
+                        <el-form-item :label="M2('称重处理费') + '：'" prop="weighingFee"  v-if="devInformationDetaiList.fbaWarehouseIds && devInformationDetaiList.fbaWarehouseIds.includes(item.warehouseid)">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.weighingFee"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="VAT费:" prop="vatfee">
+                        <el-form-item :label="M2('VAT费') + '：'" prop="vatfee">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.vatfee"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="销售VAT费:" prop="salesvat">
+                        <el-form-item  :label="M2('销售VAT费') + '：'" prop="salesvat">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.salesvat"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="操作费:" prop="handlingfee">
+                        <el-form-item :label="M2('操作费') + '：'" prop="handlingfee">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.handlingfee"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="本土运费:" prop="freight">
+                        <el-form-item :label="M2('本土运费') + '：'" prop="freight">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false'  :precision="2" :step="0.1" v-model="item.freight"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="成交费:" prop="platformfee">
+                        <el-form-item :label="M2('成交费') + '：'" prop="platformfee">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.platformfee"></el-input-number>
@@ -355,76 +357,76 @@
                                 <el-input-number :controls='false' disabled :precision="2" :step="0.1" v-model="item.paypalprice"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="刊登Fee:" prop="listingfee">
+                        <el-form-item :label="M2('刊登Fee') + '：'" prop="listingfee">
                             <div class="inputBox">
                             <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number :controls='false' disabled :precision="2" :step="0.1" v-model="item.listingfee"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="退回进口VAT费:" prop="vatfee">
+                        <el-form-item :label="M2('退回进口VAT费') + '：'" prop="vatfee">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.vatfee"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="退回快递费VAT:" prop="localshippingfeevat">
+                        <el-form-item  :label="M2('退回快递费VAT') + '：'" prop="localshippingfeevat">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.localshippingfeevat"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="退回包材VAT:" prop="packingMaterialFeeVAT" v-if="item.countrycode == 'DE'">
+                        <el-form-item  :label="M2('退回包材VAT') + '：'" prop="packingMaterialFeeVAT" v-if="item.countrycode == 'DE'">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.packingMaterialFeeVAT"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="本土运输方式:" prop="shippingname ">
+                        <el-form-item :label="M2('本土运输方式') + '：'" prop="shippingname ">
                             <div class="shippingPutBox">
                                 <el-input v-model="item.shippingname1" disabled style="width:150px;margin-right:10px"></el-input>
                                 <el-input v-model="item.shippingname2" disabled style="width:150px;margin-right:10px"></el-input>
                                 <el-input v-model="item.shippingname3" disabled style="width:150px;margin-right:10px"></el-input>
                             </div>
                         </el-form-item>
-                        <el-form-item label="汇率:" prop="exchangerate">
+                        <el-form-item :label="M2('汇率') + '：'" prop="exchangerate">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.exchangerate"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="VAT费率:" prop="vatrate">
+                        <el-form-item :label="M2('VAT费率') + '：'" prop="vatrate">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.vatrate"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="DUTY税率:" prop="dutyrate">
+                        <el-form-item :label="M2('DUTY税率') + '：'" prop="dutyrate">
                             <div class="inputBox">
                                 <span class="inputUnit">{{contryCurry(item.countrycode)}}</span>
                                 <el-input-number  :controls='false' disabled :precision="2" :step="0.1" v-model="item.dutyrate"></el-input-number>
                             </div>
                         </el-form-item>
-                        <el-form-item label="快递费计算方式:" prop="freightcalculated">
+                        <el-form-item :label="M2('快递费计算方式') + '：'" prop="freightcalculated">
                             <el-select 
                                 v-model="item.freightcalculated"
                                 >
                                 <el-option 
                                     v-for="item in freightSign"                        
                                     :key="item.key"
-                                    :label="item.label"
+                                    :label="M2(item.label)"
                                     :value="item.value"
                                     >
                                 </el-option>
                             </el-select>
                         </el-form-item>
-                        <el-form-item label="海运费计算方式:" v-if="item.seaSkySelectKey == 1" prop="freightcalculated">
+                        <el-form-item  :label="M2('海运费计算方式') + '：'" v-if="item.seaSkySelectKey == 1" prop="freightcalculated">
                             <el-select 
                                 v-model="item.seaMoney"
                                 >
                                 <el-option 
                                     v-for="item in seaFreightSign"                        
                                     :key="item.key"
-                                    :label="item.label"
+                                    :label="M2(item.label)"
                                     :value="item.value"
                                     >
                                 </el-option>
@@ -435,8 +437,8 @@
             </el-col>
         </el-row>
         <div class="bottomButton">
-            <el-button type="primary" @click="submitForm('ruleForm')" size="mini" perkey='ERP.Product.ProductDev.SalesManEdit' v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'开发信息'}">保存</el-button>
-            <el-button @click="resetForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'开发信息'}">取消</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')" size="mini" perkey='ERP.Product.ProductDev.SalesManEdit' v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'开发信息'}">{{M2('保存')}}</el-button>
+            <el-button @click="resetForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'开发信息'}">{{M2('取消')}}</el-button>
         </div>
     </div>
 </template>
@@ -509,22 +511,22 @@ export default {
             ],
             rules: {
                 staRating: [
-                    { required: true, message: '请输入标题', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入标题'), trigger: 'blur' },
                 ],
                 targetPrice: [
-                    { required: true, message: '请选择业务开发', trigger: 'blur' }
+                    { required: true, message: this.M2('请选择业务开发'), trigger: 'blur' }
                 ],
                 westaRating: [
-                    {required: true, message: '请填写关键字', trigger: 'blur' }
+                    {required: true, message: this.M2('请填写关键字'), trigger: 'blur' }
                 ],
                 dailySales: [
-                    {required: true, message: '请选择采购开发', trigger: 'blur' }
+                    {required: true, message: this.M2('请选择采购开发'), trigger: 'blur' }
                 ],
                 rateRequirements: [
-                    { required: true, message: '请填写中文概述', trigger: 'blur' }
+                    { required: true, message: this.M2('请填写中文概述'), trigger: 'blur' }
                 ],
                 orderQuantity: [
-                    { required: true, message: '请选择开发优先级', trigger: 'blur' }
+                    { required: true, message: this.M2('请选择开发优先级'), trigger: 'blur' }
                 ],
                 productMarketUS: [
                     {
@@ -532,7 +534,7 @@ export default {
                         validator: (rules, value, cb) => {
                             let { countryCodeList } = this.ruleForm;
                             if(countryCodeList.find(item => item.dutyrate === '' )){
-                                return cb(new Error("请填写税率!"));
+                                return cb(new Error(this.M2("请填写税率!")));
                             }
                             return cb();
                         },
@@ -540,16 +542,16 @@ export default {
                     }
                 ],
                 ispatentproduct: [
-                    { required: true, message: '请选择专利是否需要确认', trigger: 'blur' }
+                    { required: true, message: this.M2('请选择专利是否需要确认'), trigger: 'blur' }
                 ],
                 isanji: [
-                    { required: true, message: '请选择是否安吉产品', trigger: 'blur' }
+                    { required: true, message: this.M2('请选择是否安吉产品'), trigger: 'blur' }
                 ],
                 seaFreight: [
-                    { required: true, message: '请选择方式', trigger: 'blur' }
+                    { required: true, message: this.M2('请选择方式'), trigger: 'blur' }
                 ],
                 auditor: [
-                    { required: true, message: '请选择负责人', trigger: 'blur' }
+                    { required: true, message: this.M2('请选择负责人'), trigger: 'blur' }
                 ],
             },
             devSign:[    
@@ -636,70 +638,70 @@ export default {
             ],
             wareHouseRules:{
                 productPrice: [
-                    {  required: true, message: '请添加价格', trigger: 'blur' }
+                    {  required: true, message: this.M2('请添加价格'), trigger: 'blur' }
                 ],
                 SFProductPrice: [
-                    {  required: true, message: '请添加价格', trigger: 'blur' }
+                    {  required: true, message: this.M2('请添加价格'), trigger: 'blur' }
                 ],
                 piprice: [
-                    {  required: true, message: '请添加价格', trigger: 'blur' }
+                    {  required: true, message: this.M2('请添加价格'), trigger: 'blur' }
                 ],
                 // packingMaterialFee: [
                 //     {  required: true, message: '请添加价格', trigger: 'blur' }
                 // ],
                 inlandportcosts: [
-                    {  required: true, message: '请添加价格', trigger: 'blur' }
+                    {  required: true, message: this.M2('请添加价格'), trigger: 'blur' }
                 ],
                 outlandportcosts: [
-                    {  required: true, message: '请添加价格', trigger: 'blur' }
+                    {  required: true, message: this.M2('请添加价格'), trigger: 'blur' }
                 ],
                 duty: [
-                    {  required: true, message: '请添加价格', trigger: 'blur' }
+                    {  required: true, message: this.M2('请添加价格'), trigger: 'blur' }
                 ],
                 vatfee: [
-                    {  required: true, message: '请添加价格', trigger: 'blur' }
+                    {  required: true, message: this.M2('请添加价格'), trigger: 'blur' }
                 ],
                 salesvat: [
-                    {  required: true, message: '请添加价格', trigger: 'blur' }
+                    {  required: true, message: this.M2('请添加价格'), trigger: 'blur' }
                 ],
                 handlingfee: [
-                    {  required: true, message: '请添加价格', trigger: 'blur' }
+                    {  required: true, message: this.M2('请添加价格'), trigger: 'blur' }
                 ],
                 freight: [
-                    {  required: true, message: '请添加价格', trigger: 'blur' }
+                    {  required: true, message: this.M2('请添加价格'), trigger: 'blur' }
                 ],
                 platformfee: [
-                    {  required: true, message: '请添加价格', trigger: 'blur' }
+                    {  required: true, message: this.M2('请添加价格'), trigger: 'blur' }
                 ],
                 paypalprice: [
-                    {  required: true, message: '请添加价格', trigger: 'blur' }
+                    {  required: true, message: this.M2('请添加价格'), trigger: 'blur' }
                 ],
                 listingfee: [
-                    {  required: true, message: '请添加价格', trigger: 'blur' }
+                    {  required: true, message: this.M2('请添加价格'), trigger: 'blur' }
                 ],
                 localshippingfeevat: [
-                    {  required: true, message: '请添加价格', trigger: 'blur' }
+                    {  required: true, message: this.M2('请添加价格'), trigger: 'blur' }
                 ],
                 // packingMaterialFeeVAT: [
                 //     {  required: true, message: '请添加价格', trigger: 'blur' }
                 // ],
                 shippingname: [
-                    {  required: true, message: '请输入运输方式', trigger: 'blur' }
+                    {  required: true, message: this.M2('请输入运输方式'), trigger: 'blur' }
                 ],
                 exchangerate: [
-                    {  required: true, message: '请输入汇率', trigger: 'blur' }
+                    {  required: true, message: this.M2('请输入汇率'), trigger: 'blur' }
                 ],
                 vatrate: [
-                    {  required: true, message: '请添加价格', trigger: 'blur' }
+                    {  required: true, message: this.M2('请添加价格'), trigger: 'blur' }
                 ],
                 dutyrate: [
-                    {  required: true, message: '请输入税率', trigger: 'blur' }
+                    {  required: true, message: this.M2('请输入税率'), trigger: 'blur' }
                 ],
                 freightcalculated: [
-                    {  required: true, message: '请添加快递费计算方式', trigger: 'blur' }
+                    {  required: true, message: this.M2('请添加快递费计算方式'), trigger: 'blur' }
                 ],
                 seaSkySelectKey: [
-                    {  required: true, message: '请添加海运费计算方式', trigger: 'blur' }
+                    {  required: true, message: this.M2('请添加海运费计算方式'), trigger: 'blur' }
                 ],
             }
         }
@@ -791,7 +793,7 @@ export default {
             if((!this.ruleForm.marksContry1 || !this.ruleForm.marksContry2 || !this.ruleForm.marksContry3) && (this.ruleForm.marksContry1 && this.ruleForm.marksContry1 == 'AU')){
                 this.$message({
                     type: 'warning',
-                    message: '请选择开发市场',
+                    message: this.M2('请选择开发市场'),
                     offset:220
                 })
 
@@ -801,7 +803,7 @@ export default {
             if(this.devInformationDetaiList.productMarketList && this.devInformationDetaiList.productMarketList[0] && this.ruleForm.marksContry1 != this.devInformationDetaiList.productMarketList[0].countrycode){
                 this.$message({
                     type:'warning',
-                    message:'不能添加其他国家的市场',
+                    message:this.M2('不能添加其他国家的市场'),
                     offset:220
                 })
                 return
@@ -810,7 +812,7 @@ export default {
                 if(this.devInformationDetaiList.productMarketList.find(item =>  item.countrycode == this.ruleForm.marksContry1 && item.platformname == this.ruleForm.marksContry2 && item.warehouseid == this.ruleForm.marksContry3)){
                     this.$message({
                                 type:'warning',
-                                message:'你选择的国家+平台+仓库已存在',
+                                message:this.M2('你选择的国家+平台+仓库已存在'),
                                 offset:220
                             })
                     return 
@@ -820,7 +822,7 @@ export default {
                 if(this.devInformationDetaiList.productMarketListALL.find(item =>  (item.countrycode == this.ruleForm.marksContry1 && item.productcountryid != this.$route.query.productCountryId))){
                     this.$message({
                                 type:'warning',
-                                message:'你选择的国家+平台+仓库已存在',
+                                message:this.M2('你选择的国家+平台+仓库已存在'),
                                 offset:220
                             })
                     return 
@@ -1024,7 +1026,7 @@ export default {
             if(!this.$route.query.productId){
                 this.$message({
                     type:'error',
-                    message:'请先完善产品【开发类型/场景】信息',
+                    message:this.M2('请先完善产品【开发类型/场景】信息'),
                     offset:220,
                 })
                 return
@@ -1032,7 +1034,7 @@ export default {
             if(this.devInformationDetaiList.productMarketList.length == 0){
                 this.$message({
                     type: 'error', 
-                    message:'请选择开发市场',
+                    message:this.M2('请选择开发市场'),
                     offset:220
                 })
                 return
@@ -1040,7 +1042,7 @@ export default {
             if(this.devInformationDetaiList.productMarketList.find(item =>  item.developmentprice == 0)){
                 this.$message({
                     type:'error',
-                    message:'开发价不能为0',
+                    message:this.M2('开发价不能为0'),
                     offset:220,
                 });
                 return 
@@ -1124,7 +1126,7 @@ export default {
                                 this.loading=false,
                                 this.$message({
                                     type: 'success', 
-                                    message:'数据保存成功',
+                                    message:this.M2('数据保存成功'),
                                     offset:220
                                 })
                                 this.$router.push({
@@ -1141,7 +1143,7 @@ export default {
                             }
                         }).catch(err => { this.loading = false })
                     } else {
-                        console.log('error submit!!');
+                        // console.log('error submit!!');
                         return false;
                     }
                     });
@@ -1218,7 +1220,7 @@ export default {
                             if(res.code == 200){
                                 this.$message({
                                     type: 'success', 
-                                    message:'数据保存成功',
+                                    message:this.M2('数据保存成功'),
                                     offset:220
                                 })
                                 if(this.$route.query.productCountryId != res.data.productCountryId ){

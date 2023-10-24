@@ -10,17 +10,17 @@
                                 width="627"
                                 trigger="click">
                                 <el-table :data="gridData" border :header-cell-style="{background:'#f5f7fa',color:'#333'}">
-                                    <el-table-column width="200" property="productType" label="产品类型"></el-table-column>
-                                    <el-table-column width="400" property="Interpretation" label="释义"></el-table-column>
+                                    <el-table-column width="200" property="productType" :label="M2('产品类型')"></el-table-column>
+                                    <el-table-column width="400" property="Interpretation" :label="M2('释义')"></el-table-column>
                                 </el-table>
                                 <i class="el-icon-question1" slot="reference"></i>
                             </el-popover>
-                           产品类型:
+                           {{M2('产品类型')}}:
                         </template>
                        <el-radio-group v-model="ruleForm.scenarios" @change="changePreproductionSample">
-                            <el-radio :label="0">全新开发</el-radio>
-                            <el-radio :label="1">二次开发</el-radio>
-                            <el-radio :label="2">改进/变更</el-radio>
+                            <el-radio :label="0"> {{M2('全新开发')}}</el-radio>
+                            <el-radio :label="1">{{M2('二次开发')}}</el-radio>
+                            <el-radio :label="2">{{M2('改进/变更')}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -32,16 +32,16 @@
                                 width="627"
                                 trigger="click">
                                 <el-table :data="gridData3" border :header-cell-style="{background:'#f5f7fa',color:'#333'}">
-                                    <el-table-column width="200" property="productType" label="产品类型"></el-table-column>
-                                    <el-table-column width="400" property="Interpretation" label="释义"></el-table-column>
+                                    <el-table-column width="200" property="productType" :label="M2('产品类型')"></el-table-column>
+                                    <el-table-column width="400" property="Interpretation" :label="M2('释义')"></el-table-column>
                                 </el-table>
                                 <i class="el-icon-question1" slot="reference" style="left:45px"></i>
                             </el-popover>
-                           是否为产前样:
+                            {{M2('是否为产前样')}}:
                         </template>
                        <el-radio-group v-model="ruleForm.preproductionSample" @change="changePreproductionSample">
-                            <el-radio :label="1" >否</el-radio>
-                            <el-radio :label="0">是（已提交过单据，并且确认结果为“合格/改进-产前样”）</el-radio>
+                            <el-radio :label="1" >{{M2('否')}}</el-radio>
+                            <el-radio :label="0">{{M2('是（已提交过单据，并且确认结果为“合格/改进-产前样”）')}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -55,29 +55,32 @@
                                 width="627"
                                 trigger="click">
                                 <el-table :data="gridData1" border :header-cell-style="{background:'#f5f7fa',color:'#333'}">
-                                    <el-table-column width="200" property="productType" label="样品情况"></el-table-column>
-                                    <el-table-column width="400" property="Interpretation" label="释义"></el-table-column>
+                                    <el-table-column width="200" property="productType" :label="M2('样品情况')"></el-table-column>
+                                    <el-table-column width="400" property="Interpretation" :label="M2('释义')"></el-table-column>
                                 </el-table>
                                 <i class="el-icon-question1" slot="reference"></i>
-                            </el-popover>样品情况:
+                            </el-popover>{{M2('样品情况')}}:
                         </template>
                         <el-radio-group v-model="ruleForm.sampleCondition">
-                            <el-radio :label="0">完整样品</el-radio>
-                            <el-radio :label="1" v-if="showSampleCondition">部件</el-radio>
+                            <el-radio :label="0">{{M2('完整样品')}}</el-radio>
+                            <el-radio :label="1" v-if="showSampleCondition">{{M2('部件')}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12"  :xs="20" :sm="20" :md="20" :lg="11" :xl="10" v-if="ruleForm.sampleCondition == 0">
                     <el-form-item label="来样次数:" prop="sampleNum">
+                        <template slot="label">
+                            {{M2('来样次数')}}:
+                        </template>
                         {{ruleForm.sampleNum ? ruleForm.sampleNum : 1}}
                     </el-form-item>
                 </el-col>
             </el-row>
                 <el-row :gutter="120">
                     <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" class="col-r">
-                        <el-form-item label="开发ID/sku别名:" prop="skuAlias"  v-if="ruleForm.scenarios != 2" :rules="[{required:ruleForm.scenarios != 1,message:'请填写开发ID/sku别名!',trigger:'blur'}]">
+                        <el-form-item label="开发ID/sku别名:" prop="skuAlias"  v-if="ruleForm.scenarios != 2" :rules="[{required:ruleForm.scenarios != 1,message:M2('请填写开发ID/sku别名!'),trigger:'blur'}]">
                             <template  slot="label">
-                                {{ruleForm.sampleCondition == 0 || !ruleForm.sampleCondition? '开发ID/sku别名:' :'sku别名:'}}
+                                {{ruleForm.sampleCondition == 0 || !ruleForm.sampleCondition? M2('开发ID/sku别名:') :M2('sku别名:')}}
                             </template>
                             <el-input v-model="ruleForm.skuAlias" @change="changeProductKey(1)"></el-input> <i class="el-icon-success" v-if="successIcon"></i><i class="el-icon-error" v-if="errorIcon"></i>
                         </el-form-item>
@@ -85,7 +88,7 @@
                     <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" v-if="ruleForm.scenarios == 2" class="col-r">
                         <el-form-item label="原sku别名:" prop="skuAlias" >
                             <template  slot="label">
-                                {{ruleForm.sampleCondition == 0 ? '原sku别名:' :'sku别名:'}}
+                                {{ruleForm.sampleCondition == 0 ? M2('原sku别名:') : M2('sku别名:')}}
                             </template>
                             <el-input v-model="ruleForm.skuAlias"  @change="changeProductKey(2)"></el-input> <i class="el-icon-success" v-if="successIcon"></i><i class="el-icon-error" v-if="errorIcon"></i>
                         </el-form-item>
@@ -94,14 +97,20 @@
                 <el-row :gutter="120">
                 <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                     <el-form-item label="产品名称:" prop="productTitle">
+                        <template slot="label">
+                            {{M2("产品名称")}}:
+                        </template>
                         <el-input v-model="ruleForm.productTitle" ></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" >
                     <el-form-item label="供应商类型:" prop="supplierType" v-if="ruleForm.scenarios != 2 && ruleForm.sampleCondition == 0">
+                        <template slot="label">
+                           {{M2("供应商类型")}}:
+                        </template>
                         <el-radio-group v-model="ruleForm.supplierType">
-                            <el-radio :label="1">新</el-radio>
-                            <el-radio :label="0">旧</el-radio>
+                            <el-radio :label="1">{{M2("新")}}</el-radio>
+                            <el-radio :label="0">{{M2("旧")}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -109,6 +118,9 @@
                 <el-row :gutter="120">
                 <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" >
                     <el-form-item label="供应商名称:" prop="supplierId">
+                        <template slot="label">
+                           {{M2("供应商名称")}}:
+                        </template>
                         <el-select 
                             v-model="ruleForm.supplierId"
                             @change="changePreproductionSample()"
@@ -130,6 +142,9 @@
                 </el-col>
                 <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" >
                     <el-form-item label="原产国:" prop="countryOfOrigin" v-if="ruleForm.scenarios == 2 && ruleForm.sampleCondition == 0 && ruleForm.countryOfOrigin">
+                        <template slot="label">
+                           {{M2("原产国")}}:
+                        </template>
                         <el-input v-model="ruleForm.countryOfOrigin"></el-input>
                     </el-form-item>
                 </el-col>
@@ -137,14 +152,20 @@
                 <el-row :gutter="120">
                     <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                         <el-form-item label="验样场地:" prop="testSite">
+                            <template slot="label">
+                                {{M2("验样场地")}}:
+                            </template>
                             <el-radio-group v-model="ruleForm.testSite">
-                                <el-radio :label="0">公司</el-radio>
-                                <el-radio :label="1">工厂</el-radio>
+                                <el-radio :label="0"> {{M2("公司")}}</el-radio>
+                                <el-radio :label="1">{{M2("工厂")}}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" >
                         <el-form-item label="部件名称:" prop="partName" v-if="ruleForm.sampleCondition == 1">
+                            <template slot="label">
+                                {{M2("部件名称")}}:
+                            </template>
                             <el-input v-model="ruleForm.partName"></el-input>
                         </el-form-item>
                     </el-col>
@@ -152,10 +173,13 @@
                 <el-row :gutter="120">
                     <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" >
                         <el-form-item label="验货报告需求:" prop="reportRequirement" v-if="ruleForm.sampleCondition == 1 || (ruleForm.sampleCondition == 0 && ruleForm.scenarios == 2)">
+                            <template slot="label">
+                                {{M2("验货报告需求")}}:
+                            </template>
                             <el-radio-group v-model="ruleForm.reportRequirement">
-                                <el-radio :label="0">更新</el-radio>
-                                <el-radio :label="1" v-if="ruleForm.sampleCondition == 1">不更新</el-radio>
-                                <el-radio :label="2" v-else>重做</el-radio>
+                                <el-radio :label="0">{{M2("更新")}}</el-radio>
+                                <el-radio :label="1" v-if="ruleForm.sampleCondition == 1">{{M2("不更新")}}</el-radio>
+                                <el-radio :label="2" v-else>{{M2("重做")}}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
@@ -163,6 +187,9 @@
             <el-row :gutter="150">
                 <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
                     <el-form-item label="出口市场:" prop="exportMarket">
+                        <template slot="label">
+                            {{M2("出口市场")}}:
+                        </template>
                          <div class="checkBoxAll">
                             <el-checkbox class="checkboxAlltext"  :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
                             <div style="margin: 15px 0;"></div>
@@ -173,7 +200,7 @@
                                     :key="item.countryCodes"
                                     @click.native="handleCheckedCitiesChange(item.countryCodes,$event)"
                                 >
-                                {{item.country}}                      
+                                {{M2(item.country)}}                      
                                 </el-checkbox>
                             </el-checkbox-group>
                         </div>
@@ -181,9 +208,12 @@
                 </el-col>
                 <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="20" :xl="10" >
                     <el-form-item label="英文验货报告:" prop="englishInspectionReport" v-if="showSampleNum">
+                        <template slot="label">
+                            {{M2("英文验货报告")}}:
+                        </template>
                         <el-radio-group v-model="ruleForm.englishInspectionReport">
-                            <el-radio :label="0">需要</el-radio>
-                            <el-radio :label="1">不需要</el-radio>
+                            <el-radio :label="0">{{M2('需要')}}</el-radio>
+                            <el-radio :label="1">{{M2('不需要')}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -191,11 +221,17 @@
             <el-row :gutter="150" v-if="ruleForm.scenarios == 1 && ruleForm.sampleCondition == 0">
                 <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" class="col-r">
                     <el-form-item label="原型号sku:" prop="originalTypeSkuAlias" >
+                        <template slot="label">
+                            {{M2("原型号sku")}}:
+                        </template>
                         <el-input v-model="ruleForm.originalTypeSkuAlias"  @change="changeProductKey1"></el-input> <i class="el-icon-success" v-if="successIcon1"></i><i class="el-icon-error" v-if="errorIcon1"></i>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                     <el-form-item label="二次开发原因:" prop="reasonForSecondaryDev">
+                        <template slot="label">
+                            {{M2("二次开发原因")}}:
+                        </template>
                         <el-input v-model="ruleForm.reasonForSecondaryDev"></el-input>
                     </el-form-item>
                 </el-col>
@@ -204,14 +240,20 @@
                 <el-row :gutter="150" >
                     <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                         <el-form-item label="产品颜色类型:" prop="productColorType">
+                            <template slot="label">
+                                {{M2("产品颜色类型")}}:
+                            </template>
                             <el-radio-group v-model="ruleForm.productColorType">
-                                <el-radio label="0">单颜色</el-radio>
-                                <el-radio label="1">多颜色</el-radio>
+                                <el-radio label="0">{{M2("单颜色")}}</el-radio>
+                                <el-radio label="1">{{M2("多颜色")}}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                         <el-form-item label="样品颜色:" prop="sampleColor">
+                            <template slot="label">
+                                {{M2("样品颜色")}}:
+                            </template>
                             <el-input v-model="ruleForm.sampleColor"></el-input>
                         </el-form-item>
                     </el-col>
@@ -219,6 +261,9 @@
                 <el-row :gutter="150">
                     <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                         <el-form-item label="纸箱爆破强度:" prop="burstingStrengthCarton">
+                             <template slot="label">
+                                {{M2("纸箱爆破强度")}}:
+                            </template>
                             <el-input v-model="ruleForm.burstingStrengthCarton" oninput="value=value.replace(/^(0+)|[^\d]+/g,'')">
                                 <template slot="append" >PSI</template>
                             </el-input>
@@ -226,6 +271,9 @@
                     </el-col>
                     <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                         <el-form-item label="辅助泡沫密度:" prop="auxiliaryFoamDensity">
+                            <template slot="label">
+                                {{M2("辅助泡沫密度")}}:
+                            </template>
                             <el-input v-model="ruleForm.auxiliaryFoamDensity" oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,2})?).*$/g, '$1')">
                                 <template slot="append" >kg/m³</template>
                             </el-input>
@@ -236,11 +284,17 @@
             <el-row :gutter="150">
                 <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                     <el-form-item label="产品材质:" prop="material">
+                        <template slot="label">
+                            {{M2("产品材质")}}:
+                        </template>
                         <el-input v-model="ruleForm.material"></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                     <el-form-item label="产品工艺:" prop="process">
+                        <template slot="label">
+                            {{M2("产品工艺")}}:
+                        </template>
                         <el-input v-model="ruleForm.process"></el-input>
                     </el-form-item>
                 </el-col>
@@ -250,11 +304,17 @@
                 <el-row :gutter="150">
                     <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                         <el-form-item label="基础信息:" prop="basicInformation">
+                            <template slot="label">
+                                {{M2("基础信息")}}:
+                            </template>
                             <el-input v-model="ruleForm.basicInformation" type="textarea" :rows="6" maxlength="1000" show-word-limit></el-input>
                         </el-form-item>
                     </el-col>
                     <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
                         <el-form-item label="竞品信息:" prop="jpInformation">
+                             <template slot="label">
+                                {{M2("竞品信息")}}:
+                            </template>
                             <el-input type="textarea" v-model="ruleForm.jpInformation" :rows="6" maxlength="1000" show-word-limit></el-input>
                         </el-form-item>
                     </el-col>
@@ -263,6 +323,9 @@
                     <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" style="position: relative;" >
                         <div v-if="ruleForm.sampleNum > 1">
                             <el-form-item label="来样改进信息:" prop="sampleImprovedInformation">
+                                <template slot="label">
+                                    {{M2("来样改进信息")}}:
+                                </template>
                                 <el-input type="textarea" v-model="ruleForm.sampleImprovedInformation" :rows="6"  maxlength="300" show-word-limit></el-input>
                             </el-form-item>
                             <span class="a-link" @click="showAddPhoto = true">添加图片</span>
@@ -271,7 +334,7 @@
                     <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" >
                         <el-form-item  prop="sampleOnePhoto" v-if="showAddPhoto || (ruleForm.sampleNum > 1 && sampleOnePhoto.length > 0)">
                             <template slot="label">
-                                来样改进图片：
+                                {{M2("来样改进图片")}}：
                             </template>
                             <imgUpload :dataParams='{fileType:1,productSampleId:$route.query.id || null}'  :showButton="false" :value='sampleOnePhoto' :limit="20" @upDateFile="upDateFile" :imgUrl="imgUrl" ruleName="sampleOnePhoto"></imgUpload> 
                         </el-form-item>
@@ -279,7 +342,7 @@
                      <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
                         <el-form-item  prop="productSizePhotoList" >
                             <template slot="label">
-                                产品尺寸图（彩图）:
+                                {{M2("产品尺寸图（彩图）")}}:
                             </template>
                             <imgUpload :dataParams='{fileType:4,productSampleId:$route.query.id || null}' :showButton="false" :value='productSizePhotoList' :limit="20" @upDateFile="upDateFile" :imgUrl="imgUrl" ruleName="productSizePhotoList"></imgUpload> 
                         </el-form-item>
@@ -292,16 +355,16 @@
                         <el-form-item label="本次改进/变更点:" prop="thisImprovement">
                             <template slot="label" >
                                 <span v-if="ruleForm.sampleCondition == 0">
-                                本次改进/变更点:
+                                    {{M2("本次改进/变更点")}}:
                                 </span> 
                                 <span v-else>
-                                    部件变更点:
+                                    {{M2("部件变更点")}}:
                                 </span> 
                             </template>
                             <el-input v-model="ruleForm.thisImprovement" type="textarea" :rows="6" maxlength="300" show-word-limit></el-input>
                             <div v-if="ruleForm.sampleCondition == 0" @click="uploadChangeFile" >
                                 <div class="fover-click">
-                                    上传文件
+                                    {{M2("上传文件")}}
                                 </div>
                             </div>
                         </el-form-item>
@@ -312,7 +375,7 @@
                         <el-form-item  prop="improvedChangeFile">
                             <template slot="label" >
                                 <span >
-                                    本次改进/变更点-文件:
+                                    {{M2("本次改进/变更点-文件")}}:
                                 </span> 
                             </template>
                             <fileUpload 
@@ -332,7 +395,7 @@
                     <el-form-item  prop="sampleImprovementPhoto" v-if="ruleForm.testSite == 0 && ruleForm.sampleCondition == 0">
                         <template slot="label" >
                             <span >
-                                来样图片:
+                                {{M2("来样图片")}}:
                             </span> 
                         </template>
                         <imgUpload :dataParams='{fileType:0,productSampleId:$route.query.id || null}' :showButton="false" :value='sampleImprovementPhoto' :limit="1" @upDateFile="upDateFile" :imgUrl="imgUrl" ruleName="sampleImprovementPhoto"></imgUpload> 
@@ -342,7 +405,7 @@
                     <el-form-item  prop="changePhoto" v-if="ruleForm.scenarios == 2 || ruleForm.sampleCondition == 1">
                         <template slot="label" >
                             <span>
-                                变更图片:
+                                {{M2("变更图片")}}:
                             </span> 
                         </template>
                         <imgUpload :dataParams='{fileType:3,productSampleId:$route.query.id || null}' :showButton="false" :value='changePhoto' :limit="20" @upDateFile="upDateFile" :imgUrl="imgUrl" ruleName="changePhoto"></imgUpload> 
@@ -355,7 +418,7 @@
                     <el-form-item  prop="designConstructionDraw">
                         <template slot="label" >
                             <span >
-                                设计施工图片:
+                                {{M2("设计施工图片")}}:
                             </span> 
                         </template>
                         <imgUpload :dataParams='{fileType:8,productSampleId:$route.query.id || null}' :showButton="false" :value='designConstructionDraw' :limit="20" @upDateFile="upDateFile" :imgUrl="imgUrl" ruleName="designConstructionDraw"></imgUpload> 
@@ -367,7 +430,7 @@
                     <el-form-item  prop="designConstructionFile">
                         <template slot="label" >
                             <span >
-                                设计施工文件:
+                                {{M2("设计施工文件")}}:
                             </span> 
                         </template>
                         <fileUpload 
@@ -383,9 +446,9 @@
             </el-row>  
         </el-form>
         <div class="bottomButton">
-            <el-button class="bule-button" @click="submitForm('ruleForm')" size="mini" :disabled="submitDisabled">提交</el-button>
-            <el-button type="primary" @click="saveProductSampleFn(1)" size="mini" :disabled="submitDisabled" :loading="submitDisabled">保存</el-button>
-            <el-button @click="resetForm('ruleForm')"  size="mini">取消</el-button>
+            <el-button class="bule-button" @click="submitForm('ruleForm')" size="mini" :disabled="submitDisabled">{{M2("提交")}}</el-button>
+            <el-button type="primary" @click="saveProductSampleFn(1)" size="mini" :disabled="submitDisabled" :loading="submitDisabled">{{M2("保存")}}</el-button>
+            <el-button @click="resetForm('ruleForm')"  size="mini">{{M2("取消")}}</el-button>
         </div>
     </div>
 </template>
@@ -452,32 +515,32 @@ export default {
             imgLoading:false,
             rules: {
                 scenarios: [
-                    { required: true, message: '请选择产品类型', trigger: 'blur' },
+                    { required: true, message: this.M2('请选择产品类型'), trigger: 'blur' },
                 ],
                 preproductionSample: [
-                    { required: true, message: '请选择产前样', trigger: 'blur' }
+                    { required: true, message: this.M2('请选择产前样'), trigger: 'blur' }
                 ],
                 sampleCondition: [
-                    { required: true, message: '请选择样品情况', trigger: 'blur' }
+                    { required: true, message: this.M2('请选择样品情况'), trigger: 'blur' }
                 ],
                 supplierType: [
-                    { required: true, message: '请选择供应商类型', trigger: 'blur' }
+                    { required: true, message: this.M2('请选择供应商类型'), trigger: 'blur' }
                 ],
                 supplierId: [
-                    { required: true, message: '请选择供应商', trigger: 'blur' }
+                    { required: true, message: this.M2('请选择供应商'), trigger: 'blur' }
                 ],
                 testSite: [
-                    { required: true, message: '请选择验样场地', trigger: 'blur' }
+                    { required: true, message: this.M2('请选择验样场地'), trigger: 'blur' }
                 ],
                 reportRequirement: [
-                    { required: true, message: '请选择验货报告需求', trigger: 'blur' }
+                    { required: true, message: this.M2('请选择验货报告需求'), trigger: 'blur' }
                 ],
                 exportMarket: [
                     {
                         required: true,
                         validator: (rules, value, cb) => {
                             if( !this.exportMarket || (this.exportMarket && this.exportMarket.length == 0) ){
-                                return cb(new Error("请选择出口市场！"));
+                                return cb(new Error(this.M2("请选择出口市场！")));
                             }
                             return cb();
                         },
@@ -485,47 +548,47 @@ export default {
                     }
                 ],
                 englishInspectionReport: [
-                    { required: true, message: '请选择英文验货报告', trigger: 'blur' }
+                    { required: true, message:  this.M2('请选择英文验货报告'), trigger: 'blur' }
                 ],
                 productColorType: [
-                    { required: true, message: '请选择产品颜色类型', trigger: 'blur' }
+                    { required: true, message:  this.M2('请选择产品颜色类型'), trigger: 'blur' }
                 ],
                 
                 productTitle: [
-                    { required: true, message: '请填写产品名称', trigger: 'blur' }
+                    { required: true, message:  this.M2('请填写产品名称'), trigger: 'blur' }
                 ],
                 countryOfOrigin: [
-                    { required: true, message: '请填写原产国', trigger: 'blur' }
+                    { required: true, message:  this.M2('请填写原产国'), trigger: 'blur' }
                 ],
                 partName: [
-                    { required: true, message: '请填写部件名称', trigger: 'blur' }
+                    { required: true, message:  this.M2('请填写部件名称'), trigger: 'blur' }
                 ],
                 originalTypeSkuAlias: [
-                    { required: true, message: '请填写原型号sku', trigger: 'blur' }
+                    { required: true, message:  this.M2('请填写原型号sku'), trigger: 'blur' }
                 ],
                 reasonForSecondaryDev: [
-                    { required: true, message: '请填写二次开发原因', trigger: 'blur' }
+                    { required: true, message:  this.M2('请填写二次开发原因'), trigger: 'blur' }
                 ],
                 sampleColor: [
-                    { required: true, message: '请填写来样颜色', trigger: 'blur' }
+                    { required: true, message:  this.M2('请填写来样颜色'), trigger: 'blur' }
                 ],
                 burstingStrengthCarton: [
-                    { required: true, message: '请填写纸箱爆破强度', trigger: 'blur' }
+                    { required: true, message:  this.M2('请填写纸箱爆破强度'), trigger: 'blur' }
                 ],
                 auxiliaryFoamDensity: [
-                    { required: true, message: '请填写辅助泡沫密度', trigger: 'blur' }
+                    { required: true, message:  this.M2('请填写辅助泡沫密度'), trigger: 'blur' }
                 ],
                 material: [
-                    { required: true, message: '请填写产品材质', trigger: 'blur' }
+                    { required: true, message:  this.M2('请填写产品材质'), trigger: 'blur' }
                 ],
                 process: [
-                    { required: true, message: '请填写产品工艺', trigger: 'blur' }
+                    { required: true, message:  this.M2('请填写产品工艺'), trigger: 'blur' }
                 ],
                 basicInformation: [
-                    { required: true, message: '请填写基础信息', trigger: 'blur' }
+                    { required: true, message:  this.M2('请填写基础信息'), trigger: 'blur' }
                 ],
                 jpInformation: [
-                    { required: true, message: '请填写竞品信息', trigger: 'blur' }
+                    { required: true, message:  this.M2('请填写竞品信息'), trigger: 'blur' }
                 ],
                 skuAlias: [
                     {
@@ -533,9 +596,9 @@ export default {
                         validator: (rules, value, cb) => {
                             if( !value){
                                 if( this.ruleForm.sampleCondition == 0 || !this.ruleForm.sampleCondition) {
-                                    return cb(new Error("请填写开发ID/sku别名!"));
+                                    return cb(new Error( this.M2("请填写开发ID/sku别名!")));
                                 }else {
-                                    return cb(new Error("请填写sku别名！"));
+                                    return cb(new Error( this.M2("请填写sku别名！")));
                                 }
                             }
                             return cb();
@@ -548,7 +611,7 @@ export default {
                         required: true,
                         validator: (rules, value, cb) => {
                             if( !this.ruleForm.productSizePhotoList || this.ruleForm.productSizePhotoList.length == 0){
-                                return cb(new Error("请填加产品尺寸图（彩图）!"));
+                                return cb(new Error( this.M2("请填加产品尺寸图（彩图）!")));
                             }
                             return cb();
                         },
@@ -560,7 +623,7 @@ export default {
                         required: true,
                         validator: (rules, value, cb) => {
                             if(!this.ruleForm.changePhoto || this.ruleForm.changePhoto.length == 0 ){
-                                return cb(new Error("请添加变更图片!"));
+                                return cb(new Error(this.M2("请添加变更图片!")));
                             }
                             return cb();
                         },
@@ -572,7 +635,7 @@ export default {
                         required: true,
                         validator: (rules, value, cb) => {
                             if( !this.ruleForm.sampleImprovementPhoto || this.ruleForm.sampleImprovementPhoto.length == 0){
-                                return cb(new Error("请填加来样图片!"));
+                                return cb(new Error(this.M2("请填加来样图片!")));
                             }
                             return cb();
                         },
@@ -580,10 +643,10 @@ export default {
                     }
                 ],
                 sampleImprovedInformation: [
-                    { required: true, message: '请填写来样改进信息', trigger: 'blur' }
+                    { required: true, message: this.M2('请填写来样改进信息'), trigger: 'blur' }
                 ],
                 thisImprovement: [
-                    { required: true, message: '请填写本次改进/变更点', trigger: 'blur' }
+                    { required: true, message: this.M2('请填写本次改进/变更点'), trigger: 'blur' }
                 ],
             },
             suppliers:[],
@@ -703,9 +766,9 @@ export default {
     methods:{
         showRequireType(){
             if( this.ruleForm.sampleCondition == 0 || !this.ruleForm.sampleCondition) {
-                return '请填写开发ID/sku别名'
+                return this.M2('请填写开发ID/sku别名')
             }else {
-                return '请填写sku别名！'
+                return this.M2('请填写sku别名！')
             }
         },
         //0：来样图片(一张)，1：来样改进信息(图片),2：样品确认文件-初版验货报告,3：变更图片,4:产品尺寸图,5：样品确认文件模块-文件,6：样品确认文件模块-问题图片 可为空
@@ -811,7 +874,7 @@ export default {
                 if(this.ruleForm.skuAlias.includes('DEV')){
                     this.$message({
                         type: 'error', 
-                        message:'请填写sku别名',
+                        message:this.M2('请填写sku别名'),
                         offset:200,
                     })
                     this.$set(this.ruleForm,'skuAlias','')
@@ -820,7 +883,7 @@ export default {
                     if(this.ruleForm.sampleCondition == 1 && this.ruleForm.skuAlias.includes('DEV')){
                         this.$message({
                             type: 'error', 
-                            message:'请填写sku别名',
+                            message:this.M2('请填写sku别名'),
                             offset:200,
                         })
                         this.$set(this.ruleForm,'skuAlias','')
@@ -838,7 +901,7 @@ export default {
                 if(this.ruleForm.skuAlias.includes('DEV')){
                     this.$message({
                         type: 'error', 
-                        message:'请填写sku别名',
+                        message:this.M2('请填写sku别名'),
                         offset:200,
                     })
                     this.errorIcon = true
@@ -918,7 +981,7 @@ export default {
             const isJPG = file.type.includes('image');
             this.imgLoading = true
             if (!isJPG) {
-                this.$message.error('上传类型只能是图片!');
+                this.$message.error(this.M2('上传类型只能是图片!'));
                 this.imgLoading = false
             }
             return isJPG ;
@@ -926,11 +989,11 @@ export default {
         submitForm(formName) {
             this.requireLimitLength()
             this.$refs[formName].validate((valid) => {
-                console.log(this.ruleForm,'ruleForm')
+                // console.log(this.ruleForm,'ruleForm')
                 if (valid) {
-                    this.$confirm(`确认提交样品申请单到认证部确认？`, '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
+                    this.$confirm(this.M2('确认提交样品申请单到认证部确认？'), this.M2('提示'), {
+                        confirmButtonText: this.M2('确定'),
+                        cancelButtonText: this.M2('取消'),
                         type: 'warning',
                         cancelButtonClass: 'btn-custom-cancel',
                     }).then(() => {
@@ -946,19 +1009,19 @@ export default {
         },
         requireLimitLength(){
             if(this.ruleForm.jpInformation && this.ruleForm.jpInformation.length > 1000){
-                this.error('竞品信息最多填写1000字符，请修改后在提交！');
+                this.error(this.M2('竞品信息最多填写1000字符，请修改后在提交！'));
                 return
             }
             if(this.ruleForm.basicInformation && this.ruleForm.basicInformation.length > 1000){
-                this.error('基础信息最多填写1000字符，请修改后在提交！');
+                this.error(this.M2('基础信息最多填写1000字符，请修改后在提交！'));
                 return
             }
             if(this.ruleForm.sampleImprovedInformation && this.ruleForm.sampleImprovedInformation.length > 300){
-                this.error('来样改进信息最多填写300字符，请修改后在提交！');
+                this.error(this.M2('来样改进信息最多填写300字符，请修改后在提交！'));
                 return
             }
             if(this.ruleForm.thisImprovement && this.ruleForm.thisImprovement.length > 300){
-                this.error('本次变更信息最多填写300字符，请修改后在提交！');
+                this.error(this.M2('本次变更信息最多填写300字符，请修改后在提交！'));
                 return
             }
         },
@@ -1018,7 +1081,7 @@ export default {
                 if(res.code == 200){
                     this.$message({
                         type: 'success', 
-                        message:val == 1 ? '保存成功' : '提交成功',
+                        message:val == 1 ? this.M2('保存成功') : this.M2('提交成功'),
                         offset:220
                     })
                     this.$router.push({query:{id:res.data}})
@@ -1083,9 +1146,9 @@ export default {
             ((this.ruleForm.skuAlias || this.ruleForm.originalTypeSkuAlias) &&  this.ruleForm.supplierId && this.ruleForm.preproductionSample == 0)){
                 //开发ID/sku别名+供应商+产品类型+否为产前样
                 //开发ID/sku别名+供应商+是为产前样
-                this.$confirm(`是否需要同步最新型号的数据？`, '提示', {
-                    confirmButtonText: '确定',
-                    cancelButtonText: '取消',
+                this.$confirm(this.M2('是否需要同步最新型号的数据？'), this.M2('提示'), {
+                    confirmButtonText: this.M2('确定'),
+                    cancelButtonText: this.M2('取消'),
                     type: 'warning',
                     cancelButtonClass: 'btn-custom-cancel',
                 }).then(() => {
@@ -1121,8 +1184,8 @@ export default {
                                 }  
                             }
                             this.$notify({
-                                title: '消息',
-                                message: '数据同步成功！',
+                                title: this.M2('消息'),
+                                message: this.M2('数据同步成功！'),
                                 type: 'success'
                             });
                             //同步彩图

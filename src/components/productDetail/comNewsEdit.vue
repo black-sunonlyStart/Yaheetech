@@ -2,13 +2,13 @@
     <div>
         <div>
             <span class="mainTitle">
-                竞品信息
+                {{M2('竞品信息')}}
             </span>
             <div class="mainImage">
                 <el-row >
                     <div v-for="(item, index) in comNewsDetailList.competingproducts" :key="item.key" >
                         <el-col  class="imgDetail" :xs="24" :sm="24" :md="24" :lg="13" :xl="8">
-                            <div class="productTitle">竞品{{index + 1}}</div>
+                            <div class="productTitle">{{M2('竞品')}}{{index + 1}}</div>
                             <div class="imgbox">
                                 <div class="uploadBox">
                                     <el-upload
@@ -21,7 +21,7 @@
                                         :data="fileType"
                                         :with-credentials='true'
                                         >
-                                        <div class="imgText" @click="openImage(item,index)">选择图片</div>
+                                        <div class="imgText" @click="openImage(item,index)">{{M2('选择图片')}}</div>
                                     </el-upload>
                                 </div>
                                 <div class="formInput">
@@ -29,12 +29,12 @@
                                         :model="item" :rules="comProductRules"
                                         ref="formInput"
                                     >
-                                        <el-form-item label="平台：" prop="platformid">
+                                        <el-form-item :label="M2('平台') + '：'" prop="platformid">
                                             <el-select 
                                                 v-model="item.platformid"
                                                 style="width:140px;margin-right:10px"
                                                 @change="selectPlatformid(item.platformid,index)"
-                                                placeholder="请选择渠道"
+                                                :placeholder="M2('请选择渠道')"
                                                 >
                                                 <el-option 
                                                     v-for="item in devSign"                        
@@ -47,7 +47,7 @@
                                             <el-select 
                                                 v-model="item.platformsiteid" 
                                                 style="width:140px"
-                                                placeholder="请选择站点"
+                                                :placeholder="M2('请选择站点')"
                                                 >
                                                 <el-option 
                                                     v-for="isItem in item.platforms"                        
@@ -60,10 +60,10 @@
                                         </el-form-item>
                                         <el-form-item label="ASIN：" prop="xsin">
                                             <el-input v-model="item.xsin"  @change="changeAsin(item.xsin,index)" ></el-input>
-                                            <div class="asinText" v-if="item.showMessage">此数据在系统中已存在，请确认是否重复开发！</div>
+                                            <div class="asinText" v-if="item.showMessage">{{M2('此数据在系统中已存在，请确认是否重复开发！')}}</div>
                                         </el-form-item>
                                         
-                                        <el-form-item label="售价：" prop="price">
+                                        <el-form-item :label="M2('售价')+'：'" prop="price">
                                             <!-- <el-input-number  :controls='false' v-model="item.price" type='number' placeholder="0" class="inputNumberStyle" > {{item.price}}</el-input-number> -->
                                             <div class="inputBox">
                                                 <el-input-number :controls='false' v-model="item.price" ></el-input-number>
@@ -71,11 +71,11 @@
                                             </div>
                                         </el-form-item>
                                     
-                                        <el-form-item label="日销量：" prop="recentsalesvolume">
+                                        <el-form-item :label="M2('日销量') + '：'" prop="recentsalesvolume">
                                             <el-input-number :controls='false'  v-model="item.recentsalesvolume" placeholder="0" class="inputNumberStyle"></el-input-number >
                                         </el-form-item>
                                     
-                                        <el-form-item label="备注：">
+                                        <el-form-item :label="M2('备注') + '：'">
                                             <el-input v-model="item.note"></el-input>
                                         </el-form-item>
                                     </el-form>
@@ -88,104 +88,104 @@
                 </el-row>
             </div>
             <div class="addBottomButton">
-                <el-button type="primary" @click="addPageList" size="mini" style="margin-right:140px">添加竞品</el-button>
+                <el-button type="primary" @click="addPageList" size="mini" style="margin-right:140px">{{M2('添加竞品')}}</el-button>
             </div>
         </div>
             <span class="mainTitle">
-                基础信息
+                {{M2('基础信息')}}
             </span>
                 <el-form size="mini" label-width="140px" :model="ruleForm" :rules="rules" ref="ruleForm">
                     <el-row :gutter="150">
                         <el-col :span="10">
-                            <el-form-item label="产品的尺寸:" prop="jpsize">
+                            <el-form-item :label="M2('产品的尺寸') + ':'" prop="jpsize">
                                 <el-input type="textarea" autosize v-model="ruleForm.jpsize" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
-                            <el-form-item label="产品的净重:" prop="jpweight">
+                            <el-form-item :label="M2('产品的净重') + '：'" prop="jpweight">
                                 <el-input type="textarea" autosize v-model="ruleForm.jpweight" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row :gutter="150">
                         <el-col :span="10">
-                            <el-form-item label="产品的材质:" prop="jpmaterial">
+                            <el-form-item :label="M2('产品的材质') + '：'" prop="jpmaterial">
                                 <el-input type="textarea" autosize  v-model="ruleForm.jpmaterial" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
-                            <el-form-item label="产品的颜色:" prop="jpcolor">
+                            <el-form-item :label="M2('产品的颜色') + '：'" prop="jpcolor">
                                 <el-input type="textarea" autosize  v-model="ruleForm.jpcolor" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row :gutter="150">
                         <el-col :span="10">
-                            <el-form-item label="产品的工艺:" prop="jpprocess">
+                            <el-form-item :label="M2('产品的工艺') + '：'" prop="jpprocess">
                                 <el-input type="textarea" autosize  v-model="ruleForm.jpprocess" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
-                            <el-form-item label="产品的规格参数:" prop="basicinformation">
+                            <el-form-item  :label="M2('产品的规格参数') + '：'" prop="basicinformation">
                                 <el-input type="textarea" autosize  v-model="ruleForm.basicinformation"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <span class="mainTitle">
-                        竞品结论
+                        {{M2('竞品结论')}}
                     </span>
                     <el-row :gutter="150">
                         <el-col :span="10">
-                            <el-form-item label="竞品优势功能:" prop="advantagefunction">
+                            <el-form-item :label="M2('竞品优势功能') + '：'" prop="advantagefunction">
                                 <el-input type="textarea" autosize  v-model="ruleForm.advantagefunction" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
-                            <el-form-item label="竞品缺陷功能:" prop="defectfeature">
+                            <el-form-item  :label="M2('竞品缺陷功能') + '：'" prop="defectfeature">
                                 <el-input type="textarea" autosize  v-model="ruleForm.defectfeature" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row :gutter="150">
                         <el-col :span="10">
-                            <el-form-item label="产品使用场景:" prop="usagescenarios">
+                            <el-form-item :label="M2('产品使用场景') + '：'" prop="usagescenarios">
                                 <el-input type="textarea" autosize  v-model="ruleForm.usagescenarios" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
-                            <el-form-item label="产品目标人群:" prop="usecrowd">
+                            <el-form-item :label="M2('产品目标人群') + '：'" prop="usecrowd">
                                 <el-input type="textarea" autosize  v-model="ruleForm.usecrowd" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row :gutter="150">
                         <el-col :span="10">
-                            <el-form-item label="产品定位:" prop="jppositioning">
+                            <el-form-item :label="M2('产品定位') + '：'" prop="jppositioning">
                                 <el-input type="textarea" autosize  v-model="ruleForm.jppositioning" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
-                            <el-form-item label="产品排名:" prop="jpranking">
+                            <el-form-item :label="M2('产品排名') + '：'" prop="jpranking">
                                 <el-input type="textarea" autosize  v-model="ruleForm.jpranking" maxlength="127" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                     <el-row :gutter="150">
                         <el-col :span="10">
-                            <el-form-item label="产品开发调整点:" prop="jpadjustmentpoint">
+                            <el-form-item :label="M2('产品开发调整点') + '：'" prop="jpadjustmentpoint">
                                 <el-input type="textarea" autosize  v-model="ruleForm.jpadjustmentpoint" maxlength="500" show-word-limit></el-input>
                             </el-form-item>
                         </el-col>
                         <el-col :span="10">
-                            <el-form-item label="备注:" prop="note">
+                            <el-form-item :label="M2('备注') + '：'" prop="note">
                                 <el-input type="textarea" autosize  v-model="ruleForm.note"></el-input>
                             </el-form-item>
                         </el-col>
                     </el-row>
                 </el-form>
                 <div class="bottomButton">
-                    <el-button type="primary" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'竞品信息'}" @click="submitForm('ruleForm')" perkey='ERP.Product.ProductDev.SalesManEdit' size="mini">保存</el-button>
-                    <el-button @click="resetForm('ruleForm')" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'竞品信息'}" size="mini">取消</el-button>
+                    <el-button type="primary" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'竞品信息'}" @click="submitForm('ruleForm')" perkey='ERP.Product.ProductDev.SalesManEdit' size="mini"> {{M2('保存')}}</el-button>
+                    <el-button @click="resetForm('ruleForm')" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'竞品信息'}" size="mini">{{M2('取消')}}</el-button>
                 </div>
         </div>
 </template>
@@ -249,57 +249,57 @@ export default {
             },
             rules: {
                 advantagefunction: [
-                    { required: true, message: '请输入优势功能', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入优势功能'), trigger: 'blur' },
                 ],
                 jpsize: [
-                    { required: true, message: '请输入产品尺寸', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入产品尺寸'), trigger: 'blur' },
                 ],
                 jpweight: [
-                    { required: true, message: '请输入产品净重', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入产品净重'), trigger: 'blur' },
                 ],
                 basicinformation: [
-                    { required: true, message: '请输入产品规格参数', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入产品规格参数'), trigger: 'blur' },
                 ],
                 jpmaterial: [
-                    { required: true, message: '请输入产品材质', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入产品材质'), trigger: 'blur' },
                 ],
                 jpprocess: [
-                    { required: true, message: '请输入产品工艺', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入产品工艺'), trigger: 'blur' },
                 ],
                 jpcolor: [
-                    { required: true, message: '请输入产品颜色', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入产品颜色'), trigger: 'blur' },
                 ],
                 defectfeature: [
-                    { required: true, message: '请输入产品缺陷功能', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入产品缺陷功能'), trigger: 'blur' },
                 ],
                 usagescenarios: [
-                    { required: true, message: '请输入产品使用场景', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入产品使用场景'), trigger: 'blur' },
                 ],
                 usecrowd: [
-                    { required: true, message: '请输入产品目标人群', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入产品目标人群'), trigger: 'blur' },
                 ],
                 jppositioning: [
-                    { required: true, message: '请输入产品定位', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入产品定位'), trigger: 'blur' },
                 ],
                 jpranking: [
-                    { required: true, message: '请输入产品排名', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入产品排名'), trigger: 'blur' },
                 ],
                 jpadjustmentpoint: [
-                    { required: true, message: '请输入产品确定开发调整点', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入产品确定开发调整点'), trigger: 'blur' },
                 ],
             },
             comProductRules:{
                 platformid: [
-                    { required: true, message: '请输入站点', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入站点'), trigger: 'blur' },
                 ],
                 xsin: [
-                    { required: true, message: '请输入ASIN', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入ASIN'), trigger: 'blur' },
                 ],
                 price: [
-                    { required: true, message: '请输入售价', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入售价'), trigger: 'blur' },
                 ],
                 recentsalesvolume: [
-                    { required: true, message: '请输入日销量', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入日销量'), trigger: 'blur' },
                 ],
             },
            devSign:[
@@ -412,7 +412,7 @@ export default {
           if(!this.$route.query.productId){
                this.$message({
                   type:'error',
-                  message:'请先完善产品【开发类型/场景】信息',
+                  message:this.M2('请先完善产品【开发类型/场景】信息'),
                   offset:220,
               })
               return
@@ -420,7 +420,7 @@ export default {
           if( !this.comNewsDetailList.competingproducts || this.comNewsDetailList.competingproducts.length == 0){
               this.$message({
                   type:'error',
-                  message:'请至少添加一个竞品',
+                  message:this.M2('请至少添加一个竞品'),
                   offset:220,
               })
               return
@@ -428,7 +428,7 @@ export default {
           if(!this.comNewsDetailList.competingproducts[0].pictureuri){
               this.$message({
                   type:'error',
-                  message:'第一个竞品图片必填！',
+                  message:this.M2('第一个竞品图片必填！'),
                   offset:220,
               })
               return
@@ -476,14 +476,14 @@ export default {
                             if(res.code == 200){
                                 this.$message({
                                     type: 'success', 
-                                    message:'数据保存成功',
+                                    message:this.M2('数据保存成功'),
                                     offset:220
                                 })
                                 this.$emit('closeEdit','false')
                             }
                         })
                     } else {
-                        console.log('error submit!!');
+                        // console.log('error submit!!');
                         return false;
                     }
                     });

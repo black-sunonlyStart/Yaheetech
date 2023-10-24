@@ -3,56 +3,56 @@
         <el-row>
             <el-col :span="24" class="produInfo"> 
                 <div class="colbox">
-                    <div class="colBoxTitle">是否需要认证： </div> <div class="colBoxContent">{{prodCerInfoDetailList.isauth?'是':'否'}}</div>
+                    <div class="colBoxTitle">{{M2('是否需要认证')}}： </div> <div class="colBoxContent">{{prodCerInfoDetailList.isauth?M2('是'):M2('否')}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">认证标准： </div><div> <div class="colBoxContent" style="width:1200px" v-for="item in prodCerInfoDetailList.credentialList1" :key="item.authId">{{getAuthId(item.data)}}</div></div>
+                    <div class="colBoxTitle">{{M2('认证标准')}}： </div><div> <div class="colBoxContent" style="width:1200px" v-for="item in prodCerInfoDetailList.credentialList1" :key="item.authId">{{getAuthId(item.data)}}</div></div>
                 </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">认证要求：</div> <div><div class="colBoxContent" style="width:1200px" v-for="item in prodCerInfoDetailList.credentialList2" :key="item.id">{{item.data}}</div></div>
+                    <div class="colBoxTitle">{{M2('认证要求')}}：</div> <div><div class="colBoxContent" style="width:1200px" v-for="item in prodCerInfoDetailList.credentialList2" :key="item.id">{{item.data}}</div></div>
                 </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">确认测试要求：</div> <div><div class="colBoxContent" style="width:1200px" v-for="item in prodCerInfoDetailList.credentialList3" :key="item.id">{{item.data}}</div></div>
+                    <div class="colBoxTitle">{{M2('确认测试要求')}}：</div> <div><div class="colBoxContent" style="width:1200px" v-for="item in prodCerInfoDetailList.credentialList3" :key="item.id">{{item.data}}</div></div>
                 </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">认证备注： </div> <div class="colBoxContent" style="width:1200px">{{prodCerInfoDetailList.authnote}}</div>
+                    <div class="colBoxTitle">{{M2('认证备注')}}： </div> <div class="colBoxContent" style="width:1200px">{{prodCerInfoDetailList.authnote}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
                  <div class="colbox">
-                    <div class="colBoxTitle">产品年龄段： </div> <div class="colBoxContent" style="width:1200px">{{prodCerInfoDetailList.applicableAge ? getPersonName(prodCerInfoDetailList.applicableAge):prodCerInfoDetailList.applicableAge == 0 ? '婴儿':'' }} {{prodCerInfoDetailList.applicableAgeNote}}</div>
+                    <div class="colBoxTitle">{{M2('产品年龄段')}}： </div> <div class="colBoxContent" style="width:1200px">{{prodCerInfoDetailList.applicableAge ? getPersonName(prodCerInfoDetailList.applicableAge):prodCerInfoDetailList.applicableAge == 0 ? M2('婴儿'):'' }} {{prodCerInfoDetailList.applicableAgeNote}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
                  <div class="colbox">
-                    <div class="colBoxTitle">专利风险等级： </div> <div class="colBoxContent">{{ prodCerInfoDetailList.riskllevel ? getLevel(prodCerInfoDetailList.riskllevel) : prodCerInfoDetailList.riskllevel ==0 ? '高风险':'' }}</div>
+                    <div class="colBoxTitle">{{M2('专利风险等级')}}： </div> <div class="colBoxContent">{{ prodCerInfoDetailList.riskllevel ? getLevel(prodCerInfoDetailList.riskllevel) : prodCerInfoDetailList.riskllevel ==0 ? M2('高风险'):'' }}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">专利确认： </div> <div style="width:1200px"><div class="colBoxContent" style="width:1200px" v-for="item in prodCerInfoDetailList.patentInfo" :key="item.id">{{changeCountryName(item.LanguageCode,item.Value)}}{{item.Value}}</div></div>
+                    <div class="colBoxTitle">{{M2('专利确认')}}： </div> <div style="width:1200px"><div class="colBoxContent" style="width:1200px" v-for="item in prodCerInfoDetailList.patentInfo" :key="item.id">{{changeCountryName(item.LanguageCode,item.Value)}}{{item.Value}}</div></div>
                 </div>
             </el-col>
         </el-row>
@@ -283,13 +283,13 @@ export default {
            let personName =  this.devSign.filter(res => {
                return res.value == val
            })
-           return personName[0].label
+           return this.M2(personName[0].label)
         },
         getLevel(val){
            let personName =  this.riskLevel.filter(res => {
                return res.key == val
            })
-           return personName[0].label
+           return this.M2(personName[0].label)
         },
         changeCountryName(name,value){
             if(!name) return ''

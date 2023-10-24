@@ -3,8 +3,8 @@
         <el-row class="maina-tab-title" v-track="{triggerType:'browse',currentUrl: $route.path,behavior:'进入竞品页面'}">
             <el-col :span="24">
                 <div class="flot-left">
-                    <el-button type="primary" v-permission="'PM00048'"  class="button-put" plain @click="routerMove()">发起需求</el-button>
-                    <el-button type="primary" v-permission="'PM00047'" class="button-put" plain @click="toExamine()">审核</el-button>
+                    <el-button type="primary" v-permission="'PM00048'"  class="button-put" plain @click="routerMove()">{{M2('发起需求')}}</el-button>
+                    <el-button type="primary" v-permission="'PM00047'" class="button-put" plain @click="toExamine()">{{M2('审核')}}</el-button>
                     <!-- <el-dropdown  size="mini" style="margin-left:10px" @command="assignDesigner">
                         <el-button plain  class="button-put" @click="assignDesigner(1)" v-permission="'PM00039'">
                             分配设计师<i class="el-icon-arrow-down el-icon--right"></i>
@@ -14,28 +14,28 @@
                             <el-dropdown-item :command="3" v-permission="'PM00042'">更换业务开发</el-dropdown-item>  
                         </el-dropdown-menu>
                     </el-dropdown> -->
-                    <el-button v-permission="'PM00039'" plain style="margin-left:10px" class="button-put" @click="assignDesigner(1)">分配设计师</el-button>
-                    <el-button v-permission="'PM00041'" plain style="margin-left:10px" class="button-put" @click="assignDesigner(2)">分配专利检索</el-button>
-                    <el-button v-permission="'PM00042'" plain style="margin-left:10px" class="button-put" @click="assignDesigner(3)">更换业务开发</el-button>
-                    <el-button v-permission="'PM00043'" plain style="margin-left:10px" class="button-put" @click="assignDesigner(8)">跳过立项</el-button>
-                    <el-button v-permission="'PM00044'" plain class="button-put" @click="assignDesigner(9)">跳过结构设计</el-button>
+                    <el-button v-permission="'PM00039'" plain style="margin-left:10px" class="button-put" @click="assignDesigner(1)">{{M2('分配设计师')}}</el-button>
+                    <el-button v-permission="'PM00041'" plain style="margin-left:10px" class="button-put" @click="assignDesigner(2)">{{M2('分配专利检索')}}</el-button>
+                    <el-button v-permission="'PM00042'" plain style="margin-left:10px" class="button-put" @click="assignDesigner(3)">{{M2('更换业务开发')}}</el-button>
+                    <el-button v-permission="'PM00043'" plain style="margin-left:10px" class="button-put" @click="assignDesigner(8)">{{M2('跳过立项')}}</el-button>
+                    <el-button v-permission="'PM00044'" plain class="button-put" @click="assignDesigner(9)">{{M2('跳过结构设计')}}</el-button>
                     <el-dropdown v-permission="'PM00045'" size="mini" style="margin-left:10px" @command="assignDesigner">
                         <el-button type="danger" plain  class="button-put" @click="assignDesigner(4)">
-                            取消开发<i class="el-icon-arrow-down el-icon--right"></i>
+                            {{M2('取消开发')}}<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item :command="5">恢复开发</el-dropdown-item>  
+                            <el-dropdown-item :command="5">{{M2('恢复开发')}}</el-dropdown-item>  
                         </el-dropdown-menu>
                     </el-dropdown>
                     <el-dropdown v-permission="'PM00045'" size="mini" style="margin:0 10px" @command="assignDesigner">
                         <el-button type="danger" plain class="button-put" @click="assignDesigner(6)">
-                            冻结数据<i class="el-icon-arrow-down el-icon--right"></i>
+                            {{M2('冻结数据')}}<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item :command="7">取消冻结</el-dropdown-item>  
+                            <el-dropdown-item :command="7">{{M2('取消冻结')}}</el-dropdown-item>  
                         </el-dropdown-menu>
                     </el-dropdown>
-                    <el-button plain class="button-put" style="display:none">导入需求</el-button>
+                    <el-button plain class="button-put" style="display:none">{{M2('导入需求')}}</el-button>
                     <!-- <el-dropdown  size="mini" style="margin-left:10px" @command="outPutReport">
                         <el-button type="primary" class="button-put" @click="outPutReport()">
                             导出新品数据<i class="el-icon-arrow-down el-icon--right"></i>
@@ -45,7 +45,7 @@
                         </el-dropdown-menu>
                     </el-dropdown> -->
 
-                    <span v-if="optionPutExcle" class="reportTitle"><i class="el-icon-loading" style="margin:5px 0;"></i>报表导出中</span>
+                    <span v-if="optionPutExcle" class="reportTitle"><i class="el-icon-loading" style="margin:5px 0;"></i>{{M2('报表导出中')}}</span>
                 </div>
             </el-col>
         </el-row>
@@ -54,6 +54,7 @@
                 v-loading="loading"
                 :data="mainTaskList" 
                 border 
+                :empty-text="M2('暂无数据')"
                 style="width: 100%"
                 @selection-change="handleSelectionChange" :height='changeMaxHeight()'
                 :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
@@ -65,7 +66,7 @@
                 
                 <el-table-column prop="laws" width="100" fixed="left" align="center" style="position:relative">
                     <template slot="header">
-                        图片
+                        {{M2('图片')}}
                     </template>
                     <template slot-scope="scope">
                         <div >
@@ -86,7 +87,7 @@
                                             <i class="el-icon-loading" ></i>
                                         </div>
                                         <div slot="error" class="image-slot" style="margin-top:35px;margin-left:5px;color:#cccccc">
-                                            <i class="el-icon-picture-outline">暂无图片</i>
+                                            <i class="el-icon-picture-outline">{{M2('暂无图片')}}</i>
                                         </div>
                                     </el-image>
                                     <el-image
@@ -102,19 +103,19 @@
                                             <i class="el-icon-loading" ></i>
                                         </div>
                                         <div slot="error" class="image-slot" style="margin-top:35px;margin-left:5px;color:#cccccc">
-                                            <i class="el-icon-picture-outline">加载失败</i>
+                                            <i class="el-icon-picture-outline">{{M2('加载失败')}}</i>
                                         </div>
                                     </el-image>
                                 </el-popover>
                             </span>
                             <div v-else>
                                 <div  class="image-slot" style="height: 80px;display: flex;justify-content: center;align-items: center;color:#cccccc">
-                                    <i class="el-icon-picture-outline">暂无图片</i>
+                                    <i class="el-icon-picture-outline">{{M2('暂无图片')}}</i>
                                 </div>
                             </div>
                             <div class="rightBottom-title" v-if="scope.row.design == 1 || scope.row.design == 10 || scope.row.design == 11 " style="color:red">
-                                <span v-if="scope.row.design == 1 || scope.row.design == 10">{{'设计'}}</span>
-                                <span v-if="scope.row.design == 11">{{'P图'}}</span>
+                                <span v-if="scope.row.design == 1 || scope.row.design == 10">{{M2('设计')}}</span>
+                                <span v-if="scope.row.design == 11">{{M2('P图')}}</span>
                             </div>
                         </div>
                     </template>
@@ -122,13 +123,13 @@
                 <el-table-column prop="otherSKUAlias"  width="150">
                     <template slot="header">
                         <div style="text-align:center">
-                            类目-系列/ID
+                            {{M2('类目-系列')}}/ID
                         </div>
                     </template>
                     <template slot-scope="scope">
                         <div>
                             <span>
-                                {{scope.row.seriesCategoryName}}  
+                                {{M2(scope.row.seriesCategoryName)}}  
                             </span>
                         </div>
                         <el-tooltip placement="right" effect="light" :visible-arrow='false' popper-class='popperBorder' style="padding:0;border:none">
@@ -140,13 +141,13 @@
                             </div>
                         </el-tooltip>
                         <div v-if="scope.row.skuAlias">
-                            <span>sku别名:{{scope.row.skuAlias}}</span>
+                            <span>{{M2('sku别名')}}:{{scope.row.skuAlias}}</span>
                         </div>
                     </template>
                 </el-table-column>
                 <el-table-column width="170"  align="center">
                     <template slot="header">                      
-                       产品名称
+                       {{M2('产品名称')}}
                     </template>
                     <template slot-scope="scope">
                         <div style="text-align:left">
@@ -156,68 +157,68 @@
                 </el-table-column>
                 <el-table-column align="center" width="120">
                     <template slot="header">
-                        品类经理
+                        {{M2('品类经理')}}
                     </template>
                     <template slot-scope="scope">
-                        {{scope.row.categoryManagerName}}
+                        {{M2(scope.row.categoryManagerName)}}
                     </template>
                 </el-table-column>
 
                 <el-table-column  width="120" align="center">
                     <template slot="header">
-                        产品来源
+                        {{M2('产品来源')}}
                     </template>
                     <template slot-scope="scope">
                         {{scope.row.productSourceStr}}
-                        <div v-if="scope.row.productSource == 1"> {{scope.row.factoryName}}</div>
-                        <div v-if="scope.row.productSource == 2"> {{scope.row.platForm}}</div>
-                        <div v-if="scope.row.productSource == 3"> {{scope.row.platForm}}</div>
-                        <div v-if="scope.row.productSource == 4"> {{scope.row.productSourceDesigner}}</div>
-                        <div v-if="scope.row.productSource == 5"> {{scope.row.otherSources}}</div>
+                        <div v-if="scope.row.productSource == 1"> {{M2(scope.row.factoryName)}}</div>
+                        <div v-if="scope.row.productSource == 2"> {{M2(scope.row.platForm)}}</div>
+                        <div v-if="scope.row.productSource == 3"> {{M2(scope.row.platForm)}}</div>
+                        <div v-if="scope.row.productSource == 4"> {{M2(scope.row.productSourceDesigner)}}</div>
+                        <div v-if="scope.row.productSource == 5"> {{M2(scope.row.otherSources)}}</div>
                     </template>
                 </el-table-column>
                 <el-table-column width="100" align="center">
                     <template slot="header">
-                        状态/耗时
+                        {{M2('状态/耗时')}}
                     </template>
                     <template slot-scope="scope">
                         <div class="blue-button" :style="{background:changeBgColor(scope.row.state),'border-color': changeBorColor(scope.row.state),'color':changeBorColor(scope.row.state)}" v-if="scope.row.stateValue">{{scope.row.stateValue}}</div>
-                        <div >{{scope.row.sjDay ?  scope.row.sjDay + '天' : '0天'}}</div>
+                        <div >{{scope.row.sjDay ?  scope.row.sjDay + M2('天') : M2('0天')}}</div>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" width="120">
                      <template slot="header">
-                       当前经办人
+                       {{M2('当前经办人')}}
                     </template>
                     <template slot-scope="scope">
-                        <div>{{scope.row.assigneeName}}</div>
+                        <div>{{M2(scope.row.assigneeName)}}</div>
                     </template>
                 </el-table-column>
                 <el-table-column prop="applyEr"  width="120" align="center">
                     <template slot="header">
-                        业务开发
+                        {{M2('业务开发')}}
                     </template>
                     <template slot-scope="scope">
-                       {{scope.row.businessName}}
+                       {{M2(scope.row.businessName)}}
                     </template>
                 </el-table-column>
                 <el-table-column prop="priority"  align="center"  width="120">
                     <template slot="header">
-                        累计工期
+                        {{M2('累计工期')}}
                         <div>
-                          （工作日）  
+                          （{{M2('工作日')}}）  
                         </div>
                     </template>
                      <template slot-scope="scope">
                         <div>
-                            <div style="color:green">{{  scope.row.sjTotalDay || 0 }}天</div>
+                            <div style="color:green">{{  scope.row.sjTotalDay || 0 }}{{M2('天')}}</div>
                         </div>
                     </template>
                 </el-table-column>
                
                 <el-table-column prop="status"  align="center">
                     <template slot="header">
-                        推荐理由
+                        {{M2('推荐理由')}}
                     </template>
                     <template slot-scope="scope">
                         <el-popover
@@ -235,15 +236,15 @@
                     </template>
                 </el-table-column>
 
-                <el-table-column prop="created"  width="100" align="center" sortable label="发起人">
+                <el-table-column prop="created"  width="100" align="center" sortable :label="M2('发起人')">
                     <template slot-scope="scope">
-                        {{scope.row.createName ? scope.row.createName : '--'}}
+                        {{scope.row.createName ? M2(scope.row.createName) : '--'}}
                     </template>
                 </el-table-column>
 
                 <el-table-column prop="renewalDate"  width="120" align="center">
                     <template slot="header">
-                        发起/完成日期
+                        {{M2('发起')}}/{{M2('完成日期')}}
                     </template>
                     <template slot-scope="scope">
                         <div>{{scope.row.startTime ? $moment(scope.row.startTime).format("YYYY-MM-DD") : '--'}}</div>
@@ -253,7 +254,7 @@
                 </el-table-column>
                 <el-table-column prop="id" label="操作" width="120"  align="center" fixed="right">
                     <template slot="header">
-                        操作 
+                        {{M2('操作')}} 
                     </template>
                     <template slot-scope="scope">
                         <div style="display:flex;justify-content: space-around;">
@@ -268,7 +269,7 @@
                                          @click="editOperation(scope.row,1)"                                   
                                     >
                                     <div class="nameBox"  
-                                    >详情</div></div>
+                                    >{{M2('详情')}} </div></div>
                                 </div>
                                 <div class="imageBox" slot="reference"></div>
                             </el-popover>
@@ -283,7 +284,7 @@
                                     <div class="operationText"                                       
                                         @click="editOperation(scope.row,item.id)"                                     
                                     >
-                                        <div class="nameBox">{{scope.row.state == 2 || scope.row.state == 3 ? item.name : item.tname}}</div>
+                                        <div class="nameBox">{{scope.row.state == 2 || scope.row.state == 3 ? M2(item.name) : M2(item.tname)}}</div>
                                     </div>
                                 </div>
                                 <div class="imageHistoryBox" slot="reference" ></div>
@@ -305,7 +306,7 @@
         <!--改动记录-->
    
         <el-dialog
-            title="修改日志"
+            :title="M2('修改日志')"
             :visible.sync="dialogVisible"
             width="1000px"
             :modal="false"
@@ -317,7 +318,7 @@
             >
             <remarksNew :remarksParam='remarksParam' ref="remarksNew" v-if="showTenth"></remarksNew>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="closeUploadDialog()" size="mini">关 闭</el-button>
+                <el-button @click="closeUploadDialog()" size="mini">{{M2('关 闭')}}</el-button>
             </span>
         </el-dialog>
         <checkStatusDialog ref="checkStatusDialog" :navFilterList='uploadFilterList' @mainListList='mainListList'></checkStatusDialog>
@@ -850,7 +851,7 @@ export default {
         success() {
             this.$message({
                 showClose: true,
-                message: '操作成功',
+                message: this.M2('操作成功'),
                 offset:220,
                 duration: 2000,
                 type: 'success'
@@ -867,7 +868,7 @@ export default {
         error(msg) {
             this.$message({
                 showClose: true,
-                message: msg,
+                message: this.M2(msg),
                 offset:220,
                 type: 'error'
             });

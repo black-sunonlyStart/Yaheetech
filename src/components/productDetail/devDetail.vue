@@ -6,23 +6,23 @@
                 <span>{{productVoDetail.developmenttype == '1' ? '零售' : productVoDetail.developmenttype == '2'? '批发' :''}}</span>
             </el-col> -->
             <el-col :span="10">
-                <span class="boldTitle imageMainbox">开发场景： </span>
+                <span class="boldTitle imageMainbox"> {{M2('开发场景')}}： </span>
                 <span  class="imageMainboxText">{{ showSign(productVoDetail.developmentscenarios) }}</span>
             </el-col>
             <el-col :span="10">
-                <span class="boldTitle imageMainbox">类目-系列： </span>
-                <span  class="imageMainboxText">{{ productVoDetail.seriesCategoryName }}</span>
+                <span class="boldTitle imageMainbox">{{M2('类目-系列')}}： </span>
+                <span  class="imageMainboxText" v-if="productVoDetail.seriesCategoryName">{{ productVoDetail.seriesCategoryName ? M2(productVoDetail.seriesCategoryName.split('>')[0]) : '' }}</span> > <span>{{ productVoDetail.seriesCategoryName ? M2(productVoDetail.seriesCategoryName.split('>')[1]) : ''}}</span>
             </el-col>
             
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10" v-if="productVoDetail.developmentscenarios != 1">
-                <span class="boldTitle imageMainbox">关联产品： </span>
+                <span class="boldTitle imageMainbox">{{M2('关联产品')}}： </span>
                 <span  class="imageMainboxText">{{ productVoDetail.developmentscenarios == 10 || productVoDetail.developmentscenarios == 11 || productVoDetail.developmentscenarios == 12 ? productVoDetail.spu : productVoDetail.spuid}}({{productVoDetail.id}})</span>
-                <div >请再次确认关联产品，当前关联产品尺码为{{getAttrBute(productVoDetail.id,multiAttribute)}}</div>
+                <div style="margin-left:180px" v-if="(productVoDetail.developmentscenarios || productVoDetail.developmentscenarios == 0) && productVoDetail.developmentscenarios != 1">{{M2('请再次确认关联产品，当前关联产品尺码为')}}{{getAttrBute(productVoDetail.id,multiAttribute)}}</div>
             </el-col>
             <el-col :span="10">
-                <span class="boldTitle imageMainbox">所属分类：</span>
+                <span class="boldTitle imageMainbox">{{M2('所属分类')}}：</span>
                 <span  class="imageMainboxText">{{productVoDetail.categoryname}}</span>
             </el-col>
         </el-row>
@@ -80,17 +80,17 @@ export default {
         },
         showSign(val){
             if(val == 1){
-                return '开发新产品'
+                return this.M2('开发新产品')
             } else if (val == 2){
-                return '开发新市场(国家)'
+                return this.M2('开发新市场(国家)')
             }else if (val == 3){
-                return '开发新尺码(已有产品添加新尺码)'
+                return this.M2('开发新尺码(已有产品添加新尺码)')
             }else if (val == 10){
-                return '二次开发'
+                return this.M2('二次开发')
             }else if (val == 11){
-                return '二次开发- 市场'
+                return this.M2('二次开发- 市场')
             }else if (val == 12){
-                return '二次开发-尺码'
+                return this.M2('二次开发-尺码')
             }
         }
     }

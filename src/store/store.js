@@ -29,7 +29,7 @@ const mutations = {
         state.developmentId = value.query.developmentId
         state.productId = value.query.productId
         state.productCountryId = value.query.productCountryId
-        console.log("mutations", state, value);
+        // console.log("mutations", state, value);
         // 修改后，页面会重新渲染
     },
 };

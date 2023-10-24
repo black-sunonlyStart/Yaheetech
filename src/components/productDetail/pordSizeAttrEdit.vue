@@ -3,20 +3,20 @@
          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm" size="mini" v-loading='loading'>
              <el-row>
                  <el-col :span="10" :xs="24" :sm="24" :md="20" :lg="20" :xl="20">
-                     <el-form-item label="产品类型:" prop="productType">
+                     <el-form-item :label="M2('产品类型') + '：'" prop="productType">
                         <el-radio-group v-model="ruleForm.productType" :disabled="disableControl">
-                            <el-radio :label="1">普通/多属性产品</el-radio>
-                            <el-radio :label="2">物理捆绑产品</el-radio>
+                            <el-radio :label="1">{{M2('普通/多属性产品')}}</el-radio>
+                            <el-radio :label="2">{{M2('物理捆绑产品')}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                  </el-col>
              </el-row>
              <el-row>
                  <el-col :span="6" :xs="24" :sm="24" :md="10" :lg="9" :xl="6">
-                    <el-form-item label="产品尺寸:" prop="productSizeL">
+                    <el-form-item :label="M2('产品尺寸') + '：'" prop="productSizeL">
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.productSizeL"  oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
-                                <template slot="append">长(cm)</template>
+                            <el-input :placeholder="M2('请输入内容')" v-model="ruleForm.productSizeL"  oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
+                                <template slot="append">{{M2('长')}}(cm)</template>
                             </el-input>
                         </div>
                     </el-form-item>
@@ -24,8 +24,8 @@
                  <el-col :span="3" :xs="24" :sm="24" :md="10" :lg="4" :xl="3">
                     <el-form-item  prop="productSizeW" label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.productSizeW" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
-                                <template slot="append">宽(cm)</template>
+                            <el-input :placeholder="M2('请输入内容')" v-model="ruleForm.productSizeW" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
+                                <template slot="append">{{M2('宽')}}(cm)</template>
                             </el-input>
                         </div>
                     </el-form-item>
@@ -33,8 +33,8 @@
                  <el-col :span="3" :xs="24" :sm="24" :md="10" :lg="4" :xl="3">
                     <el-form-item  prop="productSizeH" label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.productSizeH" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
-                                <template slot="append">高(cm)</template>
+                            <el-input :placeholder="M2('请输入内容')" v-model="ruleForm.productSizeH" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
+                                <template slot="append">{{M2('高')}}(cm)</template>
                             </el-input>
                         </div>
                     </el-form-item>
@@ -44,8 +44,8 @@
                  <el-col :span="6" :xs="24" :sm="24" :md="10" :lg="9" :xl="6">
                     <el-form-item label="包装尺寸(发货用):" prop="packageSizeL">
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.packageSizeL" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
-                                <template slot="append">长(cm)</template>
+                            <el-input :placeholder="M2('请输入内容')" v-model="ruleForm.packageSizeL" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
+                                <template slot="append">{{M2('长')}}(cm)</template>
                             </el-input>
                         </div>
                     </el-form-item>
@@ -53,8 +53,8 @@
                  <el-col :span="3" :xs="24" :sm="24" :md="10" :lg="4" :xl="3">
                     <el-form-item  prop="packageSizeW" label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.packageSizeW" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
-                                <template slot="append">宽(cm)</template>
+                            <el-input :placeholder="M2('请输入内容')" v-model="ruleForm.packageSizeW" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
+                                <template slot="append">{{M2('宽')}}(cm)</template>
                             </el-input>
                         </div>
                     </el-form-item>
@@ -62,8 +62,8 @@
                  <el-col :span="3" :xs="24" :sm="24" :md="10" :lg="4" :xl="3">
                     <el-form-item  prop="packageSizeH" label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.packageSizeH" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
-                                <template slot="append">高(cm)</template>
+                            <el-input :placeholder="M2('请输入内容')" v-model="ruleForm.packageSizeH" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
+                                <template slot="append">{{M2('高')}}(cm)</template>
                             </el-input>
                         </div>
                     </el-form-item>
@@ -72,7 +72,7 @@
                     <el-form-item  prop="packageSizeH" label-width="15px">      
                         <el-select 
                             v-model="ruleForm.sizeRules"
-                            placeholder="请选择"
+                            :placeholder="M2('请选择')"
                             @change="changSizeRules"
                             >
                             <el-option 
@@ -86,7 +86,7 @@
                     </el-form-item>
                 </el-col>
                 <el-col :span="3">
-                    <span class="vacanBox">体积：</span><span class="titleColor" v-if="ruleForm.sizeRules == '1'">{{ruleForm.packageSizeL && ruleForm.packageSizeW && ruleForm.packageSizeH ? ((ruleForm.packageSizeL * ruleForm.packageSizeW * ruleForm.packageSizeH) / 1000000 ).toFixed(6)+ 'm³' :''}}</span>
+                    <span class="vacanBox">{{M2('体积')}}：</span><span class="titleColor" v-if="ruleForm.sizeRules == '1'">{{ruleForm.packageSizeL && ruleForm.packageSizeW && ruleForm.packageSizeH ? ((ruleForm.packageSizeL * ruleForm.packageSizeW * ruleForm.packageSizeH) / 1000000 ).toFixed(6)+ 'm³' :''}}</span>
                                       <span class="titleColor" v-else-if="ruleForm.sizeRules == '2'">{{ruleForm.outerBoxSizeL && ruleForm.outerBoxSizeW && ruleForm.outerBoxSizeH  ? ((ruleForm.outerBoxSizeL * ruleForm.outerBoxSizeW * ruleForm.outerBoxSizeH) / 1000000).toFixed(6)+ 'm³' :''}}</span>
                 </el-col>
              </el-row>
@@ -94,7 +94,7 @@
                  <el-col :span="6">
                     <el-form-item label="外箱尺寸(装柜用):" prop="outerBoxSizeL">
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.outerBoxSizeL" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
+                            <el-input :placeholder="M2('请输入内容')" v-model="ruleForm.outerBoxSizeL" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">长(cm)</template>
                             </el-input>
                         </div>
@@ -103,7 +103,7 @@
                  <el-col :span="3">
                     <el-form-item  prop="outerBoxSizeW" label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.outerBoxSizeW" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
+                            <el-input :placeholder="M2('请输入内容')" v-model="ruleForm.outerBoxSizeW" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">宽(cm)</template>
                             </el-input>
                         </div>
@@ -112,7 +112,7 @@
                  <el-col :span="3">
                     <el-form-item  prop="outerBoxSizeH" label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.outerBoxSizeH" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
+                            <el-input :placeholder="M2('请输入内容')" v-model="ruleForm.outerBoxSizeH" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">高(cm)</template>
                             </el-input>
                         </div>
@@ -122,7 +122,7 @@
                     <el-form-item  prop="outerBoxSizeRules" label-width="15px">      
                         <el-select 
                             v-model="ruleForm.outerBoxSizeRules"
-                            placeholder="请选择"
+                             :placeholder="M2('请选择')"
                             >
                             <el-option 
                                 v-for="item in devSign"                        
@@ -141,16 +141,16 @@
              </el-row> -->
              <el-row>
                  <el-col :span="6"  :xs="24" :sm="24" :md="10" :lg="8" :xl="6">
-                    <el-form-item  prop="containersNumber" label="可装货柜数量：" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">      
+                    <el-form-item  prop="containersNumber"  :label="M2('可装货柜数量') + '：'" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">      
                         <el-select 
                             v-model="ruleForm.containersNumber"
-                            placeholder="请选择"
+                             :placeholder="M2('请选择')"
                             @change="selectConNumb"
                             >
                             <el-option 
                                 v-for="item in boxType"                        
                                 :key="item._id"
-                                :label="item._model"
+                                :label="M2(item._model)"
                                 :value="item._id"
                                 >
                             </el-option>
@@ -160,21 +160,21 @@
                 <el-col :span="3"  :xs="24" :sm="24" :md="10" :lg="5" :xl="3">
                     <el-form-item  prop="outerBoxNum" label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.outerBoxNum" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
-                                <template slot="append">个/柜</template>
+                            <el-input :placeholder="M2('请输入内容')" v-model="ruleForm.outerBoxNum" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
+                                <template slot="append"> {{M2('个/柜')}}</template>
                             </el-input>
                         </div>
                     </el-form-item>
                 </el-col>
                 <el-col :span="5">
-                     <span class="vacanBox" v-if="this.selectid && ruleForm.outerBoxNum">每个产品所占体积:<span  class="vacanBox">{{this.selectid / ruleForm.outerBoxNum}}m³</span></span>       
+                     <span class="vacanBox" v-if="this.selectid && ruleForm.outerBoxNum">{{M2('每个产品所占体积')}}:<span  class="vacanBox">{{this.selectid / ruleForm.outerBoxNum}}m³</span></span>       
                 </el-col>
              </el-row>
              <el-row>
                  <el-col :span="6"  :xs="24" :sm="24" :md="10" :lg="8" :xl="6">
-                    <el-form-item  prop="proNetWeight" label="净重:">      
+                    <el-form-item  prop="proNetWeight"  :label="M2('净重') + '：'">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.proNetWeight" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
+                            <el-input :placeholder="M2('请输入内容')" v-model="ruleForm.proNetWeight" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">Kg</template>
                             </el-input>
                         </div>
@@ -183,7 +183,7 @@
                 <el-col :span="3"  :xs="24" :sm="24" :md="10" :lg="5" :xl="3">
                     <el-form-item  label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="proNetWeightLb" disabled>
+                            <el-input :placeholder="M2('请输入内容')" v-model="proNetWeightLb" disabled>
                                 <template slot="append">LB</template>
                             </el-input>
                         </div>
@@ -192,9 +192,9 @@
              </el-row>
              <el-row>
                  <el-col :span="6"  :xs="24" :sm="24" :md="10" :lg="8" :xl="6">
-                    <el-form-item  prop="proGrossWeight" label="毛重:">      
+                    <el-form-item  prop="proGrossWeight" :label="M2('毛重') + '：'">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.proGrossWeight" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
+                            <el-input :placeholder="M2('请输入内容')" v-model="ruleForm.proGrossWeight" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">Kg</template>
                             </el-input>
                         </div>
@@ -203,7 +203,7 @@
                 <el-col :span="3"  :xs="24" :sm="24" :md="10" :lg="5" :xl="3">
                     <el-form-item label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="proGrossWeightLb" disabled>
+                            <el-input :placeholder="M2('请输入内容')" v-model="proGrossWeightLb" disabled>
                                 <template slot="append">LB</template>
                             </el-input>
                         </div>
@@ -218,7 +218,7 @@
                  <el-col :span="6">
                     <el-form-item  prop="proOuterBoxWeight" label="外箱重量:">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.proOuterBoxWeight" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
+                            <el-input :placeholder="M2('请输入内容')" v-model="ruleForm.proOuterBoxWeight" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')">
                                 <template slot="append">Kg</template>
                             </el-input>
                         </div>
@@ -227,7 +227,7 @@
                 <el-col :span="3">
                     <el-form-item  label-width="15px">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="proOuterBoxWeightLb" disabled>
+                            <el-input :placeholder="M2('请输入内容')" v-model="proOuterBoxWeightLb" disabled>
                                 <template slot="append">LB</template>
                             </el-input>
                         </div>
@@ -236,10 +236,10 @@
              </el-row> -->
              <el-row>
                  <el-col :span="6"  :xs="24" :sm="24" :md="10" :lg="8" :xl="6">
-                    <el-form-item  prop="packingMethod" label="包装方式:">      
+                    <el-form-item  prop="packingMethod"  :label="M2('包装方式') + '：'">      
                         <el-select 
                             v-model="ruleForm.packingMethod"
-                            placeholder="请选择"
+                             :placeholder="M2('请选择')"
                             >
                             <el-option 
                                 v-for="item in packingMethodType"                        
@@ -254,10 +254,10 @@
              </el-row>
              <el-row>
                  <el-col :span="6"  :xs="24" :sm="24" :md="10" :lg="8" :xl="6">
-                    <el-form-item  prop="casesNumber" label="装箱数:">      
+                    <el-form-item  prop="casesNumber" :label="M2('装箱数') + '：'">      
                         <div class="productSizeW">
-                            <el-input placeholder="请输入内容" v-model="ruleForm.casesNumber" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')" >
-                                <template slot="append">个/箱</template>
+                            <el-input :placeholder="M2('请输入内容')" v-model="ruleForm.casesNumber" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')" >
+                                <template slot="append">{{M2('个/箱')}}</template>
                             </el-input>
                         </div>
                     </el-form-item>
@@ -265,22 +265,23 @@
              </el-row>
              <el-row v-if="ruleForm.packingMethod == '1'">
                  <el-col :span="20">
-                    <el-form-item  label="多箱清单:">      
+                    <el-form-item :label="M2('多箱清单') + '：'">      
                          <el-table
                             :data="ruleForm.productlistings"
                             border
+                            :empty-text="M2('暂无数据')"
                             style="width: 100%">
                             <el-table-column
                                 prop="date"
-                                label="序号"
+                                :label="M2('序号')"
                             >
                             <template slot-scope="scope">
-                                第{{scope.$index + 1}}箱        
+                                {{M2(`第${scope.$index + 1}箱`)}}
                             </template>
                             </el-table-column>
                             <el-table-column
                                 prop="packedlength"
-                                label="包装后 - 长(cm)"
+                                :label="M2('包装后')  + ' - ' + M2('长') +  '(cm)'"
                             >
                             <template slot-scope="scope">
                                 <el-input v-model="scope.row.packedlength"  oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')"></el-input>      
@@ -288,20 +289,23 @@
                             </el-table-column>
                             <el-table-column
                                 prop="packedwidth"
-                                label="包装后 - 宽(cm)">
+                                :label="M2('包装后')  + ' - ' + M2('宽') +  '(cm)'"
+                            >
                             <template slot-scope="scope">
                                 <el-input v-model="scope.row.packedwidth" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')"></el-input>      
                             </template>
                             </el-table-column>
                             <el-table-column
                                 prop="packedheight"
-                                label="包装后 - 高(cm)">
+                                :label="M2('包装后')  + ' - ' + M2('高') +  '(cm)'"
+                                >
                             <template slot-scope="scope">
                                 <el-input v-model="scope.row.packedheight" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')"></el-input>      
                             </template>
                             </el-table-column>
                             <el-table-column
-                                label="包装后 - 重量(Kg)">
+                                :label="M2('包装后')  + ' - ' + M2('重量') +  '(cm)'"
+                                >
                             <template slot-scope="scope">
                                 <div>
                                    <el-input v-model="scope.row.packedweight" oninput="value=value.replace(/^\D*([0-9]\d*\.?\d{0,2})?.*$/,'$1')"></el-input>
@@ -309,7 +313,8 @@
                             </template>
                             </el-table-column>
                              <el-table-column
-                                label="物流周长加长(美国)">
+                                :label="M2('物流周长加长(美国)')"
+                                >
                                 <template slot-scope="scope">
                                     <div>
                                         {{(Math.ceil(scope.row.packedlength) + (Math.ceil(scope.row.packedwidth) + Math.ceil(scope.row.packedheight)) * 2).toFixed(2) || ''}} cm
@@ -320,7 +325,8 @@
                                 </template>
                             </el-table-column>
                             <el-table-column
-                                label="物流周长加长(非美国)">
+                                :label="M2('物流周长加长(非美国)')"
+                                >
                                 <template slot-scope="scope">
                                     <div>
                                         {{(Number(scope.row.packedlength) + (Number(scope.row.packedwidth) + Number(scope.row.packedheight)) * 2).toFixed(2)}} cm
@@ -331,36 +337,37 @@
                                 </template>
                             </el-table-column>
                             <el-table-column
-                                label="操作">
+                                :label="M2('操作')"
+                                >
                                 <template slot-scope="scope">
                                     <div v-if="scope.$index == 0 || scope.$index == 1">
-                                        前两条数据无法移除
+                                        {{M2('前两条数据无法移除')}}
                                     </div>
                                     <el-button
                                         v-else
                                         @click.native.prevent="deleteRow(scope.$index, ruleForm.productlistings)"
                                         type="text"
                                         size="small">
-                                        移除
+                                        {{M2('移除')}}
                                     </el-button>
                                 </template>
                             </el-table-column>
                         </el-table>
                         <div class="tableText" @click="addTableList">
-                            添加一箱
+                            {{M2('添加一箱')}}
                         </div>
                     </el-form-item>
                 </el-col>
              </el-row>
              <el-row>
                  <el-col :span="15">
-                     <el-form-item  label="尺码:" prop="productSize">      
+                     <el-form-item  :label="M2('尺码') + '：'" prop="productSize">      
                         <div class="productSizeText">
                             <div class="productSizeInput">
                                 <el-input  v-model="ruleForm.productSize"></el-input>
                             </div>
                             <div class="titleColor">
-                                如要开发更多尺码, 请在保存产品信息以后，在此产品基础上选择开发其它尺码!
+                                {{M2('如要开发更多尺码, 请在保存产品信息以后，在此产品基础上选择开发其它尺码!')}}
                             </div>
                         </div>
                     </el-form-item>
@@ -368,31 +375,32 @@
              </el-row>
              <el-row>
                  <el-col :span="20">
-                     <el-form-item  label="颜色:" prop="productColor">      
+                     <el-form-item :label="M2('颜色') + '：'"  prop="productColor">      
                         <el-checkbox-group v-model="ruleForm.productColor" > 
-                            <el-checkbox :label="item" v-for="item in checkList" :key="item + Math.random()"></el-checkbox>
+                            <el-checkbox :label="M2(item)" v-for="item in checkList" :key="item + Math.random()"></el-checkbox>
                         </el-checkbox-group>
                     </el-form-item>
                  </el-col>
              </el-row>
              <el-row>
                  <el-col :span="20">
-                     <el-form-item  label="销售(多)属性:" prop="productColor">      
+                     <el-form-item :label="M2('销售(多)属性') + '：'" prop="productColor">      
                         <el-table
                             border
+                            :empty-text="M2('暂无数据')"
                             :data="ruleForm.multiAttribute"
                             style="width: 100%"
                             :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                             >
                             <el-table-column
-                                label="开发状态"
+                                :label="M2('开发状态')"
                                 >
                                 <template slot-scope="scope">
                                     <div v-if="scope.row.productid == pordSizeAttrInfoList.id || !scope.row.productid">
-                                        当前开发
+                                        {{M2('当前开发')}}
                                     </div>
                                     <div v-else>
-                                        其他开发
+                                        {{M2('其他开发')}}
                                     </div>
                                 </template>
                             </el-table-column>
@@ -409,8 +417,9 @@
                                 </template>
                             </el-table-column>
                             <el-table-column
-                                label="开发属性">
-                            <template slot-scope="scope">
+                                :label="M2('开发属性')"
+                            >
+                                <template slot-scope="scope">
                                     <div>
                                         {{scope.row.color}}
                                     </div>
@@ -420,15 +429,15 @@
                                 </template>
                             </el-table-column>
                             <el-table-column
-                                label="关联SKU"
+                                :label="M2('关联SKU')"
                             >
                             <template slot-scope="scope">
                                 <div v-if="scope.row.productdraftid && scope.row.skualias && scope.row.sku ">
                                     <div>
-                                        上架ID:{{scope.row.productdraftid}}
+                                        {{M2('上架ID')}}:{{scope.row.productdraftid}}
                                     </div>
                                     <div>
-                                        SKU别名{{scope.row.skualias }}
+                                        {{M2('SKU别名')}}:{{scope.row.skualias }}
                                     </div>
                                     <div>
                                         SKU:{{scope.row.sku}}
@@ -438,14 +447,15 @@
                                     </div>
                                 </div>
                                 <div v-else>
-                                    暂无数据
+                                    {{M2('暂无数据')}}
                                 </div>
                             </template>
                             </el-table-column>
                             <el-table-column
-                                label="是否上架">
+                                :label="M2('是否上架')"
+                                >
                                 <template slot-scope="scope">
-                                    <div><el-checkbox v-model="scope.row.productneed" :disabled="(scope.row.productid != pordSizeAttrInfoList.id )">需要</el-checkbox></div>
+                                    <div><el-checkbox v-model="scope.row.productneed" :disabled="(scope.row.productid != pordSizeAttrInfoList.id )">{{M2('需要')}}</el-checkbox></div>
                                 </template>
                             </el-table-column>
                         </el-table>
@@ -454,8 +464,8 @@
              </el-row>
          </el-form>
          <div class="bottomButton">
-            <el-button type="primary" @click="submitForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'产品尺寸和属性信息'}" perkey='ERP.Product.ProductDev.SalesManEdit' >保存</el-button>
-            <el-button @click="resetForm('ruleForm')" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'产品尺寸和属性信息'}" size="mini">取消</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'产品尺寸和属性信息'}" perkey='ERP.Product.ProductDev.SalesManEdit' >{{M2('保存')}}</el-button>
+            <el-button @click="resetForm('ruleForm')" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'产品尺寸和属性信息'}" size="mini">{{M2('取消')}}</el-button>
         </div>
     </div>
 </template>
@@ -499,29 +509,29 @@ export default {
             },
             number:1,
             rules:{
-                productType: [{ required: true, message: '请选择产品类型', trigger: 'blur' }],
-                productSizeL: [{ required: true, message: '请添加产品尺寸', trigger: 'blur' }],
-                productSizeW: [{ required: true, message: '请添加产品尺寸', trigger: 'blur' }],
-                productSizeH: [{ required: true, message: '请添加产品尺寸', trigger: 'blur' }],
-                packageSizeL: [{ required: true, message: '请添加包装尺寸', trigger: 'blur' }],
-                packageSizeW: [{ required: true, message: '请添加包装尺寸', trigger: 'blur' }],
-                packageSizeH: [{ required: true, message: '请添加包装尺寸', trigger: 'blur' }],
-                outerBoxSizeL: [{ required: true, message: '请添加外箱尺寸', trigger: 'blur' }],
-                outerBoxSizeW: [{ required: true, message: '请添加外箱尺寸', trigger: 'blur' }],
-                outerBoxSizeH: [{ required: true, message: '请添加外箱尺寸', trigger: 'blur' }],
-                sizeRules: [{ required: true, message: '请选择尺寸规则', trigger: 'blur' }],
-                outerBoxSizeRules: [{ required: true, message: '请选择尺寸规则', trigger: 'blur' }],
-                containersNumber: [{ required: false, message: '请选择货柜体积', trigger: 'blur' }],
-                outerBoxNum: [{ required: true, message: '请输入货柜数量', trigger: 'blur' }],
-                proNetWeight: [{ required: true, message: '请输入净重', trigger: 'blur' }],
-                proGrossWeight: [{ required: true, message: '请输入毛重', trigger: 'blur' }],
-                proOuterBoxWeight: [{ required: true, message: '请输入外箱重量', trigger: 'blur' }],
-                packingMethod: [{ required: true, message: '请选择包装方式', trigger: 'blur' }],
-                casesNumber: [{ required: true, message: '请输入集装箱数量', trigger: 'blur' }],
-                tableData: [{ required: true, message: '请输入集装箱数量', trigger: 'blur' }],
-                productSize: [{ required: true, message: '请填写商品尺码', trigger: 'blur' }],
-                productColor: [{ required: true, message: '请选择产品颜色', trigger: 'blur' }],
-                productlistings: [{ required: true, message: '请输入产品尺寸', trigger: 'blur' }],
+                productType: [{ required: true, message: this.M2('请选择产品类型'), trigger: 'blur' }],
+                productSizeL: [{ required: true, message: this.M2('请添加产品尺寸'), trigger: 'blur' }],
+                productSizeW: [{ required: true, message: this.M2('请添加产品尺寸'), trigger: 'blur' }],
+                productSizeH: [{ required: true, message: this.M2('请添加产品尺寸'), trigger: 'blur' }],
+                packageSizeL: [{ required: true, message: this.M2('请添加包装尺寸'), trigger: 'blur' }],
+                packageSizeW: [{ required: true, message: this.M2('请添加包装尺寸'), trigger: 'blur' }],
+                packageSizeH: [{ required: true, message: this.M2('请添加包装尺寸'), trigger: 'blur' }],
+                outerBoxSizeL: [{ required: true, message: this.M2('请添加外箱尺寸'), trigger: 'blur' }],
+                outerBoxSizeW: [{ required: true, message: this.M2('请添加外箱尺寸'), trigger: 'blur' }],
+                outerBoxSizeH: [{ required: true, message: this.M2('请添加外箱尺寸'), trigger: 'blur' }],
+                sizeRules: [{ required: true, message: this.M2('请选择尺寸规则'), trigger: 'blur' }],
+                outerBoxSizeRules: [{ required: true, message: this.M2('请选择尺寸规则'), trigger: 'blur' }],
+                containersNumber: [{ required: false, message: this.M2('请选择货柜体积'), trigger: 'blur' }],
+                outerBoxNum: [{ required: true, message: this.M2('请输入货柜数量'), trigger: 'blur' }],
+                proNetWeight: [{ required: true, message: this.M2('请输入净重'), trigger: 'blur' }],
+                proGrossWeight: [{ required: true, message: this.M2('请输入毛重'), trigger: 'blur' }],
+                proOuterBoxWeight: [{ required: true, message: this.M2('请输入外箱重量'), trigger: 'blur' }],
+                packingMethod: [{ required: true, message: this.M2('请选择包装方式'), trigger: 'blur' }],
+                casesNumber: [{ required: true, message: this.M2('请输入集装箱数量'), trigger: 'blur' }],
+                tableData: [{ required: true, message: this.M2('请输入集装箱数量'), trigger: 'blur' }],
+                productSize: [{ required: true, message: this.M2('请填写商品尺码'), trigger: 'blur' }],
+                productColor: [{ required: true, message: this.M2('请选择产品颜色'), trigger: 'blur' }],
+                productlistings: [{ required: true, message: this.M2('请输入产品尺寸'), trigger: 'blur' }],
             },
             devSign:[
                 {
@@ -598,7 +608,7 @@ export default {
             handler(val,oldVal){
                 // if(val == oldVal  || (oldVal.length == 0 && this.firstList))return  
                 this.number++ 
-                console.log(this.number,'number')
+                // console.log(this.number,'number')
                 if(this.number < 3) return
                 if(val.length > oldVal.length){
                     let newVal = val.filter(item => {
@@ -739,7 +749,7 @@ export default {
             if((this.ruleForm.packingMethod == 1 && this.ruleForm.productlistings.length == 0) ||  (this.ruleForm.productlistings.length > 0 && this.ruleForm.productlistings.find(item => !item.packedlength || !item.packedwidth || !item.packedheight || !item.packedweight))){
                 this.$message({
                     type: 'error', 
-                    message:'多箱清单数据不能为空！',
+                    message:this.M2('多箱清单数据不能为空！'),
                     offset:220
                 })
                 return
@@ -804,7 +814,7 @@ export default {
                             this.loading = false
                             this.$message({
                                 type: 'success', 
-                                message:'保存成功',
+                                message:this.M2('保存成功'),
                                 offset:220
                             }) 
                             this.$emit('closeEdit','false')

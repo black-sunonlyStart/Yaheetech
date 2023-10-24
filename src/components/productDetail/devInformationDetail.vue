@@ -3,91 +3,91 @@
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">产品中文概述： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.description}}</div>
+                    <div class="colBoxTitle">{{M2('产品中文概述')}}： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.description}}</div>
                 </div>
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">业务开发： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.businessProduct ?devInformationDetaiList.businessProduct:''}}</div>
+                    <div class="colBoxTitle">{{M2('业务开发')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.businessProduct ?devInformationDetaiList.businessProduct:''}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">英文标题： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.title}}</div>
+                    <div class="colBoxTitle">{{M2('英文标题')}}： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.title}}</div>
                 </div>
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">采购开发： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.orderProduct ? devInformationDetaiList.orderProduct:'' }}</div>
+                    <div class="colBoxTitle">{{M2('采购开发')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.orderProduct ? M2(devInformationDetaiList.orderProduct):'' }}</div>
                 </div>
             </el-col>
         </el-row>
          <el-row class="textSpeaing" >
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">是否安吉产品： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.isanji && devInformationDetaiList.isanji == 1 ? '是':devInformationDetaiList.isanji == 0 ? '否' : ' ' }}</div>
+                    <div class="colBoxTitle">{{M2('是否安吉产品')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.isanji && devInformationDetaiList.isanji == 1 ? M2('是'):devInformationDetaiList.isanji == 0 ? M2('否') : ' ' }}</div>
                 </div>
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">负责人： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.auditorName }}</div>
-                </div>
-            </el-col>
-        </el-row>
-        <el-row class="textSpeaing">
-            <el-col :span="10">
-                <div class="colbox">
-                    <div class="colBoxTitle">德文标题： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.titleDe }}</div>
-                </div>
-            </el-col>
-            <el-col :span="10">
-                <div class="colbox">
-                    <div class="colBoxTitle">US Duty税率： </div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('en-US') }}%</div>
+                    <div class="colBoxTitle">{{M2('负责人')}}： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{M2(devInformationDetaiList.auditorName) }}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">日文标题： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.titleJp}}</div>
+                    <div class="colBoxTitle">{{M2('德文标题')}}： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.titleDe }}</div>
                 </div>
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">GB Duty税率： </div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('en-GB')  || 0}}%</div>
+                    <div class="colBoxTitle">{{M2('US Duty税率')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('en-US') }}%</div>
                 </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">英文关键词： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.keys}}</div>
+                    <div class="colBoxTitle">{{M2('日文标题')}}： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.titleJp}}</div>
+                </div>
+            </el-col>
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">{{M2('GB Duty税率')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('en-GB')  || 0}}%</div>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row class="textSpeaing">
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">{{M2('英文关键词')}}： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.keys}}</div>
                 </div>
             </el-col>
             <el-col :span="10">
                  <div class="colbox">
-                    <div class="colBoxTitle">DE Duty税率：</div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('de') || 0}}%</div>
+                    <div class="colBoxTitle">{{M2('DE Duty税率')}}：</div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('de') || 0}}%</div>
                 </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">开发优先级： </div> <div class="colBoxContent" style="font-weight: normal">{{changPriority(devInformationDetaiList.priority) }}</div>
+                    <div class="colBoxTitle">{{M2('开发优先级')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{changPriority(devInformationDetaiList.priority) }}</div>
                 </div>
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">JP Duty税率： </div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('ja-JP') }}%</div>
+                    <div class="colBoxTitle">{{M2('JP Duty税率')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('ja-JP') }}%</div>
                 </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing" >
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">是否需要专利确认： </div> <div class="colBoxContent" style="font-weight: normal">{{ devInformationDetaiList.ispatentproduct == 0 ? '否':'是'}}</div>
+                    <div class="colBoxTitle">{{M2('是否需要专利确认')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{ devInformationDetaiList.ispatentproduct == 0 ? M2('否'):M2('是')}}</div>
                 </div>
             </el-col>
         </el-row>
@@ -96,30 +96,31 @@
                 <div class="tableTitle">{{item.platformname}}- {{item.countrycode}} :  {{item.warehouseName}}</div>
                 <el-table
                      border
+                     :empty-text="M2('暂无数据')"
                     :data="item.mapProfit"
                     :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                     style="width: 100%"
                     >
                     <el-table-column
-                        label="类型"
+                        :label="M2('类型') + '：'"
                         width="60px"
                         header-align='center'
                         align="center"
                         >
                         <template slot-scope="scope">
                             <div v-if="scope.row.sfp">SFP</div>
-                            <div v-else>普通</div>
+                            <div v-else> {{M2('普通')}}</div>
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="基准价"
+                        :label="M2('基准价') + '：'"
                          width="120px"
                         prop="developmentprice"
                         header-align='center'
                         align="center"
                         >
                         <template slot="header" >
-                            <div>基准价 {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div>{{M2('基准价')}} {{'(' + contryCurry(item.countrycode) + ")"}}</div>
                         </template>
                         <template slot-scope="scope">
                             <div>{{scope.row.developmentprice ? scope.row.developmentprice.toFixed(2) : ''}}</div>
@@ -132,7 +133,7 @@
                         align="center"
                         >
                         <template slot="header" >
-                            <div>利润  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div> {{M2('利润')}} {{'(' + contryCurry(item.countrycode) + ")"}}</div>
                         </template>
                         <template slot-scope="scope">
                             <div :class="scope.row.profit >= 0 ? 'textColor':'noColor'">
@@ -151,7 +152,7 @@
                         align="center"
                     >
                         <template slot="header" >
-                            <div>运费  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div>{{M2('运费')}}  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
                         </template>
                         <template slot-scope="scope">
                             <div>{{scope.row.freight ? scope.row.freight.toFixed(2) : ''}} </div>
@@ -181,7 +182,7 @@
                         v-if="item.countrycode == 'DE'"
                         >
                         <template slot="header" >
-                            <div>包材费  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div>{{M2('包材费')}}  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
                         </template>
                         <template >
                             <div> {{item.packingMaterialFee}}</div>
@@ -195,8 +196,8 @@
                         width="160px"
                         >
                         <template slot="header" >
-                            <div>海运费成本 {{'(' + contryCurry(item.countrycode) + ")"}}</div>
-                            <div>港前 + 海运 + 目的港</div>
+                            <div>{{M2('海运费成本')}} {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div>{{M2('港前')}} + {{M2('海运')}} + {{M2('目的港')}}</div>
                         </template>
                         <template >
                             {{item.inlandportcosts ? item.inlandportcosts.toFixed(2)+  " + " :' 0 + '}}
@@ -211,8 +212,8 @@
                         align="center"
                         >
                         <template slot="header" >
-                            <div>税费  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
-                            <div>进口DUTY + 进口VAT + 销售VAT</div>
+                            <div>{{M2('税费')}}  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div> {{M2('进口DUTY')}} +  {{M2('进口VAT')}} +  {{M2('销售VAT')}}</div>
                         </template>
                         <template slot-scope="scope" >
                             {{item.duty ? item.duty.toFixed(2)+  " + " :' 0 + '}}
@@ -229,8 +230,8 @@
                         width="180px"
                         >
                         <template slot="header" >
-                            <div>平台费  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
-                            <div>成交费 + PayPal + 刊登费</div>
+                            <div>{{M2('平台费')}}  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div>{{M2('成交费')}} + PayPal + {{M2('刊登费')}}</div>
                         </template>
                         <template  slot-scope="scope" >
                             <span  v-if="scope.row.sfp">{{item.sfpPlatformfee  ? item.sfpPlatformfee .toFixed(2)+ " + " : ' 0 + '}} </span>
@@ -247,9 +248,9 @@
                         width="200px"
                         >
                         <template slot="header" >
-                            <div>管理费分摊  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div>{{M2('管理费分摊')}}  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
                             <div>
-                                操作费 + 发货包装 + 本地化费
+                                {{M2('操作费')}} + {{M2('发货包装')}} + {{M2('本地化费')}}
                             </div>
                         </template>
                         <template slot-scope="scope" >     
@@ -267,8 +268,8 @@
                         width="130px"
                         >
                         <template slot="header" >
-                            <div>仓库成本 {{'(' + contryCurry(item.countrycode) + ")"}}</div>
-                            <div>仓租费+发货处理费 </div>
+                            <div>{{M2('仓库成本')}}  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div>{{M2('仓租费')}}+{{M2('发货处理费')}} </div>
                         </template>
                         <template>
                            {{item.storageCharges ? item.storageCharges.toFixed(2) + "+" : '0 + '}}
@@ -283,8 +284,8 @@
                         width="220px"
                         >
                         <template slot="header" >
-                            <div>可抵扣税费  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
-                            <div>进口VAT + 快递VAT <span v-if="item.countrycode == 'DE'"> + 包材VAT </span>  </div>
+                            <div>{{M2('可抵扣税费')}}  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div>{{M2('进口VAT')}} + {{M2('快递VAT')}} <span v-if="item.countrycode == 'DE'"> + {{M2('包材VAT')}} </span>  </div>
                         </template>
                         <template slot-scope="scope">
                            {{item.vatfee ? item.vatfee.toFixed(2) + "+" : '0 + '}}
@@ -303,8 +304,8 @@
                         v-if="devInformationDetaiList.fbaWarehouseIds && devInformationDetaiList.fbaWarehouseIds.includes(item.warehouseid)"
                         >
                         <template slot="header" >
-                            <div>FBA仓成本 {{'(' + contryCurry(item.countrycode) + ")"}}</div>
-                            <div>仓租费+称重处理费 </div>
+                            <div>{{M2('FBA仓成本')}} {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div>{{M2('仓租费')}}+{{M2('称重处理费')}} </div>
                         </template>
                         <template>
                            {{item.storageCharges ? item.storageCharges.toFixed(2) + "+" : '0 + '}}
@@ -313,7 +314,7 @@
                     </el-table-column>
                    
                 </el-table>
-                <div class="tableBottomTitle">运输方式(自有/SFP): <span v-if="item.shippingname">{{item.shippingname}} </span><span v-if="item.sfpLogisticsCode"> {{'/' + item.sfpLogisticsCode }}</span><span class="showText" v-if="!item.shippingname && !item.sfpLogisticsCode">运输方式暂无匹配</span>   汇率: {{item.exchangerate}}</div>
+                <div class="tableBottomTitle">{{M2('运输方式(自有/SFP)')}}: <span v-if="item.shippingname">{{item.shippingname}} </span><span v-if="item.sfpLogisticsCode"> {{'/' + item.sfpLogisticsCode }}</span><span class="showText" v-if="!item.shippingname && !item.sfpLogisticsCode">{{M2('运输方式暂无匹配')}}</span>   {{M2('汇率')}}: {{item.exchangerate}}</div>
             </el-col>
         </el-row>
         
@@ -401,7 +402,7 @@ export default {
                 let newVal = this.devSign.filter(res => {
                     return res.value == val
                 })
-                return newVal[0].label
+                return this.M2(newVal[0].label)
             }
         }
     }

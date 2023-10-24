@@ -14,18 +14,18 @@
                 </el-option>
             </el-select>
             </el-form-item> -->
-            <el-form-item label="开发场景" prop="scene">
-                <el-select v-model="ruleForm.scene" class="option-input" placeholder="请选择" @change="selectScene" :disabled='closeComponent'>
+            <el-form-item :label="M2('开发场景') + '：'" prop="scene">
+                <el-select v-model="ruleForm.scene" class="option-input" :placeholder="M2('请选择')" @change="selectScene" :disabled='closeComponent'>
                     <el-option-group
                         v-for="group in sceneOptions"
                         :key="group.label"
-                        :label="group.label"
+                        :label="M2(group.label)"
                         class="group-select"
                         >
                         <el-option
                             v-for="item in group.options"
                             :key="item.value"
-                            :label="item.label"
+                            :label="M2(item.label)"
                             :value="item.value"
                             v-show="!item.shwOption"
                             >
@@ -33,10 +33,10 @@
                     </el-option-group>
                 </el-select>
             </el-form-item>
-            <el-form-item label="关联产品" prop="relation" v-if="showRelation">
+            <el-form-item :label="M2('关联产品') + ':'" prop="relation" v-if="showRelation">
                 <div >
-                    <el-radio v-model="ruleForm.relation" label='1' :disabled='relationId'>产品开发ID</el-radio>
-                    <el-radio v-model="ruleForm.relation" label='2' :disabled='spuChange'>SPU号</el-radio>
+                    <el-radio v-model="ruleForm.relation" label='1' :disabled='relationId'>{{M2('产品开发ID')}}</el-radio>
+                    <el-radio v-model="ruleForm.relation" label='2' :disabled='spuChange'>{{M2('SPU号')}}</el-radio>
                 </div>
             </el-form-item>
             <el-form-item  prop="inputRelation" v-if="showRelation && ruleForm.relation =='1'">
@@ -62,14 +62,14 @@
                     </div>
                 </div>
             </el-form-item>
-            <el-form-item  prop="skuid" v-else-if="showRelation && ruleForm.relation =='2'">
+            <el-form-item  prop="skuid:" v-else-if="showRelation && ruleForm.relation =='2'">
                 <div class="relationBox">
                     <div class="inputLength" >
                         <el-input  v-model="ruleForm.skuid" :disabled='closeComponent'></el-input>
                     </div>
                 </div>
             </el-form-item>
-            <el-form-item label="系列-类目:" prop="classCategoryIdArray">
+            <el-form-item  :label="M2('系列-类目') + '：'" prop="classCategoryIdArray">
                 <el-cascader
                     style="width:220px"
                     v-model="ruleForm.classCategoryIdArray"
@@ -85,20 +85,20 @@
                     >
                 </el-cascader> 
             </el-form-item>
-            <el-form-item label="所属分类" prop="classiFication" v-if="ruleForm.scene == 1 ">
+            <el-form-item :label="M2('所属分类') + '：'" prop="classiFication" v-if="ruleForm.scene == 1 ">
                 <div class="signClass">
                     <div class="signInput">
                         <div> {{ruleForm.classiFication}}</div>
                     </div>
                     <div class="signText" @click="openTypeDialog" >
-                        重选分类
+                         {{M2('重选分类')}}
                     </div>
                 </div>
             </el-form-item>   
         </el-form>
         <div class="bottomButton">
-            <el-button v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'开发类型/场景'}" type="primary" @click="submitForm('ruleForm')" size="mini" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
-            <el-button v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'开发类型/场景'}" @click="resetForm('ruleForm')" size="mini">取消</el-button>
+            <el-button v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'开发类型/场景'}" type="primary" @click="submitForm('ruleForm')" size="mini" perkey='ERP.Product.ProductDev.SalesManEdit'>{{M2('保存')}}</el-button>
+            <el-button v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'开发类型/场景'}" @click="resetForm('ruleForm')" size="mini">{{M2('取消')}}</el-button>
         </div>
         <productTypeDialog ref='productTypeDialog' @putTreeDialogList='putTreeDialogList'></productTypeDialog>
     </div>
@@ -175,28 +175,28 @@ export default {
         },
         rules: {
           region: [
-            { required: true, message: '请选择开发类型', trigger: 'change' },
+            { required: true, message: this.M2('请选择开发类型'), trigger: 'change' },
           ],
           skuid: [
-            { required: true, message: '请添加spuId', trigger: 'change' },
+            { required: true, message: this.M2('请添加spuId'), trigger: 'change' },
           ],
           scene: [
-            { required: true, message: '请选择开发场景', trigger: 'change' },
+            { required: true, message: this.M2('请选择开发场景'), trigger: 'change' },
           ],
           relation: [
-            { required: true, message: '请选择开发场景', trigger: 'change' },
+            { required: true, message: this.M2('请选择开发场景'), trigger: 'change' },
           ],
           inputRelation: [
-            { required: true, message: '请选择关联产品', trigger: 'change' },
+            { required: true, message: this.M2('请选择关联产品'), trigger: 'change' },
           ],
           selectRelation: [
-            { required: true, message: '请选择产品类别', trigger: 'change' },
+            { required: true, message: this.M2('请选择产品类别'), trigger: 'change' },
           ],
           classiFication: [
-            { required: true, message: '请选择产品类别', trigger: 'change' },
+            { required: true, message: this.M2('请选择产品类别'), trigger: 'change' },
           ],
           classCategoryIdArray: [
-            { required: true, message: '请选择系列-类目', trigger: 'blur' }
+            { required: true, message: this.M2('请选择系列-类目'), trigger: 'blur' }
             ],
         }
       };
@@ -231,8 +231,9 @@ export default {
         //获取系列数据
         getSeriesCategoryDef1().then(res => {
             res.data.forEach(item => {
+                item.seriesCategoryName = this.M2(item.seriesCategoryName)
                 item.classifyDefs.forEach(list => {
-                    list.seriesCategoryName = list.classifyDefName
+                    list.seriesCategoryName = this.M2(list.classifyDefName)
                     list.seriesCategoryId = list.classifyDefId
                 })
             })
@@ -269,7 +270,7 @@ export default {
                 if(res.data == 11 || res.data == 12){
                     this.$message({
                                     type: 'success', 
-                                    message:'当前输入的关联产品为【二次开发】类型',
+                                    message:this.M2('当前输入的关联产品为【二次开发】类型'),
                                     offset:220
                                 })
 
@@ -295,9 +296,9 @@ export default {
                 classifyDefId: this.ruleForm.classCategoryIdArray[1],
             }
            
-            this.$confirm('保存以后开发场景和关联场景不允许更改，请确认要继续保存？', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
+            this.$confirm(this.M2('保存以后开发场景和关联场景不允许更改，请确认要继续保存？'), this.M2('提示'), {
+                        confirmButtonText: this.M2('确定'),
+                        cancelButtonText: this.M2('取消'),
                         type: 'warning',
                         cancelButtonClass: 'btn-custom-cancel',
                         }).then(() => {
@@ -305,7 +306,7 @@ export default {
                                 if(res.code == 200){
                                     this.$message({
                                         type: 'success', 
-                                        message:'数据保存成功',
+                                        message:this.M2('数据保存成功'),
                                         offset:220
                                     })
                                     this.$emit('closeEdit','false',res.data,params.developmentScenarios)
@@ -325,7 +326,7 @@ export default {
             });
             
           } else {
-            console.log('error submit!!');
+            // console.log('error submit!!');
             return false;
           }
         });

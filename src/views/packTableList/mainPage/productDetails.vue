@@ -5,7 +5,7 @@
             <el-row :gutter="5">
             <el-col :span="12">
                 <el-card class="card">
-                    <div class="router-text" @click="routerDev()" v-if="development.productDemandId">>>新品需求详情页</div>
+                    <div class="router-text" @click="routerDev()" v-if="development.productDemandId">>>{{M2('新品需求详情页')}}</div>
                 <div class="out-container">
                     <div class="image-container">
                         <el-image
@@ -17,24 +17,24 @@
                                 <i class="el-icon-loading" ></i>
                             </div>
                             <div slot="error" class="image-slot icon-loading" style="font-size:14px">
-                                <i class="el-icon-picture-outline">加载失败</i>
+                                <i class="el-icon-picture-outline">{{M2('加载失败')}}</i>
                             </div>
                         </el-image>
                     </div>
                     <div class="detailsText">
                         <div>
-                            开发id：<span>{{development && development.id ?development.id:'' }}</span>
+                            {{M2('开发id')}}：<span>{{development && development.id ?development.id:'' }}</span>
                         </div>
                         <div>
-                            生成型号：<span>{{productVos.skuAlias || '--'}}</span>
+                            {{M2('生成型号')}}：<span>{{productVos.skuAlias || '--'}}</span>
                         </div>
                         <div>
-                            开发市场：<div class="countryTitle">{{ productCountryList ? productCountryList.countryName:'' }}</div> 
+                            {{M2('开发市场')}}：<div class="countryTitle">{{ productCountryList ? productCountryList.countryName:'' }}</div> 
                             <div v-for="item in otherCountryList" :key="item.productCountryId" class="otherCountryTitle" @click="changeCountry(item.developmentId,item.productId,item.productCountryId)"> {{item ? item.countryName : ''}}</div>
                         </div>
                         <div class="haveMoneyLitte">
                             <div>
-                                开发价/利润：
+                                {{M2('开发价/利润')}}：
                             </div>
                             <div>
                                 <div v-for="item in productMarketStrs" :key="item.platformName" class="profit">
@@ -52,7 +52,7 @@
                         </div>
                         <div class="sizeBox">
                             <div class="sizeColor" v-for="item in showSizeText" :key="item+Math.random()">
-                                {{item}}
+                                {{M2(item)}}
                             </div>
                         </div>
                     </div>
@@ -65,14 +65,14 @@
                         <span class="leftButton" @click="leftMove"><i class="el-icon-d-arrow-left"></i></span>
                             <span class="step-container">
                                 <el-steps :active="nowStatus" space='150' align-center  finish-status="success" process-status="finish">
-                                    <el-step v-for="item in developmentProgresses" :title="item.statusValue" :key="item.status" :description="item.createOn">
+                                    <el-step v-for="item in developmentProgresses" :title="M2(item.statusValue)" :key="item.status" :description="item.createOn">
                                             <template slot="icon">
                                                 <div class="imageBox"></div>
                                             </template>
                                             <template slot="title">
                                                 <el-tooltip class="item" effect="dark" :content="item.createBy" placement="top">
                                                     <div class="stepTitle">
-                                                        {{item.statusValue}}
+                                                        {{M2(item.statusValue)}}
                                                     </div>
                                                 </el-tooltip>
                                             </template>
@@ -82,7 +82,7 @@
                         <span class='rightButton' @click="rightMove"><i class="el-icon-d-arrow-right"></i></span>
                     </div> 
                     <div class="stepText">
-                        <span class="stepTextLittleTitle">业务：{{devInformationDetaiList ? devInformationDetaiList.businessProduct :''}}</span><span>采购：{{devInformationDetaiList ? devInformationDetaiList.orderProduct :''}}</span>
+                        <span class="stepTextLittleTitle">{{M2('业务')}}：{{devInformationDetaiList ? devInformationDetaiList.businessProduct :''}}</span><span>{{M2('采购')}}：{{devInformationDetaiList ? devInformationDetaiList.orderProduct :''}}</span>
                     </div> 
                 </el-card>
             </el-col>
@@ -92,23 +92,22 @@
             <div class="cardBoxMain">
                 <el-tabs v-model="activeName" :before-leave="handleClick">
                     <el-tab-pane name="first" >
-                    <span slot="label"><span style="margin-right:30px">开发类型/场景</span><span style="margin-right:30px">产品图片</span><span>销售目标</span></span>
+                    <span slot="label"><span style="margin-right:30px">{{M2('开发类型/场景')}}</span><span style="margin-right:30px">{{M2('产品图片')}}</span><span>{{M2('销售目标')}}</span></span>
                         <div class="backgoundCon"></div>
                         <div class='tabContainer' >
                             <el-card style="min-height:170px">
                                 <div slot="header" class="clearfix">
-                                    <div>开发类型/场景
-                                        <div v-if="isStatusEdit">
-                                            <div class="edit-position" 
-                                                v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
-                                                perkey='ERP.Product.ProductDev.SalesManEdit' 
-                                                @click="isEdit = !isEdit" 
-                                                v-if="isEdit"
-                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'开发类型/场景'}"
-                                                ><span><i class="icon-edit"></i>编辑</span>
-                                            </div>
+                                    <div>{{M2('开发类型/场景')}}</div> 
+                                    <div v-if="isStatusEdit" class="editText">
+                                        <div class="edit-position" 
+                                            v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
+                                            perkey='ERP.Product.ProductDev.SalesManEdit' 
+                                            @click="isEdit = !isEdit" 
+                                            v-if="isEdit"
+                                            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'开发类型/场景'}"
+                                            ><span><i class="icon-edit"></i>{{M2('编辑')}}</span>
                                         </div>
-                                    </div>   
+                                    </div>
                                 </div>
                                 <div v-if="isEdit">
                                     <devDetail :productVoDetail='productVoDetail' :multiAttribute='multiAttribute' :showSizeTitle='showSizeTitle'></devDetail>
@@ -119,23 +118,23 @@
                             </el-card>
                             <el-card style="margin-top:10px">
                                 <div slot="header" class="clearfix">
-                                    <span>产品图片
-                                        <div v-if="isStatusEdit1 && $route.query.productId">
-                                            <div class="edit-position" 
-                                                v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
-                                                perkey='ERP.Product.ProductDev.SalesManEdit' 
-                                                @click="isEdit1 = !isEdit1" 
-                                                v-if="isEdit1"
-                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品图片'}"
-                                                >
-                                                <span ><i class="icon-edit"></i>编辑</span></div>
-                                            </div>
-                                    </span>
+                                    <span>{{M2('产品图片')}}</span>
+                                    <div v-if="isStatusEdit1 && $route.query.productId" class="editText">
+                                        <div class="edit-position" 
+                                            v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
+                                            perkey='ERP.Product.ProductDev.SalesManEdit' 
+                                            @click="isEdit1 = !isEdit1" 
+                                            v-if="isEdit1"
+                                            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品图片'}"
+                                            >
+                                            <span ><i class="icon-edit"></i>{{M2('编辑')}}</span>
+                                        </div>
+                                    </div> 
                                 </div>
                                 <div v-if="isEdit1" class="imgContainer" >
                                     <div  class="w-50">
                                         <div style="flex-shrink: 0">
-                                                产品尺寸图
+                                            {{M2('产品尺寸图')}}
                                         </div>
                                         <div class="imgContainer" style="margin:12px 0px">
                                             <div v-for="item in productImgDetail" :key="item.key" class="imgCon ">
@@ -149,7 +148,7 @@
                                                         <i class="el-icon-loading" ></i>
                                                     </div>
                                                     <div slot="error" class="image-slot icon-loading" style="font-size:14px">
-                                                        <i class="el-icon-picture-outline">加载失败</i>
+                                                        <i class="el-icon-picture-outline">{{M2('加载失败')}}</i>
                                                     </div>
                                                 </el-image>
                                             </div>
@@ -157,7 +156,7 @@
                                     </div>
                                     <div  class="w-50">
                                         <div style="flex-shrink: 0">
-                                                产品细节图
+                                            {{M2('产品细节图')}}
                                         </div>
                                         <div class="imgContainer" style="margin:12px 0px">
                                             <div v-for="item in productImgDetails" :key="item.key" class="imgCon">
@@ -171,7 +170,7 @@
                                                         <i class="el-icon-loading" ></i>
                                                     </div>
                                                     <div slot="error" class="image-slot icon-loading" style="font-size:14px">
-                                                        <i class="el-icon-picture-outline">加载失败</i>
+                                                        <i class="el-icon-picture-outline">{{M2('加载失败')}}</i>
                                                     </div>
                                                 </el-image>
                                             </div>
@@ -182,21 +181,21 @@
                                     <div class="imgContainer">
                                         <div class="w-50">
                                             <div style="flex-shrink: 0">
-                                                产品尺寸图
+                                                {{M2('产品尺寸图')}}
                                             </div>
                                             <imgUpload @inputImg='putImgList' :imgFileType='4' :showButton="false" :value='imageList' @closeEdit='updeEditPage' :limit="10"></imgUpload> 
                                         </div>
                                         <div class="w-50">
                                             <div style="flex-shrink: 0">
-                                                产品细节图
+                                                {{M2('产品细节图')}}
                                             </div>
                                             <imgUpload @inputImg='putdetailsImgList' :imgFileType='5' :showButton="false" :value='detailsImageList' @closeEdit='updeEditPage' :limit="10"></imgUpload> 
                                         </div>
                                     </div>
                                         <el-col :span="24">
                                         <div class="bottomButton">
-                                            <el-button type="primary" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'产品尺寸图'}" size="mini" @click="updeEditPage" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
-                                            <el-button size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'产品尺寸图'}" @click="updeEditPage">取消</el-button>
+                                            <el-button type="primary" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'产品尺寸图'}" size="mini" @click="updeEditPage" perkey='ERP.Product.ProductDev.SalesManEdit'>{{M2('保存')}}</el-button>
+                                            <el-button size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'产品尺寸图'}" @click="updeEditPage">{{M2('取消')}}</el-button>
                                         </div>
                                     </el-col> 
                                 </div>
@@ -204,19 +203,19 @@
                             </el-card>
                             <el-card style="margin-top:10px;margin-bottom:30px">
                                 <div slot="header" class="clearfix">
-                                    <span>销售目标
-                                        <div v-if="isStatusEdit2 && $route.query.productId">
-                                            <div class="edit-position" 
-                                                v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
-                                                perkey='ERP.Product.ProductDev.SalesManEdit' 
-                                                @click="isEdit2 = !isEdit2" 
-                                                v-if="isEdit2"
-                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'销售目标'}"
-                                                >
-                                                <span><i class="icon-edit"></i>编辑</span>
-                                            </div>
+                                    <span>{{M2('销售目标')}}</span>
+                                    <div v-if="isStatusEdit2 && $route.query.productId" class="editText">
+                                        <div class="edit-position" 
+                                            v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
+                                            perkey='ERP.Product.ProductDev.SalesManEdit' 
+                                            @click="isEdit2 = !isEdit2" 
+                                            v-if="isEdit2"
+                                            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'销售目标'}"
+                                            >
+                                            <span><i class="icon-edit"></i>{{M2('编辑')}}</span>
                                         </div>
-                                    </span>
+                                    </div>
+                                    
                                 </div>
                                 <div v-if="isEdit2">
                                     <sales-target-detail :salesTargetDetaiList='salesTargetDetaiList'></sales-target-detail>
@@ -228,24 +227,24 @@
                         </div>                   
                     </el-tab-pane>
                     
-                    <el-tab-pane label="开发信息" name="fifth" style="margin-bottom:30px">
+                    <el-tab-pane :label="M2('开发信息')" name="fifth" style="margin-bottom:30px">
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
                             <el-card>
                                 <div slot="header" class="clearfix">
-                                    <div>开发信息
-                                        <div v-if="isStatusEdit4">
-                                            <div class="edit-position" 
-                                                v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
-                                                perkey='ERP.Product.ProductDev.SalesManEdit' 
-                                                @click="isEdit4 = !isEdit4" 
-                                                v-if="isEdit4"
-                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'开发信息'}"
-                                                >
-                                                <span><i class="icon-edit"></i>编辑</span>
-                                            </div>
+                                    <div>{{M2('开发信息')}} </div> 
+                                    <div v-if="isStatusEdit4" class="editText">
+                                        <div class="edit-position" 
+                                            v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
+                                            perkey='ERP.Product.ProductDev.SalesManEdit' 
+                                            @click="isEdit4 = !isEdit4" 
+                                            v-if="isEdit4"
+                                            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'开发信息'}"
+                                            >
+                                            <span><i class="icon-edit"></i>{{M2('编辑')}}</span>
                                         </div>
-                                    </div>   
+                                    </div>
+                                     
                                 </div>
                                 <div v-if="isEdit4">
                                     <devInformationDetail :devInformationDetaiList='devInformationDetaiList'></devInformationDetail>
@@ -256,13 +255,13 @@
                             </el-card>
                         </div>
                     </el-tab-pane>
-                        <el-tab-pane label="竞品信息" name="fourth">
+                        <el-tab-pane :label="M2('竞品信息')" name="fourth">
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
-                                    <div>竞品信息
-                                        <div v-if="isStatusEdit3">
+                                    <div>{{M2('竞品信息')}}</div>  
+                                        <div v-if="isStatusEdit3" class="editText">
                                             <div class="edit-position" 
                                                 v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
                                                 perkey='ERP.Product.ProductDev.SalesManEdit' 
@@ -270,10 +269,10 @@
                                                 v-if="isEdit3"
                                                 v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'竞品信息'}"
                                                 >
-                                                <span ><i class="icon-edit"></i>编辑</span>
+                                                <span ><i class="icon-edit"></i>{{M2('编辑')}}</span>
                                             </div>
                                         </div>
-                                    </div>   
+                                     
                                 </div>
                                 <div v-if="isEdit3">
                                     <comNewsDetail :comNewsDetailList='comNewsDetailList'></comNewsDetail>
@@ -284,24 +283,24 @@
                             </el-card>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="产品认证信息" name="sixth">
-                        <span slot="label"><span style="margin-right:30px">产品认证信息</span><span>产品标题和供应商信息</span></span>
+                    <el-tab-pane :label="M2('产品认证信息')" name="sixth">
+                        <span slot="label"><span style="margin-right:30px">{{M2('产品认证信息')}}</span><span>{{M2('产品标题和供应商信息')}}</span></span>
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
                             <el-card>
                                 <div slot="header" class="clearfix">
-                                    <div>产品认证信息
-                                        <div v-if="isStatusEdit5">
-                                            <div class="edit-position" 
-                                                v-permission="'ERP.Product.ProductDev.EditAuth'" 
-                                                perkey='ERP.Product.ProductDev.EditAuth' 
-                                                @click="isEdit5 = !isEdit5" 
-                                                v-if="isEdit5"
-                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品认证信息'}"
-                                                ><span ><i class="icon-edit"></i>编辑</span>
-                                            </div>
+                                    <div>{{M2('产品认证信息')}} </div>
+                                    <div v-if="isStatusEdit5" class="editText">
+                                        <div class="edit-position" 
+                                            v-permission="'ERP.Product.ProductDev.EditAuth'" 
+                                            perkey='ERP.Product.ProductDev.EditAuth' 
+                                            @click="isEdit5 = !isEdit5" 
+                                            v-if="isEdit5"
+                                            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品认证信息'}"
+                                            ><span ><i class="icon-edit"></i>{{M2('编辑')}}</span>
                                         </div>
-                                    </div>   
+                                    </div>
+                                      
                                 </div>
                                 <div v-if="isEdit5">
                                     <prodCerInfoDetail :prodCerInfoDetailList='prodCerInfoDetailList'></prodCerInfoDetail>
@@ -315,18 +314,18 @@
                         <div class='tabContainer'>
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
-                                    <div>产品标题和供应商信息
-                                        <div v-if="isStatusEdit6">
+                                    <div>{{M2('产品标题和供应商信息')}}</div>
+                                        <div v-if="isStatusEdit6" class="editText">
                                             <div class="edit-position" 
                                                     v-permission="'ERP.Product.ProductDev.BuyerEdit'" 
                                                     perkey='ERP.Product.ProductDev.BuyerEdit' 
                                                     @click="isEdit6 = !isEdit6" 
                                                     v-if="isEdit6"
                                                     v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品标题和供应商信息'}"
-                                                    ><span><i class="icon-edit"></i>编辑</span>
+                                                    ><span><i class="icon-edit"></i>{{M2('编辑')}}</span>
                                             </div>
                                         </div>
-                                    </div>   
+                                      
                                 </div>
                                 <div v-if="isEdit6">
                                     <prodevInfoDetail :prodevInfoDetaiList='prodevInfoDetaiList'  :proImageList='proImageList'></prodevInfoDetail>
@@ -337,23 +336,23 @@
                             </el-card>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="产品尺寸和属性信息" name="eigth">
+                    <el-tab-pane :label="M2('产品尺寸和属性信息')" name="eigth">
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
-                                    <div>产品尺寸和属性信息
-                                        <div v-if="isStatusEdit7">
+                                    <div>{{M2('产品尺寸和属性信息')}}</div> 
+                                        <div v-if="isStatusEdit7" class="editText">
                                             <div class="edit-position" 
                                                 v-permission="'ERP.Product.ProductDev.BuyerEdit'" 
                                                 perkey='ERP.Product.ProductDev.BuyerEdit' 
                                                 @click="isEdit7 = !isEdit7" 
                                                 v-if="isEdit7"
                                                 v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品尺寸和属性信息'}"
-                                                ><span ><i class="icon-edit"></i>编辑</span>
+                                                ><span ><i class="icon-edit"></i>{{M2('编辑')}}</span>
                                             </div>
                                         </div>
-                                    </div>   
+                                      
                                 </div>
                                 <div v-if="isEdit7">
                                     <pordSizeAttrInfo :pordSizeAttrInfoList='pordSizeAttrInfoList' :multiAttribute='multiAttribute'></pordSizeAttrInfo>
@@ -364,23 +363,23 @@
                             </el-card>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="采购信息" name="nineth">
+                    <el-tab-pane :label="M2('采购信息')" name="nineth">
                         <div class="backgoundCon"></div>
                         <div class='tabContainer'>
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
-                                    <div>采购信息
-                                        <div v-if="isStatusEdit8">
+                                    <div>{{M2('采购信息')}}</div>
+                                        <div v-if="isStatusEdit8" class="editText">
                                             <div class="edit-position" 
                                                 v-permission="'ERP.Product.ProductDev.BuyerEdit'" 
                                                 perkey='ERP.Product.ProductDev.BuyerEdit' 
                                                 @click="isEdit8 = !isEdit8" 
                                                 v-if="isEdit8"
                                                 v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'采购信息'}"
-                                                ><span ><i class="icon-edit"></i>编辑</span>
+                                                ><span ><i class="icon-edit"></i>{{M2('编辑')}}</span>
                                             </div>
                                         </div>
-                                    </div>   
+                                       
                                 </div>
                                 <div v-if="isEdit8">
                                     <purchaseInfoDetail :purchaseInfoDetaiList='purchaseInfoDetaiList' :nowStatus='timeStatus'></purchaseInfoDetail>
@@ -391,19 +390,16 @@
                             </el-card>
                         </div>
                     </el-tab-pane>
-                    <el-tab-pane label="备注" name="tenth">
+                    <el-tab-pane :label="M2('备注')" name="tenth">
                         <div class="backgoundCon"></div>
                         <div class='tabContainer1'>
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
-                                    <div>备注
-                                        
-                                    </div>   
+                                    <div>{{M2('备注')}}</div>   
                                 </div>
                                 <remarks :remarksParam='remarksParam' v-if="showTenth" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'备注',businessCode:'备注'}"></remarks>
                             </el-card>
                         </div>
-                        
                     </el-tab-pane>
                 </el-tabs>
                 <operationButton :nowStatus='timeStatus' :isanji='isanji' :employee='employee' @getTableList='updateGetAllpageList' v-if="renderDom"></operationButton>   
@@ -707,7 +703,7 @@ methods: {
               res.data.forEach(item => {
                 if(item.PermissionCode == 'Yahee.ERP.Product.ProductDev' && !item.HasPermission){
                     this.$message({
-                        message: `对不起您没有权限（Yahee.ERP.Product.ProductDev）进行当前操作！`,
+                        message: this.M2('对不起您没有权限（Yahee.ERP.Product.ProductDev）进行当前操作！'),
                         type: 'error',
                         duration:0,
                         showClose:true,
@@ -1183,7 +1179,7 @@ async getAllpageList(val){
                     if( !this.devInformationDetaiList.packingway && this.devInformationDetaiList.productMarketList.find(item => (item.sfpDevelopmentPrice &&  !item.sfpOceanFreight))){
                         this.$message({
                             type:'error',
-                            message:'【产品尺寸重量超过物流限制，SFP运费匹配不到】',
+                            message:this.M2('【产品尺寸重量超过物流限制，SFP运费匹配不到】'),
                             offset:220,
                         });
                     }
@@ -1534,7 +1530,7 @@ async getAllpageList(val){
             // proImageList:this.proFileList,
             mainBtn:true,
             Mark:'Check',
-            customButtonName:'审核节点备注',
+            customButtonName:this.M2('审核节点备注'),
             showAllbutton:true,
         }  
         this.showTenth = true
@@ -1560,6 +1556,11 @@ async getAllpageList(val){
 <style lang="scss" scoped>
 .clearfix {
     height: 42px;
+    display: flex;
+    align-items: center;
+    .editText {
+        flex-grow: 1;
+    }
 }
 .w-50 {
     width: 50%;

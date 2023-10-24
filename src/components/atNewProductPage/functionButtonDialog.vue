@@ -9,11 +9,11 @@
             zIndex="3000"
             >
             <div class="titleText" slot="title">
-                {{this.dialogName}}
+                {{M2(this.dialogName)}}
             </div>
             <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="140px" class="demo-ruleForm" size='mini'>
                 <div v-if="showType == 1 || showType == 2 || showType == 3">
-                    <el-form-item :label="dialogName + '：'" prop="empId">
+                    <el-form-item :label="M2(dialogName) + '：'" prop="empId">
                         <el-select 
                             v-model="ruleForm.empId"
                             :loading="clickLoading"
@@ -21,7 +21,7 @@
                             <el-option 
                                 v-for="item in assigneeIdList"                        
                                 :key="item.Id"
-                                :label="item.TrueName"
+                                :label="M2(item.TrueName)"
                                 :value="item.Id"
                                 >
                             </el-option>
@@ -30,13 +30,13 @@
                 </div>
                 <div v-if="showType == 4">
                     <div class="dialog-l-text" v-if="rowList[0].state == 1">
-                        确定取消此开发需求么？取消后数据将被删除；
+                        {{M2('确定取消此开发需求么？取消后数据将被删除；')}}
                     </div>
                     <div v-else>
                         <div class="dialog-l-text">
-                            当前选中{{this.rowList.length}}条数据！
+                            {{M2(`当前选中${this.rowList.length}条数据！`)}}
                         </div>
-                        <el-form-item label="取消原因：" prop="cancelType">
+                        <el-form-item :label="M2('取消原因') + '：'" prop="cancelType">
                             <el-select 
                                 v-model="ruleForm.cancelType"
                                 :loading="clickLoading"
@@ -44,13 +44,13 @@
                                 <el-option 
                                     v-for="item in cancelList"                        
                                     :key="item.typeId"
-                                    :label="item.typeValue"
+                                    :label="M2(item.typeValue)"
                                     :value="item.typeId"
                                     >
                                 </el-option>
                             </el-select> 
                         </el-form-item>
-                        <el-form-item label="备注：" prop="whyNote"  >
+                        <el-form-item  :label="M2('备注') + '：'" prop="whyNote"  >
                             <el-input v-model="ruleForm.whyNote" type="textarea" maxlength="500" show-word-limit></el-input>
                         </el-form-item>
                     </div>
@@ -58,32 +58,32 @@
                 </div>
                 <div v-if="showType == 6">
                     <div class="dialog-l-text">
-                        当前选中{{this.rowList.length}}条数据！
+                         {{M2(`当前选中${this.rowList.length}条数据！`)}}
                     </div>
-                    <el-form-item label="冻结原因：" prop="whyNote"  >
+                    <el-form-item  :label="M2('冻结原因') + '：'" prop="whyNote"  >
                         <el-input v-model="ruleForm.whyNote" type="textarea" maxlength="500" show-word-limit></el-input>
                     </el-form-item>
                 </div>
                 <div v-if="showType == 8">
                     <div class="dialog-l-text">
-                        当前选中{{this.rowList.length}}条数据！
+                         {{M2(`当前选中${this.rowList.length}条数据！`)}}
                     </div>
-                    <el-form-item label="跳过的状态：" prop="skipStatus">
-                        立项中
+                    <el-form-item :label="M2('跳过的状态') + '：'" prop="skipStatus">
+                        {{M2('立项中')}}
                     </el-form-item>
-                    <el-form-item label="下一状态：" prop="nextStatus">
-                        认证初查
+                    <el-form-item :label="M2('下一状态') + '：'" prop="nextStatus">
+                        {{M2('认证初查')}}
                     </el-form-item>
                 </div>
                 <div v-if="showType == 9">
                     <div class="dialog-l-text">
-                        当前选中{{this.rowList.length}}条数据！
+                         {{M2(`当前选中${this.rowList.length}条数据！`)}}
                     </div>
-                    <el-form-item label="跳过的状态：" prop="skipStatus">
-                        结构设计
+                    <el-form-item :label="M2('跳过的状态') + '：'" prop="skipStatus">
+                         {{M2('结构设计')}}
                     </el-form-item>
-                    <el-form-item label="下一状态：" prop="nextStatus">
-                        样前方案确认
+                    <el-form-item :label="M2('下一状态') + '：'" prop="nextStatus">
+                        {{M2('样前方案确认')}}
                     </el-form-item>
                 </div>
             </el-form>
@@ -93,11 +93,11 @@
                     @click="submitList('ruleForm')" 
                     size="mini" 
                     :loading="clickLoading"
-                >确 定</el-button>
+                >{{M2('确 定')}}</el-button>
                 <el-button 
                     @click="resetForm('ruleForm')" 
                     size="mini" 
-                >关 闭</el-button>
+                >{{M2('关 闭')}}</el-button>
             </span>
         </el-dialog>
     </div>
@@ -122,19 +122,19 @@ export default {
             dialogVisible: false,
             rules: {
                 remark: [
-                    { required: true, message: '请输入必填项！', trigger: 'blur' },
+                    { required: true, message: this.M2('请输入必填项！'), trigger: 'blur' },
                 ],
                 empId: [
-                    { required: true, message: '请选择！', trigger: 'blur' },
+                    { required: true, message:  this.M2('请选择！'), trigger: 'blur' },
                 ],
                 assigneeId: [
-                    { required: true, message: '请选择经办人！', trigger: 'blur' },
+                    { required: true, message:  this.M2('请选择经办人！'), trigger: 'blur' },
                 ],
                 whyNote: [
-                    { required: true, message: '请填写取消原因！', trigger: 'blur' },
+                    { required: true, message:  this.M2('请填写取消原因！'), trigger: 'blur' },
                 ],
                 cancelType: [
-                    { required: true, message: '请选择取消原因！', trigger: 'blur' },
+                    { required: true, message:  this.M2('请选择取消原因！'), trigger: 'blur' },
                 ],
             },
             status:[],
@@ -317,7 +317,7 @@ export default {
         successSaveDialog() {
             this.$message({
                 type: 'success', 
-                message:'操作成功！',
+                message:this.M2('操作成功！'),
                 offset:220
             })
             this.$emit('mainListList',this.navFilterList)

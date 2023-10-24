@@ -74,6 +74,7 @@ export const constantRoutes = [
 ]
 
 const createRouter = () => new Router({
+//   base:'v01',发布到v1环境需要这个
   mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes

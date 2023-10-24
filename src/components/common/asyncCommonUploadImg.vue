@@ -87,7 +87,7 @@ export default {
         return `${process.env.VUE_APP_DEVSERVER}/${this.imageURl}`
     },
     mounted(){
-        console.log(this.imgFileList,'imgFileList')
+        // console.log(this.imgFileList,'imgFileList')
     },
     methods:{
         //删除图片

@@ -17,9 +17,9 @@
             :with-credentials='true'
             :on-exceed="handleExceed"
             :file-list="fileList">
-            <el-button size="small" type="primary">点击上传</el-button>
+            <el-button size="small" type="primary">{{M2('点击上传')}}</el-button>
             <div slot="tip" class="el-upload__tip">
-                <div>请上传{{accept}}类型的文件，最多上传{{limit}}个文件</div>
+                <div>{{M2(`请上传${accept}类型的文件，最多上传${limit}个文件`)}}</div>
             </div>
         </el-upload>
         <!-- <div v-for="item in fileList" :key="item.id">
@@ -137,7 +137,7 @@ methods: {
         if (res.code == 200) {
             this.$message({
                 type: 'success', 
-                message:'上传成功', 
+                message:this.M2('上传成功'), 
                 offset:220
             })
             if (this.value.length < 5) {
@@ -195,13 +195,13 @@ methods: {
         window.open(`${this.imgUrl}${file.fileUri}`)
     },
     beforeRemove(){
-        return this.$confirm(`确定移除这个文件吗？`,'提示',{cancelButtonClass: 'btn-custom-cancel'});
+        return this.$confirm(this.M2(`确定移除这个文件吗？`),this.M2('提示'),{cancelButtonClass: 'btn-custom-cancel'});
     },
     handleExceed(files, fileList) { 
         this.$refs.uploadRef.abort() // 取消剩余接口请求
         this.$message({
             type: 'warning',
-            message: `文件超限，最多可上传5个文件`,
+            message: this.M2(`文件超限，最多可上传5个文件`),
             offset:220
         })
     },

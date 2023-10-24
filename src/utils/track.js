@@ -105,7 +105,7 @@ function sendLogApi (value) {
             canUpdata = false
         }    
     },err => {
-        console.log(err)   
+        // console.log(err)   
         canUpdata = false
     })
 }

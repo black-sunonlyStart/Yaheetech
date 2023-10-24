@@ -2,37 +2,41 @@
     <div>
         <el-row class="textSpeaing" >
             <el-col :span="2">
-                <span class="colBoxTitle">样品采购前报价：</span>
+                <span class="colBoxTitle">{{M2('样品采购前报价')}}：</span>
             </el-col>
             <el-col :span="20">
                 <el-table
+                    :empty-text="M2('暂无数据')"
                      border
                     :data="purchaseInfoDetaiList.productPurchaseVoList"
                     :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                     style="width: 100%">
                     <el-table-column
-                        label="选择"
+                        :label="M2('选择')"
                         >
                         <div slot-scope="scope">
-                            {{scope.row.isdefault?'当前选择':''}}
+                            {{scope.row.isdefault?M2('当前选择'):''}}
                         </div>
                     </el-table-column>
                     <el-table-column
                         prop="createdName"
-                        label="采购开发"
+                        :label="M2('采购开发')"
                         header-align='center'
                         >
                     </el-table-column>
                     <el-table-column
                         prop="minbuynum"
-                        label="最小起订量">
+                        :label="M2('最小起订量')"
+                       >
                     </el-table-column>
                     <el-table-column
                         prop="firstorderqty"
-                        label="首单下单数量">
+                        :label="M2('首单下单数量')"
+                        >
                     </el-table-column>
                     <el-table-column
-                        label="出厂价(¥)">
+                        :label="M2('出厂价') + '(¥)'"
+                    >
                         <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.purchaseprice}}</span>
@@ -41,7 +45,8 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="FOB价($)">
+                        :label="M2('FOB价') + '($)'"
+                        >
                          <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.fobprice }}</span>
@@ -50,7 +55,8 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="含税价(¥)">
+                        :label="M2('含税价') + '(¥)'"
+                        >
                         <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.taxprice}}</span>
@@ -60,11 +66,12 @@
                     </el-table-column>
                     <el-table-column
                         prop="miscprice"
-                        label="杂费(¥)">
+                        :label="M2('杂费') + '(¥)'"
+                        >
                     </el-table-column>
                     <el-table-column
                         prop="warpperfee"
-                        label="产品包装费(¥)"
+                        :label="M2('产品包装费') + '(¥)'"
                         width="120px"
                         >
                     </el-table-column>
@@ -72,8 +79,8 @@
                         width="200px"
                     >
                         <template slot="header">
-                            <div class="textPostion">采购成本</div>
-                            <div class="textPostion">净采购价+杂费+包装费(¥)</div>
+                            <div class="textPostion">{{M2('采购成本')}}</div>
+                            <div class="textPostion">{{M2('净采购价')}}+{{M2('杂费')}}+{{M2('包装费')}}(¥)</div>
                         </template>
                         <template slot-scope="scope">
                             <div> 
@@ -83,12 +90,12 @@
                     </el-table-column>
                     <el-table-column
                         prop="deliverydays"
-                        label="交期(天)"
+                        :label="M2('交期') + '(' + M2('天') + ')'"
                         >
                     </el-table-column>
                     <el-table-column
                         prop="packingquantity"
-                        label="装箱数量(/箱)"
+                        :label="M2('装箱数量') + '(/' + M2('箱') + ')'"
                         width="120px"
                         >
                     </el-table-column>
@@ -97,26 +104,28 @@
         </el-row>
         <el-row class="textSpeaing" v-if="statusList.includes(nowStatus)" >
             <el-col :span="2">
-                <span class="colBoxTitle">最终报价：</span>
+                <span class="colBoxTitle">{{M2('最终报价')}}：</span>
             </el-col>
             <el-col :span="20">
                 <el-table
                      border
+                     :empty-text="M2('暂无数据')"
                     :data="purchaseInfoDetaiList.lastProductPurchaseVoList"
                     :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                     style="width: 100%">
                     <el-table-column
                         prop="minbuynum"
-                        label="最小起订量"
+                        :label="M2('最小起订量')"
                        >
                     </el-table-column>
                     <el-table-column
                         prop="firstorderqty"
-                        label="首单下单数量"
+                        :label="M2('首单下单数量')"
                        >
                     </el-table-column>
                     <el-table-column
-                        label="出厂价( ¥ )">
+                        :label="M2('出厂价') + '( ¥ )'"
+                       >
                         <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.purchaseprice}}</span>
@@ -125,8 +134,9 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="FOB价( $ )">
-                         <template slot-scope="scope">
+                        :label="M2('FOB价') + '( $ )'"
+                        >
+                        <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.fobprice }}</span>
                                 <span v-if="scope.row.calculateprofittype  == 2">√</span> 
@@ -134,7 +144,8 @@
                         </template>
                     </el-table-column>
                     <el-table-column
-                        label="含税价( ¥ )">
+                        :label="M2('含税价') + '( ¥ )'"
+                        >
                         <template slot-scope="scope">
                             <div>
                                 <span>{{scope.row.taxprice}}</span>
@@ -144,18 +155,20 @@
                     </el-table-column>
                     <el-table-column
                         prop="miscprice"
-                        label="杂费( ¥ )">
+                        :label="M2('杂费') + '( ¥ )'"
+                        >
                     </el-table-column>
                     <el-table-column
                         prop="warpperfee"
-                        label="产品包装费( ¥ )">
+                        :label="M2('产品包装费') + '( ¥ )'"
+                    >
                     </el-table-column>
                     <el-table-column
                      width="200px"
                     >
                         <template slot="header">
-                            <div class="textPostion">采购成本</div>
-                            <div class="textPostion">净采购价+杂费+包装费( ¥ )</div>
+                            <div class="textPostion">{{M2('采购成本')}}</div>
+                            <div class="textPostion">{{M2('净采购价')}}+{{M2('杂费')}}+{{M2('包装费')}}( ¥ )</div>
                         </template>
                         <template slot-scope="scope">
                             <div>
@@ -165,81 +178,81 @@
                     </el-table-column>
                     <el-table-column
                         prop="deliverydays"
-                        label="交期(天)"
+                        :label="M2('交期') + '(' + M2('天') + ')'"
                         >
                     </el-table-column>
                     <el-table-column
                         prop="packingquantity"
-                        label="装箱数量(/箱)">
+                       :label="M2('装箱数量') + '(/' + M2('箱') + ')'">
                     </el-table-column>
                 </el-table>
-                <div class="showtext" v-if="showText">最终报价与采购样品前报价不一致，请审核人员认真检查是否合理</div>
+                <div class="showtext" v-if="showText">{{M2('最终报价与采购样品前报价不一致，请审核人员认真检查是否合理')}}</div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">样品购买价： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.productprice}} (产品价格) + {{purchaseInfoDetaiList.freight}} (运费) = {{purchaseInfoDetaiList.productprice + purchaseInfoDetaiList.freight}}RMB</div>
+                    <div class="colBoxTitle">{{M2('样品购买价')}}： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.productprice}} ({{M2('产品价格')}}) + {{purchaseInfoDetaiList.freight}} ({{M2('运费')}}) = {{purchaseInfoDetaiList.productprice + purchaseInfoDetaiList.freight}}RMB</div>
                 </div>
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">含税价税点： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.taxleviedpoint ? purchaseInfoDetaiList.taxleviedpoint + '%' : ''}}</div>
-                </div>
-            </el-col>
-        </el-row>
-        <el-row class="textSpeaing">
-            <el-col :span="10">
-                <div class="colbox">
-                    <div class="colBoxTitle">下大单返样品费： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.backpurchaseprice ? purchaseInfoDetaiList.backpurchaseprice + '(RMB)' : ''}}</div>
-                </div>
-            </el-col>
-            <el-col :span="10">
-                <div class="colbox">
-                    <div class="colBoxTitle">出口退税率： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.tax > 0 ?purchaseInfoDetaiList.tax  + '%' : 0 + '%'}}</div>
+                    <div class="colBoxTitle">{{M2('含税价税点')}}： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.taxleviedpoint ? purchaseInfoDetaiList.taxleviedpoint + '%' : ''}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">返样品费详情备注： </div> <div class="colBoxContent" style="width:540px">{{purchaseInfoDetaiList.backpurchasepricenote}}</div>
+                    <div class="colBoxTitle">{{M2('下大单返样品费')}}： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.backpurchaseprice ? purchaseInfoDetaiList.backpurchaseprice + '(RMB)' : ''}}</div>
                 </div>
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">样品交期： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.sampledeliverydays ? purchaseInfoDetaiList.sampledeliverydays + '(天)' : purchaseInfoDetaiList.sampledeliverydays == 0 ? 0 + '(天)' :"" }}</div>
+                    <div class="colBoxTitle">{{M2('出口退税率')}}： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.tax > 0 ?purchaseInfoDetaiList.tax  + '%' : 0 + '%'}}</div>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row class="textSpeaing">
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">{{M2('返样品费详情备注')}}： </div> <div class="colBoxContent" style="width:540px">{{purchaseInfoDetaiList.backpurchasepricenote}}</div>
+                </div>
+            </el-col>
+            <el-col :span="10">
+                <div class="colbox">
+                    <div class="colBoxTitle">{{M2('样品交期')}}： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.sampledeliverydays ? purchaseInfoDetaiList.sampledeliverydays + '(天)' : purchaseInfoDetaiList.sampledeliverydays == 0 ? 0 + '(天)' :"" }}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing" v-if="statusList.includes(nowStatus)">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">货好时间： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.gooddate?$moment(purchaseInfoDetaiList.gooddate).format("YYYY-MM-DD HH:mm") :''}}</div>
+                    <div class="colBoxTitle">{{M2('货好时间')}}： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.gooddate?$moment(purchaseInfoDetaiList.gooddate).format("YYYY-MM-DD HH:mm") :''}}</div>
                 </div>
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">货好时间详情备注： </div> <div class="colBoxContent" style="width:540px">{{purchaseInfoDetaiList.goodnote}}</div>
+                    <div class="colBoxTitle">{{M2('货好时间详情备注')}}： </div> <div class="colBoxContent" style="width:540px">{{purchaseInfoDetaiList.goodnote}}</div>
                 </div>
             </el-col> 
         </el-row>
         <el-row class="textSpeaing">
              <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">品牌费： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.bandprice? purchaseInfoDetaiList.bandprice + '(RMB)' : ''}}</div>
+                    <div class="colBoxTitle">{{M2('品牌费')}}： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.bandprice? purchaseInfoDetaiList.bandprice + '(RMB)' : ''}}</div>
                 </div>
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">FOB头程费： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.fobPrice ? (purchaseInfoDetaiList.fobPrice ).toFixed(2) + "(RMB)" : 0}}</div>
+                    <div class="colBoxTitle">{{M2('FOB头程费')}}： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.fobPrice ? (purchaseInfoDetaiList.fobPrice ).toFixed(2) + "(RMB)" : 0}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">FOB报价品牌费： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.fobbandprice ? purchaseInfoDetaiList.fobbandprice + '($)' : ''}}</div>
+                    <div class="colBoxTitle">{{M2('FOB报价品牌费')}}： </div> <div class="colBoxContent">{{purchaseInfoDetaiList.fobbandprice ? purchaseInfoDetaiList.fobbandprice + '($)' : ''}}</div>
                 </div>
             </el-col>
         </el-row>

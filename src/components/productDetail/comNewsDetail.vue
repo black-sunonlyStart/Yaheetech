@@ -1,10 +1,10 @@
 <template>
     <div>
-        <div class="productsTitle">竞品信息</div>
+        <div class="productsTitle">{{M2('竞品信息')}}</div>
         <el-row>
             <el-col v-for="(item, index) in comNewsDetailList.competingproducts" :key="item.id" class="productsMain" :span="12">
                 <div class="productsBox">
-                    我是竞品{{index + 1}}
+                    {{M2('我是竞品')}}{{index + 1}}
                 </div>
                 <div class="productsImage">
                     <div class="imageBox">
@@ -19,25 +19,25 @@
                                 <i class="el-icon-loading" ></i>
                             </div>
                             <div slot="error" class="image-slot icon-loading" style="font-size:14px">
-                                <i class="el-icon-picture-outline">加载失败</i>
+                                <i class="el-icon-picture-outline">{{M2('加载失败')}}</i>
                             </div>
                         </el-image>
                     </div>
                     <div class="imageTitle">
                         <div class="imageMainbox">
-                            <span class="textPostion">平台：</span><span class="imageMainboxText">{{item.platformid >= 0 ? getPlatforms(item.platformid) : ''}}-{{item.platformsiteid ? getPlatformsiteid(item.platformsiteid):''}}</span><span class="textUrl" @click="showUrl(item.platformsiteid,item.xsin)">访问地址</span>
+                            <span class="textPostion">{{M2('平台')}}：</span><span class="imageMainboxText">{{item.platformid >= 0 ? getPlatforms(item.platformid) : ''}}-{{item.platformsiteid ? getPlatformsiteid(item.platformsiteid):''}}</span><span class="textUrl" @click="showUrl(item.platformsiteid,item.xsin)">{{M2('访问地址')}}</span>
                         </div>
                         <div class="imageMainbox">
                             <span class="textPostion">ASIN：</span><span class="imageMainboxText">{{item.xsin}}</span>
                         </div>
                         <div class="imageMainbox">
-                            <span class="textPostion">售价：</span><span class="imageMainboxText">{{item.price}} {{showMoneyCurry(item.platformsiteid)}}</span>
+                            <span class="textPostion">{{M2('售价')}}：</span><span class="imageMainboxText">{{item.price}} {{showMoneyCurry(item.platformsiteid)}}</span>
                         </div> 
                         <div class="imageMainbox">
-                            <span class="textPostion">日销量：</span><span class="imageMainboxText">{{item.recentsalesvolume}}</span>
+                            <span class="textPostion">{{M2('日销量')}}：</span><span class="imageMainboxText">{{item.recentsalesvolume}}</span>
                         </div> 
                         <div class="imageMainbox" style="display:flex">
-                            <div class="textPostion">备注：</div><div class="imageMainboxText noteBox " style="display:inline-block;width:500px">{{item.note}}</div>
+                            <div class="textPostion">{{M2('备注')}}：</div><div class="imageMainboxText noteBox " style="display:inline-block;width:500px">{{item.note}}</div>
                         </div> 
                     </div>
                 </div>
@@ -46,65 +46,65 @@
         
         <el-row>
             <el-col  :span="12">
-                <div class="mainInofTitle">基础信息</div>
+                <div class="mainInofTitle">{{M2('基础信息')}}</div>
                 <div class="mianInfo">
-                    <span class='showTitle'>产品的尺寸：</span>
+                    <span class='showTitle'>{{M2('产品的尺寸')}}：</span>
                     <span class="mianInfoTitle">{{comNewsDetailList.jpsize}}</span>
                 </div>
                 <div class="mianInfo">
-                    <span class='showTitle'>产品的净重：</span>
+                    <span class='showTitle'>{{M2('产品的净重')}}：</span>
                     <span class="mianInfoTitle">{{comNewsDetailList.jpweight}}</span>
                 </div>
                 <div class="mianInfo">
-                    <span class="showTitle">产品的规格参数：</span>
+                    <span class="showTitle">{{M2('产品的规格参数')}}：</span>
                     <span class="mianInfoTitle">{{comNewsDetailList.basicinformation}}</span>
                 </div>
                 <div class="mianInfo">
-                    <span class='showTitle'>产品的材质：</span>
+                    <span class='showTitle'>{{M2('产品的材质')}}：</span>
                     <span class="mianInfoTitle">{{comNewsDetailList.jpmaterial}}</span>
                 </div>
                 <div class="mianInfo">
-                    <span class='showTitle'>产品的工艺：</span>
+                    <span class='showTitle'>{{M2('产品的工艺')}}：</span>
                     <span class="mianInfoTitle">{{comNewsDetailList.jpprocess}}</span>
                 </div>
                 <div class="mianInfo">
-                    <span class='showTitle'>产品的颜色：</span>
+                    <span class='showTitle'>{{M2('产品的颜色')}}：</span>
                     <span class="mianInfoTitle">{{comNewsDetailList.jpcolor}}</span>
                 </div >
                 
             </el-col>
             <el-col  :span="12">
-                <div class="mainInofTitle">竞品结论</div>
+                <div class="mainInofTitle">{{M2('竞品结论')}}</div>
                 <div class="mianInfo">
-                    <div class='showTitle'>竞品优势功能：</div>
+                    <div class='showTitle'>{{M2('竞品优势功能')}}：</div>
                     <div class="mianInfoTitle">{{comNewsDetailList.advantagefunction}}</div>
                 </div>
                 <div class="mianInfo">
-                    <div class='showTitle'>竞品缺陷功能：</div>
+                    <div class='showTitle'>{{M2('竞品缺陷功能')}}：</div>
                     <div class="mianInfoTitle">{{comNewsDetailList.defectfeature}}</div>
                 </div>
                 <div class="mianInfo">
-                    <div class='showTitle'>产品使用场景：</div>
+                    <div class='showTitle'>{{M2('产品使用场景')}}：</div>
                     <div class="mianInfoTitle">{{comNewsDetailList.usagescenarios}}</div>
                 </div>
                 <div class="mianInfo">
-                    <div class='showTitle'>产品目标人群：</div>
+                    <div class='showTitle'>{{M2('产品目标人群')}}：</div>
                     <div class="mianInfoTitle">{{comNewsDetailList.usecrowd}}</div>
                 </div>
                 <div class="mianInfo">
-                    <div class='showTitle'>产品定位：</div>
+                    <div class='showTitle'>{{M2('产品定位')}}：</div>
                     <div class="mianInfoTitle">{{comNewsDetailList.jppositioning}}</div>
                 </div>           
                 <div class="mianInfo">
-                    <div class='showTitle'>产品排名：</div>
+                    <div class='showTitle'>{{M2('产品排名')}}：</div>
                     <div class="mianInfoTitle">{{comNewsDetailList.jpranking}}</div>
                 </div>           
                 <div class="mianInfo">
-                    <div class='showTitle'>产品确定开发调整点：</div>
+                    <div class='showTitle'>{{M2('产品确定开发调整点')}}：</div>
                     <div class="mianInfoTitle">{{comNewsDetailList.jpadjustmentpoint}}</div>
                 </div>           
                 <div class="mianInfo">
-                    <div class='showTitle'>备注：</div>
+                    <div class='showTitle'>{{M2('备注')}}：</div>
                     <div class="mianInfoTitle">{{comNewsDetailList.note}}</div>
                 </div>           
             </el-col>

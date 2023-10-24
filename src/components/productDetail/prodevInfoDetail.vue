@@ -3,49 +3,49 @@
         <el-row>
             <el-col :span="24" class="produInfo"> 
                 <div class="colbox">
-                    <div class="colBoxTitle">中文标题： </div> <div class="colBoxContent">{{prodevInfoDetaiList.title}}</div>
+                    <div class="colBoxTitle">{{M2('中文标题')}}： </div> <div class="colBoxContent">{{prodevInfoDetaiList.title}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">中文描述： </div> <div class="colBoxContent" style="width:1200px">{{prodevInfoDetaiList.description}}</div>
+                    <div class="colBoxTitle">{{M2('中文描述')}}： </div> <div class="colBoxContent" style="width:1200px">{{prodevInfoDetaiList.description}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">供应商所在地： </div> <div class="colBoxContent">{{prodevInfoDetaiList.provinceStr}}-{{ prodevInfoDetaiList.cityStr}}-{{prodevInfoDetaiList.areaStr}}</div>
+                    <div class="colBoxTitle">{{M2('供应商所在地')}}： </div> <div class="colBoxContent">{{prodevInfoDetaiList.provinceStr}}-{{ prodevInfoDetaiList.cityStr}}-{{prodevInfoDetaiList.areaStr}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                <span class="postionBox">必要认证附件：</span><div class="mustListStyle"><div v-for="item in prodevInfoDetaiList.mustCredentialList" :key="item.id"><span class="countryList">{{changCountry(item.countryCode)}}</span>：<span class="filesStyl" @click='uploadFiles(item.fileuri)'>[{{item.name}}]</span></div></div>
+                <span class="postionBox">{{M2('必要认证附件')}}：</span><div class="mustListStyle"><div v-for="item in prodevInfoDetaiList.mustCredentialList" :key="item.id"><span class="countryList">{{changCountry(item.countryCode)}}</span>：<span class="filesStyl" @click='uploadFiles(item.fileuri)'>[{{item.name}}]</span></div></div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                <div class="postionBox">附件后补时间： </div> <div class="mustListStyle">{{prodevInfoDetaiList.noticeTime?$moment(prodevInfoDetaiList.noticeTime).format("YYYY-MM-DD") :''}}</div>
+                <div class="postionBox">{{M2('附件后补时间')}}： </div> <div class="mustListStyle">{{prodevInfoDetaiList.noticeTime?$moment(prodevInfoDetaiList.noticeTime).format("YYYY-MM-DD") :''}}</div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
-                <span class="postionBox">推荐认证附件：</span><div class="mustListStyle"><div v-for="item in prodevInfoDetaiList.recommendCredentialList" :key="item.id"><span class="countryList">{{changCountry(item.countryCode)}}</span>：<span class="filesStyl" @click='uploadFiles(item.fileuri)'>[{{item.name}}]</span></div></div>
+                <span class="postionBox">{{M2('推荐认证附件')}}：</span><div class="mustListStyle"><div v-for="item in prodevInfoDetaiList.recommendCredentialList" :key="item.id"><span class="countryList">{{changCountry(item.countryCode)}}</span>：<span class="filesStyl" @click='uploadFiles(item.fileuri)'>[{{item.name}}]</span></div></div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
-                    <div class="colBoxTitle">认证备注： </div> <div class="colBoxContent" style="width:1200px">{{prodevInfoDetaiList.certificationnote}}</div>
+                    <div class="colBoxTitle">{{M2('认证备注')}}： </div> <div class="colBoxContent" style="width:1200px">{{prodevInfoDetaiList.certificationnote}}</div>
                 </div>
             </el-col>
         </el-row>
         <el-row>
             <el-col :span="24" class="produInfoImage">
-                <div class="postionBox">工厂提供照片：</div>
+                <div class="postionBox">{{M2('工厂提供照片')}}：</div>
                     <div v-for="item in prodevInfoDetaiList.factoryGaveImage" :key="item.id">
                         <el-image
                             style="width: 100px; height: 100px; dispaly:block;margin-right:10px"
@@ -55,7 +55,7 @@
                                 <i class="el-icon-loading" ></i>
                             </div>
                             <div slot="error" class="image-slot icon-loading" style="font-size:14px">
-                                <i class="el-icon-picture-outline">加载失败</i>
+                                <i class="el-icon-picture-outline">{{M2('加载失败')}}</i>
                             </div>
                         </el-image>
                     </div>

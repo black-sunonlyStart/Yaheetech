@@ -1,21 +1,21 @@
 <template>
     <div class="bg-gray" v-if="renderDom" v-permission="'ERP.Product.ProductSample.View'">
         <div class="header-title">
-            <div><span class="header-text">样品确认单：</span><span class="header-text" style="font-weight: bold;">{{$route.query.id}}</span></div>
+            <div><span class="header-text">{{this.M2('样品确认单')}}：</span><span class="header-text" style="font-weight: bold;">{{$route.query.id}}</span></div>
             <div class="right-button"> 
-                <div class="green-div">状态：{{mainPageList ? mainPageList.stateValue : ''}}</div>
-                <div class="green-div">申请人:{{mainPageList ? mainPageList.applicantName: ''}}</div>
-                <div class="green-div">样品员：{{mainPageList ? mainPageList.sampleValidatorName:''}}</div>
-                <div class="gray-div">申请时间：{{mainPageList && mainPageList.applicationTime ? $moment(mainPageList.applicationTime).format("YYYY-MM-DD HH:mm:ss") :''}}</div>
+                <div class="green-div">{{this.M2('状态')}}：{{mainPageList ? mainPageList.stateValue : ''}}</div>
+                <div class="green-div">{{this.M2('申请人')}}:{{mainPageList ? mainPageList.applicantName: ''}}</div>
+                <div class="green-div">{{this.M2('样品员')}}：{{mainPageList ? mainPageList.sampleValidatorName:''}}</div>
+                <div class="gray-div">{{this.M2('申请时间')}}：{{mainPageList && mainPageList.applicationTime ? $moment(mainPageList.applicationTime).format("YYYY-MM-DD HH:mm:ss") :''}}</div>
             </div>
         </div>
         <div class='tabContainer'>
             <el-card class="sample-basis">
                 <div slot="header" class="clearfix">
-                    <div>样品基础数据
+                    <div>{{M2('样品基础数据')}}
                         <div v-if="mainPageList.state == 1 || !mainPageList.state"  v-permission="'ERP.Product.ProductSample.SaveProductSample'">
                             <div class="edit-position" @click="controlsEdit.isEdit = !controlsEdit.isEdit" v-if="controlsEdit.isEdit">
-                                <span><i class="icon-edit"></i>编辑</span>
+                                <span><i class="icon-edit"></i>{{M2('编辑')}}</span>
                             </div>
                         </div>
                     </div>   
@@ -29,13 +29,21 @@
                                     width="627"
                                     trigger="click">
                                     <el-table :data="gridData" border :header-cell-style="{background:'#f5f7fa',color:'#333'}">
-                                        <el-table-column width="200" property="productType" label="产品类型"></el-table-column>
-                                        <el-table-column width="400" property="Interpretation" label="释义"></el-table-column>
+                                        <el-table-column width="200" property="productType" :label="M2('产品类型')">
+                                            <template slot-scope="scope">
+                                                {{M2(scope.row.productType)}}
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column width="400" property="Interpretation" :label="M2('释义')">
+                                            <template slot-scope="scope">
+                                                {{M2(scope.row.Interpretation)}}
+                                            </template>
+                                        </el-table-column>
                                     </el-table>
                                     <i class="el-icon-question1" slot="reference"></i>
                                 </el-popover>
-                                产品类型： </span>
-                            <span class="imageMainboxText">{{mainPageList.scenariosStr}}</span>
+                              {{M2('产品类型')}}: </span>
+                            <span class="imageMainboxText">{{M2(mainPageList.scenariosStr)}}</span>
                         </el-col>
                         <el-col :span="10">
                             <span class="imageMainbox">
@@ -44,13 +52,21 @@
                                     width="627"
                                     trigger="click">
                                     <el-table :data="gridData3" border  :header-cell-style="{background:'#f5f7fa',color:'#333'}">
-                                        <el-table-column width="200" property="productType" label="样品情况"></el-table-column>
-                                        <el-table-column width="400" property="Interpretation" label="释义"></el-table-column>
+                                        <el-table-column width="200" property="productType" :label="M2('样品情况')">
+                                            <template slot-scope="scope">
+                                                {{M2(scope.row.productType)}}
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column width="400" property="Interpretation" :label="M2('释义')">
+                                            <template slot-scope="scope">
+                                                {{M2(scope.row.Interpretation)}}
+                                            </template>
+                                        </el-table-column>
                                     </el-table>
                                     <i class="el-icon-question1" slot="reference"></i>
                                 </el-popover>
-                                是否为产前样： </span>
-                            <span class="imageMainboxText">{{mainPageList.preproductionSampleStr}}</span>
+                                {{M2('是否为产前样')}}： </span>
+                            <span class="imageMainboxText">{{M2(mainPageList.preproductionSampleStr)}}</span>
                         </el-col>
                     </el-row>
                     <el-row class="textSpeaing">
@@ -61,69 +77,77 @@
                                     width="627"
                                     trigger="click">
                                     <el-table :data="gridData1" border  :header-cell-style="{background:'#f5f7fa',color:'#333'}">
-                                        <el-table-column width="200" property="productType" label="样品情况"></el-table-column>
-                                        <el-table-column width="400" property="Interpretation" label="释义" ></el-table-column>
+                                        <el-table-column width="200" property="productType" :label="M2('样品情况')">
+                                            <template slot-scope="scope">
+                                                {{M2(scope.row.productType)}}
+                                            </template>
+                                        </el-table-column>
+                                        <el-table-column width="400" property="Interpretation" :label="M2('释义')" >
+                                            <template slot-scope="scope">
+                                                {{M2(scope.row.Interpretation)}}
+                                            </template>
+                                        </el-table-column>
                                     </el-table>
                                     <i class="el-icon-question1" slot="reference"></i>
                                 </el-popover>
-                                样品情况： </span>
-                            <span class="imageMainboxText">{{mainPageList.sampleConditionStr}}</span>
+                                {{M2('样品情况')}}： </span>
+                            <span class="imageMainboxText">{{M2(mainPageList.sampleConditionStr)}}</span>
                         </el-col>
                         <el-col :span="10" v-if="mainPageList.sampleCondition == 0">
-                            <span class="imageMainbox">来样次数： </span>
+                            <span class="imageMainbox">{{M2('来样次数')}}： </span>
                             <span class="imageMainboxText">{{mainPageList.sampleNum || 1}}</span>
                         </el-col>
                     </el-row>
                     <el-row class="textSpeaing">
                         <el-col :span="10" v-if="mainPageList.scenarios != 2">
-                            <span class="imageMainbox">开发ID/sku别名： </span>
+                            <span class="imageMainbox">{{M2('开发ID/sku别名')}}： </span>
                             <span class="imageMainboxText">{{mainPageList.productKey && mainPageList.productKey.includes('DEV') ?mainPageList.productKey:  mainPageList.skuAlias}}</span>
                         </el-col>
                         <el-col :span="10" v-if="mainPageList.scenarios == 2">
-                            <span class="imageMainbox">原sku别名： </span>
+                            <span class="imageMainbox">{{M2('原sku别名')}}： </span>
                             <span class="imageMainboxText">{{mainPageList.skuAlias }}</span>
                         </el-col>
                     </el-row>
                     <el-row class="textSpeaing">
                         <el-col :span="10">
                             <div class="boxFlex">
-                                <span class="imageMainbox">产品名称： </span>
+                                <span class="imageMainbox">{{M2('产品名称')}}： </span>
                                 <span class="imageMainboxText">{{mainPageList.productTitle}}</span>
                             </div> 
                         </el-col>
                         <el-col :span="10" v-if="mainPageList.scenarios != 2 && mainPageList.sampleCondition == 0">
                             <div class="boxFlex">
-                                <span class="imageMainbox">供应商类型： </span>
-                                <div class="imageMainboxText" >{{mainPageList.supplierType == 0 ? '旧' :mainPageList.supplierType ? '新' : ''}}</div>
+                                <span class="imageMainbox">{{M2('供应商类型')}}： </span>
+                                <div class="imageMainboxText" >{{mainPageList.supplierType == 0 ? M2('旧') :mainPageList.supplierType ? M2('新') : ''}}</div>
                             </div>
                         </el-col>
                         <el-col :span="10" style="margin-top:30px">
                             <div class="boxFlex">
-                                <span class="imageMainbox">供应商名称： </span>
+                                <span class="imageMainbox">{{M2('供应商名称')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.supplierName}}</div>
                             </div>       
                         </el-col>
                         <el-col :span="10" style="margin-top:30px"  v-if="mainPageList.scenarios == 2 && mainPageList.sampleCondition == 0 && mainPageList.countryOfOrigin">
                             <div class="boxFlex">
-                                <span class="imageMainbox">原产国： </span>
+                                <span class="imageMainbox">{{M2('原产国')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.countryOfOrigin}}</div>
                             </div>       
                         </el-col>
                         <el-col :span="10"  style="margin-top:30px">
                             <div class="boxFlex">
-                                <span class="imageMainbox">验样场地： </span>
-                                <div class="imageMainboxText" >{{mainPageList.testSiteStr}}</div>
+                                <span class="imageMainbox">{{M2('验样场地')}}： </span>
+                                <div class="imageMainboxText" >{{M2(mainPageList.testSiteStr)}}</div>
                             </div>
                         </el-col>
                         <el-col :span="10" style="margin-top:30px"  v-if="mainPageList.sampleCondition == 1">
                             <div class="boxFlex">
-                                <span class="imageMainbox">部件名称： </span>
+                                <span class="imageMainbox">{{M2('部件名称')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.partName}}</div>
                             </div>
                         </el-col>
                         <el-col :span="10" style="margin-top:30px" v-if="mainPageList.sampleCondition == 1 || (mainPageList.sampleCondition == 0 && mainPageList.scenarios == 2)">
                             <div class="boxFlex">
-                                <span class="imageMainbox">验货报告需求： </span>
+                                <span class="imageMainbox">{{M2('验货报告需求')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.reportRequirementStr}}</div>
                             </div>
                         </el-col>
@@ -131,27 +155,27 @@
                     <el-row class="textSpeaing">
                         <el-col :span="10">
                             <div class="boxFlex">
-                                <span class="imageMainbox">出口市场： </span>
+                                <span class="imageMainbox">{{M2('出口市场')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.exportMarketStr ? mainPageList.exportMarketStr.replaceAll('欧盟,法,意,西,德,','欧盟') : ''}}</div>
                             </div>
                         </el-col>
                         <el-col :span="10" v-if="showSampleNum">
                             <div class="boxFlex">
-                                <span class="imageMainbox">英文验货报告： </span>
-                                <div class="imageMainboxText" >{{mainPageList.englishInspectionReportStr}}</div>
+                                <span class="imageMainbox">{{M2('英文验货报告')}}： </span>
+                                <div class="imageMainboxText" >{{M2(mainPageList.englishInspectionReportStr)}}</div>
                             </div>       
                         </el-col>
                     </el-row>
                     <el-row class="textSpeaing" v-if="mainPageList.scenarios == 1 && mainPageList.sampleCondition == 0">
                         <el-col :span="10">
                             <div class="boxFlex">
-                                <span class="imageMainbox">原型号sku： </span>
+                                <span class="imageMainbox">{{M2('原型号sku')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.originalTypeSkuAlias}}</div>
                             </div>
                         </el-col>
                         <el-col :span="10">
                             <div class="boxFlex">
-                                <span class="imageMainbox">二次开发原因： </span>
+                                <span class="imageMainbox">{{M2('二次开发原因')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.reasonForSecondaryDev}}</div>
                             </div>       
                         </el-col>
@@ -160,27 +184,27 @@
                         <el-row class="textSpeaing">
                             <el-col :span="10">
                                 <div class="boxFlex">
-                                    <span class="imageMainbox">产品颜色类型： </span>
+                                    <span class="imageMainbox">{{M2('产品颜色类型')}}： </span>
                                     <div class="imageMainboxText" >{{mainPageList.productColorTypeStr}}</div>
                                 </div>
                             </el-col>
                             <el-col :span="10">
                                 <div class="boxFlex">
-                                    <span class="imageMainbox">样品颜色： </span>
-                                    <div class="imageMainboxText" >{{mainPageList.sampleColor}}</div>
+                                    <span class="imageMainbox">{{M2('样品颜色')}}： </span>
+                                    <div class="imageMainboxText" >{{M2(mainPageList.sampleColor)}}</div>
                                 </div>       
                             </el-col>
                         </el-row>
                         <el-row class="textSpeaing">
                             <el-col :span="10">
                                 <div class="boxFlex">
-                                    <span class="imageMainbox">纸箱爆破强度： </span>
+                                    <span class="imageMainbox">{{M2('纸箱爆破强度')}}： </span>
                                     <div class="imageMainboxText" >{{mainPageList.burstingStrengthCarton ? mainPageList.burstingStrengthCarton + ' PSI' : ''}}</div>
                                 </div>
                             </el-col>
                             <el-col :span="10">
                                 <div class="boxFlex">
-                                    <span class="imageMainbox">辅材泡沫密度： </span>
+                                    <span class="imageMainbox">{{M2('辅材泡沫密度')}}： </span>
                                     <div class="imageMainboxText" >{{mainPageList.auxiliaryFoamDensity ? mainPageList.auxiliaryFoamDensity + ' kg/m³' : ''}}</div>
                                 </div>       
                             </el-col>
@@ -189,13 +213,13 @@
                     <el-row class="textSpeaing">
                         <el-col :span="10">
                             <div class="boxFlex">
-                                <span class="imageMainbox">产品材质： </span>
+                                <span class="imageMainbox">{{M2('产品材质')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.material}}</div>
                             </div>
                         </el-col>
                         <el-col :span="10">
                             <div class="boxFlex">
-                                <span class="imageMainbox">产品工艺： </span>
+                                <span class="imageMainbox">{{M2('产品工艺')}}： </span>
                                 <div class="imageMainboxText" >{{mainPageList.process}}</div>
                             </div>       
                         </el-col>
@@ -204,13 +228,13 @@
                         <el-row class="textSpeaing">
                             <el-col :span="10">
                                 <div class="boxFlex">
-                                    <span class="imageMainbox">基础信息： </span>
+                                    <span class="imageMainbox">{{M2('基础信息')}}： </span>
                                     <div class="imageMainboxText" style="white-space:pre-wrap">{{mainPageList.basicInformation}}</div>
                                 </div>
                             </el-col>
                             <el-col :span="10">
                                 <div class="boxFlex">
-                                    <span class="imageMainbox">竞品信息： </span>
+                                    <span class="imageMainbox">{{M2('竞品信息')}}： </span>
                                     <div class="imageMainboxText" style="white-space:pre-wrap">{{mainPageList.jpInformation}}</div>
                                 </div>       
                             </el-col>
@@ -218,7 +242,7 @@
                         <el-row class="textSpeaing">
                             <el-col :span="20"  v-if="mainPageList.sampleNum > 1">
                                 <div class="boxFlex">
-                                    <span class="imageMainbox">来样改进信息： </span>
+                                    <span class="imageMainbox">{{M2('来样改进信息')}}： </span>
                                     <div class="imageMainboxText" style="white-space:pre-wrap">{{mainPageList.sampleImprovedInformation}}</div>
                                 </div>       
                             </el-col>
@@ -226,12 +250,12 @@
                         <el-row class="textSpeaing">
                             <el-col :span="20"  >
                                 <div class="boxFlex">
-                                    <span class="imageMainbox">产品尺寸图（彩图）： </span>
+                                    <span class="imageMainbox">{{M2('产品尺寸图（彩图）')}}： </span>
                                     <div class="imageMainboxText" >
                                         <div class="image-flex">
                                             <el-image  v-for="item in mainPageList.productSizePhotoList" :key="item.url" :src="item.showImgUrl" :preview-src-list="[item.showBigImgUrl]">
                                                 <div slot="error" class="image-slot" style="margin-top:35px;margin-left:5px;color:#cccccc">
-                                                    <i class="el-icon-picture-outline">加载失败</i>
+                                                    <i class="el-icon-picture-outline">{{M2('加载失败')}}</i>
                                                 </div>
                                             </el-image>
                                         </div>
@@ -245,10 +269,10 @@
                         <el-col :span="20">
                             <div class="boxFlex">
                                 <span class="imageMainbox" v-if="mainPageList.sampleCondition == 0">
-                                    本次改进/变更点:
+                                    {{M2('本次改进/变更点')}}:
                                 </span> 
                                 <span class="imageMainbox" v-else>
-                                    部件变更点:
+                                    {{M2('部件变更点')}}:
                                 </span> 
                                 <div class="imageMainboxText" >{{mainPageList.thisImprovement}}</div>
                             </div>       
@@ -257,7 +281,7 @@
                      <el-row class="textSpeaing" v-if="mainPageList.sampleCondition == 0">
                         <el-col :span="20"  >
                             <div class="boxFlex">
-                                <span class="imageMainbox">本次改进/变更点-文件： </span>
+                                <span class="imageMainbox">{{M2('本次改进/变更点-文件')}}： </span>
                                 <div class="imageMainboxText" >
                                     <div>
                                         <div v-for="item in mainPageList.improvedChangeFile" :key="item.id">
@@ -272,7 +296,7 @@
                     <el-row class="textSpeaing" v-if="mainPageList.testSite == 0 && mainPageList.sampleCondition == 0">
                         <el-col :span="20"  >
                             <div class="boxFlex">
-                                <span class="imageMainbox">来样图片： </span>
+                                <span class="imageMainbox"> {{M2('来样图片')}}： </span>
                                 <div class="imageMainboxText" >
                                     <div class="image-flex">
                                         <el-image v-for="(item) in mainPageList.sampleImprovementPhoto" :key="item.id + Math.random()" :src="item.showImgUrl" :preview-src-list="[item.showBigImgUrl]"></el-image>
@@ -284,7 +308,7 @@
                     <el-row class="textSpeaing" v-if="mainPageList.scenarios == 2 || mainPageList.sampleCondition == 1">
                         <el-col :span="20"  >
                             <div class="boxFlex">
-                                <span class="imageMainbox">变更图片： </span>
+                                <span class="imageMainbox">{{M2('变更图片')}}： </span>
                                 <div class="imageMainboxText" >
                                     <div class="image-flex">
                                         <el-image v-for="item in mainPageList.changePhoto" :key="item.url" :src="item.showImgUrl" :preview-src-list="[item.showBigImgUrl]"></el-image>
@@ -296,7 +320,7 @@
                     <el-row class="textSpeaing" v-if="mainPageList.sampleNum > 1">
                         <el-col :span="20"  >
                             <div class="boxFlex">
-                                <span class="imageMainbox">来样改进信息图片： </span>
+                                <span class="imageMainbox">{{M2('来样改进信息图片')}}： </span>
                                 <div class="imageMainboxText" >
                                     <div class="image-flex">
                                         <el-image  v-for="item in mainPageList.sampleOnePhoto" :key="item.url" :src="item.showImgUrl" :preview-src-list="[item.showBigImgUrl]"></el-image>
@@ -308,7 +332,7 @@
                     <el-row class="textSpeaing">
                         <el-col :span="20"  >
                             <div class="boxFlex">
-                                <span class="imageMainbox">设计施工图片： </span>
+                                <span class="imageMainbox">{{M2('设计施工图片')}}： </span>
                                 <div class="imageMainboxText" >
                                     <div class="image-flex">
                                         <el-image  v-for="item in mainPageList.designConstructionDraw" :key="item.url" :src="item.showImgUrl" :preview-src-list="[item.showBigImgUrl]"></el-image>
@@ -320,7 +344,7 @@
                     <el-row class="textSpeaing">
                         <el-col :span="20"  >
                             <div class="boxFlex">
-                                <span class="imageMainbox">设计施工文件： </span>
+                                <span class="imageMainbox">{{M2('设计施工文件')}}： </span>
                                 <div class="imageMainboxText" >
                                     <div>
                                         <div v-for="item in mainPageList.designConstructionFile" :key="item.id">
@@ -338,10 +362,10 @@
             </el-card>
             <el-card>
                 <div slot="header" class="clearfix">
-                    <div>样品确认数据 <!-- -->
+                    <div>{{M2('样品确认数据')}} <!-- -->
                         <div v-if="mainPageList.state == 3 || mainPageList.state == 4"  v-permission="'ERP.Product.ProductSample.ApprovalSampleMemo'">
                             <div class="edit-position" @click="controlsEdit.isEdit1 = !controlsEdit.isEdit1" v-if="controlsEdit.isEdit1">
-                                <span><i class="icon-edit"></i>编辑</span>
+                                <span><i class="icon-edit"></i>{{M2('编辑')}}</span>
                             </div>
                         </div>
                     </div>   
@@ -349,21 +373,21 @@
                 <div v-if="controlsEdit.isEdit1">
                     <el-row class="textSpeaing">
                         <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
-                            <span class="imageMainbox"> 样品确认时间： </span>
+                            <span class="imageMainbox"> {{M2('样品确认时间')}} ： </span>
                             <span class="imageMainboxText">{{mainPageList.sampleConfirmationTime}}</span>
                         </el-col>
                     </el-row>
                     <el-row class="textSpeaing">
                         <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
-                            <span class="imageMainbox">样品确认结果： </span>
-                            <span class="imageMainboxText">{{mainPageList.sampleConfirmationResultStr}}</span>
+                            <span class="imageMainbox">{{M2('样品确认结果')}}： </span>
+                            <span class="imageMainboxText">{{M2(mainPageList.sampleConfirmationResultStr)}}</span>
                         </el-col>
                     </el-row>
                 </div>
                 <div v-else>
                     <el-row class="textSpeaing">
                         <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
-                            <span class="imageMainbox"><span style="color:red">*</span> 样品确认时间： </span>
+                            <span class="imageMainbox"><span style="color:red">*</span> {{M2('样品确认时间')}}： </span>
                             <span class="imageMainboxText">
                                 <el-date-picker
                                     format="yyyy-MM-dd"
@@ -379,13 +403,13 @@
                             </span>
                             <div  v-if="showRedRequire">
                                 <span class="imageMainbox"></span>
-                                <span class="imageMainboxText" style="color:red">请填写样品确认时间！</span>
+                                <span class="imageMainboxText" style="color:red">{{M2('请填写样品确认时间！')}}</span>
                             </div>
                         </el-col>
                     </el-row>
                     <el-row  class="textSpeaing">
                         <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
-                            <span class="imageMainbox"><span style="color:red">*</span>样品确认结果： </span>
+                            <span class="imageMainbox"><span style="color:red">*</span>{{M2('样品确认结果')}}： </span>
                             <span class="imageMainboxText">
                                 <el-select 
                                     v-model="mainPageList.sampleConfirmationResult"
@@ -395,7 +419,7 @@
                                     <el-option 
                                         v-for="item in devSign"                        
                                         :key="item.key"
-                                        :label="item.label"
+                                        :label="M2(item.label)"
                                         :value="item.value"
                                     >
                                     </el-option>
@@ -403,22 +427,22 @@
                             </span>
                             <div v-if="showRedRequire1">
                                 <span class="imageMainbox"></span>
-                                <span class="imageMainboxText" style="color:red">请填写样品确认结果！</span>
+                                <span class="imageMainboxText" style="color:red">{{M2('请填写样品确认结果！')}}</span>
                             </div>
                         </el-col>
                     </el-row>
                     <div class="bottomButton">
-                        <el-button type="primary" @click="submitForm('isEdit1',true,1)" size="mini">提交</el-button>
-                        <el-button @click="updeEditPage('isEdit1',true)"  size="mini">取消</el-button>
+                        <el-button type="primary" @click="submitForm('isEdit1',true,1)" size="mini">{{M2('提交')}}</el-button>
+                        <el-button @click="updeEditPage('isEdit1',true)"  size="mini">{{M2('取消')}}</el-button>
                     </div>
                 </div>
             </el-card>
             <el-card>
                 <div slot="header" class="clearfix">
-                    <div>样品确认文件 <!-- -->
+                    <div>{{M2('样品确认文件')}} <!-- -->
                         <div v-if="mainPageList.state == 4" v-permission="'ERP.Product.ProductSample.SavaProductSampleRes'">
                             <div class="edit-position" @click="controlsEdit.isEdit2 = !controlsEdit.isEdit2" v-if="controlsEdit.isEdit2">
-                                <span><i class="icon-edit"></i>编辑</span>
+                                <span><i class="icon-edit"></i>{{M2('编辑')}}</span>
                             </div>
                         </div>
                     </div>   
@@ -426,7 +450,7 @@
                 <div v-if="controlsEdit.isEdit2">
                     <el-row class="textSpeaing" v-if="mainPageList.sampleConfirmationResult == 5 || mainPageList.sampleConfirmationResult == 6">
                         <el-col :span="20">
-                            <span class="imageMainbox">初版验货报告： </span>
+                            <span class="imageMainbox">{{M2('初版验货报告')}}： </span>
                             <span class="imageMainboxText">
                                 <div v-for="item in mainPageList.inspectionReport" :key="item.id">
                                     <el-link type="primary" class="a-link" @click="clickFileName(item.fileUri)">{{item.fileName}}</el-link >
@@ -437,13 +461,13 @@
                     <el-row class="textSpeaing" v-if="mainPageList.sampleConfirmationResult == 7 || mainPageList.sampleConfirmationResult == 6">              
                         <el-col :span="20">
                             <div class="boxFlex">
-                                <span class="imageMainbox"> 问题描述： </span>
+                                <span class="imageMainbox"> {{M2('问题描述')}}： </span>
                                 <span class="imageMainboxText" style="white-space: pre-wrap;">{{mainPageList.problemDesc}}</span>
                             </div>
                         </el-col>
                         <el-col :span="20" >
                             <div style="display:flex">
-                                <span class="imageMainbox">文件： </span>
+                                <span class="imageMainbox">{{M2('文件')}}： </span>
                                 <span class="imageMainboxText">
                                     <div v-for="item in mainPageList.sampleQuestionFile" :key="item.id">
                                         <el-link type="primary" class="a-link" @click="clickFileName(item.fileUri)">{{item.fileName}}</el-link >
@@ -453,7 +477,7 @@
                            
                         </el-col>
                         <el-col :span="20">
-                            <span class="imageMainbox">问题图片： </span>
+                            <span class="imageMainbox">{{M2('问题图片')}}： </span>
                             <span class="imageMainboxText">
                                 <div class="boxFlex">
                                     <div class="image-flex">
@@ -467,7 +491,7 @@
                 <div v-else>
                     <el-row class="textSpeaing" v-if="mainPageList.sampleConfirmationResult == 5 || mainPageList.sampleConfirmationResult == 6">
                         <el-col :span="10" :xs="15" :sm="15" :md="15" :lg="15" :xl="15" style="display:flex">
-                            <span class="imageMainbox"><span style="color:red">*</span> 初版验货报告： </span>
+                            <span class="imageMainbox"><span style="color:red">*</span> {{M2('初版验货报告')}}： </span>
                             <span class="imageMainboxText" style="width:100%;margin-bottom:10px">
                                <el-upload
                                     ref="uploadRef1"
@@ -483,11 +507,11 @@
                                     :with-credentials='true'
                                     :on-exceed="handleExceed1"
                                     :file-list="mainPageList.inspectionReport">
-                                    <el-button size="small" type="primary">点击上传</el-button>
+                                    <el-button size="small" type="primary">{{M2('点击上传')}}</el-button>
                                     <div slot="tip" class="el-upload__tip">
-                                        <div>请上传excel、word、pdf类型的文件，最多上传1个文件</div>
+                                        <div>{{M2('请上传excel、word、pdf类型的文件，最多上传1个文件')}}</div>
                                         <div  v-if="showRedRequire2">
-                                            <span class="imageMainboxText" style="color:red">请上传初版验货报告！</span>
+                                            <span class="imageMainboxText" style="color:red">{{M2('请上传初版验货报告！')}}</span>
                                         </div>
                                     </div>
                                 </el-upload>
@@ -497,7 +521,7 @@
                     <div v-if="mainPageList.sampleConfirmationResult == 7 || mainPageList.sampleConfirmationResult == 6">
                         <el-row class="textSpeaing" >
                             <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10" style="display:flex">
-                                <span class="imageMainbox"> 问题描述： </span>
+                                <span class="imageMainbox"> {{M2('问题描述')}}： </span>
                                 <span class="imageMainboxText" style="width:100%;margin-bottom:10px">
                                     <el-input type="textarea" v-model="mainPageList.problemDesc"></el-input>
                                 </span>
@@ -505,7 +529,7 @@
                         </el-row>
                         <el-row class="textSpeaing">
                             <el-col :span="10" :xs="15" :sm="15" :md="15" :lg="15" :xl="15" style="display:flex">
-                                <span class="imageMainbox"> 文件： </span>
+                                <span class="imageMainbox"> {{M2('文件')}}： </span>
                                 <span class="imageMainboxText" style="width:100%;margin-bottom:10px">
                                     <el-upload
                                         ref="uploadRef"
@@ -521,8 +545,8 @@
                                         :with-credentials='true'
                                         :on-exceed="handleExceed"
                                         :file-list="mainPageList.sampleQuestionFile">
-                                        <el-button size="small" type="primary">点击上传</el-button>
-                                        <div slot="tip" class="el-upload__tip">{{'请上传excel、word、pdf类型的文件，最多上传5个文件'}}</div>
+                                        <el-button size="small" type="primary">{{M2('点击上传')}}</el-button>
+                                        <div slot="tip" class="el-upload__tip">{{M2('请上传excel、word、pdf类型的文件，最多上传5个文件')}}</div>
                                     </el-upload>
                                 </span>
                             </el-col>  
@@ -530,7 +554,7 @@
                         
                         <el-row class="textSpeaing">
                             <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" style="display:flex">
-                                <span class="imageMainbox">问题图片： </span>
+                                <span class="imageMainbox">{{M2('问题图片')}}： </span>
                                 <span class="imageMainboxText" >
                                     <imgUpload :fileType='6' :showButton="false" :value='sampleQuestionPhoto' :limit="20" @upDateFile="upDateFile" :imgUrl="imgUrl" ruleName="sampleQuestionPhoto"></imgUpload> 
                                 </span>
@@ -538,36 +562,36 @@
                         </el-row>
                     </div>
                     <div class="bottomButton">
-                        <el-button type="primary" @click="submitForm('isEdit2',true,2)" size="mini">提交</el-button>
-                        <el-button @click="updeEditPage('isEdit2',true)"  size="mini">取消</el-button>
+                        <el-button type="primary" @click="submitForm('isEdit2',true,2)" size="mini">{{M2('提交')}}</el-button>
+                        <el-button @click="updeEditPage('isEdit2',true)"  size="mini">{{M2('取消')}}</el-button>
                     </div>
                 </div>
             </el-card>
             <el-card>
                 <div slot="header" class="clearfix">
-                    <div>关联单据</div>   
+                    <div>{{M2('关联单据')}}</div>   
                 </div>
                 <div v-if="controlsEdit.isEdit3">
-                    <el-table :data="gridData2" border max-height="500" :header-cell-style="{background:'#f5f7fa',color:'#606266'}">
-                        <el-table-column width="" property="productType" label="序号"  type="index"></el-table-column>
-                        <el-table-column width="" property="id" label="单据">
+                    <el-table :empty-text="M2('暂无数据')" :data="gridData2" border max-height="500" :header-cell-style="{background:'#f5f7fa',color:'#606266'}">
+                        <el-table-column width="" property="productType" :label="M2('序号')"  type="index"></el-table-column>
+                        <el-table-column width="" property="id" :label="M2('单据')">
                             <template slot-scope="scope">
                                 <div @click="routerMove(scope.row.id)" class="fileHoverShow">
                                     {{scope.row.id}}
                                 </div>
                             </template>
                         </el-table-column>
-                        <el-table-column width="" property="productTitle" label="样品名称"></el-table-column>
-                        <el-table-column width="" property="sampleConditionStr" label="样品情况"></el-table-column>
-                        <el-table-column width="" property="scenariosStr" label="产品类型"></el-table-column>
-                        <el-table-column width="" property="sampleNum" label="来样次数"></el-table-column>
-                        <el-table-column width="" property="stateValue" label="当前状态"></el-table-column>
-                        <el-table-column width="" property="applicationTime" label="申请时间">
+                        <el-table-column width="" property="productTitle" :label="M2('样品名称')"></el-table-column>
+                        <el-table-column width="" property="sampleConditionStr" :label="M2('样品情况')"></el-table-column>
+                        <el-table-column width="" property="scenariosStr" :label="M2('产品类型')"></el-table-column>
+                        <el-table-column width="" property="sampleNum"  :label="M2('来样次数')"></el-table-column>
+                        <el-table-column width="" property="stateValue" :label="M2('当前状态')"></el-table-column>
+                        <el-table-column width="" property="applicationTime" :label="M2('申请时间')">
                             <template slot-scope="scope">
                                 <div>{{scope.row.applicationTime ? $moment(scope.row.applicationTime).format("YYYY-MM-DD HH:mm:ss") : '--'}}</div>
                             </template>
                         </el-table-column>
-                        <el-table-column width="" property="completionTime" label="完成时间">
+                        <el-table-column width="" property="completionTime" :label="M2('完成时间')">
                             <template slot-scope="scope">
                                 <div>{{scope.row.completionTime ? $moment(scope.row.completionTime).format("YYYY-MM-DD HH:mm:ss") : '--'}}</div>
                             </template>
@@ -578,7 +602,7 @@
         </div>
         <div style="display:flex;">
             <el-drawer
-                title="修改日志"
+                :title="M2('修改日志')"
                 :visible.sync="dialogVisible"
                 size="641px"
                 :modal="false"
@@ -590,11 +614,11 @@
                 >
                 <remarksNew :remarksParam='remarksParam' ref="remarksNew" v-if="showTenth" height='67vh'></remarksNew>
                 <span slot="footer" class="dialog-footer">
-                    <el-button @click="closeUploadDialog()" size="mini">关 闭</el-button>
+                    <el-button @click="closeUploadDialog()" size="mini">{{M2('关 闭')}}</el-button>
                 </span>
             </el-drawer>
-            <i class="el-icon-s-unfold" title="展开日志" @click="openRecordDialog()" v-if="$route.query.id"></i>
-            <i class="el-icon-s-fold" title="收缩日志" @click="closeUploadDialog()" v-if="dialogVisible"></i>      
+            <i class="el-icon-s-unfold" :title="M2('展开日志')" @click="openRecordDialog()" v-if="$route.query.id"></i>
+            <i class="el-icon-s-fold" :title="M2('收缩日志')" @click="closeUploadDialog()" v-if="dialogVisible"></i>      
         </div>
     </div>
 </template>
@@ -918,7 +942,7 @@ export default {
                 if(res.code == 200){
                     this.$message({
                         type: 'success', 
-                        message:'保存成功',
+                        message:this.M2('保存成功'),
                         offset:220
                     })
                     this.init()
@@ -955,9 +979,9 @@ export default {
                     this.showRedRequire1 = true
                     return
                 }
-                text = '确定已完成样品确认，准备输出样品确认文档？'
+                text = this.M2('确定已完成样品确认，准备输出样品确认文档？')
             }else if(type == 2) {
-                text = '确定完成样品确认文件的输出，向采购开发通知样品确认结果？'
+                text = this.M2('确定完成样品确认文件的输出，向采购开发通知样品确认结果？')
                 if((this.mainPageList.sampleConfirmationResult == 5 || this.mainPageList.sampleConfirmationResult == 6) && this.mainPageList.inspectionReport.length == 0) {
                     this.showRedRequire2 = true
                     return
@@ -966,16 +990,16 @@ export default {
                     if(!this.mainPageList.problemDesc && this.mainPageList.sampleQuestionFile.length == 0 && this.sampleQuestionPhoto.length == 0){
                         this.$message({
                             type: 'error', 
-                            message:'请添加一个问题描述，文件或者图片！',
+                            message:this.M2('请添加一个问题描述，文件或者图片！'),
                             offset:220
                         })
                         return
                     }
                 }
             }
-            this.$confirm(text, '提示', {
-                confirmButtonText: '确定',
-                cancelButtonText: '取消',
+            this.$confirm(text, this.M2('提示'), {
+                confirmButtonText: this.M2('确定'),
+                cancelButtonText: this.M2('取消'),
                 type: 'warning',
                 cancelButtonClass: 'btn-custom-cancel',
             }).then(() => {
@@ -1001,7 +1025,7 @@ export default {
             this.$refs.uploadRef.abort() // 取消剩余接口请求
             this.$message({
                 type: 'warning',
-                message: `文件超限，最多可上传5个文件`,
+                message: this.M2('文件超限，最多可上传5个文件'),
                 offset:220
             })
         },
@@ -1009,7 +1033,7 @@ export default {
             this.$refs.uploadRef1.abort() // 取消剩余接口请求
             this.$message({
                 type: 'warning',
-                message: `文件超限，最多可上传1个文件`,
+                message: this.M2('文件超限，最多可上传1个文件'),
                 offset:220
             })
         },
@@ -1018,7 +1042,7 @@ export default {
             if (res.code == 200) {
                 this.$message({
                     type: 'success', 
-                    message:'上传成功', 
+                    message:this.M2('上传成功'), 
                     offset:220
                 })
                 if (this.mainPageList.sampleQuestionFile.length < 5) {
@@ -1045,7 +1069,7 @@ export default {
             if (res.code == 200) {
                 this.$message({
                     type: 'success', 
-                    message:'上传成功',
+                    message:this.M2('上传成功'),
                     offset:220
                 })
                 res.data[0].name = res.data[0].fileName
@@ -1091,7 +1115,7 @@ export default {
                 if(res.code == 200){
                      this.$message({
                         type: 'success', 
-                        message:'删除成功',
+                        message:this.M2('删除成功'),
                         offset:220
                     })
                     this.mainPageList.inspectionReport.splice(this.mainPageList.inspectionReport.findIndex(item => item.id == id),1)
@@ -1099,7 +1123,7 @@ export default {
             })  
         },
         beforeRemove(){
-            return this.$confirm(`确定移除这个文件吗？`,'提示',{cancelButtonClass: 'btn-custom-cancel'});
+            return this.$confirm(this.M2('确定移除这个文件吗？'),this.M2('提示'),{cancelButtonClass: 'btn-custom-cancel'});
         }
     }
 }

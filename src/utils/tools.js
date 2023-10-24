@@ -155,7 +155,7 @@ function Output(Option,Callback,that) {
                 }     
             },err => {
                 that.optionPutExcle = false
-                console.log(err)   
+                // console.log(err)   
             })
         }
     }
@@ -245,7 +245,7 @@ function judgePorduction(){
 function gethashCode(hashCodeStr){
     var str = hashCodeStr;
     var hash = 0, i, chr, len;
-    if (str.length === 0) return hash;
+    if (!str || str.length === 0) return hash;
     for (i = 0, len = str.length; i < len; i++) {
         chr = str.charCodeAt(i);
         hash = ((hash << 5) - hash) + chr;

@@ -3,7 +3,7 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="200px" class="demo-ruleForm" size="mini">
             <el-row>
                 <el-col :span="11">
-                    <el-form-item label="中文标题:" prop="chineseTitle">
+                    <el-form-item :label="M2('中文标题') + ':'"  prop="chineseTitle">
                         <el-input type="textarea"  
                             maxlength="25"
                             show-word-limit autosize 
@@ -14,7 +14,7 @@
             </el-row>
             <el-row>
                 <el-col :span="11">
-                    <el-form-item label="中文描述:" type="textarea" autosize prop="chineseDescription">
+                    <el-form-item :label="M2('中文描述') + ':'" type="textarea" autosize prop="chineseDescription">
                         <el-input 
                             type="textarea" 
                             autosize 
@@ -27,41 +27,41 @@
             </el-row>
             <el-row>
                 <el-col :span="17">
-                    <el-form-item label="供应商所在地:" prop="supplierLocation">
+                    <el-form-item  :label="M2('供应商所在地') + ':'" prop="supplierLocation">
                         <el-select 
                             v-model="ruleForm.supplierLocation"
-                            placeholder="请选择省份"
+                            :placeholder="M2('请选择省份')"
                             @change="selectProvince"
                             >
                             <el-option 
                                 v-for="item in provinceList"                        
                                 :key="item.Id"
-                                :label="item.FullName"
+                                :label="item.Id == '900000' ? M2(item.FullName) : item.FullName"
                                 :value="item.Id"
                                 >
                             </el-option>
                         </el-select>
                         <el-select 
                             v-model="ruleForm.supplierLocation1"
-                            placeholder="请选择城市"
+                            :placeholder="M2('请选择城市')"
                             @change="selectCity"
                             >
                             <el-option 
                                 v-for="item in cityList"                        
                                 :key="item.Id"
-                                :label="item.Name"
+                                :label="ruleForm.supplierLocation == '900000' ? M2(item.Name) : item.Name"
                                 :value="item.Id"
                                 >
                             </el-option>
                         </el-select>
                         <el-select 
                             v-model="ruleForm.supplierLocation2"
-                            placeholder="请选择区域"
+                            :placeholder="M2('请选择区域')"
                             >
                             <el-option 
                                 v-for="item in districtList"                        
                                 :key="item.Id"
-                                :label="item.Name"
+                                :label="ruleForm.supplierLocation == '900000' ? M2(item.Name) : item.Name"
                                 :value="item.Id"
                                 >
                             </el-option>
@@ -71,7 +71,7 @@
             </el-row>
             <el-row>
                 <el-col :span="11" :xs="24" :sm="24" :md="24" :lg="12" :xl="8">
-                    <el-form-item label="必要认证附件:">
+                    <el-form-item :label="M2('必要认证附件') + ':'">
                         <el-upload
                             class="upload-demo"
                             :action='action'
@@ -87,28 +87,28 @@
                             >
                             <el-select 
                                 v-model="ruleForm.productMustMarket"
-                                placeholder="请选择文档所属市场"
+                                :placeholder="M2('请选择文档所属市场')"
                                 >
                                 <el-option 
                                     v-for="item in devSign"                        
                                     :key="item.key"
-                                    :label="item.label"
+                                    :label="M2(item.label)"
                                     :value="item.value"
                                     >
                                 </el-option>
                             </el-select>
-                            <el-button size="small" type="primary" style="margin-left:15px">选择文件</el-button>
+                            <el-button size="small" type="primary" style="margin-left:15px">{{M2('选择文件')}}</el-button>
                         </el-upload>
                     </el-form-item>
                     
                 </el-col>
                 <el-col :span="11" :xs="24" :sm="24" :md="24" :lg="9" :xl="6">
-                    <el-form-item label="附件后补时间:" prop="noticeTime">
+                    <el-form-item :label="M2('附件后补时间') + ':'" prop="noticeTime">
                         <div class="feeForOrderText">
                             <el-date-picker
                                 v-model="ruleForm.noticeTime"
                                 type="date"
-                                placeholder="选择日期"
+                                :placeholder="M2('选择日期')"
                                 :picker-options="setDisabled"
                                 style="width:150px"
                                 >
@@ -119,7 +119,7 @@
             </el-row>
             <el-row>
                 <el-col :span="17">
-                    <el-form-item label="推荐认证附件:">
+                    <el-form-item :label="M2('推荐认证附件') + ':'">
                         <el-upload
                             class="upload-demo"
                             :action="action"
@@ -134,24 +134,24 @@
                             :file-list="ruleForm.recommendFileList">
                                 <el-select 
                                     v-model="ruleForm.productMarket"
-                                    placeholder="请选择文档所属市场"
+                                    :placeholder="M2('请选择文档所属市场')"
                                     >
                                     <el-option 
                                         v-for="item in devSign"                        
                                         :key="item.key"
-                                        :label="item.label"
+                                        :label="M2(item.label)"
                                         :value="item.value"
                                         >
                                     </el-option>
                                 </el-select>
-                                <el-button size="small" type="primary" style="margin-left:15px">选择文件</el-button>
+                                <el-button size="small" type="primary" style="margin-left:15px">{{M2('选择文件')}}</el-button>
                             </el-upload>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row>
                 <el-col :span="17">
-                    <el-form-item label="认证备注:">
+                    <el-form-item :label="M2('认证备注') + ':'">
                         <el-input type="textarea" 
                             autosize 
                             v-model="ruleForm.certificationRemarks"
@@ -163,7 +163,7 @@
             </el-row>
             <el-row>
                 <el-col :span="24">
-                    <el-form-item label="工厂提供的图片:">
+                    <el-form-item :label="M2('工厂提供的图片') + ':'">
                         <el-upload
                             class="upload-demo"
                             :action="action"
@@ -185,8 +185,8 @@
             </el-row>
         </el-form>
         <div class="bottomButton">
-            <el-button type="primary" @click="submitForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'产品标题和供应商信息'}" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
-            <el-button @click="resetForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'产品标题和供应商信息'}">取消</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'产品标题和供应商信息'}" perkey='ERP.Product.ProductDev.SalesManEdit'>{{M2('保存')}}</el-button>
+            <el-button @click="resetForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'产品标题和供应商信息'}">{{M2('取消')}}</el-button>
         </div>
     </div>
 </template>
@@ -228,11 +228,11 @@ export default {
                 ],
             },
             rules:{
-                chineseDescription: [{ required: true, message: '请填写描述信息', trigger: 'blur' }],
-                chineseTitle: [{ required: true, message: '请填写中文标题', trigger: 'blur' }],
-                supplierLocation: [{ required: true, message: '请选择供应商所在地', trigger: 'blur' }],
-                certificationRemarks: [{ required: true, message: '请填写认证备注', trigger: 'blur' }],
-                recommendFileList: [{ required: true, message: '请添加图片', trigger: 'blur' }],
+                chineseDescription: [{ required: true, message: this.M2('请填写描述信息'), trigger: 'blur' }],
+                chineseTitle: [{ required: true, message: this.M2('请填写中文标题'), trigger: 'blur' }],
+                supplierLocation: [{ required: true, message: this.M2('请选择供应商所在地'), trigger: 'blur' }],
+                certificationRemarks: [{ required: true, message: this.M2('请填写认证备注'), trigger: 'blur' }],
+                recommendFileList: [{ required: true, message: this.M2('请添加图片'), trigger: 'blur' }],
             },
             devSign:[
                 {
@@ -396,10 +396,10 @@ export default {
             window.open(`${this.proImageList}Development/downloadFile?developmentId=${this.$route.query.developmentId}&fileName=${file.fileuri}`)
         },
         handleExceed(files, fileList) {
-            this.$message.warning(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`);
+            this.$message.warning(this.M2(`当前限制选择 3 个文件，本次选择了 ${files.length} 个文件，共选择了 ${files.length + fileList.length} 个文件`));
         },
         beforeRemove(file) {
-            return this.$confirm(`确定移除这个文件吗？`,'提示',{cancelButtonClass: 'btn-custom-cancel'});
+            return this.$confirm(this.M2(`确定移除这个文件吗？`),this.M2('提示'),{cancelButtonClass: 'btn-custom-cancel'});
         },
         submitForm(formName) {
             this.$refs[formName].validate((valid) => {
@@ -420,7 +420,7 @@ export default {
                     if(res.code == 200){
                         this.$message({
                             type: 'success', 
-                            message:'保存成功',
+                            message:this.M2('保存成功'),
                             offset:220
                         })
                         this.$emit('closeEdit','false')

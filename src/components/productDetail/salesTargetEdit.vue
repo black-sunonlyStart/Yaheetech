@@ -3,12 +3,12 @@
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="170px" class="demo-ruleForm" size="mini">
             <el-row :gutter="150">
                 <el-col :span="10"  :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
-                    <el-form-item label="产品星级评分:" prop="staRating">
+                    <el-form-item :label="M2('产品星级评分') + ':'" prop="staRating">
                         <el-input-number  :controls='false' :precision="1" :step="0.1" :max="5" :min="0" v-model="ruleForm.staRating" class="numberInput"></el-input-number>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10"  :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
-                    <el-form-item label="目标采购价:" prop="targetPrice">
+                    <el-form-item :label="M2('目标采购价') + ':'" prop="targetPrice">
                         <div class="targetPriceWbox">
                             <div class="inputBox">
                                 <el-input-number :controls='false' v-model="ruleForm.targetPrice" ></el-input-number>
@@ -22,7 +22,7 @@
                                     <el-option 
                                         v-for="item in devSign"                        
                                         :key="item.key"
-                                        :label="item.label"
+                                        :label="M2(item.label)"
                                         :value="item.value"
                                         >
                                     </el-option>
@@ -34,59 +34,59 @@
             </el-row>
             <el-row :gutter="150">
                 <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10" >
-                    <el-form-item label="我司目标星级评分:" prop="westaRating">
+                    <el-form-item  :label="M2('我司目标星级评分') + ':'" prop="westaRating">
                         <el-input-number  :controls='false' :precision="1" :step="0.1" :max="5" :min="0" v-model="ruleForm.westaRating" class="numberInput"></el-input-number>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
-                    <el-form-item label="产品预估日销量:" prop="dailySales">
+                    <el-form-item :label="M2('产品预估日销量') + ':'" prop="dailySales">
                         <el-input-number  :controls='false'  v-model="ruleForm.dailySales" class="numberInput"></el-input-number>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row :gutter="150">
                 <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
-                    <el-form-item label="目标售后返修率要求:" prop="rateRequirements">
+                    <el-form-item  :label="M2('目标售后返修率要求') + ':'" prop="rateRequirements">
                         <el-input v-model="ruleForm.rateRequirements">
                             <template slot="append" >%</template>
                         </el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
-                    <el-form-item label="预估首单订单数量:" prop="orderQuantity">
+                    <el-form-item :label="M2('预估首单订单数量') + ':'" prop="orderQuantity">
                         <el-input-number  :controls='false'  v-model="ruleForm.orderQuantity" class="numberInput"></el-input-number>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-row :gutter="150">
                 <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
-                    <el-form-item label="产品开发市场:" prop="productMarket">
+                    <el-form-item  :label="M2('产品开发市场') + ':'" prop="productMarket">
                         <el-input v-model="ruleForm.productMarket" type="textarea" maxlength="200" show-word-limit></el-input>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
-                    <el-form-item label="产品包装尺寸特殊要求:" prop="specialPackaging">
+                    <el-form-item  :label="M2('产品包装尺寸特殊要求') + ':'" prop="specialPackaging">
                         <el-input type="textarea" v-model="ruleForm.specialPackaging"  maxlength="200" show-word-limit></el-input>
                     </el-form-item>
                 </el-col>
             </el-row>     
             <el-row :gutter="150">
                 <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
-                     <el-form-item label="产品测样时间点:" prop="samplingTime">
+                     <el-form-item :label="M2('产品测样时间点') + ':'" prop="samplingTime">
                         <el-date-picker
                             v-model="ruleForm.samplingTime"
                             type="date"
-                            placeholder="选择日期"
+                            :placeholder="M2('选择日期')"
                             >
                         </el-date-picker>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
-                     <el-form-item label="预计下单日期:" prop="orderTime">
+                     <el-form-item  :label="M2('预计下单日期') + ':'" prop="orderTime">
                         <el-date-picker
                             v-model="ruleForm.orderTime"
                             type="date"
-                            placeholder="选择日期"
+                             :placeholder="M2('选择日期')"
                             >
                         </el-date-picker>
                     </el-form-item>
@@ -94,18 +94,18 @@
             </el-row>
             <el-row :gutter="150" v-if="ruleForm.showPlanToOrder">
                 <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10" >
-                     <el-form-item label="是否计划下单:" prop="planToOrder">
+                     <el-form-item :label="M2('是否计划下单') + ':'" prop="planToOrder">
                         <el-radio-group v-model="ruleForm.planToOrder" :disabled="ruleForm.nowStatus != 8">
-                            <el-radio :label="1">是</el-radio>
-                            <el-radio :label="0">否</el-radio>
+                            <el-radio :label="1">{{M2('是')}}</el-radio>
+                            <el-radio :label="0">{{M2('否')}}</el-radio>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
             </el-row>
         </el-form>
         <div class="bottomButton">
-            <el-button type="primary" @click="submitForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'销售目标'}" perkey='ERP.Product.ProductDev.SalesManEdit'>保存</el-button>
-            <el-button @click="resetForm('ruleForm')" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'销售目标'}" size="mini">取消</el-button>
+            <el-button type="primary" @click="submitForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'销售目标'}" perkey='ERP.Product.ProductDev.SalesManEdit'>{{M2('保存')}}</el-button>
+            <el-button @click="resetForm('ruleForm')" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'取消',businessCode:'销售目标'}" size="mini">{{M2('取消')}}</el-button>
         </div>
     </div>
 </template>
@@ -131,37 +131,37 @@ export default {
             },
             rules: {
             staRating: [
-                { required: true, message: '请添加评分', trigger: 'blur' },
+                { required: true, message: this.M2('请添加评分'), trigger: 'blur' },
             ],
             targetPrice: [
-                { required: true, message: '请填写价格', trigger: 'blur' }
+                { required: true, message: this.M2('请填写价格'), trigger: 'blur' }
             ],
             westaRating: [
-                { required: true, message: '请添加评分', trigger: 'blur' }
+                { required: true, message: this.M2('请添加评分'), trigger: 'blur' }
             ],
             dailySales: [
-                {  required: true, message: '请添加产品预估日销量', trigger: 'blur' }
+                {  required: true, message: this.M2('请添加产品预估日销量'), trigger: 'blur' }
             ],
             rateRequirements: [
-                { required: true, message: '请添加返修率', trigger: 'blur' }
+                { required: true, message: this.M2('请添加返修率'), trigger: 'blur' }
             ],
             orderQuantity: [
-                { required: true, message: '请填写预估首单订单数量', trigger: 'blur' }
+                { required: true, message: this.M2('请填写预估首单订单数量'), trigger: 'blur' }
             ],
             productMarket: [
-                { required: true, message: '请填写产品开发市场:', trigger: 'blur' }
+                { required: true, message: this.M2('请填写产品开发市场'), trigger: 'blur' }
             ],
             specialPackaging: [
-                { required: true, message: '请填写包装尺寸特殊要求', trigger: 'blur' }
+                { required: true, message: this.M2('请填写包装尺寸特殊要求'), trigger: 'blur' }
             ],
             samplingTime: [
-                { required: true, message: '请添加产品测样时间点', trigger: 'blur' }
+                { required: true, message: this.M2('请添加产品测样时间点'), trigger: 'blur' }
             ],
             orderTime: [
-                { required: true, message: '请添加产品下单时间点', trigger: 'blur' }
+                { required: true, message: this.M2('请添加产品下单时间点'), trigger: 'blur' }
             ],
             planToOrder: [
-                { required: true, message: '请选择是否计划下单', trigger: 'blur' }
+                { required: true, message: this.M2('请选择是否计划下单'), trigger: 'blur' }
             ],
             },
             devSign:[    
@@ -236,7 +236,7 @@ export default {
                     if(res.code == 200){
                         this.$message({
                             type: 'success', 
-                            message:'保存成功',
+                            message:this.M2('保存成功'),
                             offset:220
                         })
                         this.$emit('closeEdit','false')

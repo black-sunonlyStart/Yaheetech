@@ -3,11 +3,11 @@
         <el-row class="maina-tab-title">
             <el-col :span="24">
                 <div class="flot-left">
-                    <el-button type="primary" plain class="button-put" @click="routerMove()" v-permission="'ERP.Product.ProductSample.SaveProductSample'">申请样品确认</el-button>
-                    <el-button type="primary" plain class="button-put" @click="opreateButton(2)" v-permission="'ERP.Product.ProductSample.SaveSampleValidator'">分配样品确认员</el-button>
-                    <el-button type="primary" plain class="button-put" @click="opreateButton(3)" v-permission="'ERP.Product.ProductSample.ApprovalSampleMemo'">提交样品结果</el-button>
-                    <el-button type="primary" plain class="button-put" @click="opreateButton(5)" v-permission="'PM00070'">申请修改结果</el-button>
-                    <el-button type="primary" plain class="button-put" @click="opreateButton(6)" v-permission="'PM00071'">审核修改结果</el-button>
+                    <el-button type="primary" plain class="button-put" @click="routerMove()" v-permission="'ERP.Product.ProductSample.SaveProductSample'">{{M2('申请样品确认')}}</el-button>
+                    <el-button type="primary" plain class="button-put" @click="opreateButton(2)" v-permission="'ERP.Product.ProductSample.SaveSampleValidator'">{{M2('分配样品确认员')}}</el-button>
+                    <el-button type="primary" plain class="button-put" @click="opreateButton(3)" v-permission="'ERP.Product.ProductSample.ApprovalSampleMemo'">{{M2('提交样品结果')}}</el-button>
+                    <el-button type="primary" plain class="button-put" @click="opreateButton(5)" v-permission="'PM00070'">{{M2('申请修改结果')}}</el-button>
+                    <el-button type="primary" plain class="button-put" @click="opreateButton(6)" v-permission="'PM00071'">{{M2('审核修改结果')}}</el-button>
                     <el-dropdown trigger="hover"  @command="unCancelList" size='mini'>
                         <el-button  plain
                             size='mini' 
@@ -16,14 +16,14 @@
                             v-permission="'ERP.Product.ProductSample.CancelOff'"
                             type="danger"
                         >
-                            取消申请<i class="el-icon-arrow-down el-icon--right"></i>
+                            {{M2('取消申请')}}<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
                             <!-- <el-dropdown-item command= 6 plain>更换采购开发</el-dropdown-item> -->
                             <el-dropdown-item 
                                 command= 20 
                                 v-permission="'ERP.Product.ProductSample.CancelOn'"
-                            >恢复申请</el-dropdown-item>
+                            >{{M2('恢复申请')}}</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
                     <el-dropdown trigger="hover" size='mini' @command="exportFile">
@@ -32,15 +32,15 @@
                             size='mini' 
                             style="margin-left:10px;height:25px;padding: 5px 15px;" 
                         >
-                            报表导出<i class="el-icon-arrow-down el-icon--right"></i>
+                            {{M2('报表导出')}}<i class="el-icon-arrow-down el-icon--right"></i>
                         </el-button>
                         <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item command= 20 >样品确认申请单</el-dropdown-item>
-                            <el-dropdown-item command= 40 >开发需求确认单</el-dropdown-item>
-                            <el-dropdown-item command= 30 v-permission="'ERP.Product.ProductSample.SaveSampleValidator'">样品确认进度报表</el-dropdown-item>
+                            <el-dropdown-item command= 20 >{{M2('样品确认申请单')}}</el-dropdown-item>
+                            <el-dropdown-item command= 40 >{{M2('开发需求确认单')}}</el-dropdown-item>
+                            <el-dropdown-item command= 30 v-permission="'ERP.Product.ProductSample.SaveSampleValidator'">{{M2('样品确认进度报表')}}</el-dropdown-item>
                         </el-dropdown-menu>
                     </el-dropdown>
-                    <span v-if="optionPutExcle" class="reportTitle"><i class="el-icon-loading" style="margin-right:5px"></i>报表导出中</span>
+                    <span v-if="optionPutExcle" class="reportTitle"><i class="el-icon-loading" style="margin-right:5px"></i>{{M2('报表导出中')}}</span>
                 </div>
             </el-col>
         </el-row>
@@ -50,6 +50,7 @@
                 :data="mainTaskList" 
                 border 
                 :fit="true"
+                :empty-text="M2('暂无数据')"
                 style="width: 100%"
                 @selection-change="handleSelectionChange" :height='changeMaxHeight()'
                 :header-cell-style="{background:'#f5f7fa',color:'#606266',padding:'5px 0px' }"
@@ -58,7 +59,7 @@
                 <el-table-column width="150">
                     <template slot="header">
                         <div style="text-align:center">
-                            申请单号
+                            {{M2('申请单号')}}
                         </div>
                     </template>
                     <template slot-scope="scope">
@@ -76,7 +77,7 @@
                 <el-table-column prop="otherSKUAlias" width="380">
                     <template slot="header">
                         <div style="text-align:center">
-                            产品名称/申请ID
+                            {{M2('产品名称/申请ID')}}
                         </div>
                     </template>
                     <template slot-scope="scope">
@@ -106,7 +107,7 @@
                 <el-table-column prop="otherSKUAlias" width="140">
                     <template slot="header">
                         <div style="text-align:center">
-                            新型号ID
+                            {{M2('新型号ID')}}
                         </div>
                     </template>
                     <template slot-scope="scope">
@@ -127,35 +128,35 @@
                 </el-table-column>
                 <el-table-column width="120" align="center">
                     <template slot="header">
-                        产品类型
+                        {{M2('产品类型')}}
                     </template>
                     <template slot-scope="scope">
                         <span>
-                           <div>{{scope.row.scenariosStr ? scope.row.scenariosStr : '--'}}</div>
+                           <div>{{scope.row.scenariosStr ? M2(scope.row.scenariosStr) : '--'}}</div>
                         </span>
                     </template>
                 </el-table-column>
                 <el-table-column align="center" width="120">
                     <template slot="header">
-                       样品情况
+                       {{M2('样品情况')}}
                     </template>
                     <template slot-scope="scope">
                         <div>
-                            {{scope.row.sampleConditionStr? scope.row.sampleConditionStr : '--'}}
+                            {{scope.row.sampleConditionStr? M2(scope.row.sampleConditionStr) : '--'}}
                         </div>
                     </template>
                 </el-table-column>
               
                 <el-table-column prop="applyEr"  width="110" align="center">
                     <template slot="header">
-                        状态/耗时
+                        {{M2('状态/耗时')}}
                     </template>
                     <template slot-scope="scope">
                         <div class="status-rudis">
                             <div :class="showClass(scope.row.state,'radiusDiv')"></div>
                             <div>
                                 <div>{{scope.row.stateValue}}</div>
-                                <div v-if="scope.row.sjDay"  style="color:#797979">({{scope.row.sjDay}}天)</div>
+                                <div v-if="scope.row.sjDay"  style="color:#797979">({{scope.row.sjDay}}{{M2('天')}})</div>
                             </div>
                         </div>
                         <div class="fileHoverShow" v-if="scope.row.preProductionDocuments"  @click="clickShowBill(scope.row)">({{scope.row.preProductionDocuments[0].stateValue}})</div>
@@ -163,36 +164,36 @@
                 </el-table-column>
                 <el-table-column prop="sampleValidatorName"  width="120" align="center">
                     <template slot="header">
-                        样品确认员
+                        {{M2('样品确认员')}}
                     </template>
                     <template slot-scope="scope">
-                        {{scope.row.sampleValidatorName ? scope.row.sampleValidatorName : '--'}}
+                        {{scope.row.sampleValidatorName ? M2(scope.row.sampleValidatorName) : '--'}}
                     </template>
                 </el-table-column>
                 <el-table-column prop="status" width="100" align="center">
                     <template slot="header">
-                        申请次数
+                        {{M2('申请次数')}}
                     </template>
                     <template slot-scope="scope">
-                        {{scope.row.sampleNum}}
+                        {{M2(scope.row.sampleNum)}}
                     </template>
                 </el-table-column>
                 <el-table-column align="center" width="120">
                     <template slot="header">
-                        验样场地
+                        {{M2('验样场地')}}
                     </template>
                     <template slot-scope="scope">
                         <span>
-                            {{scope.row.testSiteStr}}
+                            {{M2(scope.row.testSiteStr)}}
                         </span> 
                         <div v-if="scope.row.testSite == 1" style="color:#797979">
-                            {{scope.row.supplierName}}
+                            {{M2(scope.row.supplierName)}}
                         </div> 
                     </template>
                 </el-table-column>
                 <el-table-column  width="120" align="center">
                     <template slot="header">
-                        完成时间
+                        {{M2('完成时间')}}
                     </template>
                     <template slot-scope="scope">
                         {{scope.row.completionTime ? $moment(scope.row.completionTime).format("YYYY-MM-DD") : '--'}}
@@ -201,20 +202,23 @@
              
                 <el-table-column prop="priority"  align="center" width="100">
                     <template slot="header">
-                        申请人
+                        {{M2('申请人')}}
                     </template>
                     <template slot-scope="scope">
-                       {{scope.row.applicantName}}
+                       {{M2(scope.row.applicantName)}}
                     </template>
                 </el-table-column>
                 <el-table-column prop="createdOn" width="100" align="center" sortable label="申请时间">
+                    <template slot="header">
+                        {{M2('申请时间')}}
+                    </template>
                     <template slot-scope="scope">
                         {{scope.row.applicationTime ? formatDate(scope.row.applicationTime) : '--'}}
                     </template>
                 </el-table-column>
                 <el-table-column prop="id" label="操作 / 记录" width="120"  align="center" fixed="right">
                     <template slot="header">
-                        操作 / 记录
+                        {{M2('操作 / 记录')}}
                     </template>
                     <template slot-scope="scope">
                         <div style="display:flex">
@@ -231,7 +235,7 @@
                                     size='mini' 
                                     style="margin-left:10px;height:25px;padding: 5px 15px;" 
                                 >
-                                    操作<i class="el-icon-arrow-down el-icon--right"></i>
+                                     {{M2('操作')}}<i class="el-icon-arrow-down el-icon--right"></i>
                                 </el-button>
                                 <el-dropdown-menu slot="dropdown">
                                     <el-dropdown-item :command='changCommand(item.value,scope.row)' style="width:100px;text-align:center" v-for="item in optionsList"  :key="item.value">
@@ -258,7 +262,7 @@
         <!--改动记录-->
         <sampleDialog ref="sampleDialog" @mainListList="mainListList" />
         <commonDialog ref="commonDialog" titleText="关联单据">
-            <el-table :data="tableData" style="width: 100%" height="350" border :header-cell-style="{background:'#f5f7fa',color:'#606266'}" >
+            <el-table :empty-text="M2('暂无数据')" :data="tableData" style="width: 100%" height="350" border :header-cell-style="{background:'#f5f7fa',color:'#606266'}" >
                 <el-table-column type="index">
                     <template slot="header">
                        序号
@@ -287,7 +291,7 @@
                        当前状态
                     </template>
                     <template slot-scope="scope" >
-                        {{scope.row.stateValue}}
+                        {{M2(scope.row.stateValue)}}
                     </template>
                 </el-table-column>
                 <el-table-column >
@@ -316,17 +320,17 @@ export default {
             optionsList: [
                 {
                     value: 2,
-                    label: '详情',
+                    label: this.M2('详情'),
                     permission:'ERP.Product.ProductSample.View',
                 },
                 {
                     value: 3,
-                    label: '提交',
+                    label: this.M2('提交'),
                     permission:'ERP.Product.ProductSample.ApprovalSampleMemo',
                 },
                 {
                     value: 4,
-                    label: '打回',
+                    label: this.M2('打回'),
                     permission:'ERP.Product.ProductSample.Repulse',
                 },
                
@@ -491,11 +495,11 @@ export default {
         },
         unCancelList(){
             if(this.multipleSelection.length == 0){
-                this.warning('请至少选择一条数据！')
+                this.warning(this.M2('请至少选择一条数据！'))
                 return
             }
             if(this.multipleSelection.some(res => res.state != 8)){
-                this.warning('只能恢复已取消数据！')
+                this.warning(this.M2('只能恢复已取消数据！'))
                 return
             }
             let params = {
@@ -503,7 +507,7 @@ export default {
             }
             unCancel(params).then(res => {
                 if(res.code == 200){
-                    this.success('恢复成功！')
+                    this.success(this.M2('恢复成功！'))
                     this.mainListList(this.uploadFilterList)
                 }
             })
@@ -516,56 +520,56 @@ export default {
                 this.multipleSelection.push(list)
             }
             if(this.multipleSelection.length == 0) {
-                this.warning('请至少选择一条数据！')
+                this.warning(this.M2('请至少选择一条数据！'))
                 return
             }
             if(id == 1 || id == 4 || id== 5 || id== 6) {
                 if(this.multipleSelection.length > 1){
-                    this.warning('只能操作单条数据！')
+                    this.warning(this.M2('只能操作单条数据！'))
                     return
                 }   
             }
             if(id == 2 || id == 4){
                 if(this.multipleSelection.some(res => res.state != 2 && res.state != 3)){
-                    this.warning('仅支持待分配，样品确认中进行该操作！')
+                    this.warning(this.M2('仅支持待分配，样品确认中进行该操作！'))
                     return
                 }
             }
             if(id == 3){
                 if(this.multipleSelection.some(res => res.state != 3)){
-                    this.warning('只有样品确认中状态才可以提交样品确认结果！')
+                    this.warning(this.M2('只有样品确认中状态才可以提交样品确认结果！'))
                     return
                 }
             }
             if(id == 1){
                 if(this.multipleSelection.some(res => res.state != 2 && res.state != 3 && res.state != 4)){
-                    this.warning('仅支持待分配，样品确认中，结果输出中可以操作取消！')
+                    this.warning(this.M2('仅支持待分配，样品确认中，结果输出中可以操作取消！'))
                     return
                 }
             }
             //申请修改结果判断当前登录人是否是该条数据的样品确认员。
             if(id == 5){
                 if(this.multipleSelection.some(res => res.sampleValidator != this.employee.Id) && !this.employee.IsAdminRole){
-                    this.warning('只有当前登录账号是该产品的样品确认员才能修改！')
+                    this.warning(this.M2('只有当前登录账号是该产品的样品确认员才能修改！'))
                     return
                 }
                 if(this.multipleSelection.some(res => res.state != 5 && res.state != 6 && res.state != 7)){
-                    this.warning('仅支持合格，改进后通过(产前样)，不合格状态可以操作！')
+                    this.warning(this.M2('仅支持合格，改进后通过(产前样)，不合格状态可以操作！'))
                     return
                 }
             }
             if(id == 6) {
                  if(this.multipleSelection.some(res => res.state != 9)){
-                    this.warning('仅支持结果修改中状态可以操作！')
+                    this.warning(this.M2('仅支持结果修改中状态可以操作！'))
                     return
                 }
             }
-            if(id == 5) dialog.title = '申请修改结果'
-            if(id == 6) dialog.title = '审核修改结果'
-            if(id == 1) dialog.title = '取消'
-            if(id == 2) dialog.title = '分配'
-            if(id == 3) dialog.title = '提交'
-            if(id == 4) dialog.title = '打回'
+            if(id == 5) dialog.title = this.M2('申请修改结果')
+            if(id == 6) dialog.title = this.M2('审核修改结果')
+            if(id == 1) dialog.title = this.M2('取消')
+            if(id == 2) dialog.title = this.M2('分配')
+            if(id == 3) dialog.title = this.M2('提交')
+            if(id == 4) dialog.title = this.M2('打回')
             dialog.openDialog(this.multipleSelection,id)
         },
         //导出文件
@@ -575,13 +579,13 @@ export default {
                 if(!this.multipleSelection || this.multipleSelection.length == 0 ){
                     this.$message({
                         type: 'error', 
-                        message:'请选择数据列表',
+                        message:this.M2('请选择数据列表'),
                         offset:220
                     })
                     return
                 }  
                 if(this.multipleSelection.every(item => item.scenarios == null || item.sampleCondition == null)){
-                    this.error(`所选数据类型未选定，无法导出需求确认单!`)
+                    this.error(this.M2('所选数据类型未选定，无法导出需求确认单!'))
                     return
                 }
                 let rowId = this.multipleSelection.filter(item => {
@@ -595,7 +599,7 @@ export default {
                     return item.id
                 })
                 if(noDevProductList && noDevProductList.length > 0){
-                    this.error(`申请单号:${noDevProductList.join(',')}，所选数据类型未选定，无法导出需求确认单!`)
+                    this.error(this.M2('申请单号') + ':' + `${noDevProductList.join(',')}`+ ',' +this.M2('所选数据类型未选定，无法导出需求确认单!'))
                 }
                 this.optionPutExcle = true
                 exportProductSampleRequirement([...new Set(rowId)]).then(res => {
@@ -608,7 +612,7 @@ export default {
                         }
                         
                         if(res.data.errProductSampleIds){
-                           this.error(`申请单号 ${res.data.errProductSampleIds.join(',')} 未成功导出数据，请联系IT部【 崔凯旋，王蒙 】进行处理!`)
+                           this.error(this.M2('申请单号') + `${res.data.errProductSampleIds.join(',')}` + this.M2('未成功导出数据，请联系IT部进行处理!'))
                         }
                     }else {
                       this.optionPutExcle = false
@@ -632,7 +636,7 @@ export default {
                         this.optionPutExcle = true
                         globalReportExport(options,this)
                     }else {
-                        this.error('暂无数据可导出！')
+                        this.error(this.M2('暂无数据可导出！'))
                     }
                 })
                 
@@ -640,14 +644,14 @@ export default {
                 if(!this.multipleSelection || this.multipleSelection.length == 0 ){
                     this.$message({
                         type: 'error', 
-                        message:'请选择数据列表',
+                        message:this.M2('请选择数据列表'),
                         offset:220
                     })
                     return
                 }
                 //devProductId如果没有就报错
                 if(this.multipleSelection.every(item => item.devProductId == null)){
-                    this.error(`所选数据未找到对应的开发任务,无法导出需求确认单!`)
+                    this.error(this.M2('所选数据未找到对应的开发任务,无法导出需求确认单!'))
                     return
                 }
                 //过滤出来数据
@@ -663,7 +667,7 @@ export default {
                     return item.id
                 })
                 if(noDevProductList && noDevProductList.length > 0){
-                    this.error(`申请单号:${noDevProductList.join(',')}，未找到对应的开发任务，无法导出需求确认单!`)
+                    this.error(`${this.M2('申请单号')}:${noDevProductList.join(',')}，${this.M2('未找到对应的开发任务，无法导出需求确认单')}!`)
                 }
                 //去重循环获取文件地址
                 [...new Set(rowId)].forEach(item => {
@@ -701,22 +705,22 @@ export default {
                     let param = {
                         productSampleIds:[val.list.id]
                     }
-                    this.$confirm('确定要提交样品申请单至认证部进行样品确认?', '提示', {
-                        confirmButtonText: '确定',
-                        cancelButtonText: '取消',
+                    this.$confirm(this.M2('确定要提交样品申请单至认证部进行样品确认?'), this.M2('提示'), {
+                        confirmButtonText: this.M2('确定'),
+                        cancelButtonText: this.M2('取消'),
                         type: 'warning',
                         cancelButtonClass: 'btn-custom-cancel',
                     })
                     .then(() => {
                         approvalSampleMemo(param).then(res => {
                             if(res.code == 200){
-                                this.success('提交成功！')
+                                this.success(this.M2('提交成功！'))
                                 this.mainListList(this.uploadFilterList)
                             }
                         })
                     })
                 }else if(val.list.state == 4){
-                    this.error('请到详情页补充文件后再提交！')
+                    this.error(this.M2('请到详情页补充文件后再提交！'))
                 }else {
                     this.opreateButton(val.value,val.list)
                 }  

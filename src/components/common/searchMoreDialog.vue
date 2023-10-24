@@ -1,7 +1,7 @@
 <template>
     <div class="dialogBox">
         <el-dialog
-            :title="title"
+            :title="M2(title)"
             :visible.sync="dialogVisible"
             width="30%"
             :modal-append-to-body="false"
@@ -18,7 +18,7 @@
                         <el-option 
                             v-for="item in cameraOperatorList"                        
                             :key="item.id"
-                            :label="item.name"
+                            :label="M2(item.name)"
                             :value="item.id"
                             >
                         </el-option>
@@ -28,12 +28,12 @@
                 <el-form-item label="" prop="parameters">
                       <el-input size="mini" type="textarea" v-model="ruleForm.parameters" :rows="5"  @change="changeParameters"></el-input>
                 </el-form-item>
-                <div style="padding-left:10px">多个sku或者sku别名用“，”隔开</div>
+                <div style="padding-left:10px">{{M2('多个sku或者sku别名用“，”隔开')}}</div>
              </el-form>
             
             <span slot="footer" class="dialog-footer">
-                <el-button type="primary" @click="onSubmit('ruleForm')" size="small">确 定</el-button>
-                <el-button @click="dialogVisible = false" size="small">取 消</el-button>
+                <el-button type="primary" @click="onSubmit('ruleForm')" size="small">{{M2('确 定')}}</el-button>
+                <el-button @click="dialogVisible = false" size="small">{{M2('取 消')}}</el-button>
             </span>
         </el-dialog>
     </div>

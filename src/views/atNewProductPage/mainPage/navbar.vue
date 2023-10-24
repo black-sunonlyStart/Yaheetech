@@ -9,7 +9,7 @@
                 <el-col :span="10" :xs="20" :sm="19" :md="19" :lg="19" :xl="19">
                     <el-form-item>
                         <template slot="label">
-                        创建日期:
+                            {{M2('创建日期')}}:
                         </template>
                         <el-radio-group size="mini"  v-model="form.timeEnum">
                             <el-radio-button @click.native="clickRadioSearch('timeEnum',item.timeEnum,$event)" v-for="item in timeList" :key="item.timeEnum" :label="item.timeEnum">{{ item.timeEnumValue }}</el-radio-button>
@@ -20,9 +20,9 @@
                             type="daterange"
                             align="right"
                             unlink-panels
-                            range-separator="至"
-                            start-placeholder="开始日期"
-                            end-placeholder="结束日期"
+                            :range-separator="M2('至')"
+                            :start-placeholder="M2('开始日期')"
+                            :end-placeholder="M2('结束日期')"
                             :picker-options="pickerOptions"
                             format="yyyy-MM-dd"
                             value-format="yyyy-MM-dd"
@@ -34,7 +34,7 @@
                 <el-col :xs="4" :sm="5" :md="5" :lg="5" :xl="5">
                     <el-form-item label-width="10px">
                         <div class="searchBox">
-                            <el-input placeholder="综合搜索"
+                            <el-input :placeholder="M2('综合搜索')"
                                 v-model="putSearch"
                                 size='mini'
                                 class="input-with-select"
@@ -43,66 +43,66 @@
                                 @keyup.enter.native="searchSomething"
                                 >
                             </el-input>
-                            <el-button type="primary" @click="searchSomething">搜索</el-button>
+                            <el-button type="primary" @click="searchSomething">{{M2('搜索')}}</el-button>
                         </div>
                     </el-form-item>
                 </el-col>
             </el-row>
             <el-form-item>
                 <template slot="label">
-                    类目:
+                    {{M2('类目')}}:
                 </template>
                 <el-radio-group size="mini" v-model="form.seriesCategoryId">
-                    <el-radio-button :label="null" @click.native="clickRadioSearch('seriesCategoryId',null,$event)">全部({{this.totalNum(1)}})</el-radio-button>
-                    <el-radio-button @click.native="clickRadioSearch('seriesCategoryId',item.seriesCategoryId,$event),changeRadioSearch(index)" v-for="(item,index) in seriesList" :key="item.seriesCategoryId" :label="item.seriesCategoryId">{{ item.seriesCategoryName }}({{item.num || 0}})</el-radio-button>
+                    <el-radio-button :label="null" @click.native="clickRadioSearch('seriesCategoryId',null,$event)">{{M2('全部')}}({{this.totalNum(1)}})</el-radio-button>
+                    <el-radio-button @click.native="clickRadioSearch('seriesCategoryId',item.seriesCategoryId,$event),changeRadioSearch(index)" v-for="(item,index) in seriesList" :key="item.seriesCategoryId" :label="item.seriesCategoryId">{{M2(item.seriesCategoryName)}}({{item.num || 0}})</el-radio-button>
                 </el-radio-group>
             </el-form-item>
             <el-form-item v-if="form.seriesCategoryId != null">
                 <template slot="label">  
-                    系列:
+                    {{M2('系列')}}:
                 </template>
                 <el-radio-group size="mini" v-model="form.classifyDefId" >
-                    <el-radio-button :label="null" @click.native="clickRadioSearch('classifyDefId',null,$event)">全部({{this.totalNum(2)}})</el-radio-button>
-                    <el-radio-button @click.native="clickRadioSearch('classifyDefId',item.classifyDefId,$event)" v-for="item in seriesListChilds" :key="item.classifyDefId" :label="item.classifyDefId">{{ item.classifyDefName }}({{item.num || 0}})</el-radio-button>
+                    <el-radio-button :label="null" @click.native="clickRadioSearch('classifyDefId',null,$event)">{{M2('全部')}}({{this.totalNum(2)}})</el-radio-button>
+                    <el-radio-button @click.native="clickRadioSearch('classifyDefId',item.classifyDefId,$event)" v-for="item in seriesListChilds" :key="item.classifyDefId" :label="item.classifyDefId">{{ M2(item.classifyDefName) }}({{item.num || 0}})</el-radio-button>
                 </el-radio-group>
             </el-form-item>
             <el-form-item>
                 <template slot="label">
-                    大组:
+                    {{M2('大组')}}:
                 </template>
                 <el-radio-group size="mini" v-model="form.categoryManagerId">
-                    <el-radio-button :label="null" @click.native="clickRadioSearch('categoryManagerId',null,$event)">全部({{this.totalNum(3)}})</el-radio-button>
-                    <el-radio-button @click.native="clickRadioSearch('categoryManagerId',item.categoryManagerId,$event)" v-for="item in categoryManagerList" :key="item.id" :label="item.id">{{ item.name }}({{item.num}})</el-radio-button>
+                    <el-radio-button :label="null" @click.native="clickRadioSearch('categoryManagerId',null,$event)">{{M2('全部')}}({{this.totalNum(3)}})</el-radio-button>
+                    <el-radio-button @click.native="clickRadioSearch('categoryManagerId',item.categoryManagerId,$event)" v-for="item in categoryManagerList" :key="item.id" :label="item.id">{{ M2(item.name) }}({{item.num}})</el-radio-button>
                 </el-radio-group>
             </el-form-item>
             <el-form-item>
                 <template slot="label">
-                    状   态:
+                    {{M2('状   态')}}:
                 </template>
                 <el-radio-group size="mini" v-model="form.state">
-                    <el-radio-button :label="null" @click.native="clickRadioSearch('state',null,$event)">全部</el-radio-button>
-                    <el-radio-button @click.native="clickRadioSearch('state',item.state,$event)" v-for="item in filterStatusList" :disabled="item.candisable" :key="item.key" :label="item.state">{{ item.statusValue }}</el-radio-button>
-                    <div class="success-radio" v-for="item in filterStatusList1"  :key="item.state"><el-radio  @click.native="clickRadioSearch('state',item.state,$event)"  :label="item.state">{{ item.statusValue }}</el-radio></div>
+                    <el-radio-button :label="null" @click.native="clickRadioSearch('state',null,$event)">{{M2('全部')}}</el-radio-button>
+                    <el-radio-button @click.native="clickRadioSearch('state',item.state,$event)" v-for="item in filterStatusList" :disabled="item.candisable" :key="item.key" :label="item.state">{{ M2(item.statusValue) }}</el-radio-button>
+                    <div class="success-radio" v-for="item in filterStatusList1"  :key="item.state"><el-radio  @click.native="clickRadioSearch('state',item.state,$event)"  :label="item.state">{{ M2(item.statusValue) }}</el-radio></div>
                 </el-radio-group>
             </el-form-item>
             <el-row>
                 <el-col :span="10" :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
                     <el-form-item>
                         <template slot="label">
-                            业务开发:
+                            {{M2('业务开发')}}:
                         </template>
                         <el-radio-group size="mini" v-model="form.curBusiness">
-                            <el-radio-button @click.native="clickRadioSearch('curBusiness',item.label,$event)" v-for="item in developNameList" :key="item.key" :label="item.label">{{ item.name }}</el-radio-button>
+                            <el-radio-button @click.native="clickRadioSearch('curBusiness',item.label,$event)" v-for="item in developNameList" :key="item.key" :label="item.label">{{ M2(item.name) }}</el-radio-button>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10" :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
                     <el-form-item>
                         <template slot="label">
-                            经办人:
+                            {{M2('经办人')}}:
                         </template>
                         <el-radio-group size="mini" v-model="form.curAssignee">
-                            <el-radio-button @click.native="clickRadioSearch('curAssignee',item.label,$event)" v-for="item in developNameList" :key="item.key" :label="item.label">{{ item.name }}</el-radio-button>
+                            <el-radio-button @click.native="clickRadioSearch('curAssignee',item.label,$event)" v-for="item in developNameList" :key="item.key" :label="item.label">{{ M2(item.name) }}</el-radio-button>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
@@ -111,24 +111,24 @@
                 <el-col :span="10" :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
                     <el-form-item>
                         <template slot="label">
-                            设计款:
+                            {{M2('设计款')}}:
                         </template>
                         <el-radio-group size="mini" v-model="form.designs">
-                            <el-radio-button @click.native="clickRadioSearch('designs',item.label,$event),changeSesign(item.label)" v-for="item in designList" :key="item.label" :label="item.label">{{ item.name }}</el-radio-button>
+                            <el-radio-button @click.native="clickRadioSearch('designs',item.label,$event),changeSesign(item.label)" v-for="item in designList" :key="item.label" :label="item.label">{{ M2(item.name) }}</el-radio-button>
                             
                         </el-radio-group>
                          <el-checkbox-group v-model="form.designs1" size="mini" class="checkbox-status" v-if="form.designs && form.designs != 2">
-                            <el-checkbox  v-for="(item) in designList1" :key="item.label"  :label="item.label" border>{{ item.name }}</el-checkbox>
+                            <el-checkbox  v-for="(item) in designList1" :key="item.label"  :label="item.label" border>{{ M2(item.name) }}</el-checkbox>
                         </el-checkbox-group>
                     </el-form-item>
                 </el-col>
                 <el-col :span="10" :xs="12" :sm="12" :md="12" :lg="12" :xl="12">
                     <el-form-item>
                         <template slot="label">
-                            产品来源:
+                            {{M2('产品来源')}}:
                         </template>
                         <el-radio-group size="mini" v-model="form.productSource">
-                            <el-radio-button @click.native="clickRadioSearch('productSource',item.label,$event)" v-for="item in supplierTypeList" :key="item.label" :label="item.label">{{ item.name }}</el-radio-button>
+                            <el-radio-button @click.native="clickRadioSearch('productSource',item.label,$event)" v-for="item in supplierTypeList" :key="item.label" :label="item.label">{{ M2(item.name) }}</el-radio-button>
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
