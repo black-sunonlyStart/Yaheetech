@@ -7,6 +7,7 @@
 <script>
 import { hasPermissions } from '@/api/user.js'
 import { addMask} from '@/utils/tools.js'
+import { getAllTranslateList } from '@/utils/translate.js'
 export default {
     name:'sampleConfirmation',
     components:{
@@ -21,7 +22,7 @@ export default {
         }
     },
     mounted(){
-        this.getPermissions()
+         this.getPermissions()
     },
     methods:{
         putTableList (val){
@@ -50,7 +51,7 @@ export default {
                 if(per && per.length > 0){
                     addMask('ERP.Product.ProductSample.View')
                 }else {
-                    this.renderDom = true
+                    getAllTranslateList(this)
                 }
             })
         },

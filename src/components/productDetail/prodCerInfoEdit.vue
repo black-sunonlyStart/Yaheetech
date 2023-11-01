@@ -491,12 +491,12 @@ export default {
                    newCredentialList1.splice(index,1)
                 }
             }
-             isUsa.forEach(item => {
-                 newCredentialList1.forEach(res => {
-                     if(res == item.authId){
-                         usaid.push(item)
-                     }
-                 })
+            isUsa.forEach(item => {
+                newCredentialList1.forEach(res => {
+                    if(res == item.authId){
+                        usaid.push(item)
+                    }
+                })
             })
             let rUsaid = usaid.map(item => {
                 return item.authId
@@ -513,15 +513,15 @@ export default {
                     },
                     {
                         countryCode:"GB",
-                        patentInfo:this.checkedUK.length > 0 ?this.inputUK : '',
+                        patentInfo:this.checkedUK.length > 0 ? this.inputUK : '',
                     },
                     {
                         countryCode:"DE",
-                        patentInfo:this.checkedEU.length > 0 ?this.inputEU : '',
+                        patentInfo:this.checkedEU.length > 0 ? this.inputEU : '',
                     },
                     {
                         countryCode:"JP",
-                        patentInfo:this.checkedJP.length > 0 ?this.inputJP : '',
+                        patentInfo:this.checkedJP.length > 0 ? this.inputJP : '',
                     },
                 ]
                 let params = {
@@ -533,10 +533,6 @@ export default {
                     applicableAge:this.ruleForm.productAgeGroup,
                     applicableAgeNote:this.ruleForm.ageGroupRemarks,
                     riskLevel:this.ruleForm.patentRiskLevel,
-                    // usPatentInfo:this.checkedUSA.length > 0 ? this.inputUSA : '',
-                    // gbPatentInfo:this.checkedUK.length > 0 ?this.inputUK : '',
-                    // dePatentInfo:this.checkedEU.length > 0 ?this.inputEU : '',
-                    // jpPatentInfo:this.checkedJP.length > 0 ?this.inputJP : '',
                     patentInfo:JSON.stringify(patentInfo)
                 }
                 let dataList = this.ruleForm.usaNessCertification.concat(this.ruleForm.ukNessCertification).concat(this.ruleForm.euNessCertification).concat(this.ruleForm.jpNessCertification)
@@ -568,10 +564,10 @@ export default {
             });
         },
         resetForm() {
-                this.$emit('closeEdit','false')
-            }
+            this.$emit('closeEdit','false')
         }
     }
+}
 </script>
 <style lang="scss" scoped>
 .bottomButton{

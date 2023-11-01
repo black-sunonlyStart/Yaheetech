@@ -93,27 +93,61 @@
                             <el-input v-model="ruleForm.skuAlias"  @change="changeProductKey(2)"></el-input> <i class="el-icon-success" v-if="successIcon"></i><i class="el-icon-error" v-if="errorIcon"></i>
                         </el-form-item>
                     </el-col>
+                    <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
+                        <el-form-item label="产品名称:" prop="productTitle">
+                            <template slot="label">
+                                {{M2("产品名称")}}:
+                            </template>
+                            <el-input v-model="ruleForm.productTitle" ></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>
+                <el-row :gutter="120" v-if="ruleForm.sampleCondition == 0">
+                    <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
+                        <el-form-item  prop="sampleSize">
+                            <template slot="label">
+                                {{M2("样品尺码")}}:
+                            </template>
+                            <el-select v-model="ruleForm.sampleSize" @change="changePreproductionSample(1)">
+                                <el-option
+                                    v-for="item in productSizeList"
+                                    :key="item"
+                                    :value="item"
+                                    :label="item"
+                                >
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
+                    <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" >
+                        <el-form-item  prop="quantitySpec">
+                            <template slot="label">
+                                {{M2("数量规格")}}:
+                            </template>
+                            <el-select v-model="ruleForm.quantitySpec" @change="changePreproductionSample(1)">
+                                <el-option
+                                    v-for="item in quantitySpecList"
+                                    :key="item"
+                                    :value="item"
+                                    :label="item"
+                                >
+                                </el-option>
+                            </el-select>
+                        </el-form-item>
+                    </el-col>
                 </el-row>
                 <el-row :gutter="120">
-                <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
-                    <el-form-item label="产品名称:" prop="productTitle">
-                        <template slot="label">
-                            {{M2("产品名称")}}:
-                        </template>
-                        <el-input v-model="ruleForm.productTitle" ></el-input>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" >
-                    <el-form-item label="供应商类型:" prop="supplierType" v-if="ruleForm.scenarios != 2 && ruleForm.sampleCondition == 0">
-                        <template slot="label">
-                           {{M2("供应商类型")}}:
-                        </template>
-                        <el-radio-group v-model="ruleForm.supplierType">
-                            <el-radio :label="1">{{M2("新")}}</el-radio>
-                            <el-radio :label="0">{{M2("旧")}}</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                </el-col>
+                    <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" >
+                        <el-form-item label="供应商类型:" prop="supplierType" v-if="ruleForm.scenarios != 2 && ruleForm.sampleCondition == 0">
+                            <template slot="label">
+                            {{M2("供应商类型")}}:
+                            </template>
+                            <el-radio-group v-model="ruleForm.supplierType">
+                                <el-radio :label="1">{{M2("新")}}</el-radio>
+                                <el-radio :label="0">{{M2("旧")}}</el-radio>
+                            </el-radio-group>
+                        </el-form-item>
+                    </el-col>
                 </el-row>
                 <el-row :gutter="120">
                 <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" >
@@ -157,16 +191,24 @@
                             </template>
                             <el-radio-group v-model="ruleForm.testSite">
                                 <el-radio :label="0"> {{M2("公司")}}</el-radio>
-                                <el-radio :label="1">{{M2("工厂")}}</el-radio>
+                                <el-radio :label="1"> {{M2("工厂")}}</el-radio>
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
-                    <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" >
-                        <el-form-item label="部件名称:" prop="partName" v-if="ruleForm.sampleCondition == 1">
+                    <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10">
+                        <el-form-item label="预计验样日期:" prop="estimatedDateInspection" v-if="ruleForm.testSite == 1">
                             <template slot="label">
-                                {{M2("部件名称")}}:
+                                {{M2("预计验样日期")}}:
                             </template>
-                            <el-input v-model="ruleForm.partName"></el-input>
+                              <el-date-picker
+                                format="yyyy-MM-dd"
+                                value-format="yyyy-MM-dd"
+                                size="mini"
+                                v-model="ruleForm.estimatedDateInspection"
+                                type="date"
+                                :key="Math.random()"
+                                :placeholder="M2('选择日期')">
+                            </el-date-picker>
                         </el-form-item>
                     </el-col>
                 </el-row>
@@ -183,7 +225,15 @@
                             </el-radio-group>
                         </el-form-item>
                     </el-col>
-                 </el-row>    
+                    <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="11" :xl="10" >
+                        <el-form-item label="部件名称:" prop="partName" v-if="ruleForm.sampleCondition == 1">
+                            <template slot="label">
+                                {{M2("部件名称")}}:
+                            </template>
+                            <el-input v-model="ruleForm.partName"></el-input>
+                        </el-form-item>
+                    </el-col>
+                </el-row>    
             <el-row :gutter="150">
                 <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
                     <el-form-item label="出口市场:" prop="exportMarket">
@@ -191,7 +241,7 @@
                             {{M2("出口市场")}}:
                         </template>
                          <div class="checkBoxAll">
-                            <el-checkbox class="checkboxAlltext"  :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+                            <el-checkbox class="checkboxAlltext"  :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">{{M2('全选')}}</el-checkbox>
                             <div style="margin: 15px 0;"></div>
                             <el-checkbox-group  class="chengboxMoreBox" v-model="exportMarket">
                                 <el-checkbox  
@@ -328,7 +378,7 @@
                                 </template>
                                 <el-input type="textarea" v-model="ruleForm.sampleImprovedInformation" :rows="6"  maxlength="300" show-word-limit></el-input>
                             </el-form-item>
-                            <span class="a-link" @click="showAddPhoto = true">添加图片</span>
+                            <span class="a-link" @click="showAddPhoto = true">{{M2('添加图片')}}</span>
                         </div>
                     </el-col>
                     <el-col :span="12" :xs="20" :sm="20" :md="20" :lg="20" :xl="20" >
@@ -454,7 +504,7 @@
 </template>
 <script>
 const cityOptions = ['GB','US','EU','FR','IT','ES','JP','CA','DE'];
-import { saveProductSample,findSupplier,getFilePath, getProductKey,getPreproductionSample,saveProductSampleAttachment1} from '@/api/user.js'
+import { CFG_ProductSample_SampleSize,CFG_ProductSample_QuantitySpec,saveProductSample,findSupplier,getFilePath, getProductKey,getPreproductionSample,saveProductSampleAttachment1} from '@/api/user.js'
 import { judgePorduction,trim } from '@/utils/tools.js'
 export default {
     components:{
@@ -535,6 +585,9 @@ export default {
                 reportRequirement: [
                     { required: true, message: this.M2('请选择验货报告需求'), trigger: 'blur' }
                 ],
+                estimatedDateInspection: [
+                    { required: true, message: this.M2('请选择验样日期'), trigger: 'blur' }
+                ],
                 exportMarket: [
                     {
                         required: true,
@@ -556,6 +609,12 @@ export default {
                 
                 productTitle: [
                     { required: true, message:  this.M2('请填写产品名称'), trigger: 'blur' }
+                ],
+                sampleSize: [
+                    { required: true, message:  this.M2('请选择产品尺码'), trigger: 'blur' }
+                ],
+                quantitySpec: [
+                    { required: true, message:  this.M2('请选择数量规格'), trigger: 'blur' }
                 ],
                 countryOfOrigin: [
                     { required: true, message:  this.M2('请填写原产国'), trigger: 'blur' }
@@ -691,6 +750,8 @@ export default {
             changePhoto:[],//变更图片
             imgUrl:'',
             ruleName:'',
+            productSizeList:[],
+            quantitySpecList:[],
             // disableScenarios:false,
         }
     },
@@ -774,6 +835,16 @@ export default {
         //0：来样图片(一张)，1：来样改进信息(图片),2：样品确认文件-初版验货报告,3：变更图片,4:产品尺寸图,5：样品确认文件模块-文件,6：样品确认文件模块-问题图片 可为空
         //默认显示数据
         init() {
+            let sampleUrl = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/oceanTransportConfig/queryConfig/CFG_ProductSample_SampleSize':
+'http://api-tools-test.yahee.com.cn:82//tool-api/oceanTransportConfig/queryConfig/CFG_ProductSample_SampleSize'
+            CFG_ProductSample_SampleSize(sampleUrl).then(res => {
+                this.productSizeList = res.data
+            })
+            let quantityUrl = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/oceanTransportConfig/queryConfig/CFG_ProductSample_QuantitySpec':'http://api-tools-test.yahee.com.cn:82//tool-api/oceanTransportConfig/queryConfig/CFG_ProductSample_QuantitySpec'
+            CFG_ProductSample_QuantitySpec(quantityUrl).then(res => {
+                this.quantitySpecList = res.data
+            })
+
             this.exportMarket = this.ruleForm.exportMarket
             if(this.ruleForm.productKey && this.ruleForm.productKey.includes('DEV')){
                 this.$set(this.ruleForm,'skuAlias',this.ruleForm.productKey)
@@ -935,7 +1006,7 @@ export default {
                         }
                     }
                     this.successIcon = true
-                    this.errorIcon = false
+                    this.errorIcon = false              
                     // if(this.ruleForm.scenarios == 0 || this.ruleForm.scenarios){
                     //     this.disableScenarios = true
                     // }else {
@@ -945,7 +1016,7 @@ export default {
                     this.$set(this.ruleForm,'skuAlias', '')
                     this.$set(this.ruleForm,'productKey', '')
                     this.errorIcon = true
-                    this.successIcon = false
+                    this.successIcon = false  
                 }
             }).catch(res => {
                 this.$set(this.ruleForm,'productKey', '')
@@ -1035,7 +1106,7 @@ export default {
         },
         saveProductSampleFn(val){
             this.requireLimitLength()
-             this.submitDisabled = true
+            this.submitDisabled = true
             if(!this.ruleForm.productSizePhotoList){
                 this.ruleForm.productSizePhotoList = []
             }
@@ -1055,6 +1126,10 @@ export default {
                 supplierCode:this.ruleForm.supplierCode,//供应商code
                 supplierName:this.ruleForm.supplierName,//供应商名称
                 reportRequirement:this.ruleForm.reportRequirement,//供应商名称
+                estimatedDateInspection:this.ruleForm.estimatedDateInspection,//预计来样时间
+                sampleSize:this.ruleForm.sampleSize,//产品尺码
+                quantitySpec:this.ruleForm.quantitySpec,//数量规格
+                devProductSize:this.ruleForm.devProductSize,
                 partName:this.ruleForm.partName,//供应商名称
                 countryOfOrigin:this.ruleForm.countryOfOrigin,//原产国
                 exportMarket:JSON.parse(JSON.stringify(this.ruleForm.exportMarket)).toString(),//出口市场
@@ -1116,7 +1191,14 @@ export default {
             this.suppliers = this.copySuppliers1; 
             this.copySuppliers = this.copySuppliers1;
         },
+        clearFromValidate(){
+            setTimeout(() => {
+                this.$refs['ruleForm'].clearValidate()
+            }, 50);
+        },
         changePreproductionSample(val){
+
+            this.clearFromValidate()
             if(this.ruleForm.supplierId){
                 let list = this.copySuppliers.filter(item => {
                     return item.id == this.ruleForm.supplierId
@@ -1141,9 +1223,13 @@ export default {
             //竞品信息(jpInformation)、产品尺寸图(彩图)(psas 里的数据 fileType、fileName、fileUri、contentType)；
 
             // productKey 为 sku别名：产品名称(productTitle)、产品材质(material)、产品工艺(process)、基础信息(basicInformation)、竞品信息(jpInformation)
-           
+            if(!this.ruleForm.quantitySpec || !this.ruleForm.sampleSize){
+                return
+            }
             if(((this.ruleForm.skuAlias || this.ruleForm.originalTypeSkuAlias) && this.ruleForm.scenarios >= 0 && this.ruleForm.preproductionSample == 1 && this.ruleForm.supplierId) || 
-            ((this.ruleForm.skuAlias || this.ruleForm.originalTypeSkuAlias) &&  this.ruleForm.supplierId && this.ruleForm.preproductionSample == 0)){
+                ((this.ruleForm.skuAlias || this.ruleForm.originalTypeSkuAlias) &&  this.ruleForm.supplierId && this.ruleForm.preproductionSample == 0)
+                
+            ){
                 //开发ID/sku别名+供应商+产品类型+否为产前样
                 //开发ID/sku别名+供应商+是为产前样
                 this.$confirm(this.M2('是否需要同步最新型号的数据？'), this.M2('提示'), {
@@ -1160,6 +1246,8 @@ export default {
                         scenarios: this.ruleForm.scenarios,//产品类型      0：全新开发  1：二次开发产品  2：改进变更产品
                         supplierId: this.ruleForm.supplierId,//供应商id
                         supplierName: this.ruleForm.supplierName,//供应商名字
+                        sampleSize: this.ruleForm.sampleSize,//供应商名字
+                        quantitySpec: this.ruleForm.quantitySpec,//供应商名字
                         preproductionSample:this.ruleForm.preproductionSample,// 是否为产前样   0 ： 是   1：否
                         originalTypeSkuAlias:this.ruleForm.productKey,//原型号sku别名   与 productKey 不能同时传空
                         originalTypeSku :this.ruleForm.originalTypeSku,//原型号sku别名   与 productKey 不能同时传空
@@ -1168,6 +1256,10 @@ export default {
                     }
                     getPreproductionSample(param).then(res => {
                         if(res.data) {
+                            if(val == 1 && this.ruleForm.preproductionSample == 0){
+                                this.$set(this.ruleForm,'sampleNum',res.data.sampleNum || this.ruleForm.sampleNum)
+                                return
+                            }
                             if(this.ruleForm.sampleCondition == 1 || this.ruleForm.scenarios == 2) {
                                 this.$set(this.ruleForm,'supplierCode', res.data.supplierCode || this.ruleForm.supplierCode)
                                 this.$set(this.ruleForm,'supplierId', res.data.supplierId || this.ruleForm.supplierId)

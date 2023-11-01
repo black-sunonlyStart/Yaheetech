@@ -28,27 +28,26 @@ Vue.directive('track', {
    * binding：一个对象，包含以下 property:
    * vnode：Vue 编译生成的虚拟节点
    */
-  bind: (el, binding, vnode) => {
-    if (binding.value) {
+    bind: (el, binding, vnode) => {
+        if (binding.value) {
         //这里参数是根据自己业务可以自己定义
         //如果是浏览类型，直接保存
-        
             if (binding.value.triggerType == 'browse'){
                 //调用后台接口保存数据
                 sendLogApi(binding.value)
             } else if (binding.value.triggerType == 'click'){
-                    //如果是click类型，监听click事件
-                    el.addEventListener('click', (event) => {
-                        if(!event.detail)return 
-                        //调用后台接口保存数据
-                        if(!binding.value.businessCode){
-                            binding.value.businessCode = event.target.innerText
-                        }
-                        if(canUpdata &&  binding.value.shouldUpdate){
-                            binding.value.behavior = behavior
-                        }
-                        sendLogApi(binding.value)
-                        }, false)
+                //如果是click类型，监听click事件
+                el.addEventListener('click', (event) => {
+                    if(!event.detail)return 
+                    //调用后台接口保存数据
+                    if(!binding.value.businessCode){
+                        binding.value.businessCode = event.target.innerText
+                    }
+                    if(canUpdata &&  binding.value.shouldUpdate){
+                        binding.value.behavior = behavior
+                    }
+                    sendLogApi(binding.value)
+                    }, false)
             } else if(binding.value.triggerType == 'blur'){
                 if (el.tagName.toLocaleLowerCase() == 'input') {
                     el.addEventListener('blur', (event) => {
@@ -64,8 +63,7 @@ Vue.directive('track', {
                             sendLogApi(binding.value)
                         }, false)
                     }
-                }
-                
+                }   
             }
         }
     },
@@ -81,17 +79,17 @@ Vue.directive('track', {
 function sendLogApi (value) {
     let  params = []
     params = {
-            output:'jsonp',
-            items:[
-                {
-                    DomId: value.behavior,
-                    DomText:value.businessCode,
-                    CurrentPage: value.currentUrl,
-                    InputContext: value.InputContext, 
-                    CreatedOnTimeStamp: new Date().getTime(),
-                }
-            ]
-        }
+        output:'jsonp',
+        items:[
+            {
+                DomId: value.behavior,
+                DomText:value.businessCode,
+                CurrentPage: value.currentUrl,
+                InputContext: value.InputContext, 
+                CreatedOnTimeStamp: new Date().getTime(),
+            }
+        ]
+    }
     if(EmployeeId){
         params.items.forEach(res => {
             res.EmployeeId = EmployeeId

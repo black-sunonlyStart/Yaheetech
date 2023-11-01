@@ -26,7 +26,6 @@ Vue.directive('dialogDrag', {
                 styL = +sty.left.replace(/\px/g, '')
                 styT = +sty.top.replace(/\px/g, '')
             }
-    
             document.onmousemove = function(e) {
                 // 通过事件委托，计算移动的距离
                 const l = e.clientX - disX

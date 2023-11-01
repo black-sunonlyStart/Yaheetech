@@ -120,7 +120,7 @@
         </el-row>
         <el-row class="tableTextSpeaing" >
             <el-col :span="2"  :xs="4" :sm="4" :md="3" :lg="4" :xl="2" >
-                <span class="textWight">{{M2('体积重)')}}： </span>
+                <span class="textWight">{{M2('体积重')}}： </span>
             </el-col>
             <el-col :span="15">
                 <el-table
@@ -131,14 +131,30 @@
                     :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                     >
                     <el-table-column
-                        :label="M2('美国') + ' FEDEX & UPS' + '=' +  M2('长') + '*' + M2('宽') + '*' + M2('高') + ' / ' +  '9935'"
+                        :label="M2('美国') + ' FEDEX ' + '=' +  M2('长') + '*' + M2('宽') + '*' + M2('高') + ' / ' +  '280'"
                         >
                         <template slot-scope="scope">
-                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /9935).toFixed(2) + ' Kg /' : ''}} </span>
-                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /9935 * 2.20).toFixed(2)+ ' LB' : ''}}</span>
+                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight / 10116).toFixed(2)  + ' Kg /' : ''}} </span>
+                            <span>{{scope.row.productSizeYcunL ? (Math.round(scope.row.productSizeYcunL) * Math.round(scope.row.productSizeYcunW) * Math.round(scope.row.productSizeYcunH) /280).toFixed(2)+ ' LB' : ''}}</span>
                         </template>
                     </el-table-column>
                     <el-table-column
+                        :label="M2('美国') + ' UPS ' + '=' +  M2('长') + '*' + M2('宽') + '*' + M2('高') + ' / ' +  '279'"
+                        >
+                        <template slot-scope="scope">
+                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight / 10080).toFixed(2) + ' Kg /' : ''}} </span>
+                            <span>{{scope.row.productSizeYcunL ? (Math.round(scope.row.productSizeYcunL) * Math.round(scope.row.productSizeYcunW) * Math.round(scope.row.productSizeYcunH) /279).toFixed(2)+ ' LB' : ''}}</span>
+                        </template>
+                    </el-table-column>
+                    <el-table-column
+                        :label="M2('美国') + ' AS ' + '=' +  M2('长') + '*' + M2('宽') + '*' + M2('高') + ' / ' +  '300'"
+                        >
+                        <template slot-scope="scope">
+                            <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight / 10838).toFixed(2) + ' Kg /' : ''}} </span>
+                            <span>{{scope.row.productSizeYcunL ? (Math.round(scope.row.productSizeYcunL) * Math.round(scope.row.productSizeYcunW) * Math.round(scope.row.productSizeYcunH) /300).toFixed(2)+ ' LB' : ''}}</span>
+                        </template>
+                    </el-table-column>
+                    <!-- <el-table-column
                         prop="name"
                         :label="M2('美国') + ' JD UPS' + '=' +  M2('长') + '*' + M2('宽') + '*' + M2('高') + ' / ' +  '8128'"
                         >
@@ -146,7 +162,7 @@
                             <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /8182).toFixed(2) + ' Kg /' : ''}} </span>
                             <span>{{scope.row.packedlength ? (scope.row.packedlength  * scope.row.packedwidth * scope.row.packedheight /8182 * 2.20).toFixed(2)+ ' LB' : ''}}</span>
                         </template>
-                    </el-table-column>
+                    </el-table-column> -->
                     <el-table-column
                         prop="address"
                         :label="M2('英国') + ' XDP' + '=' +  M2('长') + '*' + M2('宽') + '*' + M2('高') + ' / ' +  '5000'"
@@ -213,7 +229,7 @@
                                 {{(Math.ceil(scope.row.packedlength) + (Math.ceil(scope.row.packedwidth) + Math.ceil(scope.row.packedheight)) * 2).toFixed(2) || ''}} cm
                             </div>
                             <div>
-                                 {{(Math.ceil(scope.row.packedlength  / ycun) + (Math.ceil(scope.row.packedwidth  / ycun) + Math.ceil(scope.row.packedheight  / ycun)) * 2).toFixed(2)}} inch
+                                {{(Math.round(scope.row.packedlength * ycun) + (Math.round(scope.row.packedwidth  * ycun) + Math.round(scope.row.packedheight  * ycun)) * 2).toFixed(2)}} inch
                             </div>
                         </template>
                     </el-table-column>
@@ -225,7 +241,7 @@
                                 {{(Number(scope.row.packedlength) + (Number(scope.row.packedwidth) + Number(scope.row.packedheight)) * 2).toFixed(2)}} cm
                             </div>
                             <div>
-                                {{(Number(scope.row.packedlength / ycun) + (Number(scope.row.packedwidth / ycun) + Number(scope.row.packedheight / ycun)) * 2).toFixed(2) }} inch
+                                {{(Number(scope.row.packedlength * ycun) + (Number(scope.row.packedwidth * ycun) + Number(scope.row.packedheight * ycun)) * 2).toFixed(2) }} inch
                             </div>
                         </template>
                     </el-table-column>
@@ -237,7 +253,6 @@
                 <span class="textWight">{{M2('销售（多）属性')}}： </span>
             </el-col>
             <el-col :span="15">
-                
                 <el-table
                      border
                      :empty-text="M2('暂无数据')"
@@ -272,7 +287,7 @@
                     <el-table-column
                         :label="M2('开发属性')"
                         >
-                    <template slot-scope="scope">
+                        <template slot-scope="scope">
                             <div>
                                 {{scope.row.color}}
                             </div>
@@ -322,7 +337,7 @@
 export default {
     data(){
         return {
-             ycun:2.54
+            ycun:0.3937
         }
     },
     props:{

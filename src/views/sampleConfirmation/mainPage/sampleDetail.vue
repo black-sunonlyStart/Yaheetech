@@ -6,7 +6,7 @@
                 <div class="green-div">{{this.M2('状态')}}：{{mainPageList ? mainPageList.stateValue : ''}}</div>
                 <div class="green-div">{{this.M2('申请人')}}:{{mainPageList ? mainPageList.applicantName: ''}}</div>
                 <div class="green-div">{{this.M2('样品员')}}：{{mainPageList ? mainPageList.sampleValidatorName:''}}</div>
-                <div class="gray-div">{{this.M2('申请时间')}}：{{mainPageList && mainPageList.applicationTime ? $moment(mainPageList.applicationTime).format("YYYY-MM-DD HH:mm:ss") :''}}</div>
+                <div class="gray-div">{{this.M2('可验样日期')}}：{{showTimeL(mainPageList)}}</div>
             </div>
         </div>
         <div class='tabContainer'>
@@ -108,6 +108,17 @@
                             <span class="imageMainboxText">{{mainPageList.skuAlias }}</span>
                         </el-col>
                     </el-row>
+                    <el-row class="textSpeaing" v-if="mainPageList.sampleCondition == 0">
+                        <el-col :span="10">
+                            <span class="imageMainbox">{{M2('样品尺码')}}： </span>
+                            <span class="imageMainboxText">{{mainPageList.sampleSize}}</span>
+                        </el-col>
+                        <el-col :span="10" >
+                            <span class="imageMainbox">{{M2('数量规格')}}： </span>
+                            <span class="imageMainboxText">{{mainPageList.quantitySpec }}</span>
+                        </el-col>
+                    </el-row>
+
                     <el-row class="textSpeaing">
                         <el-col :span="10">
                             <div class="boxFlex">
@@ -137,6 +148,12 @@
                             <div class="boxFlex">
                                 <span class="imageMainbox">{{M2('验样场地')}}： </span>
                                 <div class="imageMainboxText" >{{M2(mainPageList.testSiteStr)}}</div>
+                            </div>
+                        </el-col>
+                        <el-col :span="10"  style="margin-top:30px" v-if="mainPageList.testSite == 1">
+                            <div class="boxFlex">
+                                <span class="imageMainbox">{{M2('预计验样日期')}}： </span>
+                                <div class="imageMainboxText" >{{mainPageList.estimatedDateInspection}}</div>
                             </div>
                         </el-col>
                         <el-col :span="10" style="margin-top:30px"  v-if="mainPageList.sampleCondition == 1">
@@ -573,25 +590,25 @@
                 </div>
                 <div v-if="controlsEdit.isEdit3">
                     <el-table :empty-text="M2('暂无数据')" :data="gridData2" border max-height="500" :header-cell-style="{background:'#f5f7fa',color:'#606266'}">
-                        <el-table-column width="" property="productType" :label="M2('序号')"  type="index"></el-table-column>
-                        <el-table-column width="" property="id" :label="M2('单据')">
+                        <el-table-column  property="productType" :label="M2('序号')"  type="index"></el-table-column>
+                        <el-table-column  property="id" :label="M2('单据')">
                             <template slot-scope="scope">
                                 <div @click="routerMove(scope.row.id)" class="fileHoverShow">
                                     {{scope.row.id}}
                                 </div>
                             </template>
                         </el-table-column>
-                        <el-table-column width="" property="productTitle" :label="M2('样品名称')"></el-table-column>
-                        <el-table-column width="" property="sampleConditionStr" :label="M2('样品情况')"></el-table-column>
-                        <el-table-column width="" property="scenariosStr" :label="M2('产品类型')"></el-table-column>
-                        <el-table-column width="" property="sampleNum"  :label="M2('来样次数')"></el-table-column>
-                        <el-table-column width="" property="stateValue" :label="M2('当前状态')"></el-table-column>
-                        <el-table-column width="" property="applicationTime" :label="M2('申请时间')">
+                        <el-table-column  property="productTitle" :label="M2('样品名称')"></el-table-column>
+                        <el-table-column  property="sampleConditionStr" :label="M2('样品情况')"></el-table-column>
+                        <el-table-column  property="scenariosStr" :label="M2('产品类型')"></el-table-column>
+                        <el-table-column  property="sampleNum"  :label="M2('来样次数')"></el-table-column>
+                        <el-table-column  property="stateValue" :label="M2('当前状态')"></el-table-column>
+                        <el-table-column  property="applicationTime" :label="M2('可验样日期')">
                             <template slot-scope="scope">
-                                <div>{{scope.row.applicationTime ? $moment(scope.row.applicationTime).format("YYYY-MM-DD HH:mm:ss") : '--'}}</div>
+                                <div>{{showTimeL(scope.row)}}</div>
                             </template>
                         </el-table-column>
-                        <el-table-column width="" property="completionTime" :label="M2('完成时间')">
+                        <el-table-column  property="completionTime" :label="M2('完成时间')">
                             <template slot-scope="scope">
                                 <div>{{scope.row.completionTime ? $moment(scope.row.completionTime).format("YYYY-MM-DD HH:mm:ss") : '--'}}</div>
                             </template>
@@ -734,6 +751,23 @@ export default {
         // this.getProductSampleData()
     },
     methods:{ 
+        showTimeL(row){
+            if(row.testSite == 0) {
+                if(row.applicationTime){
+                    return this.$moment(row.applicationTime).format("YYYY-MM-DD")
+                }else {
+                    return '--'
+                }  
+            }
+            if(row.testSite == 1) {
+                if(row.estimatedDateInspection){
+                    return this.$moment(row.estimatedDateInspection).format("YYYY-MM-DD")
+                }else {
+                    return '--'
+                }
+            }
+            return '--'
+        },
         getProductSampleData(){
             if(this.$route.query.productKey){
                 let param = {
@@ -843,8 +877,7 @@ export default {
                                 res.data.improvedChangeFile.forEach(item => {
                                     item.name =  item.fileName
                                 })
-                            }
-                            
+                            } 
                             this.mainPageList = res.data
                         }else{
                             this.mainPageList = res.data

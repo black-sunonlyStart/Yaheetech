@@ -208,12 +208,12 @@
                        {{M2(scope.row.applicantName)}}
                     </template>
                 </el-table-column>
-                <el-table-column prop="createdOn" width="100" align="center" sortable label="申请时间">
+                <el-table-column prop="createdOn" width="110" align="center" sortable>
                     <template slot="header">
-                        {{M2('申请时间')}}
+                        {{M2('可验样日期')}}
                     </template>
-                    <template slot-scope="scope">
-                        {{scope.row.applicationTime ? formatDate(scope.row.applicationTime) : '--'}}
+                    <template slot-scope="scope"> 
+                        {{showTimeL(scope.row)}}
                     </template>
                 </el-table-column>
                 <el-table-column prop="id" label="操作 / 记录" width="120"  align="center" fixed="right">
@@ -222,14 +222,6 @@
                     </template>
                     <template slot-scope="scope">
                         <div style="display:flex">
-                           <!-- <el-select v-model="scope.row.operator" size="mini" placeholder="请选择">
-                                <el-option
-                                    v-for="item in optionsList"
-                                    :key="item.value"
-                                    :label="item.label"
-                                    :value="item.value">
-                                </el-option>
-                            </el-select> -->
                             <el-dropdown trigger="hover"  @command="clickCommand" size='mini'>
                                 <el-button type="primary" 
                                     size='mini' 
@@ -240,7 +232,11 @@
                                 <el-dropdown-menu slot="dropdown">
                                     <el-dropdown-item :command='changCommand(item.value,scope.row)' style="width:100px;text-align:center" v-for="item in optionsList"  :key="item.value">
                                         <div v-permission:[item.permission]>
-                                            <div v-if="item.value == 2 || (item.value == 3 && (scope.row.state == 3 || scope.row.state == 4 || scope.row.state == 1)) || (item.value == 4 && (scope.row.state == 2 || scope.row.state == 3))">{{item.label}}</div>
+                                            <div 
+                                                v-if="item.value == 2 || 
+                                                    (item.value == 3 && (scope.row.state == 3 || scope.row.state == 4 || scope.row.state == 1)) 
+                                                    || (item.value == 4 && (scope.row.state == 2 || scope.row.state == 3))">
+                                            {{item.label}}</div>
                                         </div>
                                     </el-dropdown-item>
                                 </el-dropdown-menu>
@@ -261,18 +257,18 @@
         </el-pagination>
         <!--改动记录-->
         <sampleDialog ref="sampleDialog" @mainListList="mainListList" />
-        <commonDialog ref="commonDialog" titleText="关联单据">
+        <commonDialog ref="commonDialog" :titleText="M2('关联单据')">
             <el-table :empty-text="M2('暂无数据')" :data="tableData" style="width: 100%" height="350" border :header-cell-style="{background:'#f5f7fa',color:'#606266'}" >
                 <el-table-column type="index">
                     <template slot="header">
-                       序号
+                        {{M2('序号')}}
                     </template>
                 </el-table-column>
                 <el-table-column >
                     <template slot="header">
-                       单据
+                       {{M2('单据')}}
                     </template>
-                    <template slot-scope="scope" >
+                    <template slot-scope="scope">
                         <div @click="routerMove(scope.row.id)" class="fileHoverShow">
                             {{scope.row.id}}
                         </div>
@@ -280,15 +276,15 @@
                 </el-table-column>
                 <el-table-column >
                     <template slot="header">
-                       样品情况
+                       {{M2('样品情况')}}
                     </template>
                     <template slot-scope="scope" >
-                        {{scope.row.sampleConditionStr}}
+                        {{M2(scope.row.sampleConditionStr)}}
                     </template>
                 </el-table-column>
                 <el-table-column >
                     <template slot="header">
-                       当前状态
+                       {{M2('当前状态')}}
                     </template>
                     <template slot-scope="scope" >
                         {{M2(scope.row.stateValue)}}
@@ -296,24 +292,26 @@
                 </el-table-column>
                 <el-table-column >
                     <template slot="header">
-                       申请时间
+                       {{M2('可验样日期')}}
                     </template>
-                    <template slot-scope="scope" >
-                        {{$moment(scope.row.applicationTime).format("YYYY-MM-DD") }}
+                    <template slot-scope="scope">
+                        {{ showTimeL(scope.row)}}
                     </template>
                 </el-table-column>
             </el-table>
         </commonDialog>
+        <exportDateDialog ref="exportDateDialog" @exprotSampleFile="exprotSampleFile"></exportDateDialog>
     </div>
 </template>
 <script>
 import debounce from 'lodash.debounce';
-import { queryProductSample,approvalSampleMemo,unCancel,getRelevanceProductSample,getEmployee,exportProductSampleRequirement,queryExportProductSampleProgress } from '@/api/user.js'
+import { queryProductSample,approvalSampleMemo,unCancel,getRelevanceProductSample,getEmployee,exportProductSampleRequirement } from '@/api/user.js'
 import { GetFileServiceUrl,copyUrl,formatDate,globalReportExport } from '@/utils/tools'
 export default {
     components:{
         sampleDialog:() => import('@/components/sampleConfirmation/sampleDialog.vue'),
-        commonDialog:() => import('@/components/common/commonDialog.vue')
+        commonDialog:() => import('@/components/common/commonDialog.vue'),
+        exportDateDialog:() => import('@/components/sampleConfirmation/exportDateDialog.vue'),
     },
     data(){
         return {
@@ -347,7 +345,7 @@ export default {
                 sampleValidator: null , //样品确认员
                 curApplicantId: null ,//申请人   true：自己  false：其他
                 status: null ,//状态   1:未提交  2：待分配   3：样品确认中   4：结果输出中   5：合格    6：改进后通过(产前样)    7：不合格     8：已取消
-                status1: [] ,//状态   1:未提交  2：待分配   3：样品确认中   4：结果输出中   5：合格    6：改进后通过(产前样)    7：不合格     8：已取消
+                status1: [] , //状态   1:未提交  2：待分配   3：样品确认中   4：结果输出中   5：合格    6：改进后通过(产前样)    7：不合格     8：已取消
                 search:this.$route.query.search?this.$route.query.search :  null, //搜索(供应商、开发ID、sku别名、sku、申请单号)
                 search1: this.$route.query.search?true :  null //搜索(供应商、开发ID、sku别名、sku、申请单号)
             },
@@ -393,6 +391,7 @@ export default {
         },
     },
     methods:{
+        
         init(){
             getEmployee().then(res => {
                 this.employee = res.data
@@ -445,7 +444,7 @@ export default {
                     search:val && val.selectCheck == 1 ? val.search : null //搜索(供应商、开发ID、sku别名、sku、申请单号)
                 }
             }
-            this.paramCope = param
+            this.paramCope = JSON.parse(JSON.stringify(param))
             queryProductSample(param).then(res => {
                 this.mainTaskList = res.data.rows
                 this.total = res.data.records;
@@ -456,6 +455,23 @@ export default {
             })       
         },500),
         //跳转产品详情页
+        showTimeL(row){
+            if(row.testSite == 0) {
+                if(row.applicationTime){
+                    return this.$moment(row.applicationTime).format("YYYY-MM-DD")
+                }else {
+                    return '--'
+                }  
+            }
+            if(row.testSite == 1) {
+                if(row.estimatedDateInspection){
+                    return this.$moment(row.estimatedDateInspection).format("YYYY-MM-DD")
+                }else {
+                    return '--'
+                }
+            }
+            return '--'
+        },
         openDevProductDetail(value,type){
             if(type == 1){
                 window.open(`http://newserp.yaheecloud.com/PMC/Latest//Product/ProductDetail?sku=${value}&language=en`,'_blank')
@@ -495,11 +511,11 @@ export default {
         },
         unCancelList(){
             if(this.multipleSelection.length == 0){
-                this.warning(this.M2('请至少选择一条数据！'))
+                this.warning('请至少选择一条数据！')
                 return
             }
             if(this.multipleSelection.some(res => res.state != 8)){
-                this.warning(this.M2('只能恢复已取消数据！'))
+                this.warning('只能恢复已取消数据！')
                 return
             }
             let params = {
@@ -507,7 +523,7 @@ export default {
             }
             unCancel(params).then(res => {
                 if(res.code == 200){
-                    this.success(this.M2('恢复成功！'))
+                    this.success('恢复成功！')
                     this.mainListList(this.uploadFilterList)
                 }
             })
@@ -520,47 +536,47 @@ export default {
                 this.multipleSelection.push(list)
             }
             if(this.multipleSelection.length == 0) {
-                this.warning(this.M2('请至少选择一条数据！'))
+                this.warning('请至少选择一条数据！')
                 return
             }
             if(id == 1 || id == 4 || id== 5 || id== 6) {
                 if(this.multipleSelection.length > 1){
-                    this.warning(this.M2('只能操作单条数据！'))
+                    this.warning('只能操作单条数据！')
                     return
                 }   
             }
             if(id == 2 || id == 4){
                 if(this.multipleSelection.some(res => res.state != 2 && res.state != 3)){
-                    this.warning(this.M2('仅支持待分配，样品确认中进行该操作！'))
+                    this.warning('仅支持待分配，样品确认中进行该操作！')
                     return
                 }
             }
             if(id == 3){
                 if(this.multipleSelection.some(res => res.state != 3)){
-                    this.warning(this.M2('只有样品确认中状态才可以提交样品确认结果！'))
+                    this.warning('只有样品确认中状态才可以提交样品确认结果！')
                     return
                 }
             }
             if(id == 1){
                 if(this.multipleSelection.some(res => res.state != 2 && res.state != 3 && res.state != 4)){
-                    this.warning(this.M2('仅支持待分配，样品确认中，结果输出中可以操作取消！'))
+                    this.warning('仅支持待分配，样品确认中，结果输出中可以操作取消！')
                     return
                 }
             }
             //申请修改结果判断当前登录人是否是该条数据的样品确认员。
             if(id == 5){
                 if(this.multipleSelection.some(res => res.sampleValidator != this.employee.Id) && !this.employee.IsAdminRole){
-                    this.warning(this.M2('只有当前登录账号是该产品的样品确认员才能修改！'))
+                    this.warning('只有当前登录账号是该产品的样品确认员才能修改！')
                     return
                 }
                 if(this.multipleSelection.some(res => res.state != 5 && res.state != 6 && res.state != 7)){
-                    this.warning(this.M2('仅支持合格，改进后通过(产前样)，不合格状态可以操作！'))
+                    this.warning('仅支持合格，改进后通过(产前样)，不合格状态可以操作！')
                     return
                 }
             }
             if(id == 6) {
-                 if(this.multipleSelection.some(res => res.state != 9)){
-                    this.warning(this.M2('仅支持结果修改中状态可以操作！'))
+                if(this.multipleSelection.some(res => res.state != 9)){
+                    this.warning('仅支持结果修改中状态可以操作！')
                     return
                 }
             }
@@ -577,11 +593,7 @@ export default {
             let options
             if(command == 20){
                 if(!this.multipleSelection || this.multipleSelection.length == 0 ){
-                    this.$message({
-                        type: 'error', 
-                        message:this.M2('请选择数据列表'),
-                        offset:220
-                    })
+                    this.error(this.M2('请选择数据列表'))
                     return
                 }  
                 if(this.multipleSelection.every(item => item.scenarios == null || item.sampleCondition == null)){
@@ -620,33 +632,10 @@ export default {
                 })
                 return
             }else if(command == 30){
-                queryExportProductSampleProgress(this.paramCope).then(res => {
-                    if(res.data && res.data.length > 0){
-                        options = 
-                            [
-                                {
-                                    "Field":'data-exportid',
-                                    'Value':document.URL.includes('yaheecloud') ?863:157,//测试
-                                },
-                                {
-                                    "Field":'productSampleIds',
-                                    'Value':res.data.join(','),//测试
-                                },
-                            ]
-                        this.optionPutExcle = true
-                        globalReportExport(options,this)
-                    }else {
-                        this.error(this.M2('暂无数据可导出！'))
-                    }
-                })
-                
+                this.$refs.exportDateDialog.openCommonDialog()  
             }else if(command == 40){
                 if(!this.multipleSelection || this.multipleSelection.length == 0 ){
-                    this.$message({
-                        type: 'error', 
-                        message:this.M2('请选择数据列表'),
-                        offset:220
-                    })
+                    this.error(this.M2('请选择数据列表'))
                     return
                 }
                 //devProductId如果没有就报错
@@ -688,6 +677,25 @@ export default {
                 return
             }
         },
+        exprotSampleFile(val){
+            let options = 
+            [
+                {
+                    "Field":'data-exportid',
+                    'Value':document.URL.includes('yaheecloud') ?886:167,//测试
+                },
+                {
+                    "Field":'startDate',
+                    'Value':val.date1 + '-01',//测试
+                },
+                {
+                    "Field":'endDate',
+                    'Value':val.date2 + '-01',//测试
+                },
+            ]
+            this.optionPutExcle = true
+            globalReportExport(options,this)
+        },
         //下拉框改变参数
         changCommand(value,list){
             let opvalue = {
@@ -714,7 +722,7 @@ export default {
                     .then(() => {
                         approvalSampleMemo(param).then(res => {
                             if(res.code == 200){
-                                this.success(this.M2('提交成功！'))
+                                this.success('提交成功！')
                                 this.mainListList(this.uploadFilterList)
                             }
                         })
@@ -816,7 +824,7 @@ export default {
         success(msg) {
             this.$message({
                 showClose: true,
-                message:msg,
+                message:this.M2(msg),
                 offset:220,
                 duration: 2000,
                 type: 'success'
@@ -825,7 +833,7 @@ export default {
         warning(msg) {
             this.$message({
                 showClose: true,
-                message: msg,
+                message: this.M2(msg),
                 offset:220,
                 type: 'warning'
             });

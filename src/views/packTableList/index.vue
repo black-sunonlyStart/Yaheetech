@@ -2,8 +2,8 @@
      <div class="nav-container" v-if="renderDom"  v-permission="'ERP.Product.ProductDev.Select'" >
         <el-card class="nav-card naverCard">
             <navBar  @putTableList='putTableList' :total='total' :employeeId='employeeId'></navBar>
-            <div title="点击加载更多" class="up-text up-text-c" v-if="upDownshow" @click="clickMoreFilter">∨</div>
-            <div title="点击收缩" class="down-text" v-else @click="clickMoreFilter(1)">∧</div>
+            <div :title="M2('点击加载更多')" class="up-text up-text-c" v-if="upDownshow" @click="clickMoreFilter">∨</div>
+            <div :title="M2('点击收缩')" class="down-text" v-else @click="clickMoreFilter(1)">∧</div>
         </el-card>
         
          <el-card class="button-card">
@@ -20,6 +20,8 @@ import navBar from '@/views/packTableList/mainPage/navBar.vue'
 import abilityBtn from '@/components/productDetail/abilityBtn.vue'
 import mainTable from '@/views/packTableList/mainPage/mainTable.vue'
 import {hasPermissions } from '@/api/user.js'
+import { addMask} from '@/utils/tools.js'
+import { getAllTranslateList } from '@/utils/translate.js'
 export default {
     name: 'packTableList',
     components: {
@@ -49,12 +51,19 @@ export default {
         //权限判断
         getPermissions(){
             let  params = [
-            'ERP.Product.ProductDev.Select',
-        ]
+                'ERP.Product.ProductDev.Select',
+            ]
             hasPermissions(params).then(res => {
-            let data = JSON.stringify( res.data);
+                let data = JSON.stringify( res.data);
                 sessionStorage.setItem("permissions", data);
-                this.renderDom = true
+                let per = res.data.filter(item => {
+                    return item.PermissionCode == 'ERP.Product.ProductDev.Select' && !item.HasPermission
+                })
+                if(per && per.length > 0){
+                    addMask('ERP.Product.ProductDev.Select')
+                }else {
+                    getAllTranslateList(this)
+                }
             })
         },
         getTotal(total){

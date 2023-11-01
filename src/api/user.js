@@ -1005,4 +1005,18 @@ export function queryExportProductSampleProgress(data){
         data
     })
 }
+//样品尺寸选项
+export function CFG_ProductSample_SampleSize(url){
+    return request({
+        url,
+        method: "get", 
+    })
+}
+//数量规格选项
+export function CFG_ProductSample_QuantitySpec(url){
+    return request({
+        url,
+        method: "get", 
+    })
+}
 //样品导出end

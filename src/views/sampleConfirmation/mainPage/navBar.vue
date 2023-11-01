@@ -2,7 +2,7 @@
     <div class="navbarContainer">
         <el-form ref="form"
                 :model="form"
-                label-width="110px"
+                label-width="120px"
                 @submit.native.prevent
                 >
             <el-row>
@@ -11,9 +11,9 @@
                         <el-select 
                             v-model="form.timeType"
                             size='mini'
-                            style="width:100px;margin-right:10px"
+                            style="width:110px;margin-right:10px"
                             >
-                            <el-option :value="0" :label="M2('申请时间')" :key="1"></el-option>
+                            <el-option :value="0" :label="M2('可验样日期')" :key="1"></el-option>
                             <el-option :value="1" :label="M2('完成时间')" :key="2"></el-option>
                         </el-select>
                         <el-radio-group size="mini"  v-model="form.timeEnum">
@@ -421,7 +421,7 @@ export default {
                 sampleValidator: null , //样品确认员
                 curApplicantId: null ,//申请人   true：自己  false：其他
                 status: null ,//状态   1:未提交  2：待分配   3：样品确认中   4：结果输出中   5：合格    6：改进后通过(产前样)    7：不合格     8：已取消
-                status1: [] ,//状态   1:未提交  2：待分配   3：样品确认中   4：结果输出中   5：合格    6：改进后通过(产前样)    7：不合格     8：已取消
+                status1: [] , //状态   1:未提交  2：待分配   3：样品确认中   4：结果输出中   5：合格    6：改进后通过(产前样)    7：不合格     8：已取消
                 search: null //搜索(供应商、开发ID、sku别名、sku、申请单号)
             }
         }
@@ -448,11 +448,11 @@ export default {
         this.init()
     },
     mounted(){
-          this.$nextTick(res => {
+        this.$nextTick(res => {
             if(this.$route.query.search){
                 this.putSearch = this.$route.query.search
             }
-      })
+        })
     },
     methods: {
         init() {

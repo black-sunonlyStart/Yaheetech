@@ -2,10 +2,9 @@
     <div class="nav-container" v-permission="'PM00038'" v-if="renderDom">
         <el-card class="nav-card naverCard">
             <navBar  @putTableList='putTableList' ref="navBar"></navBar>
-            <div title="点击加载更多" class="up-text up-text-c" v-if="upDownshow" @click="clickMoreFilter">∨</div>
-            <div title="点击收缩" class="down-text" v-else @click="clickMoreFilter(1)">∧</div>
+            <div :title="M2('点击加载更多')" class="up-text up-text-c" v-if="upDownshow" @click="clickMoreFilter">∨</div>
+            <div :title="M2('点击收缩')" class="down-text" v-else @click="clickMoreFilter(1)">∧</div>
         </el-card>
-        
         <el-card style="margin-top: 5px;">
             <mainPageList :filterList='filterList' @putClearList='putClearList' ></mainPageList>
         </el-card>
@@ -16,6 +15,7 @@ import navBar from '@/views/atNewProductPage/mainPage/navbar.vue'
 import mainPageList from '@/views/atNewProductPage/mainPage/mainTable.vue'
 import { hasPermissions } from '@/api/user.js'
 import { addMask } from '@/utils/tools.js'
+import { getAllTranslateList } from '@/utils/translate.js'
 export default {
     components: {
         navBar,
@@ -31,7 +31,7 @@ export default {
     computed: {
     },
     created () {
-         this.getPermissions()   
+            this.getPermissions()   
     },
     mounted(){},
     methods: {
@@ -58,7 +58,8 @@ export default {
                 if(per && per.length > 0){
                     addMask('PM00038')
                 }
-                this.renderDom = true
+                getAllTranslateList(this)
+                // this.renderDom = true
             })
         },
         clickMoreFilter (id) {
