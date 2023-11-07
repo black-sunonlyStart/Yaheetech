@@ -507,8 +507,7 @@ export default {
             });
         },
         upDateFile(list,name){
-            this.$set(this.ruleForm,name,list)
-            
+            this.$set(this.ruleForm,name,list)  
         },
         clickFileName(url){
             window.open(`${this.imgUrl}${url}`)

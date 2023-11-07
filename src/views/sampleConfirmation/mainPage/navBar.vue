@@ -2,7 +2,7 @@
     <div class="navbarContainer">
         <el-form ref="form"
                 :model="form"
-                label-width="120px"
+                label-width="140px"
                 @submit.native.prevent
                 >
             <el-row>
@@ -11,7 +11,7 @@
                         <el-select 
                             v-model="form.timeType"
                             size='mini'
-                            style="width:110px;margin-right:10px"
+                            style="width:130px;margin-right:10px"
                             >
                             <el-option :value="0" :label="M2('可验样日期')" :key="1"></el-option>
                             <el-option :value="1" :label="M2('完成时间')" :key="2"></el-option>
@@ -152,7 +152,6 @@
                         </el-radio-group>
                     </el-form-item>
                 </el-col>
-             
             </el-row>
            
             <!-- <el-form-item>
@@ -453,8 +452,16 @@ export default {
                 this.putSearch = this.$route.query.search
             }
         })
+        this.addTitleLable()
     },
     methods: {
+        addTitleLable(){
+            document.querySelectorAll('.navbarContainer .el-form-item__label').forEach(item => {
+                if(!item.getAttribute('title')){
+                    item.setAttribute('title',item.innerHTML)
+                }                
+            })
+        },
         init() {
             // let param = {
             //     rid:552
@@ -516,6 +523,11 @@ export default {
         color: #3366cc !important;
         font-weight: bold; 
         line-height: 30px; 
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding-left: 10px;
     }
     ::v-deep .el-form-item__content{
         font-size: 12px !important;

@@ -306,7 +306,7 @@
 <script>
 import debounce from 'lodash.debounce';
 import { queryProductSample,approvalSampleMemo,unCancel,getRelevanceProductSample,getEmployee,exportProductSampleRequirement } from '@/api/user.js'
-import { GetFileServiceUrl,copyUrl,formatDate,globalReportExport } from '@/utils/tools'
+import { GetFileServiceUrl,copyUrl,formatDate,globalReportExport,judgePorduction } from '@/utils/tools'
 export default {
     components:{
         sampleDialog:() => import('@/components/sampleConfirmation/sampleDialog.vue'),
@@ -616,13 +616,13 @@ export default {
                 this.optionPutExcle = true
                 exportProductSampleRequirement([...new Set(rowId)]).then(res => {
                     if(res.code == 200){
-                        this.optionPutExcle = false
                         if(res.data.virtualPaths){
                             res.data.virtualPaths.forEach(item => {
-                                window.open(item,'_self')
+                                let url = judgePorduction() ? item.replace('http','https') : item
+                                window.open(url,'_blank')
                             })
                         }
-                        
+                         this.optionPutExcle = false
                         if(res.data.errProductSampleIds){
                            this.error(this.M2('申请单号') + `${res.data.errProductSampleIds.join(',')}` + this.M2('未成功导出数据，请联系IT部进行处理!'))
                         }

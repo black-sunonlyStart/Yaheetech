@@ -71,7 +71,10 @@
                     <span class='showTitle'>{{M2('产品的颜色')}}：</span>
                     <span class="mianInfoTitle">{{comNewsDetailList.jpcolor}}</span>
                 </div >
-                
+                <div class="mianInfo">
+                    <span class='showTitle'>{{M2('产品的承重')}}：</span>
+                    <span class="mianInfoTitle">{{comNewsDetailList.jpLoadBearing}}</span>
+                </div>
             </el-col>
             <el-col  :span="12">
                 <div class="mainInofTitle">{{M2('竞品结论')}}</div>

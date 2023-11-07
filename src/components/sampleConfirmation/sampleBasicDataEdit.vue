@@ -10,8 +10,16 @@
                                 width="627"
                                 trigger="click">
                                 <el-table :data="gridData" border :header-cell-style="{background:'#f5f7fa',color:'#333'}">
-                                    <el-table-column width="200" property="productType" :label="M2('产品类型')"></el-table-column>
-                                    <el-table-column width="400" property="Interpretation" :label="M2('释义')"></el-table-column>
+                                    <el-table-column width="200" property="productType" :label="M2('产品类型')">
+                                        <template slot-scope="scope">
+                                            {{M2(scope.row.productType)}}
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column width="400" property="Interpretation" :label="M2('释义')">
+                                         <template slot-scope="scope">
+                                            {{M2(scope.row.Interpretation)}}
+                                        </template>
+                                    </el-table-column>
                                 </el-table>
                                 <i class="el-icon-question1" slot="reference"></i>
                             </el-popover>
@@ -32,8 +40,16 @@
                                 width="627"
                                 trigger="click">
                                 <el-table :data="gridData3" border :header-cell-style="{background:'#f5f7fa',color:'#333'}">
-                                    <el-table-column width="200" property="productType" :label="M2('产品类型')"></el-table-column>
-                                    <el-table-column width="400" property="Interpretation" :label="M2('释义')"></el-table-column>
+                                    <el-table-column width="200" property="productType" :label="M2('产品类型')">
+                                        <template slot-scope="scope">
+                                            {{M2(scope.row.productType)}}
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column width="400" property="Interpretation" :label="M2('释义')">
+                                        <template slot-scope="scope">
+                                            {{M2(scope.row.Interpretation)}}
+                                        </template>
+                                    </el-table-column>
                                 </el-table>
                                 <i class="el-icon-question1" slot="reference" style="left:45px"></i>
                             </el-popover>
@@ -55,8 +71,16 @@
                                 width="627"
                                 trigger="click">
                                 <el-table :data="gridData1" border :header-cell-style="{background:'#f5f7fa',color:'#333'}">
-                                    <el-table-column width="200" property="productType" :label="M2('样品情况')"></el-table-column>
-                                    <el-table-column width="400" property="Interpretation" :label="M2('释义')"></el-table-column>
+                                    <el-table-column width="200" property="productType" :label="M2('样品情况')">
+                                        <template slot-scope="scope">
+                                            {{M2(scope.row.productType)}}
+                                        </template>
+                                    </el-table-column>
+                                    <el-table-column width="400" property="Interpretation" :label="M2('释义')">
+                                        <template slot-scope="scope">
+                                            {{M2(scope.row.Interpretation)}}
+                                        </template>
+                                    </el-table-column>
                                 </el-table>
                                 <i class="el-icon-question1" slot="reference"></i>
                             </el-popover>{{M2('样品情况')}}:

@@ -182,7 +182,7 @@
                         {{M2('状态/耗时')}}
                     </template>
                     <template slot-scope="scope">
-                        <div class="blue-button" :style="{background:changeBgColor(scope.row.state),'border-color': changeBorColor(scope.row.state),'color':changeBorColor(scope.row.state)}" v-if="scope.row.stateValue">{{scope.row.stateValue}}</div>
+                        <div class="blue-button" :style="{background:changeBgColor(scope.row.state),'border-color': changeBorColor(scope.row.state),'color':changeBorColor(scope.row.state)}" v-if="scope.row.stateValue" :title="scope.row.stateValue">{{scope.row.stateValue}}</div>
                         <div >{{scope.row.sjDay ?  scope.row.sjDay + M2('天') : M2('0天')}}</div>
                     </template>
                 </el-table-column>
@@ -776,14 +776,19 @@ export default {
         changeMaxHeight(){
             let nHeight = 0
             if(document.querySelector('.navbarContainer')){
-                if(navigator.userAgent.indexOf('WebKit') > -1) {
+                if(window.innerWidth >= 1920){
                     nHeight = 55
                 }else {
-                    nHeight = 55
+                    if(navigator.userAgent.indexOf('WebKit') > -1){
+                        nHeight = 0
+                    }else {
+                        nHeight = 55
+                    }  
                 }
                 return window.innerHeight - document.querySelector('.navbarContainer').offsetHeight + 5 - nHeight  + 'px' 
+            }else {
+                return window.innerHeight - 240 + 'px'
             }
-            return window.innerHeight - 240 + 'px'
         },
       //获取列表数据
         mainListList:debounce (function(val){
@@ -817,8 +822,8 @@ export default {
                 curBusiness:  val.curBusiness,//业务开发   true：自己  false：其他
                 curAssignee:  val.curAssignee,//采购开发   true：自己  false：其他
                 state,//状态 -- /getStateTime   接口，另外补充  50   已冻结、51   已取消
-                inStatus:inStatus,//状态 -- /getStateTime   接口，另外补充  50   已冻结、51   已取消
-                designs: designs,//设计款
+                inStatus,//状态 -- /getStateTime   接口，另外补充  50   已冻结、51   已取消
+                designs,//设计款
                 timeEnum:val && val.timeEnum ? val.timeEnum : null,
                 productSource:val && val.productSource ? val.productSource : null,
             }
@@ -914,6 +919,7 @@ export default {
     height:25px;
     line-height:25px;
     border: 1px dashed;
+    overflow: hidden;
 }
 .fileHoverShow{
     color: #3366cc;

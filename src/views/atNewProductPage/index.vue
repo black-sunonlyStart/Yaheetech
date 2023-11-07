@@ -31,7 +31,7 @@ export default {
     computed: {
     },
     created () {
-            this.getPermissions()   
+        this.getPermissions()   
     },
     mounted(){},
     methods: {

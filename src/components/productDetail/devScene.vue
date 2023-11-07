@@ -69,22 +69,34 @@
                     </div>
                 </div>
             </el-form-item>
-            <el-form-item  :label="M2('系列-类目') + '：'" prop="classCategoryIdArray">
-                <el-cascader
-                    style="width:220px"
-                    v-model="ruleForm.classCategoryIdArray"
-                    :options="patentCountry"
-                    size="mini"
-                    separator=' - '
-                    :props="{ 
-                        value:'seriesCategoryId',
-                        label:'seriesCategoryName',
-                        children:'classifyDefs'
-                        }"
-                    clearable
-                    >
-                </el-cascader> 
-            </el-form-item>
+            <div class="flex-w">
+                <el-form-item  :label="M2('类目-系列') + '：'" prop="classCategoryIdArray" class="w-50">
+                    <el-cascader
+                        style="width:220px"
+                        v-model="ruleForm.classCategoryIdArray"
+                        :options="patentCountry"
+                        size="mini"
+                        separator=' - '
+                        :props="{ 
+                            value:'seriesCategoryId',
+                            label:'seriesCategoryName',
+                            children:'classifyDefs'
+                            }"
+                        clearable
+                        >
+                    </el-cascader> 
+                </el-form-item>
+                <el-form-item  :label="M2('虚拟类目') + '：'" prop="virtualCategories" class="w-50">
+                    <el-select v-model="ruleForm.virtualCategories" multiple :placeholder="M2('请选择虚拟类目')"  size="mini">
+                        <el-option
+                            v-for="item in virtualList"
+                            :key="item.seriesCategoryId"
+                            :label="item.seriesCategoryName"
+                            :value="item.seriesCategoryId">
+                        </el-option>
+                    </el-select>
+                </el-form-item>              
+            </div>
             <el-form-item :label="M2('所属分类') + '：'" prop="classiFication" v-if="ruleForm.scene == 1 ">
                 <div class="signClass">
                     <div class="signInput">
@@ -106,6 +118,7 @@
 <script>
 import { findProductByDevId,exploitType,getDevelopmentScenarios,getSeriesCategoryDef1 } from '@/api/user.js'
 import productTypeDialog from '@/components/productDetail/productTypeDialog'
+import { judgePorduction } from '@/utils/tools.js'
 export default {
     name:'devScene',
     components:{
@@ -118,7 +131,7 @@ export default {
           spuChange:false,
           showRelation:true,
           sceneOptions: [{
-          label: '全新开发',
+            label: '全新开发',
             options:[
                         {
                             value: 1,
@@ -163,8 +176,10 @@ export default {
         ],
         selectId:false,
         closeComponent:false,
+        copeCirtualCategories:null,
         spuSign:[],  
         patentCountry:[],
+        virtualList:[],
         ruleForm: {
           scene: '',
           region: '',
@@ -237,8 +252,26 @@ export default {
                     list.seriesCategoryId = list.classifyDefId
                 })
             })
-            this.patentCountry = res.data
-        })
+            this.patentCountry = res.data.filter(item => {
+                return  item.type == 0
+            })
+            this.virtualList = []
+            res.data.filter(item => {
+                return item.type == 1
+            }).forEach(item => {
+                item.classifyDefs.forEach(item => {
+                    this.virtualList.push(item)
+                })
+            })
+        }) 
+        this.copeCirtualCategories = null
+        let virtualCategories = []
+        if(this.productVoDetail.virtualCategories && this.productVoDetail.virtualCategories.length > 0){
+            this.copeCirtualCategories = JSON.parse(JSON.stringify(this.productVoDetail.virtualCategories))
+             virtualCategories = this.productVoDetail.virtualCategories.map(item => {
+                return item.classifyDefId
+             })
+        }
           this.ruleForm = {
               region : this.productVoDetail.developmenttype,
               scene:this.productVoDetail.developmentscenarios == '11' || this.productVoDetail.developmentscenarios == '12' ? 11 : this.productVoDetail.developmentscenarios,
@@ -248,7 +281,8 @@ export default {
               selectRelation:this.productVoDetail.id,
               skuid:this.productVoDetail.spu,
               classCategoryIdArray:this.productVoDetail.classCategoryIdArray,
-              treeId:this.productVoDetail.categoryId
+              virtualCategories,
+              treeId:this.productVoDetail.categoryId,
           }
           if(this.productVoDetail.developmentscenarios == 1){
               this.showRelation = false
@@ -273,7 +307,6 @@ export default {
                                     message:this.M2('当前输入的关联产品为【二次开发】类型'),
                                     offset:220
                                 })
-
                     this.twoSecence = res.data
                 }
             })
@@ -283,9 +316,9 @@ export default {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let params = {
-                developmentId:this.$route.query.developmentId ? this.$route.query.developmentId:this.$route.query.developmentId  ,
-                productId:this.$route.query.productId  ? this.$route.query.productId:this.$route.query.productId ,
-                productCountryId:this.$route.query.productCountryId  ? this.$route.query.productCountryId:this.$route.query.productCountryId ,
+                developmentId:this.$route.query.developmentId ? this.$route.query.developmentId:this.$route.query.developmentId,
+                productId:this.$route.query.productId  ? this.$route.query.productId:this.$route.query.productId,
+                productCountryId:this.$route.query.productCountryId  ? this.$route.query.productCountryId:this.$route.query.productCountryId,
                 categoryId:this.ruleForm.treeId,
                 // developmentType:this.ruleForm.region,
                 developmentScenarios:this.twoSecence ? this.twoSecence : this.ruleForm.scene,
@@ -294,9 +327,10 @@ export default {
                 addSPUId:this.ruleForm.skuid,
                 seriesCategoryId: this.ruleForm.classCategoryIdArray[0],//类目系列
                 classifyDefId: this.ruleForm.classCategoryIdArray[1],
-            }
-           
-            this.$confirm(this.M2('保存以后开发场景和关联场景不允许更改，请确认要继续保存？'), this.M2('提示'), {
+                virtualDefIds:this.ruleForm.virtualCategories,
+                id:this.copeCirtualCategories,
+            }  
+                this.$confirm(this.M2('保存以后开发场景和关联场景不允许更改，请确认要继续保存？'), this.M2('提示'), {
                         confirmButtonText: this.M2('确定'),
                         cancelButtonText: this.M2('取消'),
                         type: 'warning',
@@ -321,14 +355,13 @@ export default {
                                     })
                                 }
                         })
-                }).catch(() => {
-                return          
-            });
-            
-          } else {
-            // console.log('error submit!!');
-            return false;
-          }
+                    }).catch(() => {
+                    return          
+                });
+            } else {
+                // console.log('error submit!!');
+                return false;
+            }
         });
       },
       resetForm(formName) {
@@ -426,5 +459,12 @@ export default {
         }
       .option-input{
           width: 420px;
+      }
+      .flex-w {
+        display: flex;
+
+      }
+      .w-50 {
+        width: 50%;
       }
 </style>

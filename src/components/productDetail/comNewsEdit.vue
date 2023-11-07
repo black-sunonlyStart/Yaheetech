@@ -131,6 +131,13 @@
                             </el-form-item>
                         </el-col>
                     </el-row>
+                    <el-row :gutter="150">
+                        <el-col :span="10">
+                            <el-form-item  :label="M2('产品的承重') + '：'" prop="jpLoadBearing">
+                                <el-input type="textarea" autosize  v-model="ruleForm.jpLoadBearing" maxlength="500" show-word-limit></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
                     <span class="mainTitle">
                         {{M2('竞品结论')}}
                     </span>
@@ -236,6 +243,7 @@ export default {
                 jpsize:'',
                 jpweight:'',
                 basicinformation:'',
+                jpLoadBearing:'',
                 jpmaterial:'',
                 jpprocess:'',
                 jpcolor:'',
@@ -286,6 +294,9 @@ export default {
                 ],
                 jpadjustmentpoint: [
                     { required: true, message: this.M2('请输入产品确定开发调整点'), trigger: 'blur' },
+                ],
+                jpLoadBearing: [
+                    { required: true, message: this.M2('请输入产品的承重'), trigger: 'blur' },
                 ],
             },
             comProductRules:{
@@ -393,6 +404,7 @@ export default {
                 jpsize:this.comNewsDetailList.jpsize,
                 jpweight:this.comNewsDetailList.jpweight,
                 basicinformation:this.comNewsDetailList.basicinformation,
+                jpLoadBearing:this.comNewsDetailList.jpLoadBearing,
                 jpmaterial:this.comNewsDetailList.jpmaterial,
                 jpprocess:this.comNewsDetailList.jpprocess,
                 jpcolor:this.comNewsDetailList.jpcolor,
@@ -447,6 +459,7 @@ export default {
                                 jpsize:this.ruleForm.jpsize,//产品的尺寸
                                 jpweight:this.ruleForm.jpweight,//产品的净重
                                 basicinformation:this.ruleForm.basicinformation,//产品的规格参数
+                                jpLoadBearing:this.ruleForm.jpLoadBearing,//产品的规格参数
                                 jpmaterial:this.ruleForm.jpmaterial,//产品的材质
                                 jpprocess:this.ruleForm.jpprocess,//产品的工艺
                                 jpcolor:this.ruleForm.jpcolor,//产品的颜色

@@ -2,7 +2,7 @@
     <div class="navbarContainer">
         <el-form ref="form"
                 :model="form"
-                label-width="100px"
+                label-width="140px"
                 @submit.native.prevent
                 >
             <el-row>
@@ -386,8 +386,18 @@ export default {
     created() {
         this.init()
     },
+    mounted(){
+        this.addTitleLable()
+    },
     computed:{},
     methods: {
+        addTitleLable(){
+            document.querySelectorAll('.navbarContainer .el-form-item__label').forEach(item => {
+                if(!item.getAttribute('title')){
+                    item.setAttribute('title',item.innerHTML)
+                }                
+            })
+        },
         totalNum(val){
             let totalNumber = 0
             let list = []
@@ -517,6 +527,11 @@ export default {
         color: #3366cc !important;
         font-weight: bold; 
         line-height: 30px; 
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding-left: 10px;
     }
     ::v-deep .el-form-item__content{
         font-size: 12px !important;

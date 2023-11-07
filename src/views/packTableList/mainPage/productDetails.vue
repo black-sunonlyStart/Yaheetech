@@ -937,8 +937,8 @@ async getAllpageList(val){
             this.development = res.data.development //产品数据
             this.copeDevProgress = res.data.developmentProgresses
             if(res.data.productVos && res.data.productVos[0] && res.data.productVos[0].countryMap  && res.data.productVos[0].productCountryList && res.data.productVos[0].productCountryList[0] ){
-                    this.productCountryList =  res.data.productVos[0].countryMap
-                    this.otherCountryList =  res.data.productVos[0].otherCountryMaps
+                this.productCountryList =  res.data.productVos[0].countryMap
+                this.otherCountryList =  res.data.productVos[0].otherCountryMaps
             }else {
                 this.productCountryList = []
             }
@@ -1009,6 +1009,12 @@ async getAllpageList(val){
             this.buyerid =  this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerid :''
             this.getDevProgresses(res.data.developmentProgresses)
             this.getRouterDate(res.data.country)
+            let virtualCategoriesName = null
+            if(res.data.development && res.data.development.virtualCategories){
+                virtualCategoriesName = res.data.development.virtualCategories.map(item => {
+                    return item.seriesCategoryName
+                })
+            }
             //开发类型、详情数据
             this.productVoDetail = {
                 developmenttype:this.productVos ? this.productVos.developmenttype :'',//开发类型
@@ -1018,7 +1024,9 @@ async getAllpageList(val){
                 id:this.productVos ? this.productVos.id : '',
                 spuid:res.data.development ? res.data.development.id : '',
                 categoryId:res.data.development ? res.data.development.categoryid : '',
-                seriesCategoryName:res.data.development ? res.data.development.seriesCategoryName : '',
+                seriesCategoryName:res.data.development ? res.data.development.seriesCategoryName : [],
+                virtualCategories:res.data.development ? res.data.development.virtualCategories : [],
+                virtualCategoriesName,
             }
             this.productVoDetail.classCategoryIdArray = [res.data.development.seriesCategoryId,res.data.development.classifyDefId]
             
@@ -1091,6 +1099,7 @@ async getAllpageList(val){
                 jpsize:res.data.development.jpsize,//竞品尺寸
                 jpweight:res.data.development.jpweight,//竞品的净重
                 basicinformation:res.data.development.basicinformation,//产品的规格参数
+                jpLoadBearing:res.data.development.jpLoadBearing,//产品的承重
                 jpmaterial:res.data.development.jpmaterial,//竞品的材质
                 jpprocess:res.data.development.jpprocess,//
                 jpcolor:res.data.development.jpcolor,//竞品的颜色

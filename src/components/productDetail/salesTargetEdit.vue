@@ -209,7 +209,6 @@ export default {
                 orderTime:this.salesTargetDetaiList.xsorderoftime ? this.salesTargetDetaiList.xsorderoftime : '',//产品下单时间点
                 planToOrder:this.salesTargetDetaiList.planToOrder ||  this.salesTargetDetaiList.planToOrder == 0 ? this.salesTargetDetaiList.planToOrder : null,//是否计划下单
                 region:this.salesTargetDetaiList.xspurchasePriceCurrency == 0 ?'1' : !this.salesTargetDetaiList.xspurchasePriceCurrency ? '1' : this.salesTargetDetaiList.xspurchasePriceCurrency,//目标采购价
-                
             }
         },
         submitForm(formName) {
@@ -270,7 +269,6 @@ export default {
         }
     } 
     ::v-deep.numberInput{
-        
         width: 460px;
         .el-input__inner{
             text-align: left;

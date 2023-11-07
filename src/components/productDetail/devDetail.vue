@@ -11,7 +11,7 @@
             </el-col>
             <el-col :span="10">
                 <span class="boldTitle imageMainbox">{{M2('类目-系列')}}： </span>
-                <span  class="imageMainboxText" v-if="productVoDetail.seriesCategoryName">{{ productVoDetail.seriesCategoryName ? M2(productVoDetail.seriesCategoryName.split('>')[0]) : '' }}</span> > <span>{{ productVoDetail.seriesCategoryName ? M2(productVoDetail.seriesCategoryName.split('>')[1]) : ''}}</span>
+                <span  class="imageMainboxText" v-if="productVoDetail.seriesCategoryName">{{ productVoDetail.seriesCategoryName ? M2(productVoDetail.seriesCategoryName.split('>')[0]) : '' }} > </span>  <span>{{ productVoDetail.seriesCategoryName ? M2(productVoDetail.seriesCategoryName.split('>')[1]) : ''}}</span>
             </el-col>
             
         </el-row>
@@ -26,12 +26,12 @@
                 <span  class="imageMainboxText">{{productVoDetail.categoryname}}</span>
             </el-col>
         </el-row>
-        <!-- <el-row class="textSpeaing" v-if="productVoDetail.developmentscenarios != 1" >
-            <el-col :span="8">
-                <span class="boldTitle">所属分类：</span>
-                <span>{{productVoDetail.categoryname}}</span>
+        <el-row class="textSpeaing">
+            <el-col :span="10">
+                <span class="boldTitle imageMainbox">{{M2('虚拟类目')}}：</span>
+                <span class="imageMainboxText" >{{ productVoDetail.virtualCategoriesName ? productVoDetail.virtualCategoriesName.join(',') : ''   }}</span>
             </el-col>
-        </el-row> -->
+        </el-row>
     </div>
 </template>
 <script>
