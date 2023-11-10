@@ -252,6 +252,7 @@ export default {
                     list.seriesCategoryId = list.classifyDefId
                 })
             })
+            // this.patentCountry = res.data
             this.patentCountry = res.data.filter(item => {
                 return  item.type == 0
             })
@@ -316,9 +317,9 @@ export default {
         this.$refs[formName].validate((valid) => {
           if (valid) {
             let params = {
-                developmentId:this.$route.query.developmentId ? this.$route.query.developmentId:this.$route.query.developmentId,
-                productId:this.$route.query.productId  ? this.$route.query.productId:this.$route.query.productId,
-                productCountryId:this.$route.query.productCountryId  ? this.$route.query.productCountryId:this.$route.query.productCountryId,
+                developmentId:this.$route.query.developmentId ? this.$route.query.developmentId:null,
+                productId:this.$route.query.productId  ? this.$route.query.productId:null,
+                productCountryId:this.$route.query.productCountryId  ? this.$route.query.productCountryId:null,
                 categoryId:this.ruleForm.treeId,
                 // developmentType:this.ruleForm.region,
                 developmentScenarios:this.twoSecence ? this.twoSecence : this.ruleForm.scene,

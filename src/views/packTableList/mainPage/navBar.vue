@@ -96,7 +96,7 @@
                     </el-radio-button>
                 </el-radio-group>
                 <el-checkbox-group v-model="form.status1" size="mini" @change="changeStatus1" class="checkbox-status">
-                    <el-checkbox v-for="(item) in statusList2"  :key="item.label"  :label="item.label" border>{{ item.name }}({{item.num}})</el-checkbox>
+                    <el-checkbox v-for="(item) in statusList2"  :key="item.label"  :label="item.label" border>{{ M2(item.name) }}({{item.num}})</el-checkbox>
                 </el-checkbox-group>
             </div>
           </el-form-item>

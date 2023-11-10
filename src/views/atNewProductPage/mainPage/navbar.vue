@@ -387,6 +387,11 @@ export default {
         this.init()
     },
     mounted(){
+        this.$nextTick(res => {
+            if(this.$route.query.curAssignee != null ){
+                this.form.curAssignee = this.$route.query.curAssignee
+            }
+        })
         this.addTitleLable()
     },
     computed:{},
@@ -558,6 +563,7 @@ export default {
     }
     ::v-deep .el-radio-button__orig-radio:checked + .el-radio-button__inner {
         box-shadow: 0px 0 0 0 #3366cc;
+        color: #fff;
     }
     ::v-deep .success-radio {
         border: 1px solid #ccc;

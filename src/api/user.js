@@ -1019,4 +1019,11 @@ export function CFG_ProductSample_QuantitySpec(url){
         method: "get", 
     })
 }
+//数量规格选项
+export function CFG_ProductSample_ReasonsDisqualification(url){
+    return request({
+        url,
+        method: "get", 
+    })
+}
 //样品导出end

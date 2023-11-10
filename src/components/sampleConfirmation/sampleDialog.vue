@@ -149,6 +149,23 @@
                         </template>
                         <el-input size="mini" type="textarea" v-model="ruleForm.reason" :rows="5" ></el-input>
                     </el-form-item>
+                    <el-form-item prop="reasonsDisqualificationId" label-width="130px" v-if="ruleForm.sampleConfirmationResult == 7">
+                        <template slot="label">
+                            {{M2('不合格的原因')}}:
+                        </template>
+                         <el-select 
+                            v-model="ruleForm.reasonsDisqualificationId"
+                            size="mini"
+                            >
+                           <el-option 
+                                v-for="item in reasonsDisqualificationIdList"                        
+                                :key="item.t1"
+                                :label="M2(item.t2)"
+                                :value="item.t1"
+                            >
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
                 </div>
 
                 <div v-if="id == 6">
@@ -225,7 +242,7 @@
     </div>
 </template>
 <script>
-import { getSampleValidatorList,saveSampleValidator,approvalSampleMemo,cancelApplication,repulse,getFilePath,applyUpdateResult,getApplyUpdateResult,reviewApplyUpdateResult } from '@/api/user.js'
+import { CFG_ProductSample_ReasonsDisqualification,getSampleValidatorList,saveSampleValidator,approvalSampleMemo,cancelApplication,repulse,getFilePath,applyUpdateResult,getApplyUpdateResult,reviewApplyUpdateResult } from '@/api/user.js'
 import { judgePorduction} from '@/utils/tools.js'
 var applicationTime = ''
 export default {
@@ -289,6 +306,7 @@ export default {
                 }, 
             ],
             resultFile:[],
+            reasonsDisqualificationIdList:[],
             ruleForm:{
                 whyNote:'',
                 sampleValidator:'',
@@ -319,6 +337,9 @@ export default {
                 ],
                 reason : [
                     { required: true, message: this.M2('请填写修改原因！'), trigger:['change'] }
+                ],
+                reasonsDisqualificationId : [
+                    { required: true, message: this.M2('请填写不合格原因！'), trigger:['change'] }
                 ],
                 resultFile : [
                       {
@@ -412,6 +433,14 @@ export default {
                     this.$set(this.ruleForm,'problemDesc',null)
                     this.$set(this.ruleForm,'sampleQuestionPhoto',[])
                     this.$set(this.ruleForm,'reason',null)
+                    this.$set(this.ruleForm,'reasonsDisqualificationId',null)
+                    let sampleUrl = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/oceanTransportConfig/queryConfig/CFG_ProductSample_ReasonsDisqualification':
+            'http://api-tools-test.yahee.com.cn:82//tool-api/oceanTransportConfig/queryConfig/CFG_ProductSample_ReasonsDisqualification'
+                        CFG_ProductSample_ReasonsDisqualification(sampleUrl).then(res => {
+                            this.reasonsDisqualificationIdList = res.data.sort((a,b) => {
+                                return a.t3 - b.t3
+                            })
+                        })
                 }
             }
             this.id = id
@@ -469,11 +498,21 @@ export default {
                                 this.buttonLoading = false
                                 return
                             }
+                         if(!this.ruleForm.reasonsDisqualificationId && this.ruleForm.sampleConfirmationResult == 7){
+                                this.$message({
+                                    type: 'error', 
+                                    message:this.M2('请选择不合格原因！'),
+                                    offset:220
+                                })
+                                this.buttonLoading = false
+                                return
+                            }
                         let param = {
                             "productSampleId":this.mainList.map(res =>  res.id ).toString(),//样品确认Id   列表 申请单号 
                             "sampleConfirmationResult": this.ruleForm.sampleConfirmationResult,//样品确认结果  5:合格  6：改进后通过(产前样)  7：不合格
                             "problemDesc":this.ruleForm.problemDesc,//样品确认文件-问题描述
                             "reason" : this.ruleForm.reason,//修改原因
+                            "reasonsDisqualificationId" : this.ruleForm.reasonsDisqualificationId ? Number(this.ruleForm.reasonsDisqualificationId) : null,//修改原因
                             sampleAttachments:this.resultFile.concat(this.ruleForm.sampleQuestionPhoto || [], this.ruleForm.designConstructionFile || [])
                         }
                         statusF= applyUpdateResult(param)

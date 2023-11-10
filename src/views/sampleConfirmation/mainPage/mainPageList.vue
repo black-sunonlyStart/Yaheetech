@@ -619,7 +619,7 @@ export default {
                         if(res.data.virtualPaths){
                             res.data.virtualPaths.forEach(item => {
                                 let url = judgePorduction() ? item.replace('http','https') : item
-                                window.open(url,'_blank')
+                                window.open(url,'_self')
                             })
                         }
                          this.optionPutExcle = false

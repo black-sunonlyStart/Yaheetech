@@ -17,7 +17,7 @@ import { M2 } from '@/utils/translate.js'
 Vue.prototype.M2 = M2;
 router.beforeEach((to,form,next) => {
     if(to.meta.title){
-        document.title = to.meta.title
+        document.title = M2(to.meta.title)
     }
     next()
 })

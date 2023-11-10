@@ -26,15 +26,15 @@ export const constantRoutes = [
         title:'产品开发详情页'
     }
   },
-  {
-    name:'productDevelopAt',
-    path: '/productDevelopAt',
-    component: () => import('@/views/newProductPage/index'),
-    hidden: true,
-    meta:{
-        title:'新品'
-    }
-  },
+//   {
+//     name:'productDevelopAt',
+//     path: '/productDevelopAt',
+//     component: () => import('@/views/newProductPage/index'),
+//     hidden: true,
+//     meta:{
+//         title:'新品'
+//     }
+//   },
   {
     name:'sampleConfirmation',
     path: '/sampleConfirmation',

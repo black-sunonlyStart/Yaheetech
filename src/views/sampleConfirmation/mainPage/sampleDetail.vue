@@ -1,12 +1,12 @@
 <template>
     <div class="bg-gray" v-if="renderDom" v-permission="'ERP.Product.ProductSample.View'">
         <div class="header-title">
-            <div><span class="header-text">{{this.M2('样品确认单')}}：</span><span class="header-text" style="font-weight: bold;">{{$route.query.id}}</span></div>
+            <div><span class="header-text">{{M2('样品确认单')}}：</span><span class="header-text" style="font-weight: bold;">{{$route.query.id}}</span></div>
             <div class="right-button"> 
-                <div class="green-div">{{this.M2('状态')}}：{{mainPageList ? mainPageList.stateValue : ''}}</div>
-                <div class="green-div">{{this.M2('申请人')}}:{{mainPageList ? mainPageList.applicantName: ''}}</div>
-                <div class="green-div">{{this.M2('样品员')}}：{{mainPageList ? mainPageList.sampleValidatorName:''}}</div>
-                <div class="gray-div">{{this.M2('可验样日期')}}：{{showTimeL(mainPageList)}}</div>
+                <div class="green-div">{{M2('状态')}}：{{mainPageList ? M2(mainPageList.stateValue) : ''}}</div>
+                <div class="green-div">{{M2('申请人')}}:{{mainPageList ? M2(mainPageList.applicantName): ''}}</div>
+                <div class="green-div">{{M2('样品员')}}：{{mainPageList ? M2(mainPageList.sampleValidatorName):''}}</div>
+                <div class="gray-div">{{M2('可验样日期')}}：{{showTimeL(mainPageList)}}</div>
             </div>
         </div>
         <div class='tabContainer'>
@@ -173,7 +173,7 @@
                         <el-col :span="10">
                             <div class="boxFlex">
                                 <span class="imageMainbox">{{M2('出口市场')}}： </span>
-                                <div class="imageMainboxText" >{{mainPageList.exportMarketStr ? mainPageList.exportMarketStr.replaceAll('欧盟,法,意,西,德,','欧盟') : ''}}</div>
+                                <div class="imageMainboxText" >{{mainPageList.exportMarketStr ? M2(mainPageList.exportMarketStr.replaceAll('欧盟,法,意,西,德,','欧盟')) : ''}}</div>
                             </div>
                         </el-col>
                         <el-col :span="10" v-if="showSampleNum">
@@ -202,7 +202,7 @@
                             <el-col :span="10">
                                 <div class="boxFlex">
                                     <span class="imageMainbox">{{M2('产品颜色类型')}}： </span>
-                                    <div class="imageMainboxText" >{{mainPageList.productColorTypeStr}}</div>
+                                    <div class="imageMainboxText" >{{M2(mainPageList.productColorTypeStr)}}</div>
                                 </div>
                             </el-col>
                             <el-col :span="10">
@@ -503,6 +503,14 @@
                                 </div>
                             </span>
                         </el-col>
+                        <el-col :span="20" v-if="mainPageList.sampleConfirmationResult == 7">
+                            <div style="display:flex">
+                                <span class="imageMainbox">{{M2('不合格原因')}}： </span>
+                                <span class="imageMainboxText">
+                                    {{mainPageList.reasonsDisqualificationStr}}
+                                </span>
+                            </div>
+                        </el-col>
                     </el-row> 
                 </div>
                 <div v-else>
@@ -577,6 +585,25 @@
                                 </span>
                             </el-col>  
                         </el-row>
+                        <el-row  class="textSpeaing" v-if="mainPageList.sampleConfirmationResult == 7">
+                            <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
+                                <span class="imageMainbox"><span style="color:red">*</span>{{M2('不合格原因')}}： </span>
+                                <span class="imageMainboxText">
+                                    <el-select 
+                                        v-model="mainPageList.reasonsDisqualificationId"
+                                        size="mini"
+                                        >
+                                        <el-option 
+                                            v-for="item in reasonsDisqualificationIdList"                        
+                                            :key="item.t1"
+                                            :label="M2(item.t2)"
+                                            :value="item.t1"
+                                        >
+                                        </el-option>
+                                    </el-select>
+                                </span>
+                            </el-col>
+                        </el-row>
                     </div>
                     <div class="bottomButton">
                         <el-button type="primary" @click="submitForm('isEdit2',true,2)" size="mini">{{M2('提交')}}</el-button>
@@ -641,7 +668,7 @@
 </template>
 <script>
 import { GetFileServiceUrl,judgePorduction,addMask} from '@/utils/tools.js'
-import { queryProductSampleById,getFilePath,saveProductSampleAttachment,approvalSampleMemo,getRelevanceProductSample,savaProductSampleRes,hasPermissions,getProductSampleFromProductDev } from '@/api/user.js'
+import { queryProductSampleById,getFilePath,saveProductSampleAttachment,approvalSampleMemo,getRelevanceProductSample,savaProductSampleRes,hasPermissions,getProductSampleFromProductDev,CFG_ProductSample_ReasonsDisqualification } from '@/api/user.js'
 var applicationTime = ''
 export default {
     name:'sampleDetail',
@@ -661,6 +688,7 @@ export default {
             imgUrl:'',
             showTenth:false,
             sampleQuestionPhoto:[],
+            reasonsDisqualificationIdList:[],
             gridData2:[],
             devSign:[
                 {
@@ -800,6 +828,13 @@ export default {
             }
         },
         init(){
+             let sampleUrl = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/oceanTransportConfig/queryConfig/CFG_ProductSample_ReasonsDisqualification':
+'http://api-tools-test.yahee.com.cn:82//tool-api/oceanTransportConfig/queryConfig/CFG_ProductSample_ReasonsDisqualification'
+            CFG_ProductSample_ReasonsDisqualification(sampleUrl).then(res => {
+                this.reasonsDisqualificationIdList = res.data.sort((a,b) => {
+                    return a.t3 - b.t3
+                })
+            })
             this.routeParam.id = this.$route.query.id || null
             this.getPermissions()
             let param = {
@@ -878,6 +913,9 @@ export default {
                                     item.name =  item.fileName
                                 })
                             } 
+                            if(res.data.reasonsDisqualificationId){
+                                res.data.reasonsDisqualificationId = res.data.reasonsDisqualificationId.toString()
+                            }
                             this.mainPageList = res.data
                         }else{
                             this.mainPageList = res.data
@@ -964,6 +1002,7 @@ export default {
                 problemDesc:this.mainPageList.problemDesc,//样品确认文件 - 问题描述
                 id:this.mainPageList.id,//样品确认文件 - 问题描述
                 state: 2,// 1：保存   2：提交
+                reasonsDisqualificationId:this.mainPageList.reasonsDisqualificationId ? Number(this.mainPageList.reasonsDisqualificationId) : null,
             }
             let fn 
             if(val == 1){
@@ -1028,6 +1067,14 @@ export default {
                         })
                         return
                     }
+                }
+                if(this.mainPageList.sampleConfirmationResult == 7 && !this.mainPageList.reasonsDisqualificationId){
+                    this.$message({
+                        type: 'error', 
+                        message:this.M2('请选择不合格原因！'),
+                        offset:220
+                    })
+                    return
                 }
             }
             this.$confirm(text, this.M2('提示'), {

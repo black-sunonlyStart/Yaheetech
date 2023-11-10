@@ -40,7 +40,7 @@
                 <el-col :xs="4" :sm="5" :md="5" :lg="5" :xl="4">
                     <el-form-item label-width="10px">
                         <div class="searchBox">
-                            <el-input :placeholder="M2('请输入编号/名称')"
+                            <el-input :placeholder="M2('请输入编号/名称/申请人')"
                                 v-model="putSearch"
                                 size='mini'
                                 class="input-with-select"

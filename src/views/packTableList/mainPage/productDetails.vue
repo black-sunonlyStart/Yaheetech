@@ -137,7 +137,7 @@
                                             {{M2('产品尺寸图')}}
                                         </div>
                                         <div class="imgContainer" style="margin:12px 0px">
-                                            <div v-for="item in productImgDetail" :key="item.key" class="imgCon ">
+                                            <div v-for="item in productImgDetail" :key="item.key" class="imgCon">
                                                 <el-image
                                                     class="imageListBox"
                                                     :src="item.showImgUrl"
@@ -918,16 +918,16 @@ async getAllpageList(val){
     })
     this.scrollPostion()
     let params = {
-        developmentId:this.routePageList.developmentId || '',
-        productId:this.routePageList.productId || '',
-        productCountryId:this.routePageList.productCountryId || '',
+        developmentId:this.routePageList.developmentId || null,
+        productId:this.routePageList.productId || null,
+        productCountryId:this.routePageList.productCountryId || null,
         edit:this.routePageList.edit === 'false' ?  false :true,
     }
     if(val){
         params = {
-            developmentId:val.developmentId?val.developmentId:'',
-            productId:val.productId?val.productId:'',
-            productCountryId:val.productCountryId?val.productCountryId:'',
+            developmentId:val.developmentId?val.developmentId:null,
+            productId:val.productId?val.productId:null,
+            productCountryId:val.productCountryId?val.productCountryId:null,
         }
     }
     getProductDevDetail(params).then(res => {
