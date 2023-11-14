@@ -44,7 +44,11 @@
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">{{M2('US Duty税率')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('en-US') }}%</div>
+                    <div class="colBoxTitle">{{M2('Duty税率')}}： </div> 
+                    <span class="colBoxContent" style="margin-right:15px">US:{{showCountryDuty('en-US') }}%</span>
+                    <span class="colBoxContent" style="margin-right:15px">GB:{{showCountryDuty('en-GB') }}%</span>
+                    <span class="colBoxContent" style="margin-right:15px">DE:{{showCountryDuty('de') }}%</span>
+                    <span class="colBoxContent" style="margin-right:15px">JP:{{showCountryDuty('ja-JP') }}%</span>
                 </div>
             </el-col>
         </el-row>
@@ -56,7 +60,7 @@
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">{{M2('GB Duty税率')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('en-GB')  || 0}}%</div>
+                    <div class="colBoxTitle">{{M2('产品年龄段')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.ageRangeStr}}</div>
                 </div>
             </el-col>
         </el-row>
@@ -68,7 +72,7 @@
             </el-col>
             <el-col :span="10">
                  <div class="colbox">
-                    <div class="colBoxTitle">{{M2('DE Duty税率')}}：</div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('de') || 0}}%</div>
+                    <div class="colBoxTitle">{{M2('是否带电')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.electrifyStr}}</div>
                 </div>
             </el-col>
         </el-row>
@@ -80,7 +84,7 @@
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <div class="colBoxTitle">{{M2('JP Duty税率')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('ja-JP') }}%</div>
+                    <!-- <div class="colBoxTitle">{{M2('JP Duty税率')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('ja-JP') }}%</div> -->
                 </div>
             </el-col>
         </el-row>
@@ -363,7 +367,7 @@ export default {
             if(filterList.length > 0){
                 return filterList[0].dutyrate
             }else {
-                return ''
+                return 0
             }
             
         },

@@ -959,7 +959,20 @@ export function skipStructuralDesign(data){
         data
     })
 }
-
+//产品年龄段选项
+export function CFG_Product_dev_AgeRange(url){
+    return request({
+        url,
+        method: "get", 
+    })
+}
+//是否带电选项
+export function CFG_Product_dev_Electrify(url){
+    return request({
+        url,
+        method: "get", 
+    })
+}
 
 
 //新品开发end

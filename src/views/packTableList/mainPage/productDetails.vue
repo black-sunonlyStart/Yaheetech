@@ -1171,6 +1171,10 @@ async getAllpageList(val){
                     ispatentproduct:res.data.development.ispatentproduct,//是否需要专利确认
                     fbaWarehouseIds:res.data.fbaWarehouseIds.map(Number),//是否需要专利确认
                     orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//采购开发
+                    ageRangeStr:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].ageRangeStr : null,//采购开发
+                    ageRangeId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].ageRangeId : null,//采购开发
+                    electrifyId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].electrifyId : null,//采购开发
+                    electrifyStr:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].electrifyStr : null,//采购开发
                     businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName: '',//业务开发
                     auditorName:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].auditorName: '',//负责人
                     auditor:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].auditor: '',//负责人
@@ -1217,10 +1221,20 @@ async getAllpageList(val){
                     credentialList2:credentialList2 ? credentialList2:[],//必要认证其他
                     credentialList3:credentialList3 ? credentialList3 : [],//推荐认证
                     authnote:this.productVos.authnote,//认证备注
+                    certFinalReviewStr:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].certFinalReviewStr: '',//认证备注
+                    certFinalReview:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].certFinalReview: '',//认证备注
                     applicableAge:this.productVos.applicableAge ,//产品年龄段
+                    ageRangeId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].ageRangeId : null,//采购开发
+                    electrifyId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].electrifyId : null,//采购开发
                     applicableAgeNote:this.productVos.applicableAgeNote ,//备注
                     riskllevel:this.productVos.riskllevel == 0 ? 1 : this.productVos.riskllevel,//专利风险等级
                     patentInfo:patentInfo.LocalStrings,//专利确认
+                }
+
+                if(!this.prodCerInfoDetailList.certFinalReviewStr && this.prodCerInfoDetailList.certFinalReview != 0){
+                    if((this.prodCerInfoDetailList.ageRangeId && this.prodCerInfoDetailList.ageRangeId != 4) || (this.prodCerInfoDetailList.electrifyId && this.prodCerInfoDetailList.electrifyId != 1)){
+                        this.$set(this.prodCerInfoDetailList,'certFinalReviewStr','需要')
+                    }
                 }
             // })
                 //产品标题和供应商信息

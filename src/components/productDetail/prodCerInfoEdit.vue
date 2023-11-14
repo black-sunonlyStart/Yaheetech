@@ -187,6 +187,16 @@
                     </el-form-item>
                 </el-col>
             </el-row>
+            <el-row>
+                <el-col :span="10">
+                    <el-form-item :label="M2('是否需要认证终审') + ':'" prop="certFinalReview">
+                        <el-radio-group v-model="ruleForm.certFinalReview">
+                            <el-radio :label="0">{{M2('不需要')}}</el-radio>
+                            <el-radio :label="1">{{M2('需要')}}</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                </el-col>
+            </el-row>
         </el-form>
         <div class="bottomButton">
             <el-button type="primary" @click="submitForm('ruleForm')" size="mini" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'保存',businessCode:'产品认证信息'}" perkey='ERP.Product.ProductDev.SalesManEdit'>{{M2('保存')}}</el-button>
@@ -220,10 +230,12 @@ export default {
                 productAgeGroup:'',
                 ageGroupRemarks:'',
                 patentRiskLevel:'',
+                certFinalReview:null,
             },
             rules:{
                 isCertificationReq: [{ required: true, message: this.M2('请选择'), trigger: 'blur' }],
                 patentRiskLevel: [{ required: true, message: this.M2('请选择风险等级'), trigger: 'blur' }],
+                certFinalReview: [{ required: true, message: this.M2('请选择是否需要终审'), trigger: 'blur' }],
             },
             isUsa:[
                 {
@@ -453,7 +465,14 @@ export default {
                 productAgeGroup:this.prodCerInfoDetailList.applicableAge,
                 ageGroupRemarks:this.prodCerInfoDetailList.applicableAgeNote ? this.prodCerInfoDetailList.applicableAgeNote : '',
                 patentRiskLevel:this.prodCerInfoDetailList.riskllevel,
+                certFinalReview:this.prodCerInfoDetailList.certFinalReview,
             }
+            if(!this.ruleForm.certFinalReview && this.ruleForm.certFinalReview != 0){
+                if((this.prodCerInfoDetailList.ageRangeId && this.prodCerInfoDetailList.ageRangeId != 4) || (this.prodCerInfoDetailList.electrifyId && this.prodCerInfoDetailList.electrifyId != 1)){
+                    this.$set(this.ruleForm,'certFinalReview',1)
+                }
+            }
+            
             if(this.ruleForm.requirements.length == 0){
                 this.addMustRequire()
             }
@@ -533,6 +552,7 @@ export default {
                     applicableAge:this.ruleForm.productAgeGroup,
                     applicableAgeNote:this.ruleForm.ageGroupRemarks,
                     riskLevel:this.ruleForm.patentRiskLevel,
+                    certFinalReview:Number(this.ruleForm.certFinalReview),
                     patentInfo:JSON.stringify(patentInfo)
                 }
                 let dataList = this.ruleForm.usaNessCertification.concat(this.ruleForm.ukNessCertification).concat(this.ruleForm.euNessCertification).concat(this.ruleForm.jpNessCertification)
