@@ -58,11 +58,11 @@
                     <div class="colBoxTitle">{{M2('日文标题')}}： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.titleJp}}</div>
                 </div>
             </el-col>
-            <el-col :span="10">
+            <!-- <el-col :span="10">
                 <div class="colbox">
                     <div class="colBoxTitle">{{M2('产品年龄段')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.ageRangeStr}}</div>
                 </div>
-            </el-col>
+            </el-col> -->
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
@@ -70,11 +70,11 @@
                     <div class="colBoxTitle">{{M2('英文关键词')}}： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.keys}}</div>
                 </div>
             </el-col>
-            <el-col :span="10">
+            <!-- <el-col :span="10">
                  <div class="colbox">
                     <div class="colBoxTitle">{{M2('是否带电')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.electrifyStr}}</div>
                 </div>
-            </el-col>
+            </el-col> -->
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
@@ -362,26 +362,24 @@ export default {
                 filterList =  this.devInformationDetaiList.countryCodeList.filter(res => {
                     return res.countryLanguage == val
                 })
-                
             }
             if(filterList.length > 0){
                 return filterList[0].dutyrate
             }else {
                 return 0
             }
-            
         },
         objectSpanMethod({ row, column, rowIndex, columnIndex }) {
             if (columnIndex > 3) {
                 if (rowIndex % 2 === 0) {
                     return {
-                    rowspan: 2,
-                    colspan: 1
+                        rowspan: 2,
+                        colspan: 1
                     };
                 } else {
                     return {
-                    rowspan: 0,
-                    colspan: 0
+                        rowspan: 0,
+                        colspan: 0
                     };
                 }
             }

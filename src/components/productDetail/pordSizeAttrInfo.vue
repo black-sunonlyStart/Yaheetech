@@ -355,19 +355,19 @@ export default {
         changeProducttype(val){
             if(!val && !this.pordSizeAttrInfoList.beforepackweight)return
             if(val == 2){
-               return '物理捆绑属性'
+               return this.M2('物理捆绑属性')
             }
             if(this.pordSizeAttrInfoList.beforepackweight){
                 if(val == 1){
-                    return '多属性产品'
+                    return this.M2('多属性产品')
                 }else {
-                    return '普通产品'
+                    return this.M2('普通产品')
                 }
             }else{
                if(this.pordSizeAttrInfoList.scenarios == 3 || this.pordSizeAttrInfoList.scenarios == 12){
-                    return '多属性产品'
+                    return this.M2('多属性产品')
                 }else {
-                    return '普通产品'
+                    return this.M2('普通产品')
                 } 
             }
         },
@@ -376,7 +376,7 @@ export default {
             if(val == 1){
                 return ''
             }else if (val == 2){
-                return '不规则立方体'
+                return this.M2('不规则立方体')
             }
         }
     }

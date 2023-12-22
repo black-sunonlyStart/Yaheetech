@@ -4,8 +4,8 @@
             <div><span class="header-text">{{M2('样品确认单')}}：</span><span class="header-text" style="font-weight: bold;">{{$route.query.id}}</span></div>
             <div class="right-button"> 
                 <div class="green-div">{{M2('状态')}}：{{mainPageList ? M2(mainPageList.stateValue) : ''}}</div>
-                <div class="green-div">{{M2('申请人')}}:{{mainPageList ? M2(mainPageList.applicantName): ''}}</div>
-                <div class="green-div">{{M2('样品员')}}：{{mainPageList ? M2(mainPageList.sampleValidatorName):''}}</div>
+                <div class="green-div">{{M2('申请人')}}:{{mainPageList ? mainPageList.applicantName: ''}}</div>
+                <div class="green-div">{{M2('样品员')}}：{{mainPageList ? mainPageList.sampleValidatorName:''}}</div>
                 <div class="gray-div">{{M2('可验样日期')}}：{{showTimeL(mainPageList)}}</div>
             </div>
         </div>
@@ -222,7 +222,7 @@
                             <el-col :span="10">
                                 <div class="boxFlex">
                                     <span class="imageMainbox">{{M2('辅材泡沫密度')}}： </span>
-                                    <div class="imageMainboxText" >{{mainPageList.auxiliaryFoamDensity ? mainPageList.auxiliaryFoamDensity + ' kg/m³' : ''}}</div>
+                                    <div class="imageMainboxText" >{{mainPageList.auxiliaryFoamDensity ? mainPageList.auxiliaryFoamDensity : ''}}</div>
                                 </div>       
                             </el-col>
                         </el-row>
@@ -413,7 +413,7 @@
                                     :picker-options="setDisabled"
                                     v-model="mainPageList.sampleConfirmationTime"
                                     type="date"
-                                    placeholder="选择日期"
+                                    :placeholder="M2('选择日期')"
                                     @change="changeSampleConfirmation"
                                     >
                                 </el-date-picker>
@@ -438,6 +438,7 @@
                                         :key="item.key"
                                         :label="M2(item.label)"
                                         :value="item.value"
+                                        :placeholder="M2('请选择')"
                                     >
                                     </el-option>
                                 </el-select>
@@ -544,6 +545,27 @@
                         </el-col>  
                     </el-row>
                     <div v-if="mainPageList.sampleConfirmationResult == 7 || mainPageList.sampleConfirmationResult == 6">
+                         <el-row  class="textSpeaing" v-if="mainPageList.sampleConfirmationResult == 7">
+                            <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10">
+                                <span class="imageMainbox"><span style="color:red">*</span>{{M2('不合格原因')}}： </span>
+                                <span class="imageMainboxText">
+                                    <el-select 
+                                        v-model="mainPageList.reasonsDisqualificationIds"
+                                        size="mini"
+                                        multiple
+                                        style="width:552px"
+                                        >
+                                        <el-option 
+                                            v-for="item in reasonsDisqualificationIdList"                        
+                                            :key="item.t1"
+                                            :label="M2(item.t2)"
+                                            :value="Number(item.t1)"
+                                        >
+                                        </el-option>
+                                    </el-select>
+                                </span>
+                            </el-col>
+                        </el-row>
                         <el-row class="textSpeaing" >
                             <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="10" style="display:flex">
                                 <span class="imageMainbox"> {{M2('问题描述')}}： </span>
@@ -585,25 +607,7 @@
                                 </span>
                             </el-col>  
                         </el-row>
-                        <el-row  class="textSpeaing" v-if="mainPageList.sampleConfirmationResult == 7">
-                            <el-col :span="10" :xs="20" :sm="20" :md="20" :lg="20" :xl="20">
-                                <span class="imageMainbox"><span style="color:red">*</span>{{M2('不合格原因')}}： </span>
-                                <span class="imageMainboxText">
-                                    <el-select 
-                                        v-model="mainPageList.reasonsDisqualificationId"
-                                        size="mini"
-                                        >
-                                        <el-option 
-                                            v-for="item in reasonsDisqualificationIdList"                        
-                                            :key="item.t1"
-                                            :label="M2(item.t2)"
-                                            :value="item.t1"
-                                        >
-                                        </el-option>
-                                    </el-select>
-                                </span>
-                            </el-col>
-                        </el-row>
+                       
                     </div>
                     <div class="bottomButton">
                         <el-button type="primary" @click="submitForm('isEdit2',true,2)" size="mini">{{M2('提交')}}</el-button>
@@ -823,12 +827,11 @@ export default {
                         this.$set(this,'mainPageList',res.data)
                         this.$set(this.mainPageList,'productSizePhotoList',res.data.productSizePhotoList)
                     })
-                  
                 })
             }
         },
         init(){
-             let sampleUrl = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/oceanTransportConfig/queryConfig/CFG_ProductSample_ReasonsDisqualification':
+            let sampleUrl = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/oceanTransportConfig/queryConfig/CFG_ProductSample_ReasonsDisqualification':
 'http://api-tools-test.yahee.com.cn:82//tool-api/oceanTransportConfig/queryConfig/CFG_ProductSample_ReasonsDisqualification'
             CFG_ProductSample_ReasonsDisqualification(sampleUrl).then(res => {
                 this.reasonsDisqualificationIdList = res.data.sort((a,b) => {
@@ -913,9 +916,7 @@ export default {
                                     item.name =  item.fileName
                                 })
                             } 
-                            if(res.data.reasonsDisqualificationId){
-                                res.data.reasonsDisqualificationId = res.data.reasonsDisqualificationId.toString()
-                            }
+                          
                             this.mainPageList = res.data
                         }else{
                             this.mainPageList = res.data
@@ -1002,7 +1003,7 @@ export default {
                 problemDesc:this.mainPageList.problemDesc,//样品确认文件 - 问题描述
                 id:this.mainPageList.id,//样品确认文件 - 问题描述
                 state: 2,// 1：保存   2：提交
-                reasonsDisqualificationId:this.mainPageList.reasonsDisqualificationId ? Number(this.mainPageList.reasonsDisqualificationId) : null,
+                reasonsDisqualificationIds:this.mainPageList.reasonsDisqualificationIds ? this.mainPageList.reasonsDisqualificationIds : null,
             }
             let fn 
             if(val == 1){
@@ -1059,7 +1060,7 @@ export default {
                     return
                 }
                 if(this.mainPageList.sampleConfirmationResult != 5){
-                    if(!this.mainPageList.problemDesc && this.mainPageList.sampleQuestionFile.length == 0 && this.sampleQuestionPhoto.length == 0){
+                    if(!this.mainPageList.problemDesc && (!this.mainPageList.sampleQuestionFile || (this.mainPageList.sampleQuestionFile && this.mainPageList.sampleQuestionFile.length == 0)) && ( !this.sampleQuestionPhoto || (this.sampleQuestionPhoto && this.sampleQuestionPhoto.length == 0))){
                         this.$message({
                             type: 'error', 
                             message:this.M2('请添加一个问题描述，文件或者图片！'),
@@ -1068,7 +1069,7 @@ export default {
                         return
                     }
                 }
-                if(this.mainPageList.sampleConfirmationResult == 7 && !this.mainPageList.reasonsDisqualificationId){
+                if(this.mainPageList.sampleConfirmationResult == 7 && (!this.mainPageList.reasonsDisqualificationIds || (this.mainPageList.reasonsDisqualificationIds && this.mainPageList.reasonsDisqualificationIds.length ==0))){
                     this.$message({
                         type: 'error', 
                         message:this.M2('请选择不合格原因！'),

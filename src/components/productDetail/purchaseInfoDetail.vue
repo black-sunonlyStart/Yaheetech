@@ -292,7 +292,6 @@ export default {
             }
         },
         showTitle(){
-            
             if(this.purchaseInfoDetaiList.lastProductPurchaseVoList && this.purchaseInfoDetaiList.lastProductPurchaseVoList[0] && this.purchaseInfoDetaiList.productPurchaseVoList){
                 let lastProductPurchaseVoList = this.purchaseInfoDetaiList.lastProductPurchaseVoList[0] || []
                 let filSelectRow = this.purchaseInfoDetaiList.productPurchaseVoList.filter(item => {

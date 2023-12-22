@@ -155,7 +155,7 @@
                         <div class="status-rudis">
                             <div :class="showClass(scope.row.state,'radiusDiv')"></div>
                             <div>
-                                <div>{{scope.row.stateValue}}</div>
+                                <div>{{M2(scope.row.stateValue)}}</div>
                                 <div v-if="scope.row.sjDay"  style="color:#797979">({{scope.row.sjDay}}{{M2('天')}})</div>
                             </div>
                         </div>
@@ -167,7 +167,7 @@
                         {{M2('样品确认员')}}
                     </template>
                     <template slot-scope="scope">
-                        {{scope.row.sampleValidatorName ? M2(scope.row.sampleValidatorName) : '--'}}
+                        {{scope.row.sampleValidatorName ? scope.row.sampleValidatorName : '--'}}
                     </template>
                 </el-table-column>
                 <el-table-column prop="status" width="100" align="center">
@@ -187,7 +187,7 @@
                             {{M2(scope.row.testSiteStr)}}
                         </span> 
                         <div v-if="scope.row.testSite == 1" style="color:#797979">
-                            {{M2(scope.row.supplierName)}}
+                            {{scope.row.supplierName}}
                         </div> 
                     </template>
                 </el-table-column>
@@ -205,7 +205,7 @@
                         {{M2('申请人')}}
                     </template>
                     <template slot-scope="scope">
-                       {{M2(scope.row.applicantName)}}
+                       {{scope.row.applicantName}}
                     </template>
                 </el-table-column>
                 <el-table-column prop="createdOn" width="110" align="center" sortable>

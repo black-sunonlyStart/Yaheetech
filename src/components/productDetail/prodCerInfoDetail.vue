@@ -56,13 +56,13 @@
                 </div>
             </el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
             <el-col :span="24" class="produInfo">
                 <div class="colbox">
                     <div class="colBoxTitle">{{M2('是否需要认证终审')}}： </div> <div class="colBoxContent" style="width:1200px">{{prodCerInfoDetailList.certFinalReviewStr}}</div>
                 </div>
             </el-col>
-        </el-row>
+        </el-row> -->
     </div>
 </template>
 <script>
@@ -72,7 +72,7 @@ export default {
     data(){
         return {
             showFilterCerInfoList:{},
-             isUsa:[
+            isUsa:[
                 {
                     authId:1,
                     authName: 'FCC',

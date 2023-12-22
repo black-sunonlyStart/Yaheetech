@@ -776,21 +776,21 @@ export default {
         changeMaxHeight(){
             let nHeight = 0
             if(document.querySelector('.navbarContainer')){
-                if(window.innerWidth >= 1920){
-                    nHeight = 55
-                }else {
+                // if(window.innerWidth >= 1920){
+                //     nHeight = 0
+                // }else {
                     if(navigator.userAgent.indexOf('WebKit') > -1){
-                        nHeight = 0
+                        nHeight = 55
                     }else {
                         nHeight = 55
                     }  
-                }
+                // }
                 return window.innerHeight - document.querySelector('.navbarContainer').offsetHeight + 5 - nHeight  + 'px' 
             }else {
                 return window.innerHeight - 240 + 'px'
             }
         },
-      //获取列表数据
+        //获取列表数据
         mainListList:debounce (function(val){
             if(!val) val = this.uploadFilterList
             let state = null

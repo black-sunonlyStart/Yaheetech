@@ -140,6 +140,67 @@
                 </el-col>
             </el-row>
             <el-row>
+                <el-col :span="12">
+                    <el-form-item :label="M2('计算海运费方式') + '：'" prop="seaFreight">
+                        <el-select 
+                            v-model="ruleForm.seaFreight"
+                            style="width:250px"
+                            >
+                            <el-option 
+                                v-for="item in seaFreightSign"                        
+                                :key="item.key"
+                                :label="M2(item.label)"
+                                :value="item.value"
+                                >
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                    <el-form-item :label="M2('开发优先级') + '：'" prop="orderQuantity">
+                        <el-radio-group v-model="ruleForm.orderQuantity">
+                            <el-radio :label="0">{{M2('低')}}</el-radio>
+                            <el-radio :label="1">{{M2('中')}}</el-radio>
+                            <el-radio :label="2">{{M2('高')}}</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                </el-col>
+            </el-row>  
+            <!-- <el-row>
+                <el-col :span="12">
+                    <el-form-item :label="M2('产品年龄段') + '：'" prop="ageRangeId">
+                        <el-select 
+                            v-model="ruleForm.ageRangeId"
+                            style="width:250px"
+                            >
+                            <el-option 
+                                v-for="item in ageRangeIdList"                        
+                                :key="item.t1"
+                                :label="M2(item.t2)"
+                                :value="item.t1"
+                                >
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+                 <el-col :span="12">
+                    <el-form-item :label="M2('是否带电') + '：'" prop="electrifyId">
+                        <el-select 
+                            v-model="ruleForm.electrifyId"
+                            style="width:250px"
+                            >
+                            <el-option 
+                                v-for="item in electrifyIdList"                        
+                                :key="item.t1"
+                                :label="M2(item.t2)"
+                                :value="item.t1"
+                                >
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                </el-col>
+            </el-row> -->
+            <el-row>
                 <el-col :span="24">
                     <el-form-item :label="M2('选择开发市场') + '：'">
                         <el-select 
@@ -186,69 +247,8 @@
                     </el-form-item>
                 </el-col>
             </el-row> 
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item :label="M2('计算海运费方式') + '：'" prop="seaFreight">
-                        <el-select 
-                            v-model="ruleForm.seaFreight"
-                            style="width:250px"
-                            >
-                            <el-option 
-                                v-for="item in seaFreightSign"                        
-                                :key="item.key"
-                                :label="M2(item.label)"
-                                :value="item.value"
-                                >
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                <el-col :span="12">
-                    <el-form-item :label="M2('开发优先级') + '：'" prop="orderQuantity">
-                        <el-radio-group v-model="ruleForm.orderQuantity">
-                            <el-radio :label="0">{{M2('低')}}</el-radio>
-                            <el-radio :label="1">{{M2('中')}}</el-radio>
-                            <el-radio :label="2">{{M2('高')}}</el-radio>
-                        </el-radio-group>
-                    </el-form-item>
-                </el-col>
-            </el-row>  
-            <el-row>
-                <el-col :span="12">
-                    <el-form-item :label="M2('产品年龄段') + '：'" prop="ageRangeId">
-                        <el-select 
-                            v-model="ruleForm.ageRangeId"
-                            style="width:250px"
-                            >
-                            <el-option 
-                                v-for="item in ageRangeIdList"                        
-                                :key="item.t1"
-                                :label="M2(item.t2)"
-                                :value="item.t1"
-                                >
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-                 <el-col :span="12">
-                    <el-form-item :label="M2('是否带电') + '：'" prop="electrifyId">
-                        <el-select 
-                            v-model="ruleForm.electrifyId"
-                            style="width:250px"
-                            >
-                            <el-option 
-                                v-for="item in electrifyIdList"                        
-                                :key="item.t1"
-                                :label="M2(item.t2)"
-                                :value="item.t1"
-                                >
-                            </el-option>
-                        </el-select>
-                    </el-form-item>
-                </el-col>
-            </el-row>  
         </el-form>
-        <el-row style="margin-top:30px">
+        <el-row style="margin:30px 0">
             <el-col v-for="(item,index) in devInformationDetaiList.productMarketList" :key="item.id" :span="12">
                 <div class="titleAndButton">
                     <span class="mainTitle">{{item.platformname}}-{{item.countrycode}}   {{item.warehouseName}}</span> <el-button type="primary" @click="delProductMarketList(index)" size="mini" class="delButton">{{M2('删除')}}</el-button>
@@ -484,8 +484,8 @@ export default {
     data(){
         return {
             // seaSkySelectKey:1,
-            electrifyIdList:[],//是否带电列表
-            ageRangeIdList:[],//产品年龄段数据
+            // electrifyIdList:[],//是否带电列表
+            // ageRangeIdList:[],//产品年龄段数据
             targetPrice:[],
             dailySales:[],
             dailySales2:[],
@@ -567,12 +567,12 @@ export default {
                 orderQuantity: [
                     { required: true, message: this.M2('请选择开发优先级'), trigger: 'blur' }
                 ],
-                ageRangeId: [
-                    { required: true, message: this.M2('请选择产品年龄段'), trigger: 'blur' }
-                ],
-                electrifyId: [
-                    { required: true, message: this.M2('请选择是否带电'), trigger: 'blur' }
-                ],
+                // ageRangeId: [
+                //     { required: true, message: this.M2('请选择产品年龄段'), trigger: 'blur' }
+                // ],
+                // electrifyId: [
+                //     { required: true, message: this.M2('请选择是否带电'), trigger: 'blur' }
+                // ],
                 productMarketUS: [
                     {
                         required: true,
@@ -1010,16 +1010,16 @@ export default {
             getAssignedAuditorList(itemList).then(res => {
                 this.dailySales4 = res.data
             })
-             let sampleUrl = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_AgeRange':
-'http://api-tools-test.yahee.com.cn:82//tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_AgeRange'
-            CFG_Product_dev_AgeRange(sampleUrl).then(res => {
-                this.ageRangeIdList = res.data
-            })
-             let sampleUrl1 = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_Electrify':
-'http://api-tools-test.yahee.com.cn:82//tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_Electrify'
-            CFG_Product_dev_Electrify(sampleUrl1).then(res => {
-                this.electrifyIdList = res.data
-            })
+//              let sampleUrl = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_AgeRange':
+// 'http://api-tools-test.yahee.com.cn:82//tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_AgeRange'
+//             CFG_Product_dev_AgeRange(sampleUrl).then(res => {
+//                 this.ageRangeIdList = res.data
+//             })
+//              let sampleUrl1 = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_Electrify':
+// 'http://api-tools-test.yahee.com.cn:82//tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_Electrify'
+//             CFG_Product_dev_Electrify(sampleUrl1).then(res => {
+//                 this.electrifyIdList = res.data
+//             })
         },
         getDetailPage(){
             if(!this.devInformationDetaiList.productMarketList)return
@@ -1041,8 +1041,8 @@ export default {
                 dailySales: this.devInformationDetaiList.buyerid,
                 rateRequirements:this.devInformationDetaiList.description,
                 orderQuantity: this.devInformationDetaiList.priority,
-                ageRangeId: this.devInformationDetaiList.ageRangeId,
-                electrifyId: this.devInformationDetaiList.electrifyId,
+                // ageRangeId: this.devInformationDetaiList.ageRangeId,
+                // electrifyId: this.devInformationDetaiList.electrifyId,
                 isanji:this.devInformationDetaiList.isanji,
                 isbrand:this.devInformationDetaiList.ispatentproduct,
                 titleDe:this.devInformationDetaiList.titleDe,
@@ -1126,8 +1126,8 @@ export default {
                             buyerId:this.ruleForm.dailySales,
                             bandAndRate:JSON.stringify(LocalStrings),
                             computemode:this.ruleForm.seaFreight,
-                            ageRangeId:this.ruleForm.ageRangeId,
-                            electrifyId:this.ruleForm.electrifyId,
+                            // ageRangeId:this.ruleForm.ageRangeId,
+                            // electrifyId:this.ruleForm.electrifyId,
                             development:{
                                 description:this.ruleForm.rateRequirements,
                                 id:this.ruleForm.id,
@@ -1224,8 +1224,8 @@ export default {
                             deDutyRate:this.ruleForm.productMarketDE,
                             jpDutyRate:this.ruleForm.productMarketJP,
                             computemode:this.ruleForm.seaFreight,
-                            ageRangeId:this.ruleForm.ageRangeId,
-                            electrifyId:this.ruleForm.electrifyId,
+                            // ageRangeId:this.ruleForm.ageRangeId,
+                            // electrifyId:this.ruleForm.electrifyId,
                             development:{
                                 description:this.ruleForm.rateRequirements,
                                 id:this.ruleForm.id,
@@ -1312,10 +1312,15 @@ export default {
 </script>
 <style lang="scss" scoped>
     .bottomButton{
-          width: 100%;
-          height: 30px;   
-          display: flex;
-          justify-content: flex-end;
+        width: 99%;
+        height: 30px;
+        display: flex;
+        position: fixed;
+        bottom: 50px;
+        left: 0;
+        justify-content: flex-end;
+        padding-right: 20px;
+        background: #fff;
       }
       .targetPriceWbox{
           display: flex;

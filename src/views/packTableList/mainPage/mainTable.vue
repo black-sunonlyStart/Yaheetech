@@ -191,8 +191,8 @@
             align='center'
             >
             <template slot-scope="scope">
-                <div>{{M2(scope.row.businessName)}}</div>
-                <div>{{M2(scope.row.buyerName)}}</div>
+                <div>{{scope.row.businessName}}</div>
+                <div>{{scope.row.buyerName}}</div>
             </template>
         </el-table-column>
         <el-table-column 

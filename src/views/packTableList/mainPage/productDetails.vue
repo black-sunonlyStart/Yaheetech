@@ -199,7 +199,6 @@
                                         </div>
                                     </el-col> 
                                 </div>
-
                             </el-card>
                             <el-card style="margin-top:10px;margin-bottom:30px">
                                 <div slot="header" class="clearfix">
@@ -215,7 +214,6 @@
                                             <span><i class="icon-edit"></i>{{M2('编辑')}}</span>
                                         </div>
                                     </div>
-                                    
                                 </div>
                                 <div v-if="isEdit2">
                                     <sales-target-detail :salesTargetDetaiList='salesTargetDetaiList'></sales-target-detail>
@@ -243,8 +241,7 @@
                                             >
                                             <span><i class="icon-edit"></i>{{M2('编辑')}}</span>
                                         </div>
-                                    </div>
-                                     
+                                    </div> 
                                 </div>
                                 <div v-if="isEdit4">
                                     <devInformationDetail :devInformationDetaiList='devInformationDetaiList'></devInformationDetail>
@@ -261,18 +258,17 @@
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>{{M2('竞品信息')}}</div>  
-                                        <div v-if="isStatusEdit3" class="editText">
-                                            <div class="edit-position" 
-                                                v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
-                                                perkey='ERP.Product.ProductDev.SalesManEdit' 
-                                                @click="isEdit3 = !isEdit3" 
-                                                v-if="isEdit3"
-                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'竞品信息'}"
-                                                >
-                                                <span ><i class="icon-edit"></i>{{M2('编辑')}}</span>
-                                            </div>
+                                    <div v-if="isStatusEdit3" class="editText">
+                                        <div class="edit-position" 
+                                            v-permission="'ERP.Product.ProductDev.SalesManEdit'" 
+                                            perkey='ERP.Product.ProductDev.SalesManEdit' 
+                                            @click="isEdit3 = !isEdit3" 
+                                            v-if="isEdit3"
+                                            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'竞品信息'}"
+                                            >
+                                            <span ><i class="icon-edit"></i>{{M2('编辑')}}</span>
                                         </div>
-                                     
+                                    </div>
                                 </div>
                                 <div v-if="isEdit3">
                                     <comNewsDetail :comNewsDetailList='comNewsDetailList'></comNewsDetail>
@@ -299,8 +295,7 @@
                                             v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品认证信息'}"
                                             ><span ><i class="icon-edit"></i>{{M2('编辑')}}</span>
                                         </div>
-                                    </div>
-                                      
+                                    </div>   
                                 </div>
                                 <div v-if="isEdit5">
                                     <prodCerInfoDetail :prodCerInfoDetailList='prodCerInfoDetailList'></prodCerInfoDetail>
@@ -315,17 +310,16 @@
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>{{M2('产品标题和供应商信息')}}</div>
-                                        <div v-if="isStatusEdit6" class="editText">
-                                            <div class="edit-position" 
-                                                    v-permission="'ERP.Product.ProductDev.BuyerEdit'" 
-                                                    perkey='ERP.Product.ProductDev.BuyerEdit' 
-                                                    @click="isEdit6 = !isEdit6" 
-                                                    v-if="isEdit6"
-                                                    v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品标题和供应商信息'}"
-                                                    ><span><i class="icon-edit"></i>{{M2('编辑')}}</span>
-                                            </div>
+                                    <div v-if="isStatusEdit6" class="editText">
+                                        <div class="edit-position" 
+                                            v-permission="'ERP.Product.ProductDev.BuyerEdit'" 
+                                            perkey='ERP.Product.ProductDev.BuyerEdit' 
+                                            @click="isEdit6 = !isEdit6" 
+                                            v-if="isEdit6"
+                                            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品标题和供应商信息'}"
+                                            ><span><i class="icon-edit"></i>{{M2('编辑')}}</span>
                                         </div>
-                                      
+                                    </div> 
                                 </div>
                                 <div v-if="isEdit6">
                                     <prodevInfoDetail :prodevInfoDetaiList='prodevInfoDetaiList'  :proImageList='proImageList'></prodevInfoDetail>
@@ -342,17 +336,16 @@
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>{{M2('产品尺寸和属性信息')}}</div> 
-                                        <div v-if="isStatusEdit7" class="editText">
-                                            <div class="edit-position" 
-                                                v-permission="'ERP.Product.ProductDev.BuyerEdit'" 
-                                                perkey='ERP.Product.ProductDev.BuyerEdit' 
-                                                @click="isEdit7 = !isEdit7" 
-                                                v-if="isEdit7"
-                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品尺寸和属性信息'}"
-                                                ><span ><i class="icon-edit"></i>{{M2('编辑')}}</span>
-                                            </div>
+                                    <div v-if="isStatusEdit7" class="editText">
+                                        <div class="edit-position" 
+                                            v-permission="'ERP.Product.ProductDev.BuyerEdit'" 
+                                            perkey='ERP.Product.ProductDev.BuyerEdit' 
+                                            @click="isEdit7 = !isEdit7" 
+                                            v-if="isEdit7"
+                                            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'产品尺寸和属性信息'}"
+                                            ><span ><i class="icon-edit"></i>{{M2('编辑')}}</span>
                                         </div>
-                                      
+                                    </div> 
                                 </div>
                                 <div v-if="isEdit7">
                                     <pordSizeAttrInfo :pordSizeAttrInfoList='pordSizeAttrInfoList' :multiAttribute='multiAttribute'></pordSizeAttrInfo>
@@ -369,17 +362,16 @@
                             <el-card style="margin-bottom:30px">
                                 <div slot="header" class="clearfix">
                                     <div>{{M2('采购信息')}}</div>
-                                        <div v-if="isStatusEdit8" class="editText">
-                                            <div class="edit-position" 
-                                                v-permission="'ERP.Product.ProductDev.BuyerEdit'" 
-                                                perkey='ERP.Product.ProductDev.BuyerEdit' 
-                                                @click="isEdit8 = !isEdit8" 
-                                                v-if="isEdit8"
-                                                v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'采购信息'}"
-                                                ><span ><i class="icon-edit"></i>{{M2('编辑')}}</span>
-                                            </div>
+                                    <div v-if="isStatusEdit8" class="editText">
+                                        <div class="edit-position" 
+                                            v-permission="'ERP.Product.ProductDev.BuyerEdit'" 
+                                            perkey='ERP.Product.ProductDev.BuyerEdit' 
+                                            @click="isEdit8 = !isEdit8" 
+                                            v-if="isEdit8"
+                                            v-track="{triggerType:'click',currentUrl: $route.path,behavior:'编辑',businessCode:'采购信息'}"
+                                            ><span ><i class="icon-edit"></i>{{M2('编辑')}}</span>
                                         </div>
-                                       
+                                    </div>
                                 </div>
                                 <div v-if="isEdit8">
                                     <purchaseInfoDetail :purchaseInfoDetaiList='purchaseInfoDetaiList' :nowStatus='timeStatus'></purchaseInfoDetail>
@@ -654,10 +646,10 @@ mounted () {
 methods: {
     routerDev(){
         if(judgePorduction()){
-                window.open(`http://productdev.yaheecloud.com/newProductPageDetail?id=${this.development.productDemandId}`,'_blank')
-            }else {
-                window.open(`http://api-tools-test.yahee.com.cn:82/newProductPageDetail?id=${this.development.productDemandId}`,'_blank')
-            }
+            window.open(`http://productdev.yaheecloud.com/newProductPageDetail?id=${this.development.productDemandId}`,'_blank')
+        }else {
+            window.open(`http://api-tools-test.yahee.com.cn:82/newProductPageDetail?id=${this.development.productDemandId}`,'_blank')
+        }
     },
     getRoutePageAll (){
         this.routePageList = {
@@ -883,8 +875,7 @@ methods: {
                         developmentId:res.data.developmentId,
                         productId:res.data.productId,
                         productCountryId:res.data.productCountryId,
-                    }
-                    
+                    }  
                 })
                 let data = {
                     developmentId:res.data.developmentId,
@@ -1171,10 +1162,10 @@ async getAllpageList(val){
                     ispatentproduct:res.data.development.ispatentproduct,//是否需要专利确认
                     fbaWarehouseIds:res.data.fbaWarehouseIds.map(Number),//是否需要专利确认
                     orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//采购开发
-                    ageRangeStr:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].ageRangeStr : null,//采购开发
-                    ageRangeId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].ageRangeId : null,//采购开发
-                    electrifyId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].electrifyId : null,//采购开发
-                    electrifyStr:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].electrifyStr : null,//采购开发
+                    // ageRangeStr:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].ageRangeStr : null,//产品年龄段str
+                    // ageRangeId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].ageRangeId : null,//产品年龄段
+                    // electrifyId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].electrifyId : null,//是否带电id
+                    // electrifyStr:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].electrifyStr : null,//是否带电str
                     businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName: '',//业务开发
                     auditorName:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].auditorName: '',//负责人
                     auditor:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].auditor: '',//负责人
@@ -1221,21 +1212,21 @@ async getAllpageList(val){
                     credentialList2:credentialList2 ? credentialList2:[],//必要认证其他
                     credentialList3:credentialList3 ? credentialList3 : [],//推荐认证
                     authnote:this.productVos.authnote,//认证备注
-                    certFinalReviewStr:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].certFinalReviewStr: '',//认证备注
-                    certFinalReview:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].certFinalReview: '',//认证备注
+                    // certFinalReviewStr:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].certFinalReviewStr: '',//认证备注
+                    // certFinalReview:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].certFinalReview: '',//认证备注
                     applicableAge:this.productVos.applicableAge ,//产品年龄段
-                    ageRangeId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].ageRangeId : null,//采购开发
-                    electrifyId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].electrifyId : null,//采购开发
+                    // ageRangeId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].ageRangeId : null,//产品年龄段
+                    // electrifyId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].electrifyId : null,//是否带电
                     applicableAgeNote:this.productVos.applicableAgeNote ,//备注
                     riskllevel:this.productVos.riskllevel == 0 ? 1 : this.productVos.riskllevel,//专利风险等级
                     patentInfo:patentInfo.LocalStrings,//专利确认
                 }
 
-                if(!this.prodCerInfoDetailList.certFinalReviewStr && this.prodCerInfoDetailList.certFinalReview != 0){
-                    if((this.prodCerInfoDetailList.ageRangeId && this.prodCerInfoDetailList.ageRangeId != 4) || (this.prodCerInfoDetailList.electrifyId && this.prodCerInfoDetailList.electrifyId != 1)){
-                        this.$set(this.prodCerInfoDetailList,'certFinalReviewStr','需要')
-                    }
-                }
+                // if(!this.prodCerInfoDetailList.certFinalReviewStr && this.prodCerInfoDetailList.certFinalReview != 0){
+                //     if((this.prodCerInfoDetailList.ageRangeId && this.prodCerInfoDetailList.ageRangeId != 4) || (this.prodCerInfoDetailList.electrifyId && this.prodCerInfoDetailList.electrifyId != 1)){
+                //         this.$set(this.prodCerInfoDetailList,'certFinalReviewStr','需要')
+                //     }
+                // }
             // })
                 //产品标题和供应商信息
                 let mustCredentialList = res.data.developmentAttachmentList.filter(item => { //必要认证附件
@@ -1556,7 +1547,7 @@ async getAllpageList(val){
             customButtonName:this.M2('审核节点备注'),
             showAllbutton:true,
         }  
-        this.showTenth = true
+            this.showTenth = true
         }else {
             this.showTenth = false
         }

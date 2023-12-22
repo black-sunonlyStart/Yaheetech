@@ -20,7 +20,7 @@
                         <template slot="label">
                             {{M2('取消原因')}}:
                         </template>
-                        <el-input size="mini" type="textarea" v-model="ruleForm.whyNote" :rows="5" ></el-input>
+                        <el-input size="mini" type="textarea" v-model="ruleForm.whyNote" :rows="5" maxlength="4000" show-word-limit></el-input>
                     </el-form-item>
                 </div>
                 <el-form-item label="样品确认员：" prop="sampleValidator" v-if="id == 2">
@@ -67,6 +67,7 @@
                                 :key="item.key"
                                 :label="M2(item.label)"
                                 :value="item.value"
+                                :placeholder="M2('请选择')"
                                 >
                             </el-option>
                         </el-select> 
@@ -83,7 +84,7 @@
                         <template slot="label">
                             {{M2('打回原因')}}:
                         </template>
-                        <el-input size="mini" type="textarea" v-model="ruleForm.whyNote" :rows="5" ></el-input>
+                        <el-input size="mini" type="textarea" v-model="ruleForm.whyNote" :rows="5" maxlength="4000" show-word-limit></el-input>
                     </el-form-item>
                 </div>
                 <div v-if="id == 5">
@@ -100,6 +101,26 @@
                                 :key="item.key"
                                 :label="M2(item.label)"
                                 :value="item.value"
+                            >
+                            </el-option>
+                        </el-select>
+                    </el-form-item>
+                    <el-form-item prop="reasonsDisqualificationIds" label-width="130px" v-if="ruleForm.sampleConfirmationResult == 7">
+                        <template slot="label">
+                            {{M2('不合格的原因')}}:
+                        </template>
+                         <el-select 
+                            v-model="ruleForm.reasonsDisqualificationIds"
+                            size="mini"
+                            multiple
+                            style="width:630px"
+                            >
+                           <el-option 
+                                v-for="item in reasonsDisqualificationIdList"  
+                                multiple                      
+                                :key="item.t1"
+                                :label="M2(item.t2)"
+                                :value="Number(item.t1)"
                             >
                             </el-option>
                         </el-select>
@@ -121,7 +142,7 @@
                             <template slot="label">
                                 {{M2('问题描述')}}:
                             </template>
-                            <el-input type="textarea" :rows="5" size="mini" v-model="ruleForm.problemDesc"></el-input>
+                            <el-input type="textarea" :rows="5" size="mini" v-model="ruleForm.problemDesc" maxlength="4000" show-word-limit></el-input>
                         </el-form-item>
                         <el-form-item label="文件：" prop="designConstructionFile" label-width="130px">
                             <template slot="label">
@@ -147,24 +168,7 @@
                         <template slot="label">
                             {{M2('本次修改的原因')}}:
                         </template>
-                        <el-input size="mini" type="textarea" v-model="ruleForm.reason" :rows="5" ></el-input>
-                    </el-form-item>
-                    <el-form-item prop="reasonsDisqualificationId" label-width="130px" v-if="ruleForm.sampleConfirmationResult == 7">
-                        <template slot="label">
-                            {{M2('不合格的原因')}}:
-                        </template>
-                         <el-select 
-                            v-model="ruleForm.reasonsDisqualificationId"
-                            size="mini"
-                            >
-                           <el-option 
-                                v-for="item in reasonsDisqualificationIdList"                        
-                                :key="item.t1"
-                                :label="M2(item.t2)"
-                                :value="item.t1"
-                            >
-                            </el-option>
-                        </el-select>
+                        <el-input size="mini" type="textarea" v-model="ruleForm.reason" :rows="5" maxlength="4000" show-word-limit></el-input>
                     </el-form-item>
                 </div>
 
@@ -230,7 +234,7 @@
                         <template slot="label">
                             {{M2('审核说明')}}:
                         </template>
-                        <el-input size="mini" type="textarea" v-model="ruleForm.desc" :rows="5" ></el-input>
+                        <el-input size="mini" type="textarea" v-model="ruleForm.desc" :rows="5" maxlength="4000" show-word-limit></el-input>
                     </el-form-item>
                 </div>
              </el-form>
@@ -338,7 +342,7 @@ export default {
                 reason : [
                     { required: true, message: this.M2('请填写修改原因！'), trigger:['change'] }
                 ],
-                reasonsDisqualificationId : [
+                reasonsDisqualificationIds : [
                     { required: true, message: this.M2('请填写不合格原因！'), trigger:['change'] }
                 ],
                 resultFile : [
@@ -433,7 +437,7 @@ export default {
                     this.$set(this.ruleForm,'problemDesc',null)
                     this.$set(this.ruleForm,'sampleQuestionPhoto',[])
                     this.$set(this.ruleForm,'reason',null)
-                    this.$set(this.ruleForm,'reasonsDisqualificationId',null)
+                    this.$set(this.ruleForm,'reasonsDisqualificationIds',[])
                     let sampleUrl = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/oceanTransportConfig/queryConfig/CFG_ProductSample_ReasonsDisqualification':
             'http://api-tools-test.yahee.com.cn:82//tool-api/oceanTransportConfig/queryConfig/CFG_ProductSample_ReasonsDisqualification'
                         CFG_ProductSample_ReasonsDisqualification(sampleUrl).then(res => {
@@ -498,7 +502,7 @@ export default {
                                 this.buttonLoading = false
                                 return
                             }
-                         if(!this.ruleForm.reasonsDisqualificationId && this.ruleForm.sampleConfirmationResult == 7){
+                         if((!this.ruleForm.reasonsDisqualificationIds || (this.ruleForm.reasonsDisqualificationIds && this.ruleForm.reasonsDisqualificationIds.length == 0)) && this.ruleForm.sampleConfirmationResult == 7){
                                 this.$message({
                                     type: 'error', 
                                     message:this.M2('请选择不合格原因！'),
@@ -512,7 +516,7 @@ export default {
                             "sampleConfirmationResult": this.ruleForm.sampleConfirmationResult,//样品确认结果  5:合格  6：改进后通过(产前样)  7：不合格
                             "problemDesc":this.ruleForm.problemDesc,//样品确认文件-问题描述
                             "reason" : this.ruleForm.reason,//修改原因
-                            "reasonsDisqualificationId" : this.ruleForm.reasonsDisqualificationId ? Number(this.ruleForm.reasonsDisqualificationId) : null,//修改原因
+                            "reasonsDisqualificationIds" : this.ruleForm.reasonsDisqualificationIds ? this.ruleForm.reasonsDisqualificationIds : null,//修改原因
                             sampleAttachments:this.resultFile.concat(this.ruleForm.sampleQuestionPhoto || [], this.ruleForm.designConstructionFile || [])
                         }
                         statusF= applyUpdateResult(param)

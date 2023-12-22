@@ -185,6 +185,7 @@
                             filterable :filter-method="dataFilter"
                             ref="selectSupplierId"
                             @visible-change="getVisible()"
+                            :placeholder="M2('请选择')"
                             value-key="id"
                             :disabled="ruleForm.sampleCondition == 1 || ruleForm.scenarios == 2 || disabledSupplier"
                             >
@@ -348,8 +349,8 @@
                             <template slot="label">
                                 {{M2("辅助泡沫密度")}}:
                             </template>
-                            <el-input v-model="ruleForm.auxiliaryFoamDensity" oninput="value=value.replace(/^\D*(\d*(?:\.\d{0,2})?).*$/g, '$1')">
-                                <template slot="append" >kg/m³</template>
+                            <el-input v-model="ruleForm.auxiliaryFoamDensity" type="textarea" :rows="3" maxlength="100" show-word-limit>
+                               
                             </el-input>
                         </el-form-item>
                     </el-col>

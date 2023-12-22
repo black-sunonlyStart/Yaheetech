@@ -88,13 +88,13 @@ export default {
     methods:{
         changCountry(val){
             if(val == 'US'){
-                return '美国'
+                return this.M2('美国')
             }else if (val == 'GB' ){
-                return '英国'
+                return this.M2('英国')
             }else if(val == 'OU'){
-                return '欧盟'
+                return this.M2('欧盟')
             }else {
-                return '所有市场'
+                return this.M2('所有市场')
             }
         },
         uploadFiles(fileuri){
