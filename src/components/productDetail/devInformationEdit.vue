@@ -166,7 +166,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>  
-            <!-- <el-row>
+            <el-row>
                 <el-col :span="12">
                     <el-form-item :label="M2('产品年龄段') + '：'" prop="ageRangeId">
                         <el-select 
@@ -199,7 +199,7 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-            </el-row> -->
+            </el-row>
             <el-row>
                 <el-col :span="24">
                     <el-form-item :label="M2('选择开发市场') + '：'">
@@ -484,8 +484,8 @@ export default {
     data(){
         return {
             // seaSkySelectKey:1,
-            // electrifyIdList:[],//是否带电列表
-            // ageRangeIdList:[],//产品年龄段数据
+            electrifyIdList:[],//是否带电列表
+            ageRangeIdList:[],//产品年龄段数据
             targetPrice:[],
             dailySales:[],
             dailySales2:[],
@@ -567,12 +567,12 @@ export default {
                 orderQuantity: [
                     { required: true, message: this.M2('请选择开发优先级'), trigger: 'blur' }
                 ],
-                // ageRangeId: [
-                //     { required: true, message: this.M2('请选择产品年龄段'), trigger: 'blur' }
-                // ],
-                // electrifyId: [
-                //     { required: true, message: this.M2('请选择是否带电'), trigger: 'blur' }
-                // ],
+                ageRangeId: [
+                    { required: true, message: this.M2('请选择产品年龄段'), trigger: 'blur' }
+                ],
+                electrifyId: [
+                    { required: true, message: this.M2('请选择是否带电'), trigger: 'blur' }
+                ],
                 productMarketUS: [
                     {
                         required: true,
@@ -1010,16 +1010,16 @@ export default {
             getAssignedAuditorList(itemList).then(res => {
                 this.dailySales4 = res.data
             })
-//              let sampleUrl = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_AgeRange':
-// 'http://api-tools-test.yahee.com.cn:82//tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_AgeRange'
-//             CFG_Product_dev_AgeRange(sampleUrl).then(res => {
-//                 this.ageRangeIdList = res.data
-//             })
-//              let sampleUrl1 = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_Electrify':
-// 'http://api-tools-test.yahee.com.cn:82//tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_Electrify'
-//             CFG_Product_dev_Electrify(sampleUrl1).then(res => {
-//                 this.electrifyIdList = res.data
-//             })
+             let sampleUrl = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_AgeRange':
+'http://api-tools-test.yahee.com.cn:82//tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_AgeRange'
+            CFG_Product_dev_AgeRange(sampleUrl).then(res => {
+                this.ageRangeIdList = res.data
+            })
+             let sampleUrl1 = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_Electrify':
+'http://api-tools-test.yahee.com.cn:82//tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_Electrify'
+            CFG_Product_dev_Electrify(sampleUrl1).then(res => {
+                this.electrifyIdList = res.data
+            })
         },
         getDetailPage(){
             if(!this.devInformationDetaiList.productMarketList)return
@@ -1041,8 +1041,8 @@ export default {
                 dailySales: this.devInformationDetaiList.buyerid,
                 rateRequirements:this.devInformationDetaiList.description,
                 orderQuantity: this.devInformationDetaiList.priority,
-                // ageRangeId: this.devInformationDetaiList.ageRangeId,
-                // electrifyId: this.devInformationDetaiList.electrifyId,
+                ageRangeId: this.devInformationDetaiList.ageRangeId,
+                electrifyId: this.devInformationDetaiList.electrifyId,
                 isanji:this.devInformationDetaiList.isanji,
                 isbrand:this.devInformationDetaiList.ispatentproduct,
                 titleDe:this.devInformationDetaiList.titleDe,
@@ -1126,8 +1126,6 @@ export default {
                             buyerId:this.ruleForm.dailySales,
                             bandAndRate:JSON.stringify(LocalStrings),
                             computemode:this.ruleForm.seaFreight,
-                            // ageRangeId:this.ruleForm.ageRangeId,
-                            // electrifyId:this.ruleForm.electrifyId,
                             development:{
                                 description:this.ruleForm.rateRequirements,
                                 id:this.ruleForm.id,
@@ -1140,6 +1138,8 @@ export default {
                                 isanji:this.ruleForm.isanji,
                                 ispatentproduct:this.ruleForm.ispatentproduct,
                                 computemode:this.ruleForm.seaFreight,
+                                ageRangeId:this.ruleForm.ageRangeId,
+                                electrifyId:this.ruleForm.electrifyId,
                             },       
                         }
                         params.productMarkets = this.devInformationDetaiList.productMarketList.map(item => {
@@ -1224,8 +1224,6 @@ export default {
                             deDutyRate:this.ruleForm.productMarketDE,
                             jpDutyRate:this.ruleForm.productMarketJP,
                             computemode:this.ruleForm.seaFreight,
-                            // ageRangeId:this.ruleForm.ageRangeId,
-                            // electrifyId:this.ruleForm.electrifyId,
                             development:{
                                 description:this.ruleForm.rateRequirements,
                                 id:this.ruleForm.id,
@@ -1238,6 +1236,9 @@ export default {
                                 isanji:this.ruleForm.isanji,
                                 ispatentproduct:this.ruleForm.ispatentproduct,
                                 computemode:this.ruleForm.seaFreight,
+                                ageRangeId:this.ruleForm.ageRangeId,
+                                electrifyId:this.ruleForm.electrifyId,
+                                
                             },       
                         }
                         params.productMarkets = this.devInformationDetaiList.productMarketList.map(item => {

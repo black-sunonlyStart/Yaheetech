@@ -58,11 +58,11 @@
                     <div class="colBoxTitle">{{M2('日文标题')}}： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.titleJp}}</div>
                 </div>
             </el-col>
-            <!-- <el-col :span="10">
+            <el-col :span="10">
                 <div class="colbox">
                     <div class="colBoxTitle">{{M2('产品年龄段')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.ageRangeStr}}</div>
                 </div>
-            </el-col> -->
+            </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
@@ -70,11 +70,11 @@
                     <div class="colBoxTitle">{{M2('英文关键词')}}： </div> <div class="colBoxContent" style="font-weight: normal;width:580px">{{devInformationDetaiList.keys}}</div>
                 </div>
             </el-col>
-            <!-- <el-col :span="10">
+            <el-col :span="10">
                  <div class="colbox">
                     <div class="colBoxTitle">{{M2('是否带电')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{devInformationDetaiList.electrifyStr}}</div>
                 </div>
-            </el-col> -->
+            </el-col>
         </el-row>
         <el-row class="textSpeaing">
             <el-col :span="10">
@@ -84,7 +84,7 @@
             </el-col>
             <el-col :span="10">
                 <div class="colbox">
-                    <!-- <div class="colBoxTitle">{{M2('JP Duty税率')}}： </div> <div class="colBoxContent" style="font-weight: normal">{{showCountryDuty('ja-JP') }}%</div> -->
+            
                 </div>
             </el-col>
         </el-row>

@@ -617,7 +617,7 @@ data () {
         renderDom:false,
         buyerName:'',
         buyerid:'',
-        isanji:[],
+        isanji:null,
         routePageList:{},
         pageLoading:true,
     }
@@ -934,8 +934,10 @@ async getAllpageList(val){
                 this.productCountryList = []
             }
             this.otherCountryList = res.data.productVos && res.data.productVos[0] ? res.data.productVos[0].otherCountryMaps : []
-            this.isanji = res.data.excludeAuditor || []
-            if(res.data.developmentProgresses && res.data.developmentProgresses.length > 0){
+
+            this.isanji =  this.productVos.productCountryList && this.productVos.productCountryList[0] && this.productVos.productCountryList[0].auditor ? this.productVos.productCountryList[0].auditor : res.data.development.seriesReviewer
+            console.log(this.isanji,'isanji')
+           if(res.data.developmentProgresses && res.data.developmentProgresses.length > 0){
                 let index = res.data.developmentProgresses.length - 1
                 let status = res.data.developmentProgresses[index].toStatus
                 this.timeStatus = res.data.developmentProgresses[index].toStatus
@@ -1162,13 +1164,13 @@ async getAllpageList(val){
                     ispatentproduct:res.data.development.ispatentproduct,//是否需要专利确认
                     fbaWarehouseIds:res.data.fbaWarehouseIds.map(Number),//是否需要专利确认
                     orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//采购开发
-                    // ageRangeStr:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].ageRangeStr : null,//产品年龄段str
-                    // ageRangeId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].ageRangeId : null,//产品年龄段
-                    // electrifyId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].electrifyId : null,//是否带电id
-                    // electrifyStr:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].electrifyStr : null,//是否带电str
+                    ageRangeStr:res.data.development.ageRangeStr || null,//产品年龄段str
+                    ageRangeId:res.data.development.ageRangeId || null,//产品年龄段
+                    electrifyId:res.data.development.electrifyId || null,//是否带电id
+                    electrifyStr:res.data.development.electrifyStr || null,//是否带电str
                     businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName: '',//业务开发
-                    auditorName:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].auditorName: '',//负责人
-                    auditor:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].auditor: '',//负责人
+                    auditorName:this.productVos.productCountryList &&  this.productVos.productCountryList[0] && this.productVos.productCountryList[0].auditorName ? this.productVos.productCountryList[0].auditorName: res.data.development.seriesReviewerName ? res.data.development.seriesReviewerName : null,//负责人
+                    auditor: this.isanji,//负责人
                     productCountryList:this.productVos.productCountryList ? this.productVos.productCountryList[0] : [],
                     productMarketListALL:this.productVos.productMarketListALL ? this.productVos.productMarketListALL : [],
                     computemode:this.productVos.productCountryList &&  this.productVos.productCountryList[0] &&  this.productVos.productCountryList[0].productMarketList && this.productVos.productCountryList[0].productMarketList[0] ? this.productVos.productCountryList[0].productMarketList[0].computemode : [],
@@ -1212,21 +1214,21 @@ async getAllpageList(val){
                     credentialList2:credentialList2 ? credentialList2:[],//必要认证其他
                     credentialList3:credentialList3 ? credentialList3 : [],//推荐认证
                     authnote:this.productVos.authnote,//认证备注
-                    // certFinalReviewStr:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].certFinalReviewStr: '',//认证备注
-                    // certFinalReview:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].certFinalReview: '',//认证备注
+                    certFinalReviewStr:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].certFinalReviewStr: '',//认证备注
+                    certFinalReview:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].certFinalReview: '',//认证备注
                     applicableAge:this.productVos.applicableAge ,//产品年龄段
-                    // ageRangeId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].ageRangeId : null,//产品年龄段
-                    // electrifyId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].electrifyId : null,//是否带电
+                    ageRangeId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].ageRangeId : null,//产品年龄段
+                    electrifyId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].electrifyId : null,//是否带电
                     applicableAgeNote:this.productVos.applicableAgeNote ,//备注
                     riskllevel:this.productVos.riskllevel == 0 ? 1 : this.productVos.riskllevel,//专利风险等级
                     patentInfo:patentInfo.LocalStrings,//专利确认
                 }
 
-                // if(!this.prodCerInfoDetailList.certFinalReviewStr && this.prodCerInfoDetailList.certFinalReview != 0){
-                //     if((this.prodCerInfoDetailList.ageRangeId && this.prodCerInfoDetailList.ageRangeId != 4) || (this.prodCerInfoDetailList.electrifyId && this.prodCerInfoDetailList.electrifyId != 1)){
-                //         this.$set(this.prodCerInfoDetailList,'certFinalReviewStr','需要')
-                //     }
-                // }
+                if(!this.prodCerInfoDetailList.certFinalReviewStr && this.prodCerInfoDetailList.certFinalReview != 0){
+                    if((this.prodCerInfoDetailList.ageRangeId && this.prodCerInfoDetailList.ageRangeId != 4) || (this.prodCerInfoDetailList.electrifyId && this.prodCerInfoDetailList.electrifyId != 1)){
+                        this.$set(this.prodCerInfoDetailList,'certFinalReviewStr','需要')
+                    }
+                }
             // })
                 //产品标题和供应商信息
                 let mustCredentialList = res.data.developmentAttachmentList.filter(item => { //必要认证附件

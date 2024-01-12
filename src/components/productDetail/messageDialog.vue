@@ -611,6 +611,11 @@ export default {
     margin-top: 60px;
     .el-dialog__header{
         border-bottom: 1px solid #cccccc;
+        line-height: 30px;
+        padding: 5px 20px;
+        .el-dialog__headerbtn{
+            top: 15px;
+        }
     }
 }
 </style>

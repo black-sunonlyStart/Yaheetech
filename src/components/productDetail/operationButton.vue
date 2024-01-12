@@ -28,8 +28,8 @@ export default {
             default:() => {0}
         },
         isanji:{
-            type:Array,
-            default:() => []
+            type:Number,
+            default:() => null
         },
         employee:{
             type:Object,
@@ -63,7 +63,8 @@ export default {
     },
     methods:{
         showDev(id){
-            if(this.isanji.includes(this.employee.Id) && (this.nowStatus == 6 && id == 9 || this.nowStatus == 10 && id == 25)){
+            //样品采购审核、待终审
+            if(this.isanji == this.employee.Id &&  ((this.nowStatus == 10 && id == 7) || (this.nowStatus == 6 && id == 9))){
                 return false 
             } else {
                 return true

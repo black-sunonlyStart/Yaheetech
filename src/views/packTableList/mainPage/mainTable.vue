@@ -355,11 +355,12 @@ export default {
     },
     methods: {
       showDev(row,id){
-          if( row.auditor == this.IsAdminRoleId && ((row.state == 3 && id == 14) || (row.state == 5 && id == 40))){
-              return false 
-          } else {
-              return true
-          }
+            //样品采购审核、待终审
+            if( (row.seriesReviewer == this.IsAdminRoleId || row.auditor == this.IsAdminRoleId) && ((row.state == 10 && id == 7) || (row.state == 6 && id == 9))){
+                return false 
+            } else {
+                return true
+            }
       },
       getEmployee(){
           getEmployee().then(res => {
