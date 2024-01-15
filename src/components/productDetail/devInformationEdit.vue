@@ -835,6 +835,7 @@ export default {
             this.devInformationDetaiList.productMarketList.splice(i,1)
         },
         addRemarks(){
+            if(!this.devInformationDetaiList.productMarketList) this.devInformationDetaiList.productMarketList = []
             if((!this.ruleForm.marksContry1 || !this.ruleForm.marksContry2 || !this.ruleForm.marksContry3) && (this.ruleForm.marksContry1 && this.ruleForm.marksContry1 == 'AU')){
                 this.$message({
                     type: 'warning',
@@ -1314,7 +1315,7 @@ export default {
 <style lang="scss" scoped>
     .bottomButton{
         width: 99%;
-        height: 30px;
+        height: 40px;
         display: flex;
         position: fixed;
         bottom: 50px;
@@ -1322,6 +1323,7 @@ export default {
         justify-content: flex-end;
         padding-right: 20px;
         background: #fff;
+        padding: 5px;
       }
       .targetPriceWbox{
           display: flex;

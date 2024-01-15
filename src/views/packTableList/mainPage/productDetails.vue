@@ -11,6 +11,7 @@
                         <el-image
                             style="width: 97px; height: 97px; dispaly:block"
                             :src="titleImgSrc"
+                            v-if="titleImgSrc"
                             fit="fill"
                             >
                             <div slot="placeholder" class="image-slot icon-loading">
@@ -20,6 +21,11 @@
                                 <i class="el-icon-picture-outline">{{M2('加载失败')}}</i>
                             </div>
                         </el-image>
+                        <div v-else>
+                            <div  class="image-slot" style="height: 80px;display: flex;justify-content: center;align-items: center;color:#cccccc">
+                                <i class="el-icon-picture-outline">{{M2('暂无图片')}}</i>
+                            </div>
+                        </div>
                     </div>
                     <div class="detailsText">
                         <div>
@@ -619,7 +625,7 @@ data () {
         buyerid:'',
         isanji:null,
         routePageList:{},
-        pageLoading:true,
+        pageLoading:false,
     }
 },
 created () {
@@ -689,7 +695,7 @@ methods: {
             'ERP.Product.ProductDev.ProfitsFirstTrial'
         ]
         hasPermissions(params).then(res => {
-            this.pageLoading = false
+            // this.pageLoading = false
             let data = JSON.stringify( res.data);
             sessionStorage.setItem("permissions", data);
               res.data.forEach(item => {
@@ -901,6 +907,7 @@ methods: {
     },
     //获得所有数据接口
 async getAllpageList(val){
+    this.pageLoading = true
     this.getRoutePageAll()
     let exchangeRate = ''
     await this.newGetImagePath()
@@ -1166,7 +1173,7 @@ async getAllpageList(val){
                     orderProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//采购开发
                     ageRangeStr:res.data.development.ageRangeStr || null,//产品年龄段str
                     ageRangeId:res.data.development.ageRangeId || null,//产品年龄段
-                    electrifyId:res.data.development.electrifyId || null,//是否带电id
+                    electrifyId:res.data.development.electrifyId,//是否带电id
                     electrifyStr:res.data.development.electrifyStr || null,//是否带电str
                     businessProduct:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].businessName: '',//业务开发
                     auditorName:this.productVos.productCountryList &&  this.productVos.productCountryList[0] && this.productVos.productCountryList[0].auditorName ? this.productVos.productCountryList[0].auditorName: res.data.development.seriesReviewerName ? res.data.development.seriesReviewerName : null,//负责人
@@ -1391,6 +1398,8 @@ async getAllpageList(val){
             }else {
                 this.pageLoading = false
             }
+        }).catch(err => {
+            this.pageLoading = false
         })
     },
     changeSizeTitle(pordSizeAttrInfoList,countryName,nowStatus){
