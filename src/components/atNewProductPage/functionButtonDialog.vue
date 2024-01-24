@@ -21,7 +21,7 @@
                             <el-option 
                                 v-for="item in assigneeIdList"                        
                                 :key="item.Id"
-                                :label="M2(item.TrueName)"
+                                :label="item.TrueName"
                                 :value="item.Id"
                                 >
                             </el-option>

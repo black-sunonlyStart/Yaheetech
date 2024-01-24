@@ -83,7 +83,7 @@
                     v-model="form.status" 
                     v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发状态筛选'}"
                     >
-                    <el-radio-button :label="null" @click.native="clickRadioSearch('status',null,$event)" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发状态筛选'}">{{M2('全选')}} ({{total}})</el-radio-button>
+                    <el-radio-button :label="null" @click.native="clickRadioSearch('status',null,$event)" v-track="{triggerType:'click',currentUrl: $route.path,behavior:'开发状态筛选'}">{{M2('全选')}} ({{this.totalNum}})</el-radio-button>
                     <el-radio-button 
                         border
                         size="mini"
@@ -119,7 +119,7 @@
                     class="chengboxMoreBox"
                     v-model="form.checkedCities"
                     @change="handleCheckedCitiesChange"
-                     
+                    
                     >
                     <el-checkbox 
                         border
@@ -549,7 +549,7 @@ export default {
       },
       tableParams:{},
       productLevelValueList:[],
-    //   bleanStatus:true
+      bleanStatus:true
     }
   },
   computed:{
@@ -561,10 +561,6 @@ export default {
         })
         return totalNumber
     },
-  },
-  props: {
-    msg: String,
-    total:Number,
   },
   watch:{
       form:{
@@ -589,9 +585,10 @@ export default {
                     seriesCategoryId: val.seriesCategoryId,//一级(类目id)
                     classifyDefId:val.classifyDefId,
                 }
-                // if(this.bleanStatus){
+                if(this.bleanStatus){
                     this.getDevelopStutsNumber(this.tableParams)
-                // }
+                }
+                 this.bleanStatus = true
                 this.$emit('putTableList',this.tableParams)      
           },
           deep:true
@@ -623,6 +620,13 @@ export default {
     clickRadioSearch(name,value) {
         if(name == 'status'){
             this.$set(this.form,'status1',[])
+            if(value == null){
+                this.bleanStatus = true 
+            }else {
+                this.bleanStatus = false
+            }
+        }else {
+           this.bleanStatus = true  
         }
         this.form[name] = value
         this.$set(this.form,'almorlist',Math.random()) 
@@ -645,22 +649,22 @@ export default {
         }else {
             params = JSON.parse(JSON.stringify(this.tableParams)) 
         }
-         let status = []
-        if( val &&(val.state ||  val.state == 0)){
-            status.push(val.state)
-        }else {
-            if(val && val.status1 && val.status1.length > 0){
-                status = []
-            }else {
-                status = [0, 1, 2, 3, 4, 5, 6, 10, 11, 12, 13]
-            }
-        }
-        if(val && val.status1 && val.status1.length > 0){
-            val.status1.forEach(item => {
-                status.push(item) 
-            })
-        }
-        params.state = status
+        //  let status = []
+        // if( val &&(val.state ||  val.state == 0)){
+        //     status.push(val.state)
+        // }else {
+        //     if(val && val.status1 && val.status1.length > 0){
+        //         status = []
+        //     }else {
+        //         status = [0, 1, 2, 3, 4, 5, 6, 10, 11, 12, 13]
+        //     }
+        // }
+        // if(val && val.status1 && val.status1.length > 0){
+        //     val.status1.forEach(item => {
+        //         status.push(item) 
+        //     })
+        // }
+        params.state = []
         getDevelopStatesNum(params).then(res => {
             if(res.data){
                 this.statusList.forEach(item => {
@@ -729,16 +733,20 @@ export default {
         }
     },
     typeChange () {
-      this.changeTableList()
+        this.changeTableList()
     },
     handleCheckedCitiesChange (value) {
-      let checkedCount = value.length;
-      this.checkAll = checkedCount === this.cities.length;
-      this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+        this.bleanStatus = true
+        let checkedCount = value.length;
+        this.checkAll = checkedCount === this.cities.length;
+        this.isIndeterminate = checkedCount > 0 && checkedCount < this.cities.length;
+       
     },
      handleCheckAllChange(val) {
+        this.bleanStatus = true
         this.form.checkedCities = val ? cityOptions : [];
         this.isIndeterminate = false;
+       
     },
     searchSomething(){
         this.$set(this.form,'search',this.putSearch)
@@ -749,9 +757,9 @@ export default {
         
     },
     handleCheckedStatusChange (value) {
-      let checkedCount = value.length;
-      this.checkStatusAll = checkedCount === this.statusList.length;
-      this.isIndeterminate1 = checkedCount > 0 && checkedCount < this.statusList.length;
+        let checkedCount = value.length;
+        this.checkStatusAll = checkedCount === this.statusList.length;
+        this.isIndeterminate1 = checkedCount > 0 && checkedCount < this.statusList.length;
     },
    
     handleStatusAllChange(val){

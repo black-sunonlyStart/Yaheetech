@@ -72,7 +72,7 @@
                 </template>
                 <el-radio-group size="mini" v-model="form.categoryManagerId">
                     <el-radio-button :label="null" @click.native="clickRadioSearch('categoryManagerId',null,$event)">{{M2('全部')}}({{this.totalNum(3)}})</el-radio-button>
-                    <el-radio-button @click.native="clickRadioSearch('categoryManagerId',item.categoryManagerId,$event)" v-for="item in categoryManagerList" :key="item.id" :label="item.id">{{ M2(item.name) }}({{item.num}})</el-radio-button>
+                    <el-radio-button @click.native="clickRadioSearch('categoryManagerId',item.leader,$event)" v-for="item in categoryManagerList" :key="item.id" :label="item.id">{{ M2(item.name) }}({{item.num}})</el-radio-button>
                 </el-radio-group>
             </el-form-item>
             <el-form-item>
@@ -355,6 +355,7 @@ export default {
             },
             putSearch:'',
             tableParams:{}, 
+            name:null,
             classifyDefCount:{},
             form: {
                 timeValue2:[],
@@ -430,27 +431,33 @@ export default {
             getQueryProductDemandNum(param).then(response => {
                 if(response.data) {
                     this.$nextTick(res => {
-                        this.seriesList.forEach(item => {
-                            if(response.data.seriesCategoryCount[item.seriesCategoryId]){
-                                this.$set(item,'num', response.data.seriesCategoryCount[item.seriesCategoryId])
-                            }else {
-                                this.$set(item,'num', 0)
-                            }
-                        })
-                        this.seriesListChilds.forEach(item => {
-                            if(response.data.classifyDefCount[item.classifyDefId]){
-                                this.$set(item,'num',response.data.classifyDefCount[item.classifyDefId])
-                            }else {
-                                this.$set(item,'num', 0)
-                            }
-                        })
-                        this.categoryManagerList.forEach(item => {
-                            if(response.data.categoryManagerCount[item.leader]){
-                                this.$set(item,'num', response.data.categoryManagerCount[item.leader])
-                            }else {
-                                this.$set(item,'num', 0)
-                            }
-                        })
+                        if(this.name != 'seriesCategoryId'){
+                            this.seriesList.forEach(item => {
+                                if(response.data.seriesCategoryCount[item.seriesCategoryId]){
+                                    this.$set(item,'num', response.data.seriesCategoryCount[item.seriesCategoryId])
+                                }else {
+                                    this.$set(item,'num', 0)
+                                }
+                            })
+                        }
+                        if(this.name != 'classifyDefId'){
+                            this.seriesListChilds.forEach(item => {
+                                if(response.data.classifyDefCount[item.classifyDefId]){
+                                    this.$set(item,'num',response.data.classifyDefCount[item.classifyDefId])
+                                }else {
+                                    this.$set(item,'num', 0)
+                                }
+                            })
+                        }
+                        if(this.name != 'categoryManagerId'){
+                            this.categoryManagerList.forEach(item => {
+                                if(response.data.categoryManagerCount[item.leader]){
+                                    this.$set(item,'num', response.data.categoryManagerCount[item.leader])
+                                }else {
+                                    this.$set(item,'num', 0)
+                                }
+                            })
+                        }
                     })
                 }
                 this.classifyDefCount = response.data.classifyDefCount
@@ -493,14 +500,14 @@ export default {
             this.form.classifyDefId = null
         },
         clickRadioSearch(name,value,el) {
+            this.name = name
             if (el.target.tagName === 'INPUT') return
             this.$set(this.form,name,value)
             this.$set(this.form,'almorlist',Math.random())
-            // if(name != 'seriesCategoryId' && name != 'classifyDefId'){
             this.getStautList()
-            // }
         },
         searchSomething(){
+            this.name = null
             this.$set(this.form,'search',trim(this.putSearch))
             this.$set(this.form,'almorlist',Math.random())
             this.getStautList()

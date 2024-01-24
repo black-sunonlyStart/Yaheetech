@@ -908,7 +908,6 @@ export default {
             this.currentPage4 = res.data && res.data.pageNum ? res.data.pageNum : 0
             this.tableData = res.data && res.data.rows ? res.data.rows : []
             this.total = res.data && res.data.rows ? res.data.records : 0
-            this.$emit('getTotal',this.total)
         }).catch((err) => {
             if(err == 1){
                 this.loading = true     
