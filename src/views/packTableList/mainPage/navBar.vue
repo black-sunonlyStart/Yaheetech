@@ -1,5 +1,5 @@
 <template>
-  <div class="navbarContainer" v-track="{triggerType:'browse',currentUrl: $route.path,behavior:'进入列表页',}">
+  <div class="navbarContainer" v-track="{triggerType:'browse',currentUrl: $route.path,behavior:'进入列表页1',}">
     <el-form ref="form"
              :model="form"
              label-width="150px">
