@@ -18,7 +18,7 @@
                             <el-option 
                                 v-for="item in targetPrice"                        
                                 :key="item.Id"
-                                :label="M2(item.TrueName)"
+                                :label="item.TrueName"
                                 :value="item.Id"
                                 >
                             </el-option>
@@ -43,7 +43,7 @@
                             <el-option 
                                 v-for="item in dailySales"                        
                                 :key="item.Id"
-                                :label="M2(item.TrueName)"
+                                :label="item.TrueName"
                                 :value="item.Id"
                                 >
                             </el-option>
@@ -183,22 +183,32 @@
                         </el-select>
                     </el-form-item>
                 </el-col>
-                 <el-col :span="12">
-                    <el-form-item :label="M2('是否带电') + '：'" prop="electrifyId">
-                        <el-select 
-                            v-model="ruleForm.electrifyId"
-                            style="width:250px"
-                            >
-                            <el-option 
-                                v-for="item in electrifyIdList"                        
-                                :key="item.t1"
-                                :label="M2(item.t2)"
-                                :value="item.t1"
-                                >
-                            </el-option>
-                        </el-select>
+                <el-col :span="12">
+                    <el-form-item :label="M2('是否带电') + '：'" prop="electrifyId1">
+                         <el-radio-group v-model="ruleForm.electrifyId1">
+                            <el-radio label="1">{{'带电'}}</el-radio>
+                            <el-radio label="0">{{'不带电'}}</el-radio>
+                        </el-radio-group>
                     </el-form-item>
+                </el-col>                 
+            </el-row>
+            <el-row v-if="ruleForm.electrifyId1 == 1">
+                <el-col :span="12">
+                    <div style="width:1px;height:1px"></div>
                 </el-col>
+                 <el-col :span="12">
+                    <el-form-item :label="M2('供电类型') + '：'" prop="electrifyId2">
+                        <div style="display:flex;align-items: center;flex-wrap:wrap">
+                            <el-checkbox-group v-model="ruleForm.electrifyId2" > 
+                                <el-checkbox v-for="item in electrifyIdList" :key="item.t1" :label="item.t1">{{M2(item.t2)}}</el-checkbox>
+                            </el-checkbox-group>                 
+                            <el-radio-group v-model="ruleForm.electrifyId3" v-if="ruleForm.electrifyId2.includes('3')" style="margin-left:20px">
+                                <el-radio label="40">{{'含电池'}}</el-radio>
+                                <el-radio label="41">{{'不含电池'}}</el-radio>
+                            </el-radio-group>
+                        </div>
+                    </el-form-item>
+                </el-col>              
             </el-row>
             <el-row>
                 <el-col :span="24">
@@ -484,7 +494,20 @@ export default {
     data(){
         return {
             // seaSkySelectKey:1,
-            electrifyIdList:[],//是否带电列表
+            electrifyIdList:[
+                {
+                    t2:'直插供电',
+                    t1:'20',
+                },
+                {
+                    t2:'变压器供电',
+                    t1:'21',
+                },
+                {
+                    t2:'电池供电',
+                    t1:'3',
+                },
+            ],//是否带电列表
             ageRangeIdList:[],//产品年龄段数据
             targetPrice:[],
             dailySales:[],
@@ -504,7 +527,8 @@ export default {
                 rateRequirements: '',
                 orderQuantity: '',
                 ageRangeId: null,
-                electrifyId: null,
+                electrifyId2: [],
+                electrifyType: [],
                 // productMarket: '',
                 specialPackaging: '',
                 isanji:'',
@@ -570,8 +594,14 @@ export default {
                 ageRangeId: [
                     { required: true, message: this.M2('请选择产品年龄段'), trigger: 'blur' }
                 ],
-                electrifyId: [
+                electrifyId1: [
                     { required: true, message: this.M2('请选择是否带电'), trigger: 'blur' }
+                ],
+                electrifyId2: [
+                    { required: true, message: this.M2('请选择供电类型'), trigger: 'blur' }
+                ],
+                electrifyId3: [
+                    { required: true, message: this.M2('请选择是否带电池'), trigger: 'blur' }
                 ],
                 productMarketUS: [
                     {
@@ -1016,23 +1046,23 @@ export default {
             CFG_Product_dev_AgeRange(sampleUrl).then(res => {
                 this.ageRangeIdList = res.data
             })
-             let sampleUrl1 = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_Electrify':
-'http://api-tools-test.yahee.com.cn:82//tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_Electrify'
-            CFG_Product_dev_Electrify(sampleUrl1).then(res => {
-                this.electrifyIdList = res.data
-            })
+//              let sampleUrl1 = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_Electrify':
+// 'http://api-tools-test.yahee.com.cn:82//tool-api/oceanTransportConfig/queryConfig/CFG_Product_dev_Electrify'
+//             CFG_Product_dev_Electrify(sampleUrl1).then(res => {
+//                 this.electrifyIdList = res.data
+//             })
         },
         getDetailPage(){
             if(!this.devInformationDetaiList.productMarketList)return
             this.devInformationDetaiList.productMarketList.forEach(item => {
                 if(item.shippingname){
-                    let shippingname=  item.shippingname.split('|')
+                    let shippingname = item.shippingname.split('|')
                     item.shippingname1 = shippingname[0]
                     item.shippingname2 = shippingname[1]
                     item.shippingname3 = shippingname[2]
-                 }
-                 if(!item.paypalprice)item.paypalprice = 0
-                 if(!item.listingfee)item.listingfee = 0
+                }
+                if(!item.paypalprice)item.paypalprice = 0
+                if(!item.listingfee)item.listingfee = 0
             })
             this.ruleForm = {
                 staRating: this.devInformationDetaiList.title,
@@ -1043,7 +1073,6 @@ export default {
                 rateRequirements:this.devInformationDetaiList.description,
                 orderQuantity: this.devInformationDetaiList.priority,
                 ageRangeId: this.devInformationDetaiList.ageRangeId,
-                electrifyId: this.devInformationDetaiList.electrifyId,
                 isanji:this.devInformationDetaiList.isanji,
                 isbrand:this.devInformationDetaiList.ispatentproduct,
                 titleDe:this.devInformationDetaiList.titleDe,
@@ -1051,8 +1080,36 @@ export default {
                 ispatentproduct:this.devInformationDetaiList.ispatentproduct,
                 seaFreight:this.devInformationDetaiList.computemode == 0 ||  this.devInformationDetaiList.computemode == '' ?0:1,
                 countryCodeList:this.devInformationDetaiList.countryCodeList,
+                // electrifyType:this.devInformationDetaiList.electrifyType ? this.devInformationDetaiList.electrifyType : [],
+                electrifyId: this.devInformationDetaiList.electrifyId,
 
             }
+            this.$set(this.ruleForm,'electrifyId2',[])
+            this.$set(this.ruleForm,'electrifyId1',null)
+            this.$set(this.ruleForm,'electrifyId3',null)
+            
+            if(this.ruleForm.electrifyId != '0' && this.ruleForm.electrifyId){
+                 this.$set(this.ruleForm,'electrifyId1','1')
+                let electrifyIdList = this.ruleForm.electrifyId.split(',')
+                //是否供电
+                let eleList = ['20','21','40','41']
+                if(electrifyIdList.some(item => eleList.includes(item))){
+                    //供电类型
+                    this.ruleForm.electrifyId2 = electrifyIdList.filter(item => {
+                         return ['20','21'].includes(item)
+                    }) || []
+                    //是否带电池
+                    if(electrifyIdList.includes('40') || electrifyIdList.includes('41')){
+                        this.ruleForm.electrifyId2.push('3')
+                        this.ruleForm.electrifyId3 = electrifyIdList.filter(item => {
+                            return ['40','41'].includes(item)
+                        }).join(',')
+                        // this.$set(this.ruleForm,'electrifyId3',electrifyId3)
+                    } 
+                }
+            }else {
+                this.$set(this.ruleForm,'electrifyId1','0')
+            } 
         },
         seleContry(val){
             this.ruleForm.marksContry2 = ''
@@ -1105,8 +1162,20 @@ export default {
                 });
                 return 
             }
+            let electrifyIdList = []
+            if(this.ruleForm.electrifyId2 && this.ruleForm.electrifyId2.length > 0){
+                electrifyIdList = JSON.parse(JSON.stringify(this.ruleForm.electrifyId2)).filter(item => {
+                    return ['20','21'].includes(item)
+                })
+            }
             this.$refs['ruleForm1'].validate((valid) => {
                 if(valid){
+                    if(this.ruleForm.electrifyId1){
+                        electrifyIdList.push(this.ruleForm.electrifyId1)
+                    }
+                    if(this.ruleForm.electrifyId3){
+                        electrifyIdList.push(this.ruleForm.electrifyId3)
+                    }
                    if(this.$refs['ruleForm2']){
                     this.$refs['ruleForm2'][0].validate((valid) => {
                     if (valid) {
@@ -1140,7 +1209,7 @@ export default {
                                 ispatentproduct:this.ruleForm.ispatentproduct,
                                 computemode:this.ruleForm.seaFreight,
                                 ageRangeId:this.ruleForm.ageRangeId,
-                                electrifyId:this.ruleForm.electrifyId,
+                                electrifyId:electrifyIdList.join(',')
                             },       
                         }
                         params.productMarkets = this.devInformationDetaiList.productMarketList.map(item => {
@@ -1238,7 +1307,7 @@ export default {
                                 ispatentproduct:this.ruleForm.ispatentproduct,
                                 computemode:this.ruleForm.seaFreight,
                                 ageRangeId:this.ruleForm.ageRangeId,
-                                electrifyId:this.ruleForm.electrifyId,
+                                electrifyId:electrifyIdList.join(',')
                                 
                             },       
                         }
@@ -1304,9 +1373,8 @@ export default {
                     return false
                 }
             })
-            
         },
-        resetForm() {
+            resetForm() {
                 this.$emit('closeEdit','false')
             }
         }

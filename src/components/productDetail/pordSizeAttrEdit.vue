@@ -793,7 +793,11 @@ export default {
                                 packedlength:Number(res.packedlength),//包装尺寸
                                 packedwidth:Number(res.packedwidth),
                                 packedheight:Number(res.packedheight),
-                                packedweight:Number(res.packedweight)//包装后 - 重量
+                                packedweight:Number(res.packedweight),//包装后 - 重量
+                                id:res.id,
+                                productid:res.productid,
+                                developmentid:res.developmentid
+
                             }
                         })
                     }else {

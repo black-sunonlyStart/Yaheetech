@@ -1231,11 +1231,11 @@ async getAllpageList(val){
                     patentInfo:patentInfo.LocalStrings,//专利确认
                 }
 
-                if(!this.prodCerInfoDetailList.certFinalReviewStr && this.prodCerInfoDetailList.certFinalReview != 0){
-                    if((this.prodCerInfoDetailList.ageRangeId && this.prodCerInfoDetailList.ageRangeId != 4) || (this.prodCerInfoDetailList.electrifyId && this.prodCerInfoDetailList.electrifyId != 1)){
-                        this.$set(this.prodCerInfoDetailList,'certFinalReviewStr','需要')
-                    }
-                }
+                // if(!this.prodCerInfoDetailList.certFinalReviewStr && this.prodCerInfoDetailList.certFinalReview != 0){
+                //     if((this.prodCerInfoDetailList.ageRangeId && this.prodCerInfoDetailList.ageRangeId != 4) || (this.prodCerInfoDetailList.electrifyId && this.prodCerInfoDetailList.electrifyId != 1)){
+                //         this.$set(this.prodCerInfoDetailList,'certFinalReviewStr','需要')
+                //     }
+                // }
             // })
                 //产品标题和供应商信息
                 let mustCredentialList = res.data.developmentAttachmentList.filter(item => { //必要认证附件

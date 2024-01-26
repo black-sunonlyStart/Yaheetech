@@ -104,8 +104,21 @@
                     :data="item.mapProfit"
                     :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                     style="width: 100%"
+                    class="table-c"
                     >
+                    <el-table-column 
+                        v-if="item.marketListings && item.marketListings.length > 0" 
+                        :label="M2('多箱')"
+                        header-align='center'
+                        align="center"
+                        >
+                        <div v-for="(item1,index) in item.marketListings" :key="item1.id" :class="index == item.marketListings.length-1 ? '' : 'border-b'">
+                            {{`第${index + 1}箱`}}
+                        </div>
+                        
+                    </el-table-column>
                     <el-table-column
+                        v-else
                         :label="M2('类型') + '：'"
                         width="60px"
                         header-align='center'
@@ -141,12 +154,12 @@
                         </template>
                         <template slot-scope="scope">
                             <div :class="scope.row.profit >= 0 ? 'textColor':'noColor'">
-                                {{scope.row.profit ?scope.row.profit.toFixed(2):'0.00' }} / 
+                                初：{{scope.row.profit ?scope.row.profit.toFixed(2):'0.00' }} / 
                                 {{scope.row.profitmargin ? (scope.row.profitmargin*100).toFixed(2) :'0.00'}}% 
                             </div>
                             <div :class="scope.row.sfp ? (scope.row.sfpEndProfit >= 0  ? 'textColor':'noColor') : (scope.row.endprofit >= 0 ? 'textColor':'noColor' ) ">
-                                {{scope.row.sfp ?(scope.row.sfpEndProfit && scope.row.sfpEndProfit.toFixed(2))||'0.00' :  scope.row.endprofit.toFixed(2)||'0.00'}} /
-                                {{scope.row.sfp ?(scope.row.sfpEndProfitMargin && (scope.row.sfpEndProfitMargin * 100).toFixed(2) + '%') || '0.00%' : (item.endprofitmargin*100).toFixed(2) + '%' || '0.00%'}} 
+                                终：{{scope.row.sfp ?(scope.row.sfpEndProfit && scope.row.sfpEndProfit.toFixed(2))||'0.00' :  scope.row.endprofit.toFixed(2)||'0.00'}} /
+                                {{scope.row.sfp ?(scope.row.sfpEndProfitMargin && (scope.row.sfpEndProfitMargin * 100).toFixed(2) + '%') || '0.00%' : (item.endprofitmargin * 100).toFixed(2) + '%' || '0.00%'}} 
                             </div>
                         </template>   
                     </el-table-column>
@@ -159,7 +172,12 @@
                             <div>{{M2('运费')}}  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
                         </template>
                         <template slot-scope="scope">
-                            <div>{{scope.row.freight ? scope.row.freight.toFixed(2) : ''}} </div>
+                            <div  v-if="item.marketListings && item.marketListings.length > 0" >
+                                <div v-for="(item1,index) in item.marketListings" :key="item1.id" :class="index == item.marketListings.length-1 ? '' : 'border-b'">
+                                    {{item1.freight}}
+                                </div>
+                            </div>
+                            <div v-else>{{scope.row.freight ? scope.row.freight.toFixed(2) : ''}} </div>
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -204,9 +222,18 @@
                             <div>{{M2('港前')}} + {{M2('海运')}} + {{M2('目的港')}}</div>
                         </template>
                         <template >
-                            {{item.inlandportcosts ? item.inlandportcosts.toFixed(2)+  " + " :' 0 + '}}
-                            {{item.oceanfreight ? item.oceanfreight.toFixed(2)+  " + " :' 0 + '}} 
-                            {{item.outlandportcosts ? item.outlandportcosts.toFixed(2) : ' 0 '}} 
+                            <div  v-if="item.marketListings && item.marketListings.length > 0" >
+                                <div v-for="(item1,index) in item.marketListings" :key="item1.id" :class="index == item.marketListings.length-1 ? '' : 'border-b'">
+                                    {{item1.inlandportcosts ? item1.inlandportcosts.toFixed(2)+  " + " :' 0 + '}}
+                                    {{item1.oceanfreight ? item1.oceanfreight.toFixed(2)+  " + " :' 0 + '}} 
+                                    {{item1.outlandportcosts ? item1.outlandportcosts.toFixed(2) : ' 0 '}} 
+                                </div>
+                            </div>
+                            <div v-else>
+                                {{item.inlandportcosts ? item.inlandportcosts.toFixed(2)+  " + " :' 0 + '}}
+                                {{item.oceanfreight ? item.oceanfreight.toFixed(2)+  " + " :' 0 + '}} 
+                                {{item.outlandportcosts ? item.outlandportcosts.toFixed(2) : ' 0 '}} 
+                            </div>  
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -216,7 +243,7 @@
                         align="center"
                         >
                         <template slot="header" >
-                            <div>{{M2('税费')}}  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                            <div> {{M2('税费')}}  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
                             <div> {{M2('进口DUTY')}} +  {{M2('进口VAT')}} +  {{M2('销售VAT')}}</div>
                         </template>
                         <template slot-scope="scope" >
@@ -281,6 +308,45 @@
                         </template>
                     </el-table-column>
                     <el-table-column
+                        v-if="item.marketListings && item.marketListings.length > 0"
+                        :label="M2('可抵扣税费')"
+                        header-align='center'
+                        align="center"
+                        width="220px"
+                    >
+                        <template slot="header" >
+                            <div>{{M2('可抵扣税费')}}  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                          
+                        </template>
+                        <el-table-column 
+                            :label="M2('进口VAT')"
+                            header-align='center'
+                            align="center"
+                        >
+                            <div>
+                                {{item.vatfee}}
+                            </div>
+                        </el-table-column>
+                        <el-table-column 
+                            :label="M2('快递VAT')"
+                            header-align='center'
+                            align="center"
+                        >
+                             <div v-for="(item1,index) in item.marketListings" :key="item1.id" :class="index == item.marketListings.length-1 ? '' : 'border-b'">
+                               {{item1.localshippingfeevat}}
+                            </div>
+                        </el-table-column>
+                         <el-table-column 
+                            :label="M2('包材VAT')"
+                            header-align='center'
+                            align="center"
+                            v-if="item.countrycode == 'DE'"
+                        >
+                            <span>{{item.packingMaterialFeeVAT ? item.packingMaterialFeeVAT.toFixed(2) :'  0 '}}</span>
+                        </el-table-column>
+                    </el-table-column>
+                    <el-table-column
+                        v-else
                         prop="developmentprice"
                         label="可抵扣税费"
                         header-align='center'
@@ -289,13 +355,13 @@
                         >
                         <template slot="header" >
                             <div>{{M2('可抵扣税费')}}  {{'(' + contryCurry(item.countrycode) + ")"}}</div>
-                            <div>{{M2('进口VAT')}} + {{M2('快递VAT')}} <span v-if="item.countrycode == 'DE'"> + {{M2('包材VAT')}} </span>  </div>
+                            <div>{{M2('进口VAT')}} + {{M2('快递VAT')}} <span v-if="item.countrycode == 'DE'"> + {{M2('包材VAT')}} </span></div>
                         </template>
                         <template slot-scope="scope">
                            {{item.vatfee ? item.vatfee.toFixed(2) + "+" : '0 + '}}
-                           <span v-if="scope.row.sfp">{{item.sfpLocalshippingfeevat   ? item.sfpLocalshippingfeevat  .toFixed(2) :' 0 '}} </span>
-                           <span v-else>{{item.localshippingfeevat  ? item.localshippingfeevat .toFixed(2) :' 0 '}} </span>  
-                           <span v-if="item.countrycode == 'DE'">{{item.packingMaterialFeeVAT  ? '+' + item.packingMaterialFeeVAT .toFixed(2) :' + 0 '}}</span>
+                           <span v-if="scope.row.sfp">{{item.sfpLocalshippingfeevat ? item.sfpLocalshippingfeevat.toFixed(2) :' 0 '}} </span>
+                           <span v-else>{{item.localshippingfeevat  ? item.localshippingfeevat.toFixed(2) :' 0 '}} </span>  
+                           <span v-if="item.countrycode == 'DE'">{{item.packingMaterialFeeVAT ? '+' + item.packingMaterialFeeVAT.toFixed(2) :' + 0 '}}</span>
                         </template>
                     </el-table-column>
                     
@@ -441,6 +507,14 @@ export default {
 .noColor {
     color: red;
 }
+::v-deep.table-c{
+    td {
+        padding: 0px 0;
+    }
+    .cell{
+        padding: 0px !important;
+    }
+}
 .colbox{
     display: flex;
     .colBoxTitle{
@@ -453,5 +527,8 @@ export default {
             width: 600px;
         }
     }
+}
+.border-b{
+    border-bottom: 1px solid #e6ebf5;
 }
 </style>
