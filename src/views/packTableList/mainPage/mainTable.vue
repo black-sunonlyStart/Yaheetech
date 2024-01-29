@@ -182,6 +182,9 @@
                 <div v-if="scope.row.backNum" style="color:red" @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">
                     {{M2('打回次数')}}：{{scope.row.backNum}}/{{scope.row.backTotalNum}}
                 </div>
+                <div v-if="scope.row.alreadyConfirmSample">
+                    <el-link type="primary" @click="clickSampleText(scope.row)" style="font-size:12px">{{M2('样品结果')}}{{showSampleText(scope.row)}}</el-link>
+                </div>
             </template>
         </el-table-column>
         <el-table-column 
@@ -280,6 +283,7 @@ export default {
             operationList:{},
             currentPage4: 1,
             tableData: [],
+            mapProductSample: [],
             multipleSelection: [],
             pageSize:50,
             pageNum:1,
@@ -908,6 +912,7 @@ export default {
             this.currentPage4 = res.data && res.data.pageNum ? res.data.pageNum : 0
             this.tableData = res.data && res.data.rows ? res.data.rows : []
             this.total = res.data && res.data.rows ? res.data.records : 0
+            this.mapProductSample = res.data.mapProductSample || []
             this.$emit('getTotal',this.total)
         }).catch((err) => {
             if(err == 1){
@@ -918,6 +923,29 @@ export default {
         }); 
         
     },300),
+    showSampleText(row){
+         
+        if(this.mapProductSample && this.mapProductSample.length == 0) return ''
+        let blendArray = this.mapProductSample[row.developmentId]
+        console.log(blendArray)
+        if(!Array.isArray(blendArray))return ''
+        if(blendArray.some(item => item.sampleSize == row.size)){
+            let filterSample = this.mapProductSample.filter(item => {
+                return item.sampleSize == row.size
+            })
+            if(filterSample[filterSample.length - 1].stateValue){
+                return this.M2(filterSample[0].stateValue)
+            }else {
+                return ''
+            }
+           
+        }else {
+            return ''
+        }
+    },
+    clickSampleText(row){
+        
+    },
     handleSelectionChange (val) {
         this.multipleSelection = val;
         this.$emit('putTbleSelection',val)
