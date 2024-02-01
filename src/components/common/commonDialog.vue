@@ -2,7 +2,7 @@
     <div>
         <el-dialog
             :visible.sync="dialogVisible"
-            width="40%"
+            :width='width'
             :title="titleText"
             :modal-append-to-body="false"
             v-dialogDrag
@@ -27,7 +27,12 @@ export default {
         titleText:{
             type:String,
             default:() => ('')
+        },
+        width:{
+            type:String,
+            default:() => ('40%')
         }
+        
     },
     methods:{
         openCommonDialog(){

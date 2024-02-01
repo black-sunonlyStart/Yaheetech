@@ -291,9 +291,12 @@
                             <div>
                                 {{scope.row.color}}
                             </div>
-                            <div>
-                                {{scope.row.size}}
-                            </div>
+                            <div style="display:flex">
+                                {{scope.row.size }} 
+                                <div v-if="pordSizeAttrInfoList.alreadyConfirmSample && showSampleText(scope.row,1)">
+                                    &nbsp(<el-link type="primary" @click="clickSampleText(scope.row)" style="font-size:12px">{{M2('样品结果')}}{{scope.row.subValue}}</el-link>)
+                                </div>
+                            </div> 
                         </template>
                     </el-table-column>
                     <el-table-column
@@ -330,18 +333,31 @@
                 </el-table>
             </el-col>
         </el-row>
-        
+        <commonDialog ref="commonDialog" :titleText="M2('样品确认结果')" width="1000px">
+            <subBoxDetail ref="subBoxDetail" :subTableData="subTableData"></subBoxDetail>
+        </commonDialog>
     </div>
+    
 </template>
 <script>
 export default {
+     components:{
+        subBoxDetail:() => import('@/components/productDetail/subBoxDetail.vue'),
+        commonDialog:() => import('@/components/common/commonDialog.vue')
+    },
     data(){
         return {
-            ycun:0.3937
+            ycun:0.3937,
+            subTableData:[]
         }
     },
     props:{
         pordSizeAttrInfoList:{
+            type:Object,
+            default:() => ({})
+                    
+        },
+        mapProductSample:{
             type:Object,
             default:() => ({})
                     
@@ -352,6 +368,42 @@ export default {
         }
     },
     methods:{
+        showSampleText(row,val){
+            if(!this.mapProductSample) return false
+            let blendArray = this.mapProductSample[row.developmentid]
+            if(!Array.isArray(blendArray))return false
+            if(blendArray.some(item => item.sampleSize == row.size)){
+                let filterSample = blendArray.filter(item => {
+                    return item.sampleSize == row.size
+                })
+                if(filterSample && filterSample.length > 0){
+                    row.subList = filterSample
+                    row.subValue =  ':' + this.M2(filterSample[filterSample.length - 1].stateValue)
+                    return true
+                }else {
+                    row.subList = blendArray
+                    row.subValue = ''
+                    return true
+                }
+            }else {
+                row.subList = blendArray
+                row.subValue = ''
+                return true
+            }
+        },
+        subRouterMove(id){
+            let routeData = this.$router.resolve({
+                name: "sampleDetail",
+                query:{
+                    id
+                }
+            });
+            window.open(routeData.href, '_blank');
+        },
+        clickSampleText(row){
+            this.$refs.commonDialog.openCommonDialog()
+            this.subTableData = row.subList
+        },
         changeProducttype(val){
             if(!val && !this.pordSizeAttrInfoList.beforepackweight)return
             if(val == 2){

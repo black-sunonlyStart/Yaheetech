@@ -1170,7 +1170,7 @@ export default {
             }
             this.$refs['ruleForm1'].validate((valid) => {
                 if(valid){
-                    if(this.ruleForm.electrifyId1){
+                    if(this.ruleForm.electrifyId1 == 0){
                         electrifyIdList.push(this.ruleForm.electrifyId1)
                     }
                     if(this.ruleForm.electrifyId3){

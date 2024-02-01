@@ -60,6 +60,7 @@
                 :header-cell-style="{background:'#f5f7fa',color:'#606266'}"
                 @row-click="handleRowClick"
                 ref="multipleTable"
+                class="mainTableClass"
                 :row-class-name="tableRowClassName"
              >
                 <el-table-column type="selection" width="40" header-align='center'></el-table-column>
@@ -989,7 +990,7 @@ export default {
         }
     }
 }
-::v-deep.el-table {
+::v-deep.mainTableClass {
     td {
         padding: 2px 0 2px 0 !important;
     }

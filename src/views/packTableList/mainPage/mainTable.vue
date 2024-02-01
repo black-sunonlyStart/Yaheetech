@@ -182,8 +182,8 @@
                 <div v-if="scope.row.backNum" style="color:red" @click="routerMove(scope.row.developmentId,scope.row.productId,scope.row.id)">
                     {{M2('打回次数')}}：{{scope.row.backNum}}/{{scope.row.backTotalNum}}
                 </div>
-                <div v-if="scope.row.alreadyConfirmSample">
-                    <el-link type="primary" @click="clickSampleText(scope.row)" style="font-size:12px">{{M2('样品结果')}}{{showSampleText(scope.row)}}</el-link>
+                <div v-if="scope.row.alreadyConfirmSample && showSampleText(scope.row,1)">
+                    <el-link type="primary" @click="clickSampleText(scope.row)" style="font-size:12px">{{M2('样品结果')}}{{scope.row.subValue}}</el-link>
                 </div>
             </template>
         </el-table-column>
@@ -261,6 +261,9 @@
             >
         </el-pagination>
     <!-- </div> -->
+    <commonDialog ref="commonDialog" :titleText="M2('样品确认结果')" width="1000px">
+        <subBoxDetail ref="subBoxDetail" :subTableData="subTableData"></subBoxDetail>
+    </commonDialog>
     <messageDialog :clickId='clickId' :dialogName='dialogName' ref="messageDialog" @getTableList='getTableList' :row='row' :navFilterList='navFilterList' :showOrder='showOrder'></messageDialog>
 </div>
 
@@ -273,7 +276,9 @@ import debounce from 'lodash.debounce'
 export default {
     name: 'mainTable',
     components:{
-        messageDialog:() => import('../../../components/productDetail/messageDialog.vue')
+        messageDialog:() => import('@/components/productDetail/messageDialog.vue'),
+        subBoxDetail:() => import('@/components/productDetail/subBoxDetail.vue'),
+        commonDialog:() => import('@/components/common/commonDialog.vue')
     },
     data () {
         return {
@@ -283,7 +288,8 @@ export default {
             operationList:{},
             currentPage4: 1,
             tableData: [],
-            mapProductSample: [],
+            subTableData: [],
+            mapProductSample: null,
             multipleSelection: [],
             pageSize:50,
             pageNum:1,
@@ -912,7 +918,7 @@ export default {
             this.currentPage4 = res.data && res.data.pageNum ? res.data.pageNum : 0
             this.tableData = res.data && res.data.rows ? res.data.rows : []
             this.total = res.data && res.data.rows ? res.data.records : 0
-            this.mapProductSample = res.data.mapProductSample || []
+            this.mapProductSample = res.data.mapProductSample
             this.$emit('getTotal',this.total)
         }).catch((err) => {
             if(err == 1){
@@ -923,28 +929,41 @@ export default {
         }); 
         
     },300),
-    showSampleText(row){
-         
-        if(this.mapProductSample && this.mapProductSample.length == 0) return ''
+    showSampleText(row,val){
+        if(!this.mapProductSample) return false
         let blendArray = this.mapProductSample[row.developmentId]
-        console.log(blendArray)
-        if(!Array.isArray(blendArray))return ''
+        if(!Array.isArray(blendArray))return false
         if(blendArray.some(item => item.sampleSize == row.size)){
-            let filterSample = this.mapProductSample.filter(item => {
+            let filterSample = blendArray.filter(item => {
                 return item.sampleSize == row.size
             })
-            if(filterSample[filterSample.length - 1].stateValue){
-                return this.M2(filterSample[0].stateValue)
+            if(filterSample && filterSample.length > 0){
+                row.subList = filterSample
+                row.subValue =  ':' + this.M2(filterSample[filterSample.length - 1].stateValue)
+                return true
             }else {
-                return ''
+                row.subList = blendArray
+                row.subValue = ''
+                return true
             }
-           
         }else {
-            return ''
+            row.subList = blendArray
+            row.subValue = ''
+            return true
         }
     },
+    subRouterMove(id){
+        let routeData = this.$router.resolve({
+            name: "sampleDetail",
+            query:{
+                id
+            }
+        });
+        window.open(routeData.href, '_blank');
+    },
     clickSampleText(row){
-        
+        this.$refs.commonDialog.openCommonDialog()
+        this.subTableData = row.subList
     },
     handleSelectionChange (val) {
         this.multipleSelection = val;
@@ -1085,7 +1104,7 @@ export default {
     }
     
 }
-::v-deep.el-table {
+::v-deep.tableBox {
     td {
         padding: 2px 0 2px 0 !important;
     }
