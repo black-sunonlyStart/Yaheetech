@@ -354,7 +354,7 @@
                                     </div> 
                                 </div>
                                 <div v-if="isEdit7">
-                                    <pordSizeAttrInfo :pordSizeAttrInfoList='pordSizeAttrInfoList' :multiAttribute='multiAttribute'></pordSizeAttrInfo>
+                                    <pordSizeAttrInfo :pordSizeAttrInfoList='pordSizeAttrInfoList' :multiAttribute='multiAttribute' :mapProductSample="mapProductSample"></pordSizeAttrInfo>
                                 </div>
                                 <div v-else>
                                     <pordSizeAttrEdit  @closeEdit='closeProdevAttr' :pordSizeAttrInfoList='pordSizeAttrInfoList' :multiAttribute='multiAttribute'></pordSizeAttrEdit>
@@ -626,6 +626,7 @@ data () {
         isanji:null,
         routePageList:{},
         pageLoading:false,
+        mapProductSample:{},
     }
 },
 created () {
@@ -940,10 +941,14 @@ async getAllpageList(val){
             }else {
                 this.productCountryList = []
             }
+            this.productVos = res.data.productVos? res.data.productVos[0] : []
             this.otherCountryList = res.data.productVos && res.data.productVos[0] ? res.data.productVos[0].otherCountryMaps : []
 
             this.isanji =  this.productVos.productCountryList && this.productVos.productCountryList[0] && this.productVos.productCountryList[0].auditor ? this.productVos.productCountryList[0].auditor : res.data.development.seriesReviewer
-            console.log(this.isanji,'isanji')
+            let alreadyConfirmSample =  this.productVos.productCountryList && this.productVos.productCountryList[0] && this.productVos.productCountryList[0].alreadyConfirmSample ? this.productVos.productCountryList[0].alreadyConfirmSample : null
+
+            this.mapProductSample = res.data.mapProductSample
+            console.log(this.isanji,'isanji',alreadyConfirmSample,this.mapProductSample)
            if(res.data.developmentProgresses && res.data.developmentProgresses.length > 0){
                 let index = res.data.developmentProgresses.length - 1
                 let status = res.data.developmentProgresses[index].toStatus
@@ -1001,7 +1006,7 @@ async getAllpageList(val){
             }
             this.proessCenterShow(this.nowStatus)
             // this.otherProductCountryList = res.data.productVos && res.data.productVos[0] && res.data.productVos[0].productCountryList ? res.data.productVos[0].productCountryList[0] : []
-            this.productVos = res.data.productVos? res.data.productVos[0] : []
+         
             this.productMarketStrs = res.data.productMarketStrs
             this.employee = res.data.employee
             // this.competingproducts = res.data.competingproducts[0]
@@ -1297,7 +1302,9 @@ async getAllpageList(val){
                 })
             const ycun = 0.3937;
             const ychi = 35.3147248;
+            
             this.pordSizeAttrInfoList = {
+                alreadyConfirmSample:alreadyConfirmSample,
                 scenarios:this.scenarios ? this.scenarios :this.productVos ? this.productVos.developmentscenarios : '',
                 developmentscenarios:this.productVos.developmentscenarios ? this.productVos.developmentscenarios : '',
                 buyerName:this.productVos.productCountryList && this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].buyerName : '',//分配采购开发员
