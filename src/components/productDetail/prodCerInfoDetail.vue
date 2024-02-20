@@ -35,13 +35,13 @@
                 </div>
             </el-col>
         </el-row>
-        <el-row>
+        <!-- <el-row>
             <el-col :span="24" class="produInfo">
                  <div class="colbox">
                     <div class="colBoxTitle">{{M2('产品年龄段')}}： </div> <div class="colBoxContent" style="width:1200px">{{prodCerInfoDetailList.applicableAge ? getPersonName(prodCerInfoDetailList.applicableAge):prodCerInfoDetailList.applicableAge == 0 ? M2('婴儿'):'' }} {{prodCerInfoDetailList.applicableAgeNote}}</div>
                 </div>
             </el-col>
-        </el-row>
+        </el-row> -->
         <el-row>
             <el-col :span="24" class="produInfo">
                  <div class="colbox">

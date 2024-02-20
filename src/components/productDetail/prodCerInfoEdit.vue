@@ -101,7 +101,7 @@
                     </el-form-item>
                 </el-col>
             </el-row>
-            <el-row :gutter="10">
+            <!-- <el-row :gutter="10">
                 <el-col :span="5" :lg="8" :xl="5">
                     <el-form-item  :label="M2('产品年龄段') + ':'" prop="productAgeGroup">
                         <el-select 
@@ -119,7 +119,7 @@
                 </el-col>
                 <el-col :span="3">
                     <el-form-item label-width="20px">
-                        <!-- <span class="ageRemarks"> -->
+                        <span class="ageRemarks">
                             <el-input v-model="ruleForm.ageGroupRemarks" 
                                 style="width:340px" 
                                 clearable 
@@ -128,10 +128,10 @@
                                 :autosize="{ minRows: 1, maxRows: 4}" 
                                 :placeholder="M2('备注')">
                             </el-input>
-                        <!-- </span> -->
+                        </span>
                     </el-form-item>
                 </el-col>
-            </el-row>
+            </el-row> -->
             <el-row :gutter="10">
                 <el-col :span="5" :lg="8" :xl="5">
                     <el-form-item :label="M2('专利风险等级') + ':'" prop="patentRiskLevel">
@@ -227,7 +227,7 @@ export default {
                 requirements:[],
                 testRequirements:[],
                 requirementsRemark:'',
-                productAgeGroup:'',
+                // productAgeGroup:'',
                 ageGroupRemarks:'',
                 patentRiskLevel:'',
                 // certFinalReview:null,
@@ -462,7 +462,7 @@ export default {
                 requirements:this.prodCerInfoDetailList.credentialList2,
                 testRequirements:this.prodCerInfoDetailList.credentialList3,
                 requirementsRemark:this.prodCerInfoDetailList.authnote,
-                productAgeGroup:this.prodCerInfoDetailList.applicableAge,
+                // productAgeGroup:this.prodCerInfoDetailList.applicableAge,
                 ageGroupRemarks:this.prodCerInfoDetailList.applicableAgeNote ? this.prodCerInfoDetailList.applicableAgeNote : '',
                 patentRiskLevel:this.prodCerInfoDetailList.riskllevel,
                 // certFinalReview:this.prodCerInfoDetailList.certFinalReview,
@@ -549,7 +549,7 @@ export default {
                     productCountryId:this.$route.query.productCountryId,
                     auth:this.ruleForm.isCertificationReq,
                     authNote:this.ruleForm.requirementsRemark,
-                    applicableAge:this.ruleForm.productAgeGroup,
+                    // applicableAge:this.ruleForm.productAgeGroup,
                     applicableAgeNote:this.ruleForm.ageGroupRemarks,
                     riskLevel:this.ruleForm.patentRiskLevel,
                     // certFinalReview:Number(this.ruleForm.certFinalReview),
