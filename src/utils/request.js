@@ -85,6 +85,14 @@ service.interceptors.response.use(
         window.location.href = login_url+'/Latest/Account/LogOn?returnUrl='+localhref;
       
     }else if(error.response && error.response.status == 403){
+        let permission = error.response.headers.sc_forbidden_code || ''
+        Message({
+            message: `对不起您没有权限（${permission}）进行当前操作！`,
+            type: 'error',
+            duration:0,
+            showClose:true,
+            offset:300,
+            })
         return Promise.reject(error)
     }else{
         console.log('err' + error) // for debug
