@@ -10,12 +10,20 @@
                     </el-link>
                 </template>
             </el-table-column>
-            <el-table-column width="145" align="center">
+            <el-table-column width="200" align="center">
                 <template slot="header" >
                     {{M2('申请ID')}}
                 </template>
                 <template slot-scope="scope" >
                     {{scope.row.productKey}}
+                    <el-tooltip  v-if="(scope.row.productKey && !scope.row.productKey.includes('DEV'))" placement="right" effect="light" :visible-arrow='false' popper-class='popperBorder' style="padding:0;border:none">
+                        <span slot="content" class="copeTitle"  @click="copeDevelopId(scope.row.skuAlias)">
+                            <i class="el-icon-document-copy" ></i>
+                        </span>
+                        <span  style="word-break: break-word;">
+                            （{{scope.row.skuAlias}}）  
+                        </span>
+                    </el-tooltip> 
                 </template>
             </el-table-column>
             <el-table-column  align="center">
@@ -70,6 +78,7 @@
         </el-table>
 </template>
 <script>
+import { copyUrl, } from '@/utils/tools'
 export default {
     data(){
         return {
@@ -84,7 +93,7 @@ export default {
     },
     methods:{
         subRouterMove(id){
-         let routeData = this.$router.resolve({
+            let routeData = this.$router.resolve({
                 name: "sampleDetail",
                 query:{
                     id
@@ -92,6 +101,21 @@ export default {
             });
             window.open(routeData.href, '_blank');
         },
+        copeDevelopId(val){
+          copyUrl(val)
+      },
     }
 }
 </script>
+
+<style scoped lang="scss">
+.copeTitle{
+    color: #3366cc;
+    cursor: pointer;
+    font-size: 20px;
+    margin-left: 0px;
+    &:hover{
+        display: inline-block;
+    }
+}
+</style>
