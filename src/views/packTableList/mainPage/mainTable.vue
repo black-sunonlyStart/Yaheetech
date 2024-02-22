@@ -919,7 +919,7 @@ export default {
             this.tableData = res.data && res.data.rows ? res.data.rows : []
             this.total = res.data && res.data.rows ? res.data.records : 0
             this.mapProductSample = res.data.mapProductSample
-            this.$emit('getTotal',this.total)
+            // this.$emit('getTotal',this.total)
         }).catch((err) => {
             if(err == 1){
                 this.loading = true     
@@ -933,9 +933,9 @@ export default {
         if(!this.mapProductSample) return false
         let blendArray = this.mapProductSample[row.developmentId]
         if(!Array.isArray(blendArray))return false
-        if(blendArray.some(item => item.sampleSize == row.size)){
+        if(blendArray.some(item => item.sampleSize.search(new RegExp(row.size, 'i')) !== -1 )){
             let filterSample = blendArray.filter(item => {
-                return item.sampleSize == row.size
+                return item.sampleSize.search(new RegExp(row.size, 'i')) !== -1
             })
             if(filterSample && filterSample.length > 0){
                 row.subList = filterSample

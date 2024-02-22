@@ -808,6 +808,7 @@ export default {
                 getProductSampleFromProductDev(param).then(res => {
                     if(res.data.basicInformation) res.data.basicInformation = res.data.basicInformation.replaceAll('\\n','\n')
                     if(res.data.jpInformation) res.data.jpInformation = res.data.jpInformation.replaceAll('\\n','\n')
+                    if(res.data.sampleImprovedInformation) res.data.sampleImprovedInformation = res.data.sampleImprovedInformation.replaceAll('\\n','\n')
                     let url = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/common/getFilePath' : 'http://api-tools-test.yahee.com.cn:82/tool-api/common/getFilePath'
                     getFilePath(url).then(res1 => {
                         if(res.data.psas && res.data.psas.length > 0){
@@ -852,6 +853,7 @@ export default {
                     }
                     applicationTime = res.data.applicationTime
                     if(res.data.basicInformation) res.data.basicInformation = res.data.basicInformation.replaceAll('\\n','\n')
+                    if(res.data.sampleImprovedInformation) res.data.sampleImprovedInformation = res.data.sampleImprovedInformation.replaceAll('\\n','\n')
                     if(res.data.jpInformation) res.data.jpInformation = res.data.jpInformation.replaceAll('\\n','\n')
                     let url = judgePorduction() ? 'http://productdev.yaheecloud.com/tool-api/common/getFilePath' : 'http://api-tools-test.yahee.com.cn:82/tool-api/common/getFilePath'
                     getFilePath(url).then(res1 => {

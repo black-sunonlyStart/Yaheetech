@@ -124,7 +124,9 @@
                         <el-col :span="10">
                             <div class="boxFlex">
                                 <span class="imageMainbox">{{M2('需求颜色')}}： </span>
-                                <div class="imageMainboxText" >{{mainPageList.desiredColor && mainPageList.desiredColor.length > 0 ? M2(mainPageList.desiredColor.toString()) : ''}}</div>
+                                <div class="imageMainboxText" v-if="mainPageList.desiredColor && mainPageList.desiredColor.length > 0">
+                                    <span v-for="item in  mainPageList.desiredColor" :key="item" style="margin-right:5px">{{M2(item)}}</span>    
+                                </div>
                             </div>
                         </el-col>
                         <el-col :span="10">

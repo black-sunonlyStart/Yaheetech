@@ -372,9 +372,9 @@ export default {
             if(!this.mapProductSample) return false
             let blendArray = this.mapProductSample[row.developmentid]
             if(!Array.isArray(blendArray))return false
-            if(blendArray.some(item => item.sampleSize == row.size)){
+            if(blendArray.some(item => item.sampleSize.search(new RegExp(row.size, 'i')) !== -1 )){
                 let filterSample = blendArray.filter(item => {
-                    return item.sampleSize == row.size
+                    return item.sampleSize.search(new RegExp(row.size, 'i')) !== -1
                 })
                 if(filterSample && filterSample.length > 0){
                     row.subList = filterSample
