@@ -252,7 +252,6 @@ export default {
                     list.seriesCategoryId = list.classifyDefId
                 })
             })
-            // this.patentCountry = res.data
             this.patentCountry = res.data.filter(item => {
                 return  item.type == 0
             })

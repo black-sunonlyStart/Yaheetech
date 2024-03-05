@@ -35,13 +35,13 @@
                 </div>
             </el-col>
         </el-row>
-        <!-- <el-row>
+        <el-row>
             <el-col :span="24" class="produInfo">
                  <div class="colbox">
-                    <div class="colBoxTitle">{{M2('产品年龄段')}}： </div> <div class="colBoxContent" style="width:1200px">{{prodCerInfoDetailList.applicableAge ? getPersonName(prodCerInfoDetailList.applicableAge):prodCerInfoDetailList.applicableAge == 0 ? M2('婴儿'):'' }} {{prodCerInfoDetailList.applicableAgeNote}}</div>
+                    <div class="colBoxTitle">{{M2('是否需要DoC文件终审')}}： </div> <div class="colBoxContent" style="width:1200px">{{prodCerInfoDetailList.docFinalReview ? '需要' : '不需要' }}</div>
                 </div>
             </el-col>
-        </el-row> -->
+        </el-row>
         <el-row>
             <el-col :span="24" class="produInfo">
                  <div class="colbox">
@@ -329,7 +329,7 @@ export default {
     display: flex;
     .colBoxTitle{
         font-weight: bold;
-        width: 120px;
+        width: 140px;
         text-align: right;
         display: inline-block;
         flex-shrink: 0;

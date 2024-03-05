@@ -1218,9 +1218,11 @@ async getAllpageList(val){
                     return item.authtype == 2
                 })
             }
+            
             let patentInfo = []
                 patentInfo = res.data.development && res.data.development.patentinfo? JSON.parse(res.data.development.patentinfo) : []
                 this.prodCerInfoDetailList = {
+                    docFinalReview:res.data.development.docFinalReview ? res.data.development.docFinalReview : 0,
                     isauth:this.productVos.isauth,//是否需要认证
                     credentialList1:credentialList1 ? credentialList1:[],//必要认证
                     credentialList2:credentialList2 ? credentialList2:[],//必要认证其他
@@ -1229,13 +1231,19 @@ async getAllpageList(val){
                     certFinalReviewStr:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].certFinalReviewStr: '',//认证备注
                     certFinalReview:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].certFinalReview: '',//认证备注
                     applicableAge:this.productVos.applicableAge ,//产品年龄段
-                    ageRangeId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].ageRangeId : null,//产品年龄段
-                    electrifyId:this.productVos.productCountryList &&  this.productVos.productCountryList[0] ? this.productVos.productCountryList[0].electrifyId : null,//是否带电
+                    ageRangeId:res.data.development.ageRangeId || null,//产品年龄段
+                    electrifyId:res.data.development.electrifyId,//是否带电id
                     applicableAgeNote:this.productVos.applicableAgeNote ,//备注
                     riskllevel:this.productVos.riskllevel == 0 ? 1 : this.productVos.riskllevel,//专利风险等级
                     patentInfo:patentInfo.LocalStrings,//专利确认
                 }
-
+                //是否带电=带电，或产品年龄段非14+，需要默认选中“是”=需要文件终审。且不可更改。
+                if([1,2,3].includes(this.prodCerInfoDetailList.ageRangeId) || (this.prodCerInfoDetailList.electrifyId && this.prodCerInfoDetailList.electrifyId != '0')){
+                    this.$set(this.prodCerInfoDetailList,'docFinalReview',1)
+                    this.$set(this.prodCerInfoDetailList,'disableDocFinalReview',false)
+                }else {
+                     this.$set(this.prodCerInfoDetailList,'disableDocFinalReview',true)
+                }
                 // if(!this.prodCerInfoDetailList.certFinalReviewStr && this.prodCerInfoDetailList.certFinalReview != 0){
                 //     if((this.prodCerInfoDetailList.ageRangeId && this.prodCerInfoDetailList.ageRangeId != 4) || (this.prodCerInfoDetailList.electrifyId && this.prodCerInfoDetailList.electrifyId != 1)){
                 //         this.$set(this.prodCerInfoDetailList,'certFinalReviewStr','需要')

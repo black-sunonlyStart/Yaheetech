@@ -72,7 +72,7 @@
                 </template>
                 <el-radio-group size="mini" v-model="form.categoryManagerId">
                     <el-radio-button :label="null" @click.native="clickRadioSearch('categoryManagerId',null,$event)">{{M2('全部')}}({{this.totalNum(3)}})</el-radio-button>
-                    <el-radio-button @click.native="clickRadioSearch('categoryManagerId',item.leader,$event)" v-for="item in categoryManagerList" :key="item.id" :label="item.id">{{ M2(item.name) }}({{item.num}})</el-radio-button>
+                    <el-radio-button @click.native="clickRadioSearch('categoryManagerId',item.leader,$event)" v-for="item in categoryManagerList" :key="item.id" :label="item.leader">{{ M2(item.name) }}({{item.num}})</el-radio-button>
                 </el-radio-group>
             </el-form-item>
             <el-form-item>

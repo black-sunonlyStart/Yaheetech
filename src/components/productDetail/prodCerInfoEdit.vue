@@ -133,6 +133,16 @@
                 </el-col>
             </el-row> -->
             <el-row :gutter="10">
+                <el-col :span="10">
+                    <el-form-item :label="M2('是否需要DoC文件终审') + ':'">
+                         <el-radio-group v-model="ruleForm.docFinalReview">
+                            <el-radio :label="1">{{M2('需要')}}</el-radio>
+                            <el-radio :label="0" v-if="ruleForm.disableDocFinalReview">{{M2('不需要')}}</el-radio>
+                        </el-radio-group>
+                    </el-form-item>
+                </el-col>
+            </el-row>
+            <el-row :gutter="10">
                 <el-col :span="5" :lg="8" :xl="5">
                     <el-form-item :label="M2('专利风险等级') + ':'" prop="patentRiskLevel">
                         <el-select 
@@ -461,6 +471,8 @@ export default {
                 jpNessCertification:this.getAuthId(this.isjp,credentialList1),
                 requirements:this.prodCerInfoDetailList.credentialList2,
                 testRequirements:this.prodCerInfoDetailList.credentialList3,
+                docFinalReview:this.prodCerInfoDetailList.docFinalReview,
+                disableDocFinalReview:this.prodCerInfoDetailList.disableDocFinalReview,
                 requirementsRemark:this.prodCerInfoDetailList.authnote,
                 // productAgeGroup:this.prodCerInfoDetailList.applicableAge,
                 ageGroupRemarks:this.prodCerInfoDetailList.applicableAgeNote ? this.prodCerInfoDetailList.applicableAgeNote : '',
@@ -552,6 +564,7 @@ export default {
                     // applicableAge:this.ruleForm.productAgeGroup,
                     applicableAgeNote:this.ruleForm.ageGroupRemarks,
                     riskLevel:this.ruleForm.patentRiskLevel,
+                    docFinalReview:this.ruleForm.docFinalReview,
                     // certFinalReview:Number(this.ruleForm.certFinalReview),
                     patentInfo:JSON.stringify(patentInfo)
                 }
