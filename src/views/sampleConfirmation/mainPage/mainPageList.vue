@@ -8,6 +8,7 @@
                     <el-button type="primary" plain class="button-put" @click="opreateButton(3)" v-permission="'ERP.Product.ProductSample.ApprovalSampleMemo'">{{M2('提交样品结果')}}</el-button>
                     <el-button type="primary" plain class="button-put" @click="opreateButton(5)" v-permission="'PM00070'">{{M2('申请修改结果')}}</el-button>
                     <el-button type="primary" plain class="button-put" @click="opreateButton(6)" v-permission="'PM00071'">{{M2('审核修改结果')}}</el-button>
+                    <el-button type="primary" plain class="button-put" @click="opreateButton(7)" v-permission="'ERP.Product.ProductSample.SaveProductSample'">{{M2('删除草稿')}}</el-button>
                     <el-dropdown trigger="hover"  @command="unCancelList" size='mini'>
                         <el-button  plain
                             size='mini' 
@@ -305,7 +306,7 @@
 </template>
 <script>
 import debounce from 'lodash.debounce';
-import { queryProductSample,approvalSampleMemo,unCancel,getRelevanceProductSample,getEmployee,exportProductSampleRequirement } from '@/api/user.js'
+import { delSampleInfos,queryProductSample,approvalSampleMemo,unCancel,getRelevanceProductSample,getEmployee,exportProductSampleRequirement } from '@/api/user.js'
 import { GetFileServiceUrl,copyUrl,formatDate,globalReportExport,judgePorduction } from '@/utils/tools'
 export default {
     components:{
@@ -579,6 +580,28 @@ export default {
                     this.warning('仅支持结果修改中状态可以操作！')
                     return
                 }
+            }
+            if(id == 7){
+                if((this.multipleSelection.some(res => res.sampleValidator != this.employee.Id) && !this.employee.IsAdminRole) || this.multipleSelection.some(res => res.state != 1)){
+                    this.error('仅【待提交】状态且创建人为本人的数据支持删除')
+                    return
+                }
+                this.$confirm(this.M2('确定删除该数据?'), this.M2('提示'), {
+                    confirmButtonText: this.M2('确定'),
+                    cancelButtonText: this.M2('取消'),
+                    type: 'warning',
+                    cancelButtonClass: 'btn-custom-cancel',
+                })
+                .then(() => {
+                    let param = this.multipleSelection.map(item => {return item.id})
+                    delSampleInfos(param).then(res => {
+                        if(res.code == 200){
+                            this.success('提交成功！')
+                            this.mainListList(this.uploadFilterList)
+                        }
+                    })
+                })
+                return
             }
             if(id == 5) dialog.title = this.M2('申请修改结果')
             if(id == 6) dialog.title = this.M2('审核修改结果')

@@ -64,7 +64,6 @@
                         <template slot="label">
                             {{M2('状     态')}}:
                         </template>
-
                         <el-radio-group size="mini" v-model="form.status">
                             <el-radio-button @click.native="clickRadioSearch('status',item.label,$event)" v-for="(item) in statusList" :key="item.label" :label="item.label">{{ M2(item.name)  }}</el-radio-button>  
                         </el-radio-group>

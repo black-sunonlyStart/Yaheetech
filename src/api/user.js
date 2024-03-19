@@ -784,12 +784,20 @@ export function saveProductSampleAttachment1(data){
         data
     })
 }
-//同步样品文件
+//删除样品数据单选
 export function delSampleInfo(data){
     return request ({
         url:'/productSample/delSampleInfo',
         method:'get',
         params:data
+    })
+}
+//删除样品数据多选
+export function delSampleInfos(data){
+    return request ({
+        url:'/productSample/delSampleInfos',
+        method:'post',
+        data
     })
 }
 //样品确认员

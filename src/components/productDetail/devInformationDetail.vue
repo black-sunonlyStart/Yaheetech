@@ -272,6 +272,20 @@
                             {{item.listingfee ? item.listingfee.toFixed(2) : '0'}} 
                         </template>
                     </el-table-column>
+                     <!-- <el-table-column
+                        :label="M2('营销费用') + '：'"
+                         width="120px"
+                        prop="marketingCosts"
+                        header-align='center'
+                        align="center"
+                        >
+                        <template slot="header" >
+                            <div>{{M2('营销费用')}} {{'(' + contryCurry(item.countrycode) + ")"}}</div>
+                        </template>
+                        <template >
+                            <div>{{item.marketingCosts ? item.marketingCosts.toFixed(2) : 0}}</div>
+                        </template>
+                    </el-table-column> -->
                     <el-table-column
                         label="管理费分摊"
                         header-align='center'
@@ -288,7 +302,7 @@
                             <span v-if="scope.row.sfp">{{item.sfpHandlingfee  ? item.sfpHandlingfee .toFixed(2) + " + " :' 0 +  '}} </span>
                             <span v-else>{{item.handlingfee  ? item.handlingfee .toFixed(2) + " + " :' 0  + '}} </span>                     
                             {{item.packagingfee ? item.packagingfee.toFixed(2)  + " + " : '0 + '}}
-                            {{item.localizationfee ? item.localizationfee.toFixed(2)  : '0'}}  
+                            {{item.localizationfee ? item.localizationfee.toFixed(2)  : '0'}} 
                         </template>
                     </el-table-column>
                      <el-table-column
